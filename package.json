@@ -1,0 +1,41 @@
+{
+  "name": "dataflow",
+  "version": "0.0.1",
+  "description": "Asynchronous data flow execution engine to make it simple to build LLM apps.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "eslint": "eslint --fix --ext src/**/*.{ts} tests/**/*.ts",
+    "format": "prettier --write '{src,tests}/**/*.ts'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snakajima/dataflow"
+  },
+  "author": "Satoshi Nakajima",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/snakajima/dataflow/issues"
+  },
+  "homepage": "https://github.com/snakajima/dataflow#readme",
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "openai": "^4.12.4",
+    "yaml": "^2.3.3"
+  },
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  }
+}
