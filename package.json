@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snakajima/dataflow"
+    "url": "git+https://github.com/snakajima/graphai"
   },
   "author": "Satoshi Nakajima",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/snakajima/dataflow/issues"
+    "url": "https://github.com/snakajima/graphai/issues"
   },
-  "homepage": "https://github.com/snakajima/dataflow#readme",
+  "homepage": "https://github.com/snakajima/graphai#readme",
   "devDependencies": {
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
