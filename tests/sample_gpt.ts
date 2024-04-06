@@ -1,5 +1,5 @@
 import path from "path";
-import { GraphAI, } from "../src/graphai";
+import { GraphAI } from "../src/graphai";
 import { ChatSession, ChatConfig } from "slashgpt";
 import { readManifestData } from "../src/file_utils";
 

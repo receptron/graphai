@@ -9,7 +9,7 @@ export enum NodeState {
 
 type NodeData = {
   inputs: undefined | Array<string>;
-  params: any; // Application specific parameters
+  params: any; // App-specific parameters
   retry: undefined | number;
 };
 
@@ -21,15 +21,16 @@ type GraphCallback = (node: string, transactionId: number, retry: number, params
 
 class Node {
   public key: string;
-  public inputs: Array<string>;
-  public pendings: Set<string>;
-  public params: any;
-  public waitlist: Set<string>;
+  public params: any; // App-specific parameters
+  public inputs: Array<string>; // List of nodes this node needs data from.
+  public pendings: Set<string>; // List of nodes this node is waiting data from.
+  public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
   public result: Record<string, any>;
   public retryLimit: number;
   public retryCount: number;
-  public transactionId: undefined | number;
+  public transactionId: undefined | number; // To reject callbacks from timed-out transactions
+
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.inputs = data.inputs ?? [];
@@ -71,13 +72,7 @@ class Node {
       this.retryCount++;
       this.state = NodeState.Executing;
       this.transactionId = Date.now();
-      graph.callback(
-        this.key,
-        this.transactionId,
-        this.retryCount,
-        this.params,
-        this.payload(graph)
-      );
+      graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
     } else {
       graph.remove(this);
     }
@@ -103,13 +98,7 @@ class Node {
       this.state = NodeState.Executing;
       graph.add(this);
       this.transactionId = Date.now();
-      graph.callback(
-        this.key,
-        this.transactionId,
-        this.retryCount,
-        this.params,
-        this.payload(graph)
-      );
+      graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
     }
   }
 }
@@ -160,7 +149,7 @@ export class GraphAI {
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
         resolve(this);
-      }
+      };
     });
   }
 
