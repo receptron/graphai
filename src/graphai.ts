@@ -17,7 +17,7 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (node: string, transactionId: number, retry: number, params: Record<string, any>, payload: Record<string, any>) => void;
+type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: Record<string, any>, payload: Record<string, any>) => void;
 
 class Node {
   public key: string;
