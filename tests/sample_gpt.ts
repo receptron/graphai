@@ -13,11 +13,14 @@ const test = async (file: string) => {
       if (params.cmd == FlowCommand.Execute) {
           const node = params.node;
           console.log("executing", node, params.params, params.payload)
-          const session = new ChatSession(config, params.params);
-          session.append_user_question("Hello");
+          const session = new ChatSession(config, params.params.manifest ?? {});
+          session.append_user_question(params.params.prompt);
           await session.call_loop((callback_type: string, data: unknown) => {
             if (callback_type === "bot") {
-              console.log("bot", JSON.stringify(data));
+              const result = { answer: JSON.stringify(data) };
+              console.log("completing", node, result)
+              graph.feed(node, result)
+
             }
           });
       } else if (params.cmd == FlowCommand.OnComplete) {
