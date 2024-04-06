@@ -50,8 +50,8 @@ class Node {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public complete(result: Record<string, any>, tid: number, graph: GraphAI) {
-    if (this.transactionId !== tid) {
+  public complete(result: Record<string, any>, transactionId: number, graph: GraphAI) {
+    if (this.transactionId !== transactionId) {
       console.log("****** tid mismatch");
       return;
     }
@@ -64,8 +64,8 @@ class Node {
     graph.remove(this);
   }
 
-  public reportError(result: Record<string, any>, tid: number, graph: GraphAI) {
-    if (this.transactionId !== tid) {
+  public reportError(result: Record<string, any>, transactionId: number, graph: GraphAI) {
+    if (this.transactionId !== transactionId) {
       console.log("****** tid mismatch");
       return;
     }
