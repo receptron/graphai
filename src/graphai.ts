@@ -105,6 +105,12 @@ class Node {
     this.state = NodeState.Executing;
     this.transactionId = Date.now();
     graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+
+    if (this.timeout > 0) {
+      setTimeout(() => {
+        console.log("*** timeout", this.timeout);
+      }, this.timeout);
+    }
 }
 }
 
