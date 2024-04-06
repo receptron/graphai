@@ -26,6 +26,7 @@
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-plugin-import": "^2.25.2",
     "prettier": "^3.0.3",
+    "slashgpt": "^0.0.6",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
