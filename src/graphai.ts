@@ -4,6 +4,7 @@ export enum NodeState {
   Waiting,
   Executing,
   Failed,
+  TimedOut,
   Completed,
 }
 
@@ -115,6 +116,8 @@ class Node {
       setTimeout(() => {
         if (this.state == NodeState.Executing && this.transactionId == transactionId) {
           console.log("*** timeout", this.timeout);
+          this.state = NodeState.TimedOut;
+          this.retry(graph);
         }
       }, this.timeout);
     }

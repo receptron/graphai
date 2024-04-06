@@ -17,7 +17,7 @@ const test = async (file: string) => {
         console.log("completing", nodeId, result);
         graph.feed(nodeId, transactionId, result);
       }
-    }, params.delay);
+    }, params.delay / (retry + 1));
   });
 
   const results = await graph.run();
