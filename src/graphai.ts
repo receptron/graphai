@@ -73,9 +73,7 @@ class Node {
     this.result = result;
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
-      this.state = NodeState.Executing;
-      this.transactionId = Date.now();
-      graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+      this.execute(graph);
     } else {
       graph.remove(this);
     }
@@ -98,12 +96,16 @@ class Node {
 
   public executeIfReady(graph: GraphAI) {
     if (this.pendings.size == 0) {
-      this.state = NodeState.Executing;
       graph.add(this);
-      this.transactionId = Date.now();
-      graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+      this.execute(graph);
     }
   }
+
+  private execute(graph: GraphAI) {
+    this.state = NodeState.Executing;
+    this.transactionId = Date.now();
+    graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+}
 }
 
 export class GraphAI {
