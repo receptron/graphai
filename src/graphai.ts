@@ -77,11 +77,10 @@ class Node {
   }
 
   public payload(graph: GraphAI) {
-    const foo: Record<string, any> = {};
     return this.inputs.reduce((payload, key) => {
       payload[key] = graph.nodes[key].result;       
       return payload;
-    }, foo);    
+    }, {} as Record<string, any>);    
   }
 
   public executeIfReady(graph: GraphAI) {
@@ -101,11 +100,10 @@ export class GraphAI {
   constructor(data: FlowData, callback: FlowCallback) {
     this.callback = callback;
     this.runningNodes = new Set<string>();
-    const foo: Record<string, Node> = {}; // HACK: Work around
     this.nodes = Object.keys(data.nodes).reduce((nodes, key) => {
       nodes[key] = new Node(key, data.nodes[key]);
       return nodes;
-    }, foo);
+    }, {} as Record<string, Node>);
 
     // Generate the waitlist for each node
     Object.keys(this.nodes).forEach(key => {
