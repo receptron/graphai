@@ -5,22 +5,23 @@ import { readManifestData } from "../src/file_utils";
 const test = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
-  const graph = new GraphAI(graph_data, async (node, transactionId, retry, params, payload) => {
-    console.log("executing", node, params, payload);
+  const graph = new GraphAI(graph_data, async (nodeId, transactionId, retry, params, payload) => {
+    console.log("executing", nodeId, params, payload);
     setTimeout(() => {
       if (params.fail && retry < 2) {
-        const result = { [node]: "failed" };
-        console.log("failed", node, result, retry);
-        graph.reportError(node, transactionId, result);
+        const result = { [nodeId]: "failed" };
+        console.log("failed", nodeId, result, retry);
+        graph.reportError(nodeId, transactionId, result);
       } else {
-        const result = { [node]: "output" };
-        console.log("completing", node, result);
-        graph.feed(node, transactionId, result);
+        const result = { [nodeId]: "output" };
+        console.log("completing", nodeId, result);
+        graph.feed(nodeId, transactionId, result);
       }
-    }, params.delay);
+    }, params.delay / (retry + 1));
   });
 
-  await graph.run();
+  const results = await graph.run();
+  console.log(results);
 };
 
 const main = async () => {
