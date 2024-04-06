@@ -70,16 +70,16 @@ class Node {
       console.log("****** tid mismatch");
       return;
     }
-    this.state = NodeState.Failed;
-    this.result = result;
-    this.retry(graph);
+    this.retry(graph, NodeState.Failed, result);
   }
   
-  private retry(graph: GraphAI) {
+  private retry(graph: GraphAI, state: NodeState, result: Record<string, any>) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute(graph);
     } else {
+      this.state = state;
+      this.result = result;
       graph.remove(this);
     }
   }
@@ -116,8 +116,7 @@ class Node {
       setTimeout(() => {
         if (this.state == NodeState.Executing && this.transactionId == transactionId) {
           console.log("*** timeout", this.timeout);
-          this.state = NodeState.TimedOut;
-          this.retry(graph);
+          this.retry(graph, NodeState.TimedOut, {});
         }
       }, this.timeout);
     }
