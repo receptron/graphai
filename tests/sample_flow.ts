@@ -20,7 +20,8 @@ const test = async (file: string) => {
     }, params.delay);
   });
 
-  await graph.run();
+  const results = await graph.run();
+  console.log(results);
 };
 
 const main = async () => {

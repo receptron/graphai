@@ -148,7 +148,14 @@ export class GraphAI {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        resolve(this);
+        const results = Object.keys(this.nodes).reduce(
+          (results, key) => {
+            results[key] = this.nodes[key].result;
+            return results;
+          },
+          {} as Record<string, any>,
+        );
+        resolve(results);
       };
     });
   }
