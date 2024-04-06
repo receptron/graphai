@@ -85,9 +85,9 @@ class Node {
 
   public payload(graph: GraphAI) {
     return this.inputs.reduce(
-      (payload, key) => {
-        payload[key] = graph.nodes[key].result;
-        return payload;
+      (results, key) => {
+        results[key] = graph.nodes[key].result;
+        return results;
       },
       {} as Record<string, any>,
     );
