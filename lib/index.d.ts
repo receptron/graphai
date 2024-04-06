@@ -1,2 +1,2 @@
-import { Graph } from "./flow";
-export { Graph };
+import { GraphAI } from "./flow";
+export { GraphAI };

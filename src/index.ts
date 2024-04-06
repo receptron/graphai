@@ -1,3 +1,3 @@
-import { Graph } from "./flow";
+import { GraphAI } from "./flow";
 
-export { Graph };
+export { GraphAI };

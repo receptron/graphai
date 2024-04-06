@@ -49,7 +49,7 @@ class Node {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`    
   }
 
-  public complete(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph) {
+  public complete(result: Record<string, any>, nodes: Record<string, Node>, graph: GraphAI) {
     this.state = NodeState.Completed;
     this.result = result;
     this.waitlist.forEach(key => {
@@ -59,7 +59,7 @@ class Node {
     graph.remove(this);
   }
 
-  public reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph) {
+  public reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: GraphAI) {
     this.state = NodeState.Failed;
     this.result = result;
     if (this.retryCount < this.retryLimit) {
@@ -71,12 +71,12 @@ class Node {
     }
   }
 
-  public removePending(key: string, graph: Graph) {
+  public removePending(key: string, graph: GraphAI) {
     this.pendings.delete(key);
     this.executeIfReady(graph);
   }
 
-  public payload(graph: Graph) {
+  public payload(graph: GraphAI) {
     const foo: Record<string, any> = {};
     return this.inputs.reduce((payload, key) => {
       payload[key] = graph.nodes[key].result;       
@@ -84,7 +84,7 @@ class Node {
     }, foo);    
   }
 
-  public executeIfReady(graph: Graph) {
+  public executeIfReady(graph: GraphAI) {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
       graph.add(this);
@@ -93,7 +93,7 @@ class Node {
   }
 }
 
-export class Graph {
+export class GraphAI {
   public nodes: Record<string, Node>
   public callback: FlowCallback;
   private runningNodes: Set<string>;

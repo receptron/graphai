@@ -1,5 +1,5 @@
 import path from "path";
-import { Graph, FlowCommand } from "../src/flow";
+import { GraphAI, FlowCommand } from "../src/flow";
 
 import { readManifestData } from "../src/file_utils";
 
@@ -7,7 +7,7 @@ const test = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
   return new Promise((resolve, reject) => {
-    const graph = new Graph(graph_data, async (params) => {
+    const graph = new GraphAI(graph_data, async (params) => {
       if (params.cmd == FlowCommand.Execute) {
           const node = params.node;
           console.log("executing", node, params.params, params.payload)

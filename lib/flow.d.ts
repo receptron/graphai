@@ -30,13 +30,13 @@ declare class Node {
     retryCount: number;
     constructor(key: string, data: NodeData);
     asString(): string;
-    complete(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph): void;
-    reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph): void;
-    removePending(key: string, graph: Graph): void;
-    payload(graph: Graph): Record<string, any>;
-    executeIfReady(graph: Graph): void;
+    complete(result: Record<string, any>, nodes: Record<string, Node>, graph: GraphAI): void;
+    reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: GraphAI): void;
+    removePending(key: string, graph: GraphAI): void;
+    payload(graph: GraphAI): Record<string, any>;
+    executeIfReady(graph: GraphAI): void;
 }
-export declare class Graph {
+export declare class GraphAI {
     nodes: Record<string, Node>;
     callback: FlowCallback;
     private runningNodes;
