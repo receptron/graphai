@@ -62,7 +62,7 @@ class Node {
       const node = graph.nodes[key];
       node.removePending(this.key, graph);
     });
-    graph.remove(this);
+    graph.removeRunning(this);
   }
 
   public reportError(result: Record<string, any>, transactionId: number, graph: GraphAI) {
@@ -80,7 +80,7 @@ class Node {
       this.retryCount++;
       this.execute(graph);
     } else {
-      graph.remove(this);
+      graph.removeRunning(this);
     }
   }
 
@@ -101,7 +101,7 @@ class Node {
 
   public executeIfReady(graph: GraphAI) {
     if (this.pendings.size == 0) {
-      graph.add(this);
+      graph.addRunning(this);
       this.execute(graph);
     }
   }
@@ -191,11 +191,11 @@ export class GraphAI {
     node.reportError(result, tid, this);
   }
 
-  public add(node: Node) {
+  public addRunning(node: Node) {
     this.runningNodes.add(node.key);
   }
 
-  public remove(node: Node) {
+  public removeRunning(node: Node) {
     this.runningNodes.delete(node.key);
     if (this.runningNodes.size == 0) {
       this.onComplete();
