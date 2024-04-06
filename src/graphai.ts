@@ -6,10 +6,12 @@ export enum NodeState {
   Failed,
   Completed,
 }
+type ResultData = Record<string, any>;
+type NodeDataParams = Record<string, any>; // App-specific parameters
 
 type NodeData = {
   inputs: undefined | Array<string>;
-  params: any; // App-specific parameters
+  params: NodeDataParams;
   retry: undefined | number;
 };
 
@@ -17,16 +19,16 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (node: string, transactionId: number, retry: number, params: Record<string, any>, payload: Record<string, any>) => void;
+type GraphCallback = (node: string, transactionId: number, retry: number, params: NodeDataParams, payload: ResultData) => void;
 
 class Node {
   public key: string;
-  public params: any; // App-specific parameters
+  public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
-  public result: Record<string, any>;
+  public result: ResultData;
   public retryLimit: number;
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
@@ -47,7 +49,7 @@ class Node {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public complete(result: Record<string, any>, tid: number, graph: GraphAI) {
+  public complete(result: ResultData, tid: number, graph: GraphAI) {
     if (this.transactionId !== tid) {
       console.log("****** tid mismatch");
       return;
@@ -61,7 +63,7 @@ class Node {
     graph.remove(this);
   }
 
-  public reportError(result: Record<string, any>, tid: number, graph: GraphAI) {
+  public reportError(result: ResultData, tid: number, graph: GraphAI) {
     if (this.transactionId !== tid) {
       console.log("****** tid mismatch");
       return;
@@ -89,7 +91,7 @@ class Node {
         payload[key] = graph.nodes[key].result;
         return payload;
       },
-      {} as Record<string, any>,
+      {} as ResultData,
     );
   }
 
@@ -153,12 +155,12 @@ export class GraphAI {
     });
   }
 
-  public feed(key: string, tid: number, result: Record<string, any>) {
+  public feed(key: string, tid: number, result: ResultData) {
     const node = this.nodes[key];
     node.complete(result, tid, this);
   }
 
-  public reportError(key: string, tid: number, result: Record<string, any>) {
+  public reportError(key: string, tid: number, result: ResultData) {
     const node = this.nodes[key];
     node.reportError(result, tid, this);
   }
