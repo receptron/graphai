@@ -9,7 +9,7 @@ const test = async (file: string) => {
 
   const graph = new GraphAI(graph_data, async (nodeId, transactionId, retry, params, payload) => {
     console.log("executing", nodeId, params, payload);
-    await sleep(params.delay);
+    await sleep(params.delay / (retry + 1));
 
     if (params.fail && retry < 2) {
       const result = { [nodeId]: "failed" };
@@ -20,7 +20,7 @@ const test = async (file: string) => {
       console.log("completing", nodeId, result);
       graph.feed(nodeId, transactionId, result);
     }
-  });
+  }, );
 
   const results = await graph.run();
   console.log(results);
