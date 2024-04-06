@@ -17,12 +17,7 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-export enum FlowCommand {
-  Log,
-  Execute,
-}
-
-type GraphCallback = (params: Record<string, any>) => void;
+type GraphCallback = (node: string, transactionId: number, retry: number, params: Record<string, any>, payload: Record<string, any>) => void;
 
 class Node {
   public key: string;
@@ -76,14 +71,13 @@ class Node {
       this.retryCount++;
       this.state = NodeState.Executing;
       this.transactionId = Date.now();
-      graph.callback({
-        cmd: FlowCommand.Execute,
-        tid: this.transactionId,
-        node: this.key,
-        params: this.params,
-        retry: this.retryCount,
-        payload: this.payload(graph),
-      });
+      graph.callback(
+        this.key,
+        this.transactionId,
+        this.retryCount,
+        this.params,
+        this.payload(graph)
+      );
     } else {
       graph.remove(this);
     }
@@ -109,7 +103,13 @@ class Node {
       this.state = NodeState.Executing;
       graph.add(this);
       this.transactionId = Date.now();
-      graph.callback({ cmd: FlowCommand.Execute, tid: this.transactionId, node: this.key, params: this.params, retry: 0, payload: this.payload(graph) });
+      graph.callback(
+        this.key,
+        this.transactionId,
+        this.retryCount,
+        this.params,
+        this.payload(graph)
+      );
     }
   }
 }
