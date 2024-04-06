@@ -103,12 +103,15 @@ class Node {
 
   private execute(graph: GraphAI) {
     this.state = NodeState.Executing;
-    this.transactionId = Date.now();
+    const transactionId = Date.now();
+    this.transactionId = transactionId;
     graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
 
     if (this.timeout > 0) {
       setTimeout(() => {
-        console.log("*** timeout", this.timeout);
+        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
+          console.log("*** timeout", this.timeout);
+        }
       }, this.timeout);
     }
 }
