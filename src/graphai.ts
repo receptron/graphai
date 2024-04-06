@@ -11,7 +11,7 @@ type NodeData = {
   retry: undefined | number;
 }
 
-type FlowData = {
+type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
@@ -21,7 +21,7 @@ export enum FlowCommand {
   OnComplete
 }
 
-type FlowCallback = (params: Record<string, any>) => void;
+type GraphCallback = (params: Record<string, any>) => void;
 
 class Node {
   public key: string;
@@ -49,17 +49,17 @@ class Node {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`    
   }
 
-  public complete(result: Record<string, any>, nodes: Record<string, Node>, graph: GraphAI) {
+  public complete(result: Record<string, any>, graph: GraphAI) {
     this.state = NodeState.Completed;
     this.result = result;
     this.waitlist.forEach(key => {
-      const node = nodes[key];
+      const node = graph.nodes[key];
       node.removePending(this.key, graph);
     });
     graph.remove(this);
   }
 
-  public reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: GraphAI) {
+  public reportError(result: Record<string, any>, graph: GraphAI) {
     this.state = NodeState.Failed;
     this.result = result;
     if (this.retryCount < this.retryLimit) {
@@ -94,10 +94,10 @@ class Node {
 
 export class GraphAI {
   public nodes: Record<string, Node>
-  public callback: FlowCallback;
+  public callback: GraphCallback;
   private runningNodes: Set<string>;
 
-  constructor(data: FlowData, callback: FlowCallback) {
+  constructor(data: GraphData, callback: GraphCallback) {
     this.callback = callback;
     this.runningNodes = new Set<string>();
     this.nodes = Object.keys(data.nodes).reduce((nodes, key) => {
@@ -129,12 +129,12 @@ export class GraphAI {
 
   public feed(key: string, result: Record<string, any>) {
     const node = this.nodes[key];
-    node.complete(result, this.nodes, this);
+    node.complete(result, this);
   }
 
   public reportError(key: string, result: Record<string, any>) {
     const node = this.nodes[key];
-    node.reportError(result, this.nodes, this);
+    node.reportError(result, this);
   }
 
   public add(node: Node) {
