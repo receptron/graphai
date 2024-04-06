@@ -8,26 +8,26 @@ const test = async (file: string) => {
   return new Promise((resolve, reject) => {
     const graph = new GraphAI(graph_data, async (params) => {
       if (params.cmd == FlowCommand.Execute) {
-          const node = params.node;
-          console.log("executing", node, params.params, params.payload)
-          setTimeout(() => {
-            if (params.params.fail && params.retry < 2) {
-              const result = { [node]:"failed" };
-              console.log("failed", node, result, params.retry)
-              graph.reportError(node, result);
-            } else {
-              const result = { [node]:"output" };
-              console.log("completing", node, result)
-              graph.feed(node, result)
-            }
-          }, params.params.delay);
+        const node = params.node;
+        console.log("executing", node, params.params, params.payload);
+        setTimeout(() => {
+          if (params.params.fail && params.retry < 2) {
+            const result = { [node]: "failed" };
+            console.log("failed", node, result, params.retry);
+            graph.reportError(node, result);
+          } else {
+            const result = { [node]: "output" };
+            console.log("completing", node, result);
+            graph.feed(node, result);
+          }
+        }, params.params.delay);
       } else if (params.cmd == FlowCommand.OnComplete) {
         resolve(graph);
       }
     });
     graph.run();
   });
-}
+};
 
 const main = async () => {
   await test("/graphs/sample1.yml");

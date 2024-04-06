@@ -2,14 +2,14 @@ export enum NodeState {
   Waiting,
   Executing,
   Failed,
-  Completed
+  Completed,
 }
 
 type NodeData = {
   inputs: undefined | Array<string>;
   params: any; // Application specific parameters
   retry: undefined | number;
-}
+};
 
 type GraphData = {
   nodes: Record<string, NodeData>;
@@ -18,7 +18,7 @@ type GraphData = {
 export enum FlowCommand {
   Log,
   Execute,
-  OnComplete
+  OnComplete,
 }
 
 type GraphCallback = (params: Record<string, any>) => void;
@@ -33,6 +33,7 @@ class Node {
   public result: Record<string, any>;
   public retryLimit: number;
   public retryCount: number;
+  public transactionId: undefined | number;
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.inputs = data.inputs ?? [];
@@ -46,13 +47,13 @@ class Node {
   }
 
   public asString() {
-    return `${this.key}: ${this.state} ${[...this.waitlist]}`    
+    return `${this.key}: ${this.state} ${[...this.waitlist]}`;
   }
 
   public complete(result: Record<string, any>, graph: GraphAI) {
     this.state = NodeState.Completed;
     this.result = result;
-    this.waitlist.forEach(key => {
+    this.waitlist.forEach((key) => {
       const node = graph.nodes[key];
       node.removePending(this.key, graph);
     });
@@ -65,7 +66,15 @@ class Node {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.state = NodeState.Executing;
-      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: this.retryCount, payload: this.payload(graph) });
+      this.transactionId = Date.now();
+      graph.callback({
+        cmd: FlowCommand.Execute,
+        tid: this.transactionId,
+        node: this.key,
+        params: this.params,
+        retry: this.retryCount,
+        payload: this.payload(graph),
+      });
     } else {
       graph.remove(this);
     }
@@ -77,51 +86,62 @@ class Node {
   }
 
   public payload(graph: GraphAI) {
-    return this.inputs.reduce((payload, key) => {
-      payload[key] = graph.nodes[key].result;       
-      return payload;
-    }, {} as Record<string, any>);    
+    return this.inputs.reduce(
+      (payload, key) => {
+        payload[key] = graph.nodes[key].result;
+        return payload;
+      },
+      {} as Record<string, any>,
+    );
   }
 
   public executeIfReady(graph: GraphAI) {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
       graph.add(this);
-      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: 0, payload: this.payload(graph) });
+      this.transactionId = Date.now();
+      graph.callback({ cmd: FlowCommand.Execute, tid: this.transactionId, node: this.key, params: this.params, retry: 0, payload: this.payload(graph) });
     }
   }
 }
 
 export class GraphAI {
-  public nodes: Record<string, Node>
+  public nodes: Record<string, Node>;
   public callback: GraphCallback;
   private runningNodes: Set<string>;
 
   constructor(data: GraphData, callback: GraphCallback) {
     this.callback = callback;
     this.runningNodes = new Set<string>();
-    this.nodes = Object.keys(data.nodes).reduce((nodes, key) => {
-      nodes[key] = new Node(key, data.nodes[key]);
-      return nodes;
-    }, {} as Record<string, Node>);
+    this.nodes = Object.keys(data.nodes).reduce(
+      (nodes, key) => {
+        nodes[key] = new Node(key, data.nodes[key]);
+        return nodes;
+      },
+      {} as Record<string, Node>,
+    );
 
     // Generate the waitlist for each node
-    Object.keys(this.nodes).forEach(key => {
+    Object.keys(this.nodes).forEach((key) => {
       const node = this.nodes[key];
-      node.pendings.forEach(pending => {
-        const node2 = this.nodes[pending]
+      node.pendings.forEach((pending) => {
+        const node2 = this.nodes[pending];
         node2.waitlist.add(key);
       });
     });
   }
 
   public asString() {
-    return Object.keys(this.nodes).map((key) => { return this.nodes[key].asString() }).join('\n');
+    return Object.keys(this.nodes)
+      .map((key) => {
+        return this.nodes[key].asString();
+      })
+      .join("\n");
   }
 
   public run() {
     // Nodes without pending data should run immediately.
-    Object.keys(this.nodes).forEach(key => {
+    Object.keys(this.nodes).forEach((key) => {
       const node = this.nodes[key];
       node.executeIfReady(this);
     });
@@ -144,7 +164,7 @@ export class GraphAI {
   public remove(node: Node) {
     this.runningNodes.delete(node.key);
     if (this.runningNodes.size == 0) {
-      this.callback({cmd: FlowCommand.OnComplete});
+      this.callback({ cmd: FlowCommand.OnComplete });
     }
   }
 }
