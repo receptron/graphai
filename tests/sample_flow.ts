@@ -14,11 +14,11 @@ const test = async (file: string) => {
           if (params.params.fail && params.retry < 2) {
             const result = { [node]: "failed" };
             console.log("failed", node, result, params.retry);
-            graph.reportError(node, result);
+            graph.reportError(node, params.tid, result);
           } else {
             const result = { [node]: "output" };
             console.log("completing", node, result);
-            graph.feed(node, result);
+            graph.feed(node, params.tid, result);
           }
         }, params.params.delay);
       } else if (params.cmd == FlowCommand.OnComplete) {

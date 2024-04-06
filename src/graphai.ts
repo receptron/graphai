@@ -1,3 +1,5 @@
+import { AssertionError } from "assert";
+
 export enum NodeState {
   Waiting,
   Executing,
@@ -50,7 +52,11 @@ class Node {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public complete(result: Record<string, any>, graph: GraphAI) {
+  public complete(result: Record<string, any>, tid: number, graph: GraphAI) {
+    if (this.transactionId !== tid) {
+      console.log("****** tid mismatch");
+      return;
+    }
     this.state = NodeState.Completed;
     this.result = result;
     this.waitlist.forEach((key) => {
@@ -60,7 +66,11 @@ class Node {
     graph.remove(this);
   }
 
-  public reportError(result: Record<string, any>, graph: GraphAI) {
+  public reportError(result: Record<string, any>, tid: number, graph: GraphAI) {
+    if (this.transactionId !== tid) {
+      console.log("****** tid mismatch");
+      return;
+    }
     this.state = NodeState.Failed;
     this.result = result;
     if (this.retryCount < this.retryLimit) {
@@ -147,14 +157,14 @@ export class GraphAI {
     });
   }
 
-  public feed(key: string, result: Record<string, any>) {
+  public feed(key: string, tid: number, result: Record<string, any>) {
     const node = this.nodes[key];
-    node.complete(result, this);
+    node.complete(result, tid, this);
   }
 
-  public reportError(key: string, result: Record<string, any>) {
+  public reportError(key: string, tid: number, result: Record<string, any>) {
     const node = this.nodes[key];
-    node.reportError(result, this);
+    node.reportError(result, tid, this);
   }
 
   public add(node: Node) {

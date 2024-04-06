@@ -23,7 +23,7 @@ const test = async (file: string) => {
           if (callback_type === "bot") {
             const result = { answer: JSON.stringify(data) };
             console.log("completing", node, result.answer);
-            graph.feed(node, result);
+            graph.feed(node, params.tid, result);
           }
         });
       } else if (params.cmd == FlowCommand.OnComplete) {
