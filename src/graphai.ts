@@ -11,13 +11,14 @@ type NodeData = {
   inputs: undefined | Array<string>;
   params: any; // App-specific parameters
   retry: undefined | number;
+  timeout: undefined | number; // msec
 };
 
 type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (node: string, transactionId: number, retry: number, params: Record<string, any>, payload: Record<string, any>) => void;
+type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: Record<string, any>, payload: Record<string, any>) => void;
 
 class Node {
   public key: string;
@@ -30,6 +31,7 @@ class Node {
   public retryLimit: number;
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
+  public timeout: number; // msec
 
   constructor(key: string, data: NodeData) {
     this.key = key;
@@ -41,14 +43,15 @@ class Node {
     this.result = {};
     this.retryLimit = data.retry ?? 0;
     this.retryCount = 0;
+    this.timeout = data.timeout ?? 0;
   }
 
   public asString() {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public complete(result: Record<string, any>, tid: number, graph: GraphAI) {
-    if (this.transactionId !== tid) {
+  public complete(result: Record<string, any>, transactionId: number, graph: GraphAI) {
+    if (this.transactionId !== transactionId) {
       console.log("****** tid mismatch");
       return;
     }
@@ -61,18 +64,20 @@ class Node {
     graph.remove(this);
   }
 
-  public reportError(result: Record<string, any>, tid: number, graph: GraphAI) {
-    if (this.transactionId !== tid) {
+  public reportError(result: Record<string, any>, transactionId: number, graph: GraphAI) {
+    if (this.transactionId !== transactionId) {
       console.log("****** tid mismatch");
       return;
     }
     this.state = NodeState.Failed;
     this.result = result;
+    this.retry(graph);
+  }
+  
+  private retry(graph: GraphAI) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
-      this.state = NodeState.Executing;
-      this.transactionId = Date.now();
-      graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+      this.execute(graph);
     } else {
       graph.remove(this);
     }
@@ -85,9 +90,9 @@ class Node {
 
   public payload(graph: GraphAI) {
     return this.inputs.reduce(
-      (payload, key) => {
-        payload[key] = graph.nodes[key].result;
-        return payload;
+      (results, key) => {
+        results[key] = graph.nodes[key].result;
+        return results;
       },
       {} as Record<string, any>,
     );
@@ -95,12 +100,25 @@ class Node {
 
   public executeIfReady(graph: GraphAI) {
     if (this.pendings.size == 0) {
-      this.state = NodeState.Executing;
       graph.add(this);
-      this.transactionId = Date.now();
-      graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+      this.execute(graph);
     }
   }
+
+  private execute(graph: GraphAI) {
+    this.state = NodeState.Executing;
+    const transactionId = Date.now();
+    this.transactionId = transactionId;
+    graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+
+    if (this.timeout > 0) {
+      setTimeout(() => {
+        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
+          console.log("*** timeout", this.timeout);
+        }
+      }, this.timeout);
+    }
+}
 }
 
 export class GraphAI {
@@ -148,7 +166,14 @@ export class GraphAI {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        resolve(this);
+        const results = Object.keys(this.nodes).reduce(
+          (results, key) => {
+            results[key] = this.nodes[key].result;
+            return results;
+          },
+          {} as Record<string, any>,
+        );
+        resolve(results);
       };
     });
   }

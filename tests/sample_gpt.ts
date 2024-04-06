@@ -8,8 +8,8 @@ const config = new ChatConfig(path.resolve(__dirname));
 const test = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
-  const graph = new GraphAI(graph_data, async (node, transactionId, retry, params, payload) => {
-    console.log("executing", node, params, payload);
+  const graph = new GraphAI(graph_data, async (nodeId, transactionId, retry, params, payload) => {
+    console.log("executing", nodeId, params, payload);
     const session = new ChatSession(config, params.manifest ?? {});
     const prompt = Object.keys(payload).reduce((prompt, key) => {
       return prompt.replace("${" + key + "}", payload[key]["answer"]);
@@ -19,8 +19,8 @@ const test = async (file: string) => {
     await session.call_loop((callback_type: string, data: unknown) => {
       if (callback_type === "bot") {
         const result = { answer: JSON.stringify(data) };
-        console.log("completing", node, result.answer);
-        graph.feed(node, transactionId, result);
+        console.log("completing", nodeId, result.answer);
+        graph.feed(nodeId, transactionId, result);
       }
     });
   });
