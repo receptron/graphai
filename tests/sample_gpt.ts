@@ -1,6 +1,9 @@
 import path from "path";
 import { GraphAI, FlowCommand } from "../src/graphai";
+import { ChatSession, ChatConfig } from "slashgpt";
 import { readManifestData } from "../src/file_utils";
+
+const config = new ChatConfig(path.resolve(__dirname));
 
 const test = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
@@ -10,17 +13,13 @@ const test = async (file: string) => {
       if (params.cmd == FlowCommand.Execute) {
           const node = params.node;
           console.log("executing", node, params.params, params.payload)
-          setTimeout(() => {
-            if (params.params.fail && params.retry < 2) {
-              const result = { [node]:"failed" };
-              console.log("failed", node, result, params.retry)
-              graph.reportError(node, result);
-            } else {
-              const result = { [node]:"output" };
-              console.log("completing", node, result)
-              graph.feed(node, result)
+          const session = new ChatSession(config, params.params);
+          session.append_user_question("Hello");
+          await session.call_loop((callback_type: string, data: unknown) => {
+            if (callback_type === "bot") {
+              console.log("bot", JSON.stringify(data));
             }
-          }, params.params.delay);
+          });
       } else if (params.cmd == FlowCommand.OnComplete) {
         resolve(graph);
       }
@@ -30,9 +29,7 @@ const test = async (file: string) => {
 }
 
 const main = async () => {
-  await test("/graphs/sample1.yml");
+  await test("/graphs/sample3.yml");
   console.log("COMPLETE 1");
-  await test("/graphs/sample2.yml");
-  console.log("COMPLETE 2");
 };
 main();
