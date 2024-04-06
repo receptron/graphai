@@ -11,6 +11,7 @@ type NodeData = {
   inputs: undefined | Array<string>;
   params: any; // App-specific parameters
   retry: undefined | number;
+  timeout: undefined | number; // msec
 };
 
 type GraphData = {
@@ -30,6 +31,7 @@ class Node {
   public retryLimit: number;
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
+  public timeout: number; // msec
 
   constructor(key: string, data: NodeData) {
     this.key = key;
@@ -41,6 +43,7 @@ class Node {
     this.result = {};
     this.retryLimit = data.retry ?? 0;
     this.retryCount = 0;
+    this.timeout = data.timeout ?? 0;
   }
 
   public asString() {
