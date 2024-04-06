@@ -20,7 +20,6 @@ type GraphData = {
 export enum FlowCommand {
   Log,
   Execute,
-  OnComplete,
 }
 
 type GraphCallback = (params: Record<string, any>) => void;
@@ -119,10 +118,12 @@ export class GraphAI {
   public nodes: Record<string, Node>;
   public callback: GraphCallback;
   private runningNodes: Set<string>;
+  private onComplete: () => void;
 
   constructor(data: GraphData, callback: GraphCallback) {
     this.callback = callback;
     this.runningNodes = new Set<string>();
+    this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce(
       (nodes, key) => {
         nodes[key] = new Node(key, data.nodes[key]);
@@ -149,11 +150,17 @@ export class GraphAI {
       .join("\n");
   }
 
-  public run() {
+  public async run() {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((key) => {
       const node = this.nodes[key];
       node.executeIfReady(this);
+    });
+
+    return new Promise((resolve, reject) => {
+      this.onComplete = () => {
+        resolve(this);
+      }
     });
   }
 
@@ -174,7 +181,7 @@ export class GraphAI {
   public remove(node: Node) {
     this.runningNodes.delete(node.key);
     if (this.runningNodes.size == 0) {
-      this.callback({ cmd: FlowCommand.OnComplete });
+      this.onComplete();
     }
   }
 }
