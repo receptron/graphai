@@ -71,6 +71,10 @@ class Node {
     }
     this.state = NodeState.Failed;
     this.result = result;
+    this.retry(graph);
+  }
+  
+  private retry(graph: GraphAI) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute(graph);
