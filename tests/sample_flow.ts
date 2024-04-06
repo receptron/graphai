@@ -1,23 +1,24 @@
 import path from "path";
 import { GraphAI } from "../src/graphai";
 import { readManifestData } from "../src/file_utils";
+import { sleep } from "./utils";
 
 const test = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
   const graph = new GraphAI(graph_data, async (node, transactionId, retry, params, payload) => {
     console.log("executing", node, params, payload);
-    setTimeout(() => {
-      if (params.fail && retry < 2) {
-        const result = { [node]: "failed" };
-        console.log("failed", node, result, retry);
-        graph.reportError(node, transactionId, result);
-      } else {
-        const result = { [node]: "output" };
-        console.log("completing", node, result);
-        graph.feed(node, transactionId, result);
-      }
-    }, params.delay);
+    await sleep(params.delay);
+
+    if (params.fail && retry < 2) {
+      const result = { [node]: "failed" };
+      console.log("failed", node, result, retry);
+      graph.reportError(node, transactionId, result);
+    } else {
+      const result = { [node]: "output" };
+      console.log("completing", node, result);
+      graph.feed(node, transactionId, result);
+    }
   });
 
   await graph.run();
