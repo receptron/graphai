@@ -8,12 +8,12 @@ import assert from "node:assert";
 
 const testFunction = async (context: NodeExecuteContext<Record<string, string>>) => {
   const { nodeId, retry, params, payload } = context;
-  console.log("executing", nodeId, params);
+  console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));
 
   if (params.fail && retry < 2) {
     const result = { [nodeId]: "failed" };
-    console.log("failed", nodeId, result, retry);
+    console.log("failed (intentional)", nodeId, retry);
     throw new Error("Intentional Failure");
   } else {
     const result = Object.keys(payload).reduce(
@@ -23,7 +23,7 @@ const testFunction = async (context: NodeExecuteContext<Record<string, string>>)
       },
       { [nodeId]: "output" },
     );
-    console.log("completing", nodeId, result);
+    console.log("completing", nodeId);
     return result;
   }
 };
@@ -35,11 +35,11 @@ const runTest = async (file: string) => {
   const graph = new GraphAI(graph_data, testFunction);
 
   const results = await graph.run();
-  console.log(results);
+  // console.log(results);
   return results;
 };
 
-test("test sample1", async () => {
+test("test base", async () => {
   const result = await runTest("/graphs/test_base.yml");
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
@@ -50,7 +50,7 @@ test("test sample1", async () => {
   });
 });
 
-test("test sample1", async () => {
+test("test retry", async () => {
   const result = await runTest("/graphs/test_retry.yml");
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
@@ -59,5 +59,4 @@ test("test sample1", async () => {
     node4: { node4: "output", node3: "output", node1: "output", node2: "output" },
     node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "output" },
   });
-  console.log("COMPLETE 2");
 });
