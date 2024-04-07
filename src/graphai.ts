@@ -21,7 +21,7 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (nodeId: string, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
+type NodeExecute = (nodeId: string, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
 
 class Node {
   public nodeId: string;
@@ -124,11 +124,11 @@ type GraphNodes = Record<string, Node>;
 
 export class GraphAI {
   public nodes: GraphNodes;
-  public callback: GraphCallback;
+  public callback: NodeExecute;
   private runningNodes: Set<string>;
   private onComplete: () => void;
 
-  constructor(data: GraphData, callback: GraphCallback) {
+  constructor(data: GraphData, callback: NodeExecute) {
     this.callback = callback;
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
