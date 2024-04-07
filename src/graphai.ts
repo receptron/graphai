@@ -120,7 +120,7 @@ class Node {
         payload: this.payload(),
       });
       if (this.transactionId !== transactionId) {
-        console.log("****** tid mismatch (success)");
+        console.log("****** transactionId mismatch (success)");
         return;
       }
       this.state = NodeState.Completed;
@@ -132,7 +132,7 @@ class Node {
       this.graph.removeRunning(this);
     } catch (e) {
       if (this.transactionId !== transactionId) {
-        console.log("****** tid mismatch (failed)");
+        console.log("****** transactionId mismatch (failed)");
         return;
       }
       this.retry(NodeState.Failed, {});
