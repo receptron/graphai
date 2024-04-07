@@ -5,8 +5,8 @@ export declare enum NodeState {
     TimedOut = 3,
     Completed = 4
 }
-type ResultData = Record<string, any>;
-type ResultDataDictonary = Record<string, ResultData>;
+type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
+type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
 export type NodeDataParams = Record<string, any>;
 type NodeData = {
     inputs: undefined | Array<string>;
@@ -19,14 +19,14 @@ type GraphData = {
     nodes: Record<string, NodeData>;
     concurrency: number;
 };
-export type NodeExecuteContext = {
+export type NodeExecuteContext<ResultType> = {
     nodeId: string;
     retry: number;
     params: NodeDataParams;
-    payload: ResultData;
+    payload: ResultDataDictonary<ResultType>;
 };
-type NodeExecute = (context: NodeExecuteContext) => Promise<ResultData>;
-declare class Node {
+type NodeExecute<ResultType> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
+declare class Node<ResultType = Record<string, any>> {
     nodeId: string;
     params: NodeDataParams;
     inputs: Array<string>;
@@ -34,35 +34,35 @@ declare class Node {
     waitlist: Set<string>;
     state: NodeState;
     functionName: string;
-    result: ResultData;
+    result: ResultData<ResultType>;
     retryLimit: number;
     retryCount: number;
     transactionId: undefined | number;
     timeout: number;
     private graph;
-    constructor(nodeId: string, data: NodeData, graph: GraphAI);
+    constructor(nodeId: string, data: NodeData, graph: GraphAI<ResultType>);
     asString(): string;
     private retry;
     removePending(nodeId: string): void;
-    payload(): ResultDataDictonary;
+    payload(): ResultDataDictonary<ResultType>;
     pushQueueIfReady(): void;
     execute(): Promise<void>;
 }
-type GraphNodes = Record<string, Node>;
-type NodeExecuteDictonary = Record<string, NodeExecute>;
-export declare class GraphAI {
-    nodes: GraphNodes;
-    callbackDictonary: NodeExecuteDictonary;
+type GraphNodes<ResultType> = Record<string, Node<ResultType>>;
+type NodeExecuteDictonary<ResultType> = Record<string, NodeExecute<ResultType>>;
+export declare class GraphAI<ResultType = Record<string, any>> {
+    nodes: GraphNodes<ResultType>;
+    callbackDictonary: NodeExecuteDictonary<ResultType>;
     private runningNodes;
     private nodeQueue;
     private onComplete;
     private concurrency;
-    constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute);
-    getCallback(functionName: string): NodeExecute;
+    constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary<ResultType> | NodeExecute<ResultType>);
+    getCallback(functionName: string): NodeExecute<ResultType>;
     asString(): string;
     run(): Promise<unknown>;
     private runNode;
-    pushQueue(node: Node): void;
-    removeRunning(node: Node): void;
+    pushQueue(node: Node<ResultType>): void;
+    removeRunning(node: Node<ResultType>): void;
 }
 export {};
