@@ -8,6 +8,8 @@ export enum NodeState {
   Completed,
 }
 type ResultData = Record<string, any>;
+type ResultDataDictonary = Record<string, ResultData>;
+
 export type NodeDataParams = Record<string, any>; // App-specific parameters
 
 type NodeData = {
@@ -20,6 +22,7 @@ type NodeData = {
 
 type GraphData = {
   nodes: Record<string, NodeData>;
+  concurrency: number;
 };
 
 export type NodeExecuteContext = {
@@ -80,24 +83,23 @@ class Node {
 
   public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
-    this.executeIfReady();
+    this.pushQueueIfReady();
   }
 
   public payload() {
-    return this.inputs.reduce((results: ResultData, nodeId) => {
+    return this.inputs.reduce((results: ResultDataDictonary, nodeId) => {
       results[nodeId] = this.graph.nodes[nodeId].result;
       return results;
     }, {});
   }
 
-  public executeIfReady() {
+  public pushQueueIfReady() {
     if (this.pendings.size === 0) {
-      this.graph.addRunning(this);
-      this.execute();
+      this.graph.pushQueue(this);
     }
   }
 
-  private async execute() {
+  public async execute() {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
@@ -148,14 +150,18 @@ export class GraphAI {
   public nodes: GraphNodes;
   public callbackDictonary: NodeExecuteDictonary;
   private runningNodes: Set<string>;
+  private nodeQueue: Array<Node>;
   private onComplete: () => void;
+  private concurrency: number;
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
     }
+    this.concurrency = data.concurrency ?? 2;
     this.runningNodes = new Set<string>();
+    this.nodeQueue = [];
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
@@ -191,12 +197,12 @@ export class GraphAI {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
-      node.executeIfReady();
+      node.pushQueueIfReady();
     });
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        const results = Object.keys(this.nodes).reduce((results: ResultData, nodeId) => {
+        const results = Object.keys(this.nodes).reduce((results: ResultDataDictonary, nodeId) => {
           results[nodeId] = this.nodes[nodeId].result;
           return results;
         }, {});
@@ -205,12 +211,27 @@ export class GraphAI {
     });
   }
 
-  public addRunning(node: Node) {
+  private runNode(node: Node) {
     this.runningNodes.add(node.nodeId);
+    node.execute();
+  }
+
+  public pushQueue(node: Node) {
+    if (this.runningNodes.size < this.concurrency) {
+      this.runNode(node);
+    } else {
+      this.nodeQueue.push(node);
+    }
   }
 
   public removeRunning(node: Node) {
     this.runningNodes.delete(node.nodeId);
+    if (this.nodeQueue.length > 0) {
+      const n = this.nodeQueue.shift();
+      if (n) {
+        this.runNode(n);
+      }
+    }
     if (this.runningNodes.size === 0) {
       this.onComplete();
     }

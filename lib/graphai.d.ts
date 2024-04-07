@@ -6,15 +6,18 @@ export declare enum NodeState {
     Completed = 4
 }
 type ResultData = Record<string, any>;
+type ResultDataDictonary = Record<string, ResultData>;
 export type NodeDataParams = Record<string, any>;
 type NodeData = {
     inputs: undefined | Array<string>;
     params: NodeDataParams;
     retry: undefined | number;
     timeout: undefined | number;
+    functionName: undefined | string;
 };
 type GraphData = {
     nodes: Record<string, NodeData>;
+    concurrency: number;
 };
 export type NodeExecuteContext = {
     nodeId: string;
@@ -30,29 +33,36 @@ declare class Node {
     pendings: Set<string>;
     waitlist: Set<string>;
     state: NodeState;
+    functionName: string;
     result: ResultData;
     retryLimit: number;
     retryCount: number;
     transactionId: undefined | number;
     timeout: number;
-    constructor(nodeId: string, data: NodeData);
+    private graph;
+    constructor(nodeId: string, data: NodeData, graph: GraphAI);
     asString(): string;
     private retry;
-    removePending(nodeId: string, graph: GraphAI): void;
-    payload(graph: GraphAI): ResultData;
-    executeIfReady(graph: GraphAI): void;
-    private execute;
+    removePending(nodeId: string): void;
+    payload(): ResultDataDictonary;
+    pushQueueIfReady(): void;
+    execute(): Promise<void>;
 }
 type GraphNodes = Record<string, Node>;
+type NodeExecuteDictonary = Record<string, NodeExecute>;
 export declare class GraphAI {
     nodes: GraphNodes;
-    callback: NodeExecute;
+    callbackDictonary: NodeExecuteDictonary;
     private runningNodes;
+    private nodeQueue;
     private onComplete;
-    constructor(data: GraphData, callback: NodeExecute);
+    private concurrency;
+    constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute);
+    getCallback(functionName: string): NodeExecute;
     asString(): string;
     run(): Promise<unknown>;
-    addRunning(node: Node): void;
+    private runNode;
+    pushQueue(node: Node): void;
     removeRunning(node: Node): void;
 }
 export {};
