@@ -93,7 +93,6 @@ class Node {
   public pushQueueIfReady() {
     if (this.pendings.size === 0) {
       this.graph.pushQueue(this);
-      // this.execute();
     }
   }
 
@@ -208,14 +207,14 @@ export class GraphAI {
     });
   }
 
-  public addRunning(node: Node) {
+  private runNode(node: Node) {
     this.runningNodes.add(node.nodeId);
+    node.execute();
   }
 
   public pushQueue(node: Node) {
     if (this.runningNodes.size < this.concurrency) {
-      this.runningNodes.add(node.nodeId);
-      node.execute();
+      this.runNode(node);
     } else {
       this.nodeQueue.push(node);
     }
@@ -226,8 +225,7 @@ export class GraphAI {
     if (this.nodeQueue.length > 0) {
       const n = this.nodeQueue.shift();
       if (n) {
-        this.runningNodes.add(n.nodeId);
-        n.execute();
+        this.runNode(n);
       }
     }
     if (this.runningNodes.size === 0) {
