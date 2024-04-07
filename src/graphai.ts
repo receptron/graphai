@@ -21,7 +21,7 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
+type GraphCallback = (nodeId: string, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
 
 class Node {
   public nodeId: string;
@@ -70,13 +70,10 @@ class Node {
   }
 
   public payload(graph: GraphAI) {
-    return this.inputs.reduce(
-      (results: ResultData, nodeId) => {
-        results[nodeId] = graph.nodes[nodeId].result;
-        return results;
-      },
-      {},
-    );
+    return this.inputs.reduce((results: ResultData, nodeId) => {
+      results[nodeId] = graph.nodes[nodeId].result;
+      return results;
+    }, {});
   }
 
   public executeIfReady(graph: GraphAI) {
@@ -90,8 +87,18 @@ class Node {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
+
+    if (this.timeout > 0) {
+      setTimeout(() => {
+        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
+          console.log("*** timeout", this.timeout);
+          this.retry(graph, NodeState.TimedOut, {});
+        }
+      }, this.timeout);
+    }
+
     try {
-      const result = await graph.callback(this.nodeId, this.transactionId, this.retryCount, this.params, this.payload(graph));
+      const result = await graph.callback(this.nodeId, this.retryCount, this.params, this.payload(graph));
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (success)");
         return;
@@ -103,21 +110,12 @@ class Node {
         node.removePending(this.nodeId, graph);
       });
       graph.removeRunning(this);
-    } catch(e) {
+    } catch (e) {
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (failed)");
         return;
       }
       this.retry(graph, NodeState.Failed, {});
-    }
-
-    if (this.timeout > 0) {
-      setTimeout(() => {
-        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
-          console.log("*** timeout", this.timeout);
-          this.retry(graph, NodeState.TimedOut, {});
-        }
-      }, this.timeout);
     }
   }
 }
