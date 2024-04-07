@@ -6,7 +6,7 @@ export declare enum NodeState {
     Completed = 4
 }
 type ResultData = Record<string, any>;
-type NodeDataParams = Record<string, any>;
+export type NodeDataParams = Record<string, any>;
 type NodeData = {
     inputs: undefined | Array<string>;
     params: NodeDataParams;
@@ -16,7 +16,13 @@ type NodeData = {
 type GraphData = {
     nodes: Record<string, NodeData>;
 };
-type GraphCallback = (nodeId: string, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
+export type NodeExecuteContext = {
+    nodeId: string;
+    retry: number;
+    params: NodeDataParams;
+    payload: ResultData;
+};
+type NodeExecute = (context: NodeExecuteContext) => Promise<ResultData>;
 declare class Node {
     nodeId: string;
     params: NodeDataParams;
@@ -37,12 +43,13 @@ declare class Node {
     executeIfReady(graph: GraphAI): void;
     private execute;
 }
+type GraphNodes = Record<string, Node>;
 export declare class GraphAI {
-    nodes: Record<string, Node>;
-    callback: GraphCallback;
+    nodes: GraphNodes;
+    callback: NodeExecute;
     private runningNodes;
     private onComplete;
-    constructor(data: GraphData, callback: GraphCallback);
+    constructor(data: GraphData, callback: NodeExecute);
     asString(): string;
     run(): Promise<unknown>;
     addRunning(node: Node): void;
