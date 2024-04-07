@@ -37,8 +37,10 @@ const runTest = async (file: string) => {
   try {
     const results = await graph.run();
     return results;
-  } catch (errors) {
-    console.log(errors);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log("Error:", error.message);
+    }
     return graph.results();
   }
 };

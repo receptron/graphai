@@ -232,8 +232,9 @@ export class GraphAI<ResultType = Record<string, any>> {
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
         const errors = this.errors();
-        if (Object.keys(errors).length > 0) {
-          reject(errors);
+        const nodeIds = Object.keys(errors);
+        if (nodeIds.length > 0) {
+          reject(errors[nodeIds[0]]);
         } else {
           resolve(this.results());
         }
