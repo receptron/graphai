@@ -1,6 +1,6 @@
 import path from "path";
 import { GraphAI, NodeExecuteContext } from "../src/graphai";
-import { readManifestData } from "../src/file_utils";
+import { readManifestData } from "./file_utils";
 import { sleep } from "./utils";
 
 import test from "node:test";
