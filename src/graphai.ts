@@ -107,7 +107,7 @@ class Node<ResultType = Record<string, any>> {
     if (this.timeout > 0) {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
-          console.log("*** timeout", this.timeout);
+          console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
           this.retry(NodeState.TimedOut, undefined);
         }
       }, this.timeout);
@@ -122,7 +122,7 @@ class Node<ResultType = Record<string, any>> {
         payload: this.payload(),
       });
       if (this.transactionId !== transactionId) {
-        console.log("****** transactionId mismatch (success)");
+        console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
       }
       this.state = NodeState.Completed;
@@ -134,7 +134,7 @@ class Node<ResultType = Record<string, any>> {
       this.graph.removeRunning(this);
     } catch (e) {
       if (this.transactionId !== transactionId) {
-        console.log("****** transactionId mismatch (failed)");
+        console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
         return;
       }
       this.retry(NodeState.Failed, undefined);
