@@ -1,0 +1,22 @@
+nodes:
+  node1:
+    params:
+      delay: 500
+  node2:
+    params:
+      delay: 100
+  node3:
+    params:
+      delay: 500
+      fail: true
+    inputs: [node1, node2]
+  node4:
+    timeout: 200
+    retry: 2
+    params:
+      delay: 300
+    inputs: [node3]
+  node5:
+    params:
+      delay: 100
+    inputs: [node4]

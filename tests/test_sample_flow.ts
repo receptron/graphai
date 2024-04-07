@@ -60,3 +60,14 @@ test("test retry", async () => {
     node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "output" },
   });
 });
+
+test("test error", async () => {
+  const result = await runTest("/graphs/test_error.yml");
+  assert.deepStrictEqual(result, {
+    node1: { node1: "output" },
+    node2: { node2: "output" },
+    node3: undefined,
+    node4: undefined,
+    node5: undefined,
+  });
+});
