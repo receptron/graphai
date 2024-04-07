@@ -147,6 +147,9 @@ export class GraphAI {
   private onComplete: () => void;
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary) {
+    if (callbackDictonary["default"] === undefined) {
+      throw new Error("No default function");
+    }
     this.callbackDictonary = callbackDictonary;
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
