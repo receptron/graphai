@@ -21,7 +21,7 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type NodeExecute = (nodeId: string, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
+type NodeExecute = (nodeId: string, retry: number, params: NodeDataParams) => Promise<ResultData>;
 
 class Node {
   public nodeId: string;
@@ -98,7 +98,7 @@ class Node {
     }
 
     try {
-      const result = await graph.callback(this.nodeId, this.retryCount, this.params, this.payload(graph));
+      const result = await graph.callback(this.nodeId, this.retryCount, this.params);
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (success)");
         return;

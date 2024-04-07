@@ -6,8 +6,8 @@ import { sleep } from "./utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const testFunction = async (nodeId: string, retry: number, params: NodeDataParams, payload: any) => {
-  console.log("executing", nodeId, params, payload);
+const testFunction = async (nodeId: string, retry: number, params: NodeDataParams) => {
+  console.log("executing", nodeId, params);
   await sleep(params.delay / (retry + 1));
 
   if (params.fail && retry < 2) {
