@@ -200,6 +200,13 @@ export class GraphAI<ResultType = Record<string, any>> {
       .join("\n");
   }
 
+  public results() {
+    return Object.keys(this.nodes).reduce((results: ResultDataDictonary<ResultType>, nodeId) => {
+      results[nodeId] = this.nodes[nodeId].result;
+      return results;
+    }, {});
+  }
+
   public async run() {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
@@ -209,11 +216,7 @@ export class GraphAI<ResultType = Record<string, any>> {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        const results = Object.keys(this.nodes).reduce((results: ResultDataDictonary<ResultType>, nodeId) => {
-          results[nodeId] = this.nodes[nodeId].result;
-          return results;
-        }, {});
-        resolve(results);
+        resolve(this.results());
       };
     });
   }
