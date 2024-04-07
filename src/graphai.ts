@@ -15,6 +15,7 @@ type NodeData = {
   params: NodeDataParams;
   retry: undefined | number;
   timeout: undefined | number; // msec
+  functionName: undefined | string;
 };
 
 type GraphData = {
@@ -37,6 +38,7 @@ class Node {
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
+  public functionName: string;
   public result: ResultData;
   public retryLimit: number;
   public retryCount: number;
@@ -50,6 +52,7 @@ class Node {
     this.params = data.params;
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
+    this.functionName = data.functionName ?? "default";
     this.result = {};
     this.retryLimit = data.retry ?? 0;
     this.retryCount = 0;
@@ -84,7 +87,7 @@ class Node {
   }
 
   public executeIfReady(graph: GraphAI) {
-    if (this.pendings.size == 0) {
+    if (this.pendings.size === 0) {
       graph.addRunning(this);
       this.execute(graph);
     }
@@ -97,7 +100,7 @@ class Node {
 
     if (this.timeout > 0) {
       setTimeout(() => {
-        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
+        if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log("*** timeout", this.timeout);
           this.retry(graph, NodeState.TimedOut, {});
         }
@@ -105,7 +108,13 @@ class Node {
     }
 
     try {
-      const result = await graph.callback({ nodeId: this.nodeId, retry: this.retryCount, params: this.params, payload: this.payload(graph) });
+      const callback = graph.getCallback(this.functionName);
+      const result = await callback({
+        nodeId: this.nodeId,
+        retry: this.retryCount,
+        params: this.params,
+        payload: this.payload(graph),
+      });
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (success)");
         return;
@@ -129,14 +138,23 @@ class Node {
 
 type GraphNodes = Record<string, Node>;
 
+type NodeExecuteDictonary = Record<string, NodeExecute>;
+
 export class GraphAI {
   public nodes: GraphNodes;
-  public callback: NodeExecute;
+  public callbackDictonary: NodeExecuteDictonary;
   private runningNodes: Set<string>;
   private onComplete: () => void;
 
-  constructor(data: GraphData, callback: NodeExecute) {
-    this.callback = callback;
+  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
+    if (typeof callbackDictonary === "function") {
+      this.callbackDictonary = { default: callbackDictonary };
+    } else {
+      if (callbackDictonary["default"] === undefined) {
+        throw new Error("No default function");
+      }
+      this.callbackDictonary = callbackDictonary;
+    }
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
@@ -152,6 +170,13 @@ export class GraphAI {
         node2.waitlist.add(nodeId);
       });
     });
+  }
+
+  public getCallback(functionName: string) {
+    if (functionName && this.callbackDictonary[functionName]) {
+      return this.callbackDictonary[functionName];
+    }
+    return this.callbackDictonary["default"];
   }
 
   public asString() {
@@ -186,7 +211,7 @@ export class GraphAI {
 
   public removeRunning(node: Node) {
     this.runningNodes.delete(node.nodeId);
-    if (this.runningNodes.size == 0) {
+    if (this.runningNodes.size === 0) {
       this.onComplete();
     }
   }
