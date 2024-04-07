@@ -108,7 +108,8 @@ class Node {
     }
 
     try {
-      const result = await graph.callbackDictonary[this.functionName]({
+      const callback = graph.getCallback(this.functionName);
+      const result = await callback({
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
@@ -164,6 +165,13 @@ export class GraphAI {
         node2.waitlist.add(nodeId);
       });
     });
+  }
+
+  public getCallback(functionName: string) {
+    if (functionName && this.callbackDictonary[functionName]) {
+      return this.callbackDictonary[functionName];
+    }
+    return this.callbackDictonary["default"];
   }
 
   public asString() {
