@@ -6,8 +6,8 @@ import { sleep } from "./utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const testFunction = async (context: NodeExecuteContext<Record<string, string>>) => {
-  const { nodeId, retry, params } = context;
+const testFunction = async (context: NodeExecuteContext<Record<string, any>>) => {
+  const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId, params);
   await sleep(params.delay / (retry + 1));
 
@@ -16,7 +16,13 @@ const testFunction = async (context: NodeExecuteContext<Record<string, string>>)
     console.log("failed", nodeId, result, retry);
     throw new Error("Intentional Failure");
   } else {
-    const result = { [nodeId]: "output" };
+    const result = Object.keys(payload).reduce(
+      (result, key) => {
+        result = { ...result, ...payload[key] };
+        return result;
+      },
+      { [nodeId]: "output" },
+    );
     console.log("completing", nodeId, result);
     return result;
   }
@@ -38,9 +44,9 @@ test("test sample1", async () => {
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
-    node3: { node3: "output" },
-    node4: { node4: "output" },
-    node5: { node5: "output" },
+    node3: { node3: "output", node1: "output", node2: "output" },
+    node4: { node4: "output", node3: "output", node1: "output", node2: "output" },
+    node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "output" },
   });
 });
 
@@ -49,9 +55,9 @@ test("test sample1", async () => {
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
-    node3: { node3: "output" },
-    node4: { node4: "output" },
-    node5: { node5: "output" },
+    node3: { node3: "output", node1: "output", node2: "output" },
+    node4: { node4: "output", node3: "output", node1: "output", node2: "output" },
+    node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "output" },
   });
   console.log("COMPLETE 2");
 });
