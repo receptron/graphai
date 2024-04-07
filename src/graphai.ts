@@ -20,6 +20,7 @@ type NodeData = {
 
 type GraphData = {
   nodes: Record<string, NodeData>;
+  concurrency: number;
 };
 
 export type NodeExecuteContext = {
@@ -149,13 +150,14 @@ export class GraphAI {
   private runningNodes: Set<string>;
   private nodeQueue: Array<Node>;
   private onComplete: () => void;
-  private concurrency = 2;
+  private concurrency: number;
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
     }
+    this.concurrency = data.concurrency ?? 2;
     this.runningNodes = new Set<string>();
     this.nodeQueue = [];
     this.onComplete = () => {};
