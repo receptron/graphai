@@ -5,11 +5,11 @@ import { readManifestData } from "../src/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-const testFunction = async (context: NodeExecuteContext) => {
+const testFunction = async (context: NodeExecuteContext<Record<string, string>>) => {
   console.log("executing", context.nodeId, context.params, context.payload);
   const session = new ChatSession(config, context.params.manifest ?? {});
   const prompt = Object.keys(context.payload).reduce((prompt, key) => {
-    return prompt.replace("${" + key + "}", context.payload[key]["answer"]);
+    return prompt.replace("${" + key + "}", context.payload[key]!["answer"]);
   }, context.params.prompt);
   session.append_user_question(prompt);
 
