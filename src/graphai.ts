@@ -8,6 +8,8 @@ export enum NodeState {
   Completed,
 }
 type ResultData = Record<string, any>;
+type ResultDataDictonary = Record<string, ResultData>;
+
 export type NodeDataParams = Record<string, any>; // App-specific parameters
 
 type NodeData = {
@@ -85,7 +87,7 @@ class Node {
   }
 
   public payload() {
-    return this.inputs.reduce((results: ResultData, nodeId) => {
+    return this.inputs.reduce((results: ResultDataDictonary, nodeId) => {
       results[nodeId] = this.graph.nodes[nodeId].result;
       return results;
     }, {});
@@ -200,7 +202,7 @@ export class GraphAI {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        const results = Object.keys(this.nodes).reduce((results: ResultData, nodeId) => {
+        const results = Object.keys(this.nodes).reduce((results: ResultDataDictonary, nodeId) => {
           results[nodeId] = this.nodes[nodeId].result;
           return results;
         }, {});
