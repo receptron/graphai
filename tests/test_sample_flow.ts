@@ -71,3 +71,14 @@ test("test error", async () => {
     node5: undefined,
   });
 });
+
+test("test timeout", async () => {
+  const result = await runTest("/graphs/test_timeout.yml");
+  assert.deepStrictEqual(result, {
+    node1: { node1: "output" },
+    node2: { node2: "output" },
+    node3: { node3: "output", node1: "output", node2: "output" },
+    node4: undefined,
+    node5: undefined,
+  });
+});
