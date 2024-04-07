@@ -40,7 +40,7 @@ const runTest = async (file: string) => {
 };
 
 test("test sample1", async () => {
-  const result = await runTest("/graphs/sample1.yml");
+  const result = await runTest("/graphs/test_base.yml");
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
@@ -51,7 +51,7 @@ test("test sample1", async () => {
 });
 
 test("test sample1", async () => {
-  const result = await runTest("/graphs/sample2.yml");
+  const result = await runTest("/graphs/test_retry.yml");
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
