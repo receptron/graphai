@@ -53,7 +53,7 @@ class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  private retry(graph: GraphAI, state: NodeState, result: Record<string, any>) {
+  private retry(graph: GraphAI, state: NodeState, result: ResultData) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute(graph);
@@ -70,10 +70,10 @@ class Node {
   }
 
   public payload(graph: GraphAI) {
-    return this.inputs.reduce((results, nodeId) => {
+    return this.inputs.reduce((results: ResultData, nodeId) => {
       results[nodeId] = graph.nodes[nodeId].result;
       return results;
-    }, {} as ResultData);
+    }, {});
   }
 
   public executeIfReady(graph: GraphAI) {
@@ -120,8 +120,10 @@ class Node {
   }
 }
 
+type GraphNodes = Record<string, Node>;
+
 export class GraphAI {
-  public nodes: Record<string, Node>;
+  public nodes: GraphNodes;
   public callback: GraphCallback;
   private runningNodes: Set<string>;
   private onComplete: () => void;
@@ -131,11 +133,11 @@ export class GraphAI {
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce(
-      (nodes, nodeId) => {
+      (nodes: GraphNodes, nodeId: string) => {
         nodes[nodeId] = new Node(nodeId, data.nodes[nodeId]);
         return nodes;
       },
-      {} as Record<string, Node>,
+      {}
     );
 
     // Generate the waitlist for each node
@@ -166,11 +168,11 @@ export class GraphAI {
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
         const results = Object.keys(this.nodes).reduce(
-          (results, nodeId) => {
+          (results: ResultData, nodeId) => {
             results[nodeId] = this.nodes[nodeId].result;
             return results;
           },
-          {} as Record<string, any>,
+          {},
         );
         resolve(results);
       };
