@@ -24,7 +24,7 @@ type GraphData = {
 type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: NodeDataParams, payload: ResultData) => void;
 
 class Node {
-  public key: string;
+  public nodeId: string;
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
@@ -36,8 +36,8 @@ class Node {
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
 
-  constructor(key: string, data: NodeData) {
-    this.key = key;
+  constructor(nodeId: string, data: NodeData) {
+    this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
@@ -50,7 +50,7 @@ class Node {
   }
 
   public asString() {
-    return `${this.key}: ${this.state} ${[...this.waitlist]}`;
+    return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
   public complete(result: ResultData, transactionId: number, graph: GraphAI) {
@@ -60,11 +60,11 @@ class Node {
     }
     this.state = NodeState.Completed;
     this.result = result;
-    this.waitlist.forEach((key) => {
-      const node = graph.nodes[key];
-      node.removePending(this.key, graph);
+    this.waitlist.forEach((nodeId) => {
+      const node = graph.nodes[nodeId];
+      node.removePending(this.nodeId, graph);
     });
-    graph.remove(this);
+    graph.removeRunning(this);
   }
 
   public reportError(result: ResultData, transactionId: number, graph: GraphAI) {
@@ -72,29 +72,29 @@ class Node {
       console.log("****** tid mismatch");
       return;
     }
-    this.state = NodeState.Failed;
-    this.result = result;
-    this.retry(graph);
+    this.retry(graph, NodeState.Failed, result);
   }
   
-  private retry(graph: GraphAI) {
+  private retry(graph: GraphAI, state: NodeState, result: Record<string, any>) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute(graph);
     } else {
-      graph.remove(this);
+      this.state = state;
+      this.result = result;
+      graph.removeRunning(this);
     }
   }
 
-  public removePending(key: string, graph: GraphAI) {
-    this.pendings.delete(key);
+  public removePending(nodeId: string, graph: GraphAI) {
+    this.pendings.delete(nodeId);
     this.executeIfReady(graph);
   }
 
   public payload(graph: GraphAI) {
     return this.inputs.reduce(
-      (results, key) => {
-        results[key] = graph.nodes[key].result;
+      (results, nodeId) => {
+        results[nodeId] = graph.nodes[nodeId].result;
         return results;
       },
       {} as ResultData,
@@ -103,7 +103,7 @@ class Node {
 
   public executeIfReady(graph: GraphAI) {
     if (this.pendings.size == 0) {
-      graph.add(this);
+      graph.addRunning(this);
       this.execute(graph);
     }
   }
@@ -112,14 +112,13 @@ class Node {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
-    graph.callback(this.key, this.transactionId, this.retryCount, this.params, this.payload(graph));
+    graph.callback(this.nodeId, this.transactionId, this.retryCount, this.params, this.payload(graph));
 
     if (this.timeout > 0) {
       setTimeout(() => {
         if (this.state == NodeState.Executing && this.transactionId == transactionId) {
           console.log("*** timeout", this.timeout);
-          this.state = NodeState.TimedOut;
-          this.retry(graph);
+          this.retry(graph, NodeState.TimedOut, {});
         }
       }, this.timeout);
     }
@@ -137,43 +136,43 @@ export class GraphAI {
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce(
-      (nodes, key) => {
-        nodes[key] = new Node(key, data.nodes[key]);
+      (nodes, nodeId) => {
+        nodes[nodeId] = new Node(nodeId, data.nodes[nodeId]);
         return nodes;
       },
       {} as Record<string, Node>,
     );
 
     // Generate the waitlist for each node
-    Object.keys(this.nodes).forEach((key) => {
-      const node = this.nodes[key];
+    Object.keys(this.nodes).forEach((nodeId) => {
+      const node = this.nodes[nodeId];
       node.pendings.forEach((pending) => {
         const node2 = this.nodes[pending];
-        node2.waitlist.add(key);
+        node2.waitlist.add(nodeId);
       });
     });
   }
 
   public asString() {
     return Object.keys(this.nodes)
-      .map((key) => {
-        return this.nodes[key].asString();
+      .map((nodeId) => {
+        return this.nodes[nodeId].asString();
       })
       .join("\n");
   }
 
   public async run() {
     // Nodes without pending data should run immediately.
-    Object.keys(this.nodes).forEach((key) => {
-      const node = this.nodes[key];
+    Object.keys(this.nodes).forEach((nodeId) => {
+      const node = this.nodes[nodeId];
       node.executeIfReady(this);
     });
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
         const results = Object.keys(this.nodes).reduce(
-          (results, key) => {
-            results[key] = this.nodes[key].result;
+          (results, nodeId) => {
+            results[nodeId] = this.nodes[nodeId].result;
             return results;
           },
           {} as Record<string, any>,
@@ -183,22 +182,22 @@ export class GraphAI {
     });
   }
 
-  public feed(key: string, tid: number, result: ResultData) {
-    const node = this.nodes[key];
+  public feed(nodeId: string, tid: number, result: ResultData) {
+    const node = this.nodes[nodeId];
     node.complete(result, tid, this);
   }
 
-  public reportError(key: string, tid: number, result: ResultData) {
-    const node = this.nodes[key];
+  public reportError(nodeId: string, tid: number, result: ResultData) {
+    const node = this.nodes[nodeId];
     node.reportError(result, tid, this);
   }
 
-  public add(node: Node) {
-    this.runningNodes.add(node.key);
+  public addRunning(node: Node) {
+    this.runningNodes.add(node.nodeId);
   }
 
-  public remove(node: Node) {
-    this.runningNodes.delete(node.key);
+  public removeRunning(node: Node) {
+    this.runningNodes.delete(node.nodeId);
     if (this.runningNodes.size == 0) {
       this.onComplete();
     }
