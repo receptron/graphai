@@ -204,7 +204,10 @@ export class GraphAI<ResultType = Record<string, any>> {
 
   public results() {
     return Object.keys(this.nodes).reduce((results: ResultDataDictonary<ResultType>, nodeId) => {
-      results[nodeId] = this.nodes[nodeId].result;
+      const node = this.nodes[nodeId];
+      if (node.result !== undefined) {
+        results[nodeId] = node.result;
+      }
       return results;
     }, {});
   }

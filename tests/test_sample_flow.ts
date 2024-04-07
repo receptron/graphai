@@ -70,9 +70,6 @@ test("test error", async () => {
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
-    node3: undefined,
-    node4: undefined,
-    node5: undefined,
   });
 });
 
@@ -82,7 +79,5 @@ test("test timeout", async () => {
     node1: { node1: "output" },
     node2: { node2: "output" },
     node3: { node3: "output", node1: "output", node2: "output" },
-    node4: undefined,
-    node5: undefined,
   });
 });
