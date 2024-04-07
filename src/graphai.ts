@@ -105,7 +105,7 @@ class Node {
     }
 
     try {
-      const result = await graph.callback({nodeId: this.nodeId, retry: this.retryCount, params: this.params, payload: this.payload(graph)});
+      const result = await graph.callback({ nodeId: this.nodeId, retry: this.retryCount, params: this.params, payload: this.payload(graph) });
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (success)");
         return;
