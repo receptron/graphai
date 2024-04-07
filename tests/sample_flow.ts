@@ -17,13 +17,13 @@ const runTest = async (file: string) => {
     if (params.fail && retry < 2) {
       const result = { [nodeId]: "failed" };
       console.log("failed", nodeId, result, retry);
-      graph.reportError(nodeId, transactionId, result);
+      throw new Error('Intentional Failure');
     } else {
       const result = { [nodeId]: "output" };
       console.log("completing", nodeId, result);
-      graph.feed(nodeId, transactionId, result);
+      return result;
     }
-  }, );
+  });
 
   const results = await graph.run();
   console.log(results);

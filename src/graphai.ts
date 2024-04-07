@@ -21,7 +21,7 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: NodeDataParams, payload: ResultData) => void;
+type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
 
 class Node {
   public nodeId: string;
@@ -53,28 +53,6 @@ class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public complete(result: ResultData, transactionId: number, graph: GraphAI) {
-    if (this.transactionId !== transactionId) {
-      console.log("****** tid mismatch");
-      return;
-    }
-    this.state = NodeState.Completed;
-    this.result = result;
-    this.waitlist.forEach((nodeId) => {
-      const node = graph.nodes[nodeId];
-      node.removePending(this.nodeId, graph);
-    });
-    graph.removeRunning(this);
-  }
-
-  public reportError(result: ResultData, transactionId: number, graph: GraphAI) {
-    if (this.transactionId !== transactionId) {
-      console.log("****** tid mismatch");
-      return;
-    }
-    this.retry(graph, NodeState.Failed, result);
-  }
-  
   private retry(graph: GraphAI, state: NodeState, result: Record<string, any>) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
@@ -108,11 +86,30 @@ class Node {
     }
   }
 
-  private execute(graph: GraphAI) {
+  private async execute(graph: GraphAI) {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
-    graph.callback(this.nodeId, this.transactionId, this.retryCount, this.params, this.payload(graph));
+    try {
+      const result = await graph.callback(this.nodeId, this.transactionId, this.retryCount, this.params, this.payload(graph));
+      if (this.transactionId !== transactionId) {
+        console.log("****** tid mismatch (success)");
+        return;
+      }
+      this.state = NodeState.Completed;
+      this.result = result;
+      this.waitlist.forEach((nodeId) => {
+        const node = graph.nodes[nodeId];
+        node.removePending(this.nodeId, graph);
+      });
+      graph.removeRunning(this);
+    } catch(e) {
+      if (this.transactionId !== transactionId) {
+        console.log("****** tid mismatch (failed)");
+        return;
+      }
+      this.retry(graph, NodeState.Failed, {});
+    }
 
     if (this.timeout > 0) {
       setTimeout(() => {
@@ -122,7 +119,7 @@ class Node {
         }
       }, this.timeout);
     }
-}
+  }
 }
 
 export class GraphAI {
@@ -180,16 +177,6 @@ export class GraphAI {
         resolve(results);
       };
     });
-  }
-
-  public feed(nodeId: string, tid: number, result: ResultData) {
-    const node = this.nodes[nodeId];
-    node.complete(result, tid, this);
-  }
-
-  public reportError(nodeId: string, tid: number, result: ResultData) {
-    const node = this.nodes[nodeId];
-    node.reportError(result, tid, this);
   }
 
   public addRunning(node: Node) {
