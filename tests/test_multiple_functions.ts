@@ -45,4 +45,3 @@ test("test sample1", async () => {
     node5: { node5: "output 2" },
   });
 });
-

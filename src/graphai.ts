@@ -143,13 +143,11 @@ type NodeExecuteDictonary = Record<string, NodeExecute>;
 export class GraphAI {
   public nodes: GraphNodes;
   public callbackDictonary: NodeExecuteDictonary;
-  public callback: NodeExecute;
   private runningNodes: Set<string>;
   private onComplete: () => void;
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary) {
     this.callbackDictonary = callbackDictonary;
-    this.callback = callbackDictonary["default"];
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
