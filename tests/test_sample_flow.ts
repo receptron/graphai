@@ -6,7 +6,7 @@ import { sleep } from "./utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const testFunction = async (context: NodeExecuteContext<Record<string, any>>) => {
+const testFunction = async (context: NodeExecuteContext<Record<string, string>>) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId, params);
   await sleep(params.delay / (retry + 1));
