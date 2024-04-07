@@ -15,6 +15,7 @@ type NodeData = {
   params: NodeDataParams;
   retry: undefined | number;
   timeout: undefined | number; // msec
+  functionName: undefined | string;
 };
 
 type GraphData = {
@@ -37,6 +38,7 @@ class Node {
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
+  public functionName: string;
   public result: ResultData;
   public retryLimit: number;
   public retryCount: number;
@@ -50,6 +52,7 @@ class Node {
     this.params = data.params;
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
+    this.functionName = data.functionName ?? "default";
     this.result = {};
     this.retryLimit = data.retry ?? 0;
     this.retryCount = 0;
@@ -105,7 +108,12 @@ class Node {
     }
 
     try {
-      const result = await graph.callback({nodeId: this.nodeId, retry: this.retryCount, params: this.params, payload: this.payload(graph)});
+      const result = await graph.callbackDictonary[this.functionName]({
+        nodeId: this.nodeId,
+        retry: this.retryCount,
+        params: this.params,
+        payload: this.payload(graph),
+      });
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (success)");
         return;
@@ -129,14 +137,18 @@ class Node {
 
 type GraphNodes = Record<string, Node>;
 
+type NodeExecuteDictonary = Record<string, NodeExecute>;
+
 export class GraphAI {
   public nodes: GraphNodes;
+  public callbackDictonary: NodeExecuteDictonary;
   public callback: NodeExecute;
   private runningNodes: Set<string>;
   private onComplete: () => void;
 
-  constructor(data: GraphData, callback: NodeExecute) {
-    this.callback = callback;
+  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary) {
+    this.callbackDictonary = callbackDictonary;
+    this.callback = callbackDictonary["default"];
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {

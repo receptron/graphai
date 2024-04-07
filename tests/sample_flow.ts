@@ -26,7 +26,7 @@ const runTest = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
 
-  const graph = new GraphAI(graph_data, testFunction);
+  const graph = new GraphAI(graph_data, { default: testFunction });
 
   const results = await graph.run();
   console.log(results);
