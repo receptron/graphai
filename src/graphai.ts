@@ -112,7 +112,14 @@ class Node<ResultType = Record<string, any>> {
   }
 
   public async execute() {
-    const log: TransactionLog = { nodeId: this.nodeId, retryCount: this.retryCount, state:NodeState.Executing, startTime: Date.now(), endTime: undefined, error: undefined };
+    const log: TransactionLog = {
+      nodeId: this.nodeId,
+      retryCount: this.retryCount,
+      state: NodeState.Executing,
+      startTime: Date.now(),
+      endTime: undefined,
+      error: undefined,
+    };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
     const transactionId = log.startTime;
@@ -124,6 +131,7 @@ class Node<ResultType = Record<string, any>> {
           console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
           log.error = Error("Timeout");
           log.state = NodeState.TimedOut;
+          log.endTime = Date.now();
           this.retry(NodeState.TimedOut, Error("Timeout"));
         }
       }, this.timeout);

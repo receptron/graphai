@@ -42,6 +42,7 @@ const runTest = async (file: string) => {
     if (error instanceof Error) {
       console.log("Error:", error.message);
     }
+    console.log(graph.transactionLogs());
     return graph.results();
   }
 };
