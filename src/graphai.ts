@@ -79,6 +79,7 @@ class Node<ResultType = Record<string, any>> {
       this.state = state;
       this.result = undefined;
       this.error = error;
+      this.transactionId = 0; // This is necessary for timeout case
       this.graph.removeRunning(this);
     }
   }
