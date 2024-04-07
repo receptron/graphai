@@ -7,8 +7,8 @@ export enum NodeState {
   TimedOut,
   Completed,
 }
-type ResultData = Record<string, any>;
-type ResultDataDictonary = Record<string, ResultData>;
+type ResultData<T = Record<string, any>> = T | undefined;
+type ResultDataDictonary<T = Record<string, any>> = Record<string, ResultData<T>>;
 
 export type NodeDataParams = Record<string, any>; // App-specific parameters
 
@@ -25,16 +25,16 @@ type GraphData = {
   concurrency: number;
 };
 
-export type NodeExecuteContext = {
+export type NodeExecuteContext<T> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams;
-  payload: ResultData;
+  payload: ResultDataDictonary<T>;
 };
 
-type NodeExecute = (context: NodeExecuteContext) => Promise<ResultData>;
+type NodeExecute<T> = (context: NodeExecuteContext<T>) => Promise<ResultData<T>>;
 
-class Node {
+class Node<T = Record<string, any>> {
   public nodeId: string;
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
@@ -42,15 +42,15 @@ class Node {
   public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
   public functionName: string;
-  public result: ResultData;
+  public result: ResultData<T>;
   public retryLimit: number;
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
 
-  private graph: GraphAI;
+  private graph: GraphAI<T>;
 
-  constructor(nodeId: string, data: NodeData, graph: GraphAI) {
+  constructor(nodeId: string, data: NodeData, graph: GraphAI<T>) {
     this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
@@ -58,7 +58,7 @@ class Node {
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
     this.functionName = data.functionName ?? "default";
-    this.result = {};
+    this.result = undefined;
     this.retryLimit = data.retry ?? 0;
     this.retryCount = 0;
     this.timeout = data.timeout ?? 0;
@@ -70,7 +70,7 @@ class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  private retry(state: NodeState, result: ResultData) {
+  private retry(state: NodeState, result: ResultData<T>) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute();
@@ -87,7 +87,7 @@ class Node {
   }
 
   public payload() {
-    return this.inputs.reduce((results: ResultDataDictonary, nodeId) => {
+    return this.inputs.reduce((results: ResultDataDictonary<T>, nodeId) => {
       results[nodeId] = this.graph.nodes[nodeId].result;
       return results;
     }, {});
@@ -108,7 +108,7 @@ class Node {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log("*** timeout", this.timeout);
-          this.retry(NodeState.TimedOut, {});
+          this.retry(NodeState.TimedOut, undefined);
         }
       }, this.timeout);
     }
@@ -137,24 +137,24 @@ class Node {
         console.log("****** transactionId mismatch (failed)");
         return;
       }
-      this.retry(NodeState.Failed, {});
+      this.retry(NodeState.Failed, undefined);
     }
   }
 }
 
-type GraphNodes = Record<string, Node>;
+type GraphNodes<T> = Record<string, Node<T>>;
 
-type NodeExecuteDictonary = Record<string, NodeExecute>;
+type NodeExecuteDictonary<T> = Record<string, NodeExecute<T>>;
 
-export class GraphAI {
-  public nodes: GraphNodes;
-  public callbackDictonary: NodeExecuteDictonary;
+export class GraphAI<ResultType = Record<string, any>> {
+  public nodes: GraphNodes<ResultType>;
+  public callbackDictonary: NodeExecuteDictonary<ResultType>;
   private runningNodes: Set<string>;
-  private nodeQueue: Array<Node>;
+  private nodeQueue: Array<Node<ResultType>>;
   private onComplete: () => void;
   private concurrency: number;
 
-  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
+  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary<ResultType> | NodeExecute<ResultType>) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
@@ -163,8 +163,8 @@ export class GraphAI {
     this.runningNodes = new Set<string>();
     this.nodeQueue = [];
     this.onComplete = () => {};
-    this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
-      nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
+    this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes<ResultType>, nodeId: string) => {
+      nodes[nodeId] = new Node<ResultType>(nodeId, data.nodes[nodeId], this);
       return nodes;
     }, {});
 
@@ -202,7 +202,7 @@ export class GraphAI {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        const results = Object.keys(this.nodes).reduce((results: ResultDataDictonary, nodeId) => {
+        const results = Object.keys(this.nodes).reduce((results: ResultDataDictonary<ResultType>, nodeId) => {
           results[nodeId] = this.nodes[nodeId].result;
           return results;
         }, {});
@@ -211,12 +211,12 @@ export class GraphAI {
     });
   }
 
-  private runNode(node: Node) {
+  private runNode(node: Node<ResultType>) {
     this.runningNodes.add(node.nodeId);
     node.execute();
   }
 
-  public pushQueue(node: Node) {
+  public pushQueue(node: Node<ResultType>) {
     if (this.runningNodes.size < this.concurrency) {
       this.runNode(node);
     } else {
@@ -224,7 +224,7 @@ export class GraphAI {
     }
   }
 
-  public removeRunning(node: Node) {
+  public removeRunning(node: Node<ResultType>) {
     this.runningNodes.delete(node.nodeId);
     if (this.nodeQueue.length > 0) {
       const n = this.nodeQueue.shift();
