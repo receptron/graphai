@@ -132,13 +132,10 @@ export class GraphAI {
     this.callback = callback;
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
-    this.nodes = Object.keys(data.nodes).reduce(
-      (nodes: GraphNodes, nodeId: string) => {
-        nodes[nodeId] = new Node(nodeId, data.nodes[nodeId]);
-        return nodes;
-      },
-      {}
-    );
+    this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
+      nodes[nodeId] = new Node(nodeId, data.nodes[nodeId]);
+      return nodes;
+    }, {});
 
     // Generate the waitlist for each node
     Object.keys(this.nodes).forEach((nodeId) => {
@@ -167,13 +164,10 @@ export class GraphAI {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        const results = Object.keys(this.nodes).reduce(
-          (results: ResultData, nodeId) => {
-            results[nodeId] = this.nodes[nodeId].result;
-            return results;
-          },
-          {},
-        );
+        const results = Object.keys(this.nodes).reduce((results: ResultData, nodeId) => {
+          results[nodeId] = this.nodes[nodeId].result;
+          return results;
+        }, {});
         resolve(results);
       };
     });
