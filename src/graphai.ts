@@ -8,7 +8,7 @@ export enum NodeState {
   Completed,
 }
 type ResultData = Record<string, any>;
-type NodeDataParams = Record<string, any>; // App-specific parameters
+export type NodeDataParams = Record<string, any>; // App-specific parameters
 
 type NodeData = {
   inputs: undefined | Array<string>;
@@ -21,7 +21,13 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type NodeExecute = (nodeId: string, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
+export type NodeExecuteContext = {
+  nodeId: string;
+  retry: number;
+  params: NodeDataParams;
+};
+
+type NodeExecute = (context: NodeExecuteContext) => Promise<ResultData>;
 
 class Node {
   public nodeId: string;
@@ -98,7 +104,7 @@ class Node {
     }
 
     try {
-      const result = await graph.callback(this.nodeId, this.retryCount, this.params, this.payload(graph));
+      const result = await graph.callback({nodeId: this.nodeId, retry: this.retryCount, params: this.params});
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (success)");
         return;
