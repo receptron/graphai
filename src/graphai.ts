@@ -45,7 +45,9 @@ class Node {
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
 
-  constructor(nodeId: string, data: NodeData) {
+  private graph: GraphAI;
+
+  constructor(nodeId: string, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
@@ -57,43 +59,45 @@ class Node {
     this.retryLimit = data.retry ?? 0;
     this.retryCount = 0;
     this.timeout = data.timeout ?? 0;
+
+    this.graph = graph;
   }
 
   public asString() {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  private retry(graph: GraphAI, state: NodeState, result: ResultData) {
+  private retry(state: NodeState, result: ResultData) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
-      this.execute(graph);
+      this.execute();
     } else {
       this.state = state;
       this.result = result;
-      graph.removeRunning(this);
+      this.graph.removeRunning(this);
     }
   }
 
-  public removePending(nodeId: string, graph: GraphAI) {
+  public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
-    this.executeIfReady(graph);
+    this.executeIfReady();
   }
 
-  public payload(graph: GraphAI) {
+  public payload() {
     return this.inputs.reduce((results: ResultData, nodeId) => {
-      results[nodeId] = graph.nodes[nodeId].result;
+      results[nodeId] = this.graph.nodes[nodeId].result;
       return results;
     }, {});
   }
 
-  public executeIfReady(graph: GraphAI) {
+  public executeIfReady() {
     if (this.pendings.size === 0) {
-      graph.addRunning(this);
-      this.execute(graph);
+      this.graph.addRunning(this);
+      this.execute();
     }
   }
 
-  private async execute(graph: GraphAI) {
+  private async execute() {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
@@ -102,36 +106,36 @@ class Node {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log("*** timeout", this.timeout);
-          this.retry(graph, NodeState.TimedOut, {});
+          this.retry(NodeState.TimedOut, {});
         }
       }, this.timeout);
     }
 
     try {
-      const callback = graph.getCallback(this.functionName);
+      const callback = this.graph.getCallback(this.functionName);
       const result = await callback({
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
-        payload: this.payload(graph),
+        payload: this.payload(),
       });
       if (this.transactionId !== transactionId) {
-        console.log("****** tid mismatch (success)");
+        console.log("****** transactionId mismatch (success)");
         return;
       }
       this.state = NodeState.Completed;
       this.result = result;
       this.waitlist.forEach((nodeId) => {
-        const node = graph.nodes[nodeId];
-        node.removePending(this.nodeId, graph);
+        const node = this.graph.nodes[nodeId];
+        node.removePending(this.nodeId);
       });
-      graph.removeRunning(this);
+      this.graph.removeRunning(this);
     } catch (e) {
       if (this.transactionId !== transactionId) {
-        console.log("****** tid mismatch (failed)");
+        console.log("****** transactionId mismatch (failed)");
         return;
       }
-      this.retry(graph, NodeState.Failed, {});
+      this.retry(NodeState.Failed, {});
     }
   }
 }
@@ -147,18 +151,14 @@ export class GraphAI {
   private onComplete: () => void;
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
-    if (typeof callbackDictonary === "function") {
-      this.callbackDictonary = { default: callbackDictonary };
-    } else {
-      if (callbackDictonary["default"] === undefined) {
-        throw new Error("No default function");
-      }
-      this.callbackDictonary = callbackDictonary;
+    this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
+    if (this.callbackDictonary["default"] === undefined) {
+      throw new Error("No default function");
     }
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
-      nodes[nodeId] = new Node(nodeId, data.nodes[nodeId]);
+      nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
       return nodes;
     }, {});
 
@@ -191,7 +191,7 @@ export class GraphAI {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
-      node.executeIfReady(this);
+      node.executeIfReady();
     });
 
     return new Promise((resolve, reject) => {
