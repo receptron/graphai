@@ -153,6 +153,8 @@ type GraphNodes<ResultType> = Record<string, Node<ResultType>>;
 
 type NodeExecuteDictonary<ResultType> = Record<string, NodeExecute<ResultType>>;
 
+const defaultConcurrency = 8;
+
 export class GraphAI<ResultType = Record<string, any>> {
   public nodes: GraphNodes<ResultType>;
   public callbackDictonary: NodeExecuteDictonary<ResultType>;
@@ -166,7 +168,7 @@ export class GraphAI<ResultType = Record<string, any>> {
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
     }
-    this.concurrency = data.concurrency ?? 2;
+    this.concurrency = data.concurrency ?? defaultConcurrency;
     this.runningNodes = new Set<string>();
     this.nodeQueue = [];
     this.onComplete = () => {};
