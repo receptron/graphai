@@ -87,7 +87,7 @@ class Node {
   }
 
   public executeIfReady(graph: GraphAI) {
-    if (this.pendings.size == 0) {
+    if (this.pendings.size === 0) {
       graph.addRunning(this);
       this.execute(graph);
     }
@@ -100,7 +100,7 @@ class Node {
 
     if (this.timeout > 0) {
       setTimeout(() => {
-        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
+        if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log("*** timeout", this.timeout);
           this.retry(graph, NodeState.TimedOut, {});
         }
@@ -207,7 +207,7 @@ export class GraphAI {
 
   public removeRunning(node: Node) {
     this.runningNodes.delete(node.nodeId);
-    if (this.runningNodes.size == 0) {
+    if (this.runningNodes.size === 0) {
       this.onComplete();
     }
   }
