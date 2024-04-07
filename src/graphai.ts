@@ -80,7 +80,7 @@ class Node {
 
   public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
-    this.executeIfReady();
+    this.pushQueueIfReady();
   }
 
   public payload() {
@@ -90,14 +90,14 @@ class Node {
     }, {});
   }
 
-  public executeIfReady() {
+  public pushQueueIfReady() {
     if (this.pendings.size === 0) {
-      this.graph.addRunning(this);
-      this.execute();
+      this.graph.pushQueue(this);
+      // this.execute();
     }
   }
 
-  private async execute() {
+  public async execute() {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
@@ -148,7 +148,9 @@ export class GraphAI {
   public nodes: GraphNodes;
   public callbackDictonary: NodeExecuteDictonary;
   private runningNodes: Set<string>;
+  private nodeQueue: Array<Node>;
   private onComplete: () => void;
+  private concurrency = 2;
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
@@ -156,6 +158,7 @@ export class GraphAI {
       throw new Error("No default function");
     }
     this.runningNodes = new Set<string>();
+    this.nodeQueue = [];
     this.onComplete = () => {};
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
@@ -191,7 +194,7 @@ export class GraphAI {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
-      node.executeIfReady();
+      node.pushQueueIfReady();
     });
 
     return new Promise((resolve, reject) => {
@@ -209,8 +212,24 @@ export class GraphAI {
     this.runningNodes.add(node.nodeId);
   }
 
+  public pushQueue(node: Node) {
+    if (this.runningNodes.size < this.concurrency) {
+      this.runningNodes.add(node.nodeId);
+      node.execute();
+    } else {
+      this.nodeQueue.push(node);
+    }
+  }
+
   public removeRunning(node: Node) {
     this.runningNodes.delete(node.nodeId);
+    if (this.nodeQueue.length > 0) {
+      const n = this.nodeQueue.shift();
+      if (n) {
+        this.runningNodes.add(n.nodeId);
+        n.execute();
+      }
+    }
     if (this.runningNodes.size === 0) {
       this.onComplete();
     }
