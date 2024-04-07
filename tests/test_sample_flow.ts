@@ -36,11 +36,13 @@ const runTest = async (file: string) => {
 
   try {
     const results = await graph.run();
+    console.log(graph.transactionLogs());
     return results;
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error:", error.message);
     }
+    console.log(graph.transactionLogs());
     return graph.results();
   }
 };

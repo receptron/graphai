@@ -32,6 +32,15 @@ export type NodeExecuteContext<ResultType> = {
   payload: ResultDataDictonary<ResultType>;
 };
 
+export type TransactionLog = {
+  nodeId: string;
+  state: NodeState;
+  startTime: undefined | number;
+  endTime: undefined | number;
+  retryCount: number;
+  error: undefined | Error;
+};
+
 type NodeExecute<ResultType> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
 
 class Node<ResultType = Record<string, any>> {
@@ -103,14 +112,26 @@ class Node<ResultType = Record<string, any>> {
   }
 
   public async execute() {
+    const log: TransactionLog = {
+      nodeId: this.nodeId,
+      retryCount: this.retryCount,
+      state: NodeState.Executing,
+      startTime: Date.now(),
+      endTime: undefined,
+      error: undefined,
+    };
+    this.graph.appendLog(log);
     this.state = NodeState.Executing;
-    const transactionId = Date.now();
+    const transactionId = log.startTime;
     this.transactionId = transactionId;
 
     if (this.timeout > 0) {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
+          log.error = Error("Timeout");
+          log.state = NodeState.TimedOut;
+          log.endTime = Date.now();
           this.retry(NodeState.TimedOut, Error("Timeout"));
         }
       }, this.timeout);
@@ -128,6 +149,8 @@ class Node<ResultType = Record<string, any>> {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
       }
+      log.state = NodeState.Completed;
+      log.endTime = Date.now();
       this.state = NodeState.Completed;
       this.result = result;
       this.waitlist.forEach((nodeId) => {
@@ -140,10 +163,14 @@ class Node<ResultType = Record<string, any>> {
         console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
         return;
       }
+      log.state = NodeState.Failed;
+      log.endTime = Date.now();
       if (error instanceof Error) {
+        log.error = error;
         this.retry(NodeState.Failed, error);
       } else {
         console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
+        log.error = Error("Unknown");
         this.retry(NodeState.Failed, Error("Unknown"));
       }
     }
@@ -163,6 +190,7 @@ export class GraphAI<ResultType = Record<string, any>> {
   private nodeQueue: Array<Node<ResultType>>;
   private onComplete: () => void;
   private concurrency: number;
+  private logs: Array<TransactionLog> = [];
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary<ResultType> | NodeExecute<ResultType>) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
@@ -267,5 +295,13 @@ export class GraphAI<ResultType = Record<string, any>> {
     if (this.runningNodes.size === 0) {
       this.onComplete();
     }
+  }
+
+  public appendLog(log: TransactionLog) {
+    this.logs.push(log);
+  }
+
+  public transactionLogs() {
+    return this.logs;
   }
 }
