@@ -7,8 +7,8 @@ export enum NodeState {
   TimedOut,
   Completed,
 }
-type ResultData<T = Record<string, any>> = T | undefined;
-type ResultDataDictonary<T = Record<string, any>> = Record<string, ResultData<T>>;
+type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
+type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
 
 export type NodeDataParams = Record<string, any>; // App-specific parameters
 
@@ -25,16 +25,16 @@ type GraphData = {
   concurrency: number;
 };
 
-export type NodeExecuteContext<T> = {
+export type NodeExecuteContext<ResultType> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams;
-  payload: ResultDataDictonary<T>;
+  payload: ResultDataDictonary<ResultType>;
 };
 
-type NodeExecute<T> = (context: NodeExecuteContext<T>) => Promise<ResultData<T>>;
+type NodeExecute<ResultType> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
 
-class Node<T = Record<string, any>> {
+class Node<ResultType = Record<string, any>> {
   public nodeId: string;
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
@@ -42,15 +42,15 @@ class Node<T = Record<string, any>> {
   public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
   public functionName: string;
-  public result: ResultData<T>;
+  public result: ResultData<ResultType>;
   public retryLimit: number;
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
 
-  private graph: GraphAI<T>;
+  private graph: GraphAI<ResultType>;
 
-  constructor(nodeId: string, data: NodeData, graph: GraphAI<T>) {
+  constructor(nodeId: string, data: NodeData, graph: GraphAI<ResultType>) {
     this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
@@ -70,7 +70,7 @@ class Node<T = Record<string, any>> {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  private retry(state: NodeState, result: ResultData<T>) {
+  private retry(state: NodeState, result: ResultData<ResultType>) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute();
@@ -87,7 +87,7 @@ class Node<T = Record<string, any>> {
   }
 
   public payload() {
-    return this.inputs.reduce((results: ResultDataDictonary<T>, nodeId) => {
+    return this.inputs.reduce((results: ResultDataDictonary<ResultType>, nodeId) => {
       results[nodeId] = this.graph.nodes[nodeId].result;
       return results;
     }, {});
@@ -142,9 +142,9 @@ class Node<T = Record<string, any>> {
   }
 }
 
-type GraphNodes<T> = Record<string, Node<T>>;
+type GraphNodes<ResultType> = Record<string, Node<ResultType>>;
 
-type NodeExecuteDictonary<T> = Record<string, NodeExecute<T>>;
+type NodeExecuteDictonary<ResultType> = Record<string, NodeExecute<ResultType>>;
 
 export class GraphAI<ResultType = Record<string, any>> {
   public nodes: GraphNodes<ResultType>;

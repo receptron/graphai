@@ -6,7 +6,7 @@ import { sleep } from "./utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const testFunction1 = async (context: NodeExecuteContext) => {
+const testFunction1 = async (context: NodeExecuteContext<Record<string, string>>) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
@@ -15,7 +15,7 @@ const testFunction1 = async (context: NodeExecuteContext) => {
   return result;
 };
 
-const testFunction2 = async (context: NodeExecuteContext) => {
+const testFunction2 = async (context: NodeExecuteContext<Record<string, string>>) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
