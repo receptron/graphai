@@ -7,10 +7,12 @@ export enum NodeState {
   TimedOut,
   Completed,
 }
+type ResultData = Record<string, any>;
+type NodeDataParams = Record<string, any>; // App-specific parameters
 
 type NodeData = {
   inputs: undefined | Array<string>;
-  params: any; // App-specific parameters
+  params: NodeDataParams;
   retry: undefined | number;
   timeout: undefined | number; // msec
 };
@@ -19,16 +21,16 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: Record<string, any>, payload: Record<string, any>) => void;
+type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: NodeDataParams, payload: ResultData) => void;
 
 class Node {
   public nodeId: string;
-  public params: any; // App-specific parameters
+  public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
-  public result: Record<string, any>;
+  public result: ResultData;
   public retryLimit: number;
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
@@ -51,7 +53,7 @@ class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public complete(result: Record<string, any>, transactionId: number, graph: GraphAI) {
+  public complete(result: ResultData, transactionId: number, graph: GraphAI) {
     if (this.transactionId !== transactionId) {
       console.log("****** tid mismatch");
       return;
@@ -65,7 +67,7 @@ class Node {
     graph.removeRunning(this);
   }
 
-  public reportError(result: Record<string, any>, transactionId: number, graph: GraphAI) {
+  public reportError(result: ResultData, transactionId: number, graph: GraphAI) {
     if (this.transactionId !== transactionId) {
       console.log("****** tid mismatch");
       return;
@@ -95,7 +97,7 @@ class Node {
         results[nodeId] = graph.nodes[nodeId].result;
         return results;
       },
-      {} as Record<string, any>,
+      {} as ResultData,
     );
   }
 
@@ -180,12 +182,12 @@ export class GraphAI {
     });
   }
 
-  public feed(nodeId: string, tid: number, result: Record<string, any>) {
+  public feed(nodeId: string, tid: number, result: ResultData) {
     const node = this.nodes[nodeId];
     node.complete(result, tid, this);
   }
 
-  public reportError(nodeId: string, tid: number, result: Record<string, any>) {
+  public reportError(nodeId: string, tid: number, result: ResultData) {
     const node = this.nodes[nodeId];
     node.reportError(result, tid, this);
   }

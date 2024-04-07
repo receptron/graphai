@@ -1,2 +1,2 @@
-import { GraphAI } from "./flow";
+import { GraphAI } from "./graphai";
 export { GraphAI };
