@@ -151,13 +151,9 @@ export class GraphAI {
   private onComplete: () => void;
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
-    if (typeof callbackDictonary === "function") {
-      this.callbackDictonary = { default: callbackDictonary };
-    } else {
-      if (callbackDictonary["default"] === undefined) {
-        throw new Error("No default function");
-      }
-      this.callbackDictonary = callbackDictonary;
+    this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
+    if (this.callbackDictonary["default"] === undefined) {
+      throw new Error("No default function");
     }
     this.runningNodes = new Set<string>();
     this.onComplete = () => {};
