@@ -207,6 +207,16 @@ export class GraphAI<ResultType = Record<string, any>> {
     }, {});
   }
 
+  public errors() {
+    return Object.keys(this.nodes).reduce((errors: Record<string, Error>, nodeId) => {
+      const node = this.nodes[nodeId];
+      if (node.error !== undefined) {
+        errors[nodeId] = node.error;
+      }
+      return errors;
+    }, {});
+  }
+
   public async run() {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
@@ -216,7 +226,12 @@ export class GraphAI<ResultType = Record<string, any>> {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        resolve(this.results());
+        const errors = this.errors();
+        if (Object.keys(errors).length > 0) {
+          reject(errors);
+        } else {
+          resolve(this.results());
+        }
       };
     });
   }

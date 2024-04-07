@@ -34,9 +34,13 @@ const runTest = async (file: string) => {
 
   const graph = new GraphAI(graph_data, testFunction);
 
-  const results = await graph.run();
-  // console.log(results);
-  return results;
+  try {
+    const results = await graph.run();
+    return results;
+  } catch (errors) {
+    console.log(errors);
+    return graph.results();
+  }
 };
 
 test("test base", async () => {
