@@ -21,7 +21,7 @@ type GraphData = {
   nodes: Record<string, NodeData>;
 };
 
-type GraphCallback = (nodeId: string, transactionId: number, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
+type GraphCallback = (nodeId: string, retry: number, params: NodeDataParams, payload: ResultData) => Promise<ResultData>;
 
 class Node {
   public nodeId: string;
@@ -90,8 +90,18 @@ class Node {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
+    
+    if (this.timeout > 0) {
+      setTimeout(() => {
+        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
+          console.log("*** timeout", this.timeout);
+          this.retry(graph, NodeState.TimedOut, {});
+        }
+      }, this.timeout);
+    }
+
     try {
-      const result = await graph.callback(this.nodeId, this.transactionId, this.retryCount, this.params, this.payload(graph));
+      const result = await graph.callback(this.nodeId, this.retryCount, this.params, this.payload(graph));
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (success)");
         return;
@@ -111,14 +121,6 @@ class Node {
       this.retry(graph, NodeState.Failed, {});
     }
 
-    if (this.timeout > 0) {
-      setTimeout(() => {
-        if (this.state == NodeState.Executing && this.transactionId == transactionId) {
-          console.log("*** timeout", this.timeout);
-          this.retry(graph, NodeState.TimedOut, {});
-        }
-      }, this.timeout);
-    }
   }
 }
 
