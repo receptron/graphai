@@ -47,6 +47,7 @@ class Node<ResultType = Record<string, any>> {
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
+  public error: undefined | Error;
 
   private graph: GraphAI<ResultType>;
 
@@ -70,13 +71,14 @@ class Node<ResultType = Record<string, any>> {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  private retry(state: NodeState, result: ResultData<ResultType>) {
+  private retry(state: NodeState, error: Error) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute();
     } else {
       this.state = state;
-      this.result = result;
+      this.result = undefined;
+      this.error = error;
       this.graph.removeRunning(this);
     }
   }
@@ -108,7 +110,7 @@ class Node<ResultType = Record<string, any>> {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
-          this.retry(NodeState.TimedOut, undefined);
+          this.retry(NodeState.TimedOut, Error("Timeout"));
         }
       }, this.timeout);
     }
@@ -132,12 +134,17 @@ class Node<ResultType = Record<string, any>> {
         node.removePending(this.nodeId);
       });
       this.graph.removeRunning(this);
-    } catch (e) {
+    } catch (error) {
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
         return;
       }
-      this.retry(NodeState.Failed, undefined);
+      if (error instanceof Error) {
+        this.retry(NodeState.Failed, error);
+      } else {
+        console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
+        this.retry(NodeState.Failed, Error("Unknown"));
+      }
     }
   }
 }
