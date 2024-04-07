@@ -38,7 +38,6 @@ export type TransactionLog = {
   startTime: undefined | number;
   endTime: undefined | number;
   error: undefined | Error;
-  result: undefined | ResultData;
 };
 
 type NodeExecute<ResultType> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
@@ -112,7 +111,8 @@ class Node<ResultType = Record<string, any>> {
   }
 
   public async execute() {
-    const log: TransactionLog = { nodeId: this.nodeId, state:NodeState.Executing, startTime: Date.now(), endTime: undefined, error: undefined, result: undefined };
+    const log: TransactionLog = { nodeId: this.nodeId, state:NodeState.Executing, startTime: Date.now(), endTime: undefined, error: undefined };
+    this.graph.appendLog(log);
     this.state = NodeState.Executing;
     const transactionId = log.startTime;
     this.transactionId = transactionId;
@@ -140,6 +140,8 @@ class Node<ResultType = Record<string, any>> {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
       }
+      log.state = NodeState.Completed;
+      log.endTime = Date.now();
       this.state = NodeState.Completed;
       this.result = result;
       this.waitlist.forEach((nodeId) => {
@@ -152,14 +154,14 @@ class Node<ResultType = Record<string, any>> {
         console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
         return;
       }
+      log.state = NodeState.Failed;
+      log.endTime = Date.now();
       if (error instanceof Error) {
         log.error = error;
-        log.state = NodeState.Failed;
-      this.retry(NodeState.Failed, error);
+        this.retry(NodeState.Failed, error);
       } else {
         console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
         log.error = Error("Unknown");
-        log.state = NodeState.Failed; 
         this.retry(NodeState.Failed, Error("Unknown"));
       }
     }
@@ -179,6 +181,7 @@ export class GraphAI<ResultType = Record<string, any>> {
   private nodeQueue: Array<Node<ResultType>>;
   private onComplete: () => void;
   private concurrency: number;
+  private logs: Array<TransactionLog> = [];
 
   constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary<ResultType> | NodeExecute<ResultType>) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
@@ -283,5 +286,13 @@ export class GraphAI<ResultType = Record<string, any>> {
     if (this.runningNodes.size === 0) {
       this.onComplete();
     }
+  }
+
+  public appendLog(log: TransactionLog) {
+    this.logs.push(log);
+  }
+
+  public transactionLogs() {
+    return this.logs;
   }
 }
