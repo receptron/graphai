@@ -17,7 +17,7 @@ const runTest = async (file: string) => {
     if (params.fail && retry < 2) {
       const result = { [nodeId]: "failed" };
       console.log("failed", nodeId, result, retry);
-      throw new Error('Intentional Failure');
+      throw new Error("Intentional Failure");
     } else {
       const result = { [nodeId]: "output" };
       console.log("completing", nodeId, result);
@@ -33,22 +33,22 @@ const runTest = async (file: string) => {
 test("test sample1", async () => {
   const result = await runTest("/graphs/sample1.yml");
   assert.deepStrictEqual(result, {
-    node1: { node1: 'output' },
-    node2: { node2: 'output' },
-    node3: { node3: 'output' },
-    node4: { node4: 'output' },
-    node5: { node5: 'output' }
+    node1: { node1: "output" },
+    node2: { node2: "output" },
+    node3: { node3: "output" },
+    node4: { node4: "output" },
+    node5: { node5: "output" },
   });
 });
 
 test("test sample1", async () => {
   const result = await runTest("/graphs/sample2.yml");
   assert.deepStrictEqual(result, {
-    node1: { node1: 'output' },
-    node2: { node2: 'output' },
-    node3: { node3: 'output' },
-    node4: { node4: 'output' },
-    node5: { node5: 'output' }
+    node1: { node1: "output" },
+    node2: { node2: "output" },
+    node3: { node3: "output" },
+    node4: { node4: "output" },
+    node5: { node5: "output" },
   });
   console.log("COMPLETE 2");
 });

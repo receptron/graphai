@@ -19,7 +19,7 @@ const test = async (file: string) => {
     await session.call_loop(() => {});
     const message = session.history.last_message();
     if (message === undefined) {
-      throw new Error('No message in the history');
+      throw new Error("No message in the history");
     }
     const result = { answer: message.content };
     console.log(result);

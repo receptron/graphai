@@ -70,13 +70,10 @@ class Node {
   }
 
   public payload(graph: GraphAI) {
-    return this.inputs.reduce(
-      (results, nodeId) => {
-        results[nodeId] = graph.nodes[nodeId].result;
-        return results;
-      },
-      {} as ResultData,
-    );
+    return this.inputs.reduce((results, nodeId) => {
+      results[nodeId] = graph.nodes[nodeId].result;
+      return results;
+    }, {} as ResultData);
   }
 
   public executeIfReady(graph: GraphAI) {
@@ -90,7 +87,7 @@ class Node {
     this.state = NodeState.Executing;
     const transactionId = Date.now();
     this.transactionId = transactionId;
-    
+
     if (this.timeout > 0) {
       setTimeout(() => {
         if (this.state == NodeState.Executing && this.transactionId == transactionId) {
@@ -113,14 +110,13 @@ class Node {
         node.removePending(this.nodeId, graph);
       });
       graph.removeRunning(this);
-    } catch(e) {
+    } catch (e) {
       if (this.transactionId !== transactionId) {
         console.log("****** tid mismatch (failed)");
         return;
       }
       this.retry(graph, NodeState.Failed, {});
     }
-
   }
 }
 
