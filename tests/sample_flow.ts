@@ -1,29 +1,31 @@
 import path from "path";
-import { GraphAI } from "../src/graphai";
+import { GraphAI, NodeDataParams } from "../src/graphai";
 import { readManifestData } from "../src/file_utils";
 import { sleep } from "./utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
+const testFunction = async (nodeId: string, retry: number, params: NodeDataParams, payload: any) => {
+  console.log("executing", nodeId, params, payload);
+  await sleep(params.delay / (retry + 1));
+
+  if (params.fail && retry < 2) {
+    const result = { [nodeId]: "failed" };
+    console.log("failed", nodeId, result, retry);
+    throw new Error("Intentional Failure");
+  } else {
+    const result = { [nodeId]: "output" };
+    console.log("completing", nodeId, result);
+    return result;
+  }
+};
+
 const runTest = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
 
-  const graph = new GraphAI(graph_data, async (nodeId, retry, params, payload) => {
-    console.log("executing", nodeId, params, payload);
-    await sleep(params.delay / (retry + 1));
-
-    if (params.fail && retry < 2) {
-      const result = { [nodeId]: "failed" };
-      console.log("failed", nodeId, result, retry);
-      throw new Error("Intentional Failure");
-    } else {
-      const result = { [nodeId]: "output" };
-      console.log("completing", nodeId, result);
-      return result;
-    }
-  });
+  const graph = new GraphAI(graph_data, testFunction);
 
   const results = await graph.run();
   console.log(results);

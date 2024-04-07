@@ -8,7 +8,7 @@ export enum NodeState {
   Completed,
 }
 type ResultData = Record<string, any>;
-type NodeDataParams = Record<string, any>; // App-specific parameters
+export type NodeDataParams = Record<string, any>; // App-specific parameters
 
 type NodeData = {
   inputs: undefined | Array<string>;
