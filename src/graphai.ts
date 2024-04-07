@@ -37,6 +37,7 @@ export type TransactionLog = {
   state: NodeState;
   startTime: undefined | number;
   endTime: undefined | number;
+  retryCount: number;
   error: undefined | Error;
 };
 
@@ -111,7 +112,7 @@ class Node<ResultType = Record<string, any>> {
   }
 
   public async execute() {
-    const log: TransactionLog = { nodeId: this.nodeId, state:NodeState.Executing, startTime: Date.now(), endTime: undefined, error: undefined };
+    const log: TransactionLog = { nodeId: this.nodeId, retryCount: this.retryCount, state:NodeState.Executing, startTime: Date.now(), endTime: undefined, error: undefined };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
     const transactionId = log.startTime;
