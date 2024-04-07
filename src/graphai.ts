@@ -32,6 +32,15 @@ export type NodeExecuteContext<ResultType> = {
   payload: ResultDataDictonary<ResultType>;
 };
 
+export type TransactionLog = {
+  nodeId: string;
+  state: NodeState;
+  startTime: undefined | number;
+  endTime: undefined | number;
+  error: undefined | Error;
+  result: undefined | ResultData;
+};
+
 type NodeExecute<ResultType> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
 
 class Node<ResultType = Record<string, any>> {
@@ -103,14 +112,17 @@ class Node<ResultType = Record<string, any>> {
   }
 
   public async execute() {
+    const log: TransactionLog = { nodeId: this.nodeId, state:NodeState.Executing, startTime: Date.now(), endTime: undefined, error: undefined, result: undefined };
     this.state = NodeState.Executing;
-    const transactionId = Date.now();
+    const transactionId = log.startTime;
     this.transactionId = transactionId;
 
     if (this.timeout > 0) {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
+          log.error = Error("Timeout");
+          log.state = NodeState.TimedOut;
           this.retry(NodeState.TimedOut, Error("Timeout"));
         }
       }, this.timeout);
@@ -141,9 +153,13 @@ class Node<ResultType = Record<string, any>> {
         return;
       }
       if (error instanceof Error) {
-        this.retry(NodeState.Failed, error);
+        log.error = error;
+        log.state = NodeState.Failed;
+      this.retry(NodeState.Failed, error);
       } else {
         console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
+        log.error = Error("Unknown");
+        log.state = NodeState.Failed; 
         this.retry(NodeState.Failed, Error("Unknown"));
       }
     }
