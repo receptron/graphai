@@ -1,5 +1,3 @@
-import { AssertionError } from "assert";
-
 export enum NodeState {
   Waiting,
   Executing,
@@ -18,6 +16,7 @@ type NodeData = {
   retry?: number;
   timeout?: number; // msec
   functionName?: string;
+  source?: boolean;
 };
 
 type GraphData = {
@@ -51,15 +50,16 @@ class Node {
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
-  public waitlist: Set<string>; // List of nodes which need data from this node.
-  public state: NodeState;
+  public waitlist = new Set<string>(); // List of nodes which need data from this node.
+  public state = NodeState.Waiting;
   public functionName: string;
-  public result: ResultData;
+  public result: ResultData = undefined;
   public retryLimit: number;
-  public retryCount: number;
+  public retryCount: number = 0;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
   public error: undefined | Error;
+  public source: boolean;
 
   private graph: GraphAI;
 
@@ -68,14 +68,10 @@ class Node {
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
-    this.waitlist = new Set<string>();
-    this.state = NodeState.Waiting;
     this.functionName = data.functionName ?? "default";
-    this.result = undefined;
     this.retryLimit = data.retry ?? 0;
-    this.retryCount = 0;
     this.timeout = data.timeout ?? 0;
-
+    this.source = data.source === true;
     this.graph = graph;
   }
 
@@ -109,9 +105,24 @@ class Node {
   }
 
   public pushQueueIfReady() {
-    if (this.pendings.size === 0) {
+    if (this.pendings.size === 0 && !this.source) {
       this.graph.pushQueue(this);
     }
+  }
+
+  public injectResult(result: ResultData) {
+    if (this.source) {
+      this.setResult(result);    
+    }
+  }
+
+  private setResult(result: ResultData) {
+    this.state = NodeState.Completed;
+    this.result = result;
+    this.waitlist.forEach((nodeId) => {
+      const node = this.graph.nodes[nodeId];
+      node.removePending(this.nodeId);
+    });
   }
 
   public async execute() {
@@ -155,12 +166,7 @@ class Node {
       log.state = NodeState.Completed;
       log.endTime = Date.now();
       log.result = result;
-      this.state = NodeState.Completed;
-      this.result = result;
-      this.waitlist.forEach((nodeId) => {
-        const node = this.graph.nodes[nodeId];
-        node.removePending(this.nodeId);
-      });
+      this.setResult(result);
       this.graph.removeRunning(this);
     } catch (error) {
       if (this.transactionId !== transactionId) {
