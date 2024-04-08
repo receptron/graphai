@@ -25,7 +25,7 @@ type GraphData = {
   concurrency: number;
 };
 
-export type NodeExecuteContext<ResultType> = {
+type NodeExecuteContext<ResultType> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams;
@@ -41,9 +41,9 @@ export type TransactionLog = {
   error: undefined | Error;
 };
 
-type NodeExecute<ResultType> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
+export type NodeExecute<ResultType = Record<string, any>> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
 
-class Node<ResultType = Record<string, any>> {
+class Node {
   public nodeId: string;
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
@@ -51,16 +51,16 @@ class Node<ResultType = Record<string, any>> {
   public waitlist: Set<string>; // List of nodes which need data from this node.
   public state: NodeState;
   public functionName: string;
-  public result: ResultData<ResultType>;
+  public result: ResultData;
   public retryLimit: number;
   public retryCount: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
   public error: undefined | Error;
 
-  private graph: GraphAI<ResultType>;
+  private graph: GraphAI;
 
-  constructor(nodeId: string, data: NodeData, graph: GraphAI<ResultType>) {
+  constructor(nodeId: string, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
@@ -99,7 +99,7 @@ class Node<ResultType = Record<string, any>> {
   }
 
   public payload() {
-    return this.inputs.reduce((results: ResultDataDictonary<ResultType>, nodeId) => {
+    return this.inputs.reduce((results: ResultDataDictonary, nodeId) => {
       results[nodeId] = this.graph.nodes[nodeId].result;
       return results;
     }, {});
@@ -177,22 +177,22 @@ class Node<ResultType = Record<string, any>> {
   }
 }
 
-type GraphNodes<ResultType> = Record<string, Node<ResultType>>;
+type GraphNodes = Record<string, Node>;
 
-type NodeExecuteDictonary<ResultType> = Record<string, NodeExecute<ResultType>>;
+type NodeExecuteDictonary = Record<string, NodeExecute>;
 
 const defaultConcurrency = 8;
 
-export class GraphAI<ResultType = Record<string, any>> {
-  public nodes: GraphNodes<ResultType>;
-  public callbackDictonary: NodeExecuteDictonary<ResultType>;
+export class GraphAI {
+  public nodes: GraphNodes;
+  public callbackDictonary: NodeExecuteDictonary;
   private runningNodes: Set<string>;
-  private nodeQueue: Array<Node<ResultType>>;
+  private nodeQueue: Array<Node>;
   private onComplete: () => void;
   private concurrency: number;
   private logs: Array<TransactionLog> = [];
 
-  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary<ResultType> | NodeExecute<ResultType>) {
+  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
@@ -201,8 +201,8 @@ export class GraphAI<ResultType = Record<string, any>> {
     this.runningNodes = new Set<string>();
     this.nodeQueue = [];
     this.onComplete = () => {};
-    this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes<ResultType>, nodeId: string) => {
-      nodes[nodeId] = new Node<ResultType>(nodeId, data.nodes[nodeId], this);
+    this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
+      nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
       return nodes;
     }, {});
 
@@ -232,7 +232,7 @@ export class GraphAI<ResultType = Record<string, any>> {
   }
 
   public results() {
-    return Object.keys(this.nodes).reduce((results: ResultDataDictonary<ResultType>, nodeId) => {
+    return Object.keys(this.nodes).reduce((results: ResultDataDictonary, nodeId) => {
       const node = this.nodes[nodeId];
       if (node.result !== undefined) {
         results[nodeId] = node.result;
@@ -271,12 +271,12 @@ export class GraphAI<ResultType = Record<string, any>> {
     });
   }
 
-  private runNode(node: Node<ResultType>) {
+  private runNode(node: Node) {
     this.runningNodes.add(node.nodeId);
     node.execute();
   }
 
-  public pushQueue(node: Node<ResultType>) {
+  public pushQueue(node: Node) {
     if (this.runningNodes.size < this.concurrency) {
       this.runNode(node);
     } else {
@@ -284,7 +284,7 @@ export class GraphAI<ResultType = Record<string, any>> {
     }
   }
 
-  public removeRunning(node: Node<ResultType>) {
+  public removeRunning(node: Node) {
     this.runningNodes.delete(node.nodeId);
     if (this.nodeQueue.length > 0) {
       const n = this.nodeQueue.shift();
