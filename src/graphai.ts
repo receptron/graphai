@@ -13,16 +13,16 @@ type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, Resu
 export type NodeDataParams = Record<string, any>; // App-specific parameters
 
 type NodeData = {
-  inputs: undefined | Array<string>;
+  inputs?: Array<string>;
   params: NodeDataParams;
-  retry: undefined | number;
-  timeout: undefined | number; // msec
-  functionName: undefined | string;
+  retry?: number;
+  timeout?: number; // msec
+  functionName?: string;
 };
 
 type GraphData = {
   nodes: Record<string, NodeData>;
-  concurrency: number;
+  concurrency?: number;
 };
 
 export type NodeExecuteContext<ResultType> = {
