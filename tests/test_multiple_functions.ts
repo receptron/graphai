@@ -7,8 +7,8 @@ import test from "node:test";
 import assert from "node:assert";
 
 const testFunction1: NodeExecute<Record<string, string>> = async (context) => {
-  const { nodeId, retry, params } = context;
-  console.log("executing", nodeId, params);
+  const { nodeId, retry, params, payload } = context;
+  console.log("executing", nodeId, params, payload);
 
   const result = { [nodeId]: "output 1" };
   console.log("completing", nodeId, result);
@@ -16,8 +16,8 @@ const testFunction1: NodeExecute<Record<string, string>> = async (context) => {
 };
 
 const testFunction2: NodeExecute<Record<string, string>> = async (context) => {
-  const { nodeId, retry, params } = context;
-  console.log("executing", nodeId, params);
+  const { nodeId, retry, params, payload } = context;
+  console.log("executing", nodeId, params, payload);
 
   const result = { [nodeId]: "output 2" };
   console.log("completing", nodeId, result);
