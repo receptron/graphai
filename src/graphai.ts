@@ -1,11 +1,10 @@
-import { AssertionError } from "assert";
-
 export enum NodeState {
   Waiting,
   Executing,
   Failed,
   TimedOut,
   Completed,
+  Injected,
 }
 type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
 type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
@@ -18,6 +17,7 @@ type NodeData = {
   retry?: number;
   timeout?: number; // msec
   functionName?: string;
+  source?: boolean;
 };
 
 type GraphData = {
@@ -35,10 +35,10 @@ type NodeExecuteContext<ParamsType, ResultType> = {
 export type TransactionLog = {
   nodeId: string;
   state: NodeState;
-  startTime: undefined | number;
-  endTime: undefined | number;
+  startTime: number;
+  endTime?: number;
   retryCount: number;
-  error: undefined | Error;
+  error?: Error;
   result?: ResultData;
 };
 
@@ -51,15 +51,16 @@ class Node {
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
-  public waitlist: Set<string>; // List of nodes which need data from this node.
-  public state: NodeState;
+  public waitlist = new Set<string>(); // List of nodes which need data from this node.
+  public state = NodeState.Waiting;
   public functionName: string;
-  public result: ResultData;
+  public result: ResultData = undefined;
   public retryLimit: number;
-  public retryCount: number;
+  public retryCount: number = 0;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout: number; // msec
   public error: undefined | Error;
+  public source: boolean;
 
   private graph: GraphAI;
 
@@ -68,14 +69,10 @@ class Node {
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
-    this.waitlist = new Set<string>();
-    this.state = NodeState.Waiting;
     this.functionName = data.functionName ?? "default";
-    this.result = undefined;
     this.retryLimit = data.retry ?? 0;
-    this.retryCount = 0;
     this.timeout = data.timeout ?? 0;
-
+    this.source = data.source === true;
     this.graph = graph;
   }
 
@@ -98,7 +95,9 @@ class Node {
 
   public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
-    this.pushQueueIfReady();
+    if (this.graph.isRunning) {
+      this.pushQueueIfReady();
+    }
   }
 
   public payload() {
@@ -109,9 +108,33 @@ class Node {
   }
 
   public pushQueueIfReady() {
-    if (this.pendings.size === 0) {
+    if (this.pendings.size === 0 && !this.source) {
       this.graph.pushQueue(this);
     }
+  }
+
+  public injectResult(result: ResultData) {
+    if (this.source) {
+      const log: TransactionLog = {
+        nodeId: this.nodeId,
+        retryCount: this.retryCount,
+        state: NodeState.Injected,
+        startTime: Date.now(),
+      };
+      log.endTime = log.startTime;
+      this.graph.appendLog(log);
+      this.setResult(result, NodeState.Injected);    
+    }
+  }
+
+  private setResult(result: ResultData, state: NodeState) {
+    this.state = state;
+    this.result = result;
+    this.waitlist.forEach((nodeId) => {
+      const node = this.graph.nodes[nodeId];
+      // Todo: Avoid running before Run()
+      node.removePending(this.nodeId);
+    });
   }
 
   public async execute() {
@@ -120,8 +143,6 @@ class Node {
       retryCount: this.retryCount,
       state: NodeState.Executing,
       startTime: Date.now(),
-      endTime: undefined,
-      error: undefined,
     };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
@@ -155,12 +176,7 @@ class Node {
       log.state = NodeState.Completed;
       log.endTime = Date.now();
       log.result = result;
-      this.state = NodeState.Completed;
-      this.result = result;
-      this.waitlist.forEach((nodeId) => {
-        const node = this.graph.nodes[nodeId];
-        node.removePending(this.nodeId);
-      });
+      this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
       if (this.transactionId !== transactionId) {
@@ -190,8 +206,9 @@ const defaultConcurrency = 8;
 export class GraphAI {
   public nodes: GraphNodes;
   public callbackDictonary: NodeExecuteDictonary;
-  private runningNodes: Set<string>;
-  private nodeQueue: Array<Node>;
+  public isRunning = false;
+  private runningNodes = new Set<string>();
+  private nodeQueue: Array<Node> = [];
   private onComplete: () => void;
   private concurrency: number;
   private logs: Array<TransactionLog> = [];
@@ -202,9 +219,9 @@ export class GraphAI {
       throw new Error("No default function");
     }
     this.concurrency = data.concurrency ?? defaultConcurrency;
-    this.runningNodes = new Set<string>();
-    this.nodeQueue = [];
-    this.onComplete = () => {};
+    this.onComplete = () => {
+      console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
+    };
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
       return nodes;
@@ -256,6 +273,10 @@ export class GraphAI {
   }
 
   public async run() {
+    if (this.isRunning) {
+      console.error("-- Already Running");
+    }
+    this.isRunning = true;
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
@@ -264,6 +285,7 @@ export class GraphAI {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
+        this.isRunning = false;
         const errors = this.errors();
         const nodeIds = Object.keys(errors);
         if (nodeIds.length > 0) {
@@ -307,5 +329,14 @@ export class GraphAI {
 
   public transactionLogs() {
     return this.logs;
+  }
+
+  public injectResult(nodeId: string, result: ResultData) {
+    const node = this.nodes[nodeId];
+    if (node) {
+      node.injectResult(result);
+    } else {
+      console.error("-- Invalid nodeId", nodeId);
+    }
   }
 }
