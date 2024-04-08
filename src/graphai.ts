@@ -25,7 +25,7 @@ type GraphData = {
   concurrency?: number;
 };
 
-type NodeExecuteContext<ResultType, ParamsType> = {
+type NodeExecuteContext<ParamsType, ResultType> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams<ParamsType>;
@@ -42,8 +42,8 @@ export type TransactionLog = {
   result?: ResultData;
 };
 
-export type NodeExecute<ResultType = Record<string, any>, ParamsType = Record<string, any>> = (
-  context: NodeExecuteContext<ResultType, ParamsType>,
+export type NodeExecute<ParamsType = Record<string, any>, ResultType = Record<string, any>> = (
+  context: NodeExecuteContext<ParamsType, ResultType>,
 ) => Promise<ResultData<ResultType>>;
 
 class Node {
@@ -183,7 +183,7 @@ class Node {
 
 type GraphNodes = Record<string, Node>;
 
-type NodeExecuteDictonary = Record<string, NodeExecute>;
+type NodeExecuteDictonary = Record<string, NodeExecute<any, any>>;
 
 const defaultConcurrency = 8;
 
@@ -196,7 +196,7 @@ export class GraphAI {
   private concurrency: number;
   private logs: Array<TransactionLog> = [];
 
-  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute) {
+  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute<any, any>) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
