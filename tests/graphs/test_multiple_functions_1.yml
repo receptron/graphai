@@ -19,3 +19,9 @@ nodes:
       delay: 500
     inputs: [node2, node4]
     functionName: test2
+  node6:
+    params:
+      delay: 100
+      number: 10
+    inputs: [node4]
+    functionName: numberTestFunction
