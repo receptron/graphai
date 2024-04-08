@@ -42,7 +42,9 @@ export type TransactionLog = {
   result?: ResultData;
 };
 
-export type NodeExecute<ResultType = Record<string, any>, ParamsType = Record<string, any>> = (context: NodeExecuteContext<ResultType, ParamsType>) => Promise<ResultData<ResultType>>;
+export type NodeExecute<ResultType = Record<string, any>, ParamsType = Record<string, any>> = (
+  context: NodeExecuteContext<ResultType, ParamsType>,
+) => Promise<ResultData<ResultType>>;
 
 class Node {
   public nodeId: string;
