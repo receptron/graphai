@@ -1,5 +1,5 @@
 import path from "path";
-import { GraphAI, NodeExecute } from "../../src/graphai";
+import { GraphAI, NodeExecute } from "@/graphai";
 import { readGraphaiData } from "../file_utils";
 import { sleep } from "../utils";
 
