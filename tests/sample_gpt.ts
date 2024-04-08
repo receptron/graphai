@@ -1,11 +1,11 @@
 import path from "path";
-import { GraphAI, NodeExecuteContext } from "../src/graphai";
+import { GraphAI, NodeExecute } from "../src/graphai";
 import { ChatSession, ChatConfig } from "slashgpt";
 import { readManifestData } from "./file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-const testFunction = async (context: NodeExecuteContext<Record<string, string>>) => {
+const testFunction: NodeExecute<Record<string, string>> = async (context) => {
   console.log("executing", context.nodeId, context.params, context.payload);
   const session = new ChatSession(config, context.params.manifest ?? {});
   const prompt = Object.keys(context.payload).reduce((prompt, key) => {

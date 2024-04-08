@@ -1,12 +1,12 @@
 import path from "path";
-import { GraphAI, NodeExecuteContext } from "../src/graphai";
+import { GraphAI, NodeExecute } from "../src/graphai";
 import { readManifestData } from "./file_utils";
 import { sleep } from "./utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
-const testFunction = async (context: NodeExecuteContext<Record<string, string>>) => {
+const testFunction: NodeExecute<Record<string, string>> = async (context) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));
