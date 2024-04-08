@@ -10,7 +10,7 @@ const httpClientAgent: NodeExecute<Record<string, string>> = async (context) => 
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId, params, payload);
 
-  const response = await fetch(params.url)
+  const response = await fetch(params.url);
   const result = await response.json();
 
   console.log("completing", nodeId, result);
@@ -22,16 +22,16 @@ const runTest = async () => {
     nodes: {
       node1: {
         params: {
-          url: "http://127.0.0.1:8080/llm.json"
-        }
+          url: "http://127.0.0.1:8080/llm.json",
+        },
       },
       node2: {
         params: {
-          url: "http://127.0.0.1:8080/llm2.json"
+          url: "http://127.0.0.1:8080/llm2.json",
         },
         inputs: ["node1"],
-      }
-    }
+      },
+    },
   };
   const graph = new GraphAI(graph_data, httpClientAgent);
 
@@ -42,7 +42,7 @@ const runTest = async () => {
 test("test sample1", async () => {
   const result = await runTest();
   assert.deepStrictEqual(result, {
-    node1: { result: true, messages: [ 'hello' ] },
-    node2: { result: true, messages: [ 'hello2' ] },
+    node1: { result: true, messages: ["hello"] },
+    node2: { result: true, messages: ["hello2"] },
   });
 });
