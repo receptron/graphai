@@ -6,7 +6,7 @@ import { sleep } from "./utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const httpClientFunction: NodeExecute<Record<string, string>> = async (context) => {
+const httpClientAgent: NodeExecute<Record<string, string>> = async (context) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId, params, payload);
 
@@ -33,7 +33,7 @@ const runTest = async () => {
       }
     }
   };
-  const graph = new GraphAI(graph_data, httpClientFunction);
+  const graph = new GraphAI(graph_data, httpClientAgent);
 
   const results = await graph.run();
   return results;
