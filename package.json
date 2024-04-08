@@ -25,6 +25,7 @@
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
+    "arxiv-api-ts": "^1.0.3",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-plugin-import": "^2.25.2",
     "express": "^4.19.2",
