@@ -24,4 +24,4 @@ nodes:
       delay: 100
       number: 10
     inputs: [node4]
-    functionName: numberTestFunction
+    functionName: numberTestAgent

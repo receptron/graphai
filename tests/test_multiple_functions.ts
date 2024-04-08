@@ -6,25 +6,25 @@ import { sleep } from "./utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const testFunction1: NodeExecute<Record<string, string>> = async (context) => {
-  const { nodeId, retry, params, payload } = context;
-  console.log("executing", nodeId, params, payload);
+const testAgent1: NodeExecute<Record<string, string>> = async (context) => {
+  const { nodeId, retry, params } = context;
+  console.log("executing", nodeId, params);
 
   const result = { [nodeId]: "output 1" };
   console.log("completing", nodeId, result);
   return result;
 };
 
-const testFunction2: NodeExecute<Record<string, string>> = async (context) => {
-  const { nodeId, retry, params, payload } = context;
-  console.log("executing", nodeId, params, payload);
+const testAgent2: NodeExecute<Record<string, string>> = async (context) => {
+  const { nodeId, retry, params } = context;
+  console.log("executing", nodeId, params);
 
   const result = { [nodeId]: "output 2" };
   console.log("completing", nodeId, result);
   return result;
 };
 
-const numberTestFunction: NodeExecute<Record<string, number>, Record<"number", number>> = async (context) => {
+const numberTestAgent: NodeExecute<Record<string, number>, Record<"number", number>> = async (context) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
@@ -37,10 +37,9 @@ const runTest = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
 
-  const graph = new GraphAI(graph_data, { default: testFunction1, test2: testFunction2, numberTestFunction });
+  const graph = new GraphAI(graph_data, { default: testAgent1, test2: testAgent2, numberTestAgent });
 
   const results = await graph.run();
-  console.log(results);
   return results;
 };
 
