@@ -10,7 +10,7 @@ const httpClientFunction: NodeExecute<Record<string, string>> = async (context) 
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
-  const response = await fetch("http://127.0.0.1:8080/llm.json")
+  const response = await fetch(params.url)
   const result = await response.json();
 
   console.log("completing", nodeId, result);
@@ -22,10 +22,14 @@ const runTest = async () => {
     nodes: {
       node1: {
         input: [],
-        params: {}
+        params: {
+          url: "http://127.0.0.1:8080/llm.json"
+        }
       },
       node2: {
-        params: {},
+        params: {
+          url: "http://127.0.0.1:8080/llm2.json"
+        },
       }
     }
   };
@@ -39,6 +43,6 @@ test("test sample1", async () => {
   const result = await runTest();
   assert.deepStrictEqual(result, {
     node1: { result: true, messages: [ 'hello' ] },
-    node2: { result: true, messages: [ 'hello' ] },
+    node2: { result: true, messages: [ 'hello2' ] },
   });
 });
