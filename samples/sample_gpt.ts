@@ -31,7 +31,7 @@ const test = async (file: string) => {
 };
 
 const main = async () => {
-  await test("/graphs/sample3.yml");
+  await test("/graphs/slash_gpt.yml");
   console.log("COMPLETE 1");
 };
 main();
