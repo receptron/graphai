@@ -28,7 +28,7 @@
     "eslint-plugin-import": "^2.25.2",
     "openai": "^4.12.4",
     "prettier": "^3.0.3",
-    "slashgpt": "^0.0.6",
+    "slashgpt": "^0.0.8",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },

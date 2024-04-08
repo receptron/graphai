@@ -6,7 +6,7 @@ import { readManifestData } from "../tests/file_utils";
 const config = new ChatConfig(path.resolve(__dirname));
 
 const testFunction: NodeExecute<Record<string, string>> = async (context) => {
-  console.log("executing", context.nodeId, context.params, context.payload);
+  console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
   const prompt = Object.keys(context.payload).reduce((prompt, key) => {
     return prompt.replace("${" + key + "}", context.payload[key]!["answer"]);
