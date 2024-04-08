@@ -4,6 +4,7 @@ export enum NodeState {
   Failed,
   TimedOut,
   Completed,
+  Injected,
 }
 type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
 type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
@@ -34,10 +35,10 @@ type NodeExecuteContext<ParamsType, ResultType> = {
 export type TransactionLog = {
   nodeId: string;
   state: NodeState;
-  startTime: undefined | number;
-  endTime: undefined | number;
+  startTime: number;
+  endTime?: number;
   retryCount: number;
-  error: undefined | Error;
+  error?: Error;
   result?: ResultData;
 };
 
@@ -114,13 +115,20 @@ class Node {
 
   public injectResult(result: ResultData) {
     if (this.source) {
-      // Todo: create a log
-      this.setResult(result);    
+      const log: TransactionLog = {
+        nodeId: this.nodeId,
+        retryCount: this.retryCount,
+        state: NodeState.Injected,
+        startTime: Date.now(),
+      };
+      log.endTime = log.startTime;
+      this.graph.appendLog(log);
+      this.setResult(result, NodeState.Injected);    
     }
   }
 
-  private setResult(result: ResultData) {
-    this.state = NodeState.Completed;
+  private setResult(result: ResultData, state: NodeState) {
+    this.state = state;
     this.result = result;
     this.waitlist.forEach((nodeId) => {
       const node = this.graph.nodes[nodeId];
@@ -135,8 +143,6 @@ class Node {
       retryCount: this.retryCount,
       state: NodeState.Executing,
       startTime: Date.now(),
-      endTime: undefined,
-      error: undefined,
     };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
@@ -170,7 +176,7 @@ class Node {
       log.state = NodeState.Completed;
       log.endTime = Date.now();
       log.result = result;
-      this.setResult(result);
+      this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
       if (this.transactionId !== transactionId) {
