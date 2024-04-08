@@ -3,7 +3,7 @@ import search from "arXiv-api-ts";
 
 import { GraphAI, NodeExecute } from "@/graphai";
 import { readGraphaiData } from "~/file_utils";
-import { slashGPTAgent } from "./agents/slashgpt";
+import { slashGPTAgent } from "./agents/slashgpt_agent";
 
 export const parrotingAgent: NodeExecute = async (context) => {
   return {};
