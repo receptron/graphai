@@ -7,7 +7,8 @@
     "build": "tsc",
     "eslint": "eslint --fix --ext src/**/*.{ts} tests/**/*.ts",
     "format": "prettier --write '{src,tests}/**/*.ts'",
-    "test": "node --test --require ts-node/register ./tests/test_*.ts"
+    "test": "node --test --require ts-node/register ./tests/test_*.ts",
+    "gpt": "npx ts-node ./samples/sample_gpt.ts"
   },
   "repository": {
     "type": "git",
