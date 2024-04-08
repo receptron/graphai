@@ -39,6 +39,7 @@ export type TransactionLog = {
   endTime: undefined | number;
   retryCount: number;
   error: undefined | Error;
+  result?: ResultData;
 };
 
 export type NodeExecute<ResultType = Record<string, any>> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
@@ -151,6 +152,7 @@ class Node {
       }
       log.state = NodeState.Completed;
       log.endTime = Date.now();
+      log.result = result;
       this.state = NodeState.Completed;
       this.result = result;
       this.waitlist.forEach((nodeId) => {
