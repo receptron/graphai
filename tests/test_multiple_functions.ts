@@ -24,7 +24,7 @@ const testFunction2: NodeExecute<Record<string, string>> = async (context) => {
   return result;
 };
 
-const numberTestFunction: NodeExecute<Record<string, number>> = async (context) => {
+const numberTestFunction: NodeExecute<Record<string, number>, Record<string, number>> = async (context) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 

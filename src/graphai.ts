@@ -10,7 +10,7 @@ export enum NodeState {
 type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
 type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
 
-export type NodeDataParams = Record<string, any>; // App-specific parameters
+export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // App-specific parameters
 
 type NodeData = {
   inputs: undefined | Array<string>;
@@ -25,10 +25,10 @@ type GraphData = {
   concurrency: number;
 };
 
-type NodeExecuteContext<ResultType> = {
+type NodeExecuteContext<ResultType, ParamsType> = {
   nodeId: string;
   retry: number;
-  params: NodeDataParams;
+  params: NodeDataParams<ParamsType>;
   payload: ResultDataDictonary<ResultType>;
 };
 
@@ -42,7 +42,7 @@ export type TransactionLog = {
   result?: ResultData;
 };
 
-export type NodeExecute<ResultType = Record<string, any>> = (context: NodeExecuteContext<ResultType>) => Promise<ResultData<ResultType>>;
+export type NodeExecute<ResultType = Record<string, any>, ParamsType = Record<string, any>> = (context: NodeExecuteContext<ResultType, ParamsType>) => Promise<ResultData<ResultType>>;
 
 class Node {
   public nodeId: string;
