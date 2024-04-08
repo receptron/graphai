@@ -1,7 +1,7 @@
 import path from "path";
-import { GraphAI, NodeExecute } from "../src/graphai";
-import { readGraphaiData } from "./file_utils";
-import { sleep } from "./utils";
+import { GraphAI, NodeExecute } from "../../src/graphai";
+import { readGraphaiData } from "../file_utils";
+import { sleep } from "../utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -34,7 +34,7 @@ const numberTestAgent: NodeExecute<{ number: number }, { [key: string]: number }
 };
 
 const runTest = async (file: string) => {
-  const file_path = path.resolve(__dirname) + file;
+  const file_path = path.resolve(__dirname) + "/.." + file;
   const graph_data = readGraphaiData(file_path);
 
   const graph = new GraphAI(graph_data, { default: testAgent1, test2: testAgent2, numberTestAgent });
