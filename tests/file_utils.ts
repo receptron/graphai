@@ -1,7 +1,7 @@
 import fs from "fs";
 import YAML from "yaml";
 
-export const readManifestData = (file: string) => {
+export const readGraphaiData = (file: string) => {
   if (file.endsWith(".yaml") || file.endsWith(".yml")) {
     return readYamlManifest(file);
   }
