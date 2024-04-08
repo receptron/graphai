@@ -3,6 +3,7 @@ import search from "arXiv-api-ts";
 
 import { GraphAI, NodeExecute } from "@/graphai";
 import { readGraphaiData } from "~/file_utils";
+import { slashGPTAgent } from "./agents/slashgpt";
 
 export const parrotingAgent: NodeExecute = async (context) => {
   return {};
@@ -50,7 +51,7 @@ const arxiv2TextAgent: NodeExecute = async (context) => {
 const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, { default: parrotingAgent, arxivAgent: arxivAgent, arxiv2TextAgent });
+  const graph = new GraphAI(graph_data, { default: parrotingAgent, arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
   const result = await graph.run();
   console.log(result);
 };
