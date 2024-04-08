@@ -98,3 +98,17 @@ test("test source", async () => {
     node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "injected" },
   });
 });
+
+test("test source2", async () => {
+  const result = await runTest("/graphs/test_source2.yml", (graph:GraphAI) => {
+    graph.injectResult("node1", { "node1": "injected" })    
+    graph.injectResult("node2", { "node2": "injected" })    
+  });
+  assert.deepStrictEqual(result, {
+    node1: { node1: "injected" },
+    node2: { node2: "injected" },
+    node3: { node3: "output", node1: "injected", node2: "injected" },
+    node4: { node4: "output", node3: "output", node1: "injected", node2: "injected" },
+    node5: { node5: "output", node4: "output", node3: "output", node1: "injected", node2: "injected" },
+  });
+});
