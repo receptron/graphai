@@ -1704,10 +1704,10 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-slashgpt@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/slashgpt/-/slashgpt-0.0.6.tgz#9e2d7fed5eb66898fd4368d1925c620f466bd30d"
-  integrity sha512-OID9Tx7lUiSNXXAXeDxXWWW4EZ9kpf/kKQYzaPLrr/Hx3Fbzdj4dI3O2zMAXCe8BUDHBQIvVUn9ZMtPyTX8xPQ==
+slashgpt@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/slashgpt/-/slashgpt-0.0.8.tgz#1683186012ff2aeb33227590e4190db4bc08097c"
+  integrity sha512-3memFnEelkGaCc1Tk8Gcij40lSX+gLvxViFdMzoOOhOnX1UOLH98kNrfyW3ehcEfbJDet6xdpfPAZvUv7Sa/CQ==
   dependencies:
     "@anthropic-ai/sdk" "^0.20.1"
     graphql "^16.8.1"

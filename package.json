@@ -1,13 +1,14 @@
 {
   "name": "graphai",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Asynchronous data flow execution engine to make it simple to build LLM apps.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "eslint": "eslint --fix --ext src/**/*.{ts} tests/**/*.ts",
     "format": "prettier --write '{src,tests}/**/*.ts'",
-    "test": "node --test --require ts-node/register ./tests/test_*.ts"
+    "test": "node --test --require ts-node/register ./tests/test_*.ts",
+    "gpt": "npx ts-node ./samples/sample_gpt.ts"
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,7 @@
     "eslint-plugin-import": "^2.25.2",
     "openai": "^4.12.4",
     "prettier": "^3.0.3",
-    "slashgpt": "^0.0.6",
+    "slashgpt": "^0.0.8",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },

@@ -1,12 +1,12 @@
 import path from "path";
-import { GraphAI, NodeExecuteContext } from "../src/graphai";
+import { GraphAI, NodeExecute } from "../src/graphai";
 import { ChatSession, ChatConfig } from "slashgpt";
-import { readManifestData } from "./file_utils";
+import { readManifestData } from "../tests/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-const testFunction = async (context: NodeExecuteContext<Record<string, string>>) => {
-  console.log("executing", context.nodeId, context.params, context.payload);
+const testFunction: NodeExecute<Record<string, string>> = async (context) => {
+  console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
   const prompt = Object.keys(context.payload).reduce((prompt, key) => {
     return prompt.replace("${" + key + "}", context.payload[key]!["answer"]);
@@ -31,7 +31,7 @@ const test = async (file: string) => {
 };
 
 const main = async () => {
-  await test("/graphs/sample3.yml");
+  await test("/graphs/slash_gpt.yml");
   console.log("COMPLETE 1");
 };
 main();
