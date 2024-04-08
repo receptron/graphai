@@ -33,7 +33,6 @@ const numberTestFunction: NodeExecute<Record<string, number>> = async (context) 
   return result;
 };
 
-
 const runTest = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
