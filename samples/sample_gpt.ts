@@ -5,7 +5,7 @@ import { readManifestData } from "../tests/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-const testFunction: NodeExecute<Record<string, string>> = async (context) => {
+const slashGPTAgent: NodeExecute<Record<string, string>> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
   const prompt = Object.keys(context.payload).reduce((prompt, key) => {
@@ -19,19 +19,20 @@ const testFunction: NodeExecute<Record<string, string>> = async (context) => {
     throw new Error("No message in the history");
   }
   const result = { answer: message.content };
-  console.log(result);
   return result;
 };
 
-const test = async (file: string) => {
+const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readManifestData(file_path);
-  const graph = new GraphAI(graph_data, testFunction);
-  await graph.run();
+  const graph = new GraphAI(graph_data, slashGPTAgent);
+  const result = await graph.run();
+  console.log(result);
+
 };
 
 const main = async () => {
-  await test("/graphs/slash_gpt.yml");
+  await runAgent("/graphs/slash_gpt.yml");
   console.log("COMPLETE 1");
 };
 main();
