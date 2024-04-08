@@ -112,6 +112,7 @@ class Node {
 
   public injectResult(result: ResultData) {
     if (this.source) {
+      // Todo: create a log
       this.setResult(result);    
     }
   }
@@ -121,6 +122,7 @@ class Node {
     this.result = result;
     this.waitlist.forEach((nodeId) => {
       const node = this.graph.nodes[nodeId];
+      // Todo: Avoid running before Run()
       node.removePending(this.nodeId);
     });
   }
