@@ -314,4 +314,13 @@ export class GraphAI {
   public transactionLogs() {
     return this.logs;
   }
+
+  public injectResult(nodeId: string, result: ResultData) {
+    const node = this.nodes[nodeId];
+    if (node) {
+      node.injectResult(result);
+    } else {
+      console.error("-- Invalid nodeId", nodeId);
+    }
+  }
 }
