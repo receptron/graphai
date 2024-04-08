@@ -94,7 +94,9 @@ class Node {
 
   public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
-    this.pushQueueIfReady();
+    if (this.graph.isRunning) {
+      this.pushQueueIfReady();
+    }
   }
 
   public payload() {
@@ -198,6 +200,7 @@ const defaultConcurrency = 8;
 export class GraphAI {
   public nodes: GraphNodes;
   public callbackDictonary: NodeExecuteDictonary;
+  public isRunning = false;
   private runningNodes: Set<string>;
   private nodeQueue: Array<Node>;
   private onComplete: () => void;
@@ -264,6 +267,10 @@ export class GraphAI {
   }
 
   public async run() {
+    if (this.isRunning) {
+      console.error("-- Already Running");
+    }
+    this.isRunning = true;
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
@@ -272,6 +279,7 @@ export class GraphAI {
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
+        this.isRunning = false;
         const errors = this.errors();
         const nodeIds = Object.keys(errors);
         if (nodeIds.length > 0) {
