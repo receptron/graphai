@@ -5,7 +5,7 @@ import { readManifestData } from "../tests/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-const slashGPTAgent: NodeExecute<{ manifest: ManifestData; prompt: string }> = async (context) => {
+const slashGPTAgent: NodeExecute<{ manifest: ManifestData; prompt: string }, { answer: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
   const prompt = Object.keys(context.payload).reduce((prompt, key) => {

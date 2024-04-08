@@ -24,7 +24,7 @@ const testAgent2: NodeExecute = async (context) => {
   return result;
 };
 
-const numberTestAgent: NodeExecute<{ number: number }> = async (context) => {
+const numberTestAgent: NodeExecute<{ number: number }, { [key: string]: number }> = async (context) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
