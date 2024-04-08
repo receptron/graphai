@@ -1,6 +1,6 @@
 import path from "path";
 import { GraphAI, NodeExecute } from "../src/graphai";
-import { readManifestData } from "./file_utils";
+import { readGraphaiData } from "./file_utils";
 import { sleep } from "./utils";
 
 import test from "node:test";
@@ -30,7 +30,7 @@ const testFunction: NodeExecute<{ delay: number; fail: boolean }> = async (conte
 
 const runTest = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
-  const graph_data = readManifestData(file_path);
+  const graph_data = readGraphaiData(file_path);
 
   const graph = new GraphAI(graph_data, testFunction);
 

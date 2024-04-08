@@ -1,7 +1,7 @@
 import path from "path";
 import { GraphAI, NodeExecute } from "../src/graphai";
 import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
-import { readManifestData } from "../tests/file_utils";
+import { readGraphaiData } from "../tests/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
@@ -24,7 +24,7 @@ const slashGPTAgent: NodeExecute<{ manifest: ManifestData; prompt: string }, { a
 
 const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
-  const graph_data = readManifestData(file_path);
+  const graph_data = readGraphaiData(file_path);
   const graph = new GraphAI(graph_data, slashGPTAgent);
   const result = await graph.run();
   console.log(result);
