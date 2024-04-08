@@ -201,8 +201,8 @@ export class GraphAI {
   public nodes: GraphNodes;
   public callbackDictonary: NodeExecuteDictonary;
   public isRunning = false;
-  private runningNodes: Set<string>;
-  private nodeQueue: Array<Node>;
+  private runningNodes = new Set<string>();
+  private nodeQueue: Array<Node> = [];
   private onComplete: () => void;
   private concurrency: number;
   private logs: Array<TransactionLog> = [];
@@ -213,9 +213,9 @@ export class GraphAI {
       throw new Error("No default function");
     }
     this.concurrency = data.concurrency ?? defaultConcurrency;
-    this.runningNodes = new Set<string>();
-    this.nodeQueue = [];
-    this.onComplete = () => {};
+    this.onComplete = () => {
+      console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
+    };
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
       return nodes;
