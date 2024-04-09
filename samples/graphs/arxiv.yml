@@ -9,8 +9,12 @@ nodes:
   arxiv2TextAgent:
     inputs: [searchArxiv]
     functionName: arxiv2TextAgent
+    payloadMapping:
+      searchArxiv: inputData
   slashGPTAgent:
     inputs: [arxiv2TextAgent]
+    payloadMapping:
+      arxiv2TextAgent: inputData
     functionName: slashGPTAgent
     params:
       prompt: |

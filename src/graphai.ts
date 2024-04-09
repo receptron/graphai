@@ -14,6 +14,7 @@ export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Ap
 type NodeData = {
   inputs?: Array<string>;
   params: NodeDataParams;
+  payloadMapping?: Record<string, string>
   retry?: number;
   timeout?: number; // msec
   functionName?: string;
@@ -25,11 +26,11 @@ type GraphData = {
   concurrency?: number;
 };
 
-type NodeExecuteContext<ParamsType, ResultType> = {
+type NodeExecuteContext<ParamsType, ResultType, PreviousResultType> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams<ParamsType>;
-  payload: ResultDataDictonary<ResultType>;
+  payload: ResultDataDictonary<PreviousResultType>;
 };
 
 export type TransactionLog = {
@@ -42,14 +43,15 @@ export type TransactionLog = {
   result?: ResultData;
 };
 
-export type NodeExecute<ParamsType = Record<string, any>, ResultType = Record<string, any>> = (
-  context: NodeExecuteContext<ParamsType, ResultType>,
+export type NodeExecute<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
+  context: NodeExecuteContext<ParamsType, ResultType, PreviousResultType>,
 ) => Promise<ResultData<ResultType>>;
 
 class Node {
   public nodeId: string;
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
+  public payloadMapping: Record<string, string>
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -67,6 +69,7 @@ class Node {
   constructor(nodeId: string, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
+    this.payloadMapping = data.payloadMapping ?? {};
     this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.functionName = data.functionName ?? "default";
@@ -102,7 +105,11 @@ class Node {
 
   public payload() {
     return this.inputs.reduce((results: ResultDataDictonary, nodeId) => {
-      results[nodeId] = this.graph.nodes[nodeId].result;
+      if (this.payloadMapping && this.payloadMapping[nodeId]) {
+        results[this.payloadMapping[nodeId]] = this.graph.nodes[nodeId].result;
+      } else {
+        results[nodeId] = this.graph.nodes[nodeId].result;
+      }
       return results;
     }, {});
   }
@@ -199,7 +206,7 @@ class Node {
 
 type GraphNodes = Record<string, Node>;
 
-type NodeExecuteDictonary = Record<string, NodeExecute<any, any>>;
+type NodeExecuteDictonary = Record<string, NodeExecute<any, any, any>>;
 
 const defaultConcurrency = 8;
 
@@ -213,7 +220,7 @@ export class GraphAI {
   private concurrency: number;
   private logs: Array<TransactionLog> = [];
 
-  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute<any, any>) {
+  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute<any, any, any>) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
