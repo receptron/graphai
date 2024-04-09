@@ -15,12 +15,6 @@ const httpClientAgent: AgentFunction<Record<string, string>> = async (context) =
 };
 
 const runTest = async () => {
-  const graph = new GraphAI(graph_data, httpClientAgent);
-
-  const results = await graph.run();
-  return results;
-};
-
   const graph_data = {
     nodes: {
       node1: {
@@ -36,6 +30,12 @@ const runTest = async () => {
       },
     },
   };
+  const graph = new GraphAI(graph_data, httpClientAgent);
+
+  const results = await graph.run();
+  return results;
+};
+
 
 test("test sample1", async () => {
   const result = await runTest();
