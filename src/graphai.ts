@@ -19,6 +19,7 @@ type NodeData = {
   timeout?: number; // msec
   functionName?: string;
   source?: boolean;
+  dispatch?: Record<string, string>; // route to node
 };
 
 type GraphData = {
@@ -63,6 +64,7 @@ class Node {
   public timeout: number; // msec
   public error: undefined | Error;
   public source: boolean;
+  public dispatch?: Record<string, string>; // routeId to nodeId mapping
 
   private graph: GraphAI;
 
@@ -76,6 +78,7 @@ class Node {
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout ?? 0;
     this.source = data.source === true;
+    this.dispatch = data.dispatch;
     this.graph = graph;
   }
 
@@ -179,6 +182,14 @@ class Node {
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
+      }
+      const dispatch = this.dispatch;
+      if (dispatch !== undefined) {
+        Object.keys(result).forEach(routeId => {
+          const nodeId = dispatch[routeId];
+          this.graph.injectResult(nodeId, result[routeId]);
+        });
+        return;        
       }
       log.state = NodeState.Completed;
       log.endTime = Date.now();
