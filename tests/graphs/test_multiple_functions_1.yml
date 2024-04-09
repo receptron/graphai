@@ -9,7 +9,7 @@ nodes:
     params:
       delay: 500
     inputs: [node1, node2]
-    functionName: test2
+    agentId: test2
   node4:
     params:
       delay: 100
@@ -18,10 +18,10 @@ nodes:
     params:
       delay: 500
     inputs: [node2, node4]
-    functionName: test2
+    agentId: test2
   node6:
     params:
       delay: 100
       number: 10
     inputs: [node4]
-    functionName: numberTestAgent
+    agentId: numberTestAgent

@@ -1,8 +1,10 @@
 # GraphAI
 
+## Overview
+
 GraphAI is an asynchronous data flow execution engine, which makes it easy to create AI applications that need to make asynchronous AI API calls multiple times with some dependencies among them, such as giving the answer from one LLM call to another LLM call as a prompt.
 
-You just need to describe dependencies among those API calls in a single graph definition file (in JSON or YAML), create a GraphAI object with it, and run it.
+You just need to describe dependencies among those API calls in a single data flow graph (typically in YAML), create a GraphAI object with it, and run it.
 
 Here is an example:
 
@@ -21,7 +23,7 @@ nodes:
 ```
 
 ``` TypeScript
-const nodeExecute = async (context: NodeExecuteContext) => {
+const nodeExecute = async (context: NodeExecAgentFunctionuteContext) => {
   const { 
     nodeId, // taskA, taskB or taskC 
     params, // app-specific/task-specific parameters specified in the graph definition file
@@ -40,4 +42,9 @@ const nodeExecute = async (context: NodeExecuteContext) => {
   return results["taskC"];
 ```
 
+## Data Flow Graph
+
+A Data Flow Graph (DFG) is a JSON object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
+
+A DFG consists of a collection of 'nodes', which contains a series of nested keys representing individual nodes in the data flow. Each node is identified by a unique key (e.g., node1, node2) and can contain several predefined keys (params, inputs, retry, timeout, source, dispatch) that dictate the node's behavior and its relationship with other nodes.
 

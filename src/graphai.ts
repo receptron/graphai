@@ -18,7 +18,7 @@ type NodeData = {
   payloadMapping?: Record<string, string>;
   retry?: number;
   timeout?: number; // msec
-  functionName?: string;
+  agentId?: string;
   source?: boolean;
   dispatch?: Record<string, string>; // route to node
 };
@@ -59,7 +59,7 @@ class Node {
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
-  public functionName: string;
+  public agentId: string;
   public result: ResultData = undefined;
   public retryLimit: number;
   public retryCount: number = 0;
@@ -77,7 +77,7 @@ class Node {
     this.payloadMapping = data.payloadMapping ?? {};
     this.pendings = new Set(this.inputs);
     this.params = data.params;
-    this.functionName = data.functionName ?? "default";
+    this.agentId = data.agentId ?? "default";
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout ?? 0;
     this.source = data.source === true;
@@ -177,7 +177,7 @@ class Node {
     }
 
     try {
-      const callback = this.graph.getCallback(this.functionName);
+      const callback = this.graph.getCallback(this.agentId);
       const result = await callback({
         nodeId: this.nodeId,
         retry: this.retryCount,
@@ -263,9 +263,9 @@ export class GraphAI {
     });
   }
 
-  public getCallback(functionName: string) {
-    if (functionName && this.callbackDictonary[functionName]) {
-      return this.callbackDictonary[functionName];
+  public getCallback(agentId: string) {
+    if (agentId && this.callbackDictonary[agentId]) {
+      return this.callbackDictonary[agentId];
     }
     return this.callbackDictonary["default"];
   }

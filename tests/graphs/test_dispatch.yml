@@ -5,7 +5,7 @@ nodes:
   node2:
     params:
       delay: 100
-    functionName: alt
+    agentId: alt
     dispatch:
       output1: node20
   node20:
