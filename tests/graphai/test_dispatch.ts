@@ -1,5 +1,5 @@
 import path from "path";
-import { GraphAI, NodeExecute } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
 import { readGraphaiData } from "~/file_utils";
 import { sleep } from "~/utils";
 
@@ -8,7 +8,7 @@ import { testAgent } from "./agents";
 import test from "node:test";
 import assert from "node:assert";
 
-const dispatchAgent: NodeExecute<{ delay: number; fail: boolean }> = async (context) => {
+const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }> = async (context) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));

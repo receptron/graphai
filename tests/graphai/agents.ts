@@ -1,7 +1,7 @@
-import { NodeExecute } from "@/graphai";
+import { AgentFunction } from "@/graphai";
 import { sleep } from "~/utils";
 
-export const testAgent: NodeExecute<{ delay: number; fail: boolean }> = async (context) => {
+export const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async (context) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));

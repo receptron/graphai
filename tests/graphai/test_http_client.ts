@@ -1,9 +1,9 @@
-import { GraphAI, NodeExecute } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
 
 import test from "node:test";
 import assert from "node:assert";
 
-const httpClientAgent: NodeExecute<Record<string, string>> = async (context) => {
+const httpClientAgent: AgentFunction<Record<string, string>> = async (context) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId, params, payload);
 
