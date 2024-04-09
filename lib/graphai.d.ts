@@ -1,11 +1,11 @@
 export declare enum NodeState {
-    Waiting = 0,
-    Executing = 1,
-    Failed = 2,
-    TimedOut = 3,
-    Completed = 4,
-    Injected = 5,
-    Dispatched = 6
+    Waiting = "waiting",
+    Executing = "executing",
+    Failed = "failed",
+    TimedOut = "timed-out",
+    Completed = "completed",
+    Injected = "injected",
+    Dispatched = "dispatched"
 }
 type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
 type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
