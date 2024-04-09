@@ -28,10 +28,32 @@ const testFunction: NodeExecute<{ delay: number; fail: boolean }> = async (conte
   }
 };
 
+const dispatchFunction: NodeExecute<{ delay: number; fail: boolean }> = async (context) => {
+  const { nodeId, retry, params, payload } = context;
+  console.log("executing", nodeId);
+  await sleep(params.delay / (retry + 1));
+
+  if (params.fail && retry < 2) {
+    const result = { [nodeId]: "failed" };
+    console.log("failed (intentional)", nodeId, retry);
+    throw new Error("Intentional Failure");
+  } else {
+    const result = Object.keys(payload).reduce(
+      (result, key) => {
+        result = { ...result, ...payload[key] };
+        return result;
+      },
+      { [nodeId]: "output" },
+    );
+    console.log("completing", nodeId);
+    return result;
+  }
+};
+
 const runTest = async (file: string, callback:(graph:GraphAI) => void = ()=>{}) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, {default: testFunction});
+  const graph = new GraphAI(graph_data, {default: testFunction, alt: dispatchFunction});
   callback(graph);
 
   try {

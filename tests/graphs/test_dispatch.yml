@@ -5,6 +5,7 @@ nodes:
   node2:
     params:
       delay: 100
+    functionName: alt
   node3:
     params:
       delay: 500
