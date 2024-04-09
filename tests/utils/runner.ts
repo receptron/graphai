@@ -14,14 +14,14 @@ export const fileTestRunner = async (
 };
 
 export const graphDataTestRunner = async (
-  agentName: string,
+  logFileName: string,
   graph_data: GraphData,
   callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>,
   callback: (graph: GraphAI) => void = () => {},
 ) => {
   mkdirLogDir();
 
-  const log_path = path.resolve(__dirname) + "/../logs/" + path.basename(agentName).replace(/\.yml$/, ".log");
+  const log_path = path.resolve(__dirname) + "/../logs/" + path.basename(logFileName).replace(/\.yml$/, ".log");
   const graph = new GraphAI(graph_data, callbackDictonary);
   callback(graph);
 
