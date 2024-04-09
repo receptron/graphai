@@ -34,7 +34,7 @@ export type TransactionLog = {
   startTime: number;
   endTime?: number;
   retryCount: number;
-  error?: Error;
+  errorMessage?: string;
   result?: ResultData;
 };
 
@@ -168,7 +168,7 @@ class Node {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
-          log.error = Error("Timeout");
+          log.errorMessage = "Timeout";
           log.state = NodeState.TimedOut;
           log.endTime = Date.now();
           this.retry(NodeState.TimedOut, Error("Timeout"));
@@ -214,11 +214,11 @@ class Node {
       log.state = NodeState.Failed;
       log.endTime = Date.now();
       if (error instanceof Error) {
-        log.error = error;
+        log.errorMessage = error.message;
         this.retry(NodeState.Failed, error);
       } else {
         console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
-        log.error = Error("Unknown");
+        log.errorMessage = "Unknown";
         this.retry(NodeState.Failed, Error("Unknown"));
       }
     }
