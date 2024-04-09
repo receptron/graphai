@@ -43,7 +43,7 @@ const dispatchFunction: NodeExecute<{ delay: number; fail: boolean }> = async (c
         result = { ...result, ...payload[key] };
         return result;
       },
-      { [nodeId]: "output" },
+      { [nodeId]: "dispatch" },
     );
     console.log("completing", nodeId);
     return result;
@@ -73,9 +73,9 @@ test("test dispatch", async () => {
   const result = await runTest("/graphs/test_dispatch.yml");
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
-    node2: { node2: "output" },
-    node3: { node3: "output", node1: "output", node2: "output" },
-    node4: { node4: "output", node3: "output", node1: "output", node2: "output" },
-    node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "output" },
+    node2: { node2: "dispatch" },
+    node3: { node3: "output", node1: "output", node2: "dispatch" },
+    node4: { node4: "output", node3: "output", node1: "output", node2: "dispatch" },
+    node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "dispatch" },
   });
 });
