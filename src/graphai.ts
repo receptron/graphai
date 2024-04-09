@@ -137,6 +137,8 @@ class Node {
       log.endTime = log.startTime;
       this.graph.appendLog(log);
       this.setResult(result, NodeState.Injected);
+    } else {
+      console.error("- injectResult called on non-source node.", this.nodeId);
     }
   }
 
