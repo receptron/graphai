@@ -64,8 +64,8 @@ class Node {
   public retryLimit: number;
   public retryCount: number = 0;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
-  public timeout: number; // msec
-  public error: undefined | Error;
+  public timeout?: number; // msec
+  public error?: Error;
   public source: boolean;
   public dispatch?: Record<string, string>; // outputId to nodeId mapping
 
@@ -79,7 +79,7 @@ class Node {
     this.params = data.params;
     this.agentId = data.agentId ?? "default";
     this.retryLimit = data.retry ?? 0;
-    this.timeout = data.timeout ?? 0;
+    this.timeout = data.timeout;
     this.source = data.source === true;
     this.dispatch = data.dispatch;
     this.graph = graph;
@@ -164,7 +164,7 @@ class Node {
     const transactionId = log.startTime;
     this.transactionId = transactionId;
 
-    if (this.timeout > 0) {
+    if (this.timeout && this.timeout > 0) {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
