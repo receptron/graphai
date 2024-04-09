@@ -7,7 +7,7 @@ const config = new ChatConfig(path.resolve(__dirname));
 export const slashGPTAgent: NodeExecute<{ manifest: ManifestData; prompt: string }, { answer: string }> = async (context) => {
   console.log("executing", context.nodeId, context);
   const session = new ChatSession(config, context.params?.manifest ?? {});
-  
+
   const prompt = [context.params?.prompt, context.payload.inputData].join("\n\n");
   session.append_user_question(prompt);
 
@@ -19,4 +19,3 @@ export const slashGPTAgent: NodeExecute<{ manifest: ManifestData; prompt: string
   const result = { answer: message.content };
   return result;
 };
-
