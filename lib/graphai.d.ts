@@ -30,7 +30,7 @@ export type TransactionLog = {
     startTime: number;
     endTime?: number;
     retryCount: number;
-    error?: Error;
+    errorMessage?: string;
     result?: ResultData;
 };
 export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
