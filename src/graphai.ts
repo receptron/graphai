@@ -15,7 +15,7 @@ export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Ap
 type NodeData = {
   inputs?: Array<string>;
   params: NodeDataParams;
-  payloadMapping?: Record<string, string>
+  payloadMapping?: Record<string, string>;
   retry?: number;
   timeout?: number; // msec
   functionName?: string;
@@ -53,7 +53,7 @@ class Node {
   public nodeId: string;
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
-  public payloadMapping: Record<string, string>
+  public payloadMapping: Record<string, string>;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -134,7 +134,7 @@ class Node {
       };
       log.endTime = log.startTime;
       this.graph.appendLog(log);
-      this.setResult(result, NodeState.Injected);    
+      this.setResult(result, NodeState.Injected);
     }
   }
 
@@ -184,19 +184,22 @@ class Node {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
       }
+
+      log.endTime = Date.now();
+      log.result = result;
+
       const dispatch = this.dispatch;
       if (dispatch !== undefined) {
-        Object.keys(result).forEach(outputId => {
+        Object.keys(result).forEach((outputId) => {
           const nodeId = dispatch[outputId];
           this.graph.injectResult(nodeId, result[outputId]);
         });
+        log.state = NodeState.Dispatched;
         this.state = NodeState.Dispatched;
         this.graph.removeRunning(this);
-        return;        
+        return;
       }
       log.state = NodeState.Completed;
-      log.endTime = Date.now();
-      log.result = result;
       this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
