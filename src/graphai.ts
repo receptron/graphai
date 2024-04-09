@@ -97,7 +97,7 @@ class Node {
       this.state = state;
       this.result = undefined;
       this.error = error;
-      this.transactionId = 0; // This is necessary for timeout case
+      this.transactionId = undefined; // This is necessary for timeout case
       this.graph.removeRunning(this);
     }
   }
