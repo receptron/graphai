@@ -28,7 +28,7 @@ type GraphData = {
   concurrency?: number;
 };
 
-type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams<ParamsType>;
@@ -220,7 +220,7 @@ class Node {
 
 type GraphNodes = Record<string, Node>;
 
-type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
+export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 
 const defaultConcurrency = 8;
 
