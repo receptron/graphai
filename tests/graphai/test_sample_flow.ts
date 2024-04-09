@@ -7,7 +7,7 @@ import { testAgent } from "./agents";
 import test from "node:test";
 import assert from "node:assert";
 
-const runTest = async (file: string, callback:(graph:GraphAI) => void = ()=>{}) => {
+const runTest = async (file: string, callback: (graph: GraphAI) => void = () => {}) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
   const graph_data = readGraphaiData(file_path);
   const graph = new GraphAI(graph_data, testAgent);
@@ -66,8 +66,8 @@ test("test timeout", async () => {
 });
 
 test("test source", async () => {
-  const result = await runTest("/graphs/test_source.yml", (graph:GraphAI) => {
-    graph.injectResult("node2", { "node2": "injected" })    
+  const result = await runTest("/graphs/test_source.yml", (graph: GraphAI) => {
+    graph.injectResult("node2", { node2: "injected" });
   });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
@@ -79,9 +79,9 @@ test("test source", async () => {
 });
 
 test("test source2", async () => {
-  const result = await runTest("/graphs/test_source2.yml", (graph:GraphAI) => {
-    graph.injectResult("node1", { "node1": "injected" })    
-    graph.injectResult("node2", { "node2": "injected" })    
+  const result = await runTest("/graphs/test_source2.yml", (graph: GraphAI) => {
+    graph.injectResult("node1", { node1: "injected" });
+    graph.injectResult("node2", { node2: "injected" });
   });
   assert.deepStrictEqual(result, {
     node1: { node1: "injected" },

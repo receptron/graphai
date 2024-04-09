@@ -30,10 +30,10 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }> = async (co
   }
 };
 
-const runTest = async (file: string, callback:(graph:GraphAI) => void = ()=>{}) => {
+const runTest = async (file: string, callback: (graph: GraphAI) => void = () => {}) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, {default: testAgent, alt: dispatchAgent});
+  const graph = new GraphAI(graph_data, { default: testAgent, alt: dispatchAgent });
   callback(graph);
 
   try {
