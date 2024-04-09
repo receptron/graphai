@@ -23,7 +23,7 @@ nodes:
 ```
 
 ``` TypeScript
-const nodeExecute = async (context: NodeExecAgentFunctionuteContext) => {
+const nodeExecute = async (context: AgentFunctionContext) => {
   const { 
     nodeId, // taskA, taskB or taskC 
     params, // app-specific/task-specific parameters specified in the graph definition file
@@ -55,11 +55,11 @@ A DFG consists of a collection of 'nodes', which contains a series of nested key
 
 ## Agent
 
-An agent is an abstract object, which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), a database, or a REST over HTTP. Each node (except 'source node') is associated with an agent, which takes data flow into the node as inputs, and generates an output.
+An agent is an abstract object, which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), an image/video/music generation, a database, or a REST API over HTTP. Each node (except 'source node') is associated with an agent function, which takes data flow into the node as inputs, and generates an output.
 
 ## Agent function
 
-An agent function is a TypeScript function, which implements an Agent. A DFG is associated one or more Agent Functions. If the DFG is associated with multiple Agent functions, each node needs to be associated only one of them (either explicitly with 'agentId' or implicitly to the default Agent function).
+An agent function is a TypeScript function, which implements an agent. A DFG is associated one or more agent functions. If the DFG is associated with multiple agent functions, each node needs to be associated only one of them (either explicitly with 'agentId' or implicitly to the default Agent function).
 
 An agent function receives two set of parameters via AgentFunctionContext, agent specific parameters specified in the DFG and input data came from other nodes (payload).
 
