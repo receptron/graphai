@@ -5,6 +5,7 @@ export enum NodeState {
   TimedOut,
   Completed,
   Injected,
+  Dispatched,
 }
 type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
 type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
@@ -189,6 +190,8 @@ class Node {
           const nodeId = dispatch[routeId];
           this.graph.injectResult(nodeId, result[routeId]);
         });
+        this.state = NodeState.Dispatched;
+        this.graph.removeRunning(this);
         return;        
       }
       log.state = NodeState.Completed;

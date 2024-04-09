@@ -6,10 +6,14 @@ nodes:
     params:
       delay: 100
     functionName: alt
+    dispatch:
+      output1: node20
+  node20:
+    source: true
   node3:
     params:
       delay: 500
-    inputs: [node1, node2]
+    inputs: [node1, node20]
   node4:
     params:
       delay: 100
@@ -17,4 +21,4 @@ nodes:
   node5:
     params:
       delay: 500
-    inputs: [node2, node4]
+    inputs: [node20, node4]
