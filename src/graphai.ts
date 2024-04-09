@@ -34,6 +34,7 @@ export type TransactionLog = {
   startTime: number;
   endTime?: number;
   retryCount: number;
+  payload?: ResultDataDictonary<ResultData>;
   errorMessage?: string;
   result?: ResultData;
 };
@@ -153,11 +154,13 @@ class Node {
   }
 
   public async execute() {
+    const payload = this.payload();
     const log: TransactionLog = {
       nodeId: this.nodeId,
       retryCount: this.retryCount,
       state: NodeState.Executing,
       startTime: Date.now(),
+      payload
     };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
@@ -182,7 +185,7 @@ class Node {
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
-        payload: this.payload(),
+        payload,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
