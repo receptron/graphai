@@ -10,7 +10,7 @@ export enum NodeState {
 type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
 type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
 
-export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // App-specific parameters
+export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Agent-specific parameters
 
 type NodeData = {
   inputs?: Array<string>;
@@ -53,7 +53,7 @@ export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>
 
 class Node {
   public nodeId: string;
-  public params: NodeDataParams; // App-specific parameters
+  public params: NodeDataParams; // Agent-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
   public payloadMapping: Record<string, string>;
   public pendings: Set<string>; // List of nodes this node is waiting data from.

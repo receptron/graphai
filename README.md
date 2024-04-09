@@ -12,24 +12,24 @@ Here is an example:
 nodes:
   taskA:
     params:
-      // app-specific parameters for taskA
+      // agent-specific parameters for taskA
   taskB:
     params:
-      // app-specific parameters for taskB
+      // agent-specific parameters for taskB
   taskC:
     params:
-      // app-specific parameters for taskC
+      // agent-specific parameters for taskC
     inputs: [taskA, taskB]
 ```
 
 ``` TypeScript
-const nodeExecute = async (context: AgentFunctionContext) => {
+const sampleAgentFunction = async (context: AgentFunctionContext) => {
   const { 
     nodeId, // taskA, taskB or taskC 
-    params, // app-specific/task-specific parameters specified in the graph definition file
+    params, // agent-specific parameters specified in the graph definition file
     payload // for taskC, { taskA: resultA, taskB: resultB }
   } = context;
-  // App-specific code (such as calling OpenAI's chat.completions API)
+  // Agent-specific code (such as calling OpenAI's chat.completions API)
   ...
   return result;
 }
@@ -37,7 +37,7 @@ const nodeExecute = async (context: AgentFunctionContext) => {
   ...
   const file = fs.readFileSync(pathToYamlFile, "utf8");
   const graphdata = YAML.parse(file);
-  const graph = new GraphAI(graph_data, nodeExecute);
+  const graph = new GraphAI(graph_data, sampleAgentFunction);
   const results = await graph.run();
   return results["taskC"];
 ```
