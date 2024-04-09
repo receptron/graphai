@@ -1,4 +1,4 @@
-import { GraphAI, NodeExecute } from "../../src/graphai";
+import { GraphAI, NodeExecute } from "@/graphai";
 
 import test from "node:test";
 import assert from "node:assert";
