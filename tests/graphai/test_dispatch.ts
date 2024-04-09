@@ -8,7 +8,7 @@ import { testAgent } from "./agents";
 import test from "node:test";
 import assert from "node:assert";
 
-const dispatchFunction: NodeExecute<{ delay: number; fail: boolean }> = async (context) => {
+const dispatchAgent: NodeExecute<{ delay: number; fail: boolean }> = async (context) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));
@@ -33,7 +33,7 @@ const dispatchFunction: NodeExecute<{ delay: number; fail: boolean }> = async (c
 const runTest = async (file: string, callback:(graph:GraphAI) => void = ()=>{}) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, {default: testAgent, alt: dispatchFunction});
+  const graph = new GraphAI(graph_data, {default: testAgent, alt: dispatchAgent});
   callback(graph);
 
   try {
