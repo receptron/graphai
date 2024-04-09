@@ -1,24 +1,23 @@
 import { GraphAI, GraphData, AgentFunctionDictonary, AgentFunction } from "@/graphai";
 import path from "path";
-import * as fs from 'fs';
+import * as fs from "fs";
 import { readGraphaiData, mkdirLogDir } from "~/utils/file_utils";
 
 export const fileTestRunner = async (
   file: string,
   callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>,
-  callback: (graph: GraphAI) => void = () => {}
+  callback: (graph: GraphAI) => void = () => {},
 ) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
   const graph_data = readGraphaiData(file_path);
   return await graphDataTestRunner(file, graph_data, callbackDictonary, callback);
-}
-
+};
 
 export const graphDataTestRunner = async (
   agentName: string,
   graph_data: GraphData,
   callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>,
-  callback: (graph: GraphAI) => void = () => {}
+  callback: (graph: GraphAI) => void = () => {},
 ) => {
   mkdirLogDir();
 
