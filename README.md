@@ -44,7 +44,7 @@ const sampleAgentFunction = async (context: AgentFunctionContext) => {
 
 ## Data Flow Graph
 
-A Data Flow Graph (DFG) is a JSON object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
+A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
 
 A DFG consists of a collection of 'nodes', which contains a series of nested keys representing individual nodes in the data flow. Each node is identified by a unique key (e.g., node1, node2) and can contain several predefined keys (params, inputs, retry, timeout, source, dispatch, agentId) that dictate the node's behavior and its relationship with other nodes.
 
