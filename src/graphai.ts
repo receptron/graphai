@@ -14,6 +14,7 @@ export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Ap
 type NodeData = {
   inputs?: Array<string>;
   params: NodeDataParams;
+  payloadMapping?: Record<string, string>
   retry?: number;
   timeout?: number; // msec
   functionName?: string;
@@ -50,6 +51,7 @@ class Node {
   public nodeId: string;
   public params: NodeDataParams; // App-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
+  public payloadMapping: Record<string, string>
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -67,6 +69,7 @@ class Node {
   constructor(nodeId: string, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
+    this.payloadMapping = data.payloadMapping ?? {};
     this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.functionName = data.functionName ?? "default";
@@ -102,7 +105,11 @@ class Node {
 
   public payload() {
     return this.inputs.reduce((results: ResultDataDictonary, nodeId) => {
-      results[nodeId] = this.graph.nodes[nodeId].result;
+      if (this.payloadMapping && this.payloadMapping[nodeId]) {
+        results[this.payloadMapping[nodeId]] = this.graph.nodes[nodeId].result;
+      } else {
+        results[nodeId] = this.graph.nodes[nodeId].result;
+      }
       return results;
     }, {});
   }

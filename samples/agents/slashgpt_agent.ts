@@ -8,7 +8,7 @@ export const slashGPTAgent: NodeExecute<{ manifest: ManifestData; prompt: string
   console.log("executing", context.nodeId, context);
   const session = new ChatSession(config, context.params?.manifest ?? {});
   
-  const prompt = [context.params?.prompt, context.payload.arxiv2TextAgent].join("\n\n");
+  const prompt = [context.params?.prompt, context.payload.inputData].join("\n\n");
   session.append_user_question(prompt);
 
   await session.call_loop(() => {});

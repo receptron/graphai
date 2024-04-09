@@ -8,6 +8,7 @@ import { slashGPTAgent } from "./agents/slashgpt_agent";
 export const parrotingAgent: NodeExecute = async (context) => {
   return {};
 };
+
 export const search_arxiv_papers = async (keywords: string[], limit = 10) => {
   const includes = keywords.map((k) => {
     return { name: k };
@@ -39,7 +40,7 @@ const arxivAgent: NodeExecute<{ keywords: string[]; limit: number }, arxivData[]
   return result;
 };
 const arxiv2TextAgent: NodeExecute<{}, string, string[]> = async (context) => {
-  const result = (context?.payload?.searchArxiv || [])
+  const result = (context?.payload?.inputData || [])
     .map((r: any) => {
       const { id, title, summary } = r;
       return ["id:", id, "title:", title, "summary:", summary].join("\n");
