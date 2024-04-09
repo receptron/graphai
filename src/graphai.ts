@@ -35,6 +35,7 @@ export type TransactionLog = {
   endTime?: number;
   retryCount: number;
   agentId?: string;
+  params?: NodeDataParams;
   payload?: ResultDataDictonary<ResultData>;
   errorMessage?: string;
   result?: ResultData;
@@ -162,6 +163,7 @@ class Node {
       state: NodeState.Executing,
       startTime: Date.now(),
       agentId: this.agentId,
+      params: this.params,
       payload
     };
     this.graph.appendLog(log);
