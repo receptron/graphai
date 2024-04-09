@@ -65,7 +65,7 @@ class Node {
   public timeout: number; // msec
   public error: undefined | Error;
   public source: boolean;
-  public dispatch?: Record<string, string>; // routeId to nodeId mapping
+  public dispatch?: Record<string, string>; // outputId to nodeId mapping
 
   private graph: GraphAI;
 
@@ -186,9 +186,9 @@ class Node {
       }
       const dispatch = this.dispatch;
       if (dispatch !== undefined) {
-        Object.keys(result).forEach(routeId => {
-          const nodeId = dispatch[routeId];
-          this.graph.injectResult(nodeId, result[routeId]);
+        Object.keys(result).forEach(outputId => {
+          const nodeId = dispatch[outputId];
+          this.graph.injectResult(nodeId, result[outputId]);
         });
         this.state = NodeState.Dispatched;
         this.graph.removeRunning(this);
