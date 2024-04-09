@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc && tsc-alias",
     "eslint": "eslint --fix --ext src/**/*.{ts} tests/**/*.ts",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts' .eslintrc.js",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "gpt": "npx ts-node  -r tsconfig-paths/register ./samples/sample_gpt.ts"
   },

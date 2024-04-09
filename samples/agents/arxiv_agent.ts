@@ -1,6 +1,6 @@
 import search from "arXiv-api-ts";
 
-import { NodeExecute } from "@/graphai";
+import { AgentFunction } from "@/graphai";
 
 type arxivData = { id: string; title: string; summary: string };
 
@@ -22,7 +22,7 @@ const search_arxiv_papers = async (keywords: string[], limit = 10) => {
   return papers.entries || [];
 };
 
-export const arxivAgent: NodeExecute<{ keywords: string[]; limit: number }, arxivData[]> = async (context) => {
+export const arxivAgent: AgentFunction<{ keywords: string[]; limit: number }, arxivData[]> = async (context) => {
   const { keywords, limit } = context.params;
   const arxivResult = await search_arxiv_papers(keywords, limit);
   // console.log("executing", arxivResult, context.params.keywords);
@@ -34,7 +34,7 @@ export const arxivAgent: NodeExecute<{ keywords: string[]; limit: number }, arxi
   return result;
 };
 
-export const arxiv2TextAgent: NodeExecute<{}, string, string[]> = async (context) => {
+export const arxiv2TextAgent: AgentFunction<{}, string, string[]> = async (context) => {
   const result = (context?.payload?.inputData || [])
     .map((r: any) => {
       const { id, title, summary } = r;

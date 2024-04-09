@@ -1,9 +1,10 @@
-import { GraphAI, NodeExecute } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
+import { graphDataTestRunner } from "~/utils/runner";
 
 import test from "node:test";
 import assert from "node:assert";
 
-const httpClientAgent: NodeExecute<Record<string, string>> = async (context) => {
+const httpClientAgent: AgentFunction<Record<string, string>> = async (context) => {
   const { nodeId, retry, params, payload } = context;
   console.log("executing", nodeId, params, payload);
 
@@ -14,30 +15,24 @@ const httpClientAgent: NodeExecute<Record<string, string>> = async (context) => 
   return result;
 };
 
-const runTest = async () => {
-  const graph_data = {
-    nodes: {
-      node1: {
-        params: {
-          url: "http://127.0.0.1:8080/llm.json",
-        },
-      },
-      node2: {
-        params: {
-          url: "http://127.0.0.1:8080/llm2.json",
-        },
-        inputs: ["node1"],
+const graph_data = {
+  nodes: {
+    node1: {
+      params: {
+        url: "http://127.0.0.1:8080/llm.json",
       },
     },
-  };
-  const graph = new GraphAI(graph_data, httpClientAgent);
-
-  const results = await graph.run();
-  return results;
+    node2: {
+      params: {
+        url: "http://127.0.0.1:8080/llm2.json",
+      },
+      inputs: ["node1"],
+    },
+  },
 };
 
 test("test sample1", async () => {
-  const result = await runTest();
+  const result = await graphDataTestRunner("http.log", graph_data, httpClientAgent);
   assert.deepStrictEqual(result, {
     node1: { result: true, messages: ["hello"] },
     node2: { result: true, messages: ["hello2"] },

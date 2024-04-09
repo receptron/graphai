@@ -2,11 +2,13 @@ import fs from "fs";
 import path from "path";
 import YAML from "yaml";
 
-const logsDir = path.join(__dirname, "./logs");
+export const mkdirLogDir = () => {
+  const logsDir = path.join(__dirname, "../logs");
 
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir, { recursive: true });
-}
+  if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+  }
+};
 
 export const readGraphaiData = (file: string) => {
   if (file.endsWith(".yaml") || file.endsWith(".yml")) {

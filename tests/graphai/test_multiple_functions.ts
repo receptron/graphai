@@ -1,12 +1,12 @@
 import path from "path";
-import { GraphAI, NodeExecute } from "@/graphai";
-import { readGraphaiData } from "~/file_utils";
-import { sleep } from "~/utils";
+import { GraphAI, AgentFunction } from "@/graphai";
+import { readGraphaiData } from "~/utils/file_utils";
+import { fileTestRunner } from "~/utils/runner";
 
 import test from "node:test";
 import assert from "node:assert";
 
-const testAgent1: NodeExecute = async (context) => {
+const testAgent1: AgentFunction = async (context) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
@@ -15,7 +15,7 @@ const testAgent1: NodeExecute = async (context) => {
   return result;
 };
 
-const testAgent2: NodeExecute = async (context) => {
+const testAgent2: AgentFunction = async (context) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
@@ -24,7 +24,7 @@ const testAgent2: NodeExecute = async (context) => {
   return result;
 };
 
-const numberTestAgent: NodeExecute<{ number: number }, { [key: string]: number }> = async (context) => {
+const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number }> = async (context) => {
   const { nodeId, retry, params } = context;
   console.log("executing", nodeId, params);
 
@@ -33,18 +33,8 @@ const numberTestAgent: NodeExecute<{ number: number }, { [key: string]: number }
   return result;
 };
 
-const runTest = async (file: string) => {
-  const file_path = path.resolve(__dirname) + "/.." + file;
-  const graph_data = readGraphaiData(file_path);
-
-  const graph = new GraphAI(graph_data, { default: testAgent1, test2: testAgent2, numberTestAgent });
-
-  const results = await graph.run();
-  return results;
-};
-
 test("test sample1", async () => {
-  const result = await runTest("/graphs/test_multiple_functions_1.yml");
+  const result = await fileTestRunner("/graphs/test_multiple_functions_1.yml", { default: testAgent1, test2: testAgent2, numberTestAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output 1" },
     node2: { node2: "output 1" },

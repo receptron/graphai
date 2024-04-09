@@ -20,15 +20,9 @@ type NodeData = {
     source?: boolean;
     dispatch?: Record<string, string>;
 };
-type GraphData = {
+export type GraphData = {
     nodes: Record<string, NodeData>;
     concurrency?: number;
-};
-type NodeExecuteContext<ParamsType, ResultType, PreviousResultType> = {
-    nodeId: string;
-    retry: number;
-    params: NodeDataParams<ParamsType>;
-    payload: ResultDataDictonary<PreviousResultType>;
 };
 export type TransactionLog = {
     nodeId: string;
@@ -39,7 +33,14 @@ export type TransactionLog = {
     error?: Error;
     result?: ResultData;
 };
-export type NodeExecute<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: NodeExecuteContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
+export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+    nodeId: string;
+    retry: number;
+    params: NodeDataParams<ParamsType>;
+    payload: ResultDataDictonary<PreviousResultType>;
+};
+export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
+export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 declare class Node {
     nodeId: string;
     params: NodeDataParams;
@@ -69,18 +70,17 @@ declare class Node {
     execute(): Promise<void>;
 }
 type GraphNodes = Record<string, Node>;
-type NodeExecuteDictonary = Record<string, NodeExecute<any, any, any>>;
 export declare class GraphAI {
     nodes: GraphNodes;
-    callbackDictonary: NodeExecuteDictonary;
+    callbackDictonary: AgentFunctionDictonary;
     isRunning: boolean;
     private runningNodes;
     private nodeQueue;
     private onComplete;
     private concurrency;
     private logs;
-    constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute<any, any, any>);
-    getCallback(functionName: string): NodeExecute<any, any, any>;
+    constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>);
+    getCallback(functionName: string): AgentFunction<any, any, any>;
     asString(): string;
     results(): ResultDataDictonary<Record<string, any>>;
     errors(): Record<string, Error>;

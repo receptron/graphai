@@ -23,16 +23,9 @@ type NodeData = {
   dispatch?: Record<string, string>; // route to node
 };
 
-type GraphData = {
+export type GraphData = {
   nodes: Record<string, NodeData>;
   concurrency?: number;
-};
-
-type NodeExecuteContext<ParamsType, ResultType, PreviousResultType> = {
-  nodeId: string;
-  retry: number;
-  params: NodeDataParams<ParamsType>;
-  payload: ResultDataDictonary<PreviousResultType>;
 };
 
 export type TransactionLog = {
@@ -45,9 +38,18 @@ export type TransactionLog = {
   result?: ResultData;
 };
 
-export type NodeExecute<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
-  context: NodeExecuteContext<ParamsType, ResultType, PreviousResultType>,
+export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+  nodeId: string;
+  retry: number;
+  params: NodeDataParams<ParamsType>;
+  payload: ResultDataDictonary<PreviousResultType>;
+};
+
+export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
+  context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>,
 ) => Promise<ResultData<ResultType>>;
+
+export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 
 class Node {
   public nodeId: string;
@@ -223,13 +225,11 @@ class Node {
 
 type GraphNodes = Record<string, Node>;
 
-type NodeExecuteDictonary = Record<string, NodeExecute<any, any, any>>;
-
 const defaultConcurrency = 8;
 
 export class GraphAI {
   public nodes: GraphNodes;
-  public callbackDictonary: NodeExecuteDictonary;
+  public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
   private runningNodes = new Set<string>();
   private nodeQueue: Array<Node> = [];
@@ -237,7 +237,7 @@ export class GraphAI {
   private concurrency: number;
   private logs: Array<TransactionLog> = [];
 
-  constructor(data: GraphData, callbackDictonary: NodeExecuteDictonary | NodeExecute<any, any, any>) {
+  constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
     if (this.callbackDictonary["default"] === undefined) {
       throw new Error("No default function");
