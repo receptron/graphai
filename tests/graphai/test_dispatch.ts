@@ -31,7 +31,7 @@ const testFunction: NodeExecute<{ delay: number; fail: boolean }> = async (conte
 const runTest = async (file: string, callback:(graph:GraphAI) => void = ()=>{}) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, testFunction);
+  const graph = new GraphAI(graph_data, {default: testFunction});
   callback(graph);
 
   try {
