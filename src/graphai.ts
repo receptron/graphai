@@ -164,7 +164,7 @@ class Node {
       startTime: Date.now(),
       agentId: this.agentId,
       params: this.params,
-      payload
+      payload,
     };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;

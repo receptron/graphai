@@ -16,7 +16,7 @@ type NodeData = {
     payloadMapping?: Record<string, string>;
     retry?: number;
     timeout?: number;
-    functionName?: string;
+    agentId?: string;
     source?: boolean;
     dispatch?: Record<string, string>;
 };
@@ -30,6 +30,9 @@ export type TransactionLog = {
     startTime: number;
     endTime?: number;
     retryCount: number;
+    agentId?: string;
+    params?: NodeDataParams;
+    payload?: ResultDataDictonary<ResultData>;
     errorMessage?: string;
     result?: ResultData;
 };
@@ -49,13 +52,13 @@ declare class Node {
     pendings: Set<string>;
     waitlist: Set<string>;
     state: NodeState;
-    functionName: string;
+    agentId: string;
     result: ResultData;
     retryLimit: number;
     retryCount: number;
     transactionId: undefined | number;
-    timeout: number;
-    error: undefined | Error;
+    timeout?: number;
+    error?: Error;
     source: boolean;
     dispatch?: Record<string, string>;
     private graph;
@@ -80,7 +83,7 @@ export declare class GraphAI {
     private concurrency;
     private logs;
     constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>);
-    getCallback(functionName: string): AgentFunction<any, any, any>;
+    getCallback(agentId: string): AgentFunction<any, any, any>;
     asString(): string;
     results(): ResultDataDictonary<Record<string, any>>;
     errors(): Record<string, Error>;
