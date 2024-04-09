@@ -50,12 +50,12 @@ A DFG consists of a collection of 'nodes', which contains a series of nested key
 
 ### DFG Structure
 
-- 'nodes': A list of node.
-- 'concurrency': An optional number, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
+- 'nodes': A list of node. Required.
+- 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
 
 ## Agent
 
-An agent is an abstract object, which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), an image/video/music generation, a database, or a REST API over HTTP. Each node (except 'source node') is associated with an agent function, which takes data flow into the node as inputs, and generates an output.
+An agent is an abstract object, which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), an image/video/music generator, a database, or a REST API over HTTP. Each node (except 'source node') is associated with an agent function, which takes data flow into the node as inputs, and generates an output.
 
 ## Agent function
 
