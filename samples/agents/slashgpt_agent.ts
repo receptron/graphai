@@ -1,10 +1,10 @@
 import path from "path";
-import { NodeExecute } from "@/graphai";
+import { AgentFunction } from "@/graphai";
 import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-export const slashGPTAgent: NodeExecute<{ manifest: ManifestData; prompt: string }, { answer: string }> = async (context) => {
+export const slashGPTAgent: AgentFunction<{ manifest: ManifestData; prompt: string }, { answer: string }> = async (context) => {
   console.log("executing", context.nodeId, context);
   const session = new ChatSession(config, context.params?.manifest ?? {});
 

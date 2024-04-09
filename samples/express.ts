@@ -1,5 +1,5 @@
 //  npx ts-node samples/express.ts
-import { GraphAI, NodeExecute } from "../src/graphai";
+import { GraphAI, AgentFunction } from "../src/graphai";
 
 import express from "express";
 
@@ -14,7 +14,7 @@ const graphAISample = async (req: express.Request, res: express.Response) => {
     },
     concurrency: 8,
   };
-  const testFunction: NodeExecute<Record<string, string>> = async (context) => {
+  const testFunction: AgentFunction<Record<string, string>> = async (context) => {
     console.log("hello");
     return {};
   };

@@ -1,13 +1,13 @@
 import path from "path";
 import search from "arXiv-api-ts";
 
-import { GraphAI, NodeExecute } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
 import { readGraphaiData } from "~/file_utils";
 
 import { slashGPTAgent } from "./agents/slashgpt_agent";
 import { arxivAgent, arxiv2TextAgent } from "./agents/arxiv_agent";
 
-export const parrotingAgent: NodeExecute = async (context) => {
+export const parrotingAgent: AgentFunction = async (context) => {
   return {};
 };
 
