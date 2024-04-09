@@ -36,8 +36,8 @@ const sampleAgentFunction = async (context: AgentFunctionContext) => {
 
   ...
   const file = fs.readFileSync(pathToYamlFile, "utf8");
-  const graphdata = YAML.parse(file);
-  const graph = new GraphAI(graph_data, sampleAgentFunction);
+  const graphData = YAML.parse(file);
+  const graph = new GraphAI(graphData, sampleAgentFunction);
   const results = await graph.run();
   return results["taskC"];
 ```
