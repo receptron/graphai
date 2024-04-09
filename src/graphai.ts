@@ -28,13 +28,6 @@ export type GraphData = {
   concurrency?: number;
 };
 
-export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
-  nodeId: string;
-  retry: number;
-  params: NodeDataParams<ParamsType>;
-  payload: ResultDataDictonary<PreviousResultType>;
-};
-
 export type TransactionLog = {
   nodeId: string;
   state: NodeState;
@@ -45,9 +38,18 @@ export type TransactionLog = {
   result?: ResultData;
 };
 
+export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+  nodeId: string;
+  retry: number;
+  params: NodeDataParams<ParamsType>;
+  payload: ResultDataDictonary<PreviousResultType>;
+};
+
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
   context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>,
 ) => Promise<ResultData<ResultType>>;
+
+export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 
 class Node {
   public nodeId: string;
@@ -219,8 +221,6 @@ class Node {
 }
 
 type GraphNodes = Record<string, Node>;
-
-export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 
 const defaultConcurrency = 8;
 
