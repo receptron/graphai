@@ -38,7 +38,7 @@ const arxivAgent: NodeExecute<{ keywords: string[]; limit: number }, arxivData[]
   });
   return result;
 };
-const arxiv2TextAgent: NodeExecute = async (context) => {
+const arxiv2TextAgent: NodeExecute<{}, string, string[]> = async (context) => {
   const result = (context?.payload?.searchArxiv || [])
     .map((r: any) => {
       const { id, title, summary } = r;
