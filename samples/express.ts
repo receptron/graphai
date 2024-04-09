@@ -1,5 +1,5 @@
 //  npx ts-node samples/express.ts
-import { GraphAI, AgentFunction } from "../src/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
 
 import express from "express";
 

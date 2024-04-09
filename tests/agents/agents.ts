@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/graphai";
-import { sleep } from "~/utils";
+import { sleep } from "~/utils/utils";
 
 export const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async (context) => {
   const { nodeId, retry, params, payload } = context;

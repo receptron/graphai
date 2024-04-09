@@ -1,6 +1,7 @@
 import path from "path";
 import { GraphAI, AgentFunction } from "@/graphai";
-import { readGraphaiData } from "~/file_utils";
+import { readGraphaiData } from "~/utils/file_utils";
+import { fileTestRunner } from "~/utils/runner";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -32,18 +33,8 @@ const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number
   return result;
 };
 
-const runTest = async (file: string) => {
-  const file_path = path.resolve(__dirname) + "/.." + file;
-  const graph_data = readGraphaiData(file_path);
-
-  const graph = new GraphAI(graph_data, { default: testAgent1, test2: testAgent2, numberTestAgent });
-
-  const results = await graph.run();
-  return results;
-};
-
 test("test sample1", async () => {
-  const result = await runTest("/graphs/test_multiple_functions_1.yml");
+  const result = await fileTestRunner("/graphs/test_multiple_functions_1.yml", { default: testAgent1, test2: testAgent2, numberTestAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output 1" },
     node2: { node2: "output 1" },

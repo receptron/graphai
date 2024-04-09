@@ -2,7 +2,7 @@ import path from "path";
 import search from "arXiv-api-ts";
 
 import { GraphAI, AgentFunction } from "@/graphai";
-import { readGraphaiData } from "~/file_utils";
+import { readGraphaiData } from "~/utils/file_utils";
 
 import { slashGPTAgent } from "./agents/slashgpt_agent";
 import { arxivAgent, arxiv2TextAgent } from "./agents/arxiv_agent";

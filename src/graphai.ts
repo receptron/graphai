@@ -23,7 +23,7 @@ type NodeData = {
   dispatch?: Record<string, string>; // route to node
 };
 
-type GraphData = {
+export type GraphData = {
   nodes: Record<string, NodeData>;
   concurrency?: number;
 };
