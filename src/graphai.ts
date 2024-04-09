@@ -186,19 +186,22 @@ class Node {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
       }
+
+      log.endTime = Date.now();
+      log.result = result;
+
       const dispatch = this.dispatch;
       if (dispatch !== undefined) {
         Object.keys(result).forEach((outputId) => {
           const nodeId = dispatch[outputId];
           this.graph.injectResult(nodeId, result[outputId]);
         });
+        log.state = NodeState.Dispatched;
         this.state = NodeState.Dispatched;
         this.graph.removeRunning(this);
         return;
       }
       log.state = NodeState.Completed;
-      log.endTime = Date.now();
-      log.result = result;
       this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {

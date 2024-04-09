@@ -24,12 +24,6 @@ export type GraphData = {
     nodes: Record<string, NodeData>;
     concurrency?: number;
 };
-export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
-    nodeId: string;
-    retry: number;
-    params: NodeDataParams<ParamsType>;
-    payload: ResultDataDictonary<PreviousResultType>;
-};
 export type TransactionLog = {
     nodeId: string;
     state: NodeState;
@@ -39,7 +33,14 @@ export type TransactionLog = {
     error?: Error;
     result?: ResultData;
 };
+export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+    nodeId: string;
+    retry: number;
+    params: NodeDataParams<ParamsType>;
+    payload: ResultDataDictonary<PreviousResultType>;
+};
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
+export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 declare class Node {
     nodeId: string;
     params: NodeDataParams;
@@ -69,7 +70,6 @@ declare class Node {
     execute(): Promise<void>;
 }
 type GraphNodes = Record<string, Node>;
-export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 export declare class GraphAI {
     nodes: GraphNodes;
     callbackDictonary: AgentFunctionDictonary;
