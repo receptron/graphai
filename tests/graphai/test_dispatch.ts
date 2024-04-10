@@ -18,9 +18,12 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
     console.log("failed (intentional)", nodeId, retry);
     throw new Error("Intentional Failure");
   } else {
-    const result = outputs.reduce((result: Record<string, any>, output: Record<string, any>) => {
-      return { ...result, ...output };
-    }, { [nodeId]: "dispatch" });
+    const result = outputs.reduce(
+      (result: Record<string, any>, output: Record<string, any>) => {
+        return { ...result, ...output };
+      },
+      { [nodeId]: "dispatch" },
+    );
     console.log("completing", nodeId);
     return { output1: result };
   }

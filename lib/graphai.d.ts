@@ -13,7 +13,6 @@ export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType;
 type NodeData = {
     inputs?: Array<string>;
     params: NodeDataParams;
-    payloadMapping?: Record<string, string>;
     retry?: number;
     timeout?: number;
     agentId?: string;
@@ -32,7 +31,7 @@ export type TransactionLog = {
     retryCount: number;
     agentId?: string;
     params?: NodeDataParams;
-    payload?: ResultDataDictonary<ResultData>;
+    outputs?: Array<ResultData>;
     errorMessage?: string;
     result?: ResultData;
 };
@@ -40,7 +39,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
     nodeId: string;
     retry: number;
     params: NodeDataParams<ParamsType>;
-    payload: ResultDataDictonary<PreviousResultType>;
+    outputs: Array<PreviousResultType>;
 };
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
@@ -48,7 +47,6 @@ declare class Node {
     nodeId: string;
     params: NodeDataParams;
     inputs: Array<string>;
-    payloadMapping: Record<string, string>;
     pendings: Set<string>;
     waitlist: Set<string>;
     state: NodeState;
@@ -66,7 +64,7 @@ declare class Node {
     asString(): string;
     private retry;
     removePending(nodeId: string): void;
-    payload(): ResultDataDictonary<Record<string, any>>;
+    getOutputs(): ResultData<Record<string, any>>[];
     pushQueueIfReady(): void;
     injectResult(result: ResultData): void;
     private setResult;

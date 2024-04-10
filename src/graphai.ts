@@ -112,7 +112,7 @@ class Node {
   public getOutputs() {
     return this.inputs.map((nodeId) => {
       return this.graph.nodes[nodeId].result;
-    })
+    });
   }
 
   public pushQueueIfReady() {
