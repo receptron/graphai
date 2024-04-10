@@ -25,7 +25,7 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
       { [nodeId]: "dispatch" },
     );
     console.log("completing", nodeId);
-    return result;
+    return { output1: result };;
   }
 };
 

@@ -7,7 +7,7 @@ nodes:
       delay: 100
     agentId: alt
     outputs:
-      [node20]
+      output1: node20
   node20:
     source: true
   node3:
