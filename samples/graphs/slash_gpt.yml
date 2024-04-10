@@ -5,8 +5,8 @@ nodes:
   node2:
     inputs: [node1]
     params:
-      prompt: Please evaluate following business ideas. ${node1}
+      prompt: Please evaluate following business ideas. ${0}
   node3:
     inputs: [node1, node2]
     params:
-      prompt: Please pick the winner of this business idea contest. ${node1} ${node2}
+      prompt: Please pick the winner of this business idea contest. ${0} ${1}

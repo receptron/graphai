@@ -8,8 +8,8 @@ const config = new ChatConfig(path.resolve(__dirname));
 const slashGPTAgent: AgentFunction<{ manifest: ManifestData; prompt: string }, { answer: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
-  const prompt = Object.keys(context.payload).reduce((prompt, key) => {
-    return prompt.replace("${" + key + "}", context.payload[key]!["answer"]);
+  const prompt = context.inputs.reduce((prompt, input, index) => {
+    return prompt.replace("${" + index + "}", input["answer"]);
   }, context.params.prompt);
   session.append_user_question(prompt);
 
