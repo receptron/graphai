@@ -2,9 +2,11 @@ nodes:
   node1:
     params:
       delay: 500
+    agentId: test1
   node2:
     params:
       delay: 100
+    agentId: test1
   node3:
     params:
       delay: 500
@@ -14,6 +16,7 @@ nodes:
     params:
       delay: 100
     inputs: [node3]
+    agentId: test1
   node5:
     params:
       delay: 500

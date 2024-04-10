@@ -31,7 +31,7 @@ const graph_data = {
   },
 };
 
-test("test sample1", async () => {
+test("test http client", async () => {
   const result = await graphDataTestRunner("http.log", graph_data, httpClientAgent);
   assert.deepStrictEqual(result, {
     node1: { result: true, messages: ["hello"] },

@@ -2,7 +2,6 @@ import { GraphAI, AgentFunction } from "@/graphai";
 import { readGraphaiData } from "~/utils/file_utils";
 
 import { slashGPTAgent, slashGPTFuncitons2TextAgent } from "./agents/slashgpt_agent";
-import { parrotingAgent } from "./agents/parroting_agent";
 
 const graph_data = {
   nodes: {
@@ -92,7 +91,7 @@ const graph_data = {
   },
 };
 const runAgent = async () => {
-  const graph = new GraphAI(graph_data, { default: parrotingAgent, slashGPTAgent, slashGPTFuncitons2TextAgent });
+  const graph = new GraphAI(graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
   const result = await graph.run();
   console.log(result);
 };

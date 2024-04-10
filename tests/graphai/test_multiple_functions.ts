@@ -33,8 +33,8 @@ const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number
   return result;
 };
 
-test("test sample1", async () => {
-  const result = await fileTestRunner("/graphs/test_multiple_functions_1.yml", { default: testAgent1, test2: testAgent2, numberTestAgent });
+test("test multiple function", async () => {
+  const result = await fileTestRunner("/graphs/test_multiple_functions_1.yml", { test1: testAgent1, test2: testAgent2, numberTestAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output 1" },
     node2: { node2: "output 1" },
