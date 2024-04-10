@@ -31,7 +31,7 @@ export type TransactionLog = {
     retryCount: number;
     agentId?: string;
     params?: NodeDataParams;
-    outputs?: Array<ResultData>;
+    inputs?: Array<ResultData>;
     errorMessage?: string;
     result?: ResultData;
 };
@@ -39,7 +39,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
     nodeId: string;
     retry: number;
     params: NodeDataParams<ParamsType>;
-    outputs: Array<PreviousResultType>;
+    inputs: Array<PreviousResultType>;
 };
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
