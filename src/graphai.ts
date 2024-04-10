@@ -142,7 +142,6 @@ class Node {
   }
 
   public async execute() {
-    const results = this.graph.resultsOf(this.inputs);
     const log: TransactionLog = {
       nodeId: this.nodeId,
       retryCount: this.retryCount,
@@ -150,8 +149,11 @@ class Node {
       startTime: Date.now(),
       agentId: this.agentId,
       params: this.params,
-      inputs: results,
     };
+    const results = this.graph.resultsOf(this.inputs);
+    if (results.length > 0) {
+      log.inputs = results;
+    }
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
     const transactionId = log.startTime;
