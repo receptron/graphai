@@ -6,8 +6,8 @@ nodes:
     params:
       delay: 100
     agentId: alt
-    dispatch:
-      output1: node20
+    outputs:
+      [node20]
   node20:
     source: true
   node3:
