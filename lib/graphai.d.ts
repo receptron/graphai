@@ -50,7 +50,7 @@ declare class Node {
     pendings: Set<string>;
     waitlist: Set<string>;
     state: NodeState;
-    agentId: string;
+    agentId?: string;
     result: ResultData;
     retryLimit: number;
     retryCount: number;
@@ -80,7 +80,7 @@ export declare class GraphAI {
     private concurrency;
     private logs;
     constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>);
-    getCallback(agentId: string): AgentFunction<any, any, any>;
+    getCallback(_agentId?: string): AgentFunction<any, any, any>;
     asString(): string;
     results(): ResultDataDictonary<Record<string, any>>;
     errors(): Record<string, Error>;

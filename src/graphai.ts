@@ -60,7 +60,7 @@ class Node {
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
-  public agentId: string;
+  public agentId?: string;
   public result: ResultData = undefined;
   public retryLimit: number;
   public retryCount: number = 0;
@@ -77,7 +77,7 @@ class Node {
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
-    this.agentId = data.agentId ?? "default";
+    this.agentId = data.agentId;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
     this.source = data.source === true;
@@ -236,10 +236,7 @@ export class GraphAI {
   private logs: Array<TransactionLog> = [];
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>) {
-    this.callbackDictonary = typeof callbackDictonary === "function" ? { default: callbackDictonary } : callbackDictonary;
-    if (this.callbackDictonary["default"] === undefined) {
-      throw new Error("No default function");
-    }
+    this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
@@ -259,11 +256,13 @@ export class GraphAI {
     });
   }
 
-  public getCallback(agentId: string) {
-    if (agentId && this.callbackDictonary[agentId]) {
+  public getCallback(_agentId?: string) {
+    const agentId = _agentId ?? "_default";
+    console.log(agentId);
+    if (this.callbackDictonary[agentId]) {
       return this.callbackDictonary[agentId];
     }
-    return this.callbackDictonary["default"];
+    throw new Error("No agent: " + agentId);
   }
 
   public asString() {

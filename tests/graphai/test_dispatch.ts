@@ -30,7 +30,7 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
 };
 
 test("test dispatch", async () => {
-  const result = await fileTestRunner("/graphs/test_dispatch.yml", { default: testAgent, alt: dispatchAgent });
+  const result = await fileTestRunner("/graphs/test_dispatch.yml", { test: testAgent, alt: dispatchAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node20: { node2: "dispatch" },
