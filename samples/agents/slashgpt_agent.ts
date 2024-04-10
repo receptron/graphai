@@ -10,7 +10,7 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
   { function_data: { [key: string]: string[] } }
 > = async (context) => {
   const { params } = context;
-  const result = (context?.payload?.inputData?.function_data[params.function_data_key] || []).map((r: any) => {
+  const result = (context?.inputs[0].function_data[params.function_data_key] || []).map((r: any) => {
     const { title, description } = r;
     return ["title:", title, "description:", description].join("\n");
   });
@@ -18,15 +18,17 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
 };
 
 export const slashGPTAgent: AgentFunction<
-  { manifest: ManifestData; prompt: string; function_result?: boolean },
+  { manifest: ManifestData; prompt: string; function_result?: boolean; debug?: boolean },
   { answer: string },
-  { function_data: any }
+  string
 > = async (context) => {
-  console.log("executing", context.nodeId, context);
   const { params } = context;
+  if (params.debug) {
+    console.log("executing", context.nodeId, context);
+  }
   const session = new ChatSession(config, params?.manifest ?? {});
 
-  const prompt = [params?.prompt ?? context.payload.inputData, context.payload.inputData].filter((a) => a !== undefined).join("\n\n");
+  const prompt = params?.prompt ?? [context.inputs].filter((a) => a !== undefined).join("\n\n");
   // console.log(prompt);
   session.append_user_question(prompt);
 

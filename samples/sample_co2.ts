@@ -57,44 +57,35 @@ const graph_data = {
         result_key: 0,
       },
       inputs: ["slashGPTAgent"],
-      payloadMapping: {
-        slashGPTAgent: "inputData",
-      },
       agentId: "slashGPTFuncitons2TextAgent",
     },
     slashGPTAgent0: {
       agentId: "slashGPTAgent",
       params: {
+        debug: true,
         manifest: {
           prompt: "ユーザの問い合わせにある文章の専門家です。専門家として、ユーザのアイデアに対して実現可能なシナリオを800文字で書いてください。",
         },
-      },
-      payloadMapping: {
-        function2prompt0: "inputData",
       },
       inputs: ["function2prompt0"],
     },
     // 1
     function2prompt1: {
       params: {
+        debug: true,
         function_data_key: "methods",
         result_key: 1,
       },
       inputs: ["slashGPTAgent"],
-      payloadMapping: {
-        slashGPTAgent: "inputData",
-      },
       agentId: "slashGPTFuncitons2TextAgent",
     },
     slashGPTAgent1: {
       agentId: "slashGPTAgent",
       params: {
+        debug: true,
         manifest: {
           prompt: "ユーザの問い合わせにある文章の専門家です。専門家として、ユーザのアイデアに対して実現可能なシナリオを800文字で書いてください。",
         },
-      },
-      payloadMapping: {
-        function2prompt1: "inputData",
       },
       inputs: ["function2prompt1"],
     },
