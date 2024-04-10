@@ -18,7 +18,7 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
 };
 
 export const slashGPTAgent: AgentFunction<
-  { manifest: ManifestData; prompt: string; function_result?: boolean, debug?: boolean },
+  { manifest: ManifestData; prompt: string; function_result?: boolean; debug?: boolean },
   { answer: string },
   string
 > = async (context) => {
