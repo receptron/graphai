@@ -67,7 +67,7 @@ An agent function receives two set of parameters via AgentFunctionContext, agent
 
 - 'inputs': An optional list of node identifiers that the current node depends on. This establishes a flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty and the 'source' property is not set, the associated Agent Function will be immediatley executed. 
 - 'source': An optional flag, which specifies if the node is a 'source node' or not. A souce node is a special node, which receives data from either an external code (via GraphAI's injectResult method) or from a 'dispatcher node'.
-- 'outputs': An optinal list of node identifies, which indicates that the current node is a 'dispatcher node'. A dispatcher node injects the result into specified nodes, enabling the dynamic flow of data.
+- 'outputs': An optinal property, which specifies the mapping from outputId to nodeId. If this property is set, the node become a special node called "dispatcher". A dispatcher node injects result(s) into specified nodes, enabling the dynamic flow of data.
 - 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, that return value will be recorded.
 - 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded and the returned value will be discarded. 
 - 'params': An optional parameters to the associated agent function, which are agent specific.

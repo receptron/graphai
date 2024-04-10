@@ -17,7 +17,7 @@ type NodeData = {
     timeout?: number;
     agentId?: string;
     source?: boolean;
-    outputs?: Array<string>;
+    outputs?: Record<string, string>;
 };
 export type GraphData = {
     nodes: Record<string, NodeData>;
@@ -58,7 +58,7 @@ declare class Node {
     timeout?: number;
     error?: Error;
     source: boolean;
-    outputs?: Array<string>;
+    outputs?: Record<string, string>;
     private graph;
     constructor(nodeId: string, data: NodeData, graph: GraphAI);
     asString(): string;
