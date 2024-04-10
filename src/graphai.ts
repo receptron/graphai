@@ -122,6 +122,7 @@ class Node {
         retryCount: this.retryCount,
         state: NodeState.Injected,
         startTime: Date.now(),
+        result
       };
       log.endTime = log.startTime;
       this.graph.appendLog(log);
