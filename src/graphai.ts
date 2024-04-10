@@ -109,12 +109,6 @@ class Node {
     }
   }
 
-  public getOutputs() {
-    return this.inputs.map((nodeId) => {
-      return this.graph.nodes[nodeId].result;
-    });
-  }
-
   public pushQueueIfReady() {
     if (this.pendings.size === 0 && !this.source) {
       this.graph.pushQueue(this);
@@ -148,7 +142,7 @@ class Node {
   }
 
   public async execute() {
-    const outputs = this.getOutputs();
+    const outputs = this.graph.resultsOf(this.inputs);
     const log: TransactionLog = {
       nodeId: this.nodeId,
       retryCount: this.retryCount,
@@ -363,5 +357,11 @@ export class GraphAI {
     } else {
       console.error("-- Invalid nodeId", nodeId);
     }
+  }
+
+  public resultsOf(nodeIds: Array<string>) {
+    return nodeIds.map((nodeId) => {
+      return this.nodes[nodeId].result;
+    });
   }
 }
