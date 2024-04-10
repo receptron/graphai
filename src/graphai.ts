@@ -109,7 +109,7 @@ class Node {
     }
   }
 
-  public outputs() {
+  public getOutputs() {
     return this.inputs.map((nodeId) => {
       return this.graph.nodes[nodeId].result;
     })
@@ -148,6 +148,7 @@ class Node {
   }
 
   public async execute() {
+    const outputs = this.getOutputs();
     const log: TransactionLog = {
       nodeId: this.nodeId,
       retryCount: this.retryCount,
@@ -155,7 +156,7 @@ class Node {
       startTime: Date.now(),
       agentId: this.agentId,
       params: this.params,
-      outputs: this.outputs(),
+      outputs,
     };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
@@ -180,7 +181,7 @@ class Node {
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
-        outputs: log.outputs,
+        outputs,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);

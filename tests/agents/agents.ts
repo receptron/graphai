@@ -2,7 +2,7 @@ import { AgentFunction } from "@/graphai";
 import { sleep } from "~/utils/utils";
 
 export const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async (context) => {
-  const { nodeId, retry, params, payload } = context;
+  const { nodeId, retry, params, outputs } = context;
   console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));
 
@@ -11,13 +11,9 @@ export const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async 
     console.log("failed (intentional)", nodeId, retry);
     throw new Error("Intentional Failure");
   } else {
-    const result = Object.keys(payload).reduce(
-      (result, key) => {
-        result = { ...result, ...payload[key] };
-        return result;
-      },
-      { [nodeId]: "output" },
-    );
+    const result = outputs.reduce((result: Record<string, any>, output: Record<string, any>) => {
+      return { ...result, ...output };
+    }, { [nodeId]: "dispatch" });
     console.log("completing", nodeId);
     return result;
   }
