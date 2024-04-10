@@ -13,7 +13,7 @@ export const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async 
   } else {
     const result = outputs.reduce((result: Record<string, any>, output: Record<string, any>) => {
       return { ...result, ...output };
-    }, { [nodeId]: "dispatch" });
+    }, { [nodeId]: "output" });
     console.log("completing", nodeId);
     return result;
   }
