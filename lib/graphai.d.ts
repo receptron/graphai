@@ -17,7 +17,7 @@ type NodeData = {
     timeout?: number;
     agentId?: string;
     source?: boolean;
-    dispatch?: Record<string, string>;
+    outputs?: Array<string>;
 };
 export type GraphData = {
     nodes: Record<string, NodeData>;
@@ -58,13 +58,12 @@ declare class Node {
     timeout?: number;
     error?: Error;
     source: boolean;
-    dispatch?: Record<string, string>;
+    outputs?: Array<string>;
     private graph;
     constructor(nodeId: string, data: NodeData, graph: GraphAI);
     asString(): string;
     private retry;
     removePending(nodeId: string): void;
-    getOutputs(): ResultData<Record<string, any>>[];
     pushQueueIfReady(): void;
     injectResult(result: ResultData): void;
     private setResult;
@@ -92,5 +91,6 @@ export declare class GraphAI {
     appendLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectResult(nodeId: string, result: ResultData): void;
+    resultsOf(nodeIds: Array<string>): ResultData<Record<string, any>>[];
 }
 export {};

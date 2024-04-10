@@ -19,7 +19,7 @@ type NodeData = {
   timeout?: number; // msec
   agentId?: string;
   source?: boolean;
-  dispatch?: Record<string, string>; // route to node
+  outputs?: Array<string>; // route to node
 };
 
 export type GraphData = {
@@ -68,7 +68,7 @@ class Node {
   public timeout?: number; // msec
   public error?: Error;
   public source: boolean;
-  public dispatch?: Record<string, string>; // outputId to nodeId mapping
+  public outputs?: Array<string>; // list of ids
 
   private graph: GraphAI;
 
@@ -81,7 +81,7 @@ class Node {
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
     this.source = data.source === true;
-    this.dispatch = data.dispatch;
+    this.outputs = data.outputs;
     this.graph = graph;
   }
 
@@ -185,11 +185,9 @@ class Node {
       log.endTime = Date.now();
       log.result = result;
 
-      const dispatch = this.dispatch;
-      if (dispatch !== undefined) {
-        Object.keys(result).forEach((outputId) => {
-          const nodeId = dispatch[outputId];
-          this.graph.injectResult(nodeId, result[outputId]);
+      if (this.outputs !== undefined) {
+        this.outputs.forEach((outputId) => {
+          this.graph.injectResult(outputId, result);
         });
         log.state = NodeState.Dispatched;
         this.state = NodeState.Dispatched;
