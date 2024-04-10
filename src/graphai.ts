@@ -15,7 +15,6 @@ export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Ag
 type NodeData = {
   inputs?: Array<string>;
   params: NodeDataParams;
-  payloadMapping?: Record<string, string>;
   retry?: number;
   timeout?: number; // msec
   agentId?: string;
@@ -36,7 +35,7 @@ export type TransactionLog = {
   retryCount: number;
   agentId?: string;
   params?: NodeDataParams;
-  payload?: ResultDataDictonary<ResultData>;
+  outputs?: Array<ResultData>;
   errorMessage?: string;
   result?: ResultData;
 };
@@ -45,7 +44,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams<ParamsType>;
-  payload: ResultDataDictonary<PreviousResultType>;
+  outputs: Array<PreviousResultType>;
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
@@ -58,7 +57,6 @@ class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
-  public payloadMapping: Record<string, string>;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -77,7 +75,6 @@ class Node {
   constructor(nodeId: string, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.inputs = data.inputs ?? [];
-    this.payloadMapping = data.payloadMapping ?? {};
     this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.agentId = data.agentId ?? "default";
@@ -112,15 +109,10 @@ class Node {
     }
   }
 
-  public payload() {
-    return this.inputs.reduce((results: ResultDataDictonary, nodeId) => {
-      if (this.payloadMapping && this.payloadMapping[nodeId]) {
-        results[this.payloadMapping[nodeId]] = this.graph.nodes[nodeId].result;
-      } else {
-        results[nodeId] = this.graph.nodes[nodeId].result;
-      }
-      return results;
-    }, {});
+  public outputs() {
+    return this.inputs.map((nodeId) => {
+      return this.graph.nodes[nodeId].result;
+    })
   }
 
   public pushQueueIfReady() {
@@ -156,7 +148,6 @@ class Node {
   }
 
   public async execute() {
-    const payload = this.payload();
     const log: TransactionLog = {
       nodeId: this.nodeId,
       retryCount: this.retryCount,
@@ -164,7 +155,7 @@ class Node {
       startTime: Date.now(),
       agentId: this.agentId,
       params: this.params,
-      payload,
+      outputs: this.outputs(),
     };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
@@ -189,7 +180,7 @@ class Node {
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
-        payload,
+        outputs: log.outputs,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
