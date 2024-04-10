@@ -5,8 +5,8 @@ import test from "node:test";
 import assert from "node:assert";
 
 const httpClientAgent: AgentFunction<Record<string, string>> = async (context) => {
-  const { nodeId, retry, params, payload } = context;
-  console.log("executing", nodeId, params, payload);
+  const { nodeId, retry, params, outputs } = context;
+  console.log("executing", nodeId, params, outputs);
 
   const response = await fetch(params.url);
   const result = await response.json();

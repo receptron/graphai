@@ -8,8 +8,8 @@ import { testAgent } from "~/agents/agents";
 import test from "node:test";
 import assert from "node:assert";
 
-const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }> = async (context) => {
-  const { nodeId, retry, params, payload } = context;
+const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
+  const { nodeId, retry, params, outputs } = context;
   console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));
 
@@ -18,10 +18,9 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }> = async (co
     console.log("failed (intentional)", nodeId, retry);
     throw new Error("Intentional Failure");
   } else {
-    const result = Object.keys(payload).reduce(
-      (result, key) => {
-        result = { ...result, ...payload[key] };
-        return result;
+    const result = outputs.reduce(
+      (result: Record<string, any>, output: Record<string, any>) => {
+        return { ...result, ...output };
       },
       { [nodeId]: "dispatch" },
     );
