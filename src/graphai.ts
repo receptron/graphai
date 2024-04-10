@@ -44,7 +44,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   nodeId: string;
   retry: number;
   params: NodeDataParams<ParamsType>;
-  outputs: Array<PreviousResultType>;
+  inputs: Array<PreviousResultType>;
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
@@ -175,7 +175,7 @@ class Node {
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
-        outputs,
+        inputs: outputs,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
