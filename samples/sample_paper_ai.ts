@@ -6,10 +6,7 @@ import { readGraphaiData } from "~/utils/file_utils";
 
 import { slashGPTAgent } from "./agents/slashgpt_agent";
 import { arxivAgent, arxiv2TextAgent } from "./agents/arxiv_agent";
-
-export const parrotingAgent: AgentFunction = async (context) => {
-  return {};
-};
+import { parrotingAgent } from "./agents/parroting_agent";
 
 const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
