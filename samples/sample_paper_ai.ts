@@ -6,12 +6,11 @@ import { readGraphaiData } from "~/utils/file_utils";
 
 import { slashGPTAgent } from "./agents/slashgpt_agent";
 import { arxivAgent, arxiv2TextAgent } from "./agents/arxiv_agent";
-import { parrotingAgent } from "./agents/parroting_agent";
 
 const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, { default: parrotingAgent, arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
+  const graph = new GraphAI(graph_data, { arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
   const result = await graph.run();
   console.log(result);
 };
