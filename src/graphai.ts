@@ -286,10 +286,6 @@ export class GraphAI {
               node.pendings.add(newPendingId);
             });
           }
-          (node.fork ? [nodeId2forkedNodeIds[pending][newNodeIdIndex[nodeId]]] : nodeId2forkedNodeIds[pending]).forEach((newPendingId) => {
-            this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
-            node.pendings.add(newPendingId);
-          });
           node.pendings.delete(pending);
         } else {
           this.nodes[pending].waitlist.add(nodeId); // previousNode
