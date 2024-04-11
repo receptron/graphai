@@ -278,7 +278,7 @@ export class GraphAI {
           //  update node.pending and pending(previous) node.wailtlist
           if (node.fork) {
             //  1:1 if current nodes are also forking.
-            const newPendingId = nodeId2forkedNodeIds[pending][newNodeIdIndex[nodeId]]; 
+            const newPendingId = nodeId2forkedNodeIds[pending][newNodeIdIndex[nodeId]];
             this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
             node.pendings.add(newPendingId);
           } else {
