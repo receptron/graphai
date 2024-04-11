@@ -43,6 +43,7 @@ export type TransactionLog = {
 
 export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   nodeId: string;
+  forkedKey?: number;
   retry: number;
   params: NodeDataParams<ParamsType>;
   inputs: Array<PreviousResultType>;
@@ -63,6 +64,7 @@ class Node {
   public state = NodeState.Waiting;
   public agentId?: string;
   public fork?: number;
+  public forkedKey?: number;
   public result: ResultData = undefined;
   public retryLimit: number;
   public retryCount: number = 0;
@@ -74,8 +76,9 @@ class Node {
 
   private graph: GraphAI;
 
-  constructor(nodeId: string, data: NodeData, graph: GraphAI) {
+  constructor(nodeId: string, forkedKey: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
+    this.forkedKey = forkedKey;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
@@ -182,6 +185,7 @@ class Node {
         retry: this.retryCount,
         params: this.params,
         inputs: results,
+        forkedKey: this.forkedKey,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
@@ -256,13 +260,13 @@ export class GraphAI {
         for (let i = 0; i < fork; i++) {
           // Create new nodeId
           const newNodeId = [nodeId, String(i)].join("_");
-          nodes[newNodeId] = new Node(newNodeId, data.nodes[nodeId], this);
+          nodes[newNodeId] = new Node(newNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
           chnagedNodeIdMapTable[nodeId].push(newNodeId);
           newNodeIdIndex[newNodeId] = i;
         }
       } else {
-        nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
+        nodes[nodeId] = new Node(nodeId, undefined, data.nodes[nodeId], this);
       }
       return nodes;
     }, {});
