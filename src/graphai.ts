@@ -275,9 +275,19 @@ export class GraphAI {
       node.pendings.forEach((pending) => {
         // If the pending(previous) node is forking
         if (nodeId2forkedNodeIds[pending]) {
-          //  1:1 if current nodes are also forking.
-          //  1:n if current node is not forking.
           //  update node.pending and pending(previous) node.wailtlist
+          if (node.fork) {
+            //  1:1 if current nodes are also forking.
+            const newPendingId = nodeId2forkedNodeIds[pending][newNodeIdIndex[nodeId]]; 
+            this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
+            node.pendings.add(newPendingId);
+          } else {
+            //  1:n if current node is not forking.
+            nodeId2forkedNodeIds[pending].forEach((newPendingId) => {
+              this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
+              node.pendings.add(newPendingId);
+            });
+          }
           (node.fork ? [nodeId2forkedNodeIds[pending][newNodeIdIndex[nodeId]]] : nodeId2forkedNodeIds[pending]).forEach((newPendingId) => {
             this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
             node.pendings.add(newPendingId);
