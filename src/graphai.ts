@@ -18,6 +18,7 @@ type NodeData = {
   retry?: number;
   timeout?: number; // msec
   agentId?: string;
+  fork?: number;
   source?: boolean;
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
@@ -61,6 +62,7 @@ class Node {
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
   public agentId?: string;
+  public fork?: number;
   public result: ResultData = undefined;
   public retryLimit: number;
   public retryCount: number = 0;
@@ -78,6 +80,7 @@ class Node {
     this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.agentId = data.agentId;
+    this.fork = data.fork;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
     this.source = data.source === true;
@@ -241,8 +244,21 @@ export class GraphAI {
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
+    const forkMap: Record<string, string[]> = {};
+    const forkKeyMap: Record<string, number> = {};
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
-      nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
+      const fork = data.nodes[nodeId].fork;
+      if (fork) {
+        forkMap[nodeId] = [];
+        for (let i = 0; i < fork; i++) {
+          const newNodeId = [nodeId, String(i)].join("_");
+          nodes[newNodeId] = new Node(newNodeId, data.nodes[nodeId], this);
+          forkMap[nodeId].push(newNodeId);
+          forkKeyMap[newNodeId] = i;
+        }
+      } else {
+        nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
+      }
       return nodes;
     }, {});
 
@@ -250,15 +266,23 @@ export class GraphAI {
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       node.pendings.forEach((pending) => {
-        const node2 = this.nodes[pending];
-        node2.waitlist.add(nodeId);
+        if (forkMap[pending]) {
+          (node.fork ? [forkMap[pending][forkKeyMap[nodeId]]] : forkMap[pending]).forEach((pending2) => {
+            this.nodes[pending2].waitlist.add(nodeId);
+            node.pendings.add(pending2);
+          });
+          node.pendings.delete(pending);
+        } else {
+          const node2 = this.nodes[pending];
+          node2.waitlist.add(nodeId);
+        }
       });
+      node.inputs = Array.from(node.pendings); // for fork
     });
   }
 
   public getCallback(_agentId?: string) {
     const agentId = _agentId ?? "_default";
-    console.log(agentId);
     if (this.callbackDictonary[agentId]) {
       return this.callbackDictonary[agentId];
     }
