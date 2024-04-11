@@ -254,7 +254,7 @@ export class GraphAI {
         // For fork, change the nodeId and increase the node
         chnagedNodeIdMapTable[nodeId] = [];
         for (let i = 0; i < fork; i++) {
-          // Create ne nodeId
+          // Create new nodeId
           const newNodeId = [nodeId, String(i)].join("_");
           nodes[newNodeId] = new Node(newNodeId, data.nodes[nodeId], this);
           // Data for pending and waiting
