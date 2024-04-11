@@ -51,6 +51,7 @@ const graph_data = {
       },
     },
     function2prompt0: {
+      fork: 10,
       params: {
         function_data_key: "methods",
         result_key: 0,
@@ -60,6 +61,7 @@ const graph_data = {
     },
     slashGPTAgent0: {
       agentId: "slashGPTAgent",
+      fork: 10,
       params: {
         debug: true,
         manifest: {
@@ -67,26 +69,6 @@ const graph_data = {
         },
       },
       inputs: ["function2prompt0"],
-    },
-    // 1
-    function2prompt1: {
-      params: {
-        debug: true,
-        function_data_key: "methods",
-        result_key: 1,
-      },
-      inputs: ["slashGPTAgent"],
-      agentId: "slashGPTFuncitons2TextAgent",
-    },
-    slashGPTAgent1: {
-      agentId: "slashGPTAgent",
-      params: {
-        debug: true,
-        manifest: {
-          prompt: "ユーザの問い合わせにある文章の専門家です。専門家として、ユーザのアイデアに対して実現可能なシナリオを800文字で書いてください。",
-        },
-      },
-      inputs: ["function2prompt1"],
     },
   },
 };

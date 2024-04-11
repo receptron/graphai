@@ -14,7 +14,8 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
     const { title, description } = r;
     return ["title:", title, "description:", description].join("\n");
   });
-  return result[params.result_key];
+
+  return result[context.forkedKey ?? 0];
 };
 
 export const slashGPTAgent: AgentFunction<

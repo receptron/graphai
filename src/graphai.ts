@@ -18,6 +18,7 @@ type NodeData = {
   retry?: number;
   timeout?: number; // msec
   agentId?: string;
+  fork?: number;
   source?: boolean;
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
@@ -42,6 +43,7 @@ export type TransactionLog = {
 
 export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   nodeId: string;
+  forkedKey?: number;
   retry: number;
   params: NodeDataParams<ParamsType>;
   inputs: Array<PreviousResultType>;
@@ -61,6 +63,8 @@ class Node {
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
   public agentId?: string;
+  public fork?: number;
+  public forkedKey?: number;
   public result: ResultData = undefined;
   public retryLimit: number;
   public retryCount: number = 0;
@@ -72,12 +76,14 @@ class Node {
 
   private graph: GraphAI;
 
-  constructor(nodeId: string, data: NodeData, graph: GraphAI) {
+  constructor(nodeId: string, forkedKey: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
+    this.forkedKey = forkedKey;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.agentId = data.agentId;
+    this.fork = data.fork;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
     this.source = data.source === true;
@@ -177,6 +183,7 @@ class Node {
         retry: this.retryCount,
         params: this.params,
         inputs: results,
+        forkedKey: this.forkedKey,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
@@ -239,8 +246,26 @@ export class GraphAI {
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
+    const chnagedNodeIdMapTable: Record<string, string[]> = {};
+    const newNodeIdIndex: Record<string, number> = {};
+
+    // Create node instances from data.nodes
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
-      nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
+      const fork = data.nodes[nodeId].fork;
+      if (fork) {
+        // For fork, change the nodeId and increase the node
+        chnagedNodeIdMapTable[nodeId] = [];
+        for (let i = 0; i < fork; i++) {
+          // Create new nodeId
+          const newNodeId = [nodeId, String(i)].join("_");
+          nodes[newNodeId] = new Node(newNodeId, i, data.nodes[nodeId], this);
+          // Data for pending and waiting
+          chnagedNodeIdMapTable[nodeId].push(newNodeId);
+          newNodeIdIndex[newNodeId] = i;
+        }
+      } else {
+        nodes[nodeId] = new Node(nodeId, undefined, data.nodes[nodeId], this);
+      }
       return nodes;
     }, {});
 
@@ -248,15 +273,26 @@ export class GraphAI {
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       node.pendings.forEach((pending) => {
-        const node2 = this.nodes[pending];
-        node2.waitlist.add(nodeId);
+        // If the pending(previous) node is forking
+        if (chnagedNodeIdMapTable[pending]) {
+          //  1:1 if current nodes are also forking.
+          //  1:n if current node is not forking.
+          //  update node.pending and pending(previous) node.wailtlist
+          (node.fork ? [chnagedNodeIdMapTable[pending][newNodeIdIndex[nodeId]]] : chnagedNodeIdMapTable[pending]).forEach((newPendingId) => {
+            this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
+            node.pendings.add(newPendingId);
+          });
+          node.pendings.delete(pending);
+        } else {
+          this.nodes[pending].waitlist.add(nodeId); // previousNode
+        }
       });
+      node.inputs = Array.from(node.pendings); // for fork.
     });
   }
 
   public getCallback(_agentId?: string) {
     const agentId = _agentId ?? "_default";
-    console.log(agentId);
     if (this.callbackDictonary[agentId]) {
       return this.callbackDictonary[agentId];
     }
