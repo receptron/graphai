@@ -244,17 +244,22 @@ export class GraphAI {
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
-    const forkMap: Record<string, string[]> = {};
-    const forkKeyMap: Record<string, number> = {};
+    const chnagedNodeIdMapTable: Record<string, string[]> = {};
+    const newNodeIdIndex: Record<string, number> = {};
+
+    // Create node instances from data.nodes
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       const fork = data.nodes[nodeId].fork;
       if (fork) {
-        forkMap[nodeId] = [];
+        // For fork, change the nodeId and increase the node
+        chnagedNodeIdMapTable[nodeId] = [];
         for (let i = 0; i < fork; i++) {
+          // Create ne nodeId
           const newNodeId = [nodeId, String(i)].join("_");
           nodes[newNodeId] = new Node(newNodeId, data.nodes[nodeId], this);
-          forkMap[nodeId].push(newNodeId);
-          forkKeyMap[newNodeId] = i;
+          // Data for pending and waiting
+          chnagedNodeIdMapTable[nodeId].push(newNodeId);
+          newNodeIdIndex[newNodeId] = i;
         }
       } else {
         nodes[nodeId] = new Node(nodeId, data.nodes[nodeId], this);
@@ -266,10 +271,14 @@ export class GraphAI {
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       node.pendings.forEach((pending) => {
-        if (forkMap[pending]) {
-          (node.fork ? [forkMap[pending][forkKeyMap[nodeId]]] : forkMap[pending]).forEach((pending2) => {
-            this.nodes[pending2].waitlist.add(nodeId);
-            node.pendings.add(pending2);
+        // If the pending(previous) node is forking
+        if (chnagedNodeIdMapTable[pending]) {
+          //  1:1 if nodes are also forking
+          //  1:n if node is not forking
+          //  update node.pending and pending(previous) node wailt list
+          (node.fork ? [chnagedNodeIdMapTable[pending][newNodeIdIndex[nodeId]]] : chnagedNodeIdMapTable[pending]).forEach((newPendingId) => {
+            this.nodes[newPendingId].waitlist.add(nodeId);
+            node.pendings.add(newPendingId);
           });
           node.pendings.delete(pending);
         } else {
@@ -277,7 +286,7 @@ export class GraphAI {
           node2.waitlist.add(nodeId);
         }
       });
-      node.inputs = Array.from(node.pendings); // for fork
+      node.inputs = Array.from(node.pendings); // for fork.
     });
   }
 
