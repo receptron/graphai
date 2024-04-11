@@ -247,7 +247,7 @@ export class GraphAI {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
     const nodeId2forkedNodeIds: Record<string, string[]> = {};
-    const newNodeIdIndex: Record<string, number> = {};
+    const forkedNodeId2Index: Record<string, number> = {};
 
     // Create node instances from data.nodes
     this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
@@ -255,11 +255,11 @@ export class GraphAI {
       if (fork) {
         // For fork, change the nodeId and increase the node
         nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
-          const newNodeId = `${nodeId}_${i}`;
-          nodes[newNodeId] = new Node(newNodeId, i, data.nodes[nodeId], this);
+          const forkedNodeId = `${nodeId}_${i}`;
+          nodes[forkedNodeId] = new Node(forkedNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
-          newNodeIdIndex[newNodeId] = i;
-          return newNodeId;
+          forkedNodeId2Index[forkedNodeId] = i;
+          return forkedNodeId;
         });
       } else {
         nodes[nodeId] = new Node(nodeId, undefined, data.nodes[nodeId], this);
@@ -276,7 +276,7 @@ export class GraphAI {
           //  update node.pending and pending(previous) node.wailtlist
           if (node.fork) {
             //  1:1 if current nodes are also forking.
-            const newPendingId = nodeId2forkedNodeIds[pending][newNodeIdIndex[nodeId]];
+            const newPendingId = nodeId2forkedNodeIds[pending][forkedNodeId2Index[nodeId]];
             this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
             node.pendings.add(newPendingId);
           } else {
