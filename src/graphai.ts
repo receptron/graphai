@@ -254,7 +254,7 @@ export class GraphAI {
       const fork = data.nodes[nodeId].fork;
       if (fork) {
         // For fork, change the nodeId and increase the node
-        nodeId2forkedNodeIds[nodeId] = (new Array(fork).fill(undefined)).map((_, i) => {
+        nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
           const newNodeId = [nodeId, String(i)].join("_");
           nodes[newNodeId] = new Node(newNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
