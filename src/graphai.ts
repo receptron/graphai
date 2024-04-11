@@ -43,7 +43,7 @@ export type TransactionLog = {
 
 export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   nodeId: string;
-  forkedKey?: number;
+  forkIndex?: number;
   retry: number;
   params: NodeDataParams<ParamsType>;
   inputs: Array<PreviousResultType>;
@@ -64,7 +64,7 @@ class Node {
   public state = NodeState.Waiting;
   public agentId?: string;
   public fork?: number;
-  public forkedKey?: number;
+  public forkIndex?: number;
   public result: ResultData = undefined;
   public retryLimit: number;
   public retryCount: number = 0;
@@ -76,9 +76,9 @@ class Node {
 
   private graph: GraphAI;
 
-  constructor(nodeId: string, forkedKey: number | undefined, data: NodeData, graph: GraphAI) {
+  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
-    this.forkedKey = forkedKey;
+    this.forkIndex = forkIndex;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
@@ -183,7 +183,7 @@ class Node {
         retry: this.retryCount,
         params: this.params,
         inputs: results,
-        forkedKey: this.forkedKey,
+        forkIndex: this.forkIndex,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
