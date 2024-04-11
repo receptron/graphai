@@ -254,15 +254,13 @@ export class GraphAI {
       const fork = data.nodes[nodeId].fork;
       if (fork) {
         // For fork, change the nodeId and increase the node
-        nodeId2forkedNodeIds[nodeId] = [];
-        for (let i = 0; i < fork; i++) {
-          // Create new nodeId
+        nodeId2forkedNodeIds[nodeId] = (new Array(fork).fill(undefined)).map((_, i) => {
           const newNodeId = [nodeId, String(i)].join("_");
           nodes[newNodeId] = new Node(newNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
-          nodeId2forkedNodeIds[nodeId].push(newNodeId);
           newNodeIdIndex[newNodeId] = i;
-        }
+          return newNodeId;
+        });
       } else {
         nodes[nodeId] = new Node(nodeId, undefined, data.nodes[nodeId], this);
       }
