@@ -14,7 +14,7 @@ export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Ag
 
 type NodeData = {
   inputs?: Array<string>;
-  params: NodeDataParams;
+  params?: NodeDataParams;
   retry?: number;
   timeout?: number; // msec
   agentId?: string;
@@ -81,7 +81,7 @@ class Node {
     this.forkIndex = forkIndex;
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
-    this.params = data.params;
+    this.params = data.params ?? {};
     this.agentId = data.agentId;
     this.fork = data.fork;
     this.retryLimit = data.retry ?? 0;
