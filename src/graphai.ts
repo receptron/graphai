@@ -267,7 +267,7 @@ export class GraphAI {
       return nodes;
     }, {});
 
-    // Generate the waitlist for each node
+    // Generate the waitlist for each node, and update the pendings in case of forked node.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       node.pendings.forEach((pending) => {
