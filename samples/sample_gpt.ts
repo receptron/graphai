@@ -6,6 +6,16 @@ import { readGraphaiData } from "~/utils/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
+const stringTemplateAgent: AgentFunction<{ manifest: ManifestData; template: string }, { content: string }> = async (context) => {
+  console.log("executing", context.nodeId, context.params);
+  const session = new ChatSession(config, context.params.manifest ?? {});
+  const content = context.inputs.reduce((template, input, index) => {
+    return template.replace("${" + index + "}", input["content"]);
+  }, context.params.template);
+
+  return { content };
+};
+
 const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query: string }, { content: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
@@ -25,7 +35,7 @@ const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query: string }, { 
 const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, { slashgpt: slashGPTAgent });
+  const graph = new GraphAI(graph_data, { slashgpt: slashGPTAgent, stringTemplate: stringTemplateAgent });
   const results = (await graph.run()) as Record<string, any>;
 
   const log_path = path.resolve(__dirname) + "/../tests/logs/" + path.basename(file_path).replace(/\.yml$/, ".log");
