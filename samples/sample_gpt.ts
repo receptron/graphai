@@ -6,13 +6,13 @@ import { readGraphaiData } from "~/utils/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-const slashGPTAgent: AgentFunction<{ manifest: ManifestData; prompt: string }, { content: string }> = async (context) => {
+const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query: string }, { content: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
-  const prompt = context.inputs.reduce((prompt, input, index) => {
+  const query = context.inputs.reduce((prompt, input, index) => {
     return prompt.replace("${" + index + "}", input["content"]);
-  }, context.params.prompt);
-  session.append_user_question(prompt);
+  }, context.params.query);
+  session.append_user_question(query);
 
   await session.call_loop(() => {});
   const message = session.history.last_message();

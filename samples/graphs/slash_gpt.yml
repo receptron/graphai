@@ -1,17 +1,17 @@
 nodes:
   node1:
     params:
-      prompt: Come up with ten business ideas for AI startup
+      query: Come up with ten business ideas for AI startup
   node2:
     inputs: [node1]
     params:
-      prompt: |
+      query: |
         Please evaluate following business ideas.
         ${0}
   node3:
     inputs: [node1, node2]
     params:
-      prompt:  |
+      query:  |
         Please pick the winner of this business idea contest.
         [ideas]
         ${0}
