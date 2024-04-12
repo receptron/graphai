@@ -46,7 +46,7 @@ const sampleAgentFunction = async (context: AgentFunctionContext) => {
 
 A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
 
-A DFG consists of a collection of 'nodes', which contains a series of nested keys representing individual nodes in the data flow. Each node is identified by a unique key (e.g., node1, node2) and can contain several predefined keys (params, inputs, outputs, retry, timeout, source, agentId) that dictate the node's behavior and its relationship with other nodes.
+A DFG consists of a collection of 'nodes', which contains a series of nested keys representing individual nodes in the data flow. Each node is identified by a unique key (e.g., node1, node2) and can contain several predefined keys (params, inputs, outputs, retry, timeout, source, agentId, result, fork) that dictate the node's behavior and its relationship with other nodes.
 
 ### DFG Structure
 
@@ -67,10 +67,13 @@ An agent function receives two set of parameters via AgentFunctionContext, agent
 
 - 'inputs': An optional list of node identifiers that the current node depends on. This establishes a flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty and the 'source' property is not set, the associated Agent Function will be immediatley executed. 
 - 'source': An optional flag, which specifies if the node is a 'source node' or not. A souce node is a special node, which receives data from either an external code (via GraphAI's injectResult method) or from a 'dispatcher node'.
-- 'outputs': An optinal property, which specifies the mapping from outputId to nodeId. If this property is set, the node become a special node called "dispatcher". A dispatcher node injects result(s) into specified nodes, enabling the dynamic flow of data.
+- 'result': An optional object, which injects the result into the source node (equivalent to calling the injectResult method).
 - 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, that return value will be recorded.
 - 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded and the returned value will be discarded. 
 - 'params': An optional parameters to the associated agent function, which are agent specific.
+- 'agentId': An optional parameter, which specifies the id of the agent, when the graph is associated with multiple agents.
+- 'fork': An optional paramter, which specifies the number of concurrent transactions to be created for the current node.
+- 'outputs': An optinal property, which specifies the mapping from outputId to nodeId. If this property is set, the node become a special node called "dispatcher". A dispatcher node injects result(s) into specified nodes, enabling the dynamic flow of data.
 
 ## GraphAI class
 
