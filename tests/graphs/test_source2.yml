@@ -3,6 +3,8 @@ nodes:
     source: true
   node2:
     source: true
+    result:
+      node2: preset
   node3:
     params:
       delay: 500
