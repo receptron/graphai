@@ -1,6 +1,6 @@
 import * as readline from 'readline';
 
-const getInput = async (question: string) => {
+const getUserInput = async (question: string) : Promise<string> => {
   return new Promise((resolve, reject) => {
     const rl = readline.createInterface({
       input: process.stdin,
@@ -14,13 +14,14 @@ const getInput = async (question: string) => {
   });
 }
 
-const runAgent = async () => {
+const runAgent = async (query: string) => {
+  console.log("query=", query);
 };
 
 const main = async () => {
-  const answer = await getInput('Please enter some input: ');    
-  await runAgent();
-  console.log("COMPLETE 1", answer);
+  const query = await getUserInput('Please enter your question: ');    
+  await runAgent(query);
+  console.log("COMPLETE 1");
 };
 
 main();
