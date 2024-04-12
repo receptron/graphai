@@ -18,6 +18,7 @@ type NodeData = {
     agentId?: string;
     fork?: number;
     source?: boolean;
+    result?: ResultData;
     outputs?: Record<string, string>;
 };
 export type GraphData = {

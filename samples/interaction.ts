@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction } from "@/graphai";
+import { GraphAI, GraphData } from "@/graphai";
 import * as readline from "readline";
 import path from "path";
 import * as fs from "fs";
@@ -18,7 +18,7 @@ const getUserInput = async (question: string): Promise<string> => {
   });
 };
 
-const graph_data = {
+const graph_data: GraphData = {
   nodes: {
     node1: {
       source: true,
@@ -31,8 +31,9 @@ const graph_data = {
 
 const runAgent = async (query: string) => {
   console.log("query=", query);
+  graph_data.nodes.node1.result = { query };
   const graph = new GraphAI(graph_data, testAgent);
-  graph.injectResult("node1", { query });
+  // graph.injectResult("node1", { query });
   const result = await graph.run();
   const log_path = path.resolve(__dirname) + "/../tests/logs/interaction.log";
   fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
