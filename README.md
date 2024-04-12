@@ -42,6 +42,16 @@ const sampleAgentFunction = async (context: AgentFunctionContext) => {
   return results["taskC"];
 ```
 
+## Background
+
+As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.deeplearning.ai/the-batch/issue-242/)", better results can often be achieved by making multiple calls to a Large Language Model (LLM) and allowing it to incrementally build towards a higher-quality output. Dr. Ng refers to this approach as 'agentic workflows.' 
+
+Building applications that employ these workflows, however, is challenging due to the complexities of managing multiple asynchronous API calls, including error handling, timeouts, retries, and logging. 
+
+GraphAI is designed to simplify this process by decoupling the complexity of multiple asynchronous calls from the application's core logic. It enables developers to model these calls and their dependencies within a single Data Flow Graph, enhancing development and debugging processes. 
+
+Furthermore, GraphAI's robust mechanisms for error handling, retry strategies, timeouts, and logging empower developers to concentrate on refining the application logic.
+
 ## Data Flow Graph
 
 A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
