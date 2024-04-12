@@ -21,6 +21,9 @@ const getUserInput = async (question: string) : Promise<string> => {
 const graph_data = {
   nodes: {
     node1: {
+    },
+    node2: {
+      inputs: ["node1"]
     }
   }
 };
