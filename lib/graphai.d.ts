@@ -16,6 +16,7 @@ type NodeData = {
     retry?: number;
     timeout?: number;
     agentId?: string;
+    fork?: number;
     source?: boolean;
     outputs?: Record<string, string>;
 };
@@ -37,6 +38,7 @@ export type TransactionLog = {
 };
 export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
     nodeId: string;
+    forkIndex?: number;
     retry: number;
     params: NodeDataParams<ParamsType>;
     inputs: Array<PreviousResultType>;
@@ -51,6 +53,8 @@ declare class Node {
     waitlist: Set<string>;
     state: NodeState;
     agentId?: string;
+    fork?: number;
+    forkIndex?: number;
     result: ResultData;
     retryLimit: number;
     retryCount: number;
@@ -60,7 +64,7 @@ declare class Node {
     source: boolean;
     outputs?: Record<string, string>;
     private graph;
-    constructor(nodeId: string, data: NodeData, graph: GraphAI);
+    constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
     asString(): string;
     private retry;
     removePending(nodeId: string): void;
