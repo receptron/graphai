@@ -21,6 +21,7 @@ const getUserInput = async (question: string) : Promise<string> => {
 const graph_data = {
   nodes: {
     node1: {
+      source: true
     },
     node2: {
       inputs: ["node1"]
@@ -31,6 +32,7 @@ const graph_data = {
 const runAgent = async (query: string) => {
   console.log("query=", query);
   const graph = new GraphAI(graph_data, testAgent);
+  graph.injectResult("node1", { query });
   const result = await graph.run();
   const log_path = path.resolve(__dirname) + "/../tests/logs/interaction.log"
   fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
