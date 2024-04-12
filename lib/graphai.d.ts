@@ -12,7 +12,7 @@ type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, Resu
 export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType;
 type NodeData = {
     inputs?: Array<string>;
-    params: NodeDataParams;
+    params?: NodeDataParams;
     retry?: number;
     timeout?: number;
     agentId?: string;
