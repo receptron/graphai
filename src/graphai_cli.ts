@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { GraphAI, AgentFunction } from "./graphai";
 import fs from "fs";
 import path from "path";
