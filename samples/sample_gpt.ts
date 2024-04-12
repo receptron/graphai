@@ -3,18 +3,9 @@ import * as fs from "fs";
 import { GraphAI, AgentFunction } from "@/graphai";
 import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
 import { readGraphaiData } from "~/utils/file_utils";
+import { stringTemplateAgent } from "@/experimental_agents/string_agent";
 
 const config = new ChatConfig(path.resolve(__dirname));
-
-const stringTemplateAgent: AgentFunction<{ manifest: ManifestData; template: string }, { content: string }> = async (context) => {
-  console.log("executing", context.nodeId, context.params);
-  const session = new ChatSession(config, context.params.manifest ?? {});
-  const content = context.inputs.reduce((template, input, index) => {
-    return template.replace("${" + index + "}", input["content"]);
-  }, context.params.template);
-
-  return { content };
-};
 
 const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: string }, { content: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
