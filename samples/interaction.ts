@@ -1,11 +1,26 @@
 import * as readline from 'readline';
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+const getInput = async (question: string) => {
+  return new Promise((resolve, reject) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+    
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer);
+    });
+  });
+}
 
-rl.question('Please enter some input: ', (answer) => {
-  console.log(`You entered: ${answer}`);
-  rl.close();
-});
+const runAgent = async () => {
+};
+
+const main = async () => {
+  const answer = await getInput('Please enter some input: ');    
+  await runAgent();
+  console.log("COMPLETE 1", answer);
+};
+
+main();
