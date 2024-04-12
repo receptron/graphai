@@ -16,7 +16,7 @@ const stringTemplateAgent: AgentFunction<{ manifest: ManifestData; template: str
   return { content };
 };
 
-const slashGPTAgent: AgentFunction<{ manifest: ManifestData, query?:string }, { content: string }> = async (context) => {
+const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: string }, { content: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
 
@@ -26,7 +26,7 @@ const slashGPTAgent: AgentFunction<{ manifest: ManifestData, query?:string }, { 
     const contents = context.inputs.map((input) => {
       return input.content;
     });
-    session.append_user_question(contents.join('\n'));
+    session.append_user_question(contents.join("\n"));
   }
 
   await session.call_loop(() => {});
