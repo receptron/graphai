@@ -25,7 +25,7 @@ const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query: string }, { 
 const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, slashGPTAgent);
+  const graph = new GraphAI(graph_data, { slashgpt: slashGPTAgent });
   const results = (await graph.run()) as Record<string, any>;
 
   const log_path = path.resolve(__dirname) + "/../tests/logs/" + path.basename(file_path).replace(/\.yml$/, ".log");

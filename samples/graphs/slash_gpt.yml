@@ -1,14 +1,17 @@
 nodes:
   node1:
+    agentId: slashgpt
     params:
       query: Come up with ten business ideas for AI startup
   node2:
+    agentId: slashgpt
     inputs: [node1]
     params:
       query: |
         Please evaluate following business ideas.
         ${0}
   node3:
+    agentId: slashgpt
     inputs: [node1, node2]
     params:
       query:  |
