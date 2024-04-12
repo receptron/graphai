@@ -6,13 +6,28 @@ import { readGraphaiData } from "~/utils/file_utils";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-const slashGPTAgent: AgentFunction<{ manifest: ManifestData; prompt: string }, { content: string }> = async (context) => {
+const stringTemplateAgent: AgentFunction<{ manifest: ManifestData; template: string }, { content: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
-  const prompt = context.inputs.reduce((prompt, input, index) => {
-    return prompt.replace("${" + index + "}", input["content"]);
-  }, context.params.prompt);
-  session.append_user_question(prompt);
+  const content = context.inputs.reduce((template, input, index) => {
+    return template.replace("${" + index + "}", input["content"]);
+  }, context.params.template);
+
+  return { content };
+};
+
+const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: string }, { content: string }> = async (context) => {
+  console.log("executing", context.nodeId, context.params);
+  const session = new ChatSession(config, context.params.manifest ?? {});
+
+  if (context.params?.query) {
+    session.append_user_question(context.params.query);
+  } else {
+    const contents = context.inputs.map((input) => {
+      return input.content;
+    });
+    session.append_user_question(contents.join("\n"));
+  }
 
   await session.call_loop(() => {});
   const message = session.history.last_message();
@@ -25,13 +40,12 @@ const slashGPTAgent: AgentFunction<{ manifest: ManifestData; prompt: string }, {
 const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readGraphaiData(file_path);
-  const graph = new GraphAI(graph_data, slashGPTAgent);
+  const graph = new GraphAI(graph_data, { slashgpt: slashGPTAgent, stringTemplate: stringTemplateAgent });
   const results = (await graph.run()) as Record<string, any>;
 
   const log_path = path.resolve(__dirname) + "/../tests/logs/" + path.basename(file_path).replace(/\.yml$/, ".log");
-  console.log(log_path);
   fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-  console.log(results["node3"]["content"]);
+  console.log(results["node5"]["content"]);
 };
 
 const main = async () => {
