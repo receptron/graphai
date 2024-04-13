@@ -37,7 +37,7 @@ const graph_data: GraphData = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("home.yaml",  graph_data, { slashGPTAgent });
+  const result = await graphDataTestRunner("home.yaml",  graph_data, slashGPTAgent);
   console.log(result["node2"]!.content);
   console.log("COMPLETE 1");
 };
