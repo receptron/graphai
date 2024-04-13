@@ -27,6 +27,7 @@ type NodeData = {
 export type GraphData = {
   nodes: Record<string, NodeData>;
   concurrency?: number;
+  verbose?: boolean;
 };
 
 export type TransactionLog = {
@@ -48,6 +49,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   retry: number;
   params: NodeDataParams<ParamsType>;
   inputs: Array<PreviousResultType>;
+  verbose: boolean;
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
@@ -185,6 +187,7 @@ class Node {
         params: this.params,
         inputs: results,
         forkIndex: this.forkIndex,
+        verbose: this.graph.verbose,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
@@ -239,11 +242,13 @@ export class GraphAI {
   private nodeQueue: Array<Node> = [];
   private onComplete: () => void;
   private concurrency: number;
+  public verbose: boolean;
   private logs: Array<TransactionLog> = [];
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
+    this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
