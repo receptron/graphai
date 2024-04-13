@@ -33,7 +33,7 @@ const main = async () => {
   console.log("query=", query);
   graph_data.nodes.node1.result = { query };
 
-  const result = await graphDataTestRunner("interaction.yaml", graph_data, testAgent);
+  const result = await graphDataTestRunner("interaction.log", graph_data, testAgent);
   console.log(result);
 
   console.log("COMPLETE 1");
