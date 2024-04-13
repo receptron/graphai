@@ -4,12 +4,12 @@ import * as fs from "fs";
 import { slashGPTAgent } from "@/experimental_agents/slashgpt_agent";
 
 const home_actions = {
-  "fill_bath": { "type": "message_template", "message":"Success. I started filling the bath tab." },
-  "set_temperature": { "type": "message_template", "message":"Success. I set the temperature to {temperature} for {location}" },
-  "start_sprinkler": { "type": "message_template", "message":"Success. I started the sprinkler for {location}" },
-  "take_picture": { "type": "message_template", "message":"Success. I took a picture of {location}" },
-  "play_music": { "type": "message_template", "message":"Success. I started playing {music} in {location}" },
-  "control_light": { "type": "message_template", "message":"Success. The light switch of {location} is now {switch}." }
+  fill_bath: { type: "message_template", message: "Success. I started filling the bath tab." },
+  set_temperature: { type: "message_template", message: "Success. I set the temperature to {temperature} for {location}" },
+  start_sprinkler: { type: "message_template", message: "Success. I started the sprinkler for {location}" },
+  take_picture: { type: "message_template", message: "Success. I took a picture of {location}" },
+  play_music: { type: "message_template", message: "Success. I started playing {music} in {location}" },
+  control_light: { type: "message_template", message: "Success. The light switch of {location} is now {switch}." },
 };
 
 const fileName = path.resolve(__dirname) + "/home.json";
@@ -20,7 +20,7 @@ const graph_data: GraphData = {
   nodes: {
     node1: {
       source: true,
-      result: { content: "Turn on the light in the kitchen" }
+      result: { content: "Turn on the light in the kitchen" },
     },
     node2: {
       inputs: ["node1"],
@@ -28,9 +28,9 @@ const graph_data: GraphData = {
         manifest: {
           skip_function_result: true,
           actions: home_actions,
-          functions: home_functions
-        }
-      }
+          functions: home_functions,
+        },
+      },
     },
   },
 };

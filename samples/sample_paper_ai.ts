@@ -11,7 +11,7 @@ const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readGraphaiData(file_path);
   const graph = new GraphAI(graph_data, { arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
-  const results = (await graph.run());
+  const results = await graph.run();
   const log_path = path.resolve(__dirname) + "/../tests/logs/sample_paper_ai.log";
   fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
   console.log(results.slashGPTAgent?.content);
