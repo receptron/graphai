@@ -1,6 +1,6 @@
 import { fileTestRunner } from "./runner";
 
-import { slashGPTAgent } from "@/experimental_agents/slashgpt_agent";
+import { slashGPTAgent } from "@/experimental_agents";
 import { arxivAgent, arxiv2TextAgent } from "./agents/arxiv_agent";
 
 const main = async () => {
