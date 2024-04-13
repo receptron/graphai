@@ -2,6 +2,7 @@ import { GraphAI, GraphData } from "@/graphai";
 import path from "path";
 import * as fs from "fs";
 import { slashGPTAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "~/utils/runner";
 
 const home_actions = {
   fill_bath: { type: "message_template", message: "Success. I started filling the bath tab." },
@@ -36,7 +37,7 @@ const graph_data: GraphData = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("home.yaml",  graph_data, { slashGPTAgent });
+  const result = await graphDataTestRunner("home.yaml",  graph_data, slashGPTAgent);
   console.log(result["node2"]!.content);
   console.log("COMPLETE 1");
 };
