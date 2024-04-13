@@ -6,7 +6,7 @@ const config = new ChatConfig(path.resolve(__dirname));
 
 export const slashGPTFuncitons2TextAgent: AgentFunction<
   { function_data_key: string; result_key: number },
-  string,
+  Record<string, string>,
   { function_data: { [key: string]: string[] } }
 > = async (context) => {
   const { params } = context;
@@ -15,10 +15,10 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
     return ["title:", title, "description:", description].join("\n");
   });
 
-  return result[context.forkIndex ?? 0];
+  return { content: result[context.forkIndex ?? 0] };
 };
 
-export const slashGPTAgent: AgentFunction<
+export const slashGPTAgentObsolete: AgentFunction<
   { manifest: ManifestData; prompt: string; function_result?: boolean; debug?: boolean },
   { answer: string },
   string
