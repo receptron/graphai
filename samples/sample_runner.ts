@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { main as gpt } from "./sample_gpt";
 import { main as interaction } from "./interaction";
 import { main as sample_co2 } from "./sample_co2";
