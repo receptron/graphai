@@ -1,9 +1,7 @@
-import { GraphAI } from "@/graphai";
-import path from "path";
-import * as fs from "fs";
-
 import { slashGPTFuncitons2TextAgent } from "./agents/slashgpt_agent";
-import { slashGPTAgent } from "@/experimental_agents/slashgpt_agent";
+import { slashGPTAgent } from "@/experimental_agents";
+
+import { graphDataTestRunner } from "~/utils/runner";
 
 const graph_data = {
   nodes: {
@@ -74,16 +72,9 @@ const graph_data = {
     },
   },
 };
-const runAgent = async () => {
-  const graph = new GraphAI(graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
-  const result = await graph.run();
-  const log_path = path.resolve(__dirname) + "/../tests/logs/sample_co2.log";
-  fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-  console.log(result);
-};
 
 const main = async () => {
-  await runAgent();
+  const result = await graphDataTestRunner("sample_co2.yaml",  graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
   console.log("COMPLETE 1");
 };
 main();

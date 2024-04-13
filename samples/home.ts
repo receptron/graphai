@@ -1,7 +1,7 @@
 import { GraphAI, GraphData } from "@/graphai";
 import path from "path";
 import * as fs from "fs";
-import { slashGPTAgent } from "@/experimental_agents/slashgpt_agent";
+import { slashGPTAgent } from "@/experimental_agents";
 
 const home_actions = {
   fill_bath: { type: "message_template", message: "Success. I started filling the bath tab." },

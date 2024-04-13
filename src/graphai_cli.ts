@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import { GraphAI, AgentFunction } from "./graphai";
+import { slashGPTAgent, stringTemplateAgent } from "./experimental_agents";
+
 import fs from "fs";
 import path from "path";
 import YAML from "yaml";
@@ -24,7 +26,7 @@ const main = async () => {
     const graph_data_file = fs.readFileSync(file_path, "utf8");
     const graph_data = YAML.parse(graph_data_file);
 
-    const graph = new GraphAI(graph_data, { test: testAgent });
+    const graph = new GraphAI(graph_data, { testAgent, slashGPTAgent, stringTemplateAgent });
     const results = await graph.run();
     console.log(results);
   } catch (e) {

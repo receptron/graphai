@@ -1,8 +1,7 @@
 import { GraphAI, GraphData } from "@/graphai";
 import * as readline from "readline";
-import path from "path";
-import * as fs from "fs";
 import { testAgent } from "~/agents/agents";
+import { graphDataTestRunner } from "~/utils/runner";
 
 const getUserInput = async (question: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -29,20 +28,14 @@ const graph_data: GraphData = {
   },
 };
 
-const runAgent = async (query: string) => {
-  console.log("query=", query);
-  graph_data.nodes.node1.result = { query };
-  const graph = new GraphAI(graph_data, testAgent);
-  // graph.injectResult("node1", { query });
-  const result = await graph.run();
-  const log_path = path.resolve(__dirname) + "/../tests/logs/interaction.log";
-  fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-  console.log(result);
-};
-
 const main = async () => {
   const query = await getUserInput("Please enter your question: ");
-  await runAgent(query);
+  console.log("query=", query);
+  graph_data.nodes.node1.result = { query };
+
+  const result = await graphDataTestRunner("interaction.yaml",  graph_data, testAgent);
+  console.log(result);
+
   console.log("COMPLETE 1");
 };
 
