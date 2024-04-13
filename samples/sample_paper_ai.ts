@@ -7,4 +7,7 @@ export const main = async () => {
   await fileTestRunner("/graphs/arxiv.yml", { arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
   console.log("COMPLETE 1");
 };
-main();
+
+if (process.argv[1] === __filename) {
+  main();
+}
