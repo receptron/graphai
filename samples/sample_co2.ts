@@ -74,7 +74,7 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_co2.yaml",  graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
+  const result = await graphDataTestRunner("sample_co2.yaml", graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
   console.log("COMPLETE 1");
 };
 main();
