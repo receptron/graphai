@@ -9,9 +9,11 @@ export const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: stri
   const session = new ChatSession(config, context.params.manifest ?? {});
 
   const query = context.params?.query ? [context.params.query] : [];
-  const contents = query.concat(context.inputs.map((input) => {
-    return input.content;
-  }));
+  const contents = query.concat(
+    context.inputs.map((input) => {
+      return input.content;
+    }),
+  );
 
   session.append_user_question(contents.join("\n"));
   await session.call_loop(() => {});

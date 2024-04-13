@@ -34,12 +34,12 @@ export const arxivAgent: AgentFunction<{ keywords: string[]; limit: number }, ar
   return result;
 };
 
-export const arxiv2TextAgent: AgentFunction<{}, string, string[]> = async (context) => {
+export const arxiv2TextAgent: AgentFunction<{}, Record<string, any>, string[]> = async (context) => {
   const result = (context.inputs[0] || [])
     .map((r: any) => {
       const { id, title, summary } = r;
       return ["id:", id, "title:", title, "summary:", summary].join("\n");
     })
     .join("\n\n\n");
-  return result;
+  return { content: result };
 };
