@@ -21,7 +21,7 @@ export const graphDataTestRunner = async (
 ) => {
   mkdirLogDir();
 
-  const log_path = path.resolve(__dirname) + "/../logs/" + path.basename(logFileName).replace(/\.yml$/, ".log");
+  const log_path = path.resolve(__dirname) + "/../logs/" + path.basename(logFileName).replace(/\.ya?ml$/, ".log");
   const graph = new GraphAI(graph_data, callbackDictonary);
   callback(graph);
 

@@ -63,7 +63,6 @@ const graph_data = {
       agentId: "slashGPTAgent",
       fork: 10,
       params: {
-        debug: true,
         manifest: {
           prompt: "ユーザの問い合わせにある文章の専門家です。専門家として、ユーザのアイデアに対して実現可能なシナリオを800文字で書いてください。",
         },
@@ -74,7 +73,8 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_co2.yaml", graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
+  const result = await graphDataTestRunner("sample_co2.log", graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
+  console.log(result);
   console.log("COMPLETE 1");
 };
 main();

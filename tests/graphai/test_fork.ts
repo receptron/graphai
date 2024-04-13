@@ -38,7 +38,7 @@ test("test base", async () => {
     },
   };
 
-  const result = await graphDataTestRunner("fork.yml", forkGraph, testAgent1);
+  const result = await graphDataTestRunner("fork.log", forkGraph, testAgent1);
   // console.log(result);
   assert.deepStrictEqual(result, {
     node1: { node1: "node1" },
@@ -78,7 +78,7 @@ test("test base", async () => {
     },
   };
 
-  const result = await graphDataTestRunner("fork.yml", forkGraph, testAgent1);
+  const result = await graphDataTestRunner("fork.log", forkGraph, testAgent1);
   // console.log(result);
   assert.deepStrictEqual(result, {
     node1: { node1: "node1" },
