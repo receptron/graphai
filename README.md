@@ -52,6 +52,55 @@ GraphAI is designed to simplify this process by decoupling the complexity of mul
 
 Furthermore, GraphAI's robust mechanisms for error handling, retry strategies, timeouts, and logging empower developers to concentrate on refining the application logic.
 
+## Quick Install
+
+```
+pip install graphai
+```
+
+or
+
+```
+yarn add graphai
+```
+
+## Collaboration
+
+Step 1. Install git, node and yarn
+
+Step 2. Clone the project and install necessary node modules
+
+```
+git clone git@github.com:snakajima/graphai.git
+cd graphai
+yarn install
+```
+
+Step 3. Set the environment variable OPENAI_API_KEY to your own key (=sk-...)
+
+You need to set ANTHROPIC_API_KEY as well, if you want to use Claude.
+
+Step 4. Run the test script
+
+```
+npm run test
+```
+
+Step 5. Run one of sample scripts
+
+```
+npm run sample ./samples/home.ts
+```
+
+Step 6. Write some code and send pull requests
+
+Key principles:
+
+1. Keep the core (Node and GraphAI classes) small and simple.
+2. Enhance the platform by adding 'agents' (plug ins).
+3. Simple but effective test scripts make it easy to maintain.
+4. Run "npm run format" before submitting pull requests. 
+
 ## Data Flow Graph
 
 A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
