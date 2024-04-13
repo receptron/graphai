@@ -3,6 +3,7 @@ import path from "path";
 import * as fs from "fs";
 import { slashGPTAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
+import { home_functions } from "./home_functions";
 
 const home_actions = {
   fill_bath: { type: "message_template", message: "Success. I started filling the bath tab." },
@@ -12,10 +13,6 @@ const home_actions = {
   play_music: { type: "message_template", message: "Success. I started playing {music} in {location}" },
   control_light: { type: "message_template", message: "Success. The light switch of {location} is now {switch}." },
 };
-
-const fileName = path.resolve(__dirname) + "/home.json";
-const json_file = fs.readFileSync(fileName, "utf8");
-const home_functions = JSON.parse(json_file);
 
 const graph_data: GraphData = {
   nodes: {
@@ -36,7 +33,7 @@ const graph_data: GraphData = {
   },
 };
 
-const main = async () => {
+export const main = async () => {
   const result = await graphDataTestRunner("home.yaml", graph_data, slashGPTAgent);
   console.log(result["node2"]!.content);
   console.log("COMPLETE 1");
