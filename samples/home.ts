@@ -35,16 +35,9 @@ const graph_data: GraphData = {
   },
 };
 
-const runAgent = async () => {
-  const graph = new GraphAI(graph_data, slashGPTAgent);
-  const result = await graph.run();
-  const log_path = path.resolve(__dirname) + "/../tests/logs/home.log";
-  fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-  console.log(result["node2"]!.content);
-};
-
 const main = async () => {
-  await runAgent();
+  const result = await graphDataTestRunner("home.yaml",  graph_data, { slashGPTAgent });
+  console.log(result["node2"]!.content);
   console.log("COMPLETE 1");
 };
 
