@@ -341,7 +341,7 @@ export class GraphAI {
     }, {});
   }
 
-  public async run() {
+  public async run(): Promise<ResultDataDictonary> {
     if (this.isRunning) {
       console.error("-- Already Running");
     }

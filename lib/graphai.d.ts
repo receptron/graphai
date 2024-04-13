@@ -89,7 +89,7 @@ export declare class GraphAI {
     asString(): string;
     results(): ResultDataDictonary<Record<string, any>>;
     errors(): Record<string, Error>;
-    run(): Promise<unknown>;
+    run(): Promise<ResultDataDictonary>;
     private runNode;
     pushQueue(node: Node): void;
     removeRunning(node: Node): void;
