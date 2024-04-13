@@ -28,7 +28,7 @@ const graph_data: GraphData = {
   },
 };
 
-const main = async () => {
+export const main = async () => {
   const query = await getUserInput("Please enter your question: ");
   console.log("query=", query);
   graph_data.nodes.node1.result = { query };

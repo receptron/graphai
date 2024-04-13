@@ -143,12 +143,15 @@ test("test bypass4", async () => {
   };
   const result = await graphDataTestRunner("bypass2.yml", graph_data, { echoAgent, bypassAgent });
   assert.deepStrictEqual(result, {
-    echo: { message: 'hello' },
-    bypassAgent_0: { message: 'hello' },
-    bypassAgent_1: { message: 'hello' },
-    bypassAgent2_0: [ { message: 'hello' }, { message: 'hello' } ],
-    bypassAgent2_1: [ { message: 'hello' }, { message: 'hello' } ],
-    bypassAgent3: [ [ { message: 'hello' }, { message: 'hello' } ], [ { message: 'hello' }, { message: 'hello' } ] ]
+    echo: { message: "hello" },
+    bypassAgent_0: { message: "hello" },
+    bypassAgent_1: { message: "hello" },
+    bypassAgent2_0: [{ message: "hello" }, { message: "hello" }],
+    bypassAgent2_1: [{ message: "hello" }, { message: "hello" }],
+    bypassAgent3: [
+      [{ message: "hello" }, { message: "hello" }],
+      [{ message: "hello" }, { message: "hello" }],
+    ],
   });
   console.log("COMPLETE 1");
 });

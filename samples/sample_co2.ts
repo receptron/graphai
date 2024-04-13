@@ -73,7 +73,7 @@ const graph_data = {
   },
 };
 
-const main = async () => {
+export const main = async () => {
   const result = await graphDataTestRunner("sample_co2.log", graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
   console.log(result);
   console.log("COMPLETE 1");

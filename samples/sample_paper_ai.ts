@@ -3,7 +3,7 @@ import { fileTestRunner } from "./runner";
 import { slashGPTAgent } from "@/experimental_agents";
 import { arxivAgent, arxiv2TextAgent } from "./agents/arxiv_agent";
 
-const main = async () => {
+export const main = async () => {
   await fileTestRunner("/graphs/arxiv.yml", { arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
   console.log("COMPLETE 1");
 };

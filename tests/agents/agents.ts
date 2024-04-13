@@ -28,9 +28,9 @@ export const bypassAgent: AgentFunction<{}> = async (context) => {
   }
   return context.inputs;
 };
-export const echoAgent: AgentFunction<{}> = async ({params}) => {
+export const echoAgent: AgentFunction<{}> = async ({ params }) => {
   return params;
 };
-export const echoForkIndexAgent: AgentFunction<{}> = async ({forkIndex}) => {
+export const echoForkIndexAgent: AgentFunction<{}> = async ({ forkIndex }) => {
   return { forkIndex };
 };
