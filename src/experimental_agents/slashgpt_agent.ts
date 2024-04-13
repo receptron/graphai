@@ -4,12 +4,16 @@ import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-export const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: string; function_result?: boolean }, { content: string }> = async ({
-  nodeId,
-  params,
-  inputs,
-  verbose,
-}) => {
+export const slashGPTAgent: AgentFunction<
+  {
+    manifest: ManifestData;
+    query?: string;
+    function_result?: boolean;
+  },
+  {
+    content: string;
+  }
+> = async ({ nodeId, params, inputs, verbose }) => {
   if (verbose) {
     console.log("executing", nodeId, params);
   }
