@@ -39,4 +39,6 @@ export const main = async () => {
   console.log("COMPLETE 1");
 };
 
-main();
+if (process.argv[1] === __filename) {
+  main();
+}
