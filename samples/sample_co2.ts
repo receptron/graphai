@@ -4,6 +4,7 @@ import { slashGPTAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
 
 const graph_data = {
+  verbose: true,
   nodes: {
     slashGPTAgent: {
       agentId: "slashGPTAgent",

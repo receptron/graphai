@@ -1,3 +1,4 @@
+verbose: true
 nodes:
   node1:
     agentId: slashgpt

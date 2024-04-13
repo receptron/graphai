@@ -8,7 +8,8 @@ test("test stringTemplateAgent simple", async () => {
     nodeId: "test",
     retry: 0,
     params: { template: "${0}: ${1}" },
-    inputs: [{ content: "hello" }, { content: "test" }] as any,
+    inputs: [{ content: "hello" }, { content: "test" }],
+    verbose: true,
   });
   assert.deepStrictEqual(result, {
     content: "hello: test",
@@ -21,6 +22,7 @@ test("test stringTemplateAgent simple", async () => {
     retry: 0,
     params: { template: "${0}: ${1}", inputKey: "key" },
     inputs: [{ key: "hello" }, { key: "test" }],
+    verbose: true,
   });
   assert.deepStrictEqual(result, {
     content: "hello: test",
