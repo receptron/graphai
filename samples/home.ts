@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { GraphAI, GraphData } from "@/graphai";
 import path from "path";
 import * as fs from "fs";
