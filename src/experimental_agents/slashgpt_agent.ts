@@ -4,7 +4,7 @@ import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
-export const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: string }, { content: string }> = async (context) => {
+export const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: string; function_result?: boolean }, { content: string }> = async (context) => {
   console.log("executing", context.nodeId, context.params);
   const session = new ChatSession(config, context.params.manifest ?? {});
 
@@ -17,7 +17,12 @@ export const slashGPTAgent: AgentFunction<{ manifest: ManifestData; query?: stri
 
   session.append_user_question(contents.join("\n"));
   await session.call_loop(() => {});
-  const message = session.history.last_message();
+  const message = (() => {
+    if (context.params?.function_result) {
+      return session.history.messages().find((m) => m.role === "function_result");
+    }
+    return session.history.last_message();
+  })();
   if (message === undefined) {
     throw new Error("No message in the history");
   }

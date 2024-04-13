@@ -1,7 +1,9 @@
-import { GraphAI, AgentFunction } from "@/graphai";
-import { readGraphaiData } from "~/utils/file_utils";
+import { GraphAI } from "@/graphai";
+import path from "path";
+import * as fs from "fs";
 
-import { slashGPTAgent, slashGPTFuncitons2TextAgent } from "./agents/slashgpt_agent";
+import { slashGPTFuncitons2TextAgent } from "./agents/slashgpt_agent";
+import { slashGPTAgent } from "@/experimental_agents/slashgpt_agent";
 
 const graph_data = {
   nodes: {
@@ -9,7 +11,7 @@ const graph_data = {
       agentId: "slashGPTAgent",
       params: {
         function_result: true,
-        prompt: "世界で協力してco2を減らす方法を教えて下さい",
+        query: "世界で協力してco2を減らす方法を教えて下さい",
         manifest: {
           prompt: "あなたは世界経済の専門家です。ユーザの問い合わせについて考え、10この結果をfunctionsの結果に返してください。",
           skip_function_result: true,
@@ -75,6 +77,8 @@ const graph_data = {
 const runAgent = async () => {
   const graph = new GraphAI(graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
   const result = await graph.run();
+  const log_path = path.resolve(__dirname) + "/../tests/logs/sample_co2.log";
+  fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
   console.log(result);
 };
 

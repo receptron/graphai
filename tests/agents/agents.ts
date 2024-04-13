@@ -21,3 +21,13 @@ export const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async 
     return result;
   }
 };
+
+export const bypassAgent: AgentFunction<{}> = async (context) => {
+  if (context.inputs.length === 1) {
+    return context.inputs[0];
+  }
+  return context.inputs;
+};
+export const echoAgent: AgentFunction<{}> = async (context) => {
+  return context.params;
+};

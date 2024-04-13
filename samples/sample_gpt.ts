@@ -9,11 +9,11 @@ const runAgent = async (file: string) => {
   const file_path = path.resolve(__dirname) + file;
   const graph_data = readGraphaiData(file_path);
   const graph = new GraphAI(graph_data, { slashgpt: slashGPTAgent, stringTemplate: stringTemplateAgent });
-  const results = (await graph.run()) as Record<string, any>;
+  const results = await graph.run();
 
   const log_path = path.resolve(__dirname) + "/../tests/logs/" + path.basename(file_path).replace(/\.yml$/, ".log");
   fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-  console.log(results["node5"]["content"]);
+  console.log(results["node5"]?.content);
 };
 
 const main = async () => {
