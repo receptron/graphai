@@ -7,10 +7,14 @@ nodes:
         node1: output
   node2:
     agentId: nested
+    inputs: [node1]
     params:
       nodeId: node30
+      inputNodes: [node00]
       graph:
         nodes:
+          node00:
+            source: true
           node10:
             agentId: sleeper
             params:
@@ -29,14 +33,14 @@ nodes:
               duration: 500
               result:
                 node30: output
-            inputs: [node10, node20]
+            inputs: [node00, node10, node20]
   node3:
     agentId: sleeper
     params:
       duration: 500
       result:
         node3: output
-    inputs: [node1, node2]
+    inputs: [node2]
   node4:
     agentId: sleeper
     params:
