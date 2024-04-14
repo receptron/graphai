@@ -34,6 +34,7 @@ export const graphDataTestRunner = async (
     if (error instanceof Error) {
       console.log("Error:", error.message);
     }
+    fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
     // console.log(graph.transactionLogs());
     return graph.results();
   }

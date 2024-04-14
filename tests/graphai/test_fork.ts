@@ -1,5 +1,4 @@
-import { GraphAI, AgentFunction } from "@/graphai";
-import { testAgent } from "~/agents/agents";
+import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 
 import test from "node:test";

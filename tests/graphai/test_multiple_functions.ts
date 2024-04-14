@@ -1,6 +1,5 @@
 import path from "path";
-import { GraphAI, AgentFunction } from "@/graphai";
-import { readGraphaiData } from "~/utils/file_utils";
+import { AgentFunction } from "@/graphai";
 import { fileTestRunner } from "~/utils/runner";
 
 import test from "node:test";
