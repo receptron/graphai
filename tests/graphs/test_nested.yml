@@ -12,16 +12,19 @@ nodes:
       graph:
         nodes:
           node10:
+            agentId: sleeper
             params:
               duration: 500
               result:
                 node10: output
           node20:
+            agentId: sleeper
             params:
               duration: 100
               result:
                 node20: output
           node30:
+            agentId: sleeper
             params:
               duration: 500
               result:
