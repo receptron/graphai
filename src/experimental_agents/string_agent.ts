@@ -1,5 +1,7 @@
 import { AgentFunction } from "@/graphai";
 
+// see example
+//  tests/agents/test_string_agent.ts
 export const stringTemplateAgent: AgentFunction<
   {
     template: string;
