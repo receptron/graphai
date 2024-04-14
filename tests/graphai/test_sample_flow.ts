@@ -59,7 +59,7 @@ test("test source", async () => {
 });
 
 test("test source2", async () => {
-  const result = await fileTestRunner("/graphs/test_source2.yml", testAgent, (graph: GraphAI) => {
+  const result = await fileTestRunner("/graphs/test_source2.yml", sleeperAgent, (graph: GraphAI) => {
     graph.injectResult("node1", { node1: "injected" });
   });
   assert.deepStrictEqual(result, {
