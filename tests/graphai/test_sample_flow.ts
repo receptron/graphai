@@ -29,7 +29,7 @@ test("test retry", async () => {
 });
 
 test("test error", async () => {
-  const result = await fileTestRunner("/graphs/test_error.yml", testAgent);
+  const result = await fileTestRunner("/graphs/test_error.yml", sleeperAgentDebug);
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
