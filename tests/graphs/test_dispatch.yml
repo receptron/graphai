@@ -1,29 +1,39 @@
 nodes:
   node1:
     params:
-      delay: 500
-    agentId: test
+      duration: 500
+      result:
+        node1: output
+    agentId: sleeper
   node2:
     params:
-      delay: 100
+      duration: 100
+      result:
+        node2: output
     agentId: alt
     outputs:
       output1: node20
   node20:
     source: true
-    agentId: test
+    agentId: sleeper
   node3:
     params:
-      delay: 500
+      duration: 500
+      result:
+        node3: output
     inputs: [node1, node20]
-    agentId: test
+    agentId: sleeper
   node4:
     params:
-      delay: 100
+      duration: 100
+      result:
+        node4: output
     inputs: [node3]
-    agentId: test
+    agentId: sleeper
   node5:
     params:
-      delay: 500
+      duration: 500
+      result:
+        node5: output
     inputs: [node20, node4]
-    agentId: test
+    agentId: sleeper
