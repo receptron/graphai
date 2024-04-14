@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import { GraphAI, GraphData } from "@/graphai";
 import * as readline from "readline";
 import { testAgent } from "~/agents/agents";
