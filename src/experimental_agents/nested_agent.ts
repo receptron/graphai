@@ -1,4 +1,4 @@
-import { GraphAI, GraphData, AgentFunction } from "@/graphai";
+import { GraphAI, GraphData, AgentFunction, CallbackDictonaryArgs } from "@/graphai";
 import { sleeperAgent } from "@/experimental_agents";
 
 export const nestedAgent: AgentFunction<{
