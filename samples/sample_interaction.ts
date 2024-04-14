@@ -37,7 +37,7 @@ const interactiveInputAgent: AgentFunction = async ({ inputs }) => {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_interaction.yaml", graph_data, { echoForkIndexAgent, interactiveInputAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { echoForkIndexAgent, interactiveInputAgent });
   console.log(result);
   console.log("COMPLETE 1");
 };
