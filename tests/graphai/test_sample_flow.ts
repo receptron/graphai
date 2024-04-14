@@ -37,7 +37,7 @@ test("test error", async () => {
 });
 
 test("test timeout", async () => {
-  const result = await fileTestRunner("/graphs/test_timeout.yml", testAgent);
+  const result = await fileTestRunner("/graphs/test_timeout.yml", sleeperAgentDebug);
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
