@@ -3,12 +3,10 @@ import { sleeperAgent } from "@/experimental_agents";
 
 // see example
 //  tests/agents/test_string_agent.ts
-export const nestedAgent: AgentFunction<
-  {
-    graph: GraphData;
-    nodeId: string;
-  }
-> = async ({ params, inputs, agents }) => {
+export const nestedAgent: AgentFunction<{
+  graph: GraphData;
+  nodeId: string;
+}> = async ({ params, inputs, agents }) => {
   const graph = new GraphAI(params.graph, agents);
 
   try {
