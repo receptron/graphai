@@ -3,7 +3,9 @@
   "version": "0.0.10",
   "description": "Asynchronous data flow execution engine to make it simple to build LLM apps.",
   "main": "lib/index.js",
-  "bin": "lib/graphai_cli.js",
+  "bin": {
+    "graphai": "lib/graphai_cli.js"
+  },
   "files": [
     "./lib"
   ],
