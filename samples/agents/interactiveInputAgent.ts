@@ -2,7 +2,11 @@ import { AgentFunction } from "@/graphai";
 import { select } from "@inquirer/prompts";
 import input from "@inquirer/input";
 
-export const interactiveInputSelectAgent: AgentFunction = async ({ inputs }) => {
+export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
+  inputs,
+  params,
+}) => {
+  const { resultKey, isReturnString } = params;
   const choices = Array.from(inputs.keys()).map((k) => {
     return {
       name: "input_" + String(k),
@@ -14,10 +18,20 @@ export const interactiveInputSelectAgent: AgentFunction = async ({ inputs }) => 
     message: "which one do you like?",
     choices,
   });
-  return { answer };
+  if (isReturnString) {
+    return answer;
+  }
+  return { [resultKey ?? "answer"]: answer };
 };
 
-export const interactiveInputTextAgent: AgentFunction = async ({ inputs }) => {
+export const interactiveInputTextAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
+  inputs,
+  params,
+}) => {
+  const { resultKey, isReturnString } = params;
   const answer = await input({ message: "Enter message" });
-  return { answer };
+  if (isReturnString) {
+    return answer;
+  }
+  return { [resultKey ?? "answer"]: answer };
 };
