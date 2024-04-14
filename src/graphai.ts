@@ -50,7 +50,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   params: NodeDataParams<ParamsType>;
   inputs: Array<PreviousResultType>;
   verbose: boolean;
-  agents?: any; // AgentFunctionDictonary
+  agents: CallbackDictonaryArgs;
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
@@ -233,6 +233,7 @@ class Node {
 }
 
 type GraphNodes = Record<string, Node>;
+export type CallbackDictonaryArgs = AgentFunctionDictonary | AgentFunction<any, any, any>;
 
 const defaultConcurrency = 8;
 
@@ -247,7 +248,7 @@ export class GraphAI {
   public verbose: boolean;
   private logs: Array<TransactionLog> = [];
 
-  constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>) {
+  constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
     this.verbose = data.verbose === true;

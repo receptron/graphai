@@ -45,7 +45,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
     params: NodeDataParams<ParamsType>;
     inputs: Array<PreviousResultType>;
     verbose: boolean;
-    agents?: any;
+    agents: CallbackDictonaryArgs;
 };
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
@@ -78,6 +78,7 @@ declare class Node {
     execute(): Promise<void>;
 }
 type GraphNodes = Record<string, Node>;
+export type CallbackDictonaryArgs = AgentFunctionDictonary | AgentFunction<any, any, any>;
 export declare class GraphAI {
     nodes: GraphNodes;
     callbackDictonary: AgentFunctionDictonary;
@@ -88,7 +89,7 @@ export declare class GraphAI {
     private concurrency;
     verbose: boolean;
     private logs;
-    constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>);
+    constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs);
     getCallback(_agentId?: string): AgentFunction<any, any, any>;
     asString(): string;
     results(): ResultDataDictonary<Record<string, any>>;
