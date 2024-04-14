@@ -28,3 +28,6 @@ const main = async () => {
   console.log(result);
   console.log("COMPLETE 1");
 };
+if (process.argv[1] === __filename) {
+  main();
+}
