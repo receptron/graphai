@@ -1,57 +1,57 @@
 nodes:
-  node1:
+  outer1:
     agentId: sleeper
     params:
       duration: 500
       result:
-        node1: output
-  node2:
+        outer1: output
+  outer2:
     agentId: nested
-    inputs: [node1]
+    inputs: [outer1]
     params:
-      nodeId: node30
-      inputNodes: [node00]
+      nodeId: inner3
+      inputNodes: [inner0]
       graph:
         nodes:
-          node00:
+          inner0:
             source: true
-          node10:
+          inner1:
             agentId: sleeper
             params:
               duration: 500
               result:
-                node10: output
-          node20:
+                inner1: output
+          inner2:
             agentId: sleeper
             params:
               duration: 100
               result:
-                node20: output
-          node30:
+                inner2: output
+          inner3:
             agentId: sleeper
             params:
               duration: 500
               result:
-                node30: output
-            inputs: [node00, node10, node20]
-  node3:
+                inner3: output
+            inputs: [inner0, inner1, inner2]
+  outer3:
     agentId: sleeper
     params:
       duration: 500
       result:
-        node3: output
-    inputs: [node2]
-  node4:
+        outer3: output
+    inputs: [outer2]
+  outer4:
     agentId: sleeper
     params:
       duration: 100
       result:
-        node4: output
-    inputs: [node3]
-  node5:
+        outer4: output
+    inputs: [outer3]
+  outer5:
     agentId: sleeper
     params:
       duration: 500
       result:
-        node5: output
-    inputs: [node2, node4]
+        outer5: output
+    inputs: [outer2, outer4]
