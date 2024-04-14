@@ -82,6 +82,15 @@ You need to set ANTHROPIC_API_KEY as well, if you want to use Claude.
 
 Step 4. Run the test script
 
+Start web server for http agent
+
+```
+cd tests/http-server/docs/
+npx http-server
+```
+
+then run the test
+
 ```
 npm run test
 ```
