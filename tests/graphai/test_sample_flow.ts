@@ -1,5 +1,4 @@
 import { GraphAI } from "@/graphai";
-import { testAgent } from "~/agents/agents";
 import { sleeperAgent, sleeperAgentDebug } from "@/experimental_agents";
 import { fileTestRunner } from "~/utils/runner";
 
