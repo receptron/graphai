@@ -1,12 +1,13 @@
 import { GraphAI } from "@/graphai";
 import { testAgent } from "~/agents/agents";
+import { sleeperAgent } from "@/experimental_agents";
 import { fileTestRunner } from "~/utils/runner";
 
 import test from "node:test";
 import assert from "node:assert";
 
 test("test base", async () => {
-  const result = await fileTestRunner("/graphs/test_base.yml", testAgent);
+  const result = await fileTestRunner("/graphs/test_base.yml", sleeperAgent);
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },

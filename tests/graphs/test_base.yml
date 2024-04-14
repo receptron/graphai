@@ -1,19 +1,29 @@
 nodes:
   node1:
     params:
-      delay: 500
+      duration: 500
+      result:
+        node1: output
   node2:
     params:
-      delay: 100
+      duration: 100
+      result:
+        node2: output
   node3:
     params:
-      delay: 500
+      duration: 500
+      result:
+        node3: output
     inputs: [node1, node2]
   node4:
     params:
-      delay: 100
+      duration: 100
+      result:
+        node4: output
     inputs: [node3]
   node5:
     params:
-      delay: 500
+      duration: 500
+      result:
+        node5: output
     inputs: [node2, node4]
