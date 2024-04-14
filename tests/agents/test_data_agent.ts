@@ -21,7 +21,7 @@ test("test dataSumTemplateAgent", async () => {
   const result = await dataSumTemplateAgent({
     nodeId: "test",
     retry: 0,
-    params: { template: "${0}: ${1}", inputKey: "key" },
+    params: {},
     inputs: [1, 2],
     verbose: true,
   });
