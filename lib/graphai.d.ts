@@ -45,6 +45,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
     params: NodeDataParams<ParamsType>;
     inputs: Array<PreviousResultType>;
     verbose: boolean;
+    agents?: any;
 };
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
