@@ -25,7 +25,7 @@ test("test bypass1", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("bypass.yml", graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
   assert.deepStrictEqual(result, {
     bypassAgent2: {
       message: "hello",
@@ -60,7 +60,7 @@ test("test bypass2", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("bypass2.yml", graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
   console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
@@ -101,7 +101,7 @@ test("test bypass3", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("bypass2.yml", graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
   console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
@@ -141,7 +141,7 @@ test("test bypass4", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("bypass2.yml", graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
     bypassAgent_0: { message: "hello" },
