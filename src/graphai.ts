@@ -50,6 +50,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   params: NodeDataParams<ParamsType>;
   inputs: Array<PreviousResultType>;
   verbose: boolean;
+  agents?: any; // AgentFunctionDictonary
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
@@ -188,6 +189,7 @@ class Node {
         inputs: results,
         forkIndex: this.forkIndex,
         verbose: this.graph.verbose,
+        agents: this.graph.callbackDictonary,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
