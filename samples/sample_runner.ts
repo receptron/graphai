@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 
 import { main as gpt } from "./sample_gpt";
 import { main as interaction } from "./interaction";

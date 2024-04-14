@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 
 import { GraphAI, GraphData } from "@/graphai";
 import * as readline from "readline";

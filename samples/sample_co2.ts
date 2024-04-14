@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 
 import { slashGPTFuncitons2TextAgent } from "./agents/slashgpt_agent";
 import { slashGPTAgent } from "@/experimental_agents";

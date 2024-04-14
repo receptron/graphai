@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 
 import { GraphAI, AgentFunction } from "@/graphai";
 import { readGraphaiData } from "~/utils/file_utils";
