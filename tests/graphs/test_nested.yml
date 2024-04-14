@@ -6,11 +6,27 @@ nodes:
       result:
         node1: output
   node2:
-    agentId: sleeper
+    agentId: nested
     params:
-      duration: 100
-      result:
-        node2: output
+      nodeId: node30
+      graph:
+        nodes:
+          node10:
+            params:
+              duration: 500
+              result:
+                node10: output
+          node20:
+            params:
+              duration: 100
+              result:
+                node20: output
+          node30:
+            params:
+              duration: 500
+              result:
+                node30: output
+            inputs: [node10, node20]
   node3:
     agentId: sleeper
     params:
