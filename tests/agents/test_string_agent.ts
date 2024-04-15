@@ -11,6 +11,7 @@ test("test stringTemplateAgent simple", async () => {
     inputs: [{ content: "hello" }, { content: "test" }],
     verbose: true,
     agents: {},
+    log: [],
   });
   assert.deepStrictEqual(result, {
     content: "hello: test",
@@ -25,6 +26,7 @@ test("test stringTemplateAgent simple", async () => {
     inputs: [{ key: "hello" }, { key: "test" }],
     verbose: true,
     agents: {},
+    log: [],
   });
   assert.deepStrictEqual(result, {
     content: "hello: test",
