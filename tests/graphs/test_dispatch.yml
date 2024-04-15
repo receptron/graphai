@@ -10,9 +10,9 @@ nodes:
       duration: 100
       result:
         node2: output
-    agentId: alt
+    agentId: dispatcher
     outputs:
-      output1: node20
+      port1: node20
   node20:
     source: true
     agentId: sleeper

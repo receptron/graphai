@@ -25,12 +25,12 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
       { [nodeId]: "dispatch" },
     );
     console.log("completing", nodeId);
-    return { output1: result };
+    return { port1: result };
   }
 };
 
 test("test dispatch", async () => {
-  const result = await fileTestRunner("/graphs/test_dispatch.yml", { sleeper: sleeperAgent, alt: dispatchAgent });
+  const result = await fileTestRunner("/graphs/test_dispatch.yml", { sleeper: sleeperAgent, dispatcher: dispatchAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node20: { node2: "dispatch" },
