@@ -1,13 +1,8 @@
 import "dotenv/config";
 
-import { GraphAI } from "@/graphai";
-import { readGraphaiData } from "~/utils/file_utils";
-
 import { echoForkIndexAgent } from "~/agents/agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputSelectAgent } from "./agents/interactiveInputAgent";
-
-import { select } from "@inquirer/prompts";
 
 const graph_data = {
   nodes: {

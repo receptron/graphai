@@ -25,7 +25,6 @@ export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; is
 };
 
 export const interactiveInputTextAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
-  inputs,
   params,
 }) => {
   const { resultKey, isReturnString } = params;
