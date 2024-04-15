@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc && tsc-alias",
-    "eslint": "eslint --fix --ext src/*.ts src/*/*.ts tests/**/*.ts",
+    "eslint": "eslint --fix --ext .ts ./src ./tests ./samples",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' .eslintrc.js",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "cli": "npx ts-node  -r tsconfig-paths/register ./src/graphai_cli.ts",
