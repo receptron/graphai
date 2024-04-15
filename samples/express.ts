@@ -14,7 +14,7 @@ const graphAISample = async (req: express.Request, res: express.Response) => {
     },
     concurrency: 8,
   };
-  const testFunction: AgentFunction<Record<string, string>> = async (context) => {
+  const testFunction: AgentFunction<Record<string, string>> = async () => {
     console.log("hello");
     return {};
   };
@@ -42,6 +42,6 @@ app.use(express.json());
 app.get("/", hello);
 app.get("/mock", graphAISample);
 
-const server = app.listen(8080, () => {
+app.listen(8080, () => {
   console.log("Running Server");
 });

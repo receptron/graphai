@@ -1,4 +1,3 @@
-import path from "path";
 import { AgentFunction } from "@/graphai";
 import { fileTestRunner } from "~/utils/runner";
 
@@ -6,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const testAgent1: AgentFunction = async (context) => {
-  const { nodeId, retry, params } = context;
+  const { nodeId, params } = context;
   console.log("executing", nodeId, params);
 
   const result = { [nodeId]: "output 1" };
@@ -15,7 +14,7 @@ const testAgent1: AgentFunction = async (context) => {
 };
 
 const testAgent2: AgentFunction = async (context) => {
-  const { nodeId, retry, params } = context;
+  const { nodeId, params } = context;
   console.log("executing", nodeId, params);
 
   const result = { [nodeId]: "output 2" };
@@ -24,7 +23,7 @@ const testAgent2: AgentFunction = async (context) => {
 };
 
 const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number }> = async (context) => {
-  const { nodeId, retry, params } = context;
+  const { nodeId, params } = context;
   console.log("executing", nodeId, params);
 
   const result = { [nodeId]: params.number };

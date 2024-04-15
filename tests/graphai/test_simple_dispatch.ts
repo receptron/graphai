@@ -7,7 +7,7 @@ import assert from "node:assert";
 
 const dispatchAgentGenerator = (selectedNodeId: string) => {
   const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
-    const { nodeId, retry, params, inputs } = context;
+    const { nodeId } = context;
     console.log("executing", nodeId);
     if (nodeId === selectedNodeId) {
       return { next: { from: nodeId } };
@@ -106,7 +106,7 @@ const dispatchGraph2 = {
 
 const dispatchAgentGenerator2 = (selectedKeys: string[]) => {
   const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
-    const { nodeId, retry, params, inputs } = context;
+    const { nodeId } = context;
     console.log("executing", nodeId);
     return selectedKeys.reduce((tmp: Record<string, any>, current) => {
       tmp[current] = { from: nodeId };

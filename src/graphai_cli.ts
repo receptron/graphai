@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 import YAML from "yaml";
 
-const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async (context) => {
+const testAgent: AgentFunction<{ delay: number; fail: boolean }> = async () => {
   return {};
 };
 

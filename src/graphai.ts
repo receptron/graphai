@@ -42,10 +42,10 @@ export type TransactionLog = {
   inputs?: Array<ResultData>;
   errorMessage?: string;
   result?: ResultData;
-  log?: Record<string, any>[];
+  log?: TransactionLog[];
 };
 
-export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+export type AgentFunctionContext<ParamsType, PreviousResultType> = {
   nodeId: string;
   forkIndex?: number;
   retry: number;
@@ -53,11 +53,11 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   inputs: Array<PreviousResultType>;
   verbose: boolean;
   agents: CallbackDictonaryArgs;
-  log: Record<string, any>[];
+  log: TransactionLog[];
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
-  context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>,
+  context: AgentFunctionContext<ParamsType, PreviousResultType>,
 ) => Promise<ResultData<ResultType>>;
 
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
@@ -185,7 +185,7 @@ class Node {
 
     try {
       const callback = this.graph.getCallback(this.agentId);
-      const localLog: Record<string, any>[] = [];
+      const localLog: TransactionLog[] = [];
       const result = await callback({
         nodeId: this.nodeId,
         retry: this.retryCount,

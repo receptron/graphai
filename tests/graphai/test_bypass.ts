@@ -1,4 +1,3 @@
-import { GraphAI, GraphData } from "@/graphai";
 import { bypassAgent, echoAgent } from "~/agents/agents";
 
 import { graphDataTestRunner } from "~/utils/runner";

@@ -1,8 +1,5 @@
 import "dotenv/config";
 
-import { GraphAI } from "@/graphai";
-import { readGraphaiData } from "~/utils/file_utils";
-
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 import { wikipediaAgent } from "./agents/wikipedia";
