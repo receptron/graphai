@@ -55,7 +55,7 @@ Furthermore, GraphAI's robust mechanisms for error handling, retry strategies, t
 ## Quick Install
 
 ```
-pip install graphai
+npm install graphai
 ```
 
 or
