@@ -104,17 +104,20 @@ const dispatchGraph2 = {
   },
 };
 
-const dispatchAgentGenerator2 = (selectedKey: string) => {
+const dispatchAgentGenerator2 = (selectedKeys: string[]) => {
   const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
     const { nodeId, retry, params, inputs } = context;
     console.log("executing", nodeId);
-    return { [selectedKey]: { from: nodeId } };
+    return selectedKeys.reduce((tmp: Record<string, any>, current) => {
+      tmp[current] = { from: nodeId };
+      return tmp;
+    }, {});
   };
   return dispatchAgent;
 };
 
 test("test next 1", async () => {
-  const dispatchAgent = dispatchAgentGenerator2("next1");
+  const dispatchAgent = dispatchAgentGenerator2(["next1"]);
   const result = await graphDataTestRunner(__filename, dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent });
   console.log(result);
   assert.deepStrictEqual(result, {
@@ -124,10 +127,22 @@ test("test next 1", async () => {
 });
 
 test("test next 3", async () => {
-  const dispatchAgent = dispatchAgentGenerator2("next3");
+  const dispatchAgent = dispatchAgentGenerator2(["next3"]);
   const result = await graphDataTestRunner(__filename, dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent });
   assert.deepStrictEqual(result, {
     ghost3: { from: "select" },
+    result3: { result3: "hello", from: "select" },
+  });
+});
+
+test("test next 2, 3", async () => {
+  const dispatchAgent = dispatchAgentGenerator2(["next2", "next3"]);
+  const result = await graphDataTestRunner(__filename, dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent });
+  console.log(result);
+  assert.deepStrictEqual(result, {
+    ghost2: { from: "select" },
+    ghost3: { from: "select" },
+    result2: { result2: "hello", from: "select" },
     result3: { result3: "hello", from: "select" },
   });
 });
