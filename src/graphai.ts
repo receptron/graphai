@@ -44,7 +44,7 @@ export type TransactionLog = {
   log?: TransactionLog[];
 };
 
-export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+export type AgentFunctionContext<ParamsType, PreviousResultType> = {
   nodeId: string;
   forkIndex?: number;
   retry: number;
@@ -56,7 +56,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
-  context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>,
+  context: AgentFunctionContext<ParamsType, PreviousResultType>,
 ) => Promise<ResultData<ResultType>>;
 
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;

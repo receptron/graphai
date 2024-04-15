@@ -1,8 +1,6 @@
 import "dotenv/config";
 
-import { GraphAI, GraphData } from "@/graphai";
-import path from "path";
-import * as fs from "fs";
+import { GraphData } from "@/graphai";
 import { slashGPTAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { home_functions } from "./home_functions";

@@ -14,7 +14,7 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
   await sleep(params.delay / (retry + 1));
 
   if (params.fail && retry < 2) {
-    const result = { [nodeId]: "failed" };
+    // const result = { [nodeId]: "failed" };
     console.log("failed (intentional)", nodeId, retry);
     throw new Error("Intentional Failure");
   } else {

@@ -1,11 +1,11 @@
-import { GraphAI, AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 
 import test from "node:test";
 import assert from "node:assert";
 
 const httpClientAgent: AgentFunction<Record<string, string>> = async (context) => {
-  const { nodeId, retry, params, inputs } = context;
+  const { nodeId, params, inputs } = context;
   console.log("executing", nodeId, params, inputs);
 
   const response = await fetch(params.url);

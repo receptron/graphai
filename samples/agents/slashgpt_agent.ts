@@ -1,8 +1,4 @@
-import path from "path";
 import { AgentFunction } from "@/graphai";
-import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
-
-const config = new ChatConfig(path.resolve(__dirname));
 
 export const slashGPTFuncitons2TextAgent: AgentFunction<
   { function_data_key: string; result_key: number },

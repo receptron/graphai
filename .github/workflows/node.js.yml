@@ -26,3 +26,4 @@ jobs:
     - run: yarn install
     - run: cd tests/http-server/docs/ && npx http-server &
     - run: yarn test
+    - run: yarn run eslint
