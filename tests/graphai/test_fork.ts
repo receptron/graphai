@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const testAgent1: AgentFunction = async (context) => {
-  const { nodeId, retry, params, inputs } = context;
+  const { nodeId, params, inputs } = context;
   console.log("executing", nodeId, params, inputs);
 
   const result = {
