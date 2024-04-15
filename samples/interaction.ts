@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { GraphAI, GraphData } from "@/graphai";
 import * as readline from "readline";
-import { testAgent } from "~/agents/agents";
+import { mergeNodeIdAgent } from "~/agents/agents";
 import { graphDataTestRunner } from "~/utils/runner";
 
 const getUserInput = async (question: string): Promise<string> => {
@@ -35,7 +35,7 @@ export const main = async () => {
   console.log("query=", query);
   graph_data.nodes.node1.result = { query };
 
-  const result = await graphDataTestRunner(__filename, graph_data, testAgent);
+  const result = await graphDataTestRunner(__filename, graph_data, mergeNodeIdAgent);
   console.log(result);
 
   console.log("COMPLETE 1");
