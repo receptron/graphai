@@ -20,6 +20,7 @@ const getUserInput = async (question: string): Promise<string> => {
 };
 
 const graph_data: GraphData = {
+  repeat: 2,
   nodes: {
     node1: {
       source: true,
