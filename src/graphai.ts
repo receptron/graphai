@@ -255,18 +255,11 @@ export class GraphAI {
   public verbose: boolean;
   private logs: Array<TransactionLog> = [];
 
-  constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs) {
-    this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
-    this.concurrency = data.concurrency ?? defaultConcurrency;
-    this.verbose = data.verbose === true;
-    this.onComplete = () => {
-      console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
-    };
+  private createNodes(data: GraphData) {
     const nodeId2forkedNodeIds: Record<string, string[]> = {};
     const forkedNodeId2Index: Record<string, number> = {};
 
-    // Create node instances from data.nodes
-    this.nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
+    const nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       const fork = data.nodes[nodeId].fork;
       if (fork) {
         // For fork, change the nodeId and increase the node
@@ -284,8 +277,8 @@ export class GraphAI {
     }, {});
 
     // Generate the waitlist for each node, and update the pendings in case of forked node.
-    Object.keys(this.nodes).forEach((nodeId) => {
-      const node = this.nodes[nodeId];
+    Object.keys(nodes).forEach((nodeId) => {
+      const node = nodes[nodeId];
       node.pendings.forEach((pending) => {
         // If the pending(previous) node is forking
         if (nodeId2forkedNodeIds[pending]) {
@@ -293,22 +286,34 @@ export class GraphAI {
           if (node.fork) {
             //  1:1 if current nodes are also forking.
             const newPendingId = nodeId2forkedNodeIds[pending][forkedNodeId2Index[nodeId]];
-            this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
+            nodes[newPendingId].waitlist.add(nodeId); // previousNode
             node.pendings.add(newPendingId);
           } else {
             //  1:n if current node is not forking.
             nodeId2forkedNodeIds[pending].forEach((newPendingId) => {
-              this.nodes[newPendingId].waitlist.add(nodeId); // previousNode
+              nodes[newPendingId].waitlist.add(nodeId); // previousNode
               node.pendings.add(newPendingId);
             });
           }
           node.pendings.delete(pending);
         } else {
-          this.nodes[pending].waitlist.add(nodeId); // previousNode
+          nodes[pending].waitlist.add(nodeId); // previousNode
         }
       });
       node.inputs = Array.from(node.pendings); // for fork.
     });
+    return nodes;
+  }
+
+  constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs) {
+    this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
+    this.concurrency = data.concurrency ?? defaultConcurrency;
+    this.verbose = data.verbose === true;
+    this.onComplete = () => {
+      console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
+    };
+
+    this.nodes = this.createNodes(data);
 
     // If the result property is specified, inject it.
     // NOTE: This must be done at the end of this constructor
