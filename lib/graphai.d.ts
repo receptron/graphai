@@ -91,6 +91,8 @@ export declare class GraphAI {
     private concurrency;
     verbose: boolean;
     private logs;
+    private createNodes;
+    private initializeNodes;
     constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs);
     getCallback(_agentId?: string): AgentFunction<any, any, any>;
     asString(): string;

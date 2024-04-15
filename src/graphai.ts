@@ -305,6 +305,17 @@ export class GraphAI {
     return nodes;
   }
 
+  private initializeNodes(data: GraphData) {
+    // If the result property is specified, inject it.
+    // NOTE: This must be done at the end of this constructor
+    Object.keys(data.nodes).forEach((nodeId) => {
+      const result = data.nodes[nodeId].result;
+      if (result) {
+        this.injectResult(nodeId, result);
+      }
+    });
+  }
+
   constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs) {
     this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
@@ -314,15 +325,7 @@ export class GraphAI {
     };
 
     this.nodes = this.createNodes(data);
-
-    // If the result property is specified, inject it.
-    // NOTE: This must be done at the end of this constructor
-    Object.keys(data.nodes).forEach((nodeId) => {
-      const result = data.nodes[nodeId].result;
-      if (result) {
-        this.injectResult(nodeId, result);
-      }
-    });
+    this.initializeNodes(data);
   }
 
   public getCallback(_agentId?: string) {
