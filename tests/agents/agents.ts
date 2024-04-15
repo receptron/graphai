@@ -13,11 +13,12 @@ export const echoForkIndexAgent: AgentFunction<{}> = async ({ forkIndex }) => {
   return { forkIndex };
 };
 
-
-export const mergeNodeIdAgent: AgentFunction<{}> = async ({nodeId, inputs}) => {
+export const mergeNodeIdAgent: AgentFunction<{}> = async ({ nodeId, inputs }) => {
   console.log("executing", nodeId);
-  return inputs.reduce((tmp, input) => {
-    return { ...tmp, ...input};
-  }, {[nodeId]: "hello"});
-
+  return inputs.reduce(
+    (tmp, input) => {
+      return { ...tmp, ...input };
+    },
+    { [nodeId]: "hello" },
+  );
 };

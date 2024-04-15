@@ -10,29 +10,29 @@ const dispatchAgentGenerator = (selectedNodeId: string) => {
     const { nodeId, retry, params, inputs } = context;
     console.log("executing", nodeId);
     if (nodeId === selectedNodeId) {
-      return { next: {"from": nodeId} };
+      return { next: { from: nodeId } };
     }
     return {};
   };
   return dispatchAgent;
 };
 
-const forkGraph = {
+const dispatchGraph = {
   nodes: {
     select1: {
       agentId: "dispatcher",
-        outputs: {
-          next: "ghost"
-        }
+      outputs: {
+        next: "ghost",
+      },
     },
     select2: {
       agentId: "dispatcher",
       outputs: {
-        next: "ghost"
-      }
+        next: "ghost",
+      },
     },
     ghost: {
-      source: true
+      source: true,
     },
     node: {
       agentId: "mergeNodeIdAgent",
@@ -49,27 +49,85 @@ const forkGraph = {
 };
 
 test("test select 1", async () => {
-
   const dispatchAgent = dispatchAgentGenerator("select1");
-  const result = await graphDataTestRunner(__filename, forkGraph, {dispatcher: dispatchAgent, mergeNodeIdAgent});
+  const result = await graphDataTestRunner(__filename, dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent });
   assert.deepStrictEqual(result, {
-    ghost: { from: 'select1' },
-    node: { node: 'hello' },
-    merge: { merge: 'hello', node: 'hello', from: 'select1' },
-    result: { result: 'hello', merge: 'hello', node: 'hello', from: 'select1' }
+    ghost: { from: "select1" },
+    node: { node: "hello" },
+    merge: { merge: "hello", node: "hello", from: "select1" },
+    result: { result: "hello", merge: "hello", node: "hello", from: "select1" },
   });
-  
 });
 
 test("test select 2", async () => {
-
   const dispatchAgent = dispatchAgentGenerator("select2");
-  const result = await graphDataTestRunner(__filename, forkGraph, {dispatcher: dispatchAgent, mergeNodeIdAgent});
+  const result = await graphDataTestRunner(__filename, dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent });
   assert.deepStrictEqual(result, {
-    ghost: { from: 'select2' },
-    node: { node: 'hello' },
-    merge: { merge: 'hello', node: 'hello', from: 'select2' },
-    result: { result: 'hello', merge: 'hello', node: 'hello', from: 'select2' }
+    ghost: { from: "select2" },
+    node: { node: "hello" },
+    merge: { merge: "hello", node: "hello", from: "select2" },
+    result: { result: "hello", merge: "hello", node: "hello", from: "select2" },
   });
 });
 
+const dispatchGraph2 = {
+  nodes: {
+    select: {
+      agentId: "dispatcher",
+      outputs: {
+        next1: "ghost1",
+        next2: "ghost2",
+        next3: "ghost3",
+      },
+    },
+    ghost1: {
+      source: true,
+    },
+    ghost2: {
+      source: true,
+    },
+    ghost3: {
+      source: true,
+    },
+    result1: {
+      inputs: ["ghost1"],
+      agentId: "mergeNodeIdAgent",
+    },
+    result2: {
+      inputs: ["ghost2"],
+      agentId: "mergeNodeIdAgent",
+    },
+    result3: {
+      inputs: ["ghost3"],
+      agentId: "mergeNodeIdAgent",
+    },
+  },
+};
+
+const dispatchAgentGenerator2 = (selectedKey: string) => {
+  const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
+    const { nodeId, retry, params, inputs } = context;
+    console.log("executing", nodeId);
+    return { [selectedKey]: { from: nodeId } };
+  };
+  return dispatchAgent;
+};
+
+test("test next 1", async () => {
+  const dispatchAgent = dispatchAgentGenerator2("next1");
+  const result = await graphDataTestRunner(__filename, dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent });
+  console.log(result);
+  assert.deepStrictEqual(result, {
+    ghost1: { from: "select" },
+    result1: { result1: "hello", from: "select" },
+  });
+});
+
+test("test next 3", async () => {
+  const dispatchAgent = dispatchAgentGenerator2("next3");
+  const result = await graphDataTestRunner(__filename, dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent });
+  assert.deepStrictEqual(result, {
+    ghost3: { from: "select" },
+    result3: { result3: "hello", from: "select" },
+  });
+});
