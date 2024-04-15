@@ -11,6 +11,7 @@ test("test dataObjectMergeTemplateAgent", async () => {
     inputs: [{ content1: "hello" }, { content2: "test" }],
     verbose: true,
     agents: {},
+    log: [],
   });
   assert.deepStrictEqual(result, {
     content1: "hello",
@@ -26,6 +27,7 @@ test("test dataSumTemplateAgent", async () => {
     inputs: [1, 2],
     verbose: true,
     agents: {},
+    log: [],
   });
   assert.deepStrictEqual(result, 3);
 });

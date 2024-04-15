@@ -41,6 +41,7 @@ export type TransactionLog = {
   inputs?: Array<ResultData>;
   errorMessage?: string;
   result?: ResultData;
+  log?: Record<string, any>[];
 };
 
 export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
@@ -51,6 +52,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
   inputs: Array<PreviousResultType>;
   verbose: boolean;
   agents: CallbackDictonaryArgs;
+  log: Record<string, any>[];
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
@@ -182,6 +184,7 @@ class Node {
 
     try {
       const callback = this.graph.getCallback(this.agentId);
+      const localLog: Record<string, any>[] = [];
       const result = await callback({
         nodeId: this.nodeId,
         retry: this.retryCount,
@@ -190,6 +193,7 @@ class Node {
         forkIndex: this.forkIndex,
         verbose: this.graph.verbose,
         agents: this.graph.callbackDictonary,
+        log: localLog,
       });
       if (this.transactionId !== transactionId) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
@@ -198,6 +202,9 @@ class Node {
 
       log.endTime = Date.now();
       log.result = result;
+      if (localLog.length > 0) {
+        log.log = localLog;
+      }
 
       const outputs = this.outputs;
       if (outputs !== undefined) {

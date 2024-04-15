@@ -5,7 +5,7 @@ export const nestedAgent: AgentFunction<{
   graph: GraphData;
   nodeId: string;
   inputNodes?: Array<string>;
-}> = async ({ params, inputs, agents }) => {
+}> = async ({ params, inputs, agents, log }) => {
   const graph = new GraphAI(params.graph, agents);
 
   try {
@@ -14,8 +14,10 @@ export const nestedAgent: AgentFunction<{
       graph.injectResult(nodeId, inputs[index]);
     });
     const results = await graph.run();
+    log.push(...graph.transactionLogs());
     return results[params.nodeId];
   } catch (error) {
+    log.push(...graph.transactionLogs());
     if (error instanceof Error) {
       console.log("Error:", error.message);
     }
