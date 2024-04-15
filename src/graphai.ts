@@ -428,9 +428,17 @@ export class GraphAI {
     if (this.runningNodes.size === 0) {
       this.repeatCount++;
       if (this.loop && this.repeatCount < this.loop.count) {
-        console.log("****** Repeat", this.repeatCount, this.loop.count);
+        const results = this.results(); // results from previous loop
+
         this.nodes = this.createNodes(this.data);
         this.initializeNodes();
+        // Transer results from previous loop
+        const assign = this.loop.assign;
+        if (assign) {
+          Object.keys(assign).forEach((sourceNodeId) => {
+            this.injectResult(assign[sourceNodeId], results[sourceNodeId]);
+          });
+        }
         this.pushReadyNodesIntoQueue();
       } else {
         this.onComplete();
