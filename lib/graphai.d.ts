@@ -24,6 +24,7 @@ type NodeData = {
 export type GraphData = {
     nodes: Record<string, NodeData>;
     concurrency?: number;
+    repeat?: number;
     verbose?: boolean;
 };
 export type TransactionLog = {
@@ -39,7 +40,7 @@ export type TransactionLog = {
     result?: ResultData;
     log?: TransactionLog[];
 };
-export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
+export type AgentFunctionContext<ParamsType, PreviousResultType> = {
     nodeId: string;
     forkIndex?: number;
     retry: number;
@@ -49,7 +50,7 @@ export type AgentFunctionContext<ParamsType, ResultType, PreviousResultType> = {
     agents: CallbackDictonaryArgs;
     log: TransactionLog[];
 };
-export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, ResultType, PreviousResultType>) => Promise<ResultData<ResultType>>;
+export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, PreviousResultType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 declare class Node {
     nodeId: string;
@@ -82,6 +83,7 @@ declare class Node {
 type GraphNodes = Record<string, Node>;
 export type CallbackDictonaryArgs = AgentFunctionDictonary | AgentFunction<any, any, any>;
 export declare class GraphAI {
+    private data;
     nodes: GraphNodes;
     callbackDictonary: AgentFunctionDictonary;
     isRunning: boolean;
@@ -89,6 +91,8 @@ export declare class GraphAI {
     private nodeQueue;
     private onComplete;
     private concurrency;
+    private repeat?;
+    private repeatCount;
     verbose: boolean;
     private logs;
     private createNodes;
@@ -98,6 +102,7 @@ export declare class GraphAI {
     asString(): string;
     results(): ResultDataDictonary<Record<string, any>>;
     errors(): Record<string, Error>;
+    private pushReadyNodesIntoQueue;
     run(): Promise<ResultDataDictonary>;
     private runNode;
     pushQueue(node: Node): void;

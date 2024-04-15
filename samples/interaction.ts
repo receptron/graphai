@@ -6,6 +6,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 
 const graph_data: GraphData = {
+  repeat: 3,
   nodes: {
     node1: {
       source: true,

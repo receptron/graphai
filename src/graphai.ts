@@ -27,6 +27,7 @@ type NodeData = {
 export type GraphData = {
   nodes: Record<string, NodeData>;
   concurrency?: number;
+  repeat?: number;
   verbose?: boolean;
 };
 
@@ -245,6 +246,7 @@ export type CallbackDictonaryArgs = AgentFunctionDictonary | AgentFunction<any, 
 const defaultConcurrency = 8;
 
 export class GraphAI {
+  private data: GraphData;
   public nodes: GraphNodes;
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
@@ -252,6 +254,8 @@ export class GraphAI {
   private nodeQueue: Array<Node> = [];
   private onComplete: () => void;
   private concurrency: number;
+  private repeat?: number;
+  private repeatCount = 0;
   public verbose: boolean;
   private logs: Array<TransactionLog> = [];
 
@@ -305,11 +309,11 @@ export class GraphAI {
     return nodes;
   }
 
-  private initializeNodes(data: GraphData) {
+  private initializeNodes() {
     // If the result property is specified, inject it.
     // NOTE: This must be done at the end of this constructor
-    Object.keys(data.nodes).forEach((nodeId) => {
-      const result = data.nodes[nodeId].result;
+    Object.keys(this.data.nodes).forEach((nodeId) => {
+      const result = this.data.nodes[nodeId].result;
       if (result) {
         this.injectResult(nodeId, result);
       }
@@ -317,15 +321,17 @@ export class GraphAI {
   }
 
   constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs) {
+    this.data = data;
     this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
+    this.repeat = data.repeat;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
 
     this.nodes = this.createNodes(data);
-    this.initializeNodes(data);
+    this.initializeNodes();
   }
 
   public getCallback(_agentId?: string) {
@@ -364,16 +370,20 @@ export class GraphAI {
     }, {});
   }
 
-  public async run(): Promise<ResultDataDictonary> {
-    if (this.isRunning) {
-      console.error("-- Already Running");
-    }
-    this.isRunning = true;
+  private pushReadyNodesIntoQueue() {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       node.pushQueueIfReady();
     });
+  }
+
+  public async run(): Promise<ResultDataDictonary> {
+    if (this.isRunning) {
+      console.error("-- Already Running");
+    }
+    this.isRunning = true;
+    this.pushReadyNodesIntoQueue();
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
@@ -411,7 +421,15 @@ export class GraphAI {
       }
     }
     if (this.runningNodes.size === 0) {
-      this.onComplete();
+      this.repeatCount++;
+      if (this.repeat && this.repeatCount < this.repeat) {
+        console.log("****** Repeat", this.repeatCount, this.repeat);
+        this.nodes = this.createNodes(this.data);
+        this.initializeNodes();
+        this.pushReadyNodesIntoQueue();
+      } else {
+        this.onComplete();
+      }
     }
   }
 
