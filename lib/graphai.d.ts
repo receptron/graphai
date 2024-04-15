@@ -31,7 +31,7 @@ export type TransactionLog = {
     state: NodeState;
     startTime: number;
     endTime?: number;
-    retryCount: number;
+    retryCount?: number;
     agentId?: string;
     params?: NodeDataParams;
     inputs?: Array<ResultData>;
