@@ -35,7 +35,7 @@ export type TransactionLog = {
   state: NodeState;
   startTime: number;
   endTime?: number;
-  retryCount: number;
+  retryCount?: number;
   agentId?: string;
   params?: NodeDataParams;
   inputs?: Array<ResultData>;
@@ -159,12 +159,12 @@ class Node {
     const transactionId = Date.now();
     const log: TransactionLog = {
       nodeId: this.nodeId,
-      retryCount: this.retryCount,
+      retryCount: this.retryCount > 0 ? this.retryCount : undefined,
       state: NodeState.Executing,
       startTime: transactionId,
       agentId: this.agentId,
       params: this.params,
-      inputs: results,
+      inputs: results.length > 0 ? results : undefined,
     };
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
