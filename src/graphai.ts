@@ -215,10 +215,11 @@ class Node {
 
       const outputs = this.outputs;
       if (outputs !== undefined) {
-        Object.keys(result).forEach((outputId) => {
+        Object.keys(outputs).forEach((outputId) => {
           const nodeId = outputs[outputId];
-          if (nodeId) {
-            this.graph.injectValue(nodeId, result[outputId]);
+          const value = result[outputId];
+          if (value) {
+            this.graph.injectValue(nodeId, value);
           } else {
             console.error("-- Invalid outputId", outputId, result);
           }
@@ -312,7 +313,11 @@ export class GraphAI {
           }
           node.pendings.delete(pending);
         } else {
-          nodes[pending].waitlist.add(nodeId); // previousNode
+          if (nodes[pending]) {
+            nodes[pending].waitlist.add(nodeId); // previousNode
+          } else {
+            console.error(`--- invalid input ${pending} for node, ${nodeId}`);
+          }
         }
       });
       node.inputs = Array.from(node.pendings); // for fork.
