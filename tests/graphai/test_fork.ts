@@ -18,8 +18,9 @@ const testAgent1: AgentFunction = async (context) => {
   return result;
 };
 
-test("test base", async () => {
+test("test fork 1", async () => {
   const forkGraph = {
+    agentId: "testAgent1",
     nodes: {
       node1: {
         params: {},
@@ -37,7 +38,7 @@ test("test base", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, testAgent1);
+  const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1 });
   // console.log(result);
   assert.deepStrictEqual(result, {
     node1: { node1: "node1" },
@@ -58,8 +59,9 @@ test("test base", async () => {
   });
 });
 
-test("test base", async () => {
+test("test fork 2", async () => {
   const forkGraph = {
+    agentId: "testAgent1",
     nodes: {
       node1: {
         params: {},
@@ -77,7 +79,7 @@ test("test base", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, testAgent1);
+  const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1 });
   // console.log(result);
   assert.deepStrictEqual(result, {
     node1: { node1: "node1" },

@@ -30,6 +30,7 @@ type LoopData = {
 };
 
 export type GraphData = {
+  agentId?: string;
   nodes: Record<string, NodeData>;
   concurrency?: number;
   loop?: LoopData;
@@ -189,7 +190,7 @@ class Node {
     }
 
     try {
-      const callback = this.graph.getCallback(this.agentId);
+      const callback = this.graph.getCallback(this.agentId ?? this.graph.agentId);
       const localLog: TransactionLog[] = [];
       const result = await callback({
         nodeId: this.nodeId,
@@ -246,13 +247,14 @@ class Node {
 }
 
 type GraphNodes = Record<string, Node>;
-export type CallbackDictonaryArgs = AgentFunctionDictonary | AgentFunction<any, any, any>;
+export type CallbackDictonaryArgs = AgentFunctionDictonary;
 
 const defaultConcurrency = 8;
 
 export class GraphAI {
   private data: GraphData;
   public nodes: GraphNodes;
+  public agentId?: string;
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
   private runningNodes = new Set<string>();
@@ -327,9 +329,10 @@ export class GraphAI {
 
   constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs) {
     this.data = data;
-    this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
+    this.callbackDictonary = callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
     this.loop = data.loop;
+    this.agentId = data.agentId;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
@@ -339,9 +342,8 @@ export class GraphAI {
     this.initializeNodes();
   }
 
-  public getCallback(_agentId?: string) {
-    const agentId = _agentId ?? "_default";
-    if (this.callbackDictonary[agentId]) {
+  public getCallback(agentId?: string) {
+    if (agentId && this.callbackDictonary[agentId]) {
       return this.callbackDictonary[agentId];
     }
     throw new Error("No agent: " + agentId);
