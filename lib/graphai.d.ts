@@ -18,7 +18,7 @@ type NodeData = {
     agentId?: string;
     fork?: number;
     source?: boolean;
-    result?: ResultData;
+    value?: ResultData;
     outputs?: Record<string, string>;
 };
 type LoopData = {
@@ -81,7 +81,7 @@ declare class Node {
     private retry;
     removePending(nodeId: string): void;
     pushQueueIfReady(): void;
-    injectResult(result: ResultData): void;
+    injectValue(value: ResultData): void;
     private setResult;
     execute(): Promise<void>;
 }
@@ -115,7 +115,7 @@ export declare class GraphAI {
     removeRunning(node: Node): void;
     appendLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
-    injectResult(nodeId: string, result: ResultData): void;
+    injectValue(nodeId: string, value: ResultData): void;
     resultsOf(nodeIds: Array<string>): ResultData<Record<string, any>>[];
 }
 export {};
