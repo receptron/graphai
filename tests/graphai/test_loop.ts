@@ -17,13 +17,11 @@ const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<
 const graphdata_push = {
   loop: {
     count: 10,
-    assign: {
-      array: "reducer",
-    },
   },
   nodes: {
     array: {
       value: [],
+      next: "reducer",
     },
     item: {
       agentId: "sleeper",
@@ -59,17 +57,15 @@ const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<s
 const graphdata_pop = {
   loop: {
     count: 3,
-    assign: {
-      source: "popper.array",
-      previous: "reducer",
-    },
   },
   nodes: {
     source: {
       value: ["orange", "banana", "lemon"],
+      next: "popper.array",
     },
     previous: {
       value: [],
+      next: "reducer",
     },
     popper: {
       inputs: ["source"],

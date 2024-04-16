@@ -20,13 +20,13 @@ type NodeData = {
   agentId?: string;
   fork?: number;
   source?: boolean;
-  value?: ResultData; // preset value for static node.
+  value?: ResultData; // initial value for static node.
+  next?: string; // nodeId (+.prop) to get value after a loop
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
 
 type LoopData = {
   count: number;
-  assign?: Record<string, string>;
 };
 
 export type GraphData = {
@@ -93,8 +93,8 @@ class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
-    this.inputs = (data.inputs ?? []).map(input => {
-      const parts = input.split('.');
+    this.inputs = (data.inputs ?? []).map((input) => {
+      const parts = input.split(".");
       if (parts.length == 1) {
         return input;
       } else {
@@ -348,13 +348,25 @@ export class GraphAI {
     return nodes;
   }
 
-  private initializeNodes() {
+  private initializeNodes(previousResults?: ResultDataDictonary<Record<string, any>>) {
     // If the result property is specified, inject it.
-    // NOTE: This must be done at the end of this constructor
+    // If the previousResults exists (indicating we are in a loop),
+    // process the next property (nodeId or nodeId.propId).
     Object.keys(this.data.nodes).forEach((nodeId) => {
-      const value = this.data.nodes[nodeId].value;
+      const node = this.data.nodes[nodeId];
+      const value = node.value;
       if (value) {
         this.injectValue(nodeId, value);
+      }
+      const next = node.next;
+      if (next && previousResults) {
+        const parts = next.split(".");
+        const result = previousResults[parts[0]];
+        if (parts.length == 1) {
+          this.injectValue(nodeId, result);
+        } else if (result) {
+          this.injectValue(nodeId, result[parts[1]]);
+        }
       }
     });
   }
@@ -466,22 +478,7 @@ export class GraphAI {
 
         this.isRunning = false; // temporarily stop it
         this.nodes = this.createNodes(this.data);
-        this.initializeNodes();
-        // Transer results from previous loop
-        const assign = this.loop.assign;
-        if (assign) {
-          Object.keys(assign).forEach((destinationNodeId) => {
-            const value = assign[destinationNodeId];
-            const parts = value.split('.');
-            const result = results[parts[0]];
-            
-            if (parts.length == 1) {
-              this.injectValue(destinationNodeId, result);
-            } else {
-              this.injectValue(destinationNodeId, result![parts[1]]);
-            }
-          });
-        }
+        this.initializeNodes(results);
         this.isRunning = true; // restore it
         this.pushReadyNodesIntoQueue();
       } else {
