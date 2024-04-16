@@ -217,7 +217,11 @@ class Node {
       if (outputs !== undefined) {
         Object.keys(result).forEach((outputId) => {
           const nodeId = outputs[outputId];
-          this.graph.injectValue(nodeId, result[outputId]);
+          if (nodeId) {
+            this.graph.injectValue(nodeId, result[outputId]);
+          } else {
+            console.error("-- Invalid outputId", outputId, result);
+          }
         });
         log.state = NodeState.Dispatched;
         this.state = NodeState.Dispatched;
