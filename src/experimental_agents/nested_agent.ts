@@ -10,7 +10,7 @@ export const nestedAgent: AgentFunction<{
   try {
     // Inject inputs to specified source nodes
     (params.inputNodes ?? []).forEach((nodeId, index) => {
-      graph.injectResult(nodeId, inputs[index]);
+      graph.injectValue(nodeId, inputs[index]);
     });
     const results = await graph.run();
     log.push(...graph.transactionLogs());

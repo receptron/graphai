@@ -3,18 +3,18 @@ nodes:
   node1:
     params:
       duration: 500
-      result:
+      value:
         node1: output
   node2:
     params:
       duration: 100
-      result:
+      value:
         node2: output
   node3:
     params:
       duration: 500
       fail: true
-      result:
+      value:
         node3: output
     inputs: [node1, node2]
     retry: 2
@@ -22,12 +22,12 @@ nodes:
     timeout: 200
     params:
       duration: 300
-      result:
+      value:
         node4: output
     inputs: [node3]
   node5:
     params:
       duration: 100
-      result:
+      value:
         node5: output
     inputs: [node4]

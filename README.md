@@ -148,7 +148,7 @@ A computed node may have following properties.
 
 A static node may have following properties.
 
-- 'result': An optional property, which specifies the result of this static node (equivalent to calling the injectResult method from outside).
+- 'value': An optional property, which specifies the value (result) of this static node (equivalent to calling the injectValue method from outside).
 
 ## GraphAI class
 
