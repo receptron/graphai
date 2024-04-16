@@ -120,6 +120,7 @@ A DFG consists of a collection of 'nodes', which contains a series of nested key
 
 - 'nodes': A list of node. Required.
 - 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
+- 'agentId': An optional property, which specifies the default agent for all the nodes.
 
 ## Agent
 
@@ -133,15 +134,21 @@ An agent function receives two set of parameters via AgentFunctionContext, agent
 
 ## Node Structure
 
-- 'inputs': An optional list of node identifiers that the current node depends on. This establishes a flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty and the 'source' property is not set, the associated Agent Function will be immediatley executed. 
-- 'source': An optional flag, which specifies if the node is a 'source node' or not. A souce node is a special node, which receives data from either an external code (via GraphAI's injectResult method) or from a 'dispatcher node'.
-- 'result': An optional object, which injects the result into the source node (equivalent to calling the injectResult method).
+There are two types of Node, *computed nodes* and *static nodes*. A *computed node* is associated with an *agent function*, which receives some inputs, performs some computations asynchronously then returns the result (output). A *static node* is a placeholder of a value (just like a variable in programming language), which is injected by either other nodes or external program.  
+
+A computed node may have following properties.
+
+- 'inputs': An optional list of node identifiers that the current node depends on. This establishes a flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty, the associated *agent function* will be immediatley executed. 
 - 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, that return value will be recorded.
 - 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded and the returned value will be discarded. 
 - 'params': An optional parameters to the associated agent function, which are agent specific.
-- 'agentId': An optional parameter, which specifies the id of the agent, when the graph is associated with multiple agents.
+- 'agentId': An required parameter, which specifies the id of the *agent function*.
 - 'fork': An optional paramter, which specifies the number of concurrent transactions to be created for the current node.
-- 'outputs': An optinal property, which specifies the mapping from outputId to nodeId. If this property is set, the node become a special node called "dispatcher". A dispatcher node injects result(s) into specified nodes, enabling the dynamic flow of data.
+- 'outputs': An optinal property, which specifies the mapping from outputId to nodeId. If this property is set, the node become a special node called *dispatcher*. A *dispatcher* node injects result(s) into specified static nodes, enabling the dynamic flow of data.
+
+A static node may have following properties.
+
+- 'result': An optional property, which specifies the result of this static node (equivalent to calling the injectResult method from outside).
 
 ## GraphAI class
 
@@ -172,7 +179,7 @@ Retrieves all transaction logs recorded during the execution of the graph.
 Returns: An array of transaction logs detailing the execution states and outcomes of the nodes within the graph.
 
 ### ```injectResult(nodeId: string, result: ResultData): void```
-Injects a result into a specified node. This is used to manually set the result of a source node, allowing dependent nodes to proceed with execution.
+Injects a result into a specified node. This is used to manually set the result of a static node, allowing dependent nodes to proceed with execution.
 
-- ```nodeId: string```: The ID of the source node into which the result is to be injected.
+- ```nodeId: string```: The ID of the static node into which the result is to be injected.
 - ```result: ResultData```: The result to be injected into the specified node.
