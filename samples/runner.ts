@@ -6,7 +6,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 
 export const fileTestRunner = async (
   file: string,
-  callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>,
+  callbackDictonary: AgentFunctionDictonary,
   callback: (graph: GraphAI) => void = () => {},
 ) => {
   const file_path = path.resolve(__dirname) + file;
