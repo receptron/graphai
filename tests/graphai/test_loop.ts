@@ -50,7 +50,7 @@ test("test loop & push", async () => {
 
 const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
-  const [array] = deepmerge({ inputs }, {}).inputs;;
+  const [array] = deepmerge({ inputs }, {}).inputs;
   // TODO: Varidation
   const item = array.pop();
   return { array, item };
@@ -61,33 +61,31 @@ const graphdata_pop = {
     count: 3,
     assign: {
       next: "source",
-      reducer: "previous"
-    }
-   },
+      reducer: "previous",
+    },
+  },
   nodes: {
     source: {
-      value: [ "orange", "banana", "lemon" ],
+      value: ["orange", "banana", "lemon"],
     },
     previous: {
-      value: []
+      value: [],
     },
     popper: {
       inputs: ["source"],
       agentId: "pop",
-      outputs: { array:"next", item: "item" }
+      outputs: { array: "next", item: "item" },
     },
-    item: {
-    },
+    item: {},
     reducer: {
       agentId: "push",
-      inputs: ["previous", "item"]
+      inputs: ["previous", "item"],
     },
-    next: {
-    }
+    next: {},
   },
 };
 
 test("test loop & pop", async () => {
   const result = await graphDataTestRunner("test_loop_pop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
-  assert.deepStrictEqual(result.reducer, [ 'lemon', 'banana', 'orange' ]);
+  assert.deepStrictEqual(result.reducer, ["lemon", "banana", "orange"]);
 });
