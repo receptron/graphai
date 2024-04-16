@@ -13,8 +13,7 @@ const graph_data: GraphData = {
     },
   },
   nodes: {
-    node1: {
-    },
+    node1: {},
     node2: {
       agentId: "input",
     },
