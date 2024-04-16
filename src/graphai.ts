@@ -20,7 +20,7 @@ type NodeData = {
   agentId?: string;
   fork?: number;
   source?: boolean;
-  result?: ResultData; // preset result for source node.
+  value?: ResultData; // preset value for static node.
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
 
@@ -320,9 +320,9 @@ export class GraphAI {
     // If the result property is specified, inject it.
     // NOTE: This must be done at the end of this constructor
     Object.keys(this.data.nodes).forEach((nodeId) => {
-      const result = this.data.nodes[nodeId].result;
-      if (result) {
-        this.injectResult(nodeId, result);
+      const value = this.data.nodes[nodeId].value;
+      if (value) {
+        this.injectResult(nodeId, value);
       }
     });
   }

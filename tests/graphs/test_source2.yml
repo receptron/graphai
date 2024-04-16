@@ -5,26 +5,26 @@ nodes:
   node2:
     params:
       dummy: 0
-    result:
+    value:
       node2: preset
   node3:
     agentId: sleeperAgent
     params:
       duration: 500
-      result:
+      value:
         node3: output
     inputs: [node1, node2]
   node4:
     agentId: sleeperAgent
     params:
       duration: 100
-      result:
+      value:
         node4: output
     inputs: [node3]
   node5:
     agentId: sleeperAgent
     params:
       duration: 500
-      result:
+      value:
         node5: output
     inputs: [node2, node4]

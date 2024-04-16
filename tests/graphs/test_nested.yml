@@ -3,7 +3,7 @@ nodes:
     agentId: sleeper
     params:
       duration: 500
-      result:
+      value:
         outer1: output
   outer2:
     agentId: nested
@@ -20,39 +20,39 @@ nodes:
             agentId: sleeper
             params:
               duration: 500
-              result:
+              value:
                 inner1: output
           inner2:
             agentId: sleeper
             params:
               duration: 100
-              result:
+              value:
                 inner2: output
           inner3:
             agentId: sleeper
             params:
               duration: 500
-              result:
+              value:
                 inner3: output
             inputs: [inner0, inner1, inner2]
   outer3:
     agentId: sleeper
     params:
       duration: 500
-      result:
+      value:
         outer3: output
     inputs: [outer2]
   outer4:
     agentId: sleeper
     params:
       duration: 100
-      result:
+      value:
         outer4: output
     inputs: [outer3]
   outer5:
     agentId: sleeper
     params:
       duration: 500
-      result:
+      value:
         outer5: output
     inputs: [outer2, outer4]

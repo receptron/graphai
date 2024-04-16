@@ -2,13 +2,13 @@ nodes:
   node1:
     params:
       duration: 500
-      result:
+      value:
         node1: output
     agentId: sleeper
   node2:
     params:
       duration: 100
-      result:
+      value:
         node2: output
     agentId: dispatcher
     outputs:
@@ -19,21 +19,21 @@ nodes:
   node3:
     params:
       duration: 500
-      result:
+      value:
         node3: output
     inputs: [node1, node20]
     agentId: sleeper
   node4:
     params:
       duration: 100
-      result:
+      value:
         node4: output
     inputs: [node3]
     agentId: sleeper
   node5:
     params:
       duration: 500
-      result:
+      value:
         node5: output
     inputs: [node20, node4]
     agentId: sleeper
