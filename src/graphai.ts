@@ -99,7 +99,7 @@ class Node {
     this.fork = data.fork;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
-    this.source = data.source === true;
+    this.source = this.agentId === undefined;
     this.outputs = data.outputs;
     this.graph = graph;
   }
