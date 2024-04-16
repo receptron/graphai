@@ -139,6 +139,14 @@ class Node {
 
   public pushQueueIfReady() {
     if (this.pendings.size === 0 && !this.source) {
+      // If input property is specified, we need to ensure that the property value exists.
+      Object.keys(this.inputProps).forEach((nodeId) => {
+        const [result] = this.graph.resultsOf([nodeId]);
+        const propId = this.inputProps[nodeId];
+        if (!result || !(propId in result)) {
+          return;
+        }
+      });
       this.graph.pushQueue(this);
     }
   }
@@ -172,6 +180,12 @@ class Node {
 
   public async execute() {
     const results = this.graph.resultsOf(this.inputs);
+    this.inputs.forEach((nodeId, index) => {
+      const propId = this.inputProps[nodeId];
+      if (propId) {
+        results[index] = results[index]![propId];
+      }
+    });
     const transactionId = Date.now();
     const log: TransactionLog = {
       nodeId: this.nodeId,
@@ -456,8 +470,16 @@ export class GraphAI {
         // Transer results from previous loop
         const assign = this.loop.assign;
         if (assign) {
-          Object.keys(assign).forEach((sourceNodeId) => {
-            this.injectValue(assign[sourceNodeId], results[sourceNodeId]);
+          Object.keys(assign).forEach((destinationNodeId) => {
+            const value = assign[destinationNodeId];
+            const parts = value.split('.');
+            const result = results[parts[0]];
+            
+            if (parts.length == 1) {
+              this.injectValue(destinationNodeId, result);
+            } else {
+              this.injectValue(destinationNodeId, result![parts[1]]);
+            }
           });
         }
         this.isRunning = true; // restore it
