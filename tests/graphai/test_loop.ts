@@ -1,13 +1,14 @@
 import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 import { sleeperAgent } from "@/experimental_agents";
+import deepmerge from "deepmerge";
 
 import test from "node:test";
 import assert from "node:assert";
 
 const pushAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
-  const [ array, item ] = inputs;
+  const [ array, item ] = deepmerge({inputs}, {}).inputs;
   // TODO: Varidation
   array.push(item);
   return array;
@@ -21,9 +22,12 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
   return [array, item];
 };
 
-const graph_data = {
+const graphdata_pop = {
   loop: {
-    count: 4
+    count: 4,
+    assign: {
+      reducer: "array"
+    }
   },
   nodes: {
     array: {
@@ -44,16 +48,11 @@ const graph_data = {
 };
 
 test("test push", async () => {
-  const result = await graphDataTestRunner("test_loop", graph_data, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
+  const result = await graphDataTestRunner("test_loop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
   console.log(result);
-
-  /*
   assert.deepStrictEqual(result, {
-    node1: { node1: "output" },
-    node20: { node2: "dispatch" },
-    node3: { node3: "output", node1: "output", node2: "dispatch" },
-    node4: { node4: "output", node3: "output", node1: "output", node2: "dispatch" },
-    node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "dispatch" },
+    array: [ 'hello', 'hello', 'hello' ],
+    item: 'hello',
+    reducer: [ 'hello', 'hello', 'hello', 'hello' ]
   });
-  */
 });
