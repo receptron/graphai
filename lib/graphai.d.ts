@@ -21,10 +21,14 @@ type NodeData = {
     result?: ResultData;
     outputs?: Record<string, string>;
 };
+type LoopData = {
+    count: number;
+    assign?: Record<string, string>;
+};
 export type GraphData = {
     nodes: Record<string, NodeData>;
     concurrency?: number;
-    repeat?: number;
+    loop?: LoopData;
     verbose?: boolean;
 };
 export type TransactionLog = {
@@ -91,7 +95,7 @@ export declare class GraphAI {
     private nodeQueue;
     private onComplete;
     private concurrency;
-    private repeat?;
+    private loop?;
     private repeatCount;
     verbose: boolean;
     private logs;
