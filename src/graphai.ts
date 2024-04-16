@@ -21,7 +21,7 @@ type NodeData = {
   fork?: number;
   source?: boolean;
   value?: ResultData; // initial value for static node.
-  next?: string; // nodeId (+.prop) to get value after a loop
+  next?: string; // nodeId (+.propId) to get value after a loop
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
 
@@ -354,11 +354,10 @@ export class GraphAI {
     // process the next property (nodeId or nodeId.propId).
     Object.keys(this.data.nodes).forEach((nodeId) => {
       const node = this.data.nodes[nodeId];
-      const value = node.value;
+      const { value, next } = node;
       if (value) {
         this.injectValue(nodeId, value);
       }
-      const next = node.next;
       if (next && previousResults) {
         const parts = next.split(".");
         const result = previousResults[parts[0]];
