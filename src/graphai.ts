@@ -24,10 +24,15 @@ type NodeData = {
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
 
+type LoopData = {
+  count: number;
+  assign?: Record<string, string>;
+};
+
 export type GraphData = {
   nodes: Record<string, NodeData>;
   concurrency?: number;
-  repeat?: number;
+  loop?: LoopData;
   verbose?: boolean;
 };
 
@@ -254,7 +259,7 @@ export class GraphAI {
   private nodeQueue: Array<Node> = [];
   private onComplete: () => void;
   private concurrency: number;
-  private repeat?: number;
+  private loop?: LoopData;
   private repeatCount = 0;
   public verbose: boolean;
   private logs: Array<TransactionLog> = [];
@@ -324,7 +329,7 @@ export class GraphAI {
     this.data = data;
     this.callbackDictonary = typeof callbackDictonary === "function" ? { _default: callbackDictonary } : callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
-    this.repeat = data.repeat;
+    this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
@@ -422,10 +427,18 @@ export class GraphAI {
     }
     if (this.runningNodes.size === 0) {
       this.repeatCount++;
-      if (this.repeat && this.repeatCount < this.repeat) {
-        console.log("****** Repeat", this.repeatCount, this.repeat);
+      if (this.loop && this.repeatCount < this.loop.count) {
+        const results = this.results(); // results from previous loop
+
         this.nodes = this.createNodes(this.data);
         this.initializeNodes();
+        // Transer results from previous loop
+        const assign = this.loop.assign;
+        if (assign) {
+          Object.keys(assign).forEach((sourceNodeId) => {
+            this.injectResult(assign[sourceNodeId], results[sourceNodeId]);
+          });
+        }
         this.pushReadyNodesIntoQueue();
       } else {
         this.onComplete();
