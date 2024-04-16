@@ -1,6 +1,6 @@
 import path from "path";
 
-import { GraphAI, AgentFunctionDictonary, AgentFunction } from "@/graphai";
+import { GraphAI, AgentFunctionDictonary } from "@/graphai";
 import { readGraphaiData } from "~/utils/file_utils";
 import { graphDataTestRunner } from "~/utils/runner";
 

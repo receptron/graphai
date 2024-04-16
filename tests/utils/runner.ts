@@ -1,4 +1,4 @@
-import { GraphAI, GraphData, AgentFunctionDictonary, AgentFunction } from "@/graphai";
+import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
 import path from "path";
 import * as fs from "fs";
 import { readGraphaiData, mkdirLogDir } from "~/utils/file_utils";
