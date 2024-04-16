@@ -48,7 +48,7 @@ test("test loop & push", async () => {
   });
 });
 
-const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
+const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
   const [array] = deepmerge({ inputs }, {}).inputs;
   // TODO: Varidation
