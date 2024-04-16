@@ -59,7 +59,7 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
 
 const graphdata_pop = {
   loop: {
-    count: 3,
+    count: 2,
     assign: {
       next: "source",
       reducer: "result"
