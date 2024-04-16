@@ -52,24 +52,23 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
   const { inputs } = context;
   const [array] = deepmerge({ inputs }, {}).inputs;;
   // TODO: Varidation
-  console.log("*** pop", array);
   const item = array.pop();
   return { array, item };
 };
 
 const graphdata_pop = {
   loop: {
-    count: 2,
+    count: 3,
     assign: {
       next: "source",
-      reducer: "result"
+      reducer: "previous"
     }
    },
   nodes: {
     source: {
       value: [ "orange", "banana", "lemon" ],
     },
-    result: {
+    previous: {
       value: []
     },
     popper: {
@@ -81,7 +80,7 @@ const graphdata_pop = {
     },
     reducer: {
       agentId: "push",
-      inputs: ["result", "item"]
+      inputs: ["previous", "item"]
     },
     next: {
     }
@@ -90,5 +89,5 @@ const graphdata_pop = {
 
 test("test loop & pop", async () => {
   const result = await graphDataTestRunner("test_loop_pop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
-  console.log(result);
+  assert.deepStrictEqual(result.reducer, [ 'lemon', 'banana', 'orange' ]);
 });
