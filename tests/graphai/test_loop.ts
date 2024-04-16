@@ -52,6 +52,7 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
   const { inputs } = context;
   const [array] = deepmerge({ inputs }, {}).inputs;;
   // TODO: Varidation
+  console.log("*** pop", array);
   const item = array.pop();
   return { array, item };
 };
@@ -59,6 +60,10 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
 const graphdata_pop = {
   loop: {
     count: 3,
+    assign: {
+      next: "source",
+      reducer: "result"
+    }
    },
   nodes: {
     source: {
@@ -70,11 +75,13 @@ const graphdata_pop = {
     popper: {
       inputs: ["source"],
       agentId: "pop",
-      outputs: { array:"next" }
+      outputs: { array:"next", item: "item" }
     },
     item: {
+    },
+    reducer: {
       agentId: "push",
-      inputs: ["result", "popper"]
+      inputs: ["result", "item"]
     },
     next: {
     }
