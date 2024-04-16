@@ -121,6 +121,20 @@ A DFG consists of a collection of 'nodes', which contains a series of nested key
 - 'nodes': A list of node. Required.
 - 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
 - 'agentId': An optional property, which specifies the default agent for all the nodes.
+- 'loop': An optional property, which specifies if the graph needs to be executed multiple times. The loop is an JavaScript object, which has two properties. The *count* property specifies the number of times the graph needs to be executed and the *assign* property specifies the value(s) migrated from previous execution.
+
+```
+loop:
+  count: 10
+  assign:
+    output: input
+nodes:
+  input:
+    value: initial value
+  output:
+    inputs: [input]
+    agentId: do_something
+```
 
 ## Agent
 
@@ -141,8 +155,8 @@ A *computed node* have following properties.
 - 'inputs': An optional list of node identifiers that the current node depends on. This establishes a flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty, the associated *agent function* will be immediatley executed. 
 - 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, that return value will be recorded.
 - 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded and the returned value will be discarded. 
-- 'params': An optional parameters to the associated agent function, which are agent specific.
-- 'agentId': An **required** parameter, which specifies the id of the *agent function*.
+- 'params': An optional property to the associated agent function, which are agent specific.
+- 'agentId': An **required** property, which specifies the id of the *agent function*.
 - 'fork': An optional paramter, which specifies the number of concurrent transactions to be created for the current node.
 - 'outputs': An optinal property, which specifies the mapping from outputId to nodeId. If this property is set, the node become a special node called *dispatcher*. A *dispatcher* node injects result(s) into specified static nodes, enabling the dynamic flow of data.
 
