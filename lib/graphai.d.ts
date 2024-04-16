@@ -26,6 +26,7 @@ type LoopData = {
     assign?: Record<string, string>;
 };
 export type GraphData = {
+    agentId?: string;
     nodes: Record<string, NodeData>;
     concurrency?: number;
     loop?: LoopData;
@@ -85,10 +86,11 @@ declare class Node {
     execute(): Promise<void>;
 }
 type GraphNodes = Record<string, Node>;
-export type CallbackDictonaryArgs = AgentFunctionDictonary | AgentFunction<any, any, any>;
+export type CallbackDictonaryArgs = AgentFunctionDictonary;
 export declare class GraphAI {
     private data;
     nodes: GraphNodes;
+    agentId?: string;
     callbackDictonary: AgentFunctionDictonary;
     isRunning: boolean;
     private runningNodes;
@@ -102,7 +104,7 @@ export declare class GraphAI {
     private createNodes;
     private initializeNodes;
     constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs);
-    getCallback(_agentId?: string): AgentFunction<any, any, any>;
+    getCallback(agentId?: string): AgentFunction<any, any, any>;
     asString(): string;
     results(): ResultDataDictonary<Record<string, any>>;
     errors(): Record<string, Error>;
