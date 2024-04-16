@@ -20,13 +20,13 @@ type NodeData = {
   agentId?: string;
   fork?: number;
   source?: boolean;
-  value?: ResultData; // preset value for static node.
+  value?: ResultData; // initial value for static node.
+  next?: string; // nodeId (+.propId) to get value after a loop
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
 
 type LoopData = {
   count: number;
-  assign?: Record<string, string>;
 };
 
 export type GraphData = {
@@ -72,6 +72,7 @@ class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
+  public inputProps: Record<string, string> = {}; // optional properties for input
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -92,7 +93,15 @@ class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
-    this.inputs = data.inputs ?? [];
+    this.inputs = (data.inputs ?? []).map((input) => {
+      const parts = input.split(".");
+      if (parts.length == 1) {
+        return input;
+      } else {
+        this.inputProps[parts[0]] = parts[1];
+        return parts[0];
+      }
+    });
     this.pendings = new Set(this.inputs);
     this.params = data.params ?? {};
     this.agentId = data.agentId ?? graph.agentId;
@@ -130,6 +139,14 @@ class Node {
 
   public pushQueueIfReady() {
     if (this.pendings.size === 0 && !this.source) {
+      // If input property is specified, we need to ensure that the property value exists.
+      Object.keys(this.inputProps).forEach((nodeId) => {
+        const [result] = this.graph.resultsOf([nodeId]);
+        const propId = this.inputProps[nodeId];
+        if (!result || !(propId in result)) {
+          return;
+        }
+      });
       this.graph.pushQueue(this);
     }
   }
@@ -163,6 +180,12 @@ class Node {
 
   public async execute() {
     const results = this.graph.resultsOf(this.inputs);
+    this.inputs.forEach((nodeId, index) => {
+      const propId = this.inputProps[nodeId];
+      if (propId) {
+        results[index] = results[index]![propId];
+      }
+    });
     const transactionId = Date.now();
     const log: TransactionLog = {
       nodeId: this.nodeId,
@@ -325,13 +348,24 @@ export class GraphAI {
     return nodes;
   }
 
-  private initializeNodes() {
+  private initializeNodes(previousResults?: ResultDataDictonary<Record<string, any>>) {
     // If the result property is specified, inject it.
-    // NOTE: This must be done at the end of this constructor
+    // If the previousResults exists (indicating we are in a loop),
+    // process the next property (nodeId or nodeId.propId).
     Object.keys(this.data.nodes).forEach((nodeId) => {
-      const value = this.data.nodes[nodeId].value;
+      const node = this.data.nodes[nodeId];
+      const { value, next } = node;
       if (value) {
         this.injectValue(nodeId, value);
+      }
+      if (next && previousResults) {
+        const parts = next.split(".");
+        const result = previousResults[parts[0]];
+        if (parts.length == 1) {
+          this.injectValue(nodeId, result);
+        } else if (result) {
+          this.injectValue(nodeId, result[parts[1]]);
+        }
       }
     });
   }
@@ -443,14 +477,7 @@ export class GraphAI {
 
         this.isRunning = false; // temporarily stop it
         this.nodes = this.createNodes(this.data);
-        this.initializeNodes();
-        // Transer results from previous loop
-        const assign = this.loop.assign;
-        if (assign) {
-          Object.keys(assign).forEach((sourceNodeId) => {
-            this.injectValue(assign[sourceNodeId], results[sourceNodeId]);
-          });
-        }
+        this.initializeNodes(results);
         this.isRunning = true; // restore it
         this.pushReadyNodesIntoQueue();
       } else {

@@ -19,11 +19,11 @@ type NodeData = {
     fork?: number;
     source?: boolean;
     value?: ResultData;
+    next?: string;
     outputs?: Record<string, string>;
 };
 type LoopData = {
     count: number;
-    assign?: Record<string, string>;
 };
 export type GraphData = {
     agentId?: string;
@@ -61,6 +61,7 @@ declare class Node {
     nodeId: string;
     params: NodeDataParams;
     inputs: Array<string>;
+    inputProps: Record<string, string>;
     pendings: Set<string>;
     waitlist: Set<string>;
     state: NodeState;
