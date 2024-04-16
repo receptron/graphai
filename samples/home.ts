@@ -17,7 +17,7 @@ const home_actions = {
 const graph_data: GraphData = {
   nodes: {
     node1: {
-      result: { content: "Turn on the light in the kitchen" },
+      value: { content: "Turn on the light in the kitchen" },
     },
     node2: {
       agentId: "slashGPTAgent",

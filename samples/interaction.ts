@@ -25,7 +25,7 @@ const graph_data: GraphData = {
 };
 
 export const main = async () => {
-  graph_data.nodes.node1.result = { injected: "test" };
+  graph_data.nodes.node1.value = { injected: "test" };
 
   const result = await graphDataTestRunner(__filename, graph_data, { merge: mergeNodeIdAgent, input: interactiveInputTextAgent });
   console.log(result);
