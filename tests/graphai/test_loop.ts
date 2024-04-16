@@ -14,16 +14,6 @@ const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<
   return array;
 };
 
-/*
-const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
-  const { inputs } = context;
-  const [array] = inputs;
-  // TODO: Varidation
-  const item = array.shift();
-  return [array, item];
-};
-*/
-
 const graphdata_push = {
   loop: {
     count: 10,
@@ -56,4 +46,42 @@ test("test loop & push", async () => {
     item: "hello",
     reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
   });
+});
+
+const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
+  const { inputs } = context;
+  const [array] = deepmerge({ inputs }, {}).inputs;;
+  // TODO: Varidation
+  const item = array.pop();
+  return { array, item };
+};
+
+const graphdata_pop = {
+  loop: {
+    count: 3,
+   },
+  nodes: {
+    source: {
+      value: [ "orange", "banana", "lemon" ],
+    },
+    result: {
+      value: []
+    },
+    popper: {
+      inputs: ["source"],
+      agentId: "pop",
+      // outputs: { array:"next" }
+    },
+    item: {
+      agentId: "push",
+      inputs: ["result", "popper"]
+    },
+    next: {
+    }
+  },
+};
+
+test("test loop & pop", async () => {
+  const result = await graphDataTestRunner("test_loop_pop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
+  console.log(result);
 });
