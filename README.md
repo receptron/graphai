@@ -145,7 +145,7 @@ An agent function receives two set of parameters via AgentFunctionContext, agent
 
 ## GraphAI class
 
-### ```constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>)```
+### ```constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary)```
 Initializes a new instance of the GraphAI class with the specified graph data and a dictionary of callback functions.
 
 - ```data: GraphData```: The graph data including nodes and optional concurrency limit.
