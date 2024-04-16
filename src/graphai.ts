@@ -72,6 +72,7 @@ class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
+  public inputProps: Record<string, string> = {}; // optional properties for input
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -92,7 +93,15 @@ class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
-    this.inputs = data.inputs ?? [];
+    this.inputs = (data.inputs ?? []).map(input => {
+      const parts = input.split('.');
+      if (parts.length == 1) {
+        return input;
+      } else {
+        this.inputProps[parts[0]] = parts[1];
+        return parts[0];
+      }
+    });
     this.pendings = new Set(this.inputs);
     this.params = data.params ?? {};
     this.agentId = data.agentId ?? graph.agentId;
