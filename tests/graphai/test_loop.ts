@@ -6,7 +6,7 @@ import deepmerge from "deepmerge";
 import test from "node:test";
 import assert from "node:assert";
 
-const pushAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
+const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
   const [array, item] = deepmerge({ inputs }, {}).inputs;
   // TODO: Varidation
@@ -14,6 +14,7 @@ const pushAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = a
   return array;
 };
 
+/*
 const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
   const [array] = inputs;
@@ -21,6 +22,7 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
   const item = array.shift();
   return [array, item];
 };
+*/
 
 const graphdata_push = {
   loop: {
