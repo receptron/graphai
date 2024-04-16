@@ -70,7 +70,7 @@ const graphdata_pop = {
     popper: {
       inputs: ["source"],
       agentId: "pop",
-      // outputs: { array:"next" }
+      outputs: { array:"next" }
     },
     item: {
       agentId: "push",
