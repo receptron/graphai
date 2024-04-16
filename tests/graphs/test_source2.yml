@@ -1,24 +1,28 @@
-agentId: sleeperAgent
 nodes:
   node1:
-    source: true
+    params:
+      dummy: 0
   node2:
-    source: true
+    params:
+      dummy: 0
     result:
       node2: preset
   node3:
+    agentId: sleeperAgent
     params:
       duration: 500
       result:
         node3: output
     inputs: [node1, node2]
   node4:
+    agentId: sleeperAgent
     params:
       duration: 100
       result:
         node4: output
     inputs: [node3]
   node5:
+    agentId: sleeperAgent
     params:
       duration: 500
       result:

@@ -14,8 +14,8 @@ nodes:
     outputs:
       port1: node20
   node20:
-    source: true
-    agentId: sleeper
+    params:
+      dummy: 0
   node3:
     params:
       duration: 500

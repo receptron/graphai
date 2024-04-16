@@ -95,11 +95,11 @@ class Node {
     this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params ?? {};
-    this.agentId = data.agentId;
+    this.agentId = data.agentId ?? graph.agentId;
     this.fork = data.fork;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
-    this.source = data.source === true;
+    this.source = this.agentId === undefined;
     this.outputs = data.outputs;
     this.graph = graph;
   }
@@ -190,7 +190,7 @@ class Node {
     }
 
     try {
-      const callback = this.graph.getCallback(this.agentId ?? this.graph.agentId);
+      const callback = this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
       const result = await callback({
         nodeId: this.nodeId,

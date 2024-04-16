@@ -14,7 +14,6 @@ const graph_data: GraphData = {
   },
   nodes: {
     node1: {
-      source: true,
     },
     node2: {
       agentId: "input",
