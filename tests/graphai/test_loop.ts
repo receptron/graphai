@@ -22,7 +22,7 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
   return [array, item];
 };
 
-const graphdata_pop = {
+const graphdata_push = {
   loop: {
     count: 10,
     assign: {
@@ -47,8 +47,8 @@ const graphdata_pop = {
   },
 };
 
-test("test loop & pop", async () => {
-  const result = await graphDataTestRunner("test_loop_pop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
+test("test loop & push", async () => {
+  const result = await graphDataTestRunner("test_loop_pop", graphdata_push, { sleeper: sleeperAgent, push: pushAgent });
   assert.deepStrictEqual(result, {
     array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
     item: "hello",
