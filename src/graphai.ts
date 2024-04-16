@@ -441,6 +441,7 @@ export class GraphAI {
       if (this.loop && this.repeatCount < this.loop.count) {
         const results = this.results(); // results from previous loop
 
+        this.isRunning = false; // temporarily stop it
         this.nodes = this.createNodes(this.data);
         this.initializeNodes();
         // Transer results from previous loop
@@ -450,6 +451,7 @@ export class GraphAI {
             this.injectValue(assign[sourceNodeId], results[sourceNodeId]);
           });
         }
+        this.isRunning = true; // restore it
         this.pushReadyNodesIntoQueue();
       } else {
         this.onComplete();
