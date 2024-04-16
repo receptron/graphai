@@ -13,9 +13,17 @@ const pushAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = a
   return array;
 };
 
+const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
+  const { inputs } = context;
+  const [ array ] = inputs;
+  // TODO: Varidation
+  const item = array.shift();
+  return [array, item];
+};
+
 const graph_data = {
   loop: {
-    count: 10
+    count: 4
   },
   nodes: {
     array: {
@@ -35,8 +43,8 @@ const graph_data = {
   }
 };
 
-test("test dispatch", async () => {
-  const result = await graphDataTestRunner("test_loop", graph_data, { sleeper: sleeperAgent, push: pushAgent });
+test("test push", async () => {
+  const result = await graphDataTestRunner("test_loop", graph_data, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
   console.log(result);
 
   /*
