@@ -46,7 +46,7 @@ test("test timeout", async () => {
 
 test("test source", async () => {
   const result = await fileTestRunner("/graphs/test_source.yml", { sleeperAgent }, (graph: GraphAI) => {
-    graph.injectResult("node2", { node2: "injected" });
+    graph.injectValue("node2", { node2: "injected" });
   });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
@@ -59,7 +59,7 @@ test("test source", async () => {
 
 test("test source2", async () => {
   const result = await fileTestRunner("/graphs/test_source2.yml", { sleeperAgent }, (graph: GraphAI) => {
-    graph.injectResult("node1", { node1: "injected" });
+    graph.injectValue("node1", { node1: "injected" });
   });
   assert.deepStrictEqual(result, {
     node1: { node1: "injected" },

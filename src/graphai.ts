@@ -134,7 +134,7 @@ class Node {
     }
   }
 
-  public injectResult(result: ResultData) {
+  public injectValue(value: ResultData) {
     if (this.source) {
       const log: TransactionLog = {
         nodeId: this.nodeId,
@@ -142,12 +142,12 @@ class Node {
         state: NodeState.Injected,
         startTime: Date.now(),
         endTime: Date.now(),
-        result,
+        result: value,
       };
       this.graph.appendLog(log);
-      this.setResult(result, NodeState.Injected);
+      this.setResult(value, NodeState.Injected);
     } else {
-      console.error("- injectResult called on non-source node.", this.nodeId);
+      console.error("- injectValue called on non-source node.", this.nodeId);
     }
   }
 
@@ -217,7 +217,7 @@ class Node {
       if (outputs !== undefined) {
         Object.keys(result).forEach((outputId) => {
           const nodeId = outputs[outputId];
-          this.graph.injectResult(nodeId, result[outputId]);
+          this.graph.injectValue(nodeId, result[outputId]);
         });
         log.state = NodeState.Dispatched;
         this.state = NodeState.Dispatched;
@@ -322,7 +322,7 @@ export class GraphAI {
     Object.keys(this.data.nodes).forEach((nodeId) => {
       const value = this.data.nodes[nodeId].value;
       if (value) {
-        this.injectResult(nodeId, value);
+        this.injectValue(nodeId, value);
       }
     });
   }
@@ -438,7 +438,7 @@ export class GraphAI {
         const assign = this.loop.assign;
         if (assign) {
           Object.keys(assign).forEach((sourceNodeId) => {
-            this.injectResult(assign[sourceNodeId], results[sourceNodeId]);
+            this.injectValue(assign[sourceNodeId], results[sourceNodeId]);
           });
         }
         this.pushReadyNodesIntoQueue();
@@ -456,10 +456,10 @@ export class GraphAI {
     return this.logs;
   }
 
-  public injectResult(nodeId: string, result: ResultData) {
+  public injectValue(nodeId: string, value: ResultData) {
     const node = this.nodes[nodeId];
     if (node) {
-      node.injectResult(result);
+      node.injectValue(value);
     } else {
       console.error("-- Invalid nodeId", nodeId);
     }
