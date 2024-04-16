@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test base", async () => {
-  const result = await fileTestRunner("/graphs/test_base.yml", sleeperAgent);
+  const result = await fileTestRunner("/graphs/test_base.yml", { sleeperAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
@@ -17,7 +17,7 @@ test("test base", async () => {
 });
 
 test("test retry", async () => {
-  const result = await fileTestRunner("/graphs/test_retry.yml", sleeperAgentDebug);
+  const result = await fileTestRunner("/graphs/test_retry.yml", { sleeperAgentDebug });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
@@ -28,7 +28,7 @@ test("test retry", async () => {
 });
 
 test("test error", async () => {
-  const result = await fileTestRunner("/graphs/test_error.yml", sleeperAgentDebug);
+  const result = await fileTestRunner("/graphs/test_error.yml", { sleeperAgentDebug });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
@@ -36,7 +36,7 @@ test("test error", async () => {
 });
 
 test("test timeout", async () => {
-  const result = await fileTestRunner("/graphs/test_timeout.yml", sleeperAgentDebug);
+  const result = await fileTestRunner("/graphs/test_timeout.yml", { sleeperAgentDebug });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
@@ -45,7 +45,7 @@ test("test timeout", async () => {
 });
 
 test("test source", async () => {
-  const result = await fileTestRunner("/graphs/test_source.yml", sleeperAgent, (graph: GraphAI) => {
+  const result = await fileTestRunner("/graphs/test_source.yml", { sleeperAgent }, (graph: GraphAI) => {
     graph.injectResult("node2", { node2: "injected" });
   });
   assert.deepStrictEqual(result, {
@@ -58,7 +58,7 @@ test("test source", async () => {
 });
 
 test("test source2", async () => {
-  const result = await fileTestRunner("/graphs/test_source2.yml", sleeperAgent, (graph: GraphAI) => {
+  const result = await fileTestRunner("/graphs/test_source2.yml", { sleeperAgent }, (graph: GraphAI) => {
     graph.injectResult("node1", { node1: "injected" });
   });
   assert.deepStrictEqual(result, {

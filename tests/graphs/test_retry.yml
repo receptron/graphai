@@ -1,3 +1,4 @@
+agentId: sleeperAgentDebug
 nodes:
   node1:
     params:

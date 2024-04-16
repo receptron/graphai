@@ -1,3 +1,4 @@
+agentId: sleeperAgent
 nodes:
   node1:
     source: true
