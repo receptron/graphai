@@ -15,13 +15,12 @@ const home_actions = {
 };
 
 const graph_data: GraphData = {
-  agentId: "slashGPTAgent",
   nodes: {
     node1: {
-      source: true,
       result: { content: "Turn on the light in the kitchen" },
     },
     node2: {
+      agentId: "slashGPTAgent",
       inputs: ["node1"],
       params: {
         manifest: {
