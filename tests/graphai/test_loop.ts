@@ -8,7 +8,7 @@ import assert from "node:assert";
 
 const pushAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
-  const [ array, item ] = deepmerge({inputs}, {}).inputs;
+  const [array, item] = deepmerge({ inputs }, {}).inputs;
   // TODO: Varidation
   array.push(item);
   return array;
@@ -16,7 +16,7 @@ const pushAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = a
 
 const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
-  const [ array ] = inputs;
+  const [array] = inputs;
   // TODO: Varidation
   const item = array.shift();
   return [array, item];
@@ -24,35 +24,34 @@ const popAgent: AgentFunction<{}, Record<string, any>, Record<string, any>> = as
 
 const graphdata_pop = {
   loop: {
-    count: 4,
+    count: 10,
     assign: {
-      reducer: "array"
-    }
+      reducer: "array",
+    },
   },
   nodes: {
     array: {
-      value: []
+      value: [],
     },
     item: {
       agentId: "sleeper",
       params: {
         duration: 10,
-        value: "hello"
-      }
+        value: "hello",
+      },
     },
     reducer: {
       agentId: "push",
-      inputs: ["array", "item"]
-    }
-  }
+      inputs: ["array", "item"],
+    },
+  },
 };
 
-test("test push", async () => {
-  const result = await graphDataTestRunner("test_loop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
-  console.log(result);
+test("test loop & pop", async () => {
+  const result = await graphDataTestRunner("test_loop_pop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
   assert.deepStrictEqual(result, {
-    array: [ 'hello', 'hello', 'hello' ],
-    item: 'hello',
-    reducer: [ 'hello', 'hello', 'hello', 'hello' ]
+    array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+    item: "hello",
+    reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
   });
 });
