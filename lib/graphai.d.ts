@@ -103,6 +103,7 @@ export declare class GraphAI {
     verbose: boolean;
     private logs;
     private createNodes;
+    private getValueFromResults;
     private initializeNodes;
     constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs);
     getCallback(agentId?: string): AgentFunction<any, any, any>;

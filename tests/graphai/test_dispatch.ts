@@ -33,7 +33,7 @@ test("test dispatch", async () => {
   const result = await fileTestRunner("/graphs/test_dispatch.yml", { sleeper: sleeperAgent, dispatcher: dispatchAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
-    node2: { port1: { node2: 'dispatch'} },
+    node2: { port1: { node2: "dispatch" } },
     node3: { node3: "output", node1: "output", node2: "dispatch" },
     node4: { node4: "output", node3: "output", node1: "output", node2: "dispatch" },
     node5: { node5: "output", node4: "output", node3: "output", node1: "output", node2: "dispatch" },

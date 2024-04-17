@@ -355,6 +355,12 @@ export class GraphAI {
     return nodes;
   }
 
+  private getValueFromResults(key: string, results: ResultDataDictonary<Record<string, any>>) {
+    const { sourceNodeId, propId } = parseNodeName(key);
+    const result = results[sourceNodeId];
+    return result ? (propId ? result[propId] : result) : undefined;
+  }
+
   private initializeNodes(previousResults?: ResultDataDictonary<Record<string, any>>) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
@@ -366,10 +372,9 @@ export class GraphAI {
         this.injectValue(nodeId, value);
       }
       if (next && previousResults) {
-        const { sourceNodeId, propId } = parseNodeName(next);
-        const result = previousResults[sourceNodeId];
+        const result = this.getValueFromResults(next, previousResults);
         if (result) {
-          this.injectValue(nodeId, propId ? result[propId] : result);
+          this.injectValue(nodeId, result);
         }
       }
     });
@@ -485,9 +490,9 @@ export class GraphAI {
         this.initializeNodes(results);
         this.isRunning = true; // restore it
         this.pushReadyNodesIntoQueue();
-      } else {
-        this.onComplete();
+        return;
       }
+      this.onComplete();
     }
   }
 
