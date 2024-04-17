@@ -4,20 +4,20 @@ import { pushAgent, shiftAgent, slashGPTAgent } from "@/experimental_agents";
 
 const graph_data = {
   loop: {
-    while: "source"
+    while: "people"
   },
   nodes: {
-    source: {
+    people: {
       value: ["Steve Jobs", "Elon Musk", "Nikola Tesla"],
-      next: "popper.array",
+      next: "retriever.array",
     },
     result: {
       value: [],
       next: "reducer",
     },
-    popper: {
+    retriever: {
       agentId: "shift",
-      inputs: ["source"],
+      inputs: ["people"],
     },
     query: {
       agentId: "slashgpt",
@@ -26,7 +26,7 @@ const graph_data = {
           prompt: "指定した人について日本語で４００字以内で答えて"
         }
       },
-      inputs: ["popper.item"]
+      inputs: ["retriever.item"]
     },
     reducer: {
       agentId: "push",
