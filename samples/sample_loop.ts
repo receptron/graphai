@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { pushAgent, popAgent, slashGPTAgent } from "@/experimental_agents";
+import { pushAgent, shiftAgent, slashGPTAgent } from "@/experimental_agents";
 
 const graph_data = {
   loop: {
@@ -16,7 +16,7 @@ const graph_data = {
       next: "reducer",
     },
     popper: {
-      agentId: "pop", // returns { array, item }
+      agentId: "shift",
       inputs: ["source"],
     },
     query: {
@@ -37,7 +37,7 @@ const graph_data = {
 
 const main = async () => {
   const result = await graphDataTestRunner(__filename, graph_data, 
-        { slashgpt: slashGPTAgent, push: pushAgent, pop: popAgent });
+        { slashgpt: slashGPTAgent, push: pushAgent, shift: shiftAgent });
   console.log(result.result);
   console.log("COMPLETE 1");
 };
