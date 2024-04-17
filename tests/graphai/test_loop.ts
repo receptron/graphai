@@ -1,4 +1,3 @@
-import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 import { sleeperAgent, pushAgent, popAgent } from "@/experimental_agents";
 
