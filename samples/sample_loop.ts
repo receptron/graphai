@@ -21,6 +21,11 @@ const graph_data = {
     },
     query: {
       agentId: "slashgpt",
+      params: {
+        manifest: {
+          prompt: "指定した人について日本語で４００字以内で答えて"
+        }
+      },
       inputs: ["popper.item"]
     },
     reducer: {

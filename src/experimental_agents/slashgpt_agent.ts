@@ -22,6 +22,9 @@ export const slashGPTAgent: AgentFunction<
   const query = params?.query ? [params.query] : [];
   const contents = query.concat(
     inputs.map((input) => {
+      if (typeof input === 'string') {
+        return input;
+      }
       return input.content;
     }),
   );
