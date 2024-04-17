@@ -6,10 +6,9 @@ import deepmerge from "deepmerge";
 import test from "node:test";
 import assert from "node:assert";
 
-const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async (context) => {
-  const { inputs } = context;
+const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async ({inputs}) => {
   const [array, item] = deepmerge({ inputs }, {}).inputs;
-  // TODO: Varidation
+  // TODO: Validation
   array.push(item);
   return array;
 };
