@@ -11,17 +11,12 @@ nodes:
       value:
         node2: output
     agentId: dispatcher
-    outputs:
-      port1: node20
-  node20:
-    params:
-      dummy: 0
   node3:
     params:
       duration: 500
       value:
         node3: output
-    inputs: [node1, node20]
+    inputs: [node1, node2.port1]
     agentId: sleeper
   node4:
     params:
@@ -35,5 +30,5 @@ nodes:
       duration: 500
       value:
         node5: output
-    inputs: [node20, node4]
+    inputs: [node2.port1, node4]
     agentId: sleeper
