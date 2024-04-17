@@ -122,22 +122,32 @@ A DFG consists of a collection of 'nodes', which contains a series of nested key
 - 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
 - 'agentId': An optional property, which specifies the default agent for all the nodes.
 - 'loop': An optional property, which specifies if the graph needs to be executed multiple times. The loop is an JavaScript object, which has two optinoal properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
+
 ```
-  loop:
-    while: source
-  nodes:
-    source:
-      value: [orange, banana, lemon]
-      next: popper.array
-    previous:
-      value: []
-      next: reducer
-    popper:
-      agentId: pop
-      inputs: [source]
-    reducer:
-      agentId: push
-      inputs: [previous, popper.item]
+loop:
+  while: people
+nodes:
+  people:
+    value:
+      - Steve Jobs
+      - Elon Musk
+      - Nikola Tesla
+    next: retriever.array
+  result:
+    value: []
+    next: reducer
+  retriever:
+    agentId: shift
+    inputs: [people]
+  query:
+    agentId: slashgpt
+    params:
+      manifest:
+        prompt: 指定した人について日本語で４００字以内で答えて
+    inputs: [retriever.item]
+  reducer:
+    agentId: push
+    inputs: [result, query.content]
 ```
 
 ## Agent
