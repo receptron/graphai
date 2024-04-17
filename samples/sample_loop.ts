@@ -4,7 +4,7 @@ import { pushAgent, shiftAgent, slashGPTAgent } from "@/experimental_agents";
 
 const graph_data = {
   loop: {
-    while: "people"
+    while: "people",
   },
   nodes: {
     people: {
@@ -23,10 +23,10 @@ const graph_data = {
       agentId: "slashgpt",
       params: {
         manifest: {
-          prompt: "指定した人について日本語で４００字以内で答えて"
-        }
+          prompt: "指定した人について日本語で４００字以内で答えて",
+        },
       },
-      inputs: ["retriever.item"]
+      inputs: ["retriever.item"],
     },
     reducer: {
       agentId: "push",
@@ -36,8 +36,7 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, 
-        { slashgpt: slashGPTAgent, push: pushAgent, shift: shiftAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { slashgpt: slashGPTAgent, push: pushAgent, shift: shiftAgent });
   console.log(result.result);
   console.log("COMPLETE 1");
 };
@@ -45,4 +44,3 @@ const main = async () => {
 if (process.argv[1] === __filename) {
   main();
 }
-  
