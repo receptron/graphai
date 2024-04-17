@@ -27,6 +27,7 @@ type NodeData = {
 
 type LoopData = {
   count: number;
+  while?: string;
 };
 
 export type GraphData = {
@@ -482,15 +483,29 @@ export class GraphAI {
     }
     if (this.runningNodes.size === 0) {
       this.repeatCount++;
-      if (this.loop && this.repeatCount < this.loop.count) {
+      const loop = this.loop;
+      if (loop && this.repeatCount < loop.count) {
         const results = this.results(); // results from previous loop
 
         this.isRunning = false; // temporarily stop it
         this.nodes = this.createNodes(this.data);
         this.initializeNodes(results);
-        this.isRunning = true; // restore it
-        this.pushReadyNodesIntoQueue();
-        return;
+
+        const shouldContinue = () => {
+          if (loop.while) {
+            const value = this.getValueFromResults(loop.while, this.results());
+            if (Array.isArray(value)) {
+              return value.length > 0;
+            }
+            return !!value;
+          }
+          return true;
+        }
+        if (shouldContinue()) {
+          this.isRunning = true; // restore it
+          this.pushReadyNodesIntoQueue();
+          return;
+        }
       }
       this.onComplete();
     }
