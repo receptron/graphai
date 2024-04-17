@@ -1,3 +1,5 @@
+import { parse } from "path";
+
 export enum NodeState {
   Waiting = "waiting",
   Executing = "executing",
@@ -68,6 +70,15 @@ export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<
 
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 
+const parseNodeName = (name: string) => {
+  const parts = name.split(".");
+  if (parts.length == 1) {
+    return { sourceNodeId: parts[0] };
+  } else {
+    return { sourceNodeId: parts[0], propId: parts[1] };
+  }
+};
+
 class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
@@ -94,13 +105,11 @@ class Node {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
     this.inputs = (data.inputs ?? []).map((input) => {
-      const parts = input.split(".");
-      if (parts.length == 1) {
-        return input;
-      } else {
-        this.inputProps[parts[0]] = parts[1];
-        return parts[0];
+      const { sourceNodeId, propId } = parseNodeName(input);
+      if (propId) {
+        this.inputProps[sourceNodeId] = propId;
       }
+      return sourceNodeId;
     });
     this.pendings = new Set(this.inputs);
     this.params = data.params ?? {};
@@ -359,12 +368,10 @@ export class GraphAI {
         this.injectValue(nodeId, value);
       }
       if (next && previousResults) {
-        const parts = next.split(".");
-        const result = previousResults[parts[0]];
-        if (parts.length == 1) {
-          this.injectValue(nodeId, result);
-        } else if (result) {
-          this.injectValue(nodeId, result[parts[1]]);
+        const { sourceNodeId, propId } = parseNodeName(next);
+        const result = previousResults[sourceNodeId];
+        if (result) {
+          this.injectValue(nodeId, propId ? result[propId] : result);
         }
       }
     });
