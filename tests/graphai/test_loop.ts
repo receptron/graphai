@@ -56,8 +56,7 @@ const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<s
 
 const graphdata_pop = {
   loop: {
-    count: 5,
-    while: "source"
+    while: "source",
   },
   nodes: {
     source: {

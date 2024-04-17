@@ -23,7 +23,8 @@ type NodeData = {
     outputs?: Record<string, string>;
 };
 type LoopData = {
-    count: number;
+    count?: number;
+    while?: string;
 };
 export type GraphData = {
     agentId?: string;
