@@ -1,17 +1,9 @@
 import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent } from "@/experimental_agents";
-import deepmerge from "deepmerge";
+import { sleeperAgent, pushAgent, popAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";
-
-const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async ({inputs}) => {
-  const [array, item] = deepmerge({ inputs }, {}).inputs;
-  // TODO: Validation
-  array.push(item);
-  return array;
-};
 
 const graphdata_push = {
   loop: {
@@ -44,14 +36,6 @@ test("test loop & push", async () => {
     reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
   });
 });
-
-const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async (context) => {
-  const { inputs } = context;
-  const [array] = deepmerge({ inputs }, {}).inputs;
-  // TODO: Varidation
-  const item = array.pop();
-  return { array, item };
-};
 
 const graphdata_pop = {
   loop: {
