@@ -1,5 +1,3 @@
-import { parse } from "path";
-
 export enum NodeState {
   Waiting = "waiting",
   Executing = "executing",
