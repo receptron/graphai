@@ -5,7 +5,7 @@ import { AgentFunctionDictonary, GraphData, DataSource, LoopData, TransactionLog
 import { Node, ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";
 
-type GraphNodes = Record<string, Node>;
+type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
 const defaultConcurrency = 8;
 
@@ -99,16 +99,18 @@ export class GraphAI {
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
     Object.keys(this.data.nodes).forEach((nodeId) => {
-      const node = this.nodes[nodeId] as StaticNode; // TODO
-      const value = node?.value;
-      const update = node?.update;
-      if (value) {
-        this.injectValue(nodeId, value);
-      }
-      if (update && previousResults) {
-        const result = this.getValueFromResults(update, previousResults);
-        if (result) {
-          this.injectValue(nodeId, result);
+      const node = this.nodes[nodeId];
+      if (node?.isStaticNode) {
+        const value = node?.value;
+        const update = node?.update;
+        if (value) {
+          this.injectValue(nodeId, value);
+        }
+        if (update && previousResults) {
+          const result = this.getValueFromResults(update, previousResults);
+          if (result) {
+            this.injectValue(nodeId, result);
+          }
         }
       }
     });
@@ -156,9 +158,11 @@ export class GraphAI {
 
   public errors() {
     return Object.keys(this.nodes).reduce((errors: Record<string, Error>, nodeId) => {
-      const node = this.nodes[nodeId] as ComputedNode;
-      if (node.error !== undefined) {
-        errors[nodeId] = node.error;
+      const node = this.nodes[nodeId];
+      if (node.isComputedNode) {
+        if (node.error !== undefined) {
+          errors[nodeId] = node.error;
+        }
       }
       return errors;
     }, {});
@@ -167,8 +171,8 @@ export class GraphAI {
   private pushReadyNodesIntoQueue() {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
-      const node = this.nodes[nodeId] as ComputedNode;
-      if (!node.isStaticNode) {
+      const node = this.nodes[nodeId];
+      if (node.isComputedNode) {
         node.pushQueueIfReady();
       }
     });
@@ -256,8 +260,8 @@ export class GraphAI {
   }
 
   public injectValue(nodeId: string, value: ResultData) {
-    const node = this.nodes[nodeId] as StaticNode;
-    if (node) {
+    const node = this.nodes[nodeId];
+    if (node && node.isStaticNode) {
       node.injectValue(value);
     } else {
       console.error("-- Invalid nodeId", nodeId);
