@@ -19,6 +19,7 @@ export type DataSource = {
 
 export type NodeData = {
   inputs?: Array<string>;
+  anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
   retry?: number;
   timeout?: number; // msec

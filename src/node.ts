@@ -11,6 +11,7 @@ export class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
   public sources: Record<string, DataSource> = {}; // data sources.
+  public anyInput: boolean; // any input makes this node ready
   public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
@@ -32,6 +33,7 @@ export class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
+    this.anyInput = data.anyInput ?? false;
     this.inputs = (data.inputs ?? []).map((input) => {
       const source = parseNodeName(input);
       this.sources[source.nodeId] = source;
@@ -66,7 +68,14 @@ export class Node {
   }
 
   public removePending(nodeId: string) {
-    this.pendings.delete(nodeId);
+    if (this.anyInput) {
+      const [result] = this.graph.resultsOf([this.sources[nodeId]]);
+      if (result) {
+        this.pendings.clear();
+      }
+    } else {
+      this.pendings.delete(nodeId);
+    }
     if (this.graph.isRunning) {
       this.pushQueueIfReady();
     }
