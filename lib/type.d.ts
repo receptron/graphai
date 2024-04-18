@@ -10,6 +10,10 @@ export declare enum NodeState {
 export type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
 export type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
 export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType;
+export type DataSource = {
+    nodeId: string;
+    propId?: string;
+};
 export type NodeData = {
     inputs?: Array<string>;
     params?: NodeDataParams;

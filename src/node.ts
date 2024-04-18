@@ -10,8 +10,8 @@ import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@
 export class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
-  public sources: Record<string, DataSource>; // data sources.
-  public inputs: Array<string>; // List of nodes this node needs data from.
+  public sources: Record<string, DataSource> = {}; // data sources.
+  public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -32,14 +32,9 @@ export class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
-    this.sources = (data.inputs ?? []).reduce((sources: Record<string, DataSource>, input) => {
-      const source = parseNodeName(input);
-      sources[source.nodeId] = source;
-      return sources;
-    }, {});
     this.inputs = (data.inputs ?? []).map((input) => {
-      // LATER: use sources
       const source = parseNodeName(input);
+      this.sources[source.nodeId] = source;
       return source.nodeId;
     });
     this.pendings = new Set(this.inputs);
@@ -114,7 +109,7 @@ export class Node {
     });
   }
 
-  public async execute() {    
+  public async execute() {
     const results = this.graph.resultsOf(this.inputs);
     this.inputs.forEach((nodeId, index) => {
       const { propId } = this.sources[nodeId];
