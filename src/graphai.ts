@@ -52,37 +52,39 @@ export class GraphAI {
     // Generate the waitlist for each node, and update the pendings in case of forked node.
     Object.keys(nodes).forEach((nodeId) => {
       const node = nodes[nodeId];
-      node.pendings.forEach((pending) => {
-        // If the pending(previous) node is forking
-        if (nodeId2forkedNodeIds[pending]) {
-          //  update node.pending and pending(previous) node.wailtlist
-          if (node.fork) {
-            //  1:1 if current nodes are also forking.
-            const newPendingId = nodeId2forkedNodeIds[pending][forkedNodeId2Index[nodeId]];
-            nodes[newPendingId].waitlist.add(nodeId); // previousNode
-            node.pendings.add(newPendingId);
-          } else {
-            //  1:n if current node is not forking.
-            nodeId2forkedNodeIds[pending].forEach((newPendingId) => {
+      if (node.isComputedNode) {
+        node.pendings.forEach((pending) => {
+          // If the pending(previous) node is forking
+          if (nodeId2forkedNodeIds[pending]) {
+            //  update node.pending and pending(previous) node.wailtlist
+            if (node.fork) {
+              //  1:1 if current nodes are also forking.
+              const newPendingId = nodeId2forkedNodeIds[pending][forkedNodeId2Index[nodeId]];
               nodes[newPendingId].waitlist.add(nodeId); // previousNode
               node.pendings.add(newPendingId);
-            });
-          }
-          node.pendings.delete(pending);
-        } else {
-          if (nodes[pending]) {
-            nodes[pending].waitlist.add(nodeId); // previousNode
+            } else {
+              //  1:n if current node is not forking.
+              nodeId2forkedNodeIds[pending].forEach((newPendingId) => {
+                nodes[newPendingId].waitlist.add(nodeId); // previousNode
+                node.pendings.add(newPendingId);
+              });
+            }
+            node.pendings.delete(pending);
           } else {
-            console.error(`--- invalid input ${pending} for node, ${nodeId}`);
+            if (nodes[pending]) {
+              nodes[pending].waitlist.add(nodeId); // previousNode
+            } else {
+              console.error(`--- invalid input ${pending} for node, ${nodeId}`);
+            }
           }
-        }
-      });
-      node.inputs = Array.from(node.pendings); // for fork.
-      node.sources = node.inputs.reduce((sources: Record<string, DataSource>, input) => {
-        const refNodeId = forkedNodeId2NodeId[input] ?? input;
-        sources[input] = { nodeId: input, propId: node.sources[refNodeId].propId };
-        return sources;
-      }, {});
+        });
+        node.inputs = Array.from(node.pendings); // for fork.
+        node.sources = node.inputs.reduce((sources: Record<string, DataSource>, input) => {
+          const refNodeId = forkedNodeId2NodeId[input] ?? input;
+          sources[input] = { nodeId: input, propId: node.sources[refNodeId].propId };
+          return sources;
+        }, {});
+      }
     });
     return nodes;
   }
