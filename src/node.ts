@@ -56,17 +56,6 @@ export class Node {
     this.pendings.delete(nodeId);
   }
 
-  // for static
-  public injectValue(value: ResultData) {
-    if (this.isStaticNode) {
-      const log = injectValueLog(this.nodeId, this.retryCount, value);
-      this.graph.appendLog(log);
-      this.setResult(value, NodeState.Injected);
-    } else {
-      console.error("- injectValue called on non-source node.", this.nodeId);
-    }
-  }
-
   protected setResult(result: ResultData, state: NodeState) {
     this.state = state;
     this.result = result;
@@ -76,7 +65,6 @@ export class Node {
       node.removePending(this.nodeId);
     });
   }
-
 }
 
 export class ComputedNode extends Node {
@@ -114,12 +102,10 @@ export class ComputedNode extends Node {
   public removePending(nodeId: string) {
     super.removePending(nodeId);
     if (this.graph.isRunning) {
-      if (!this.isStaticNode) {
-        this.pushQueueIfReady();
-      }
+      this.pushQueueIfReady();
     }
   }
-  
+
   public async execute() {
     const results = this.graph.resultsOf(
       this.inputs.map((input) => {
@@ -207,6 +193,12 @@ export class StaticNode extends Node {
     this.update = data.update;
   }
 
-  public pushQueueIfReady() {
+  // for static
+  public injectValue(value: ResultData) {
+    const log = injectValueLog(this.nodeId, this.retryCount, value);
+    this.graph.appendLog(log);
+    this.setResult(value, NodeState.Injected);
+    //console.error("- injectValue called on non-source node.", this.nodeId);
   }
+
 }

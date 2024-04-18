@@ -256,7 +256,7 @@ export class GraphAI {
   }
 
   public injectValue(nodeId: string, value: ResultData) {
-    const node = this.nodes[nodeId];
+    const node = this.nodes[nodeId] as StaticNode;
     if (node) {
       node.injectValue(value);
     } else {
