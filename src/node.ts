@@ -54,40 +54,12 @@ export class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  private retry(state: NodeState, error: Error) {
-    if (this.retryCount < this.retryLimit) {
-      this.retryCount++;
-      this.execute();
-    } else {
-      this.state = state;
-      this.result = undefined;
-      this.error = error;
-      this.transactionId = undefined; // This is necessary for timeout case
-      this.graph.removeRunning(this);
-    }
-  }
-
   public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
     if (this.graph.isRunning) {
       if (!this.source) {
         this.pushQueueIfReady();
       }
-    }
-  }
-
-  // for completed
-  public pushQueueIfReady() {
-    if (this.pendings.size === 0) {
-      // If input property is specified, we need to ensure that the property value exists.
-      Object.keys(this.inputProps).forEach((nodeId) => {
-        const [result] = this.graph.resultsOf([nodeId]);
-        const propId = this.inputProps[nodeId];
-        if (!result || !(propId in result)) {
-          return;
-        }
-      });
-      this.graph.pushQueue(this);
     }
   }
 
@@ -112,7 +84,38 @@ export class Node {
     });
   }
 
-  // for static
+}
+
+export class ComputedNode extends Node {
+  // for completed
+  public pushQueueIfReady() {
+    if (this.pendings.size === 0) {
+      // If input property is specified, we need to ensure that the property value exists.
+      Object.keys(this.inputProps).forEach((nodeId) => {
+        const [result] = this.graph.resultsOf([nodeId]);
+        const propId = this.inputProps[nodeId];
+        if (!result || !(propId in result)) {
+          return;
+        }
+      });
+      this.graph.pushQueue(this);
+    }
+  }
+
+  // for computed
+  private retry(state: NodeState, error: Error) {
+    if (this.retryCount < this.retryLimit) {
+      this.retryCount++;
+      this.execute();
+    } else {
+      this.state = state;
+      this.result = undefined;
+      this.error = error;
+      this.transactionId = undefined; // This is necessary for timeout case
+      this.graph.removeRunning(this);
+    }
+  }
+
   public async execute() {
     const results = this.graph.resultsOf(this.inputs);
     this.inputs.forEach((nodeId, index) => {
@@ -191,10 +194,6 @@ export class Node {
       }
     }
   }
-}
-
-export class ComputedNode extends Node {
-
 }
 export class StaticNode extends Node {
   public value?: ResultData;

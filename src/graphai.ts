@@ -16,7 +16,7 @@ export class GraphAI {
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
   private runningNodes = new Set<string>();
-  private nodeQueue: Array<Node> = []; // for Computed Node
+  private nodeQueue: Array<ComputedNode> = []; // for Computed Node
   private onComplete: () => void;
   private concurrency: number;
   private loop?: LoopData;
@@ -160,7 +160,7 @@ export class GraphAI {
   private pushReadyNodesIntoQueue() {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
-      const node = this.nodes[nodeId];
+      const node = this.nodes[nodeId] as ComputedNode;
       if (!node.source) {
         node.pushQueueIfReady();
       }
@@ -189,13 +189,13 @@ export class GraphAI {
   }
 
   // for computed
-  private runNode(node: Node) {
+  private runNode(node: ComputedNode) {
     this.runningNodes.add(node.nodeId);
     node.execute();
   }
 
   // for computed
-  public pushQueue(node: Node) {
+  public pushQueue(node: ComputedNode) {
     if (this.runningNodes.size < this.concurrency) {
       this.runNode(node);
     } else {
@@ -204,7 +204,7 @@ export class GraphAI {
   }
 
   // for completed
-  public removeRunning(node: Node) {
+  public removeRunning(node: ComputedNode) {
     this.runningNodes.delete(node.nodeId);
     if (this.nodeQueue.length > 0) {
       const n = this.nodeQueue.shift();
