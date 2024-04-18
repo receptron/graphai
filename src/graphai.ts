@@ -14,6 +14,7 @@ export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Ag
 
 type NodeData = {
   inputs?: Array<string>;
+  anyInput?: boolean;
   params?: NodeDataParams;
   retry?: number;
   timeout?: number; // msec
@@ -82,6 +83,7 @@ class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
   public inputs: Array<string>; // List of nodes this node needs data from.
+  public anyInput: boolean;
   public inputProps: Record<string, string> = {}; // optional properties for input
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
@@ -110,6 +112,7 @@ class Node {
       }
       return sourceNodeId;
     });
+    this.anyInput = data.anyInput ?? false;
     this.pendings = new Set(this.inputs);
     this.params = data.params ?? {};
     this.agentId = data.agentId ?? graph.agentId;
