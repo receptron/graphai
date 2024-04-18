@@ -122,7 +122,10 @@ export class Node {
       this.inputs.map((input) => {
         return this.sources[input];
       }),
-    );
+    ).filter((result) => {
+      // Remove undefined if anyInput flag is set.
+      return !this.anyInput || result !== undefined;      
+    });
     const transactionId = Date.now();
     const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
     this.graph.appendLog(log);
