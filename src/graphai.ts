@@ -255,9 +255,10 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(nodeIds: Array<string>) {
-    return nodeIds.map((nodeId) => {
-      return this.nodes[nodeId].result;
+  public resultsOf(sources: Array<DataSource>) {
+    return sources.map((source) => {
+      const result = this.nodes[source.nodeId].result;
+      return result && source.propId ? result[source.propId] : result;
     });
   }
 }

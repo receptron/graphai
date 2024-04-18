@@ -78,9 +78,8 @@ export class Node {
       this.inputs.forEach((nodeId) => {
         const source = this.sources[nodeId];
         if (source.propId) {
-          // LATER: use source to get data
-          const [result] = this.graph.resultsOf([nodeId]);
-          if (!result || !(source.propId in result)) {
+          const [result] = this.graph.resultsOf([source]);
+          if (!result) {
             return;
           }
         }
@@ -110,13 +109,11 @@ export class Node {
   }
 
   public async execute() {
-    const results = this.graph.resultsOf(this.inputs);
-    this.inputs.forEach((nodeId, index) => {
-      const { propId } = this.sources[nodeId];
-      if (propId) {
-        results[index] = results[index]![propId];
-      }
-    });
+    const results = this.graph.resultsOf(
+      this.inputs.map((input) => {
+        return this.sources[input];
+      }),
+    );
     const transactionId = Date.now();
     const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
     this.graph.appendLog(log);
