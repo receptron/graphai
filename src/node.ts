@@ -33,7 +33,11 @@ export class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
-    this.sources = {};
+    this.sources = (data.inputs ?? []).reduce((sources: Record<string, DataSource>, input) => {
+      const source = parseNodeName(input);
+      sources[source.nodeId] = source;
+      return sources;
+    }, {});
     this.inputs = (data.inputs ?? []).map((input) => {
       const source = parseNodeName(input);
       if (source.propId) {
