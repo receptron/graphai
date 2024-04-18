@@ -14,7 +14,11 @@ export type DataSource = {
     nodeId: string;
     propId?: string;
 };
-export type NodeData = {
+export type StaticNodeData = {
+    value?: ResultData;
+    update?: string;
+};
+export type ComputedNodeData = {
     inputs?: Array<string>;
     anyInput?: boolean;
     params?: NodeDataParams;
@@ -25,6 +29,7 @@ export type NodeData = {
     value?: ResultData;
     update?: string;
 };
+export type NodeData = StaticNodeData & ComputedNodeData;
 export type LoopData = {
     count?: number;
     while?: string;
