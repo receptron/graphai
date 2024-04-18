@@ -26,15 +26,15 @@ export class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public removePending(nodeId: string) {}
-
   protected setResult(result: ResultData, state: NodeState) {
     this.state = state;
     this.result = result;
     this.waitlist.forEach((waitingNodeId) => {
       const waitingNode = this.graph.nodes[waitingNodeId];
       // Todo: Avoid running before Run()
-      waitingNode.removePending(this.nodeId);
+      if (waitingNode.isComputedNode) {
+        waitingNode.removePending(this.nodeId);
+      }
     });
   }
 }

@@ -10,7 +10,6 @@ export declare class Node {
     protected graph: GraphAI;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
     asString(): string;
-    removePending(nodeId: string): void;
     protected setResult(result: ResultData, state: NodeState): void;
 }
 export declare class ComputedNode extends Node {
