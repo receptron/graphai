@@ -190,13 +190,24 @@ class Node {
   }
 
   public async execute() {
-    const results = this.graph.resultsOf(this.inputs);
-    this.inputs.forEach((nodeId, index) => {
+    const results = this.inputs.reduce((results: Array<ResultData>, nodeId) => {
+      const [result] = this.graph.resultsOf([nodeId]);
       const propId = this.inputProps[nodeId];
-      if (propId) {
-        results[index] = results[index]![propId];
+      if (this.anyInput) {
+        // skip undefined
+        if (result) {
+          if (!propId) {
+            results.push(result);
+          } else if (result[propId]) {
+            results.push(result[propId]);
+          }
+        }
+      } else {
+        results.push(propId? result![propId] : result);
       }
-    });
+      return results;
+    }, []);
+
     const transactionId = Date.now();
     const log: TransactionLog = {
       nodeId: this.nodeId,
