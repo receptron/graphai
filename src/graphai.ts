@@ -1,6 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import { AgentFunctionDictonary, GraphData, LoopData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
+import { AgentFunctionDictonary, GraphData, DataSource, LoopData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
 
 import { Node } from "@/node";
 import { parseNodeName } from "@/utils/utils";
@@ -27,6 +27,7 @@ export class GraphAI {
   private createNodes(data: GraphData) {
     const nodeId2forkedNodeIds: Record<string, string[]> = {};
     const forkedNodeId2Index: Record<string, number> = {};
+    const forkedNodeId2NodeId: Record<string, string> = {};
 
     const nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       const fork = data.nodes[nodeId].fork;
@@ -37,6 +38,7 @@ export class GraphAI {
           nodes[forkedNodeId] = new Node(forkedNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
           forkedNodeId2Index[forkedNodeId] = i;
+          forkedNodeId2NodeId[forkedNodeId] = nodeId;
           return forkedNodeId;
         });
       } else {
@@ -74,6 +76,11 @@ export class GraphAI {
         }
       });
       node.inputs = Array.from(node.pendings); // for fork.
+      node.sources = node.inputs.reduce((sources: Record<string, DataSource>, input) => {
+        const refNodeId = forkedNodeId2NodeId[input] ?? input;
+        sources[input] = { nodeId: input, propId: node.sources[refNodeId].propId };
+        return sources;
+      }, {});
     });
     return nodes;
   }
