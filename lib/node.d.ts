@@ -18,7 +18,7 @@ export declare class Node {
     transactionId: undefined | number;
     timeout?: number;
     error?: Error;
-    source: boolean;
+    isStaticNode: boolean;
     outputs?: Record<string, string>;
     private graph;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
