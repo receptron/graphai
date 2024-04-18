@@ -84,16 +84,20 @@ export class Node {
   public pushQueueIfReady() {
     if (this.pendings.size === 0 && !this.source) {
       // If input property is specified, we need to ensure that the property value exists.
-      this.inputs.forEach((nodeId) => {
+      const count = this.inputs.reduce((count, nodeId) => {
         const source = this.sources[nodeId];
         if (source.propId) {
           const [result] = this.graph.resultsOf([source]);
           if (!result) {
-            return;
+            return count;
           }
         }
-      });
-      this.graph.pushQueue(this);
+        return count + 1;
+      }, 0);
+
+      if ((this.anyInput && count > 0) || count == this.inputs.length) {
+        this.graph.pushQueue(this);
+      }
     }
   }
 
@@ -118,14 +122,16 @@ export class Node {
   }
 
   public async execute() {
-    const results = this.graph.resultsOf(
-      this.inputs.map((input) => {
-        return this.sources[input];
-      }),
-    ).filter((result) => {
-      // Remove undefined if anyInput flag is set.
-      return !this.anyInput || result !== undefined;      
-    });
+    const results = this.graph
+      .resultsOf(
+        this.inputs.map((input) => {
+          return this.sources[input];
+        }),
+      )
+      .filter((result) => {
+        // Remove undefined if anyInput flag is set.
+        return !this.anyInput || result !== undefined;
+      });
     const transactionId = Date.now();
     const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
     this.graph.appendLog(log);
