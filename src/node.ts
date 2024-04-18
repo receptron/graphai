@@ -5,6 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
+import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -89,14 +90,7 @@ export class Node {
 
   public injectValue(value: ResultData) {
     if (this.source) {
-      const log: TransactionLog = {
-        nodeId: this.nodeId,
-        retryCount: this.retryCount,
-        state: NodeState.Injected,
-        startTime: Date.now(),
-        endTime: Date.now(),
-        result: value,
-      };
+      const log = injectValueLog(this.nodeId, this.retryCount, value);
       this.graph.appendLog(log);
       this.setResult(value, NodeState.Injected);
     } else {
@@ -123,15 +117,7 @@ export class Node {
       }
     });
     const transactionId = Date.now();
-    const log: TransactionLog = {
-      nodeId: this.nodeId,
-      retryCount: this.retryCount > 0 ? this.retryCount : undefined,
-      state: NodeState.Executing,
-      startTime: transactionId,
-      agentId: this.agentId,
-      params: this.params,
-      inputs: results.length > 0 ? results : undefined,
-    };
+    const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
     this.transactionId = transactionId;
@@ -140,9 +126,7 @@ export class Node {
       setTimeout(() => {
         if (this.state === NodeState.Executing && this.transactionId === transactionId) {
           console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
-          log.errorMessage = "Timeout";
-          log.state = NodeState.TimedOut;
-          log.endTime = Date.now();
+          timeoutLog(log);
           this.retry(NodeState.TimedOut, Error("Timeout"));
         }
       }, this.timeout);
@@ -166,11 +150,7 @@ export class Node {
         return;
       }
 
-      log.endTime = Date.now();
-      log.result = result;
-      if (localLog.length > 0) {
-        log.log = localLog;
-      }
+      callbackLog(log, result, localLog);
 
       const outputs = this.outputs;
       if (outputs !== undefined) {
@@ -196,14 +176,12 @@ export class Node {
         console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
         return;
       }
-      log.state = NodeState.Failed;
-      log.endTime = Date.now();
-      if (error instanceof Error) {
-        log.errorMessage = error.message;
+      const isError = error instanceof Error;
+      errorLog(log, isError ? error.message : "Unknown");
+      if (isError) {
         this.retry(NodeState.Failed, error);
       } else {
         console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
-        log.errorMessage = "Unknown";
         this.retry(NodeState.Failed, Error("Unknown"));
       }
     }

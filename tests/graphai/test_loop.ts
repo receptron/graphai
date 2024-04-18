@@ -28,7 +28,7 @@ const graphdata_push = {
 };
 
 test("test loop & push", async () => {
-  const result = await graphDataTestRunner("test_loop_pop", graphdata_push, { sleeper: sleeperAgent, push: pushAgent });
+  const result = await graphDataTestRunner(__filename, graphdata_push, { sleeper: sleeperAgent, push: pushAgent });
   assert.deepStrictEqual(result, {
     array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
     item: "hello",
@@ -61,7 +61,7 @@ const graphdata_pop = {
 };
 
 test("test loop & pop", async () => {
-  const result = await graphDataTestRunner("test_loop_pop", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
+  const result = await graphDataTestRunner(__filename, graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
   console.log(result);
   // assert.deepStrictEqual(result.reducer, ["lemon", "banana", "orange"]);
 });
