@@ -1,4 +1,4 @@
-import type { NodeDataParams, TransactionLog, ResultData, NodeData } from "@/type";
+import type { NodeDataParams, TransactionLog, ResultData, DataSource, NodeData } from "@/type";
 
 import type { GraphAI } from "@/graphai";
 
@@ -10,6 +10,7 @@ import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@
 export class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
+  public sources: Record<string, DataSource>; // data sources.
   public inputs: Array<string>; // List of nodes this node needs data from.
   public inputProps: Record<string, string> = {}; // optional properties for input
   public pendings: Set<string>; // List of nodes this node is waiting data from.
@@ -32,6 +33,7 @@ export class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
+    this.sources = {};
     this.inputs = (data.inputs ?? []).map((input) => {
       const source = parseNodeName(input);
       if (source.propId) {
