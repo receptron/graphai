@@ -150,6 +150,7 @@ class Node {
 
   public pushQueueIfReady() {
     if (this.pendings.size === 0 && !this.source) {
+      /*
       // If input property is specified, we need to ensure that the property value exists.
       Object.keys(this.inputProps).forEach((nodeId) => {
         const [result] = this.graph.resultsOf([nodeId]);
@@ -158,6 +159,7 @@ class Node {
           return;
         }
       });
+      */
       this.graph.pushQueue(this);
     }
   }
