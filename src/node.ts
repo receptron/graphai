@@ -14,12 +14,10 @@ export class Node {
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
-  public agentId?: string;
   public fork?: number;
   public forkIndex?: number;
   public result: ResultData = undefined;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
-  public isStaticNode: boolean;
 
   protected graph: GraphAI;
 
@@ -32,9 +30,7 @@ export class Node {
       return source.nodeId;
     });
     this.pendings = new Set(this.inputs);
-    this.agentId = data.agentId ?? graph.agentId;
     this.fork = data.fork;
-    this.isStaticNode = this.agentId === undefined;
     this.graph = graph;
   }
 
@@ -61,13 +57,16 @@ export class ComputedNode extends Node {
   public params: NodeDataParams; // Agent-specific parameters
   public retryLimit: number;
   public retryCount: number = 0;
+  public agentId?: string;
   public timeout?: number; // msec
   public error?: Error;
   public outputs?: Record<string, string>; // Mapping from routeId to nodeId
+  public readonly isStaticNode = false;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     super(nodeId, forkIndex, data, graph);
     this.params = data.params ?? {};
+    this.agentId = data.agentId ?? graph.agentId;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
     this.outputs = data.outputs;
@@ -190,6 +189,7 @@ export class ComputedNode extends Node {
 export class StaticNode extends Node {
   public value?: ResultData;
   public update?: string;
+  public readonly isStaticNode = true;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     super(nodeId, forkIndex, data, graph);
