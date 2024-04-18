@@ -26,7 +26,6 @@ export declare class ComputedNode extends Node {
     agentId?: string;
     timeout?: number;
     error?: Error;
-    outputs?: Record<string, string>;
     readonly isStaticNode = false;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
     pushQueueIfReady(): void;

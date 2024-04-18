@@ -22,10 +22,8 @@ export type NodeData = {
     timeout?: number;
     agentId?: string;
     fork?: number;
-    source?: boolean;
     value?: ResultData;
     update?: string;
-    outputs?: Record<string, string>;
 };
 export type LoopData = {
     count?: number;
