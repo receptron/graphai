@@ -1,6 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
 import { AgentFunctionDictonary, GraphData, DataSource, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "./type";
-import { Node } from "./node";
+import { Node, ComputedNode } from "./node";
 type GraphNodes = Record<string, Node>;
 export declare class GraphAI {
     private data;
@@ -27,8 +27,8 @@ export declare class GraphAI {
     private pushReadyNodesIntoQueue;
     run(): Promise<ResultDataDictonary>;
     private runNode;
-    pushQueue(node: Node): void;
-    removeRunning(node: Node): void;
+    pushQueue(node: ComputedNode): void;
+    removeRunning(node: ComputedNode): void;
     appendLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData): void;

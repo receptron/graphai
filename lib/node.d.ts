@@ -3,30 +3,41 @@ import type { GraphAI } from "./graphai";
 import { NodeState } from "./type";
 export declare class Node {
     nodeId: string;
-    params: NodeDataParams;
     sources: Record<string, DataSource>;
+    anyInput: boolean;
     inputs: Array<string>;
     pendings: Set<string>;
     waitlist: Set<string>;
     state: NodeState;
-    agentId?: string;
     fork?: number;
     forkIndex?: number;
     result: ResultData;
-    retryLimit: number;
-    retryCount: number;
     transactionId: undefined | number;
-    timeout?: number;
-    error?: Error;
-    isStaticNode: boolean;
-    outputs?: Record<string, string>;
-    private graph;
+    protected graph: GraphAI;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
     asString(): string;
+    removePending(nodeId: string): void;
+    protected setResult(result: ResultData, state: NodeState): void;
+}
+export declare class ComputedNode extends Node {
+    params: NodeDataParams;
+    retryLimit: number;
+    retryCount: number;
+    agentId?: string;
+    timeout?: number;
+    error?: Error;
+    outputs?: Record<string, string>;
+    readonly isStaticNode = false;
+    constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
+    pushQueueIfReady(): void;
     private retry;
     removePending(nodeId: string): void;
-    pushQueueIfReady(): void;
-    injectValue(value: ResultData): void;
-    private setResult;
     execute(): Promise<void>;
+}
+export declare class StaticNode extends Node {
+    value?: ResultData;
+    update?: string;
+    readonly isStaticNode = true;
+    constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
+    injectValue(value: ResultData): void;
 }
