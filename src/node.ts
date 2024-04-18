@@ -19,10 +19,7 @@ export class Node {
   public forkIndex?: number;
   public result: ResultData = undefined;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
-  public timeout?: number; // msec
-  public error?: Error;
   public isStaticNode: boolean;
-  public outputs?: Record<string, string>; // Mapping from routeId to nodeId
 
   protected graph: GraphAI;
 
@@ -37,9 +34,7 @@ export class Node {
     this.pendings = new Set(this.inputs);
     this.agentId = data.agentId ?? graph.agentId;
     this.fork = data.fork;
-    this.timeout = data.timeout;
     this.isStaticNode = this.agentId === undefined;
-    this.outputs = data.outputs;
     this.graph = graph;
   }
 
@@ -66,11 +61,16 @@ export class ComputedNode extends Node {
   public params: NodeDataParams; // Agent-specific parameters
   public retryLimit: number;
   public retryCount: number = 0;
+  public timeout?: number; // msec
+  public error?: Error;
+  public outputs?: Record<string, string>; // Mapping from routeId to nodeId
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     super(nodeId, forkIndex, data, graph);
     this.params = data.params ?? {};
     this.retryLimit = data.retry ?? 0;
+    this.timeout = data.timeout;
+    this.outputs = data.outputs;
   }
   // for completed
   public pushQueueIfReady() {

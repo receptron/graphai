@@ -156,7 +156,7 @@ export class GraphAI {
 
   public errors() {
     return Object.keys(this.nodes).reduce((errors: Record<string, Error>, nodeId) => {
-      const node = this.nodes[nodeId];
+      const node = this.nodes[nodeId] as ComputedNode;
       if (node.error !== undefined) {
         errors[nodeId] = node.error;
       }
