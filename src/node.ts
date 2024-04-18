@@ -9,7 +9,6 @@ import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@
 
 export class Node {
   public nodeId: string;
-  public params: NodeDataParams; // Agent-specific parameters
   public sources: Record<string, DataSource> = {}; // data sources.
   public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
@@ -19,8 +18,6 @@ export class Node {
   public fork?: number;
   public forkIndex?: number;
   public result: ResultData = undefined;
-  public retryLimit: number;
-  public retryCount: number = 0;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout?: number; // msec
   public error?: Error;
@@ -38,10 +35,8 @@ export class Node {
       return source.nodeId;
     });
     this.pendings = new Set(this.inputs);
-    this.params = data.params ?? {};
     this.agentId = data.agentId ?? graph.agentId;
     this.fork = data.fork;
-    this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
     this.isStaticNode = this.agentId === undefined;
     this.outputs = data.outputs;
@@ -68,6 +63,15 @@ export class Node {
 }
 
 export class ComputedNode extends Node {
+  public params: NodeDataParams; // Agent-specific parameters
+  public retryLimit: number;
+  public retryCount: number = 0;
+
+  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
+    super(nodeId, forkIndex, data, graph);
+    this.params = data.params ?? {};
+    this.retryLimit = data.retry ?? 0;
+  }
   // for completed
   public pushQueueIfReady() {
     if (this.pendings.size === 0) {
@@ -195,7 +199,7 @@ export class StaticNode extends Node {
 
   // for static
   public injectValue(value: ResultData) {
-    const log = injectValueLog(this.nodeId, this.retryCount, value);
+    const log = injectValueLog(this.nodeId, value);
     this.graph.appendLog(log);
     this.setResult(value, NodeState.Injected);
     //console.error("- injectValue called on non-source node.", this.nodeId);
