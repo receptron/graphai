@@ -142,7 +142,17 @@ class Node {
   }
 
   public removePending(nodeId: string) {
-    this.pendings.delete(nodeId);
+    if (this.anyInput) {
+      const [result] = this.graph.resultsOf([nodeId]);
+      if (result) {
+        const propId = this.inputProps[nodeId];
+        if (!propId || result[propId]) {
+          this.pendings.clear();       
+        }
+      }
+    } else {
+      this.pendings.delete(nodeId);
+    }
     if (this.graph.isRunning) {
       this.pushQueueIfReady();
     }
