@@ -1,6 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import { AgentFunctionDictonary, GraphData, LoopData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
+import { AgentFunctionDictonary, GraphData, DataSource, LoopData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
 
 import { Node, ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";
@@ -27,6 +27,7 @@ export class GraphAI {
   private createNodes(data: GraphData) {
     const nodeId2forkedNodeIds: Record<string, string[]> = {};
     const forkedNodeId2Index: Record<string, number> = {};
+    const forkedNodeId2NodeId: Record<string, string> = {};
 
     const nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       const fork = data.nodes[nodeId].fork;
@@ -39,6 +40,7 @@ export class GraphAI {
           nodes[forkedNodeId] = new node(forkedNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
           forkedNodeId2Index[forkedNodeId] = i;
+          forkedNodeId2NodeId[forkedNodeId] = nodeId;
           return forkedNodeId;
         });
       } else {
@@ -76,14 +78,19 @@ export class GraphAI {
         }
       });
       node.inputs = Array.from(node.pendings); // for fork.
+      node.sources = node.inputs.reduce((sources: Record<string, DataSource>, input) => {
+        const refNodeId = forkedNodeId2NodeId[input] ?? input;
+        sources[input] = { nodeId: input, propId: node.sources[refNodeId].propId };
+        return sources;
+      }, {});
     });
     return nodes;
   }
 
   private getValueFromResults(key: string, results: ResultDataDictonary<Record<string, any>>) {
-    const { sourceNodeId, propId } = parseNodeName(key);
-    const result = results[sourceNodeId];
-    return result ? (propId ? result[propId] : result) : undefined;
+    const source = parseNodeName(key);
+    const result = results[source.nodeId];
+    return result ? (source.propId ? result[source.propId] : result) : undefined;
   }
 
   // for static
@@ -257,9 +264,10 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(nodeIds: Array<string>) {
-    return nodeIds.map((nodeId) => {
-      return this.nodes[nodeId].result;
+  public resultsOf(sources: Array<DataSource>) {
+    return sources.map((source) => {
+      const result = this.nodes[source.nodeId].result;
+      return result && source.propId ? result[source.propId] : result;
     });
   }
 }

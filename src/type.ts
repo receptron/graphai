@@ -12,6 +12,11 @@ export type ResultDataDictonary<ResultType = Record<string, any>> = Record<strin
 
 export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Agent-specific parameters
 
+export type DataSource = {
+  nodeId: string;
+  propId?: string;
+};
+
 export type NodeData = {
   inputs?: Array<string>;
   params?: NodeDataParams;

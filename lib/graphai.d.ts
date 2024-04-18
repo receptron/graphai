@@ -1,5 +1,5 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
-import { AgentFunction, AgentFunctionDictonary, GraphData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "./type";
+import { AgentFunctionDictonary, GraphData, DataSource, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "./type";
 import { Node } from "./node";
 type GraphNodes = Record<string, Node>;
 export declare class GraphAI {
@@ -20,7 +20,7 @@ export declare class GraphAI {
     private getValueFromResults;
     private initializeNodes;
     constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs);
-    getCallback(agentId?: string): AgentFunction<any, any, any>;
+    getCallback(agentId?: string): import("./type").AgentFunction<any, any, any>;
     asString(): string;
     results(): ResultDataDictonary;
     errors(): Record<string, Error>;
@@ -32,5 +32,5 @@ export declare class GraphAI {
     appendLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData): void;
-    resultsOf(nodeIds: Array<string>): ResultData[];
+    resultsOf(sources: Array<DataSource>): any[];
 }

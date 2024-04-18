@@ -1,4 +1,4 @@
-import type { NodeDataParams, TransactionLog, ResultData, NodeData } from "@/type";
+import type { NodeDataParams, TransactionLog, ResultData, DataSource, NodeData } from "@/type";
 
 import type { GraphAI } from "@/graphai";
 
@@ -10,8 +10,8 @@ import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@
 export class Node {
   public nodeId: string;
   public params: NodeDataParams; // Agent-specific parameters
-  public inputs: Array<string>; // List of nodes this node needs data from.
-  public inputProps: Record<string, string> = {}; // optional properties for input
+  public sources: Record<string, DataSource> = {}; // data sources.
+  public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -33,11 +33,9 @@ export class Node {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
     this.inputs = (data.inputs ?? []).map((input) => {
-      const { sourceNodeId, propId } = parseNodeName(input);
-      if (propId) {
-        this.inputProps[sourceNodeId] = propId;
-      }
-      return sourceNodeId;
+      const source = parseNodeName(input);
+      this.sources[source.nodeId] = source;
+      return source.nodeId;
     });
     this.pendings = new Set(this.inputs);
     this.params = data.params ?? {};
@@ -59,7 +57,25 @@ export class Node {
     if (this.graph.isRunning) {
       if (!this.source) {
         this.pushQueueIfReady();
+        this.pushQueueIfReady();
       }
+    }
+  }
+
+  public pushQueueIfReady() {
+    if (this.pendings.size === 0 && !this.source) {
+      // If input property is specified, we need to ensure that the property value exists.
+      this.inputs.forEach((nodeId) => {
+        const source = this.sources[nodeId];
+        if (source.propId) {
+          const [result] = this.graph.resultsOf([source]);
+          if (!result) {
+            return;
+          }
+        }
+      });
+      this.graph.pushQueue(this);
+>>>>>>> main
     }
   }
 
@@ -117,13 +133,11 @@ export class ComputedNode extends Node {
   }
 
   public async execute() {
-    const results = this.graph.resultsOf(this.inputs);
-    this.inputs.forEach((nodeId, index) => {
-      const propId = this.inputProps[nodeId];
-      if (propId) {
-        results[index] = results[index]![propId];
-      }
-    });
+    const results = this.graph.resultsOf(
+      this.inputs.map((input) => {
+        return this.sources[input];
+      }),
+    );
     const transactionId = Date.now();
     const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
     this.graph.appendLog(log);

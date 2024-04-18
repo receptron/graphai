@@ -1,6 +1,4 @@
-import {
-  ResultData, TransactionLog, NodeState, NodeDataParams
-} from "@/type";
+import { ResultData, TransactionLog, NodeState, NodeDataParams } from "@/type";
 
 export const injectValueLog = (nodeId: string, retryCount: number, value: ResultData) => {
   const log: TransactionLog = {
