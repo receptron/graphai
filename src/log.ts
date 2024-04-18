@@ -1,9 +1,8 @@
 import { ResultData, TransactionLog, NodeState, NodeDataParams } from "@/type";
 
-export const injectValueLog = (nodeId: string, retryCount: number, value: ResultData) => {
+export const injectValueLog = (nodeId: string, value: ResultData) => {
   const log: TransactionLog = {
     nodeId,
-    retryCount,
     state: NodeState.Injected,
     startTime: Date.now(),
     endTime: Date.now(),

@@ -9,26 +9,18 @@ import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@
 
 export class Node {
   public nodeId: string;
-  public params: NodeDataParams; // Agent-specific parameters
   public sources: Record<string, DataSource> = {}; // data sources.
   public anyInput: boolean; // any input makes this node ready
   public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
-  public agentId?: string;
   public fork?: number;
   public forkIndex?: number;
   public result: ResultData = undefined;
-  public retryLimit: number;
-  public retryCount: number = 0;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
-  public timeout?: number; // msec
-  public error?: Error;
-  public isStaticNode: boolean;
-  public outputs?: Record<string, string>; // Mapping from routeId to nodeId
 
-  private graph: GraphAI;
+  protected graph: GraphAI;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
@@ -40,31 +32,12 @@ export class Node {
       return source.nodeId;
     });
     this.pendings = new Set(this.inputs);
-    this.params = data.params ?? {};
-    this.agentId = data.agentId ?? graph.agentId;
     this.fork = data.fork;
-    this.retryLimit = data.retry ?? 0;
-    this.timeout = data.timeout;
-    this.isStaticNode = this.agentId === undefined;
-    this.outputs = data.outputs;
     this.graph = graph;
   }
 
   public asString() {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
-  }
-
-  private retry(state: NodeState, error: Error) {
-    if (this.retryCount < this.retryLimit) {
-      this.retryCount++;
-      this.execute();
-    } else {
-      this.state = state;
-      this.result = undefined;
-      this.error = error;
-      this.transactionId = undefined; // This is necessary for timeout case
-      this.graph.removeRunning(this);
-    }
   }
 
   public removePending(nodeId: string) {
@@ -76,13 +49,40 @@ export class Node {
     } else {
       this.pendings.delete(nodeId);
     }
-    if (this.graph.isRunning) {
-      this.pushQueueIfReady();
-    }
   }
 
+  protected setResult(result: ResultData, state: NodeState) {
+    this.state = state;
+    this.result = result;
+    this.waitlist.forEach((nodeId) => {
+      const node = this.graph.nodes[nodeId];
+      // Todo: Avoid running before Run()
+      node.removePending(this.nodeId);
+    });
+  }
+}
+
+export class ComputedNode extends Node {
+  public params: NodeDataParams; // Agent-specific parameters
+  public retryLimit: number;
+  public retryCount: number = 0;
+  public agentId?: string;
+  public timeout?: number; // msec
+  public error?: Error;
+  public outputs?: Record<string, string>; // Mapping from routeId to nodeId
+  public readonly isStaticNode = false;
+
+  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
+    super(nodeId, forkIndex, data, graph);
+    this.params = data.params ?? {};
+    this.agentId = data.agentId ?? graph.agentId;
+    this.retryLimit = data.retry ?? 0;
+    this.timeout = data.timeout;
+    this.outputs = data.outputs;
+  }
+  // for completed
   public pushQueueIfReady() {
-    if (this.pendings.size === 0 && !this.isStaticNode) {
+    if (this.pendings.size === 0) {
       // If input property is specified, we need to ensure that the property value exists.
       const count = this.inputs.reduce((count, nodeId) => {
         const source = this.sources[nodeId];
@@ -101,24 +101,25 @@ export class Node {
     }
   }
 
-  public injectValue(value: ResultData) {
-    if (this.isStaticNode) {
-      const log = injectValueLog(this.nodeId, this.retryCount, value);
-      this.graph.appendLog(log);
-      this.setResult(value, NodeState.Injected);
+  // for computed
+  private retry(state: NodeState, error: Error) {
+    if (this.retryCount < this.retryLimit) {
+      this.retryCount++;
+      this.execute();
     } else {
-      console.error("- injectValue called on non-source node.", this.nodeId);
+      this.state = state;
+      this.result = undefined;
+      this.error = error;
+      this.transactionId = undefined; // This is necessary for timeout case
+      this.graph.removeRunning(this);
     }
   }
 
-  private setResult(result: ResultData, state: NodeState) {
-    this.state = state;
-    this.result = result;
-    this.waitlist.forEach((nodeId) => {
-      const node = this.graph.nodes[nodeId];
-      // Todo: Avoid running before Run()
-      node.removePending(this.nodeId);
-    });
+  public removePending(nodeId: string) {
+    super.removePending(nodeId);
+    if (this.graph.isRunning) {
+      this.pushQueueIfReady();
+    }
   }
 
   public async execute() {
@@ -202,4 +203,24 @@ export class Node {
       }
     }
   }
+}
+export class StaticNode extends Node {
+  public value?: ResultData;
+  public update?: string;
+  public readonly isStaticNode = true;
+
+  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
+    super(nodeId, forkIndex, data, graph);
+    this.value = data.value;
+    this.update = data.update;
+  }
+
+  // for static
+  public injectValue(value: ResultData) {
+    const log = injectValueLog(this.nodeId, value);
+    this.graph.appendLog(log);
+    this.setResult(value, NodeState.Injected);
+    //console.error("- injectValue called on non-source node.", this.nodeId);
+  }
+
 }
