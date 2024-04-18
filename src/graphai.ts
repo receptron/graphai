@@ -30,21 +30,24 @@ export class GraphAI {
     const forkedNodeId2NodeId: Record<string, string> = {}; // for sources
 
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
-      const fork = data.nodes[nodeId].fork;
       const isStaticNode = (data.nodes[nodeId].agentId ?? data.agentId) === undefined;
-      const node = isStaticNode ? StaticNode : ComputedNode;
-      if (fork) {
-        // For fork, change the nodeId and increase the node
-        nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
-          const forkedNodeId = `${nodeId}_${i}`;
-          _nodes[forkedNodeId] = new node(forkedNodeId, i, data.nodes[nodeId], this);
-          // Data for pending and waiting
-          forkedNodeId2Index[forkedNodeId] = i;
-          forkedNodeId2NodeId[forkedNodeId] = nodeId;
-          return forkedNodeId;
-        });
+      if (isStaticNode) {
+        _nodes[nodeId] = new StaticNode(nodeId, undefined, data.nodes[nodeId], this);
       } else {
-        _nodes[nodeId] = new node(nodeId, undefined, data.nodes[nodeId], this);
+        const fork = data.nodes[nodeId].fork;
+        if (fork) {
+          // For fork, change the nodeId and increase the node
+          nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
+            const forkedNodeId = `${nodeId}_${i}`;
+            _nodes[forkedNodeId] = new ComputedNode(forkedNodeId, i, data.nodes[nodeId], this);
+            // Data for pending and waiting
+            forkedNodeId2Index[forkedNodeId] = i;
+            forkedNodeId2NodeId[forkedNodeId] = nodeId;
+            return forkedNodeId;
+          });
+        } else {
+          _nodes[nodeId] = new ComputedNode(nodeId, undefined, data.nodes[nodeId], this);
+        }
       }
       return _nodes;
     }, {});
