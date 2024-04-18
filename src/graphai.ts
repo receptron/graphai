@@ -31,7 +31,7 @@ export class GraphAI {
 
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
       const fork = data.nodes[nodeId].fork;
-      const isSource = data.nodes[nodeId].agentId === undefined;
+      const isSource = (data.nodes[nodeId].agentId ?? data.agentId) === undefined;
       const node = isSource ? StaticNode : ComputedNode;
       if (fork) {
         // For fork, change the nodeId and increase the node
