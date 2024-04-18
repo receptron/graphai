@@ -9,11 +9,11 @@ const graph_data = {
   nodes: {
     people: {
       value: ["Steve Jobs", "Elon Musk", "Nikola Tesla"],
-      next: "retriever.array",
+      update: "retriever.array",
     },
     result: {
       value: [],
-      next: "reducer",
+      update: "reducer",
     },
     retriever: {
       agentId: "shift",

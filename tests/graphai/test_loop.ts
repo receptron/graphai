@@ -11,7 +11,7 @@ const graphdata_push = {
   nodes: {
     array: {
       value: [],
-      next: "reducer",
+      update: "reducer",
     },
     item: {
       agentId: "sleeper",
@@ -43,11 +43,11 @@ const graphdata_pop = {
   nodes: {
     source: {
       value: ["orange", "banana", "lemon"],
-      next: "popper.array",
+      update: "popper.array",
     },
     previous: {
       value: [],
-      next: "reducer",
+      update: "reducer",
     },
     popper: {
       inputs: ["source"],

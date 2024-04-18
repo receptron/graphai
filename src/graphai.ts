@@ -21,7 +21,7 @@ type NodeData = {
   fork?: number;
   source?: boolean;
   value?: ResultData; // initial value for static node.
-  next?: string; // nodeId (+.propId) to get value after a loop
+  update?: string; // nodeId (+.propId) to get value after a loop
   outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
 
@@ -365,15 +365,15 @@ export class GraphAI {
   private initializeNodes(previousResults?: ResultDataDictonary<Record<string, any>>) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
-    // process the next property (nodeId or nodeId.propId).
+    // process the update property (nodeId or nodeId.propId).
     Object.keys(this.data.nodes).forEach((nodeId) => {
       const node = this.data.nodes[nodeId];
-      const { value, next } = node;
+      const { value, update } = node;
       if (value) {
         this.injectValue(nodeId, value);
       }
-      if (next && previousResults) {
-        const result = this.getValueFromResults(next, previousResults);
+      if (update && previousResults) {
+        const result = this.getValueFromResults(update, previousResults);
         if (result) {
           this.injectValue(nodeId, result);
         }

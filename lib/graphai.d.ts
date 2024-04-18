@@ -19,7 +19,7 @@ type NodeData = {
     fork?: number;
     source?: boolean;
     value?: ResultData;
-    next?: string;
+    update?: string;
     outputs?: Record<string, string>;
 };
 type LoopData = {
