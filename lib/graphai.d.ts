@@ -1,94 +1,7 @@
-export declare enum NodeState {
-    Waiting = "waiting",
-    Executing = "executing",
-    Failed = "failed",
-    TimedOut = "timed-out",
-    Completed = "completed",
-    Injected = "injected",
-    Dispatched = "dispatched"
-}
-type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
-type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
-export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType;
-type NodeData = {
-    inputs?: Array<string>;
-    params?: NodeDataParams;
-    retry?: number;
-    timeout?: number;
-    agentId?: string;
-    fork?: number;
-    source?: boolean;
-    value?: ResultData;
-    update?: string;
-    outputs?: Record<string, string>;
-};
-type LoopData = {
-    count?: number;
-    while?: string;
-};
-export type GraphData = {
-    agentId?: string;
-    nodes: Record<string, NodeData>;
-    concurrency?: number;
-    loop?: LoopData;
-    verbose?: boolean;
-};
-export type TransactionLog = {
-    nodeId: string;
-    state: NodeState;
-    startTime: number;
-    endTime?: number;
-    retryCount?: number;
-    agentId?: string;
-    params?: NodeDataParams;
-    inputs?: Array<ResultData>;
-    errorMessage?: string;
-    result?: ResultData;
-    log?: TransactionLog[];
-};
-export type AgentFunctionContext<ParamsType, PreviousResultType> = {
-    nodeId: string;
-    forkIndex?: number;
-    retry: number;
-    params: NodeDataParams<ParamsType>;
-    inputs: Array<PreviousResultType>;
-    verbose: boolean;
-    agents: CallbackDictonaryArgs;
-    log: TransactionLog[];
-};
-export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, PreviousResultType>) => Promise<ResultData<ResultType>>;
-export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
-declare class Node {
-    nodeId: string;
-    params: NodeDataParams;
-    inputs: Array<string>;
-    inputProps: Record<string, string>;
-    pendings: Set<string>;
-    waitlist: Set<string>;
-    state: NodeState;
-    agentId?: string;
-    fork?: number;
-    forkIndex?: number;
-    result: ResultData;
-    retryLimit: number;
-    retryCount: number;
-    transactionId: undefined | number;
-    timeout?: number;
-    error?: Error;
-    source: boolean;
-    outputs?: Record<string, string>;
-    private graph;
-    constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
-    asString(): string;
-    private retry;
-    removePending(nodeId: string): void;
-    pushQueueIfReady(): void;
-    injectValue(value: ResultData): void;
-    private setResult;
-    execute(): Promise<void>;
-}
+export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
+import { AgentFunction, AgentFunctionDictonary, GraphData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "./type";
+import { Node } from "./node";
 type GraphNodes = Record<string, Node>;
-export type CallbackDictonaryArgs = AgentFunctionDictonary;
 export declare class GraphAI {
     private data;
     nodes: GraphNodes;
@@ -109,7 +22,7 @@ export declare class GraphAI {
     constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs);
     getCallback(agentId?: string): AgentFunction<any, any, any>;
     asString(): string;
-    results(): ResultDataDictonary<Record<string, any>>;
+    results(): ResultDataDictonary;
     errors(): Record<string, Error>;
     private pushReadyNodesIntoQueue;
     run(): Promise<ResultDataDictonary>;
@@ -119,6 +32,5 @@ export declare class GraphAI {
     appendLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData): void;
-    resultsOf(nodeIds: Array<string>): ResultData<Record<string, any>>[];
+    resultsOf(nodeIds: Array<string>): ResultData[];
 }
-export {};
