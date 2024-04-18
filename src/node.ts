@@ -69,7 +69,6 @@ export class ComputedNode extends Node {
   public agentId?: string;
   public timeout?: number; // msec
   public error?: Error;
-  public outputs?: Record<string, string>; // Mapping from routeId to nodeId
   public readonly isStaticNode = false;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
@@ -78,7 +77,6 @@ export class ComputedNode extends Node {
     this.agentId = data.agentId ?? graph.agentId;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
-    this.outputs = data.outputs;
   }
   // for completed
   public pushQueueIfReady() {
@@ -169,22 +167,6 @@ export class ComputedNode extends Node {
 
       callbackLog(log, result, localLog);
 
-      const outputs = this.outputs;
-      if (outputs !== undefined) {
-        Object.keys(outputs).forEach((outputId) => {
-          const nodeId = outputs[outputId];
-          const value = result[outputId];
-          if (value) {
-            this.graph.injectValue(nodeId, value);
-          } else {
-            console.error("-- Invalid outputId", outputId, result);
-          }
-        });
-        log.state = NodeState.Dispatched;
-        this.state = NodeState.Dispatched;
-        this.graph.removeRunning(this);
-        return;
-      }
       log.state = NodeState.Completed;
       this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);

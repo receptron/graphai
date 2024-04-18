@@ -25,10 +25,8 @@ export type NodeData = {
   timeout?: number; // msec
   agentId?: string;
   fork?: number;
-  source?: boolean;
   value?: ResultData; // initial value for static node.
   update?: string; // nodeId (+.propId) to get value after a loop
-  outputs?: Record<string, string>; // mapping from routeId to nodeId
 };
 
 export type LoopData = {

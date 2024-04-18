@@ -115,7 +115,7 @@ Key principles:
 
 A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
 
-A DFG consists of a collection of 'nodes', which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (params, inputs, outputs, retry, timeout, source, agentId, fork, value) that dictate the node's behavior and its relationship with other nodes.
+A DFG consists of a collection of 'nodes', which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (params, inputs, retry, timeout, agentId, fork, value, update) that dictate the node's behavior and its relationship with other nodes.
 
 Connections between nodes will be established by references from one not to another, using either its "inputs" or "update" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId ("node1.item").
 
@@ -175,7 +175,6 @@ A *computed node* have following properties.
 - 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded and the returned value will be discarded. 
 - 'params': An optional property to the associated agent function, which are agent specific.
 - 'fork': An optional paramter, which specifies the number of concurrent transactions to be created for the current node.
-- 'outputs' (MAY BECOME OBSOLETE): An optinal property, which specifies the mapping from outputId to nodeId. If this property is set, the node become a special node called *dispatcher*. A *dispatcher* node injects result(s) into specified static nodes, enabling the dynamic flow of data.
 
 A *static* node have following properties.
 
