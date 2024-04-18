@@ -28,6 +28,7 @@ export declare class ComputedNode extends Node {
     error?: Error;
     outputs?: Record<string, string>;
     readonly isStaticNode = false;
+    readonly isComputedNode = true;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
     pushQueueIfReady(): void;
     private retry;
@@ -38,6 +39,7 @@ export declare class StaticNode extends Node {
     value?: ResultData;
     update?: string;
     readonly isStaticNode = true;
+    readonly isComputedNode = false;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
     injectValue(value: ResultData): void;
 }
