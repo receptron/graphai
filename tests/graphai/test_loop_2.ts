@@ -1,4 +1,3 @@
-import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 
 import test from "node:test";
