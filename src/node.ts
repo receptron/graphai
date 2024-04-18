@@ -10,6 +10,7 @@ import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@
 export class Node {
   public nodeId: string;
   public sources: Record<string, DataSource> = {}; // data sources.
+  public anyInput: boolean; // any input makes this node ready
   public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
@@ -24,6 +25,7 @@ export class Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
+    this.anyInput = data.anyInput ?? false;
     this.inputs = (data.inputs ?? []).map((input) => {
       const source = parseNodeName(input);
       this.sources[source.nodeId] = source;
@@ -39,7 +41,14 @@ export class Node {
   }
 
   public removePending(nodeId: string) {
-    this.pendings.delete(nodeId);
+    if (this.anyInput) {
+      const [result] = this.graph.resultsOf([this.sources[nodeId]]);
+      if (result) {
+        this.pendings.clear();
+      }
+    } else {
+      this.pendings.delete(nodeId);
+    }
   }
 
   protected setResult(result: ResultData, state: NodeState) {
@@ -75,16 +84,20 @@ export class ComputedNode extends Node {
   public pushQueueIfReady() {
     if (this.pendings.size === 0) {
       // If input property is specified, we need to ensure that the property value exists.
-      this.inputs.forEach((nodeId) => {
+      const count = this.inputs.reduce((count, nodeId) => {
         const source = this.sources[nodeId];
         if (source.propId) {
           const [result] = this.graph.resultsOf([source]);
           if (!result) {
-            return;
+            return count;
           }
         }
-      });
-      this.graph.pushQueue(this);
+        return count + 1;
+      }, 0);
+
+      if ((this.anyInput && count > 0) || count == this.inputs.length) {
+        this.graph.pushQueue(this);
+      }
     }
   }
 
@@ -110,11 +123,16 @@ export class ComputedNode extends Node {
   }
 
   public async execute() {
-    const results = this.graph.resultsOf(
-      this.inputs.map((input) => {
-        return this.sources[input];
-      }),
-    );
+    const results = this.graph
+      .resultsOf(
+        this.inputs.map((input) => {
+          return this.sources[input];
+        }),
+      )
+      .filter((result) => {
+        // Remove undefined if anyInput flag is set.
+        return !this.anyInput || result !== undefined;
+      });
     const transactionId = Date.now();
     const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
     this.graph.appendLog(log);
