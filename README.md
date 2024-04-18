@@ -117,7 +117,7 @@ A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. 
 
 A DFG consists of a collection of 'nodes', which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (params, inputs, outputs, retry, timeout, source, agentId, fork, value) that dictate the node's behavior and its relationship with other nodes.
 
-Connections between nodes will be established by references from one not to another, using either its "inputs" or "next" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId ("node1.item").
+Connections between nodes will be established by references from one not to another, using either its "inputs" or "update" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId ("node1.item").
 
 ### DFG Structure
 
@@ -135,10 +135,10 @@ nodes:
       - Steve Jobs
       - Elon Musk
       - Nikola Tesla
-    next: retriever.array
+    update: retriever.array
   result:
     value: []
-    next: reducer
+    update: reducer
   retriever:
     agentId: shift
     inputs: [people]
@@ -180,7 +180,7 @@ A *computed node* have following properties.
 A *static* node have following properties.
 
 - 'value': An optional property, which specifies the value of this static node (equivalent to calling the injectValue method from outside).
-- 'next': An optional property, which specifies the *data source* after each iteration.
+- 'update': An optional property, which specifies the *data source* after each iteration.
 
 ## GraphAI class
 
