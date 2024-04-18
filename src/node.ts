@@ -12,7 +12,6 @@ export class Node {
   public params: NodeDataParams; // Agent-specific parameters
   public sources: Record<string, DataSource>; // data sources.
   public inputs: Array<string>; // List of nodes this node needs data from.
-  public inputProps: Record<string, string> = {}; // optional properties for input
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
@@ -39,10 +38,8 @@ export class Node {
       return sources;
     }, {});
     this.inputs = (data.inputs ?? []).map((input) => {
+      // LATER: use sources
       const source = parseNodeName(input);
-      if (source.propId) {
-        this.inputProps[source.nodeId] = source.propId;
-      }
       return source.nodeId;
     });
     this.pendings = new Set(this.inputs);
@@ -83,11 +80,14 @@ export class Node {
   public pushQueueIfReady() {
     if (this.pendings.size === 0 && !this.source) {
       // If input property is specified, we need to ensure that the property value exists.
-      Object.keys(this.inputProps).forEach((nodeId) => {
-        const [result] = this.graph.resultsOf([nodeId]);
-        const propId = this.inputProps[nodeId];
-        if (!result || !(propId in result)) {
-          return;
+      this.inputs.forEach((nodeId) => {
+        const source = this.sources[nodeId];
+        if (source.propId) {
+          // LATER: use source to get data
+          const [result] = this.graph.resultsOf([nodeId]);
+          if (!result || !(source.propId in result)) {
+            return;
+          }
         }
       });
       this.graph.pushQueue(this);
@@ -114,10 +114,10 @@ export class Node {
     });
   }
 
-  public async execute() {
+  public async execute() {    
     const results = this.graph.resultsOf(this.inputs);
     this.inputs.forEach((nodeId, index) => {
-      const propId = this.inputProps[nodeId];
+      const { propId } = this.sources[nodeId];
       if (propId) {
         results[index] = results[index]![propId];
       }
