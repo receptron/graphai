@@ -70,6 +70,7 @@ export class ComputedNode extends Node {
   public timeout?: number; // msec
   public error?: Error;
   public readonly isStaticNode = false;
+  public readonly isComputedNode = true;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     super(nodeId, forkIndex, data, graph);
@@ -190,6 +191,7 @@ export class StaticNode extends Node {
   public value?: ResultData;
   public update?: string;
   public readonly isStaticNode = true;
+  public readonly isComputedNode = false;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     super(nodeId, forkIndex, data, graph);
