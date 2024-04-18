@@ -25,7 +25,7 @@ export class Node {
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   public timeout?: number; // msec
   public error?: Error;
-  public source: boolean;
+  public isStaticNode: boolean;
   public outputs?: Record<string, string>; // Mapping from routeId to nodeId
 
   private graph: GraphAI;
@@ -45,7 +45,7 @@ export class Node {
     this.fork = data.fork;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
-    this.source = this.agentId === undefined;
+    this.isStaticNode = this.agentId === undefined;
     this.outputs = data.outputs;
     this.graph = graph;
   }
@@ -82,7 +82,7 @@ export class Node {
   }
 
   public pushQueueIfReady() {
-    if (this.pendings.size === 0 && !this.source) {
+    if (this.pendings.size === 0 && !this.isStaticNode) {
       // If input property is specified, we need to ensure that the property value exists.
       const count = this.inputs.reduce((count, nodeId) => {
         const source = this.sources[nodeId];
@@ -102,7 +102,7 @@ export class Node {
   }
 
   public injectValue(value: ResultData) {
-    if (this.source) {
+    if (this.isStaticNode) {
       const log = injectValueLog(this.nodeId, this.retryCount, value);
       this.graph.appendLog(log);
       this.setResult(value, NodeState.Injected);
