@@ -73,7 +73,7 @@ export class ComputedNode extends Node {
     this.pendings = new Set(this.inputs);
     this.fork = data.fork;
   }
-  // for completed
+
   public pushQueueIfReady() {
     if (this.pendings.size === 0) {
       // If input property is specified, we need to ensure that the property value exists.
@@ -94,7 +94,6 @@ export class ComputedNode extends Node {
     }
   }
 
-  // for computed
   private retry(state: NodeState, error: Error) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
@@ -201,7 +200,6 @@ export class StaticNode extends Node {
     this.update = data.update;
   }
 
-  // for static
   public injectValue(value: ResultData) {
     const log = injectValueLog(this.nodeId, value);
     this.graph.appendLog(log);
