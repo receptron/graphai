@@ -2,7 +2,7 @@ export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
 import { AgentFunctionDictonary, GraphData, LoopData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
 
-import { Node } from "@/node";
+import { Node, ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";
 
 type GraphNodes = Record<string, Node>;
@@ -16,7 +16,7 @@ export class GraphAI {
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
   private runningNodes = new Set<string>();
-  private nodeQueue: Array<Node> = [];
+  private nodeQueue: Array<Node> = []; // for Computed Node
   private onComplete: () => void;
   private concurrency: number;
   private loop?: LoopData;
@@ -30,17 +30,19 @@ export class GraphAI {
 
     const nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
       const fork = data.nodes[nodeId].fork;
+      const isSource = data.nodes[nodeId].agentId === undefined;
+      const node = isSource ? StaticNode : ComputedNode;
       if (fork) {
         // For fork, change the nodeId and increase the node
         nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
           const forkedNodeId = `${nodeId}_${i}`;
-          nodes[forkedNodeId] = new Node(forkedNodeId, i, data.nodes[nodeId], this);
+          nodes[forkedNodeId] = new node(forkedNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
           forkedNodeId2Index[forkedNodeId] = i;
           return forkedNodeId;
         });
       } else {
-        nodes[nodeId] = new Node(nodeId, undefined, data.nodes[nodeId], this);
+        nodes[nodeId] = new node(nodeId, undefined, data.nodes[nodeId], this);
       }
       return nodes;
     }, {});
@@ -84,13 +86,15 @@ export class GraphAI {
     return result ? (propId ? result[propId] : result) : undefined;
   }
 
+  // for static
   private initializeNodes(previousResults?: ResultDataDictonary<Record<string, any>>) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
     Object.keys(this.data.nodes).forEach((nodeId) => {
-      const node = this.data.nodes[nodeId];
-      const { value, update } = node;
+      const node = this.nodes[nodeId] as StaticNode; // TODO
+      const value = node?.value;
+      const update = node?.update;
       if (value) {
         this.injectValue(nodeId, value);
       }
@@ -157,7 +161,9 @@ export class GraphAI {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
-      node.pushQueueIfReady();
+      if (!node.source) {
+        node.pushQueueIfReady();
+      }
     });
   }
 
@@ -182,11 +188,13 @@ export class GraphAI {
     });
   }
 
+  // for computed
   private runNode(node: Node) {
     this.runningNodes.add(node.nodeId);
     node.execute();
   }
 
+  // for computed
   public pushQueue(node: Node) {
     if (this.runningNodes.size < this.concurrency) {
       this.runNode(node);
@@ -195,6 +203,7 @@ export class GraphAI {
     }
   }
 
+  // for completed
   public removeRunning(node: Node) {
     this.runningNodes.delete(node.nodeId);
     if (this.nodeQueue.length > 0) {

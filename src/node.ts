@@ -70,12 +70,15 @@ export class Node {
   public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
     if (this.graph.isRunning) {
-      this.pushQueueIfReady();
+      if (!this.source) {
+        this.pushQueueIfReady();
+      }
     }
   }
 
+  // for completed
   public pushQueueIfReady() {
-    if (this.pendings.size === 0 && !this.source) {
+    if (this.pendings.size === 0) {
       // If input property is specified, we need to ensure that the property value exists.
       Object.keys(this.inputProps).forEach((nodeId) => {
         const [result] = this.graph.resultsOf([nodeId]);
@@ -88,6 +91,7 @@ export class Node {
     }
   }
 
+  // for static
   public injectValue(value: ResultData) {
     if (this.source) {
       const log = injectValueLog(this.nodeId, this.retryCount, value);
@@ -108,6 +112,7 @@ export class Node {
     });
   }
 
+  // for static
   public async execute() {
     const results = this.graph.resultsOf(this.inputs);
     this.inputs.forEach((nodeId, index) => {
@@ -186,4 +191,19 @@ export class Node {
       }
     }
   }
+}
+
+export class ComputedNode extends Node {
+
+}
+export class StaticNode extends Node {
+  public value?: ResultData;
+  public update?: string;
+
+  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
+    super(nodeId, forkIndex, data, graph);
+    this.value = data.value;
+    this.update = data.update;
+  }
+
 }
