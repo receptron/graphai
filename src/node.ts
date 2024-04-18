@@ -222,5 +222,4 @@ export class StaticNode extends Node {
     this.setResult(value, NodeState.Injected);
     //console.error("- injectValue called on non-source node.", this.nodeId);
   }
-
 }
