@@ -79,9 +79,9 @@ export class GraphAI {
   }
 
   private getValueFromResults(key: string, results: ResultDataDictonary<Record<string, any>>) {
-    const { sourceNodeId, propId } = parseNodeName(key);
-    const result = results[sourceNodeId];
-    return result ? (propId ? result[propId] : result) : undefined;
+    const source = parseNodeName(key);
+    const result = results[source.nodeId];
+    return result ? (source.propId ? result[source.propId] : result) : undefined;
   }
 
   private initializeNodes(previousResults?: ResultDataDictonary<Record<string, any>>) {
