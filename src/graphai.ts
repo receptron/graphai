@@ -2,7 +2,7 @@ export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
 import { AgentFunctionDictonary, GraphData, DataSource, LoopData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
 
-import { Node, ComputedNode, StaticNode } from "@/node";
+import { ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
