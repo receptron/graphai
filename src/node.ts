@@ -24,12 +24,13 @@ export class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
+  // This method is called either as the result of computation (computed node) or
+  // injection (static node).
   protected setResult(result: ResultData, state: NodeState) {
     this.state = state;
     this.result = result;
     this.waitlist.forEach((waitingNodeId) => {
       const waitingNode = this.graph.nodes[waitingNodeId];
-      // Todo: Avoid running before Run()
       if (waitingNode.isComputedNode) {
         waitingNode.removePending(this.nodeId);
       }
@@ -107,6 +108,8 @@ export class ComputedNode extends Node {
     }
   }
 
+  // This method is called when the data became available on one of nodes,
+  // which this node needs data from.
   public removePending(nodeId: string) {
     if (this.anyInput) {
       const [result] = this.graph.resultsOf([this.sources[nodeId]]);
@@ -122,6 +125,10 @@ export class ComputedNode extends Node {
     }
   }
 
+  // This method is called when this computed node became ready to run.
+  // It asynchronously calls the associated with agent function and set the result,
+  // then it removes itself from the "running node" list of the graph.
+  // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
     const results = this.graph
       .resultsOf(
@@ -188,6 +195,7 @@ export class ComputedNode extends Node {
     }
   }
 }
+
 export class StaticNode extends Node {
   public value?: ResultData;
   public update?: string;
@@ -204,6 +212,5 @@ export class StaticNode extends Node {
     const log = injectValueLog(this.nodeId, value);
     this.graph.appendLog(log);
     this.setResult(value, NodeState.Injected);
-    //console.error("- injectValue called on non-source node.", this.nodeId);
   }
 }

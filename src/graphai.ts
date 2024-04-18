@@ -24,28 +24,29 @@ export class GraphAI {
   public verbose: boolean;
   private logs: Array<TransactionLog> = [];
 
+  // This method is called when either the GraphAI obect was created,
+  // or we are about to start n-th iteration (n>2).
   private createNodes(data: GraphData) {
     const nodeId2forkedNodeIds: Record<string, string[]> = {};
     const forkedNodeId2Index: Record<string, number> = {};
     const forkedNodeId2NodeId: Record<string, string> = {}; // for sources
 
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
-      const fork = data.nodes[nodeId].fork;
       const isStaticNode = (data.nodes[nodeId].agentId ?? data.agentId) === undefined;
-      if (!isStaticNode && fork) {
-        // For fork, change the nodeId and increase the node
-        nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
-          const forkedNodeId = `${nodeId}_${i}`;
-          _nodes[forkedNodeId] = new ComputedNode(forkedNodeId, i, data.nodes[nodeId], this);
-          // Data for pending and waiting
-          forkedNodeId2Index[forkedNodeId] = i;
-          forkedNodeId2NodeId[forkedNodeId] = nodeId;
-          return forkedNodeId;
-        });
+      if (isStaticNode) {
+        _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId], this);
       } else {
-        if (isStaticNode) {
-          //const node = isStaticNode ? StaticNode : ComputedNode;
-          _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId], this);
+        const fork = data.nodes[nodeId].fork;
+        if (fork) {
+          // For fork, change the nodeId and increase the node
+          nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
+            const forkedNodeId = `${nodeId}_${i}`;
+            _nodes[forkedNodeId] = new ComputedNode(forkedNodeId, i, data.nodes[nodeId], this);
+            // Data for pending and waiting
+            forkedNodeId2Index[forkedNodeId] = i;
+            forkedNodeId2NodeId[forkedNodeId] = nodeId;
+            return forkedNodeId;
+          });
         } else {
           _nodes[nodeId] = new ComputedNode(nodeId, undefined, data.nodes[nodeId], this);
         }
@@ -96,7 +97,7 @@ export class GraphAI {
   private getValueFromResults(key: string, results: ResultDataDictonary<Record<string, any>>) {
     const source = parseNodeName(key);
     const result = results[source.nodeId];
-    return result ? (source.propId ? result[source.propId] : result) : undefined;
+    return result && source.propId ? result[source.propId] : result;
   }
 
   // for static
