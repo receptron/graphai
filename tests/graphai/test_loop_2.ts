@@ -20,7 +20,7 @@ const graphdata_push = {
 };
 
 test("test counter", async () => {
-  const result = await graphDataTestRunner("test_loop_pop", graphdata_push, {
+  const result = await graphDataTestRunner(__filename, graphdata_push, {
     counterAgent: async ({ inputs }) => {
       return { v: inputs[0].v + 1 };
     },
