@@ -27,24 +27,24 @@ export class GraphAI {
   private createNodes(data: GraphData) {
     const nodeId2forkedNodeIds: Record<string, string[]> = {};
     const forkedNodeId2Index: Record<string, number> = {};
-    const forkedNodeId2NodeId: Record<string, string> = {};
+    const forkedNodeId2NodeId: Record<string, string> = {}; // for sources
 
-    const nodes = Object.keys(data.nodes).reduce((nodes: GraphNodes, nodeId: string) => {
+    const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
       const fork = data.nodes[nodeId].fork;
       if (fork) {
         // For fork, change the nodeId and increase the node
         nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
           const forkedNodeId = `${nodeId}_${i}`;
-          nodes[forkedNodeId] = new Node(forkedNodeId, i, data.nodes[nodeId], this);
+          _nodes[forkedNodeId] = new Node(forkedNodeId, i, data.nodes[nodeId], this);
           // Data for pending and waiting
           forkedNodeId2Index[forkedNodeId] = i;
           forkedNodeId2NodeId[forkedNodeId] = nodeId;
           return forkedNodeId;
         });
       } else {
-        nodes[nodeId] = new Node(nodeId, undefined, data.nodes[nodeId], this);
+        _nodes[nodeId] = new Node(nodeId, undefined, data.nodes[nodeId], this);
       }
-      return nodes;
+      return _nodes;
     }, {});
 
     // Generate the waitlist for each node, and update the pendings in case of forked node.
