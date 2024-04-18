@@ -9,6 +9,7 @@ You just need to describe dependencies among those API calls in a single data fl
 Here is an example:
 
 ```YAML
+agentId: sample
 nodes:
   taskA:
     params:
@@ -37,7 +38,7 @@ const sampleAgentFunction = async (context: AgentFunctionContext) => {
   ...
   const file = fs.readFileSync(pathToYamlFile, "utf8");
   const graphData = YAML.parse(file);
-  const graph = new GraphAI(graphData, sampleAgentFunction);
+  const graph = new GraphAI(graphData, { sample: sampleAgentFunction });
   const results = await graph.run();
   return results["taskC"];
 ```
@@ -48,7 +49,7 @@ As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.d
 
 Building applications that employ these workflows, however, is challenging due to the complexities of managing multiple asynchronous API calls, including error handling, timeouts, retries, and logging. 
 
-GraphAI is designed to simplify this process by decoupling the complexity of multiple asynchronous calls from the application's core logic. It enables developers to model these calls and their dependencies within a single Data Flow Graph, enhancing development and debugging processes. 
+GraphAI is designed to simplify this process by decoupling the complexity of multiple asynchronous calls from the application's core logic. It enables developers to model these calls and their dependencies within a single acyclic Data Flow Graph, enhancing development and debugging processes. 
 
 Furthermore, GraphAI's robust mechanisms for error handling, retry strategies, timeouts, and logging empower developers to concentrate on refining the application logic.
 
@@ -114,7 +115,7 @@ Key principles:
 
 A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
 
-A DFG consists of a collection of 'nodes', which contains a series of nested keys representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined keys (params, inputs, outputs, retry, timeout, source, agentId, fork, value) that dictate the node's behavior and its relationship with other nodes.
+A DFG consists of a collection of 'nodes', which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (params, inputs, outputs, retry, timeout, source, agentId, fork, value) that dictate the node's behavior and its relationship with other nodes.
 
 Connections between nodes will be established by references from one not to another, using either its "inputs" or "next" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId ("node1.item").
 
