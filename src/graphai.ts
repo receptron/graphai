@@ -147,7 +147,7 @@ class Node {
       if (result) {
         const propId = this.inputProps[nodeId];
         if (!propId || result[propId]) {
-          this.pendings.clear();       
+          this.pendings.clear();
         }
       }
     } else {
@@ -215,7 +215,7 @@ class Node {
           }
         }
       } else {
-        results.push(propId? result![propId] : result);
+        results.push(propId ? result![propId] : result);
       }
       return results;
     }, []);
