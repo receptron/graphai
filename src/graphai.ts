@@ -24,6 +24,8 @@ export class GraphAI {
   public verbose: boolean;
   private logs: Array<TransactionLog> = [];
 
+  // This method is called when either the GraphAI obect was created,
+  // or we are about to start n-th iteration (n>2).
   private createNodes(data: GraphData) {
     const nodeId2forkedNodeIds: Record<string, string[]> = {};
     const forkedNodeId2Index: Record<string, number> = {};
@@ -95,7 +97,7 @@ export class GraphAI {
   private getValueFromResults(key: string, results: ResultDataDictonary<Record<string, any>>) {
     const source = parseNodeName(key);
     const result = results[source.nodeId];
-    return result ? (source.propId ? result[source.propId] : result) : undefined;
+    return result && source.propId ? result[source.propId] : result;
   }
 
   // for static
