@@ -57,27 +57,10 @@ export class Node {
     if (this.graph.isRunning) {
       if (!this.source) {
         this.pushQueueIfReady();
-        this.pushQueueIfReady();
       }
     }
   }
 
-  public pushQueueIfReady() {
-    if (this.pendings.size === 0 && !this.source) {
-      // If input property is specified, we need to ensure that the property value exists.
-      this.inputs.forEach((nodeId) => {
-        const source = this.sources[nodeId];
-        if (source.propId) {
-          const [result] = this.graph.resultsOf([source]);
-          if (!result) {
-            return;
-          }
-        }
-      });
-      this.graph.pushQueue(this);
->>>>>>> main
-    }
-  }
 
   // for static
   public injectValue(value: ResultData) {
@@ -107,11 +90,13 @@ export class ComputedNode extends Node {
   public pushQueueIfReady() {
     if (this.pendings.size === 0) {
       // If input property is specified, we need to ensure that the property value exists.
-      Object.keys(this.inputProps).forEach((nodeId) => {
-        const [result] = this.graph.resultsOf([nodeId]);
-        const propId = this.inputProps[nodeId];
-        if (!result || !(propId in result)) {
-          return;
+      this.inputs.forEach((nodeId) => {
+        const source = this.sources[nodeId];
+        if (source.propId) {
+          const [result] = this.graph.resultsOf([source]);
+          if (!result) {
+            return;
+          }
         }
       });
       this.graph.pushQueue(this);
