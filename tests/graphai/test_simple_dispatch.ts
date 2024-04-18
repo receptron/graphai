@@ -1,5 +1,6 @@
 import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
+import { sleeperAgent } from "@/experimental_agents";
 import { mergeNodeIdAgent } from "~/agents/agents";
 
 import test from "node:test";
@@ -21,18 +22,17 @@ const dispatchGraph = {
   nodes: {
     select1: {
       agentId: "dispatcher",
-      outputs: {
-        next: "ghost",
-      },
     },
     select2: {
       agentId: "dispatcher",
-      outputs: {
-        next: "ghost",
-      },
     },
     ghost: {
-      source: true,
+      agentId: "sleeperAgent",
+      params: {
+        duration: 20,
+      },
+      inputs: ["select1.next", "select2.next"],
+      anyInput: true,
     },
     node: {
       agentId: "mergeNodeIdAgent",
@@ -50,10 +50,12 @@ const dispatchGraph = {
 
 test("test select 1", async () => {
   const dispatchAgent = dispatchAgentGenerator("select1");
-  const result = await graphDataTestRunner(__filename, dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent });
+  const result = await graphDataTestRunner(__filename + "_1", dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
   assert.deepStrictEqual(result, {
     ghost: { from: "select1" },
     node: { node: "hello" },
+    select1: { next: { from: "select1" } },
+    select2: {},
     merge: { merge: "hello", node: "hello", from: "select1" },
     result: { result: "hello", merge: "hello", node: "hello", from: "select1" },
   });
@@ -61,10 +63,12 @@ test("test select 1", async () => {
 
 test("test select 2", async () => {
   const dispatchAgent = dispatchAgentGenerator("select2");
-  const result = await graphDataTestRunner(__filename, dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent });
+  const result = await graphDataTestRunner(__filename + "_2", dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
   assert.deepStrictEqual(result, {
     ghost: { from: "select2" },
     node: { node: "hello" },
+    select1: {},
+    select2: { next: { from: "select2" } },
     merge: { merge: "hello", node: "hello", from: "select2" },
     result: { result: "hello", merge: "hello", node: "hello", from: "select2" },
   });
