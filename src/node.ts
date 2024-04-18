@@ -9,30 +9,16 @@ import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@
 
 export class Node {
   public nodeId: string;
-  public sources: Record<string, DataSource> = {}; // data sources.
-  public anyInput: boolean; // any input makes this node ready
-  public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
-  public pendings: Set<string>; // List of nodes this node is waiting data from.
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
-  public fork?: number;
-  public forkIndex?: number;
+  public forkIndex?: number; // TODO: move to computedNode
   public result: ResultData = undefined;
-  public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
   protected graph: GraphAI;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
-    this.anyInput = data.anyInput ?? false;
-    this.inputs = (data.inputs ?? []).map((input) => {
-      const source = parseNodeName(input);
-      this.sources[source.nodeId] = source;
-      return source.nodeId;
-    });
-    this.pendings = new Set(this.inputs);
-    this.fork = data.fork;
     this.graph = graph;
   }
 
@@ -40,24 +26,15 @@ export class Node {
     return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
   }
 
-  public removePending(nodeId: string) {
-    if (this.anyInput) {
-      const [result] = this.graph.resultsOf([this.sources[nodeId]]);
-      if (result) {
-        this.pendings.clear();
-      }
-    } else {
-      this.pendings.delete(nodeId);
-    }
-  }
-
   protected setResult(result: ResultData, state: NodeState) {
     this.state = state;
     this.result = result;
-    this.waitlist.forEach((nodeId) => {
-      const node = this.graph.nodes[nodeId];
+    this.waitlist.forEach((waitingNodeId) => {
+      const waitingNode = this.graph.nodes[waitingNodeId];
       // Todo: Avoid running before Run()
-      node.removePending(this.nodeId);
+      if (waitingNode.isComputedNode) {
+        waitingNode.removePending(this.nodeId);
+      }
     });
   }
 }
@@ -69,6 +46,14 @@ export class ComputedNode extends Node {
   public agentId?: string;
   public timeout?: number; // msec
   public error?: Error;
+  public fork?: number;
+  public transactionId: undefined | number; // To reject callbacks from timed-out transactions
+
+  public sources: Record<string, DataSource> = {}; // data sources.
+  public anyInput: boolean; // any input makes this node ready
+  public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
+  public pendings: Set<string>; // List of nodes this node is waiting data from.
+
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
 
@@ -78,8 +63,17 @@ export class ComputedNode extends Node {
     this.agentId = data.agentId ?? graph.agentId;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
+
+    this.anyInput = data.anyInput ?? false;
+    this.inputs = (data.inputs ?? []).map((input) => {
+      const source = parseNodeName(input);
+      this.sources[source.nodeId] = source;
+      return source.nodeId;
+    });
+    this.pendings = new Set(this.inputs);
+    this.fork = data.fork;
   }
-  // for completed
+
   public pushQueueIfReady() {
     if (this.pendings.size === 0) {
       // If input property is specified, we need to ensure that the property value exists.
@@ -100,7 +94,6 @@ export class ComputedNode extends Node {
     }
   }
 
-  // for computed
   private retry(state: NodeState, error: Error) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
@@ -115,7 +108,15 @@ export class ComputedNode extends Node {
   }
 
   public removePending(nodeId: string) {
-    super.removePending(nodeId);
+    if (this.anyInput) {
+      const [result] = this.graph.resultsOf([this.sources[nodeId]]);
+      if (result) {
+        this.pendings.clear();
+      }
+    } else {
+      this.pendings.delete(nodeId);
+    }
+
     if (this.graph.isRunning) {
       this.pushQueueIfReady();
     }
@@ -199,7 +200,6 @@ export class StaticNode extends Node {
     this.update = data.update;
   }
 
-  // for static
   public injectValue(value: ResultData) {
     const log = injectValueLog(this.nodeId, value);
     this.graph.appendLog(log);

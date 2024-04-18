@@ -3,20 +3,13 @@ import type { GraphAI } from "./graphai";
 import { NodeState } from "./type";
 export declare class Node {
     nodeId: string;
-    sources: Record<string, DataSource>;
-    anyInput: boolean;
-    inputs: Array<string>;
-    pendings: Set<string>;
     waitlist: Set<string>;
     state: NodeState;
-    fork?: number;
     forkIndex?: number;
     result: ResultData;
-    transactionId: undefined | number;
     protected graph: GraphAI;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
     asString(): string;
-    removePending(nodeId: string): void;
     protected setResult(result: ResultData, state: NodeState): void;
 }
 export declare class ComputedNode extends Node {
@@ -26,6 +19,12 @@ export declare class ComputedNode extends Node {
     agentId?: string;
     timeout?: number;
     error?: Error;
+    fork?: number;
+    transactionId: undefined | number;
+    sources: Record<string, DataSource>;
+    anyInput: boolean;
+    inputs: Array<string>;
+    pendings: Set<string>;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
     constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI);
