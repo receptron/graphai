@@ -27,7 +27,7 @@ export class Node {
   public isStaticNode: boolean;
   public outputs?: Record<string, string>; // Mapping from routeId to nodeId
 
-  private graph: GraphAI;
+  protected graph: GraphAI;
 
   constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
     this.nodeId = nodeId;
@@ -54,11 +54,6 @@ export class Node {
 
   public removePending(nodeId: string) {
     this.pendings.delete(nodeId);
-    if (this.graph.isRunning) {
-      if (!this.source) {
-        this.pushQueueIfReady();
-      }
-    }
   }
 
   // for static
@@ -72,7 +67,7 @@ export class Node {
     }
   }
 
-  private setResult(result: ResultData, state: NodeState) {
+  protected setResult(result: ResultData, state: NodeState) {
     this.state = state;
     this.result = result;
     this.waitlist.forEach((nodeId) => {
@@ -116,6 +111,15 @@ export class ComputedNode extends Node {
     }
   }
 
+  public removePending(nodeId: string) {
+    super.removePending(nodeId);
+    if (this.graph.isRunning) {
+      if (!this.isStaticNode) {
+        this.pushQueueIfReady();
+      }
+    }
+  }
+  
   public async execute() {
     const results = this.graph.resultsOf(
       this.inputs.map((input) => {
@@ -203,4 +207,6 @@ export class StaticNode extends Node {
     this.update = data.update;
   }
 
+  public pushQueueIfReady() {
+  }
 }

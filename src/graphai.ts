@@ -168,7 +168,7 @@ export class GraphAI {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId] as ComputedNode;
-      if (!node.source) {
+      if (!node.isStaticNode) {
         node.pushQueueIfReady();
       }
     });
