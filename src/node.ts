@@ -33,11 +33,11 @@ export class Node {
     this.nodeId = nodeId;
     this.forkIndex = forkIndex;
     this.inputs = (data.inputs ?? []).map((input) => {
-      const { sourceNodeId, propId } = parseNodeName(input);
-      if (propId) {
-        this.inputProps[sourceNodeId] = propId;
+      const source = parseNodeName(input);
+      if (source.propId) {
+        this.inputProps[source.nodeId] = source.propId;
       }
-      return sourceNodeId;
+      return source.nodeId;
     });
     this.pendings = new Set(this.inputs);
     this.params = data.params ?? {};
