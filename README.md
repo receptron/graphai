@@ -210,7 +210,7 @@ Retrieves all transaction logs recorded during the execution of the graph.
 
 Returns: An array of transaction logs detailing the execution states and outcomes of the nodes within the graph.
 
-### ```injectResult(nodeId: string, result: ResultData): void```
+### ```injectValue(nodeId: string, result: ResultData): void```
 Injects a result into a specified node. This is used to manually set the result of a static node, allowing dependent nodes to proceed with execution.
 
 - ```nodeId: string```: The ID of the static node into which the result is to be injected.

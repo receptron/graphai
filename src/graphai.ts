@@ -159,7 +159,8 @@ export class GraphAI {
       .join("\n");
   }
 
-  public results() {
+  // Public API
+  public results(): ResultDataDictonary {
     return Object.keys(this.nodes).reduce((results: ResultDataDictonary, nodeId) => {
       const node = this.nodes[nodeId];
       if (node.result !== undefined) {
@@ -169,7 +170,8 @@ export class GraphAI {
     }, {});
   }
 
-  public errors() {
+  // Public API
+  public errors(): Record<string, Error> {
     return Object.keys(this.nodes).reduce((errors: Record<string, Error>, nodeId) => {
       const node = this.nodes[nodeId];
       if (node.isComputedNode) {
@@ -191,6 +193,7 @@ export class GraphAI {
     });
   }
 
+  // Public API
   public async run(): Promise<ResultDataDictonary> {
     if (this.isRunning) {
       console.error("-- Already Running");
@@ -274,11 +277,13 @@ export class GraphAI {
     this.onLogCallback(log, true);
   }
 
+  // Public API
   public transactionLogs() {
     return this.logs;
   }
 
-  public injectValue(nodeId: string, value: ResultData) {
+  // Public API
+  public injectValue(nodeId: string, value: ResultData): void {
     const node = this.nodes[nodeId];
     if (node && node.isStaticNode) {
       node.injectValue(value);
