@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { echoAgent } from "~/agents/agents";
+import { defaultTestAgents } from "~/agents/agents";
 import { anonymization } from "~/utils/utils";
 
 import test from "node:test";
@@ -19,7 +19,7 @@ test("test computed node validation value", async () => {
   });
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graph_data, { echoAgent });
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
     { name: "Error", message: "Inputs not match: NodeId computed2, Inputs: dummy" },
   );

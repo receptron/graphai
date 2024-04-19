@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { echoAgent } from "~/agents/agents";
+import { defaultTestAgents } from "~/agents/agents";
 import { anonymization } from "~/utils/utils";
 
 import test from "node:test";
@@ -15,7 +15,7 @@ test("test static node validation inputs", async () => {
   });
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graph_data, { echoAgent });
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
     { name: "Error", message: "Static node does not allow inputs" },
   );
@@ -31,7 +31,7 @@ test("test static node validation anyInput", async () => {
   });
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graph_data, { echoAgent });
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
     { name: "Error", message: "Static node does not allow anyInput" },
   );
@@ -47,7 +47,7 @@ test("test static node validation params", async () => {
   });
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graph_data, { echoAgent });
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
     { name: "Error", message: "Static node does not allow params" },
   );
@@ -63,7 +63,7 @@ test("test static node validation retry", async () => {
   });
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graph_data, { echoAgent });
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
     { name: "Error", message: "Static node does not allow retry" },
   );
@@ -79,7 +79,7 @@ test("test static node validation timeout", async () => {
   });
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graph_data, { echoAgent });
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
     { name: "Error", message: "Static node does not allow timeout" },
   );
@@ -95,7 +95,7 @@ test("test static node validation fork", async () => {
   });
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graph_data, { echoAgent });
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
     { name: "Error", message: "Static node does not allow fork" },
   );

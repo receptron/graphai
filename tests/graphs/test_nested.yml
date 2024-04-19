@@ -1,12 +1,12 @@
 nodes:
   outer1:
-    agentId: sleeper
+    agentId: sleeperAgent
     params:
       duration: 500
       value:
         outer1: output
   outer2:
-    agentId: nested
+    agentId: nestedAgent
     inputs: [outer1]
     params:
       nodeId: inner3
@@ -16,40 +16,40 @@ nodes:
           inner0:
             dummy: 0
           inner1:
-            agentId: sleeper
+            agentId: sleeperAgent
             params:
               duration: 500
               value:
                 inner1: output
           inner2:
-            agentId: sleeper
+            agentId: sleeperAgent
             params:
               duration: 100
               value:
                 inner2: output
           inner3:
-            agentId: sleeper
+            agentId: sleeperAgent
             params:
               duration: 500
               value:
                 inner3: output
             inputs: [inner0, inner1, inner2]
   outer3:
-    agentId: sleeper
+    agentId: sleeperAgent
     params:
       duration: 500
       value:
         outer3: output
     inputs: [outer2]
   outer4:
-    agentId: sleeper
+    agentId: sleeperAgent
     params:
       duration: 100
       value:
         outer4: output
     inputs: [outer3]
   outer5:
-    agentId: sleeper
+    agentId: sleeperAgent
     params:
       duration: 500
       value:
