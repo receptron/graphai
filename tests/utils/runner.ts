@@ -1,7 +1,7 @@
 import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
 import path from "path";
 import * as fs from "fs";
-import { readGraphaiData, mkdirLogDir } from "~/utils/file_utils";
+import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
 
 export const fileTestRunner = async (file: string, callbackDictonary: AgentFunctionDictonary, callback: (graph: GraphAI) => void = () => {}) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
@@ -17,7 +17,7 @@ export const graphDataTestRunner = async (
 ) => {
   mkdirLogDir();
 
-  const log_path = path.resolve(__dirname) + "/../logs/" + path.basename(logFileName).replace(/\.(ya?ml)|.(ts)$/, ".log");
+  const log_path = path.resolve(__dirname) + "/../logs/" + fileBaseName(logFileName) + ".log";
   const graph = new GraphAI(graph_data, callbackDictonary);
   callback(graph);
 
