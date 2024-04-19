@@ -19,15 +19,13 @@ export type StaticNodeData = {
     update?: string;
 };
 export type ComputedNodeData = {
+    agentId?: string;
     inputs?: Array<string>;
     anyInput?: boolean;
     params?: NodeDataParams;
     retry?: number;
     timeout?: number;
-    agentId?: string;
     fork?: number;
-    value?: ResultData;
-    update?: string;
 };
 export type NodeData = StaticNodeData & ComputedNodeData;
 export type LoopData = {

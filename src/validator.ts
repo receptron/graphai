@@ -1,4 +1,4 @@
-import { GraphData } from "@/type";
+import { GraphData, NodeData } from "@/type";
 
 const validateNodes = (data: GraphData) => {
   if (data.nodes === undefined) {
@@ -15,7 +15,31 @@ const validateNodes = (data: GraphData) => {
   }
 }
 
+const staticNodeValidator = (nodeData: NodeData) => {
+  ["inputs", "anyInput", "params", "retry", "timeout", "fork", "agentId"].forEach(key => {
+    if (key in nodeData) {
+      throw new Error("Static node does not allow " + key)
+    }
+  });
+  
+};
+const computedNodeValidator = (nodeData: NodeData) => {
+  ["value", "update"].forEach(key => {
+    if (key in nodeData) {
+      throw new Error("Computed node does not allow " + key)
+    }
+  });
+};
+
 export const validateGraphData = (data: GraphData) => {
   validateNodes(data);
+  Object.keys(data.nodes).forEach(nodeId => {
+    const node = data.nodes[nodeId];
+    const isStaticNode = (node.agentId ?? data.agentId) === undefined;
+    isStaticNode && staticNodeValidator(node);
+    !isStaticNode && computedNodeValidator(node);
+    // console.log(node);
+  });
+  
   return true;
 };
