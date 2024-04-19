@@ -1,35 +1,4 @@
-import { ResultData, TransactionLog, NodeState, NodeDataParams } from "@/type";
-
-export const injectValueLog = (nodeId: string, value: ResultData) => {
-  const log: TransactionLog = {
-    nodeId,
-    state: NodeState.Injected,
-    startTime: Date.now(),
-    endTime: Date.now(),
-    result: value,
-  };
-  return log;
-};
-
-export const executeLog = (
-  nodeId: string,
-  retryCount: number,
-  transactionId: number,
-  agentId: string | undefined,
-  params: NodeDataParams,
-  results: ResultData[],
-) => {
-  const log: TransactionLog = {
-    nodeId,
-    retryCount: retryCount > 0 ? retryCount : undefined,
-    state: NodeState.Executing,
-    startTime: transactionId,
-    agentId,
-    params,
-    inputs: results.length > 0 ? results : undefined,
-  };
-  return log;
-};
+import { ResultData, TransactionLog, NodeState } from "@/type";
 
 export const timeoutLog = (log: TransactionLog) => {
   log.errorMessage = "Timeout";

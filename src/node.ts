@@ -5,7 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
+import { timeoutLog, callbackLog, errorLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -76,6 +76,10 @@ export class ComputedNode extends Node {
     this.pendings = new Set(this.inputs);
     this.fork = data.fork;
     this.forkIndex = forkIndex;
+
+    this.log.agentId = this.agentId;
+    this.log.params = this.params;
+    this.graph.appendLog(this.log);
   }
 
   public pushQueueIfReady() {
@@ -136,11 +140,11 @@ export class ComputedNode extends Node {
   // This private method (called only fro execute) checks if the callback from
   // the timer came before the completion of agent function call, record it
   // and attempt to retry (if specified).
-  private executeTimeout(transactionId: number, log: TransactionLog) {
+  private executeTimeout(transactionId: number) {
     if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
-      timeoutLog(log);
-      this.graph.updateLog(log);
+      timeoutLog(this.log);
+      this.graph.updateLog(this.log);
       this.retry(NodeState.TimedOut, Error("Timeout"));
     }
   }
@@ -161,11 +165,11 @@ export class ComputedNode extends Node {
         return !this.anyInput || result !== undefined;
       });
     const transactionId = Date.now();
-    const log = this.prepareExecute(transactionId, previousResults);
+    this.prepareExecute(transactionId, previousResults);
 
     if (this.timeout && this.timeout > 0) {
       setTimeout(() => {
-        this.executeTimeout(transactionId, log);
+        this.executeTimeout(transactionId);
       }, this.timeout);
     }
 
@@ -189,39 +193,41 @@ export class ComputedNode extends Node {
         return;
       }
 
-      callbackLog(log, result, localLog);
+      callbackLog(this.log, result, localLog);
 
-      log.state = NodeState.Completed;
-      this.graph.updateLog(log);
+      this.log.state = NodeState.Completed;
+      this.graph.updateLog(this.log);
 
       this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
-      this.errorProcess(error, transactionId, log);
+      this.errorProcess(error, transactionId);
     }
   }
 
   // This private method (called only by execute()) prepares the ComputedNode object
   // for execution, and create a new transaction to record it.
-  private prepareExecute(transactionId: number, previousResult: Array<ResultData>) {
-    const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, previousResult);
-    this.graph.appendLog(log);
+  private prepareExecute(startTime: number, inputs: Array<ResultData>) {
+    this.log.retryCount = this.retryCount > 0 ? this.retryCount : undefined;
+    this.log.startTime = startTime;
+    this.log.inputs = inputs.length > 0 ? inputs : undefined;
+    this.log.state = NodeState.Executing;
     this.state = NodeState.Executing;
-    this.transactionId = transactionId;
-    return log;
+    this.transactionId = startTime;
+    this.graph.appendLog(this.log);
   }
 
   // This private method (called only by execute) processes an error received from
   // the agent function. It records the error in the transaction log and handles
   // the retry if specified.
-  private errorProcess(error: unknown, transactionId: number, log: TransactionLog) {
+  private errorProcess(error: unknown, transactionId: number) {
     if (!this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
       return;
     }
     const isError = error instanceof Error;
-    errorLog(log, isError ? error.message : "Unknown");
-    this.graph.updateLog(log);
+    errorLog(this.log, isError ? error.message : "Unknown");
+    this.graph.updateLog(this.log);
 
     if (isError) {
       this.retry(NodeState.Failed, error);
@@ -245,8 +251,10 @@ export class StaticNode extends Node {
   }
 
   public injectValue(value: ResultData) {
-    const log = injectValueLog(this.nodeId, value);
-    this.graph.appendLog(log);
+    this.log.state = NodeState.Injected;
+    this.log.endTime = Date.now();
+    this.log.result = value;
+    this.graph.appendLog(this.log); 
     this.setResult(value, NodeState.Injected);
   }
 }
