@@ -1,4 +1,6 @@
 import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
+import { NodeState } from "@/type";
+
 import path from "path";
 import * as fs from "fs";
 import { readGraphaiData, mkdirLogDir } from "~/utils/file_utils";
@@ -21,12 +23,12 @@ export const graphDataTestRunner = async (
   const graph = new GraphAI(graph_data, callbackDictonary);
 
   graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
-    if (state === "executing") {
+    if (state === NodeState.Executing) {
       console.log(`${nodeId.padEnd(10)} =>( ${(JSON.stringify(inputs) ?? "").slice(0, 60)}`);
-    } else if (state === "injected" || state == "completed") {
-      const shortName = state === "injected" ? "=  " : "{} ";
+    } else if (state === NodeState.Injected || state == NodeState.Completed) {
+      const shortName = state === NodeState.Injected ? "=  " : "{} ";
       console.log(`${nodeId.padEnd(10)} ${shortName} ${(JSON.stringify(result) ?? "").slice(0, 60)}`);
-    } else if (state == "failed") {
+    } else if (state == NodeState.Failed) {
       console.log(`${nodeId.padEnd(10)} ERR ${(errorMessage ?? "").slice(0, 60)}`);
     } else {
       console.log(`${nodeId.padEnd(10)} ${state}`);
