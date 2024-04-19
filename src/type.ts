@@ -1,5 +1,6 @@
 export enum NodeState {
   Waiting = "waiting",
+  Queued = "queued",
   Executing = "executing",
   Failed = "failed",
   TimedOut = "timed-out",

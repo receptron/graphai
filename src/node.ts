@@ -77,7 +77,7 @@ export class ComputedNode extends Node {
   }
 
   public pushQueueIfReady() {
-    if (this.pendings.size === 0) {
+    if (this.state === NodeState.Waiting && this.pendings.size === 0) {
       // Count the number of data actually available.
       // We care it only when this.anyInput is true.
       // Notice that this logic enables dynamic data-flows.
