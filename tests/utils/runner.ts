@@ -3,10 +3,13 @@ import path from "path";
 import * as fs from "fs";
 import { readGraphaiData, mkdirLogDir } from "~/utils/file_utils";
 
-export const fileTestRunner = async (file: string, callbackDictonary: AgentFunctionDictonary, callback: (graph: GraphAI) => void = () => {}) => {
+export const readGraphData = (file: string) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
-  const graph_data = readGraphaiData(file_path);
-  return await graphDataTestRunner(file, graph_data, callbackDictonary, callback);
+  return readGraphaiData(file_path);
+};
+
+export const fileTestRunner = async (file: string, callbackDictonary: AgentFunctionDictonary, callback: (graph: GraphAI) => void = () => {}) => {
+  return await graphDataTestRunner(file, readGraphData(file), callbackDictonary, callback);
 };
 
 export const graphDataTestRunner = async (
