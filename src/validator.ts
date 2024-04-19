@@ -1,6 +1,6 @@
 import { GraphData } from "@/type";
 
-export const validateGraphData = (data: GraphData) => {
+const validateNodes = (data: GraphData) => {
   if (data.nodes === undefined) {
     throw new Error("Invalid Graph Data: no nodes");
   }
@@ -13,5 +13,9 @@ export const validateGraphData = (data: GraphData) => {
   if (Object.keys(data.nodes).length === 0) {
     throw new Error("Invalid Graph Data: nodes is empty");
   }
+}
+
+export const validateGraphData = (data: GraphData) => {
+  validateNodes(data);
   return true;
 };
