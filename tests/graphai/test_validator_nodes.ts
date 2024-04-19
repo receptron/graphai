@@ -1,4 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
+import { anonymization } from "~/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

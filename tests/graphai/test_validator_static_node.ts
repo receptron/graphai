@@ -1,12 +1,9 @@
 import { graphDataTestRunner } from "~/utils/runner";
 import { echoAgent } from "~/agents/agents";
+import { anonymization } from "~/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
-
-const anonymization = (data: Record<string, any>) => {
-  return JSON.parse(JSON.stringify(data));
-};
 
 test("test static node validation inputs", async () => {
   const graph_data = anonymization({
