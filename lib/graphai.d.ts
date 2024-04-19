@@ -8,7 +8,7 @@ export declare class GraphAI {
     agentId?: string;
     callbackDictonary: AgentFunctionDictonary;
     isRunning: boolean;
-    onLogCallback: (_log: TransactionLog, _isUpdate: boolean) => void;
+    onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
     private runningNodes;
     private nodeQueue;
     private onComplete;
