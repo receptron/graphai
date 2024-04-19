@@ -8,6 +8,7 @@ export declare class GraphAI {
     agentId?: string;
     callbackDictonary: AgentFunctionDictonary;
     isRunning: boolean;
+    onLogCallback: (_log: TransactionLog, _isUpdate: boolean) => void;
     private runningNodes;
     private nodeQueue;
     private onComplete;
@@ -30,6 +31,7 @@ export declare class GraphAI {
     pushQueue(node: ComputedNode): void;
     removeRunning(node: ComputedNode): void;
     appendLog(log: TransactionLog): void;
+    updateLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData): void;
     resultsOf(sources: Array<DataSource>): any[];

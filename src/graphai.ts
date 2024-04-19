@@ -15,7 +15,8 @@ export class GraphAI {
   public agentId?: string;
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
-  public onLogCallback = (log:TransactionLog, isUpdate: boolean) => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onLogCallback = (_log: TransactionLog, _isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
   private nodeQueue: Array<ComputedNode> = []; // for Computed Node
   private onComplete: () => void;
