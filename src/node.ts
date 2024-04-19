@@ -137,12 +137,13 @@ export class ComputedNode extends Node {
       this.retry(NodeState.TimedOut, Error("Timeout"));
     }
   }
+
   // This method is called when this computed node became ready to run.
   // It asynchronously calls the associated with agent function and set the result,
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const results = this.graph
+    const previousResults = this.graph
       .resultsOf(
         this.inputs.map((input) => {
           return this.sources[input];
@@ -153,10 +154,7 @@ export class ComputedNode extends Node {
         return !this.anyInput || result !== undefined;
       });
     const transactionId = Date.now();
-    const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
-    this.graph.appendLog(log);
-    this.state = NodeState.Executing;
-    this.transactionId = transactionId;
+    const log = this.prepareExecute(transactionId, previousResults);
 
     if (this.timeout && this.timeout > 0) {
       setTimeout(() => {
@@ -171,7 +169,7 @@ export class ComputedNode extends Node {
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
-        inputs: results,
+        inputs: previousResults,
         forkIndex: this.forkIndex,
         verbose: this.graph.verbose,
         agents: this.graph.callbackDictonary,
@@ -190,20 +188,32 @@ export class ComputedNode extends Node {
       this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
-      if (!this.isCurrentTransaction(transactionId)) {
-        console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
-        return;
-      }
-      const isError = error instanceof Error;
-      errorLog(log, isError ? error.message : "Unknown");
-      this.graph.updateLog(log);
+      this.errorProcess(error, transactionId, log);
+    }
+  }
 
-      if (isError) {
-        this.retry(NodeState.Failed, error);
-      } else {
-        console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
-        this.retry(NodeState.Failed, Error("Unknown"));
-      }
+  private prepareExecute(transactionId: number, previousResult: Array<ResultData>) {
+    const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, previousResult);
+    this.graph.appendLog(log);
+    this.state = NodeState.Executing;
+    this.transactionId = transactionId;
+    return log;
+  }
+
+  private errorProcess(error: unknown, transactionId: number, log: TransactionLog) {
+    if (!this.isCurrentTransaction(transactionId)) {
+      console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
+      return;
+    }
+    const isError = error instanceof Error;
+    errorLog(log, isError ? error.message : "Unknown");
+    this.graph.updateLog(log);
+
+    if (isError) {
+      this.retry(NodeState.Failed, error);
+    } else {
+      console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
+      this.retry(NodeState.Failed, Error("Unknown"));
     }
   }
 }
