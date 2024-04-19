@@ -10,7 +10,7 @@ nodes:
       duration: 100
       value:
         node2: output
-    agentId: dispatcher
+    agentId: dispatchAgent
   node3:
     params:
       duration: 500
