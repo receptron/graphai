@@ -8,12 +8,11 @@ import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 const graph_data: GraphData = {
   loop: {
     count: 3,
-    assign: {
-      node3: "node1", // result of node3 to node1 at the end of loop
-    },
   },
   nodes: {
-    node1: {},
+    node1: {
+      update: "node3",
+    },
     node2: {
       agentId: "input",
     },
