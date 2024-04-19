@@ -34,7 +34,7 @@ export class GraphAI {
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
       const isStaticNode = (data.nodes[nodeId].agentId ?? data.agentId) === undefined;
       if (isStaticNode) {
-        _nodes[nodeId] = new StaticNode(nodeId, undefined, data.nodes[nodeId], this);
+        _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId], this);
       } else {
         const fork = data.nodes[nodeId].fork;
         if (fork) {

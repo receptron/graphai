@@ -1,4 +1,4 @@
-import type { NodeDataParams, TransactionLog, ResultData, DataSource, NodeData } from "@/type";
+import type { NodeDataParams, TransactionLog, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "@/type";
 
 import type { GraphAI } from "@/graphai";
 
@@ -11,14 +11,12 @@ export class Node {
   public nodeId: string;
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
-  public forkIndex?: number; // TODO: move to computedNode
   public result: ResultData = undefined;
 
   protected graph: GraphAI;
 
-  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
+  constructor(nodeId: string, graph: GraphAI) {
     this.nodeId = nodeId;
-    this.forkIndex = forkIndex;
     this.graph = graph;
   }
 
@@ -48,6 +46,7 @@ export class ComputedNode extends Node {
   public timeout?: number; // msec
   public error?: Error;
   public fork?: number;
+  public forkIndex?: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
   public sources: Record<string, DataSource> = {}; // data sources.
@@ -58,8 +57,8 @@ export class ComputedNode extends Node {
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
 
-  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
-    super(nodeId, forkIndex, data, graph);
+  constructor(nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI) {
+    super(nodeId, graph);
     this.params = data.params ?? {};
     this.agentId = data.agentId ?? graph.agentId;
     this.retryLimit = data.retry ?? 0;
@@ -73,6 +72,7 @@ export class ComputedNode extends Node {
     });
     this.pendings = new Set(this.inputs);
     this.fork = data.fork;
+    this.forkIndex = forkIndex;
   }
 
   public pushQueueIfReady() {
@@ -202,8 +202,8 @@ export class StaticNode extends Node {
   public readonly isStaticNode = true;
   public readonly isComputedNode = false;
 
-  constructor(nodeId: string, forkIndex: number | undefined, data: NodeData, graph: GraphAI) {
-    super(nodeId, forkIndex, data, graph);
+  constructor(nodeId: string, data: StaticNodeData, graph: GraphAI) {
+    super(nodeId, graph);
     this.value = data.value;
     this.update = data.update;
   }

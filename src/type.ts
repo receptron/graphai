@@ -17,7 +17,11 @@ export type DataSource = {
   propId?: string;
 };
 
-export type NodeData = {
+export type StaticNodeData = {
+  value?: ResultData; // initial value for static node.
+  update?: string; // nodeId (+.propId) to get value after a loop
+};
+export type ComputedNodeData = {
   inputs?: Array<string>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
@@ -28,6 +32,8 @@ export type NodeData = {
   value?: ResultData; // initial value for static node.
   update?: string; // nodeId (+.propId) to get value after a loop
 };
+
+export type NodeData = StaticNodeData & ComputedNodeData;
 
 export type LoopData = {
   count?: number;
