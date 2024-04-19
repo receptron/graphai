@@ -96,6 +96,9 @@ export class ComputedNode extends Node {
     }
   }
 
+  // This private method (only called while executing execute()) performs
+  // the "retry" if specified. The transaction log must be updated before
+  // callling this method.
   private retry(state: NodeState, error: Error) {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
@@ -129,6 +132,10 @@ export class ComputedNode extends Node {
   private isCurrentTransaction(transactionId: number) {
     return this.transactionId === transactionId;
   }
+
+  // This private method (called only fro execute) checks if the callback from
+  // the timer came before the completion of agent function call, record it
+  // and attempt to retry (if specified).
   private executeTimeout(transactionId: number, log: TransactionLog) {
     if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
@@ -176,6 +183,8 @@ export class ComputedNode extends Node {
         log: localLog,
       });
       if (!this.isCurrentTransaction(transactionId)) {
+        // This condition happens when the agent function returns
+        // after the timeout (either retried or not).
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
       }
@@ -192,6 +201,8 @@ export class ComputedNode extends Node {
     }
   }
 
+  // This private method (called only by execute()) prepares the ComputedNode object
+  // for execution, and create a new transaction to record it.
   private prepareExecute(transactionId: number, previousResult: Array<ResultData>) {
     const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, previousResult);
     this.graph.appendLog(log);
@@ -200,6 +211,9 @@ export class ComputedNode extends Node {
     return log;
   }
 
+  // This private method (called only by execute) processes an error received from
+  // the agent function. It records the error in the transaction log and handles
+  // the retry if specified.
   private errorProcess(error: unknown, transactionId: number, log: TransactionLog) {
     if (!this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
