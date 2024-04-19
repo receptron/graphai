@@ -79,7 +79,6 @@ export class ComputedNode extends Node {
 
     this.log.agentId = this.agentId;
     this.log.params = this.params;
-    this.graph.appendLog(this.log);
   }
 
   public pushQueueIfReady() {
