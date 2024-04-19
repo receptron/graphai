@@ -87,6 +87,7 @@ const dispatchGraph2 = {
         duration: 20,
       },
       inputs: ["select.next1"],
+      anyInput: true,
     },
     ghost2: {
       agentId: "sleeperAgent",
@@ -94,6 +95,7 @@ const dispatchGraph2 = {
         duration: 20,
       },
       inputs: ["select.next2"],
+      anyInput: true,
     },
     ghost3: {
       agentId: "sleeperAgent",
@@ -101,6 +103,7 @@ const dispatchGraph2 = {
         duration: 20,
       },
       inputs: ["select.next3"],
+      anyInput: true,
     },
     result1: {
       inputs: ["ghost1"],
