@@ -5,6 +5,7 @@ import { AgentFunctionDictonary, GraphData, DataSource, LoopData, TransactionLog
 import { ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
+import { NodeState } from "./type";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
@@ -222,6 +223,7 @@ export class GraphAI {
     if (this.runningNodes.size < this.concurrency) {
       this.runNode(node);
     } else {
+      node.state = NodeState.Queued;
       this.nodeQueue.push(node);
     }
   }
