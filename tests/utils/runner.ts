@@ -19,6 +19,18 @@ export const graphDataTestRunner = async (
 
   const log_path = path.resolve(__dirname) + "/../logs/" + path.basename(logFileName).replace(/\.(ya?ml)|.(ts)$/, ".log");
   const graph = new GraphAI(graph_data, callbackDictonary);
+
+  graph.onLogCallback = ({nodeId, state, inputs, result}, isUpdate) => {
+    if (state === "executing") {
+      console.log(`${nodeId.padEnd(10)} EXE ${String(inputs).slice(0,60)}`);
+    } else if (state === 'injected' || state == 'completed') {
+      const shortName = (state === 'injected') ? "INJ" : "CMP";
+      console.log(`${nodeId.padEnd(10)} ${shortName} ${String(result).slice(0,60)}`);
+    } else {
+      console.log(`${nodeId.padEnd(10)} ${state}`);
+    }
+  };
+
   callback(graph);
 
   try {
