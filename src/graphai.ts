@@ -16,6 +16,8 @@ export class GraphAI {
   public agentId?: string;
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onLogCallback = (_log: TransactionLog, _isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
   private nodeQueue: Array<ComputedNode> = []; // for Computed Node
   private onComplete: () => void;
@@ -263,6 +265,11 @@ export class GraphAI {
 
   public appendLog(log: TransactionLog) {
     this.logs.push(log);
+    this.onLogCallback(log, false);
+  }
+
+  public updateLog(log: TransactionLog) {
+    this.onLogCallback(log, true);
   }
 
   public transactionLogs() {

@@ -133,6 +133,7 @@ export class ComputedNode extends Node {
     if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
       timeoutLog(log);
+      this.graph.updateLog(log);
       this.retry(NodeState.TimedOut, Error("Timeout"));
     }
   }
@@ -184,6 +185,8 @@ export class ComputedNode extends Node {
       callbackLog(log, result, localLog);
 
       log.state = NodeState.Completed;
+      this.graph.updateLog(log);
+
       this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
@@ -193,6 +196,8 @@ export class ComputedNode extends Node {
       }
       const isError = error instanceof Error;
       errorLog(log, isError ? error.message : "Unknown");
+      this.graph.updateLog(log);
+
       if (isError) {
         this.retry(NodeState.Failed, error);
       } else {

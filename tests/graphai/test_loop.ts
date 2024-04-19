@@ -1,5 +1,6 @@
 import { graphDataTestRunner } from "~/utils/runner";
 import { sleeperAgent, pushAgent, popAgent } from "@/experimental_agents";
+import { fileBaseName } from "~/utils/file_utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -45,7 +46,7 @@ const graphdata_pop = {
       value: ["orange", "banana", "lemon"],
       update: "popper.array",
     },
-    previous: {
+    result: {
       value: [],
       update: "reducer",
     },
@@ -55,13 +56,12 @@ const graphdata_pop = {
     },
     reducer: {
       agentId: "push",
-      inputs: ["previous", "popper.item"],
+      inputs: ["result", "popper.item"],
     },
   },
 };
 
 test("test loop & pop", async () => {
-  await graphDataTestRunner(__filename, graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
-  // console.log(result);
-  // assert.deepStrictEqual(result.reducer, ["lemon", "banana", "orange"]);
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
+  assert.deepStrictEqual(result.result, ["lemon", "banana", "orange"]);
 });

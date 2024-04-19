@@ -31,3 +31,7 @@ export const readYamlManifest = (fileName: string) => {
   const manifest = YAML.parse(manifest_file);
   return manifest;
 };
+
+export const fileBaseName = (file: string) => {
+  return path.basename(file).replace(/\.[a-zA-Z_-]+$/, "");
+};
