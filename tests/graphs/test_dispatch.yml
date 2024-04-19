@@ -4,7 +4,7 @@ nodes:
       duration: 500
       value:
         node1: output
-    agentId: sleeper
+    agentId: sleeperAgent
   node2:
     params:
       duration: 100
@@ -17,18 +17,18 @@ nodes:
       value:
         node3: output
     inputs: [node1, node2.port1]
-    agentId: sleeper
+    agentId: sleeperAgent
   node4:
     params:
       duration: 100
       value:
         node4: output
     inputs: [node3]
-    agentId: sleeper
+    agentId: sleeperAgent
   node5:
     params:
       duration: 500
       value:
         node5: output
     inputs: [node2.port1, node4]
-    agentId: sleeper
+    agentId: sleeperAgent
