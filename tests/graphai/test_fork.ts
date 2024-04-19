@@ -5,8 +5,8 @@ import test from "node:test";
 import assert from "node:assert";
 
 const testAgent1: AgentFunction = async (context) => {
-  const { nodeId, params, inputs } = context;
-  console.log("executing", nodeId, params, inputs);
+  const { nodeId, inputs } = context;
+  // console.log("executing", nodeId, params, inputs);
 
   const result = {
     [nodeId]: [nodeId, inputs.map((a) => Object.values(a).flat())]
@@ -14,7 +14,7 @@ const testAgent1: AgentFunction = async (context) => {
       .filter((a) => !!a)
       .join(":"),
   };
-  console.log("completing", nodeId, result);
+  // console.log("completing", nodeId, result);
   return result;
 };
 

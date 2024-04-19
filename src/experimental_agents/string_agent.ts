@@ -10,10 +10,7 @@ export const stringTemplateAgent: AgentFunction<
   {
     content: string;
   }
-> = async ({ nodeId, params, inputs, verbose }) => {
-  if (verbose) {
-    console.log("executing", nodeId, params);
-  }
+> = async ({ params, inputs }) => {
   const content = inputs.reduce((template, input, index) => {
     return template.replace("${" + index + "}", input[params.inputKey ?? "content"]);
   }, params.template);
