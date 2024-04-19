@@ -9,7 +9,7 @@ import assert from "node:assert";
 const dispatchAgentGenerator = (selectedNodeId: string) => {
   const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
     const { nodeId } = context;
-    console.log("executing", nodeId);
+    // console.log("executing", nodeId);
     if (nodeId === selectedNodeId) {
       return { next: { from: nodeId } };
     }
@@ -119,7 +119,7 @@ const dispatchGraph2 = {
 const dispatchAgentGenerator2 = (selectedKeys: string[]) => {
   const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
     const { nodeId } = context;
-    console.log("executing", nodeId);
+    // console.log("executing", nodeId);
     return selectedKeys.reduce((tmp: Record<string, any>, current) => {
       tmp[current] = { from: nodeId };
       return tmp;
@@ -131,7 +131,7 @@ const dispatchAgentGenerator2 = (selectedKeys: string[]) => {
 test("test next 1", async () => {
   const dispatchAgent = dispatchAgentGenerator2(["next1"]);
   const result = await graphDataTestRunner(__filename + "_3", dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
-  console.log(result);
+  // console.log(result);
   assert.deepStrictEqual(result, {
     select: { next1: { from: "select" } },
     ghost1: { from: "select" },
@@ -152,7 +152,7 @@ test("test next 3", async () => {
 test("test next 2, 3", async () => {
   const dispatchAgent = dispatchAgentGenerator2(["next2", "next3"]);
   const result = await graphDataTestRunner(__filename + "_5", dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
-  console.log(result);
+  // console.log(result);
   assert.deepStrictEqual(result, {
     select: { next2: { from: "select" }, next3: { from: "select" } },
     ghost2: { from: "select" },

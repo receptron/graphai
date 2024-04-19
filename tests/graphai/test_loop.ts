@@ -61,7 +61,7 @@ const graphdata_pop = {
 };
 
 test("test loop & pop", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
-  console.log(result);
+  await graphDataTestRunner(__filename, graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
+  // console.log(result);
   // assert.deepStrictEqual(result.reducer, ["lemon", "banana", "orange"]);
 });
