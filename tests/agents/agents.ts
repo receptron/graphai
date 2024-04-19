@@ -25,6 +25,11 @@ export const mergeNodeIdAgent: AgentFunction = async ({ nodeId, inputs }) => {
 };
 
 export const defaultTestAgents = {
-  bypassAgent, echoAgent, echoForkIndexAgent, mergeNodeIdAgent,
-  sleeperAgent, sleeperAgentDebug, nestedAgent,
-}
+  bypassAgent,
+  echoAgent,
+  echoForkIndexAgent,
+  mergeNodeIdAgent,
+  sleeperAgent,
+  sleeperAgentDebug,
+  nestedAgent,
+};
