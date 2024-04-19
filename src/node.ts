@@ -65,11 +65,12 @@ export class ComputedNode extends Node {
     this.timeout = data.timeout;
 
     this.anyInput = data.anyInput ?? false;
-    this.inputs = (data.inputs ?? []).map((input) => {
+    this.sources = (data.inputs ?? []).reduce((tmp: Record<string, DataSource>, input) => {
       const source = parseNodeName(input);
-      this.sources[source.nodeId] = source;
-      return source.nodeId;
-    });
+      tmp[source.nodeId] = source;
+      return tmp;
+    }, {});
+    this.inputs = Object.keys(this.sources);
     this.pendings = new Set(this.inputs);
     this.fork = data.fork;
     this.forkIndex = forkIndex;
