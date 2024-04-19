@@ -3,7 +3,7 @@ import { fileTestRunner } from "~/utils/runner";
 
 import { sleep } from "~/utils/utils";
 
-import { defaultTestAgents } from "@/experimental_agents";
+import { defaultTestAgents } from "@/agents/agents";
 
 import test from "node:test";
 import assert from "node:assert";
