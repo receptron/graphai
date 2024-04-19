@@ -135,9 +135,8 @@ export class GraphAI {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
 
-    if (!validateGraphData(data)) {
-      throw new Error("Invalid Graph Data");
-    }
+    validateGraphData(data);
+
     this.nodes = this.createNodes(data);
     this.initializeNodes();
   }
