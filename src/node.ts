@@ -125,6 +125,16 @@ export class ComputedNode extends Node {
     }
   }
 
+  private isCurrentTransaction(transactionId: number) {
+    return this.transactionId === transactionId;
+  }
+  private executeTimeout(transactionId: number, log: TransactionLog) {
+    if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
+      console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
+      timeoutLog(log);
+      this.retry(NodeState.TimedOut, Error("Timeout"));
+    }
+  }
   // This method is called when this computed node became ready to run.
   // It asynchronously calls the associated with agent function and set the result,
   // then it removes itself from the "running node" list of the graph.
@@ -148,11 +158,7 @@ export class ComputedNode extends Node {
 
     if (this.timeout && this.timeout > 0) {
       setTimeout(() => {
-        if (this.state === NodeState.Executing && this.transactionId === transactionId) {
-          console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
-          timeoutLog(log);
-          this.retry(NodeState.TimedOut, Error("Timeout"));
-        }
+        this.executeTimeout(transactionId, log);
       }, this.timeout);
     }
 
@@ -169,7 +175,7 @@ export class ComputedNode extends Node {
         agents: this.graph.callbackDictonary,
         log: localLog,
       });
-      if (this.transactionId !== transactionId) {
+      if (!this.isCurrentTransaction(transactionId)) {
         console.log(`-- ${this.nodeId}: transactionId mismatch`);
         return;
       }
@@ -180,7 +186,7 @@ export class ComputedNode extends Node {
       this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
-      if (this.transactionId !== transactionId) {
+      if (!this.isCurrentTransaction(transactionId)) {
         console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
         return;
       }
