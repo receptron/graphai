@@ -31,6 +31,8 @@ export declare class ComputedNode extends Node {
     pushQueueIfReady(): void;
     private retry;
     removePending(nodeId: string): void;
+    private isCurrentTransaction;
+    private executeTimeout;
     execute(): Promise<void>;
 }
 export declare class StaticNode extends Node {
