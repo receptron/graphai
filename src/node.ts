@@ -143,7 +143,7 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const results = this.graph
+    const previousResults = this.graph
       .resultsOf(
         this.inputs.map((input) => {
           return this.sources[input];
@@ -154,7 +154,7 @@ export class ComputedNode extends Node {
         return !this.anyInput || result !== undefined;
       });
     const transactionId = Date.now();
-    const log = this.prepareExecute(transactionId, results);
+    const log = this.prepareExecute(transactionId, previousResults);
 
     if (this.timeout && this.timeout > 0) {
       setTimeout(() => {
@@ -169,7 +169,7 @@ export class ComputedNode extends Node {
         nodeId: this.nodeId,
         retry: this.retryCount,
         params: this.params,
-        inputs: results,
+        inputs: previousResults,
         forkIndex: this.forkIndex,
         verbose: this.graph.verbose,
         agents: this.graph.callbackDictonary,
@@ -192,8 +192,8 @@ export class ComputedNode extends Node {
     }
   }
 
-  private prepareExecute(transactionId: number, results: Array<ResultData>) {
-    const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, results);
+  private prepareExecute(transactionId: number, previousResult: Array<ResultData>) {
+    const log: TransactionLog = executeLog(this.nodeId, this.retryCount, transactionId, this.agentId, this.params, previousResult);
     this.graph.appendLog(log);
     this.state = NodeState.Executing;
     this.transactionId = transactionId;
