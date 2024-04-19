@@ -1,9 +1,9 @@
 import { NodeData } from "@/type";
+import { staticNodeAttributeKeys } from "@/validators/common";
 
-const staticNodeAttributeKeys = ["inputs", "anyInput", "params", "retry", "timeout", "fork", "agentId"];
 export const staticNodeValidator = (nodeData: NodeData) => {
-  staticNodeAttributeKeys.forEach((key) => {
-    if (key in nodeData) {
+  Object.keys(nodeData).forEach((key) => {
+    if (![...staticNodeAttributeKeys, "dummy"].includes(key)) {
       throw new Error("Static node does not allow " + key);
     }
   });
