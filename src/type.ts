@@ -50,7 +50,7 @@ export type GraphData = {
 export type TransactionLog = {
   nodeId: string;
   state: NodeState;
-  startTime: number;
+  startTime?: number;
   endTime?: number;
   retryCount?: number;
   agentId?: string;

@@ -1,4 +1,4 @@
-import type { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "./type";
+import type { NodeDataParams, TransactionLog, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "./type";
 import type { GraphAI } from "./graphai";
 import { NodeState } from "./type";
 export declare class Node {
@@ -7,6 +7,7 @@ export declare class Node {
     state: NodeState;
     result: ResultData;
     protected graph: GraphAI;
+    protected log: TransactionLog;
     constructor(nodeId: string, graph: GraphAI);
     asString(): string;
     protected setResult(result: ResultData, state: NodeState): void;

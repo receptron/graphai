@@ -14,10 +14,12 @@ export class Node {
   public result: ResultData = undefined;
 
   protected graph: GraphAI;
+  protected log: TransactionLog;
 
   constructor(nodeId: string, graph: GraphAI) {
     this.nodeId = nodeId;
     this.graph = graph;
+    this.log = { nodeId, state: this.state };
   }
 
   public asString() {
