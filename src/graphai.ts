@@ -152,10 +152,8 @@ export class GraphAI {
   }
 
   public asString() {
-    return Object.keys(this.nodes)
-      .map((nodeId) => {
-        return this.nodes[nodeId].asString();
-      })
+    return Object.values(this.nodes)
+      .map((node) => node.asString())
       .join("\n");
   }
 
