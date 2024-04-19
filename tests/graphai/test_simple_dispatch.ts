@@ -87,7 +87,6 @@ const dispatchGraph2 = {
         duration: 20,
       },
       inputs: ["select.next1"],
-      source: true,
     },
     ghost2: {
       agentId: "sleeperAgent",
