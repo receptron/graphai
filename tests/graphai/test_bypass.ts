@@ -36,7 +36,7 @@ test("test bypass1", async () => {
       message: "hello",
     },
   });
-  console.log("COMPLETE 1");
+  // console.log("COMPLETE 1");
 });
 
 test("test bypass2", async () => {
@@ -60,14 +60,14 @@ test("test bypass2", async () => {
     },
   };
   const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
-  console.log(result);
+  // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
     bypassAgent_0: { message: "hello" },
     bypassAgent_1: { message: "hello" },
     bypassAgent2: [{ message: "hello" }, { message: "hello" }],
   });
-  console.log("COMPLETE 1");
+  // console.log("COMPLETE 1");
 });
 
 test("test bypass3", async () => {
@@ -101,7 +101,7 @@ test("test bypass3", async () => {
     },
   };
   const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
-  console.log(result);
+  // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
     bypassAgent_0: { message: "hello" },
@@ -112,7 +112,7 @@ test("test bypass3", async () => {
     bypassAgent3_1: { message: "hello" },
     bypassAgent4: [{ message: "hello" }, { message: "hello" }],
   });
-  console.log("COMPLETE 1");
+  // console.log("COMPLETE 1");
 });
 
 test("test bypass4", async () => {
@@ -152,5 +152,5 @@ test("test bypass4", async () => {
       [{ message: "hello" }, { message: "hello" }],
     ],
   });
-  console.log("COMPLETE 1");
+  // console.log("COMPLETE 1");
 });

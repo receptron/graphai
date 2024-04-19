@@ -6,28 +6,28 @@ import assert from "node:assert";
 
 const testAgent1: AgentFunction = async (context) => {
   const { nodeId, params } = context;
-  console.log("executing", nodeId, params);
+  // console.log("executing", nodeId, params);
 
   const result = { [nodeId]: "output 1" };
-  console.log("completing", nodeId, result);
+  // console.log("completing", nodeId, result);
   return result;
 };
 
 const testAgent2: AgentFunction = async (context) => {
   const { nodeId, params } = context;
-  console.log("executing", nodeId, params);
+  // console.log("executing", nodeId, params);
 
   const result = { [nodeId]: "output 2" };
-  console.log("completing", nodeId, result);
+  // console.log("completing", nodeId, result);
   return result;
 };
 
 const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number }> = async (context) => {
   const { nodeId, params } = context;
-  console.log("executing", nodeId, params);
+  // console.log("executing", nodeId, params);
 
   const result = { [nodeId]: params.number };
-  console.log("completing", nodeId, result);
+  // console.log("completing", nodeId, result);
   return result;
 };
 

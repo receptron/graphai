@@ -6,12 +6,12 @@ import assert from "node:assert";
 
 const httpClientAgent: AgentFunction<Record<string, string>> = async (context) => {
   const { nodeId, params, inputs } = context;
-  console.log("executing", nodeId, params, inputs);
+  // console.log("executing", nodeId, params, inputs);
 
   const response = await fetch(params.url);
   const result = await response.json();
 
-  console.log("completing", nodeId, result);
+  // console.log("completing", nodeId, result);
   return result;
 };
 

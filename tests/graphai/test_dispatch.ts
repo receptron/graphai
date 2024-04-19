@@ -10,7 +10,6 @@ import assert from "node:assert";
 
 const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
   const { nodeId, retry, params, inputs } = context;
-  console.log("executing", nodeId);
   await sleep(params.delay / (retry + 1));
 
   if (params.fail && retry < 2) {
@@ -24,7 +23,6 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
       },
       { [nodeId]: "dispatch" },
     );
-    console.log("completing", nodeId);
     return { port1: result };
   }
 };
