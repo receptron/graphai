@@ -13,33 +13,32 @@ const validateNodes = (data: GraphData) => {
   if (Object.keys(data.nodes).length === 0) {
     throw new Error("Invalid Graph Data: nodes is empty");
   }
-}
+};
 
 const staticNodeValidator = (nodeData: NodeData) => {
-  ["inputs", "anyInput", "params", "retry", "timeout", "fork", "agentId"].forEach(key => {
+  ["inputs", "anyInput", "params", "retry", "timeout", "fork", "agentId"].forEach((key) => {
     if (key in nodeData) {
-      throw new Error("Static node does not allow " + key)
+      throw new Error("Static node does not allow " + key);
     }
   });
-  
 };
 const computedNodeValidator = (nodeData: NodeData) => {
-  ["value", "update"].forEach(key => {
+  ["value", "update"].forEach((key) => {
     if (key in nodeData) {
-      throw new Error("Computed node does not allow " + key)
+      throw new Error("Computed node does not allow " + key);
     }
   });
 };
 
 export const validateGraphData = (data: GraphData) => {
   validateNodes(data);
-  Object.keys(data.nodes).forEach(nodeId => {
+  Object.keys(data.nodes).forEach((nodeId) => {
     const node = data.nodes[nodeId];
     const isStaticNode = (node.agentId ?? data.agentId) === undefined;
     isStaticNode && staticNodeValidator(node);
     !isStaticNode && computedNodeValidator(node);
     // console.log(node);
   });
-  
+
   return true;
 };
