@@ -34,6 +34,8 @@ export declare class ComputedNode extends Node {
     private isCurrentTransaction;
     private executeTimeout;
     execute(): Promise<void>;
+    private prepareExecute;
+    private errorProcess;
 }
 export declare class StaticNode extends Node {
     value?: ResultData;
