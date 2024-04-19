@@ -16,9 +16,9 @@ const graph_data = {
   nodes: {
     data: {
       value: [1, 1],
-      update: "agent",
+      update: "fibonacci",
     },
-    agent: {
+    fibonacci: {
       agentId: "fibonacciAgent",
       inputs: ["data"],
     },
