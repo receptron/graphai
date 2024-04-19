@@ -250,14 +250,14 @@ export class StaticNode extends Node {
   }
 
   public injectValue(value: ResultData) {
-    const isFirstTime = !("endTime" in this.log);
+    const isUpdating = "endTime" in this.log;
     this.log.state = NodeState.Injected;
     this.log.endTime = Date.now();
     this.log.result = value;
-    if (isFirstTime) {
-      this.graph.appendLog(this.log); 
-    } else {
+    if (isUpdating) {
       this.graph.updateLog(this.log); 
+    } else {
+      this.graph.appendLog(this.log); 
     }
     this.setResult(value, NodeState.Injected);
   }
