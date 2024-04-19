@@ -85,7 +85,7 @@ export class ComputedNode extends Node {
         return this.inputs.reduce((count, nodeId) => {
           const source = this.sources[nodeId];
           const [result] = this.graph.resultsOf([source]);
-          return result ? count + 1 : count;
+          return result === undefined ? count : count + 1;
         }, 0);
       };
       if (!this.anyInput || counter() > 0) {
