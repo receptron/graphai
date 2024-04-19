@@ -1,4 +1,4 @@
-import { bypassAgent, echoAgent } from "~/agents/agents";
+import { defaultTestAgents } from "~/agents/agents";
 
 import { graphDataTestRunner } from "~/utils/runner";
 
@@ -24,7 +24,7 @@ test("test bypass1", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
   assert.deepStrictEqual(result, {
     bypassAgent2: {
       message: "hello",
@@ -59,7 +59,7 @@ test("test bypass2", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
   // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
@@ -100,7 +100,7 @@ test("test bypass3", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
   // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
@@ -140,7 +140,7 @@ test("test bypass4", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data, { echoAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
     bypassAgent_0: { message: "hello" },

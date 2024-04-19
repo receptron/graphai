@@ -1,10 +1,7 @@
 nodes:
   node1:
-    params:
-      dummy: 0
+    dummy: 0
   node2:
-    params:
-      dummy: 0
     value:
       node2: preset
   node3:

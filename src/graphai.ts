@@ -4,6 +4,7 @@ import { AgentFunctionDictonary, GraphData, DataSource, LoopData, TransactionLog
 
 import { ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";
+import { validateGraphData } from "@/validator";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
@@ -135,6 +136,8 @@ export class GraphAI {
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
+
+    validateGraphData(data);
 
     this.nodes = this.createNodes(data);
     this.initializeNodes();

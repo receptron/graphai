@@ -22,15 +22,13 @@ export type StaticNodeData = {
   update?: string; // nodeId (+.propId) to get value after a loop
 };
 export type ComputedNodeData = {
+  agentId?: string;
   inputs?: Array<string>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
   retry?: number;
   timeout?: number; // msec
-  agentId?: string;
   fork?: number;
-  value?: ResultData; // initial value for static node.
-  update?: string; // nodeId (+.propId) to get value after a loop
 };
 
 export type NodeData = StaticNodeData & ComputedNodeData;

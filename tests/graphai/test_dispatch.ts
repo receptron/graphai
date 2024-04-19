@@ -3,7 +3,7 @@ import { fileTestRunner } from "~/utils/runner";
 
 import { sleep } from "~/utils/utils";
 
-import { sleeperAgent } from "@/experimental_agents";
+import { defaultTestAgents } from "~/agents/agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -28,7 +28,7 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
 };
 
 test("test dispatch", async () => {
-  const result = await fileTestRunner("/graphs/test_dispatch.yml", { sleeper: sleeperAgent, dispatcher: dispatchAgent });
+  const result = await fileTestRunner("/graphs/test_dispatch.yml", { ...defaultTestAgents, dispatchAgent });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { port1: { node2: "dispatch" } },
