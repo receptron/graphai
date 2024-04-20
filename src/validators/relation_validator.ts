@@ -23,32 +23,31 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     }
   });
 
-  // init
   const cycle = (possibles: string[]) => {
-    possibles.forEach((nodeId) => {
-      (waitlist[nodeId] || []).forEach((waitingNodeId) => {
-        pendings[waitingNodeId].delete(nodeId);
+    possibles.forEach((possobleNodeId) => {
+      (waitlist[possobleNodeId] || []).forEach((waitingNodeId) => {
+        pendings[waitingNodeId].delete(possobleNodeId);
       });
     });
 
-    const run: string[] = [];
+    const running: string[] = [];
     Object.keys(pendings).forEach((pendingNodeId) => {
       if (pendings[pendingNodeId].size === 0) {
-        run.push(pendingNodeId);
+        running.push(pendingNodeId);
         delete pendings[pendingNodeId];
       }
     });
-    return run;
+    return running;
   };
 
-  let queue = cycle(staticNodeIds);
-  if (queue.length === 0) {
+  let runningQueue = cycle(staticNodeIds);
+  if (runningQueue.length === 0) {
     throw new Error("No Initial Runnning Node");
   }
 
   do {
-    queue = cycle(queue);
-  } while (queue.length > 0);
+    runningQueue = cycle(runningQueue);
+  } while (runningQueue.length > 0);
 
   if (Object.keys(pendings).length > 0) {
     throw new Error("Some nodes are not executed: " + Object.keys(pendings).join(", "));
