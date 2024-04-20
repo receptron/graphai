@@ -24,3 +24,24 @@ test("test computed node validation value", async () => {
     { name: "Error", message: "Inputs not match: NodeId computed2, Inputs: dummy" },
   );
 });
+
+test("test computed node validation value", async () => {
+  const graph_data = anonymization({
+    nodes: {
+      computed1: {
+        agentId: "echoAgent",
+        inputs: ["computed2"],
+      },
+      computed2: {
+        agentId: "echoAgent",
+        inputs: ["computed1"],
+      },
+    },
+  });
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
+    },
+    { name: "Error", message: "No Initial Runnning Node" },
+  );
+});

@@ -7,4 +7,5 @@ export const computedNodeValidator = (nodeData: NodeData) => {
       throw new Error("Computed node does not allow " + key);
     }
   });
+  return true;
 };
