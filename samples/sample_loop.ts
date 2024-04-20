@@ -1,21 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { pushAgent, shiftAgent, slashGPTAgent } from "@/experimental_agents";
-import { AgentFunction } from "@/graphai";
-
-export const totalAgent: AgentFunction = async ({ inputs }) => {
-  return inputs.reduce((result, input) => {
-    Object.keys(input).forEach((key) => {
-      const value = input[key];
-      if (result[key]) {
-        result[key] += value;
-      } else {
-        result[key] = value;
-      }
-    });
-    return result;
-  }, {});
-};
+import { pushAgent, shiftAgent, slashGPTAgent, totalAgent } from "@/experimental_agents";
 
 const graph_data = {
   loop: {
