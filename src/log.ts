@@ -1,4 +1,22 @@
-import { ResultData, TransactionLog, NodeState } from "@/type";
+import { ResultData, NodeDataParams, NodeState } from "@/type";
+
+export class TransactionLog {
+  public nodeId: string;
+  public state: NodeState;
+  public startTime?: number;
+  public endTime?: number;
+  public retryCount?: number;
+  public agentId?: string;
+  public params?: NodeDataParams;
+  public inputs?: Array<ResultData>;
+  public errorMessage?: string;
+  public result?: ResultData;
+  public log?: TransactionLog[];
+  constructor(nodeId: string) {
+    this.nodeId = nodeId;
+    this.state = NodeState.Waiting;
+  }
+}
 
 export const injectValueLog = (log: TransactionLog, value: ResultData) => {
   (log.state = NodeState.Injected), (log.endTime = Date.now());

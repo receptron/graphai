@@ -1,6 +1,7 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import { AgentFunctionDictonary, GraphData, DataSource, LoopData, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
+import { AgentFunctionDictonary, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
+import { TransactionLog } from "@/log";
 
 import { ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";

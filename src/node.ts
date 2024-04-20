@@ -1,11 +1,11 @@
-import type { NodeDataParams, TransactionLog, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "@/type";
+import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "@/type";
 
 import type { GraphAI } from "@/graphai";
 
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
+import { TransactionLog, injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -19,7 +19,7 @@ export class Node {
   constructor(nodeId: string, graph: GraphAI) {
     this.nodeId = nodeId;
     this.graph = graph;
-    this.log = { nodeId, state: this.state };
+    this.log = new TransactionLog(nodeId);
   }
 
   public asString() {

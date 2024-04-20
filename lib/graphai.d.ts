@@ -1,5 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
-import { AgentFunctionDictonary, GraphData, DataSource, TransactionLog, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "./type";
+import { AgentFunctionDictonary, GraphData, DataSource, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "./type";
+import { TransactionLog } from "./log";
 import { ComputedNode, StaticNode } from "./node";
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 export declare class GraphAI {
