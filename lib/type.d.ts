@@ -17,11 +17,11 @@ export type DataSource = {
     propId?: string;
 };
 export type StaticNodeData = {
-    value?: ResultData;
+    value: ResultData;
     update?: string;
 };
 export type ComputedNodeData = {
-    agentId?: string;
+    agentId: string;
     inputs?: Array<string>;
     anyInput?: boolean;
     params?: NodeDataParams;
@@ -29,7 +29,7 @@ export type ComputedNodeData = {
     timeout?: number;
     fork?: number;
 };
-export type NodeData = StaticNodeData & ComputedNodeData;
+export type NodeData = StaticNodeData | ComputedNodeData;
 export type LoopData = {
     count?: number;
     while?: string;

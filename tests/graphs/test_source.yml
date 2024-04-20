@@ -6,7 +6,8 @@ nodes:
       value:
         node1: output
   node2:
-    dummy: true
+    value:
+      dummy: true
   node3:
     agentId: sleeperAgent
     params:

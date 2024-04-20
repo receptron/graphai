@@ -9,6 +9,7 @@ test("test static node validation inputs", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         inputs: [""],
       },
     },
@@ -25,6 +26,7 @@ test("test static node validation anyInput", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         anyInput: true,
       },
     },
@@ -41,6 +43,7 @@ test("test static node validation params", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         params: {},
       },
     },
@@ -57,6 +60,7 @@ test("test static node validation retry", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         retry: 1,
       },
     },
@@ -73,6 +77,7 @@ test("test static node validation timeout", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         timeout: 1,
       },
     },
@@ -89,6 +94,7 @@ test("test static node validation fork", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         fork: 1,
       },
     },
@@ -105,6 +111,7 @@ test("test static node validation update", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         update: "unknown",
       },
       computed1: {
@@ -124,6 +131,7 @@ test("test static node validation update", async () => {
   const graph_data = anonymization({
     nodes: {
       static1: {
+        value: {},
         update: "unknown.param1",
       },
       computed1: {
