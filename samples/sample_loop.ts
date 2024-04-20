@@ -1,6 +1,21 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { pushAgent, shiftAgent, slashGPTAgent } from "@/experimental_agents";
+import { AgentFunction } from "@/graphai";
+
+export const totalAgent: AgentFunction = async ({ inputs }) => {
+  return inputs.reduce((result, input) => {
+    Object.keys(input).forEach((key) => {
+      const value = input[key];
+      if (result[key]) {
+        result[key] += value;
+      } else {
+        result[key] = value;
+      }
+    });
+    return result;
+  }, {});
+};
 
 const graph_data = {
   loop: {
@@ -14,6 +29,10 @@ const graph_data = {
     result: {
       value: [],
       update: "reducer",
+    },
+    usage: {
+      value: {},
+      update: "acountant",
     },
     retriever: {
       agentId: "shift",
@@ -32,12 +51,17 @@ const graph_data = {
       agentId: "push",
       inputs: ["result", "query.content"],
     },
+    acountant: {
+      agentId: "total",
+      inputs: ["usage", "query.usage"],
+    },
   },
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { slashgpt: slashGPTAgent, push: pushAgent, shift: shiftAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { slashgpt: slashGPTAgent, push: pushAgent, shift: shiftAgent, total: totalAgent });
   console.log(result.result);
+  console.log(result.usage);
   console.log("COMPLETE 1");
 };
 
