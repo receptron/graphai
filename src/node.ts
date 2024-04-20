@@ -28,9 +28,7 @@ export class Node {
 
   // This method is called either as the result of computation (computed node) or
   // injection (static node).
-  protected setResult(result: ResultData, state: NodeState) {
-    this.state = state;
-    this.result = result;
+  protected onSetResult() {
     this.waitlist.forEach((waitingNodeId) => {
       const waitingNode = this.graph.nodes[waitingNodeId];
       if (waitingNode.isComputedNode) {
@@ -192,10 +190,12 @@ export class ComputedNode extends Node {
 
       callbackLog(this.log, result, localLog);
 
-      this.log.state = NodeState.Completed;
-      this.graph.updateLog(this.log);
+      this.state = NodeState.Completed;
+      this.result = result;
+      this.log.onComplete(this, this.graph);
 
-      this.setResult(result, NodeState.Completed);
+      this.onSetResult();
+
       this.graph.removeRunning(this);
     } catch (error) {
       this.errorProcess(error, transactionId);
@@ -246,8 +246,8 @@ export class StaticNode extends Node {
 
   public injectValue(value: ResultData) {
     this.state = NodeState.Injected;
-    this.value = value;
-    this.log.valueInjected(this, this.graph);
-    this.setResult(value, this.log.state);
+    this.result = value;
+    this.log.onInjected(this, this.graph);
+    this.onSetResult();
   }
 }

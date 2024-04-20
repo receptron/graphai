@@ -11,7 +11,7 @@ export declare class Node {
     protected log: TransactionLog;
     constructor(nodeId: string, graph: GraphAI);
     asString(): string;
-    protected setResult(result: ResultData, state: NodeState): void;
+    protected onSetResult(): void;
 }
 export declare class ComputedNode extends Node {
     params: NodeDataParams;

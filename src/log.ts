@@ -24,7 +24,7 @@ export class TransactionLog {
     this.params = node.params;
   }
 
-  public valueInjected(node: StaticNode, graph: GraphAI) {
+  public onInjected(node: StaticNode, graph: GraphAI) {
     const isUpdating = "endTime" in this;
     this.result = node.value;
     this.state = node.state;
@@ -34,6 +34,13 @@ export class TransactionLog {
     } else {
       graph.appendLog(this);
     }
+  }
+
+  public onComplete(node: ComputedNode, graph: GraphAI) {
+    this.result = node.result;
+    this.state = node.state;
+    this.endTime = Date.now();
+    graph.updateLog(this);
   }
 }
 
