@@ -5,7 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { TransactionLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
+import { TransactionLog, callbackLog, errorLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -99,11 +99,13 @@ export class ComputedNode extends Node {
   // the "retry" if specified. The transaction log must be updated before
   // callling this method.
   private retry(state: NodeState, error: Error) {
+    this.state = state; // this.execute() will update to NodeState.Executing
+    this.log.onError(this, this.graph, error.message);
+
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute();
     } else {
-      this.state = state;
       this.result = undefined;
       this.error = error;
       this.transactionId = undefined; // This is necessary for timeout case
@@ -138,8 +140,6 @@ export class ComputedNode extends Node {
   private executeTimeout(transactionId: number) {
     if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
-      timeoutLog(this.log);
-      this.graph.updateLog(this.log);
       this.retry(NodeState.TimedOut, Error("Timeout"));
     }
   }

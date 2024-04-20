@@ -50,20 +50,14 @@ export class TransactionLog {
     this.inputs = inputs.length > 0 ? inputs : undefined;
     graph.appendLog(this);
   }
+
+  public onError(node: ComputedNode, graph: GraphAI, errorMessage: string) {
+    this.state = node.state;
+    this.errorMessage = errorMessage;
+    this.endTime = Date.now();
+    graph.appendLog(this);
+  }
 }
-
-export const executeLog = (log: TransactionLog, retryCount: number, transactionId: number, inputs: ResultData[]) => {
-  log.state = NodeState.Executing;
-  log.retryCount = retryCount > 0 ? retryCount : undefined;
-  log.startTime = transactionId;
-  log.inputs = inputs.length > 0 ? inputs : undefined;
-};
-
-export const timeoutLog = (log: TransactionLog) => {
-  log.errorMessage = "Timeout";
-  log.state = NodeState.TimedOut;
-  log.endTime = Date.now();
-};
 
 export const callbackLog = (log: TransactionLog, result: ResultData, localLog: TransactionLog[]) => {
   log.endTime = Date.now();
