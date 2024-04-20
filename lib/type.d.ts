@@ -35,7 +35,6 @@ export type LoopData = {
     while?: string;
 };
 export type GraphData = {
-    agentId?: string;
     nodes: Record<string, NodeData>;
     concurrency?: number;
     loop?: LoopData;

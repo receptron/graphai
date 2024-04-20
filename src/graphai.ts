@@ -15,7 +15,6 @@ const defaultConcurrency = 8;
 export class GraphAI {
   private data: GraphData;
   public nodes: GraphNodes;
-  public agentId?: string;
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
 
@@ -134,7 +133,6 @@ export class GraphAI {
     this.callbackDictonary = callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
     this.loop = data.loop;
-    this.agentId = data.agentId;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
