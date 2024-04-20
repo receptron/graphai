@@ -14,7 +14,8 @@ nodes:
       graph:
         nodes:
           inner0:
-            dummy: 0
+            value: 
+              dummy: 0
           inner1:
             agentId: sleeperAgent
             params:

@@ -26,7 +26,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
 
   // TODO. validate update
   staticNodeIds.forEach((staticNodeId) => {
-    const nodeData = data.nodes[staticNodeId] as StaticNodeData
+    const nodeData = data.nodes[staticNodeId] as StaticNodeData;
     const update = nodeData.update;
     if (update) {
       const updateNodeId = parseNodeName(update).nodeId;
