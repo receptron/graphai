@@ -36,10 +36,13 @@ export class TransactionLog {
     }
   }
 
-  public onComplete(node: ComputedNode, graph: GraphAI) {
+  public onComplete(node: ComputedNode, graph: GraphAI, localLog: TransactionLog[]) {
     this.result = node.result;
     this.state = node.state;
     this.endTime = Date.now();
+    if (localLog.length > 0) {
+      this.log = localLog;
+    }
     graph.updateLog(this);
   }
 
@@ -58,11 +61,3 @@ export class TransactionLog {
     graph.appendLog(this);
   }
 }
-
-export const callbackLog = (log: TransactionLog, result: ResultData, localLog: TransactionLog[]) => {
-  log.endTime = Date.now();
-  log.result = result;
-  if (localLog.length > 0) {
-    log.log = localLog;
-  }
-};

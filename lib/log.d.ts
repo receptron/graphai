@@ -16,9 +16,7 @@ export declare class TransactionLog {
     constructor(nodeId: string);
     initForComputedNode(node: ComputedNode): void;
     onInjected(node: StaticNode, graph: GraphAI): void;
-    onComplete(node: ComputedNode, graph: GraphAI): void;
+    onComplete(node: ComputedNode, graph: GraphAI, localLog: TransactionLog[]): void;
+    beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, inputs: ResultData[]): void;
+    onError(node: ComputedNode, graph: GraphAI, errorMessage: string): void;
 }
-export declare const executeLog: (log: TransactionLog, retryCount: number, transactionId: number, inputs: ResultData[]) => void;
-export declare const timeoutLog: (log: TransactionLog) => void;
-export declare const callbackLog: (log: TransactionLog, result: ResultData, localLog: TransactionLog[]) => void;
-export declare const errorLog: (log: TransactionLog, errorMessage: string) => void;

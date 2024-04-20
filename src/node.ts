@@ -5,7 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { TransactionLog, callbackLog } from "@/log";
+import { TransactionLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -188,11 +188,9 @@ export class ComputedNode extends Node {
         return;
       }
 
-      callbackLog(this.log, result, localLog);
-
       this.state = NodeState.Completed;
       this.result = result;
-      this.log.onComplete(this, this.graph);
+      this.log.onComplete(this, this.graph, localLog);
 
       this.onSetResult();
 
