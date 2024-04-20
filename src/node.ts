@@ -5,7 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { timeoutLog, callbackLog, errorLog, injectValueLog, executeLog } from "@/log";
+import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
 
 export class Node {
   public nodeId: string;
