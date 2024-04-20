@@ -49,3 +49,19 @@ test("test validation nodes is not object", async () => {
     { name: "Error", message: "Invalid Graph Data: invalid nodes" },
   );
 });
+
+test("test validation invalid agent", async () => {
+  const graph_data = anonymization({
+    nodes: {
+      invalidAgent: {
+        agentId: "NonExistAgent",
+      },
+    },
+  });
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graph_data, {});
+    },
+    { name: "Error", message: "Invalid AgentId : NonExistAgent is not in callbackDictonary." },
+  );
+});

@@ -1,2 +1,2 @@
 import { NodeData } from "../type";
-export declare const computedNodeValidator: (nodeData: NodeData) => void;
+export declare const computedNodeValidator: (nodeData: NodeData) => boolean;

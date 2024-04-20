@@ -100,3 +100,41 @@ test("test static node validation fork", async () => {
     { name: "Error", message: "Static node does not allow fork" },
   );
 });
+
+test("test static node validation update", async () => {
+  const graph_data = anonymization({
+    nodes: {
+      static1: {
+        update: "unknown",
+      },
+      computed1: {
+        agentId: "echoAgent",
+      },
+    },
+  });
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
+    },
+    { name: "Error", message: "Update not match: NodeId static1, update: unknown" },
+  );
+});
+
+test("test static node validation update", async () => {
+  const graph_data = anonymization({
+    nodes: {
+      static1: {
+        update: "unknown.param1",
+      },
+      computed1: {
+        agentId: "echoAgent",
+      },
+    },
+  });
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
+    },
+    { name: "Error", message: "Update not match: NodeId static1, update: unknown.param1" },
+  );
+});
