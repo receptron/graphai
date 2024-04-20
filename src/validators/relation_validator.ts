@@ -1,4 +1,5 @@
 import { GraphData } from "@/type";
+import { parseNodeName } from "@/utils/utils";
 
 export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
   const nodeIds = Object.keys(data.nodes);
@@ -12,7 +13,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     pendings[nodeId] = new Set<string>();
     if (nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
-        const input = inputNodeId.split(".")[0];
+        const input = parseNodeName(inputNodeId).nodeId;
         if (!nodeIds.includes(input)) {
           throw new Error(`Inputs not match: NodeId ${nodeId}, Inputs: ${input}`);
         }
