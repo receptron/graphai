@@ -15,7 +15,6 @@ const defaultConcurrency = 8;
 export class GraphAI {
   private data: GraphData;
   public nodes: GraphNodes;
-  public agentId?: string;
   public callbackDictonary: AgentFunctionDictonary;
   public isRunning = false;
 
@@ -37,7 +36,7 @@ export class GraphAI {
     const forkedNodeId2NodeId: Record<string, string> = {}; // for sources
 
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
-      const isStaticNode = (data.nodes[nodeId].agentId ?? data.agentId) === undefined;
+      const isStaticNode = data.nodes[nodeId].agentId === undefined;
       if (isStaticNode) {
         _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId], this);
       } else {
@@ -133,7 +132,6 @@ export class GraphAI {
     this.callbackDictonary = callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
     this.loop = data.loop;
-    this.agentId = data.agentId;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");

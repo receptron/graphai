@@ -42,7 +42,6 @@ export type LoopData = {
 };
 
 export type GraphData = {
-  agentId?: string;
   nodes: Record<string, NodeData>;
   concurrency?: number;
   loop?: LoopData;

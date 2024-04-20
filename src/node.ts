@@ -60,7 +60,7 @@ export class ComputedNode extends Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI) {
     super(nodeId, graph);
     this.params = data.params ?? {};
-    this.agentId = data.agentId ?? graph.agentId;
+    this.agentId = data.agentId;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
 
