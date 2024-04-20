@@ -15,7 +15,7 @@ export const graphNodesValidate = (data: GraphData) => {
     throw new Error("Invalid Graph Data: nodes is empty");
   }
   Object.keys(data).forEach((key) => {
-    if (![...graphDataAttributeKeys, "dummy"].includes(key)) {
+    if (!graphDataAttributeKeys.includes(key)) {
       throw new Error("Graph Data does not allow " + key);
     }
   });
