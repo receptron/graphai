@@ -1,16 +1,18 @@
-agentId: sleeperAgentDebug
 nodes:
   node1:
+    agentId: sleeperAgentDebug
     params:
       duration: 500
       value:
         node1: output
   node2:
+    agentId: sleeperAgentDebug
     params:
       duration: 100
       value:
         node2: output
   node3:
+    agentId: sleeperAgentDebug
     params:
       duration: 500
       fail: true
@@ -19,6 +21,7 @@ nodes:
     inputs: [node1, node2]
     retry: 2
   node4:
+    agentId: sleeperAgentDebug
     timeout: 200
     retry: 2
     params:
@@ -27,6 +30,7 @@ nodes:
         node4: output
     inputs: [node3]
   node5:
+    agentId: sleeperAgentDebug
     params:
       duration: 100
       value:
