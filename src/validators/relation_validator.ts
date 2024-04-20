@@ -8,18 +8,18 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
   const waitlist: Record<string, Set<string>> = {};
 
   // validate input relation and set pendings and wait list
-  computedNodeIds.forEach((nodeId) => {
-    const nodeData = data.nodes[nodeId];
-    pendings[nodeId] = new Set<string>();
+  computedNodeIds.forEach((computedNodeId) => {
+    const nodeData = data.nodes[computedNodeId];
+    pendings[computedNodeId] = new Set<string>();
     if (nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
         const input = parseNodeName(inputNodeId).nodeId;
         if (!nodeIds.includes(input)) {
-          throw new Error(`Inputs not match: NodeId ${nodeId}, Inputs: ${input}`);
+          throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${input}`);
         }
         waitlist[input] === undefined && (waitlist[input] = new Set<string>());
-        pendings[nodeId].add(input);
-        waitlist[input].add(nodeId);
+        pendings[computedNodeId].add(input);
+        waitlist[input].add(computedNodeId);
       });
     }
   });
