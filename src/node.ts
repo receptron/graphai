@@ -1,11 +1,11 @@
-import type { NodeDataParams, TransactionLog, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "@/type";
+import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "@/type";
 
 import type { GraphAI } from "@/graphai";
 
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
+import { TransactionLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -19,7 +19,7 @@ export class Node {
   constructor(nodeId: string, graph: GraphAI) {
     this.nodeId = nodeId;
     this.graph = graph;
-    this.log = { nodeId, state: this.state };
+    this.log = new TransactionLog(nodeId);
   }
 
   public asString() {
@@ -28,9 +28,7 @@ export class Node {
 
   // This method is called either as the result of computation (computed node) or
   // injection (static node).
-  protected setResult(result: ResultData, state: NodeState) {
-    this.state = state;
-    this.result = result;
+  protected onSetResult() {
     this.waitlist.forEach((waitingNodeId) => {
       const waitingNode = this.graph.nodes[waitingNodeId];
       if (waitingNode.isComputedNode) {
@@ -76,9 +74,7 @@ export class ComputedNode extends Node {
     this.pendings = new Set(this.inputs);
     this.fork = data.fork;
     this.forkIndex = forkIndex;
-
-    this.log.agentId = this.agentId;
-    this.log.params = this.params;
+    this.log.initForComputedNode(this);
   }
 
   public pushQueueIfReady() {
@@ -103,11 +99,13 @@ export class ComputedNode extends Node {
   // the "retry" if specified. The transaction log must be updated before
   // callling this method.
   private retry(state: NodeState, error: Error) {
+    this.state = state; // this.execute() will update to NodeState.Executing
+    this.log.onError(this, this.graph, error.message);
+
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.execute();
     } else {
-      this.state = state;
       this.result = undefined;
       this.error = error;
       this.transactionId = undefined; // This is necessary for timeout case
@@ -142,8 +140,6 @@ export class ComputedNode extends Node {
   private executeTimeout(transactionId: number) {
     if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
-      timeoutLog(this.log);
-      this.graph.updateLog(this.log);
       this.retry(NodeState.TimedOut, Error("Timeout"));
     }
   }
@@ -192,12 +188,12 @@ export class ComputedNode extends Node {
         return;
       }
 
-      callbackLog(this.log, result, localLog);
+      this.state = NodeState.Completed;
+      this.result = result;
+      this.log.onComplete(this, this.graph, localLog);
 
-      this.log.state = NodeState.Completed;
-      this.graph.updateLog(this.log);
+      this.onSetResult();
 
-      this.setResult(result, NodeState.Completed);
       this.graph.removeRunning(this);
     } catch (error) {
       this.errorProcess(error, transactionId);
@@ -207,9 +203,8 @@ export class ComputedNode extends Node {
   // This private method (called only by execute()) prepares the ComputedNode object
   // for execution, and create a new transaction to record it.
   private prepareExecute(transactionId: number, inputs: Array<ResultData>) {
-    executeLog(this.log, this.retryCount, transactionId, inputs);
-    this.graph.appendLog(this.log);
-    this.state = this.log.state;
+    this.state = NodeState.Executing;
+    this.log.beforeExecute(this, this.graph, transactionId, inputs);
     this.transactionId = transactionId;
   }
 
@@ -221,11 +216,8 @@ export class ComputedNode extends Node {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
       return;
     }
-    const isError = error instanceof Error;
-    errorLog(this.log, isError ? error.message : "Unknown");
-    this.graph.updateLog(this.log);
 
-    if (isError) {
+    if (error instanceof Error) {
       this.retry(NodeState.Failed, error);
     } else {
       console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
@@ -247,13 +239,9 @@ export class StaticNode extends Node {
   }
 
   public injectValue(value: ResultData) {
-    const isUpdating = "endTime" in this.log;
-    injectValueLog(this.log, value);
-    if (isUpdating) {
-      this.graph.updateLog(this.log);
-    } else {
-      this.graph.appendLog(this.log);
-    }
-    this.setResult(value, this.log.state);
+    this.state = NodeState.Injected;
+    this.result = value;
+    this.log.onInjected(this, this.graph);
+    this.onSetResult();
   }
 }

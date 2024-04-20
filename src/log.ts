@@ -1,33 +1,63 @@
-import { ResultData, TransactionLog, NodeState } from "@/type";
+import { ResultData, NodeDataParams, NodeState } from "@/type";
+import type { GraphAI } from "@/graphai";
+import type { ComputedNode, StaticNode } from "@/node";
 
-export const injectValueLog = (log: TransactionLog, value: ResultData) => {
-  (log.state = NodeState.Injected), (log.endTime = Date.now());
-  log.result = value;
-};
-
-export const executeLog = (log: TransactionLog, retryCount: number, transactionId: number, inputs: ResultData[]) => {
-  log.state = NodeState.Executing;
-  log.retryCount = retryCount > 0 ? retryCount : undefined;
-  log.startTime = transactionId;
-  log.inputs = inputs.length > 0 ? inputs : undefined;
-};
-
-export const timeoutLog = (log: TransactionLog) => {
-  log.errorMessage = "Timeout";
-  log.state = NodeState.TimedOut;
-  log.endTime = Date.now();
-};
-
-export const callbackLog = (log: TransactionLog, result: ResultData, localLog: TransactionLog[]) => {
-  log.endTime = Date.now();
-  log.result = result;
-  if (localLog.length > 0) {
-    log.log = localLog;
+export class TransactionLog {
+  public nodeId: string;
+  public state: NodeState;
+  public startTime?: number;
+  public endTime?: number;
+  public retryCount?: number;
+  public agentId?: string;
+  public params?: NodeDataParams;
+  public inputs?: Array<ResultData>;
+  public errorMessage?: string;
+  public result?: ResultData;
+  public log?: TransactionLog[];
+  constructor(nodeId: string) {
+    this.nodeId = nodeId;
+    this.state = NodeState.Waiting;
   }
-};
 
-export const errorLog = (log: TransactionLog, errorMessage: string) => {
-  log.state = NodeState.Failed;
-  log.endTime = Date.now();
-  log.errorMessage = errorMessage;
-};
+  public initForComputedNode(node: ComputedNode) {
+    this.agentId = node.agentId;
+    this.params = node.params;
+  }
+
+  public onInjected(node: StaticNode, graph: GraphAI) {
+    const isUpdating = "endTime" in this;
+    this.result = node.value;
+    this.state = node.state;
+    this.endTime = Date.now();
+    if (isUpdating) {
+      graph.updateLog(this);
+    } else {
+      graph.appendLog(this);
+    }
+  }
+
+  public onComplete(node: ComputedNode, graph: GraphAI, localLog: TransactionLog[]) {
+    this.result = node.result;
+    this.state = node.state;
+    this.endTime = Date.now();
+    if (localLog.length > 0) {
+      this.log = localLog;
+    }
+    graph.updateLog(this);
+  }
+
+  public beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, inputs: ResultData[]) {
+    this.state = node.state;
+    this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
+    this.startTime = transactionId;
+    this.inputs = inputs.length > 0 ? inputs : undefined;
+    graph.appendLog(this);
+  }
+
+  public onError(node: ComputedNode, graph: GraphAI, errorMessage: string) {
+    this.state = node.state;
+    this.errorMessage = errorMessage;
+    this.endTime = Date.now();
+    graph.updateLog(this);
+  }
+}

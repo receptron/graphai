@@ -1,3 +1,5 @@
+import type { TransactionLog } from "@/log";
+
 export enum NodeState {
   Waiting = "waiting",
   Queued = "queued",
@@ -45,20 +47,6 @@ export type GraphData = {
   concurrency?: number;
   loop?: LoopData;
   verbose?: boolean;
-};
-
-export type TransactionLog = {
-  nodeId: string;
-  state: NodeState;
-  startTime?: number;
-  endTime?: number;
-  retryCount?: number;
-  agentId?: string;
-  params?: NodeDataParams;
-  inputs?: Array<ResultData>;
-  errorMessage?: string;
-  result?: ResultData;
-  log?: TransactionLog[];
 };
 
 export type AgentFunctionContext<ParamsType, PreviousResultType> = {
