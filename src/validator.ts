@@ -8,13 +8,14 @@ import { relationValidator } from "@/validators/relation_validator";
 export const validateGraphData = (data: GraphData) => {
   graphNodesValidate(data);
   const computedNodeIds: string[] = [];
+  const staticNodeIds: string[] = [];
   Object.keys(data.nodes).forEach((nodeId) => {
     const node = data.nodes[nodeId];
     const isStaticNode = (node.agentId ?? data.agentId) === undefined;
-    isStaticNode && staticNodeValidator(node);
+    isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);
     !isStaticNode && computedNodeValidator(node) && computedNodeIds.push(nodeId);
   });
-  relationValidator(data, computedNodeIds);
+  relationValidator(data, staticNodeIds, computedNodeIds);
 
   return true;
 };

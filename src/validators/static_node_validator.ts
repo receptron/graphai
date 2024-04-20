@@ -7,4 +7,5 @@ export const staticNodeValidator = (nodeData: NodeData) => {
       throw new Error("Static node does not allow " + key);
     }
   });
+  return true;
 };
