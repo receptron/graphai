@@ -1,4 +1,4 @@
-import { GraphData } from "@/type";
+import { GraphData, ComputedNodeData, StaticNodeData } from "@/type";
 import { parseNodeName } from "@/utils/utils";
 
 export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
@@ -9,7 +9,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
 
   // validate input relation and set pendings and wait list
   computedNodeIds.forEach((computedNodeId) => {
-    const nodeData = data.nodes[computedNodeId];
+    const nodeData = data.nodes[computedNodeId] as ComputedNodeData;
     pendings[computedNodeId] = new Set<string>();
     if (nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
@@ -26,7 +26,8 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
 
   // TODO. validate update
   staticNodeIds.forEach((staticNodeId) => {
-    const update = data.nodes[staticNodeId].update;
+    const nodeData = data.nodes[staticNodeId] as StaticNodeData
+    const update = nodeData.update;
     if (update) {
       const updateNodeId = parseNodeName(update).nodeId;
       if (!nodeIds.has(updateNodeId)) {

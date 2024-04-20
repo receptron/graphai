@@ -1,6 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import { AgentFunctionDictonary, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, CallbackDictonaryArgs } from "@/type";
+import { AgentFunctionDictonary, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, CallbackDictonaryArgs, StaticNodeData, ComputedNodeData } from "@/type";
 import { TransactionLog } from "@/log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -37,23 +37,24 @@ export class GraphAI {
     const forkedNodeId2NodeId: Record<string, string> = {}; // for sources
 
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
-      const isStaticNode = (data.nodes[nodeId].agentId ?? data.agentId) === undefined;
+      const isStaticNode = "value" in data.nodes[nodeId];
       if (isStaticNode) {
-        _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId], this);
+        _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId] as StaticNodeData, this);
       } else {
-        const fork = data.nodes[nodeId].fork;
+        const nodeData = data.nodes[nodeId] as ComputedNodeData;
+        const fork = nodeData.fork;
         if (fork) {
           // For fork, change the nodeId and increase the node
           nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
             const forkedNodeId = `${nodeId}_${i}`;
-            _nodes[forkedNodeId] = new ComputedNode(forkedNodeId, i, data.nodes[nodeId], this);
+            _nodes[forkedNodeId] = new ComputedNode(forkedNodeId, i, nodeData, this);
             // Data for pending and waiting
             forkedNodeId2Index[forkedNodeId] = i;
             forkedNodeId2NodeId[forkedNodeId] = nodeId;
             return forkedNodeId;
           });
         } else {
-          _nodes[nodeId] = new ComputedNode(nodeId, undefined, data.nodes[nodeId], this);
+          _nodes[nodeId] = new ComputedNode(nodeId, undefined, nodeData, this);
         }
       }
       return _nodes;

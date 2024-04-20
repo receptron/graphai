@@ -18,7 +18,7 @@ test("test computed node validation value", async () => {
     async () => {
       await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
     },
-    { name: "Error", message: "Computed node does not allow value" },
+    { name: "Error", message: "Static node does not allow agentId" },
   );
 });
 
