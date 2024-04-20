@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
 import wiki from "wikipedia";
 
-export const wikipediaAgent: AgentFunction<{ inputKey: string; lang?: string }, string | undefined> = async ({ inputs, params }) => {
+export const wikipediaAgent: AgentFunction<{ inputKey: string; lang?: string }, Record<string, any> | undefined> = async ({ inputs, params }) => {
   const { inputKey, lang } = params;
   const query = inputs[0][inputKey];
   try {
@@ -13,7 +13,7 @@ export const wikipediaAgent: AgentFunction<{ inputKey: string; lang?: string }, 
 
     const page = await wiki.page(search_res["title"]);
     const content = await page.content();
-    return content;
+    return { content, candidates: search.results };
   } catch (error) {
     console.log(error);
     //=> Typeof wikiError

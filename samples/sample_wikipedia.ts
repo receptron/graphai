@@ -22,7 +22,8 @@ const graph_data = {
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, { interactiveInputTextAgent, wikipediaAgent });
-  console.log(result);
+  console.log(result.wikipedia!.content);
+  console.log(result.wikipedia!.candidates);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
