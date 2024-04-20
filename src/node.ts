@@ -208,9 +208,9 @@ export class ComputedNode extends Node {
   // for execution, and create a new transaction to record it.
   private prepareExecute(transactionId: number, inputs: Array<ResultData>) {
     executeLog(this.log, this.retryCount, transactionId, inputs);
+    this.graph.appendLog(this.log);
     this.state = this.log.state;
     this.transactionId = transactionId;
-    this.graph.appendLog(this.log);
   }
 
   // This private method (called only by execute) processes an error received from
