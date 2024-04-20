@@ -1,15 +1,17 @@
-import type { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "./type";
+import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "./type";
 import type { GraphAI } from "./graphai";
 import { NodeState } from "./type";
+import { TransactionLog } from "./log";
 export declare class Node {
     nodeId: string;
     waitlist: Set<string>;
     state: NodeState;
     result: ResultData;
     protected graph: GraphAI;
+    protected log: TransactionLog;
     constructor(nodeId: string, graph: GraphAI);
     asString(): string;
-    protected setResult(result: ResultData, state: NodeState): void;
+    protected onSetResult(): void;
 }
 export declare class ComputedNode extends Node {
     params: NodeDataParams;

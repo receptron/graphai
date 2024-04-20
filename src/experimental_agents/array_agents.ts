@@ -11,7 +11,7 @@ export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, 
 export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
   const [array] = deepmerge({ inputs }, {}).inputs;
-  // TODO: Varidation
+  // TODO: Validation
   const item = array.pop();
   return { array, item };
 };
@@ -19,7 +19,7 @@ export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, R
 export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async (context) => {
   const { inputs } = context;
   const [array] = deepmerge({ inputs }, {}).inputs;
-  // TODO: Varidation
+  // TODO: Validation
   const item = array.shift();
   return { array, item };
 };
