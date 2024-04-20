@@ -139,7 +139,7 @@ export class GraphAI {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
 
-    validateGraphData(data);
+    validateGraphData(data, Object.keys(callbackDictonary));
 
     this.nodes = this.createNodes(data);
     this.initializeNodes();
