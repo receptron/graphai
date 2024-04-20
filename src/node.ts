@@ -205,9 +205,8 @@ export class ComputedNode extends Node {
   // This private method (called only by execute()) prepares the ComputedNode object
   // for execution, and create a new transaction to record it.
   private prepareExecute(transactionId: number, inputs: Array<ResultData>) {
-    executeLog(this.log, this.retryCount, transactionId, inputs);
-    this.graph.appendLog(this.log);
-    this.state = this.log.state;
+    this.state = NodeState.Executing;
+    this.log.beforeExecute(this, this.graph, transactionId, inputs);
     this.transactionId = transactionId;
   }
 

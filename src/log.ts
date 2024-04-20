@@ -42,6 +42,14 @@ export class TransactionLog {
     this.endTime = Date.now();
     graph.updateLog(this);
   }
+
+  public beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, inputs: ResultData[]) {
+    this.state = node.state;
+    this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
+    this.startTime = transactionId;
+    this.inputs = inputs.length > 0 ? inputs : undefined;
+    graph.appendLog(this);
+  }
 }
 
 export const executeLog = (log: TransactionLog, retryCount: number, transactionId: number, inputs: ResultData[]) => {
