@@ -65,3 +65,34 @@ test("test validation invalid agent", async () => {
     { name: "Error", message: "Invalid AgentId : NonExistAgent is not in callbackDictonary." },
   );
 });
+
+test("test validation invalid agent", async () => {
+  const graph_data = anonymization({
+    nodes: {
+      nodeTest: {},
+    },
+  });
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graph_data, {});
+    },
+    { name: "Error", message: "Either agentId or value is required" },
+  );
+});
+
+test("test validation invalid agent", async () => {
+  const graph_data = anonymization({
+    nodes: {
+      nodeTest: {
+        value: {},
+        agentId: "123",
+      },
+    },
+  });
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graph_data, {});
+    },
+    { name: "Error", message: "Cannot set both agentId and value" },
+  );
+});
