@@ -2,7 +2,7 @@ import { GraphData } from "@/type";
 import { parseNodeName } from "@/utils/utils";
 
 export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
-  const nodeIds = Object.keys(data.nodes);
+  const nodeIds = new Set<string>(Object.keys(data.nodes));
 
   const pendings: Record<string, Set<string>> = {};
   const waitlist: Record<string, Set<string>> = {};
@@ -14,13 +14,24 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     if (nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
         const input = parseNodeName(inputNodeId).nodeId;
-        if (!nodeIds.includes(input)) {
+        if (!nodeIds.has(input)) {
           throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${input}`);
         }
         waitlist[input] === undefined && (waitlist[input] = new Set<string>());
         pendings[computedNodeId].add(input);
         waitlist[input].add(computedNodeId);
       });
+    }
+  });
+
+  // TODO. validate update
+  staticNodeIds.forEach((staticNodeId) => {
+    const update = data.nodes[staticNodeId].update;
+    if (update) {
+      const updateNodeId = parseNodeName(update).nodeId;
+      if (!nodeIds.has(updateNodeId)) {
+        throw new Error(`Update not match: NodeId ${staticNodeId}, update: ${update}`);
+      }
     }
   });
 
