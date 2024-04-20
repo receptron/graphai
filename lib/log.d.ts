@@ -1,4 +1,5 @@
-import { ResultData, NodeDataParams, NodeState } from "./type";
+import { ResultData, NodeDataParams, NodeState } from "@/type";
+import type { ComputedNode } from "@/graphai";
 export declare class TransactionLog {
     nodeId: string;
     state: NodeState;
@@ -12,6 +13,7 @@ export declare class TransactionLog {
     result?: ResultData;
     log?: TransactionLog[];
     constructor(nodeId: string);
+    initForComputedNode(node: ComputedNode): void;
 }
 export declare const injectValueLog: (log: TransactionLog, value: ResultData) => void;
 export declare const executeLog: (log: TransactionLog, retryCount: number, transactionId: number, inputs: ResultData[]) => void;

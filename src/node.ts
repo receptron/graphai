@@ -76,9 +76,7 @@ export class ComputedNode extends Node {
     this.pendings = new Set(this.inputs);
     this.fork = data.fork;
     this.forkIndex = forkIndex;
-
-    this.log.agentId = this.agentId;
-    this.log.params = this.params;
+    this.log.initForComputedNode(this);
   }
 
   public pushQueueIfReady() {

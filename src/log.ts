@@ -1,4 +1,5 @@
 import { ResultData, NodeDataParams, NodeState } from "@/type";
+import type { ComputedNode } from "@/node";
 
 export class TransactionLog {
   public nodeId: string;
@@ -15,6 +16,11 @@ export class TransactionLog {
   constructor(nodeId: string) {
     this.nodeId = nodeId;
     this.state = NodeState.Waiting;
+  }
+
+  public initForComputedNode(node: ComputedNode) {
+    this.agentId = node.agentId;
+    this.params = node.params;
   }
 }
 
