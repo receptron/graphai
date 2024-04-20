@@ -58,6 +58,6 @@ export class TransactionLog {
     this.state = node.state;
     this.errorMessage = errorMessage;
     this.endTime = Date.now();
-    graph.appendLog(this);
+    graph.updateLog(this);
   }
 }
