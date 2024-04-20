@@ -66,9 +66,3 @@ export const callbackLog = (log: TransactionLog, result: ResultData, localLog: T
     log.log = localLog;
   }
 };
-
-export const errorLog = (log: TransactionLog, errorMessage: string) => {
-  log.state = NodeState.Failed;
-  log.endTime = Date.now();
-  log.errorMessage = errorMessage;
-};

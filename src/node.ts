@@ -5,7 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { TransactionLog, callbackLog, errorLog } from "@/log";
+import { TransactionLog, callbackLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -218,11 +218,8 @@ export class ComputedNode extends Node {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
       return;
     }
-    const isError = error instanceof Error;
-    errorLog(this.log, isError ? error.message : "Unknown");
-    this.graph.updateLog(this.log);
 
-    if (isError) {
+    if (error instanceof Error) {
       this.retry(NodeState.Failed, error);
     } else {
       console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
