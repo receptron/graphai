@@ -5,7 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { timeoutLog, callbackLog, errorLog } from "@/log";
+import { timeoutLog, callbackLog, errorLog, injectValueLog, executeLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -206,13 +206,10 @@ export class ComputedNode extends Node {
 
   // This private method (called only by execute()) prepares the ComputedNode object
   // for execution, and create a new transaction to record it.
-  private prepareExecute(startTime: number, inputs: Array<ResultData>) {
-    this.log.retryCount = this.retryCount > 0 ? this.retryCount : undefined;
-    this.log.startTime = startTime;
-    this.log.inputs = inputs.length > 0 ? inputs : undefined;
-    this.log.state = NodeState.Executing;
-    this.state = NodeState.Executing;
-    this.transactionId = startTime;
+  private prepareExecute(transactionId: number, inputs: Array<ResultData>) {
+    executeLog(this.log, this.retryCount, transactionId, inputs);
+    this.state = this.log.state;
+    this.transactionId = transactionId;
     this.graph.appendLog(this.log);
   }
 
@@ -251,14 +248,12 @@ export class StaticNode extends Node {
 
   public injectValue(value: ResultData) {
     const isUpdating = "endTime" in this.log;
-    this.log.state = NodeState.Injected;
-    this.log.endTime = Date.now();
-    this.log.result = value;
+    injectValueLog(this.log, value);
     if (isUpdating) {
-      this.graph.updateLog(this.log); 
+      this.graph.updateLog(this.log);
     } else {
-      this.graph.appendLog(this.log); 
+      this.graph.appendLog(this.log);
     }
-    this.setResult(value, NodeState.Injected);
+    this.setResult(value, this.log.state);
   }
 }
