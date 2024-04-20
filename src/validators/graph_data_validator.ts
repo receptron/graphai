@@ -1,7 +1,7 @@
 import { GraphData } from "@/type";
 import { graphDataAttributeKeys } from "@/validators/common";
 
-export const graphNodesValidate = (data: GraphData) => {
+export const graphNodesValidator = (data: GraphData) => {
   if (data.nodes === undefined) {
     throw new Error("Invalid Graph Data: no nodes");
   }

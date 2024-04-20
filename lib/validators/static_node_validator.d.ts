@@ -1,2 +1,2 @@
-import { NodeData } from "../type";
-export declare const staticNodeValidator: (nodeData: NodeData) => boolean;
+import { StaticNodeData } from "../type";
+export declare const staticNodeValidator: (nodeData: StaticNodeData) => boolean;
