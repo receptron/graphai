@@ -1,4 +1,4 @@
-import { GraphData, AgentFunction } from "@/graphai";
+import { GraphData, AgentFunction } from "../graphai";
 export declare const nestedAgent: AgentFunction<{
     graph: GraphData;
     nodeId: string;

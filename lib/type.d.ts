@@ -1,4 +1,4 @@
-import type { TransactionLog } from "@/log";
+import type { TransactionLog } from "./log";
 export declare enum NodeState {
     Waiting = "waiting",
     Queued = "queued",

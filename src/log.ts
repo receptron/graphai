@@ -1,5 +1,6 @@
 import { ResultData, NodeDataParams, NodeState } from "@/type";
-import type { ComputedNode } from "@/node";
+import type { GraphAI } from "@/graphai";
+import type { ComputedNode, StaticNode } from "@/node";
 
 export class TransactionLog {
   public nodeId: string;
@@ -22,12 +23,19 @@ export class TransactionLog {
     this.agentId = node.agentId;
     this.params = node.params;
   }
-}
 
-export const injectValueLog = (log: TransactionLog, value: ResultData) => {
-  (log.state = NodeState.Injected), (log.endTime = Date.now());
-  log.result = value;
-};
+  public valueInjected(node: StaticNode, graph: GraphAI) {
+    const isUpdating = "endTime" in this;
+    this.result = node.value;
+    this.state = node.state;
+    this.endTime = Date.now();
+    if (isUpdating) {
+      graph.updateLog(this);
+    } else {
+      graph.appendLog(this);
+    }
+  }
+}
 
 export const executeLog = (log: TransactionLog, retryCount: number, transactionId: number, inputs: ResultData[]) => {
   log.state = NodeState.Executing;

@@ -1,7 +1,7 @@
-import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "@/type";
-import type { GraphAI } from "@/graphai";
-import { NodeState } from "@/type";
-import { TransactionLog } from "@/log";
+import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "./type";
+import type { GraphAI } from "./graphai";
+import { NodeState } from "./type";
+import { TransactionLog } from "./log";
 export declare class Node {
     nodeId: string;
     waitlist: Set<string>;

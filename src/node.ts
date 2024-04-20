@@ -5,7 +5,7 @@ import type { GraphAI } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { parseNodeName } from "@/utils/utils";
-import { TransactionLog, injectValueLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
+import { TransactionLog, executeLog, timeoutLog, callbackLog, errorLog } from "@/log";
 
 export class Node {
   public nodeId: string;
@@ -245,13 +245,9 @@ export class StaticNode extends Node {
   }
 
   public injectValue(value: ResultData) {
-    const isUpdating = "endTime" in this.log;
-    injectValueLog(this.log, value);
-    if (isUpdating) {
-      this.graph.updateLog(this.log);
-    } else {
-      this.graph.appendLog(this.log);
-    }
+    this.state = NodeState.Injected;
+    this.value = value;
+    this.log.valueInjected(this, this.graph);
     this.setResult(value, this.log.state);
   }
 }
