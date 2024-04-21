@@ -1,7 +1,7 @@
 import { GraphData } from "@/type";
 import { graphDataAttributeKeys } from "@/validators/common";
 
-export const graphNodesValidate = (data: GraphData) => {
+export const graphNodesValidator = (data: GraphData) => {
   if (data.nodes === undefined) {
     throw new Error("Invalid Graph Data: no nodes");
   }
@@ -15,7 +15,7 @@ export const graphNodesValidate = (data: GraphData) => {
     throw new Error("Invalid Graph Data: nodes is empty");
   }
   Object.keys(data).forEach((key) => {
-    if (![...graphDataAttributeKeys, "dummy"].includes(key)) {
+    if (!graphDataAttributeKeys.includes(key)) {
       throw new Error("Graph Data does not allow " + key);
     }
   });
