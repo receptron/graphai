@@ -5,12 +5,13 @@ import { mergeNodeIdAgent } from "~/agents/agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 
-const graph_data: GraphData = {
+const graph_data = {
   loop: {
     count: 3,
   },
   nodes: {
     node1: {
+      value: {},
       update: "node3",
     },
     node2: {
