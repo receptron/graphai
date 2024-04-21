@@ -13,7 +13,7 @@ export const wikipediaAgent: AgentFunction<{ inputKey: string; lang?: string }, 
 
     const page = await wiki.page(search_res["title"]);
     const content = await page.content();
-    return { content, candidates: search.results };
+    return { content, ...search.results[0] };
   } catch (error) {
     console.log(error);
     //=> Typeof wikiError
