@@ -1,6 +1,5 @@
 import "dotenv/config";
 
-import { GraphData } from "@/graphai";
 import { mergeNodeIdAgent } from "~/agents/agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
