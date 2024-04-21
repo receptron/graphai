@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction, AgentFunctionDictonary } from "@/graphai";
 import { sleeperAgent, sleeperAgentDebug, nestedAgent, totalAgent } from "@/experimental_agents";
 
 export const bypassAgent: AgentFunction = async (context) => {
@@ -24,7 +24,7 @@ export const mergeNodeIdAgent: AgentFunction = async ({ nodeId, inputs }) => {
   );
 };
 
-export const defaultTestAgents = {
+export const defaultTestAgents: AgentFunctionDictonary = {
   bypassAgent,
   echoAgent,
   echoForkIndexAgent,

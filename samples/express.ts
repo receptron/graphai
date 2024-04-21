@@ -1,14 +1,18 @@
-//  npx ts-node samples/express.ts
+// npx ts-node samples/express.ts
+// sample client: samples/curl.sh
 import { GraphAI, AgentFunction } from "@/graphai";
+import { defaultTestAgents } from "~/agents/agents";
 
 import express from "express";
 
 const app = express();
+app.use(express.json());
 
 const graphAISample = async (req: express.Request, res: express.Response) => {
   const graph_data = {
     nodes: {
       node1: {
+        agentId: "testFunction",
         params: {},
       },
     },
@@ -18,30 +22,45 @@ const graphAISample = async (req: express.Request, res: express.Response) => {
     console.log("hello");
     return {};
   };
-  const graph = new GraphAI(graph_data, testFunction);
+  const graph = new GraphAI(graph_data, { testFunction });
   const response = await graph.run();
   res.json({ result: response });
   res.end();
 };
 
 const hello = async (req: express.Request, res: express.Response) => {
-  const { params, query } = req;
+  // const { params, query } = req;
   res.json({
-    result: [
-      {
-        message: "hello",
-        params,
-        query,
-      },
-    ],
+    message: "hello",
   });
   res.end();
+};
+
+const agentDispatcher = async (req: express.Request, res: express.Response) => {
+  const { params } = req;
+  const { agentId } = params;
+  const { nodeId, retry, params: agentParams, inputs, forkIndex } = req.body;
+  const agent = defaultTestAgents[agentId];
+  const result = await agent({
+    nodeId,
+    retry,
+    params: agentParams,
+    inputs,
+    forkIndex,
+    verbose: false,
+    agents: defaultTestAgents,
+    log: [],
+  });
+  res.json(result);
 };
 
 app.use(express.json());
 app.get("/", hello);
 app.get("/mock", graphAISample);
 
-app.listen(8080, () => {
-  console.log("Running Server");
+app.post("/agents/:agentId", agentDispatcher);
+
+const port = 8085;
+app.listen(port, () => {
+  console.log("Running Server at " + port);
 });
