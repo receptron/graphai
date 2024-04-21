@@ -22,7 +22,6 @@ const graphdata_counter = {
 };
 
 const counterAgent: AgentFunction = async ({ inputs }) => {
-  console.log(inputs);
   return { v: (inputs[0].v || 0) + 1 };
 };
 
@@ -59,6 +58,5 @@ test("test counter2", async () => {
     ...defaultTestAgents,
     counterAgent,
   });
-  console.log(result);
   assert.deepStrictEqual(result, { workingMemory: { v: 90 }, nested1: { v: 100 } });
 });
