@@ -112,8 +112,8 @@ const graph_data = {
       },
     },
     wikipedia: {
-      inputs: ["source"],
       agentId: "wikipediaAgent",
+      inputs: ["source"],
       params: {
         inputKey: "name",
         lang: "en",
@@ -121,9 +121,6 @@ const graph_data = {
     },
     chunks: {
       agentId: "stringSplitterAgent",
-      params: {
-        chunkSize: 2048,
-      },
       inputs: ["wikipedia"]
     },
     embeddings: {
