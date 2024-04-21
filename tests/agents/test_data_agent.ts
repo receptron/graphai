@@ -57,4 +57,15 @@ test("test totalAgent", async () => {
   assert.deepStrictEqual(await run([{ a: 1 }, { a: 2 }]), { a: 3 });
 
   assert.deepStrictEqual(await run([{ a: 1 }, { a: 2 }, { a: 3 }]), { a: 6 });
+
+  assert.deepStrictEqual(
+    await run([
+      { a: 1, b: 1 },
+      { a: 2, b: 2 },
+      { a: 3, b: 0 },
+    ]),
+    { a: 6, b: 3 },
+  );
+
+  assert.deepStrictEqual(await run([{ a: 1 }, { a: 2, b: 2 }, { a: 3, b: 0 }]), { a: 6, b: 2 });
 });
