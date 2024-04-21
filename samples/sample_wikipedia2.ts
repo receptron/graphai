@@ -1,4 +1,5 @@
 import "dotenv/config";
+import * as dotenv from 'dotenv';
 
 import { AgentFunction } from "@/graphai";
 
@@ -15,19 +16,35 @@ export const stringSplitterAgent: AgentFunction<
     inputKey?: string;
   },
   {
-    content: Array<string>;
+    contents: Array<string>;
   }
 > = async ({ params, inputs }) => {
   const source: string = inputs[0][params.inputKey ?? "content"];
   const chunkSize = params.chunkSize ?? 2048;
   const overlap = params.overlap ?? Math.floor(chunkSize / 8);
   const count = Math.floor(source.length / (chunkSize - overlap)) + 1;
-  const content = new Array(count).fill(undefined).map((_, i) => {
+  const contents = new Array(count).fill(undefined).map((_, i) => {
     const startIndex = i * (chunkSize - overlap);
     return source.substring(startIndex, startIndex + chunkSize);
   });
 
-  return { content, count, chunkSize, overlap };
+  return { contents, count, chunkSize, overlap };
+};
+
+export const stringEmbeddingsAgent: AgentFunction<
+  {
+    inputKey?: string;
+  },
+  {
+    contents: Array<any>;
+  }
+> = async ({ params, inputs }) => {
+  const sources: Array<string> = inputs[0][params.inputKey ?? "contents"];
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+      throw new Error('API key is not set in environment variables.');
+  }  
+  return { contents:[], apiKey };
 };
 
 const graph_data = {
@@ -51,6 +68,10 @@ const graph_data = {
         chunkSize: 2048,
       },
       inputs: ["wikipedia"]
+    },
+    embeddings: {
+      agentId: "stringEmbeddingsAgent",
+      inputs: ["chunks"]
     }
     /*
     queryBuilder: {
@@ -69,8 +90,8 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
-  console.log(result.chunks);
+  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
+  console.log(result.embeddings);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
