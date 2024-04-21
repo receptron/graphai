@@ -1,33 +1,61 @@
-import { dataObjectMergeTemplateAgent, dataSumTemplateAgent } from "@/experimental_agents";
+import { dataObjectMergeTemplateAgent, dataSumTemplateAgent, totalAgent } from "@/experimental_agents";
+import { defaultTestContext } from "~/agents/utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
 test("test dataObjectMergeTemplateAgent", async () => {
-  const result = await dataObjectMergeTemplateAgent({
-    nodeId: "merge",
-    retry: 0,
-    params: {},
-    inputs: [{ content1: "hello" }, { content2: "test" }],
-    verbose: true,
-    agents: {},
-    log: [],
-  });
-  assert.deepStrictEqual(result, {
+  const run = async (inputs: Array<Record<string, any>>) => {
+    return await dataObjectMergeTemplateAgent({
+      inputs,
+      ...defaultTestContext,
+    });
+  };
+
+  const r1 = await run([{ content1: "hello" }, { content2: "test" }]);
+  assert.deepStrictEqual(r1, {
     content1: "hello",
     content2: "test",
+  });
+
+  const r2 = await run([{ content1: "hello" }]);
+  assert.deepStrictEqual(r2, {
+    content1: "hello",
+  });
+
+  const r3 = await run([{ content: "hello1" }, { content: "hello2" }]);
+  assert.deepStrictEqual(r3, {
+    content: "hello2",
   });
 });
 
 test("test dataSumTemplateAgent", async () => {
-  const result = await dataSumTemplateAgent({
-    nodeId: "test",
-    retry: 0,
-    params: {},
-    inputs: [1, 2],
-    verbose: true,
-    agents: {},
-    log: [],
-  });
-  assert.deepStrictEqual(result, 3);
+  const run = async (inputs: number[]) => {
+    return await dataSumTemplateAgent({
+      inputs,
+      ...defaultTestContext,
+    });
+  };
+
+  assert.deepStrictEqual(await run([1]), 1);
+
+  assert.deepStrictEqual(await run([1, 2]), 3);
+
+  assert.deepStrictEqual(await run([1, 2, 3]), 6);
+});
+
+
+test("test totalAgentdataSumTemplateAgent", async () => {
+  const run = async (inputs: number[]) => {
+    return await dataSumTemplateAgent({
+      inputs,
+      ...defaultTestContext,
+    });
+  };
+
+  assert.deepStrictEqual(await run([1]), 1);
+
+  assert.deepStrictEqual(await run([1, 2]), 3);
+
+  assert.deepStrictEqual(await run([1, 2, 3]), 6);
 });
