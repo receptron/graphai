@@ -31,12 +31,22 @@ export const stringSplitterAgent: AgentFunction<
   return { contents, count, chunkSize, overlap };
 };
 
+interface EmbeddingResponse {
+  object: string;
+  usage: {
+      prompt_tokens: number;
+      completion_tokens: number;
+      total_tokens: number;
+  };
+  data: number[][];
+}
+
 export const stringEmbeddingsAgent: AgentFunction<
   {
     inputKey?: string;
   },
   {
-    contents: Array<any>;
+    contents: any;
   }
 > = async ({ params, inputs }) => {
   const sources: Array<string> = inputs[0][params.inputKey ?? "contents"];
@@ -44,7 +54,27 @@ export const stringEmbeddingsAgent: AgentFunction<
   if (!apiKey) {
       throw new Error('API key is not set in environment variables.');
   }  
-  return { contents:[], apiKey };
+  const url = 'https://api.openai.com/v1/embeddings';
+  const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+  };
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+        input: sources,
+        model: "text-embedding-ada-002"
+    })
+  });
+  const jsonResponse: EmbeddingResponse = await response.json();
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return { contents: jsonResponse.data };
 };
 
 const graph_data = {
