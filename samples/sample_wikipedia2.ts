@@ -88,7 +88,7 @@ const graph_data = {
     source: {
       value: {
         name: "Sam Bankman-Fried",
-        topic: "court, sentence"
+        topic: "sentence by the court"
       },
     },
     wikipedia: {
