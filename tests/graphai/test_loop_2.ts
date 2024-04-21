@@ -45,8 +45,8 @@ test("test counter2", async () => {
       nested1: {
         agentId: "nestedAgent",
         params: {
-          nodeId: "counter", // nestedAgent result is counter node result in graphdata_counter
-          inputNodes: ["data"], // inject workingMemory data to data node in graphdata_counter
+          resultFrom: "counter", // nestedAgent result is counter node result in graphdata_counter
+          injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
           graph: graphdata_counter,
         },
         inputs: ["workingMemory"],
@@ -75,8 +75,8 @@ test("test counter3", async () => {
         fork: 2,
         agentId: "nestedAgent",
         params: {
-          nodeId: "counter", // nestedAgent result is counter node result in graphdata_counter
-          inputNodes: ["data"], // inject workingMemory data to data node in graphdata_counter
+          resultFrom: "counter", // nestedAgent result is counter node result in graphdata_counter
+          injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
           graph: graphdata_counter,
         },
         inputs: ["workingMemory"],

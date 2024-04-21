@@ -9,8 +9,8 @@ nodes:
     agentId: nestedAgent
     inputs: [outer1]
     params:
-      nodeId: inner3
-      inputNodes: [inner0]
+      resultFrom: inner3
+      injectionTo: [inner0]
       graph:
         nodes:
           inner0:
