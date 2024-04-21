@@ -33,23 +33,28 @@ export const stringSplitterAgent: AgentFunction<
 
 interface EmbeddingResponse {
   object: string;
+  model: string;
   usage: {
       prompt_tokens: number;
-      completion_tokens: number;
       total_tokens: number;
   };
-  data: number[][];
+  data: [{
+    object: string;
+    index: number;
+    embedding: number[];
+  }];
 }
 
 export const stringEmbeddingsAgent: AgentFunction<
   {
     inputKey?: string;
+    model?: string;
   },
   {
     contents: any;
   }
 > = async ({ params, inputs }) => {
-  const sources: Array<string> = inputs[0][params.inputKey ?? "contents"];
+  const sources: Array<string> = inputs[0][params?.inputKey ?? "contents"];
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
       throw new Error('API key is not set in environment variables.');
@@ -65,7 +70,7 @@ export const stringEmbeddingsAgent: AgentFunction<
     headers: headers,
     body: JSON.stringify({
         input: sources,
-        model: "text-embedding-ada-002"
+        model: params?.model ?? "text-embedding-3-small"
     })
   });
   const jsonResponse: EmbeddingResponse = await response.json();
@@ -73,8 +78,8 @@ export const stringEmbeddingsAgent: AgentFunction<
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-
-  return { contents: jsonResponse.data };
+  const embeddings = jsonResponse.data.map((object) => { return object.embedding; });
+  return { contents: embeddings };
 };
 
 const graph_data = {
