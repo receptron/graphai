@@ -6,7 +6,6 @@ type GraphNodes = Record<string, ComputedNode | StaticNode>;
 export declare class GraphAI {
     private data;
     nodes: GraphNodes;
-    agentId?: string;
     callbackDictonary: AgentFunctionDictonary;
     isRunning: boolean;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;

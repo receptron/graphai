@@ -1,6 +1,7 @@
 nodes:
   node1:
-    dummy: 0
+    value:
+      dummy: 0
   node2:
     value:
       node2: preset

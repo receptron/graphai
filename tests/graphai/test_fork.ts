@@ -20,17 +20,19 @@ const testAgent1: AgentFunction = async (context) => {
 
 test("test fork 1", async () => {
   const forkGraph = {
-    agentId: "testAgent1",
     nodes: {
       node1: {
+        agentId: "testAgent1",
         params: {},
       },
       node2: {
+        agentId: "testAgent1",
         params: {},
         fork: 10,
         inputs: ["node1"],
       },
       node3: {
+        agentId: "testAgent1",
         params: {},
         // fork: 10,
         inputs: ["node2"],
@@ -61,17 +63,19 @@ test("test fork 1", async () => {
 
 test("test fork 2", async () => {
   const forkGraph = {
-    agentId: "testAgent1",
     nodes: {
       node1: {
+        agentId: "testAgent1",
         params: {},
       },
       node2: {
+        agentId: "testAgent1",
         params: {},
         fork: 10,
         inputs: ["node1"],
       },
       node3: {
+        agentId: "testAgent1",
         params: {},
         fork: 10,
         inputs: ["node2"],

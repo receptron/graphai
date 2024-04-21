@@ -9,15 +9,17 @@ You just need to describe dependencies among those API calls in a single data fl
 Here is an example:
 
 ```YAML
-agentId: sample
 nodes:
   taskA:
+    agentId: sample
     params:
       // agent-specific parameters for taskA
   taskB:
+    agentId: sample
     params:
       // agent-specific parameters for taskB
   taskC:
+    agentId: sample
     params:
       // agent-specific parameters for taskC
     inputs: [taskA, taskB]
@@ -123,7 +125,6 @@ Connections between nodes will be established by references from one not to anot
 
 - 'nodes': A list of node. Required.
 - 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
-- 'agentId': An optional property, which specifies the default agent for all the nodes.
 - 'loop': An optional property, which specifies if the graph needs to be executed multiple times. The loop is an JavaScript object, which has two optinoal properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
 
 ```
@@ -179,7 +180,7 @@ A *computed node* have following properties.
 
 A *static* node have following properties.
 
-- 'value': An optional property, which specifies the value of this static node (equivalent to calling the injectValue method from outside).
+- 'value': An **required** property, which specifies the initial value of this static node (equivalent to calling the injectValue method from outside).
 - 'update': An optional property, which specifies the *data source* after each iteration.
 
 ## GraphAI class

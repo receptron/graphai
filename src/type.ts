@@ -21,11 +21,11 @@ export type DataSource = {
 };
 
 export type StaticNodeData = {
-  value?: ResultData; // initial value for static node.
+  value: ResultData; // initial value for static node.
   update?: string; // nodeId (+.propId) to get value after a loop
 };
 export type ComputedNodeData = {
-  agentId?: string;
+  agentId: string;
   inputs?: Array<string>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
@@ -34,7 +34,7 @@ export type ComputedNodeData = {
   fork?: number;
 };
 
-export type NodeData = StaticNodeData & ComputedNodeData;
+export type NodeData = StaticNodeData | ComputedNodeData;
 
 export type LoopData = {
   count?: number;
@@ -42,7 +42,6 @@ export type LoopData = {
 };
 
 export type GraphData = {
-  agentId?: string;
   nodes: Record<string, NodeData>;
   concurrency?: number;
   loop?: LoopData;

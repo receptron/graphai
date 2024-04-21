@@ -1,2 +1,2 @@
 import { GraphData } from "../type";
-export declare const graphNodesValidate: (data: GraphData) => void;
+export declare const graphNodesValidator: (data: GraphData) => void;
