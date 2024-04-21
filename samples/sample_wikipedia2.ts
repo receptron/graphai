@@ -54,7 +54,8 @@ export const stringEmbeddingsAgent: AgentFunction<
     contents: any;
   }
 > = async ({ params, inputs }) => {
-  const sources: Array<string> = inputs[0][params?.inputKey ?? "contents"];
+  const input = inputs[0][params?.inputKey ?? "contents"];
+  const sources: Array<string> = Array.isArray(input) ? input : [input];
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
       throw new Error('API key is not set in environment variables.');
@@ -84,17 +85,18 @@ export const stringEmbeddingsAgent: AgentFunction<
 
 const graph_data = {
   nodes: {
-    title: {
+    source: {
       value: {
-        content: "スティーブ・ジョブズ",
+        name: "Sam Bankman-Fried",
+        topic: "court, sentence"
       },
     },
     wikipedia: {
-      inputs: ["title"],
+      inputs: ["source"],
       agentId: "wikipediaAgent",
       params: {
-        inputKey: "content",
-        lang: "ja",
+        inputKey: "name",
+        lang: "en",
       },
     },
     chunks: {
@@ -107,7 +109,14 @@ const graph_data = {
     embeddings: {
       agentId: "stringEmbeddingsAgent",
       inputs: ["chunks"]
-    }
+    },
+    topicEmbedding: {
+      agentId: "stringEmbeddingsAgent",
+      inputs: ["source"],
+      params: {
+        inputKey: "topic",
+      },
+    },
     /*
     queryBuilder: {
       agentId: "stringTemplateAgent",
@@ -126,7 +135,7 @@ const graph_data = {
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, { stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
-  console.log(result.embeddings);
+  console.log(result.topicEmbedding);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
