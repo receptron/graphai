@@ -44,18 +44,17 @@ test("test dataSumTemplateAgent", async () => {
   assert.deepStrictEqual(await run([1, 2, 3]), 6);
 });
 
-
-test("test totalAgentdataSumTemplateAgent", async () => {
-  const run = async (inputs: number[]) => {
-    return await dataSumTemplateAgent({
+test("test totalAgent", async () => {
+  const run = async (inputs: Record<string, any>[]) => {
+    return await totalAgent({
       inputs,
       ...defaultTestContext,
     });
   };
 
-  assert.deepStrictEqual(await run([1]), 1);
+  assert.deepStrictEqual(await run([{ a: 1 }]), { a: 1 });
 
-  assert.deepStrictEqual(await run([1, 2]), 3);
+  assert.deepStrictEqual(await run([{ a: 1 }, { a: 2 }]), { a: 3 });
 
-  assert.deepStrictEqual(await run([1, 2, 3]), 6);
+  assert.deepStrictEqual(await run([{ a: 1 }, { a: 2 }, { a: 3 }]), { a: 6 });
 });
