@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/graphai";
-import { sleeperAgent, sleeperAgentDebug, nestedAgent } from "@/experimental_agents";
+import { sleeperAgent, sleeperAgentDebug, nestedAgent, totalAgent } from "@/experimental_agents";
 
 export const bypassAgent: AgentFunction = async (context) => {
   if (context.inputs.length === 1) {
@@ -32,4 +32,5 @@ export const defaultTestAgents = {
   sleeperAgent,
   sleeperAgentDebug,
   nestedAgent,
+  totalAgent,
 };
