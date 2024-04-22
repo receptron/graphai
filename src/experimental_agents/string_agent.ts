@@ -1,5 +1,10 @@
 import { AgentFunction } from "@/graphai";
 
+// If the input is string, return it as-is. Otherwise, return its iputKey property.
+const getStringInput = (input: any, inputKey: string) => {
+  return (typeof input === "string") ? input : input[inputKey];
+};
+
 // see example
 //  tests/agents/test_string_agent.ts
 export const stringTemplateAgent: AgentFunction<
@@ -13,7 +18,7 @@ export const stringTemplateAgent: AgentFunction<
 > = async ({ params, inputs }) => {
   const inputKey = params.inputKey ?? "content";
   const content = inputs.reduce((template, input, index) => {
-    return template.replace("${" + index + "}", input[inputKey]);
+    return template.replace("${" + index + "}", getStringInput(input, inputKey));
   }, params.template);
 
   return { content };
