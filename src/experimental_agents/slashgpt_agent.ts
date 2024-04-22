@@ -13,7 +13,7 @@ export const slashGPTAgent: AgentFunction<
   {
     content: string;
   }
-> = async ({ nodeId, params, inputs, verbose }) => {
+> = async ({ params, inputs, debugInfo: { verbose, nodeId } }) => {
   if (verbose) {
     console.log("executing", nodeId, params);
   }

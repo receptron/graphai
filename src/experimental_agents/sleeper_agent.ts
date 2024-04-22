@@ -10,8 +10,11 @@ export const sleeperAgent: AgentFunction<{ duration: number; value?: Record<stri
   }, params.value ?? {});
 };
 
-export const sleeperAgentDebug: AgentFunction<{ duration: number; value?: Record<string, any>; fail?: boolean }> = async (context) => {
-  const { params, inputs, retry } = context;
+export const sleeperAgentDebug: AgentFunction<{ duration: number; value?: Record<string, any>; fail?: boolean }> = async ({
+  params,
+  inputs,
+  debugInfo: { retry },
+}) => {
   await sleep(params.duration / (retry + 1));
   if (params.fail && retry < 2) {
     // console.log("failed (intentional)", nodeId, retry);

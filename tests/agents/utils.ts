@@ -1,8 +1,10 @@
 export const defaultTestContext = {
-  nodeId: "test",
-  retry: 0,
+  debugInfo: {
+    nodeId: "test",
+    retry: 0,
+    verbose: true,
+  },
   params: {},
-  verbose: true,
   agents: {},
   log: [],
 };

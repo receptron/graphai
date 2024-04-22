@@ -10,11 +10,11 @@ export const bypassAgent: AgentFunction = async (context) => {
 export const echoAgent: AgentFunction = async ({ params }) => {
   return params;
 };
-export const echoForkIndexAgent: AgentFunction = async ({ forkIndex }) => {
+export const echoForkIndexAgent: AgentFunction = async ({ debugInfo: { forkIndex } }) => {
   return { forkIndex };
 };
 
-export const mergeNodeIdAgent: AgentFunction = async ({ nodeId, inputs }) => {
+export const mergeNodeIdAgent: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
   // console.log("executing", nodeId);
   return inputs.reduce(
     (tmp, input) => {

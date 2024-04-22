@@ -8,8 +8,11 @@ import { defaultTestAgents } from "~/agents/agents";
 import test from "node:test";
 import assert from "node:assert";
 
-const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async (context) => {
-  const { nodeId, retry, params, inputs } = context;
+const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async ({
+  debugInfo: { nodeId, retry },
+  params,
+  inputs,
+}) => {
   await sleep(params.delay / (retry + 1));
 
   if (params.fail && retry < 2) {
