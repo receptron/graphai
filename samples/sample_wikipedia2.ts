@@ -198,19 +198,17 @@ const graph_data = {
       params: {
         template: "Using the following document, ${0}\n\n${1}" 
       }
-    }
-    /*
+    },
     query: {
       agentId: "slashGPTAgent",
-      inputs: ["queryBuilder"]      
+      inputs: ["prompt"]      
     }
-    */
   },
 };
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, { tokenBoundStringsAgent, sortByValuesAgent, cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
-  console.log(result.prompt);
+  console.log(result.query);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
