@@ -49,7 +49,7 @@ export const sortByValuesAgent: AgentFunction<
     contents: Array<any>;
   }
 > = async ({ params, inputs }) => {
-  const direction = (params?.assendant ?? false) ? -1 : 1;
+  const direction = params?.assendant ?? false ? -1 : 1;
   const sources: Array<any> = inputs[0][params.inputKey ?? "contents"];
   const values: Array<any> = inputs[1][params.inputKey ?? "contents"];
   const joined = sources.map((item, index) => {
