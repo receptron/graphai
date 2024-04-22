@@ -6,6 +6,7 @@ import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
 import { stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
+import { get_encoding, encoding_for_model } from "tiktoken";
 
 // see example
 //  tests/agents/test_string_agent.ts
@@ -128,9 +129,11 @@ export const tokenBoundStringsAgent: AgentFunction<
     content: string;
   }
 > = async ({ params, inputs }) => {
+  const enc = get_encoding("cl100k_base");
   const contents: Array<string> = inputs[0][params.inputKey ?? "contents"];
   const content = contents[0];
-  return { content };
+  const length = enc.encode(content).length;
+  return { content, length };
 };
 
 const graph_data = {
