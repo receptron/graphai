@@ -7,7 +7,7 @@ import { wikipediaAgent } from "./agents/wikipedia";
 import { stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
 import { get_encoding } from "tiktoken";
 
-export const cosineSimilarityAgent: AgentFunction<
+export const dotProductAgent: AgentFunction<
   {
     inputKey?: string;
   },
@@ -114,7 +114,7 @@ const graph_data = {
     },
     similarityCheck: {
       // Get the cosine similarities of those vectors
-      agentId: "cosineSimilarityAgent",
+      agentId: "dotProductAgent",
       inputs: ["embeddings", "topicEmbedding"],
     },
     sortedChunks: {
@@ -160,7 +160,7 @@ const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
     tokenBoundStringsAgent,
     sortByValuesAgent,
-    cosineSimilarityAgent,
+    dotProductAgent,
     stringEmbeddingsAgent,
     stringSplitterAgent,
     stringTemplateAgent,
