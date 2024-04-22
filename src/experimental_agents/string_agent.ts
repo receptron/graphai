@@ -11,8 +11,9 @@ export const stringTemplateAgent: AgentFunction<
     content: string;
   }
 > = async ({ params, inputs }) => {
+  const inputKey = params.inputKey ?? "content";
   const content = inputs.reduce((template, input, index) => {
-    return template.replace("${" + index + "}", input[params.inputKey ?? "content"]);
+    return template.replace("${" + index + "}", input[inputKey]);
   }, params.template);
 
   return { content };
