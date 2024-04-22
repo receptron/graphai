@@ -116,7 +116,7 @@ export const sortByValuesAgent: AgentFunction<
     return { item, value: values[index] };
   });
   const contents = joined.sort((a, b) => {
-    return b.value - a.value; 
+    return b.value - a.value; // Descendant
   }).map(a => { return a.item });
   return { contents };
 };
@@ -135,7 +135,6 @@ export const tokenBoundStringsAgent: AgentFunction<
   const limit = params?.limit ?? 5000;
   const addNext = (total: number, index: number) : number => {
     const length = enc.encode(contents[index]).length;
-    console.log("***", index, length, total);
     if (total + length < limit && index + 1 < contents.length) {
       return addNext(total + length, index+1);
     }
@@ -151,7 +150,8 @@ const graph_data = {
     source: {
       value: {
         name: "Sam Bankman-Fried",
-        topic: "sentence by the court"
+        topic: "sentence by the court",
+        content: "describe the final sentence by the court for Sam Bank-Fried",
       },
     },
     wikipedia: {
@@ -192,6 +192,13 @@ const graph_data = {
         limit: 5000
       }
     },
+    prompt: {
+      agentId: "stringTemplateAgent",
+      inputs: ["source", "referenceText"],
+      params: {
+        template: "Using the following document, ${0}\n\n${1}" 
+      }
+    }
     /*
     query: {
       agentId: "slashGPTAgent",
@@ -203,7 +210,7 @@ const graph_data = {
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, { tokenBoundStringsAgent, sortByValuesAgent, cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
-  console.log(result.referenceText);
+  console.log(result.prompt);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
