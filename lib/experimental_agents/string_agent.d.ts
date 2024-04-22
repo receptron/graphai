@@ -5,3 +5,10 @@ export declare const stringTemplateAgent: AgentFunction<{
 }, {
     content: string;
 }>;
+export declare const stringSplitterAgent: AgentFunction<{
+    chunkSize?: number;
+    overlap?: number;
+    inputKey?: string;
+}, {
+    contents: Array<string>;
+}>;

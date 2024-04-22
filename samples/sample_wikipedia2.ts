@@ -4,32 +4,8 @@ import { AgentFunction } from "@/graphai";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
-import { stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
+import { stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
 import { get_encoding } from "tiktoken";
-
-// see example
-//  tests/agents/test_string_agent.ts
-export const stringSplitterAgent: AgentFunction<
-  {
-    chunkSize?: number;
-    overlap?: number;
-    inputKey?: string;
-  },
-  {
-    contents: Array<string>;
-  }
-> = async ({ params, inputs }) => {
-  const source: string = inputs[0][params.inputKey ?? "content"];
-  const chunkSize = params.chunkSize ?? 2048;
-  const overlap = params.overlap ?? Math.floor(chunkSize / 8);
-  const count = Math.floor(source.length / (chunkSize - overlap)) + 1;
-  const contents = new Array(count).fill(undefined).map((_, i) => {
-    const startIndex = i * (chunkSize - overlap);
-    return source.substring(startIndex, startIndex + chunkSize);
-  });
-
-  return { contents, count, chunkSize, overlap };
-};
 
 interface EmbeddingResponse {
   object: string;
@@ -166,6 +142,7 @@ const graph_data = {
       },
     },
     wikipedia: {
+      // Fetch an article from Wikipedia
       agentId: "wikipediaAgent",
       inputs: ["source"],
       params: {
@@ -174,14 +151,17 @@ const graph_data = {
       },
     },
     chunks: {
+      // Break that article into chunks
       agentId: "stringSplitterAgent",
       inputs: ["wikipedia"],
     },
     embeddings: {
+      // Get embedding vectors of those chunks
       agentId: "stringEmbeddingsAgent",
       inputs: ["chunks"],
     },
     topicEmbedding: {
+      // Get embedding vector of the topic
       agentId: "stringEmbeddingsAgent",
       inputs: ["source"],
       params: {
@@ -189,14 +169,17 @@ const graph_data = {
       },
     },
     similarityCheck: {
+      // Get the cosine similarities of those vectors
       agentId: "cosineSimilarityAgent",
       inputs: ["embeddings", "topicEmbedding"],
     },
     sortedChunks: {
+      // Sort chunks based on those similarities
       agentId: "sortByValuesAgent",
       inputs: ["chunks", "similarityCheck"],
     },
     referenceText: {
+      // Generate reference text from those chunks (token limited)
       agentId: "tokenBoundStringsAgent",
       inputs: ["sortedChunks"],
       params: {
@@ -204,17 +187,29 @@ const graph_data = {
       },
     },
     prompt: {
+      // Generate a prompt with that reference text
       agentId: "stringTemplateAgent",
       inputs: ["source", "referenceText"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
       },
     },
-    query: {
+    RagQuery: {
+      // Get the answer from LLM with that prompt
       agentId: "slashGPTAgent",
       inputs: ["prompt"],
     },
+    OneShotQuery: {
+      // Get the answer from LLM without the reference text
+      agentId: "slashGPTAgent",
+      inputs: ["source"],
+    },
   },
+};
+
+const simplify = (result: any) => {
+  const { content, usage } = result;
+  return { content, usage };
 };
 
 const main = async () => {
@@ -228,8 +223,8 @@ const main = async () => {
     slashGPTAgent,
     wikipediaAgent,
   });
-  console.log(result.query);
-  console.log("COMPLETE 1");
+  console.log(simplify(result.OneShotQuery));
+  console.log(simplify(result.RagQuery));
 };
 if (process.argv[1] === __filename) {
   main();
