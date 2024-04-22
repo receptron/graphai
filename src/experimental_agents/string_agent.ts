@@ -49,4 +49,3 @@ export const stringSplitterAgent: AgentFunction<
 
   return { contents, count, chunkSize, overlap };
 };
-

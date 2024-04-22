@@ -141,7 +141,8 @@ const graph_data = {
         content: "describe the final sentence by the court for Sam Bank-Fried",
       },
     },
-    wikipedia: { // Fetch an article from Wikipedia
+    wikipedia: {
+      // Fetch an article from Wikipedia
       agentId: "wikipediaAgent",
       inputs: ["source"],
       params: {
@@ -149,48 +150,57 @@ const graph_data = {
         lang: "en",
       },
     },
-    chunks: { // Break that article into chunks
+    chunks: {
+      // Break that article into chunks
       agentId: "stringSplitterAgent",
       inputs: ["wikipedia"],
     },
-    embeddings: { // Get embedding vectors of those chunks
+    embeddings: {
+      // Get embedding vectors of those chunks
       agentId: "stringEmbeddingsAgent",
       inputs: ["chunks"],
     },
-    topicEmbedding: { // Get embedding vector of the topic
+    topicEmbedding: {
+      // Get embedding vector of the topic
       agentId: "stringEmbeddingsAgent",
       inputs: ["source"],
       params: {
         inputKey: "topic",
       },
     },
-    similarityCheck: { // Get the cosine similarities of those vectors
+    similarityCheck: {
+      // Get the cosine similarities of those vectors
       agentId: "cosineSimilarityAgent",
       inputs: ["embeddings", "topicEmbedding"],
     },
-    sortedChunks: { // Sort chunks based on those similarities
+    sortedChunks: {
+      // Sort chunks based on those similarities
       agentId: "sortByValuesAgent",
       inputs: ["chunks", "similarityCheck"],
     },
-    referenceText: { // Generate reference text from those chunks (token limited)
+    referenceText: {
+      // Generate reference text from those chunks (token limited)
       agentId: "tokenBoundStringsAgent",
       inputs: ["sortedChunks"],
       params: {
         limit: 5000,
       },
     },
-    prompt: { // Generate a prompt with that reference text
+    prompt: {
+      // Generate a prompt with that reference text
       agentId: "stringTemplateAgent",
       inputs: ["source", "referenceText"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
       },
     },
-    RagQuery: { // Get the answer from LLM with that prompt
+    RagQuery: {
+      // Get the answer from LLM with that prompt
       agentId: "slashGPTAgent",
       inputs: ["prompt"],
     },
-    OneShotQuery: { // Get the answer from LLM without the reference text
+    OneShotQuery: {
+      // Get the answer from LLM without the reference text
       agentId: "slashGPTAgent",
       inputs: ["source"],
     },
@@ -200,7 +210,7 @@ const graph_data = {
 const simplify = (result: any) => {
   const { content, usage } = result;
   return { content, usage };
-}
+};
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
