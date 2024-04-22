@@ -4,8 +4,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import test from "node:test";
 import assert from "node:assert";
 
-const testAgent1: AgentFunction = async (context) => {
-  const { nodeId, inputs } = context;
+const testAgent1: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
   // console.log("executing", nodeId, params, inputs);
 
   const result = {

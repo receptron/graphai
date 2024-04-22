@@ -4,30 +4,18 @@ import { fileTestRunner } from "~/utils/runner";
 import test from "node:test";
 import assert from "node:assert";
 
-const testAgent1: AgentFunction = async (context) => {
-  const { nodeId } = context;
-  // console.log("executing", nodeId, params);
-
+const testAgent1: AgentFunction = async ({ debugInfo: { nodeId } }) => {
   const result = { [nodeId]: "output 1" };
-  // console.log("completing", nodeId, result);
   return result;
 };
 
-const testAgent2: AgentFunction = async (context) => {
-  const { nodeId } = context;
-  // console.log("executing", nodeId, params);
-
+const testAgent2: AgentFunction = async ({ debugInfo: { nodeId } }) => {
   const result = { [nodeId]: "output 2" };
-  // console.log("completing", nodeId, result);
   return result;
 };
 
-const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number }> = async (context) => {
-  const { nodeId, params } = context;
-  // console.log("executing", nodeId, params);
-
+const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number }> = async ({ debugInfo: { nodeId }, params }) => {
   const result = { [nodeId]: params.number };
-  // console.log("completing", nodeId, result);
   return result;
 };
 
