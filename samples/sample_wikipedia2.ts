@@ -165,7 +165,7 @@ const graph_data = {
         content: "describe the final sentence by the court for Sam Bank-Fried",
       },
     },
-    wikipedia: {
+    wikipedia: { // Fetch an article from Wikipedia
       agentId: "wikipediaAgent",
       inputs: ["source"],
       params: {
@@ -173,53 +173,58 @@ const graph_data = {
         lang: "en",
       },
     },
-    chunks: {
+    chunks: { // Break that article into chunks
       agentId: "stringSplitterAgent",
       inputs: ["wikipedia"],
     },
-    embeddings: {
+    embeddings: { // Get embedding vectors of those chunks
       agentId: "stringEmbeddingsAgent",
       inputs: ["chunks"],
     },
-    topicEmbedding: {
+    topicEmbedding: { // Get embedding vector of the topic
       agentId: "stringEmbeddingsAgent",
       inputs: ["source"],
       params: {
         inputKey: "topic",
       },
     },
-    similarityCheck: {
+    similarityCheck: { // Get the cosine similarities of those vectors
       agentId: "cosineSimilarityAgent",
       inputs: ["embeddings", "topicEmbedding"],
     },
-    sortedChunks: {
+    sortedChunks: { // Sort chunks based on those similarities
       agentId: "sortByValuesAgent",
       inputs: ["chunks", "similarityCheck"],
     },
-    referenceText: {
+    referenceText: { // Generate reference text from those chunks (token limited)
       agentId: "tokenBoundStringsAgent",
       inputs: ["sortedChunks"],
       params: {
         limit: 5000,
       },
     },
-    prompt: {
+    prompt: { // Generate a prompt with that reference text
       agentId: "stringTemplateAgent",
       inputs: ["source", "referenceText"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
       },
     },
-    query: {
+    RagQuery: { // Get the answer from LLM with that prompt
       agentId: "slashGPTAgent",
       inputs: ["prompt"],
     },
-    query2: {
+    OneShotQuery: { // Get the answer from LLM without the reference text
       agentId: "slashGPTAgent",
       inputs: ["source"],
     },
   },
 };
+
+const simplify = (result: any) => {
+  const { content, usage } = result;
+  return { content, usage };
+}
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
@@ -232,9 +237,8 @@ const main = async () => {
     slashGPTAgent,
     wikipediaAgent,
   });
-  console.log(result.query);
-  console.log(result.query2);
-  console.log("COMPLETE 1");
+  console.log(simplify(result.OneShotQuery));
+  console.log(simplify(result.RagQuery));
 };
 if (process.argv[1] === __filename) {
   main();
