@@ -12,9 +12,8 @@ export const stringTemplateAgent: AgentFunction<
     template: string;
     inputKey?: string;
   },
-  {
-    content: string;
-  }
+  Record<string, any> | string,
+  Record<string, any> | string
 > = async ({ params, inputs }) => {
   const inputKey = params.inputKey ?? "content";
   const content = inputs.reduce((template, input, index) => {
