@@ -2,7 +2,15 @@ import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
-import { tokenBoundStringsAgent, sortByValuesAgent, dotProductAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
+import {
+  tokenBoundStringsAgent,
+  sortByValuesAgent,
+  dotProductAgent,
+  stringEmbeddingsAgent,
+  stringSplitterAgent,
+  stringTemplateAgent,
+  slashGPTAgent,
+} from "@/experimental_agents";
 
 const graph_data = {
   nodes: {
