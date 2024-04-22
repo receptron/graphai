@@ -120,24 +120,17 @@ export const sortByValuesAgent: AgentFunction<
   return { contents };
 };
 
-export const promptBuilderAgent: AgentFunction<
+export const tokenBoundStringsAgent: AgentFunction<
   {
     inputKey?: string;
   },
   {
-    hello: string;
-    // contents: Array<string>;
+    content: string;
   }
 > = async ({ params, inputs }) => {
-  const embeddings: Array<Array<number>> = inputs[0][params.inputKey ?? "contents"];
-  const reference: Array<number> = inputs[1][params.inputKey ?? "contents"][0];
-  const contents = embeddings.map((embedding) => {
-    return embedding.reduce((dotProduct:number, value, index) => {
-      return dotProduct + value * reference[index];
-    }, 0);
-  });
-  console.log("***", contents);
-  return { hello: "hello" };
+  const contents: Array<string> = inputs[0][params.inputKey ?? "contents"];
+  const content = contents[0];
+  return { content };
 };
 
 const graph_data = {
@@ -175,18 +168,15 @@ const graph_data = {
       agentId: "cosineSimilarityAgent",
       inputs: ["embeddings", "topicEmbedding"]
     },
-    sorter: {
+    sortedChunks: {
       agentId: "sortByValuesAgent",
       inputs: ["chunks", "similarityCheck"]
-    }
-    /*
-    queryBuilder: {
-      agentId: "stringTemplateAgent",
-      inputs: ["title", "wikipedia"],
-      params: {
-        template: "下の情報を使って${0}についての最新の情報を書いて。\n\n${1}",
-      },
     },
+    referenceText: {
+      agentId: "tokenBoundStringsAgent",
+      inputs: ["sortedChunks"],
+    },
+    /*
     query: {
       agentId: "slashGPTAgent",
       inputs: ["queryBuilder"]      
@@ -196,8 +186,8 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { sortByValuesAgent, cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
-  console.log(result.sorter);
+  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { tokenBoundStringsAgent, sortByValuesAgent, cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
+  console.log(result.referenceText);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
