@@ -4,26 +4,8 @@ import { AgentFunction } from "@/graphai";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
-import { stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
+import { dotProductAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
 import { get_encoding } from "tiktoken";
-
-export const cosineSimilarityAgent: AgentFunction<
-  {
-    inputKey?: string;
-  },
-  {
-    contents: Array<number>;
-  }
-> = async ({ params, inputs }) => {
-  const embeddings: Array<Array<number>> = inputs[0][params.inputKey ?? "contents"];
-  const reference: Array<number> = inputs[1][params.inputKey ?? "contents"][0];
-  const contents = embeddings.map((embedding) => {
-    return embedding.reduce((dotProduct: number, value, index) => {
-      return dotProduct + value * reference[index];
-    }, 0);
-  });
-  return { contents };
-};
 
 export const sortByValuesAgent: AgentFunction<
   {
@@ -114,7 +96,7 @@ const graph_data = {
     },
     similarityCheck: {
       // Get the cosine similarities of those vectors
-      agentId: "cosineSimilarityAgent",
+      agentId: "dotProductAgent",
       inputs: ["embeddings", "topicEmbedding"],
     },
     sortedChunks: {
@@ -160,7 +142,7 @@ const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
     tokenBoundStringsAgent,
     sortByValuesAgent,
-    cosineSimilarityAgent,
+    dotProductAgent,
     stringEmbeddingsAgent,
     stringSplitterAgent,
     stringTemplateAgent,
