@@ -18,7 +18,7 @@ const graph_data = {
       value: {
         name: "Sam Bankman-Fried",
         topic: "sentence by the court",
-        content: "describe the final sentence by the court for Sam Bank-Fried",
+        query: "describe the final sentence by the court for Sam Bank-Fried",
       },
     },
     wikipedia: {
@@ -69,7 +69,7 @@ const graph_data = {
     prompt: {
       // Generate a prompt with that reference text
       agentId: "stringTemplateAgent",
-      inputs: ["source", "referenceText"],
+      inputs: ["source.query", "referenceText"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
       },
@@ -82,7 +82,7 @@ const graph_data = {
     OneShotQuery: {
       // Get the answer from LLM without the reference text
       agentId: "slashGPTAgent",
-      inputs: ["source"],
+      inputs: ["source.query"],
     },
   },
 };
