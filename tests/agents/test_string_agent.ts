@@ -1,4 +1,4 @@
-import { stringTemplateAgent } from "@/experimental_agents";
+import { stringTemplateAgent, stringSplitterAgent } from "@/experimental_agents";
 import { defaultTestContext } from "~/agents/utils";
 
 import test from "node:test";
@@ -23,5 +23,19 @@ test("test stringTemplateAgent simple", async () => {
   });
   assert.deepStrictEqual(result, {
     content: "hello: test",
+  });
+});
+
+test("test stringSplitterAgent simple", async () => {
+  const result = await stringSplitterAgent({
+    ...defaultTestContext,
+    params: { },
+    inputs: [{ content: "hello" }],
+  });
+  assert.deepStrictEqual(result, {
+    contents: ["hello"],
+    count: 1,
+    chunkSize: 2048,
+    overlap: 256,
   });
 });

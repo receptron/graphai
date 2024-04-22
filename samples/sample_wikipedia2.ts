@@ -4,32 +4,8 @@ import { AgentFunction } from "@/graphai";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
-import { stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
+import { stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
 import { get_encoding } from "tiktoken";
-
-// see example
-//  tests/agents/test_string_agent.ts
-export const stringSplitterAgent: AgentFunction<
-  {
-    chunkSize?: number;
-    overlap?: number;
-    inputKey?: string;
-  },
-  {
-    contents: Array<string>;
-  }
-> = async ({ params, inputs }) => {
-  const source: string = inputs[0][params.inputKey ?? "content"];
-  const chunkSize = params.chunkSize ?? 2048;
-  const overlap = params.overlap ?? Math.floor(chunkSize / 8);
-  const count = Math.floor(source.length / (chunkSize - overlap)) + 1;
-  const contents = new Array(count).fill(undefined).map((_, i) => {
-    const startIndex = i * (chunkSize - overlap);
-    return source.substring(startIndex, startIndex + chunkSize);
-  });
-
-  return { contents, count, chunkSize, overlap };
-};
 
 interface EmbeddingResponse {
   object: string;
