@@ -88,6 +88,24 @@ export const cosineSimilarityAgent: AgentFunction<
     inputKey?: string;
   },
   {
+    contents: Array<number>;
+  }
+> = async ({ params, inputs }) => {
+  const embeddings: Array<Array<number>> = inputs[0][params.inputKey ?? "contents"];
+  const reference: Array<number> = inputs[1][params.inputKey ?? "contents"][0];
+  const contents = embeddings.map((embedding) => {
+    return embedding.reduce((dotProduct:number, value, index) => {
+      return dotProduct + value * reference[index];
+    }, 0);
+  });
+  return { contents };
+};
+
+export const promptBuilderAgent: AgentFunction<
+  {
+    inputKey?: string;
+  },
+  {
     hello: string;
     // contents: Array<string>;
   }
@@ -156,7 +174,7 @@ const graph_data = {
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, { cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
-  console.log(result.topicEmbedding);
+  console.log(result.similarityCheck);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
