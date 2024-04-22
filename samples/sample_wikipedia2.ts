@@ -4,64 +4,8 @@ import { AgentFunction } from "@/graphai";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
-import { stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
+import { stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
 import { get_encoding } from "tiktoken";
-
-interface EmbeddingResponse {
-  object: string;
-  model: string;
-  usage: {
-    prompt_tokens: number;
-    total_tokens: number;
-  };
-  data: [
-    {
-      object: string;
-      index: number;
-      embedding: number[];
-    },
-  ];
-}
-
-export const stringEmbeddingsAgent: AgentFunction<
-  {
-    inputKey?: string;
-    model?: string;
-  },
-  {
-    contents: any;
-  }
-> = async ({ params, inputs }) => {
-  const input = inputs[0][params?.inputKey ?? "contents"];
-  const sources: Array<string> = Array.isArray(input) ? input : [input];
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new Error("API key is not set in environment variables.");
-  }
-  const url = "https://api.openai.com/v1/embeddings";
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${apiKey}`,
-  };
-
-  const response = await fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      input: sources,
-      model: params?.model ?? "text-embedding-3-small",
-    }),
-  });
-  const jsonResponse: EmbeddingResponse = await response.json();
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const embeddings = jsonResponse.data.map((object) => {
-    return object.embedding;
-  });
-  return { contents: embeddings };
-};
 
 export const cosineSimilarityAgent: AgentFunction<
   {
