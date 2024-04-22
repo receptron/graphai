@@ -49,14 +49,16 @@ export type GraphData = {
 };
 
 export type AgentFunctionContext<ParamsType, PreviousResultType> = {
-  nodeId: string;
-  forkIndex?: number;
-  retry: number;
   params: NodeDataParams<ParamsType>;
   inputs: Array<PreviousResultType>;
-  verbose: boolean;
-  agents: CallbackDictonaryArgs;
-  log: TransactionLog[];
+  debugInfo: {
+    verbose: boolean;
+    nodeId: string;
+    forkIndex?: number;
+    retry: number;
+  };
+  agents?: CallbackDictonaryArgs;
+  log?: TransactionLog[];
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (
