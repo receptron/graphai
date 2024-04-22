@@ -101,6 +101,25 @@ export const cosineSimilarityAgent: AgentFunction<
   return { contents };
 };
 
+export const sortByValuesAgent: AgentFunction<
+  {
+    inputKey?: string;
+  },
+  {
+    contents: Array<any>;
+  }
+> = async ({ params, inputs }) => {
+  const sources: Array<any> = inputs[0][params.inputKey ?? "contents"];
+  const values: Array<any> = inputs[1][params.inputKey ?? "contents"];
+  const joined = sources.map((item, index) => {
+    return { item, value: values[index] };
+  });
+  const contents = joined.sort((a, b) => {
+    return b.value - a.value; 
+  }).map(a => { return a.item });
+  return { contents };
+};
+
 export const promptBuilderAgent: AgentFunction<
   {
     inputKey?: string;
@@ -155,6 +174,10 @@ const graph_data = {
     similarityCheck: {
       agentId: "cosineSimilarityAgent",
       inputs: ["embeddings", "topicEmbedding"]
+    },
+    sorter: {
+      agentId: "sortByValuesAgent",
+      inputs: ["chunks", "similarityCheck"]
     }
     /*
     queryBuilder: {
@@ -173,8 +196,8 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
-  console.log(result.similarityCheck);
+  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { sortByValuesAgent, cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
+  console.log(result.sorter);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
