@@ -1,6 +1,7 @@
 import path from "path";
 import { AgentFunction } from "@/graphai";
 import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
+import { getStringInput } from "./string_agent";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
@@ -9,6 +10,7 @@ export const slashGPTAgent: AgentFunction<
     manifest: ManifestData;
     query?: string;
     function_result?: boolean;
+    inputKey?: string;
   },
   {
     content: string;
@@ -20,12 +22,10 @@ export const slashGPTAgent: AgentFunction<
   const session = new ChatSession(config, params.manifest ?? {});
 
   const query = params?.query ? [params.query] : [];
+  const inputKey = params.inputKey ?? "content";
   const contents = query.concat(
     inputs.map((input) => {
-      if (typeof input === "string") {
-        return input;
-      }
-      return input.content;
+      return getStringInput(input, inputKey);
     }),
   );
 
