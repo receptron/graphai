@@ -172,13 +172,15 @@ export class ComputedNode extends Node {
       const callback = this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
       const result = await callback({
-        nodeId: this.nodeId,
-        retry: this.retryCount,
         params: this.params,
         inputs: previousResults,
-        forkIndex: this.forkIndex,
-        verbose: this.graph.verbose,
         agents: this.graph.callbackDictonary,
+        debugInfo: {
+          nodeId: this.nodeId,
+          retry: this.retryCount,
+          forkIndex: this.forkIndex,
+          verbose: this.graph.verbose,
+        },
         log: localLog,
       });
       if (!this.isCurrentTransaction(transactionId)) {

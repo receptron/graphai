@@ -42,14 +42,15 @@ const agentDispatcher = async (req: express.Request, res: express.Response) => {
   const { nodeId, retry, params: agentParams, inputs, forkIndex } = req.body;
   const agent = defaultTestAgents[agentId];
   const result = await agent({
-    nodeId,
-    retry,
     params: agentParams,
     inputs,
-    forkIndex,
-    verbose: false,
+    debugInfo: {
+      nodeId,
+      retry,
+      forkIndex,
+      verbose: false,
+    },
     agents: defaultTestAgents,
-    log: [],
   });
   res.json(result);
 };

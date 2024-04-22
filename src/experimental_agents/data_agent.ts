@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
 import deepmerge from "deepmerge";
 
-export const dataObjectMergeTemplateAgent: AgentFunction = async ({ inputs, verbose }) => {
+export const dataObjectMergeTemplateAgent: AgentFunction = async ({ inputs, debugInfo: { verbose } }) => {
   if (verbose) {
     // console.log("executing", nodeId, params);
   }
@@ -10,7 +10,7 @@ export const dataObjectMergeTemplateAgent: AgentFunction = async ({ inputs, verb
   }, {});
 };
 
-export const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, number> = async ({ inputs, verbose }) => {
+export const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, number> = async ({ inputs, debugInfo: { verbose } }) => {
   if (verbose) {
     // console.log("executing", nodeId, params);
   }
