@@ -214,6 +214,10 @@ const graph_data = {
       agentId: "slashGPTAgent",
       inputs: ["prompt"],
     },
+    query2: {
+      agentId: "slashGPTAgent",
+      inputs: ["source"],
+    },
   },
 };
 
@@ -229,6 +233,7 @@ const main = async () => {
     wikipediaAgent,
   });
   console.log(result.query);
+  console.log(result.query2);
   console.log("COMPLETE 1");
 };
 if (process.argv[1] === __filename) {
