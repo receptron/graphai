@@ -4,31 +4,8 @@ import { AgentFunction } from "@/graphai";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
-import { dotProductAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
+import { sortByValuesAgent, dotProductAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
 import { get_encoding } from "tiktoken";
-
-export const sortByValuesAgent: AgentFunction<
-  {
-    inputKey?: string;
-  },
-  {
-    contents: Array<any>;
-  }
-> = async ({ params, inputs }) => {
-  const sources: Array<any> = inputs[0][params.inputKey ?? "contents"];
-  const values: Array<any> = inputs[1][params.inputKey ?? "contents"];
-  const joined = sources.map((item, index) => {
-    return { item, value: values[index] };
-  });
-  const contents = joined
-    .sort((a, b) => {
-      return b.value - a.value; // Descendant
-    })
-    .map((a) => {
-      return a.item;
-    });
-  return { contents };
-};
 
 export const tokenBoundStringsAgent: AgentFunction<
   {
