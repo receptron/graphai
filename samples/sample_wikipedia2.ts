@@ -1,12 +1,11 @@
 import "dotenv/config";
-import * as dotenv from 'dotenv';
 
 import { AgentFunction } from "@/graphai";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { wikipediaAgent } from "./agents/wikipedia";
 import { stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
-import { get_encoding, encoding_for_model } from "tiktoken";
+import { get_encoding } from "tiktoken";
 
 // see example
 //  tests/agents/test_string_agent.ts
@@ -36,14 +35,16 @@ interface EmbeddingResponse {
   object: string;
   model: string;
   usage: {
-      prompt_tokens: number;
-      total_tokens: number;
+    prompt_tokens: number;
+    total_tokens: number;
   };
-  data: [{
-    object: string;
-    index: number;
-    embedding: number[];
-  }];
+  data: [
+    {
+      object: string;
+      index: number;
+      embedding: number[];
+    },
+  ];
 }
 
 export const stringEmbeddingsAgent: AgentFunction<
@@ -59,28 +60,30 @@ export const stringEmbeddingsAgent: AgentFunction<
   const sources: Array<string> = Array.isArray(input) ? input : [input];
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-      throw new Error('API key is not set in environment variables.');
-  }  
-  const url = 'https://api.openai.com/v1/embeddings';
+    throw new Error("API key is not set in environment variables.");
+  }
+  const url = "https://api.openai.com/v1/embeddings";
   const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${apiKey}`,
   };
 
   const response = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: headers,
     body: JSON.stringify({
-        input: sources,
-        model: params?.model ?? "text-embedding-3-small"
-    })
+      input: sources,
+      model: params?.model ?? "text-embedding-3-small",
+    }),
   });
   const jsonResponse: EmbeddingResponse = await response.json();
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  const embeddings = jsonResponse.data.map((object) => { return object.embedding; });
+  const embeddings = jsonResponse.data.map((object) => {
+    return object.embedding;
+  });
   return { contents: embeddings };
 };
 
@@ -95,7 +98,7 @@ export const cosineSimilarityAgent: AgentFunction<
   const embeddings: Array<Array<number>> = inputs[0][params.inputKey ?? "contents"];
   const reference: Array<number> = inputs[1][params.inputKey ?? "contents"][0];
   const contents = embeddings.map((embedding) => {
-    return embedding.reduce((dotProduct:number, value, index) => {
+    return embedding.reduce((dotProduct: number, value, index) => {
       return dotProduct + value * reference[index];
     }, 0);
   });
@@ -115,9 +118,13 @@ export const sortByValuesAgent: AgentFunction<
   const joined = sources.map((item, index) => {
     return { item, value: values[index] };
   });
-  const contents = joined.sort((a, b) => {
-    return b.value - a.value; // Descendant
-  }).map(a => { return a.item });
+  const contents = joined
+    .sort((a, b) => {
+      return b.value - a.value; // Descendant
+    })
+    .map((a) => {
+      return a.item;
+    });
   return { contents };
 };
 
@@ -133,15 +140,19 @@ export const tokenBoundStringsAgent: AgentFunction<
   const enc = get_encoding("cl100k_base");
   const contents: Array<string> = inputs[0][params?.inputKey ?? "contents"];
   const limit = params?.limit ?? 5000;
-  const addNext = (total: number, index: number) : number => {
+  const addNext = (total: number, index: number): number => {
     const length = enc.encode(contents[index]).length;
     if (total + length < limit && index + 1 < contents.length) {
-      return addNext(total + length, index+1);
+      return addNext(total + length, index + 1);
     }
-    return index + 1;   
+    return index + 1;
   };
   const endIndex = addNext(0, 0);
-  const content = contents.filter((value, index) => { return index < endIndex; }).join('\n'); 
+  const content = contents
+    .filter((value, index) => {
+      return index < endIndex;
+    })
+    .join("\n");
   return { content, endIndex };
 };
 
@@ -164,11 +175,11 @@ const graph_data = {
     },
     chunks: {
       agentId: "stringSplitterAgent",
-      inputs: ["wikipedia"]
+      inputs: ["wikipedia"],
     },
     embeddings: {
       agentId: "stringEmbeddingsAgent",
-      inputs: ["chunks"]
+      inputs: ["chunks"],
     },
     topicEmbedding: {
       agentId: "stringEmbeddingsAgent",
@@ -179,35 +190,44 @@ const graph_data = {
     },
     similarityCheck: {
       agentId: "cosineSimilarityAgent",
-      inputs: ["embeddings", "topicEmbedding"]
+      inputs: ["embeddings", "topicEmbedding"],
     },
     sortedChunks: {
       agentId: "sortByValuesAgent",
-      inputs: ["chunks", "similarityCheck"]
+      inputs: ["chunks", "similarityCheck"],
     },
     referenceText: {
       agentId: "tokenBoundStringsAgent",
       inputs: ["sortedChunks"],
       params: {
-        limit: 5000
-      }
+        limit: 5000,
+      },
     },
     prompt: {
       agentId: "stringTemplateAgent",
       inputs: ["source", "referenceText"],
       params: {
-        template: "Using the following document, ${0}\n\n${1}" 
-      }
+        template: "Using the following document, ${0}\n\n${1}",
+      },
     },
     query: {
       agentId: "slashGPTAgent",
-      inputs: ["prompt"]      
-    }
+      inputs: ["prompt"],
+    },
   },
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { tokenBoundStringsAgent, sortByValuesAgent, cosineSimilarityAgent, stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, slashGPTAgent, wikipediaAgent });
+  const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
+    tokenBoundStringsAgent,
+    sortByValuesAgent,
+    cosineSimilarityAgent,
+    stringEmbeddingsAgent,
+    stringSplitterAgent,
+    stringTemplateAgent,
+    slashGPTAgent,
+    wikipediaAgent,
+  });
   console.log(result.query);
   console.log("COMPLETE 1");
 };
