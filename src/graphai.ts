@@ -7,6 +7,7 @@ import {
   LoopData,
   ResultDataDictonary,
   ResultData,
+  DefaultResultData,
   StaticNodeData,
   ComputedNodeData,
 } from "@/type";
@@ -108,14 +109,14 @@ export class GraphAI {
     return nodes;
   }
 
-  private getValueFromResults(key: string, results: ResultDataDictonary<Record<string, any>>) {
+  private getValueFromResults(key: string, results: ResultDataDictonary<DefaultResultData>) {
     const source = parseNodeName(key);
     const result = results[source.nodeId];
     return result && source.propId ? result[source.propId] : result;
   }
 
   // for static
-  private initializeNodes(previousResults?: ResultDataDictonary<Record<string, any>>) {
+  private initializeNodes(previousResults?: ResultDataDictonary<DefaultResultData>) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
@@ -167,11 +168,11 @@ export class GraphAI {
   }
 
   // Public API
-  public results(): ResultDataDictonary {
-    return Object.keys(this.nodes).reduce((results: ResultDataDictonary, nodeId) => {
+  public results<T = DefaultResultData>(): ResultDataDictonary<T> {
+    return Object.keys(this.nodes).reduce((results: ResultDataDictonary<T>, nodeId) => {
       const node = this.nodes[nodeId];
       if (node.result !== undefined) {
-        results[nodeId] = node.result;
+        results[nodeId] = node.result as T;
       }
       return results;
     }, {});
@@ -201,7 +202,7 @@ export class GraphAI {
   }
 
   // Public API
-  public async run(): Promise<ResultDataDictonary> {
+  public async run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>> {
     if (this.isRunning) {
       console.error("-- Already Running");
     }
