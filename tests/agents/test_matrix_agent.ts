@@ -8,13 +8,11 @@ test("test dotProductAgent", async () => {
   const result = await dotProductAgent({
     ...defaultTestContext,
     inputs: [
-      {
-        contents: [
-          [1, 2],
-          [2, 3],
-        ],
-      },
-      { contents: [[1, 2]] },
+      [
+        [1, 2],
+        [2, 3],
+      ],
+      [[1, 2]],
     ],
   });
   assert.deepStrictEqual(result, {

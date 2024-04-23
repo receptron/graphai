@@ -51,7 +51,7 @@ const graph_data = {
     similarityCheck: {
       // Get the cosine similarities of those vectors
       agentId: "dotProductAgent",
-      inputs: ["embeddings", "topicEmbedding"],
+      inputs: ["embeddings.contents", "topicEmbedding.contents"],
     },
     sortedChunks: {
       // Sort chunks based on those similarities
