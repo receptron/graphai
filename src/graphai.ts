@@ -7,7 +7,6 @@ import {
   LoopData,
   ResultDataDictonary,
   ResultData,
-  CallbackDictonaryArgs,
   StaticNodeData,
   ComputedNodeData,
 } from "@/type";
@@ -138,7 +137,7 @@ export class GraphAI {
     });
   }
 
-  constructor(data: GraphData, callbackDictonary: CallbackDictonaryArgs) {
+  constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary) {
     this.data = data;
     this.callbackDictonary = callbackDictonary;
     this.concurrency = data.concurrency ?? defaultConcurrency;
