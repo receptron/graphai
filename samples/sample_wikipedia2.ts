@@ -56,7 +56,7 @@ const graph_data = {
     sortedChunks: {
       // Sort chunks based on those similarities
       agentId: "sortByValuesAgent",
-      inputs: ["chunks", "similarityCheck"],
+      inputs: ["chunks.contents", "similarityCheck.contents"],
     },
     referenceText: {
       // Generate reference text from those chunks (token limited)
