@@ -7,10 +7,9 @@ const encoder = get_encoding("cl100k_base");
 // This agent generate a reference string from a sorted array of strings,
 // adding one by one until the token count exceeds the specified limit.
 // Parameters:
-//  inputKey?: string; // specifies the property to read. The default is "contents".
 //  limit?: number; // specifies the maximum token count. The default is 5000.
 // Inputs:
-//  inputs[0].inputKey: Array<string>; // array of string sorted by relevance.
+//  inputs[0]: Array<string>; // array of string sorted by relevance.
 // Returns:
 //  { content: string } // reference text
 export const tokenBoundStringsAgent: AgentFunction<
