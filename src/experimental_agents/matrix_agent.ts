@@ -8,12 +8,12 @@ import { AgentFunction } from "@/graphai";
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
 export const dotProductAgent: AgentFunction<
-  {},
+  Record<string, any>,
   {
     contents: Array<number>;
   },
   Array<Array<number>>
-> = async ({ params, inputs }) => {
+> = async ({ inputs }) => {
   const embeddings: Array<Array<number>> = inputs[0];
   const reference: Array<number> = inputs[1][0];
   if (embeddings[0].length != reference.length) {
