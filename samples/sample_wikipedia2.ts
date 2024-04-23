@@ -51,12 +51,12 @@ const graph_data = {
     similarityCheck: {
       // Get the cosine similarities of those vectors
       agentId: "dotProductAgent",
-      inputs: ["embeddings", "topicEmbedding"],
+      inputs: ["embeddings.contents", "topicEmbedding.contents"],
     },
     sortedChunks: {
       // Sort chunks based on those similarities
       agentId: "sortByValuesAgent",
-      inputs: ["chunks", "similarityCheck"],
+      inputs: ["chunks.contents", "similarityCheck.contents"],
     },
     referenceText: {
       // Generate reference text from those chunks (token limited)
