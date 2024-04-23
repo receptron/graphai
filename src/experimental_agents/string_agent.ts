@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
 
 // If the input is string, return it as-is. Otherwise, return its iputKey property.
-export const getStringInput = (input:  Record<string, string> | string, inputKey: string) => {
+export const getStringInput = (input: Record<string, string> | string, inputKey: string) => {
   return typeof input === "string" ? input : input[inputKey];
 };
 
