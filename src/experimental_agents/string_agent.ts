@@ -10,14 +10,12 @@ export const getStringInput = (input: Record<string, string> | string, inputKey:
 export const stringTemplateAgent: AgentFunction<
   {
     template: string;
-    inputKey?: string;
   },
   Record<string, any> | string,
-  Record<string, any> | string
+  string
 > = async ({ params, inputs }) => {
-  const inputKey = params.inputKey ?? "content";
   const content = inputs.reduce((template, input, index) => {
-    return template.replace("${" + index + "}", getStringInput(input, inputKey));
+    return template.replace("${" + index + "}", input);
   }, params.template);
 
   return { content };
