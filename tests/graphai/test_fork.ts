@@ -1,5 +1,6 @@
 import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
+import { sleeperAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -106,5 +107,43 @@ test("test fork 2", async () => {
     node3_7: { node3_7: "node3_7:node2_7:node1" },
     node3_8: { node3_8: "node3_8:node2_8:node1" },
     node3_9: { node3_9: "node3_9:node2_9:node1" },
+  });
+});
+
+test("test fork 2", async () => {
+  const forkGraph = {
+    nodes: {
+      source: {
+        value: { content: { level1: { level2: "hello" } } },
+      },
+      simple: {
+        agentId: "sleeperAgent",
+        inputs: ["source.content"],
+      },
+      forked: {
+        agentId: "sleeperAgent",
+        fork: 4,
+        inputs: ["source.content"],
+      },
+      forked2: {
+        agentId: "sleeperAgent",
+        fork: 4,
+        inputs: ["forked.level1"],
+      },
+    },
+  };
+
+  const result = await graphDataTestRunner(__filename, forkGraph, { sleeperAgent });
+  assert.deepStrictEqual(result, {
+    source: { content: { level1: { level2: "hello" } } },
+    simple: { level1: { level2: "hello" } },
+    forked_0: { level1: { level2: "hello" } },
+    forked_1: { level1: { level2: "hello" } },
+    forked_2: { level1: { level2: "hello" } },
+    forked_3: { level1: { level2: "hello" } },
+    forked2_0: { level2: "hello" },
+    forked2_1: { level2: "hello" },
+    forked2_2: { level2: "hello" },
+    forked2_3: { level2: "hello" },
   });
 });
