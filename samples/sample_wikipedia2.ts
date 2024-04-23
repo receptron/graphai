@@ -69,7 +69,7 @@ const graph_data = {
     prompt: {
       // Generate a prompt with that reference text
       agentId: "stringTemplateAgent",
-      inputs: ["source.query", "referenceText"],
+      inputs: ["source.query", "referenceText.content"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
       },
