@@ -9,8 +9,10 @@ export declare enum NodeState {
     Injected = "injected",
     Dispatched = "dispatched"
 }
-export type ResultData<ResultType = Record<string, any>> = ResultType | undefined;
-export type ResultDataDictonary<ResultType = Record<string, any>> = Record<string, ResultData<ResultType>>;
+export type DefaultResultData = Record<string, any>;
+export type DefaultInputData = Record<string, any>;
+export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
+export type ResultDataDictonary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
 export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType;
 export type DataSource = {
     nodeId: string;
@@ -40,9 +42,9 @@ export type GraphData = {
     loop?: LoopData;
     verbose?: boolean;
 };
-export type AgentFunctionContext<ParamsType, PreviousResultType> = {
+export type AgentFunctionContext<ParamsType, InputDataType> = {
     params: NodeDataParams<ParamsType>;
-    inputs: Array<PreviousResultType>;
+    inputs: Array<InputDataType>;
     debugInfo: {
         verbose: boolean;
         nodeId: string;
@@ -52,6 +54,6 @@ export type AgentFunctionContext<ParamsType, PreviousResultType> = {
     agents?: CallbackDictonaryArgs;
     log?: TransactionLog[];
 };
-export type AgentFunction<ParamsType = Record<string, any>, ResultType = Record<string, any>, PreviousResultType = Record<string, any>> = (context: AgentFunctionContext<ParamsType, PreviousResultType>) => Promise<ResultData<ResultType>>;
+export type AgentFunction<ParamsType = Record<string, any>, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 export type CallbackDictonaryArgs = AgentFunctionDictonary;

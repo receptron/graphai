@@ -1,5 +1,5 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
-import { AgentFunctionDictonary, GraphData, DataSource, ResultDataDictonary, ResultData } from "./type";
+import { AgentFunctionDictonary, GraphData, DataSource, ResultDataDictonary, ResultData, DefaultResultData } from "./type";
 import { TransactionLog } from "./log";
 import { ComputedNode, StaticNode } from "./node";
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
@@ -23,10 +23,10 @@ export declare class GraphAI {
     constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary);
     getCallback(agentId?: string): import("./type").AgentFunction<any, any, any>;
     asString(): string;
-    results(): ResultDataDictonary;
+    results<T = DefaultResultData>(): ResultDataDictonary<T>;
     errors(): Record<string, Error>;
     private pushReadyNodesIntoQueue;
-    run(): Promise<ResultDataDictonary>;
+    run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>>;
     private runNode;
     pushQueue(node: ComputedNode): void;
     removeRunning(node: ComputedNode): void;
