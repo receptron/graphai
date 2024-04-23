@@ -38,15 +38,12 @@ const graph_data = {
     embeddings: {
       // Get embedding vectors of those chunks
       agentId: "stringEmbeddingsAgent",
-      inputs: ["chunks"],
+      inputs: ["chunks.contents"],
     },
     topicEmbedding: {
       // Get embedding vector of the topic
       agentId: "stringEmbeddingsAgent",
-      inputs: ["source"],
-      params: {
-        inputKey: "topic",
-      },
+      inputs: ["source.topic"],
     },
     similarityCheck: {
       // Get the cosine similarities of those vectors
