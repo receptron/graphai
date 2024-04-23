@@ -33,7 +33,7 @@ const graph_data = {
     chunks: {
       // Break that article into chunks
       agentId: "stringSplitterAgent",
-      inputs: ["wikipedia"],
+      inputs: ["wikipedia.content"],
     },
     embeddings: {
       // Get embedding vectors of those chunks
@@ -69,7 +69,7 @@ const graph_data = {
     prompt: {
       // Generate a prompt with that reference text
       agentId: "stringTemplateAgent",
-      inputs: ["source.query", "referenceText"],
+      inputs: ["source.query", "referenceText.content"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
       },

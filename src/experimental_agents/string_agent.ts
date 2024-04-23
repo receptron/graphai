@@ -37,13 +37,13 @@ export const stringSplitterAgent: AgentFunction<
   {
     chunkSize?: number;
     overlap?: number;
-    inputKey?: string;
   },
   {
     contents: Array<string>;
-  }
+  },
+  string
 > = async ({ params, inputs }) => {
-  const source: string = inputs[0][params.inputKey ?? "content"];
+  const source: string = inputs[0];
   const chunkSize = params.chunkSize ?? defaultChunkSize;
   const overlap = params.overlap ?? Math.floor(chunkSize / 8);
   const count = Math.floor(source.length / (chunkSize - overlap)) + 1;

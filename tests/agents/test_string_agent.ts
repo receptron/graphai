@@ -44,7 +44,7 @@ test("test stringSplitterAgent simple", async () => {
   const result = await stringSplitterAgent({
     ...defaultTestContext,
     params: { chunkSize: 64 },
-    inputs: [{ content: sample_apple }],
+    inputs: [sample_apple],
   });
   assert.deepStrictEqual(result, {
     contents: [
