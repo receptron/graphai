@@ -6,17 +6,17 @@ nodes:
       query: Come up with ten business ideas for AI startup
   node2:
     agentId: stringTemplate
-    inputs: [node1]
+    inputs: [node1.content]
     params:
       template: |
         Please evaluate following business ideas.
         ${0}
   node3:
     agentId: slashgpt
-    inputs: [node2]
+    inputs: [node2.content]
   node4:
     agentId: stringTemplate
-    inputs: [node1, node3]
+    inputs: [node1.content, node3.content]
     params:
       template:  |
         Please pick the winner of this business idea contest.
@@ -26,4 +26,4 @@ nodes:
         ${1}
   node5:
     agentId: slashgpt
-    inputs: [node4]
+    inputs: [node4.content]

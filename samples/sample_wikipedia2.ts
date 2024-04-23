@@ -77,7 +77,7 @@ const graph_data = {
     RagQuery: {
       // Get the answer from LLM with that prompt
       agentId: "slashGPTAgent",
-      inputs: ["prompt"],
+      inputs: ["prompt.content"],
     },
     OneShotQuery: {
       // Get the answer from LLM without the reference text

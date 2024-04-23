@@ -1,7 +1,6 @@
 import path from "path";
 import { AgentFunction } from "@/graphai";
 import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
-import { getStringInput } from "./string_agent";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
@@ -10,11 +9,11 @@ export const slashGPTAgent: AgentFunction<
     manifest: ManifestData;
     query?: string;
     function_result?: boolean;
-    inputKey?: string;
   },
   {
     content: string;
-  }
+  },
+  string
 > = async ({ params, inputs, debugInfo: { verbose, nodeId } }) => {
   if (verbose) {
     console.log("executing", nodeId, params);
@@ -22,12 +21,7 @@ export const slashGPTAgent: AgentFunction<
   const session = new ChatSession(config, params.manifest ?? {});
 
   const query = params?.query ? [params.query] : [];
-  const inputKey = params.inputKey ?? "content";
-  const contents = query.concat(
-    inputs.map((input) => {
-      return getStringInput(input, inputKey);
-    }),
-  );
+  const contents = query.concat(inputs);
 
   session.append_user_question(contents.join("\n"));
   await session.call_loop(() => {});
