@@ -61,7 +61,7 @@ const graph_data = {
     referenceText: {
       // Generate reference text from those chunks (token limited)
       agentId: "tokenBoundStringsAgent",
-      inputs: ["sortedChunks"],
+      inputs: ["sortedChunks.contents"],
       params: {
         limit: 5000,
       },

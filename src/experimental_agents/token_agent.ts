@@ -15,14 +15,14 @@ const encoder = get_encoding("cl100k_base");
 //  { content: string } // reference text
 export const tokenBoundStringsAgent: AgentFunction<
   {
-    inputKey?: string;
     limit?: number;
   },
   {
     content: string;
-  }
+  },
+  Array<string>
 > = async ({ params, inputs }) => {
-  const contents: Array<string> = inputs[0][params?.inputKey ?? "contents"];
+  const contents: Array<string> = inputs[0];
   const limit = params?.limit ?? defaultMaxToken;
   const addNext = (total: number, index: number): Record<string, number> => {
     const length = encoder.encode(contents[index] + "\n").length;
