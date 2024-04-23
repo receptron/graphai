@@ -33,7 +33,7 @@ const graph_data = {
     chunks: {
       // Break that article into chunks
       agentId: "stringSplitterAgent",
-      inputs: ["wikipedia"],
+      inputs: ["wikipedia.content"],
     },
     embeddings: {
       // Get embedding vectors of those chunks
