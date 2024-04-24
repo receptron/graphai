@@ -57,22 +57,17 @@ export class TaskManager {
     }
   }
 
-  public getStatus(verbose: boolean) {
-    const status: any = {
+  public getStatus(verbose: boolean = false) {
+    return {
       concurrency: this.concurrency,
       queue: this.taskQueue.length,
       running: this.runningNodes.size,
+      ...(verbose
+        ? {
+          runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
+          queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
+        }
+        : {}),
     };
-    if (verbose) {
-      const ids: Array<string> = [];
-      this.runningNodes.forEach((node) => {
-        ids.push(node.nodeId);
-      });
-      status.runningNodes = ids;
-      status.queuedNodes = this.taskQueue.map((task) => {
-        return task.node.nodeId;
-      });
-    }
-    return status;
   }
 }

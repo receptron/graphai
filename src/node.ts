@@ -1,6 +1,16 @@
 import type { GraphAI } from "@/graphai";
 
-import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "@/type";
+import {
+  NodeDataParams,
+  ResultData,
+  DataSource,
+  ComputedNodeData,
+  StaticNodeData,
+  NodeState,
+  AgentFunctionContext,
+  DefaultParamsType,
+  DefaultInputData,
+} from "@/type";
 import { parseNodeName } from "@/utils/utils";
 import { TransactionLog } from "@/log";
 
@@ -170,7 +180,7 @@ export class ComputedNode extends Node {
     try {
       const callback = this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
-      const context: any = {
+      const context: AgentFunctionContext<DefaultParamsType, DefaultInputData> = {
         params: this.params,
         inputs: previousResults,
         agents: this.graph.callbackDictonary,

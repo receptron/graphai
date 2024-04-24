@@ -17,7 +17,8 @@ export type DefaultInputData = Record<string, any>;
 export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
 export type ResultDataDictonary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
 
-export type NodeDataParams<ParamsType = Record<string, any>> = ParamsType; // Agent-specific parameters
+export type DefaultParamsType = Record<string, any>;
+export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType; // Agent-specific parameters
 
 export type DataSource = {
   nodeId: string;
@@ -66,7 +67,7 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
   taskManager?: TaskManager;
 };
 
-export type AgentFunction<ParamsType = Record<string, any>, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (
+export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (
   context: AgentFunctionContext<ParamsType, InputDataType>,
 ) => Promise<ResultData<ResultType>>;
 

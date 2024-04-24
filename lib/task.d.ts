@@ -8,5 +8,11 @@ export declare class TaskManager {
     addTask(node: ComputedNode, callback: (node: ComputedNode) => void): void;
     onComplete(node: ComputedNode): void;
     prepareForNesting(): void;
-    getStatus(verbose: boolean): any;
+    getStatus(verbose?: boolean): {
+        runningNodes?: string[] | undefined;
+        queuedNodes?: string[] | undefined;
+        concurrency: number;
+        queue: number;
+        running: number;
+    };
 }
