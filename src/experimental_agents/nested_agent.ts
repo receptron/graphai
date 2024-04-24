@@ -4,8 +4,8 @@ export const nestedAgent: AgentFunction<{
   graph: GraphData;
   resultFrom: string;
   injectionTo?: Array<string>;
-}> = async ({ params, inputs, agents, log }) => {
-  const graph = new GraphAI(params.graph, agents || {});
+}> = async ({ params, inputs, agents, log, taskManager }) => {
+  const graph = new GraphAI(params.graph, agents || {}, taskManager);
 
   try {
     // Inject inputs to specified source nodes

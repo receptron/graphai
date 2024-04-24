@@ -137,10 +137,10 @@ export class GraphAI {
     });
   }
 
-  constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary) {
+  constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
     this.data = data;
     this.callbackDictonary = callbackDictonary;
-    this.taskManager = new TaskManager(data.concurrency ?? defaultConcurrency);
+    this.taskManager = taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
