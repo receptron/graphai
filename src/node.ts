@@ -11,7 +11,7 @@ export class Node {
   public nodeId: string;
   public waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
-  public result: ResultData = undefined;
+  public result: ResultData | undefined = undefined;
 
   protected graph: GraphAI;
   protected log: TransactionLog;
