@@ -18,6 +18,41 @@ import { parseNodeName } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { NodeState } from "./type";
 
+type TaskEntry = {
+  node: Node;
+  callback: (node: Node) => {};
+};
+
+class TaskManager {
+  private concurrency: number;
+  private taskQueue: Array<TaskEntry> = [];
+  private runningNodes = new Set<Node>();
+  
+  constructor(concurrency: number) {
+    this.concurrency = concurrency;
+  }
+
+  private dequeueTaskIfPossible() {
+    if (this.runningNodes.size < this.concurrency) {
+      const task = this.taskQueue.shift();
+      if (task) {
+        this.runningNodes.add(task.node);
+        task.callback(task.node);
+      }
+    } 
+  }
+
+  public add(node: Node, callback: ()=>{}) {
+    this.taskQueue.push({node, callback});
+    this.dequeueTaskIfPossible();
+  }
+
+  public onComplete(node: Node) {
+    this.runningNodes.delete(node);
+    this.dequeueTaskIfPossible();
+  }
+}
+
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
 const defaultConcurrency = 8;
