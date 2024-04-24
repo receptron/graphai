@@ -10,13 +10,13 @@ import {
   DefaultResultData,
   StaticNodeData,
   ComputedNodeData,
+  NodeState,
 } from "@/type";
 import { TransactionLog } from "@/log";
 
 import { ComputedNode, StaticNode } from "@/node";
 import { parseNodeName } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
-import { NodeState } from "./type";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 

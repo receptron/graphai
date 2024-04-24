@@ -1,9 +1,6 @@
-import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData } from "@/type";
-
 import type { GraphAI } from "@/graphai";
 
-import { NodeState } from "@/type";
-
+import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "@/type";
 import { parseNodeName } from "@/utils/utils";
 import { TransactionLog } from "@/log";
 
