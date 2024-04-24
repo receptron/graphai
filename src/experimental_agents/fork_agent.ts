@@ -10,7 +10,7 @@ export const forkAgent: AgentFunction<
   {
     contents: Array<any>;
   },
-  any
+  Array<any>
 > = async ({ params, inputs, agents, log, taskManager }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
@@ -26,10 +26,10 @@ export const forkAgent: AgentFunction<
     return graph;
   });
 
-  const promises = graphs.map((graph) => {
+  const runs = graphs.map((graph) => {
     return graph.run();
   });
-  const results = await Promise.all(promises);
+  const results = await Promise.all(runs);
   const contents = results.map((result) => {
     return result[params.resultFrom];
   });
