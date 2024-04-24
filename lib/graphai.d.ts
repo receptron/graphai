@@ -2,6 +2,7 @@ export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
 import { AgentFunctionDictonary, GraphData, DataSource, ResultDataDictonary, ResultData, DefaultResultData } from "./type";
 import { TransactionLog } from "./log";
 import { ComputedNode, StaticNode } from "./node";
+import { TaskManager } from "./task";
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 export declare class GraphAI {
     private data;
@@ -9,7 +10,7 @@ export declare class GraphAI {
     callbackDictonary: AgentFunctionDictonary;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
     private runningNodes;
-    private taskManager;
+    taskManager: TaskManager;
     private onComplete;
     private loop?;
     private repeatCount;
@@ -18,7 +19,7 @@ export declare class GraphAI {
     private createNodes;
     private getValueFromResults;
     private initializeNodes;
-    constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary);
+    constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager?: TaskManager | undefined);
     getCallback(agentId?: string): import("./type").AgentFunction<any, any, any>;
     asString(): string;
     results<T = DefaultResultData>(): ResultDataDictonary<T>;

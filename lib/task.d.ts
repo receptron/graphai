@@ -7,4 +7,6 @@ export declare class TaskManager {
     private dequeueTaskIfPossible;
     addTask(node: ComputedNode, callback: (node: ComputedNode) => void): void;
     onComplete(node: ComputedNode): void;
+    prepareForNesting(): void;
+    getStatus(verbose: boolean): any;
 }

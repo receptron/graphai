@@ -1,4 +1,5 @@
 import type { TransactionLog } from "./log";
+import type { TaskManager } from "./task";
 export declare enum NodeState {
     Waiting = "waiting",
     Queued = "queued",
@@ -53,6 +54,7 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
     };
     agents?: AgentFunctionDictonary;
     log?: TransactionLog[];
+    taskManager?: TaskManager;
 };
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
