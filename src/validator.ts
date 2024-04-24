@@ -1,6 +1,6 @@
 import { GraphData } from "@/type";
 
-import { graphNodesValidator } from "@/validators/graph_data_validator";
+import { graphNodesValidator, graphDataValidator } from "@/validators/graph_data_validator";
 import { nodeValidator } from "@/validators/nodeValidator";
 import { staticNodeValidator } from "@/validators/static_node_validator";
 import { computedNodeValidator } from "@/validators/computed_node_validator";
@@ -9,6 +9,7 @@ import { agentValidator } from "@/validators/agent_validator";
 
 export const validateGraphData = (data: GraphData, agentIds: string[]) => {
   graphNodesValidator(data);
+  graphDataValidator(data);
   const computedNodeIds: string[] = [];
   const staticNodeIds: string[] = [];
   const graphAgentIds = new Set<string>();
