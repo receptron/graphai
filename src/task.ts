@@ -65,16 +65,17 @@ export class TaskManager {
     }
   }
 
-  public getStatus(verbose: boolean) {
-    const status: TaskManagerStatus = {
+  public getStatus(verbose: boolean = false): TaskManagerStatus {
+    return {
       concurrency: this.concurrency,
       queue: this.taskQueue.length,
       running: this.runningNodes.size,
+      ...(verbose
+        ? {
+          runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
+          queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
+        }
+        : {}),
     };
-    if (verbose) {
-      status.runningNodes = Array.from(this.runningNodes).map((node) => node.nodeId);
-      status.queuedNodes = this.taskQueue.map((task) => task.node.nodeId);
-    }
-    return status;
   }
 }
