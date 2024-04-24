@@ -1,4 +1,3 @@
-import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "~/agents/agents";
 
@@ -23,5 +22,29 @@ test("test loop error", async () => {
       await graphDataTestRunner(__filename, graphdata, defaultTestAgents);
     },
     { name: "Error", message: "Either count or while is required in loop" },
+  );
+});
+
+test("test loop error 1", async () => {
+  const graphdata = {
+    loop: {
+      count: 1,
+      while: "123",
+    },
+    nodes: {
+      echo: {
+        agentId: "echoAgent",
+        params: {
+          message: "hello",
+        },
+      },
+    },
+  };
+
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graphdata, defaultTestAgents);
+    },
+    { name: "Error", message: "Both A and B cannot be set" },
   );
 });
