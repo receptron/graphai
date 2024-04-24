@@ -125,7 +125,7 @@ export class ComputedNode extends Node {
       this.pendings.delete(nodeId);
     }
 
-    if (this.graph.isRunning) {
+    if (this.graph.isRunning()) {
       this.pushQueueIfReady();
     }
   }

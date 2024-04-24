@@ -1,31 +1,13 @@
 import { GraphAI } from "@/graphai";
 import { defaultTestAgents } from "~/agents/agents";
+import { graph_data, graph_injection_data } from "~/units/graph_data";
+
+import { sleep } from "@/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
-// import { sleep } from "@/utils/utils";
-
-test("test base", async () => {
-  const graph_data = {
-    nodes: {
-      echo: {
-        agentId: "echoAgent",
-        params: {
-          message: "hello",
-        },
-      },
-      bypassAgent: {
-        agentId: "bypassAgent",
-        inputs: ["echo"],
-      },
-      bypassAgent2: {
-        agentId: "bypassAgent",
-        inputs: ["bypassAgent"],
-      },
-    },
-  };
-
+test("test graph", async () => {
   const graph = new GraphAI(graph_data, defaultTestAgents);
   const asString = graph.asString();
   assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
@@ -68,26 +50,10 @@ const injectAgentGenerator = () => {
   };
 };
 
-test("test base", async () => {
+test("test injection", async () => {
   const { injectAgent, injectAgentResolver } = injectAgentGenerator();
 
-  const graph_data = {
-    nodes: {
-      echo: {
-        agentId: "echoAgent",
-      },
-      bypassAgent: {
-        agentId: "injectAgent",
-        inputs: ["echo"],
-      },
-      bypassAgent2: {
-        agentId: "bypassAgent",
-        inputs: ["bypassAgent"],
-      },
-    },
-  };
-
-  const graph = new GraphAI(graph_data, { ...defaultTestAgents, injectAgent });
+  const graph = new GraphAI(graph_injection_data, { ...defaultTestAgents, injectAgent });
   const asString = graph.asString();
   assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
 
@@ -101,7 +67,6 @@ test("test base", async () => {
     await graph.run();
 
     const afterResult = graph.results();
-    console.log(afterResult);
     assert.deepStrictEqual(afterResult, {
       echo: {},
       bypassAgent: { message: "inject" },
@@ -112,6 +77,22 @@ test("test base", async () => {
     assert.deepStrictEqual(afterResultOf, [{ message: "inject" }]);
   })();
 
-  // await sleep(500);
   injectAgentResolver({ message: "inject" });
+});
+
+test("test running", async () => {
+  const { injectAgent, injectAgentResolver } = injectAgentGenerator();
+
+  const graph = new GraphAI(graph_injection_data, { ...defaultTestAgents, injectAgent });
+  assert.equal(false, graph.isRunning());
+
+  (async () => {
+    await graph.run();
+    assert.equal(false, graph.isRunning());
+  })();
+
+  assert.equal(true, graph.isRunning());
+  injectAgentResolver({ message: "inject" });
+  await sleep(100);
+  assert.equal(false, graph.isRunning());
 });

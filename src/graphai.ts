@@ -26,7 +26,6 @@ export class GraphAI {
   private data: GraphData;
   public nodes: GraphNodes;
   public callbackDictonary: AgentFunctionDictonary;
-  public isRunning = false;
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
@@ -213,15 +212,13 @@ export class GraphAI {
 
   // Public API
   public async run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>> {
-    if (this.isRunning) {
+    if (this.isRunning()) {
       console.error("-- Already Running");
     }
-    this.isRunning = true;
     this.pushReadyNodesIntoQueue();
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
-        this.isRunning = false;
         const errors = this.errors();
         const nodeIds = Object.keys(errors);
         if (nodeIds.length > 0) {
@@ -256,17 +253,20 @@ export class GraphAI {
     }
   }
 
+  public isRunning() {
+    return this.runningNodes.size > 0;
+  }
+
   // Must be called only from onExecutionComplete righ after removeRunning
   // Check if there is any running computed nodes.
   // In case of no running computed note, start the another iteration if ncessary (loop)
   private processLoopIfNecessary() {
-    if (this.runningNodes.size === 0) {
+    if (!this.isRunning()) {
       this.repeatCount++;
       const loop = this.loop;
       if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
         const results = this.results(); // results from previous loop
 
-        this.isRunning = false; // temporarily stop it
         this.nodes = this.createNodes(this.data);
         this.initializeNodes(results);
 
@@ -279,7 +279,6 @@ export class GraphAI {
           return true;
         };
         if (checkWhileCondition()) {
-          this.isRunning = true; // restore it
           this.pushReadyNodesIntoQueue();
           return;
         }
