@@ -6,7 +6,7 @@ export declare class Node {
     nodeId: string;
     waitlist: Set<string>;
     state: NodeState;
-    result: ResultData;
+    result: ResultData | undefined;
     protected graph: GraphAI;
     protected log: TransactionLog;
     constructor(nodeId: string, graph: GraphAI);
