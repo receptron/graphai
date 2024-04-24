@@ -55,9 +55,14 @@ test("test fork_agent 2", async () => {
         },
       },
     },
-    inputs: [["apple", "orange"]],
+    inputs: [["apple", "orange", "banana", "lemon"]],
   });
   assert.deepStrictEqual(result, {
-    contents: [{ content: "I love apple." }, { content: "I love orange." }],
+    contents: [
+      { content: "I love apple." },
+      { content: "I love orange." },
+      { content: "I love banana." },
+      { content: "I love lemon." },
+    ],
   });
 });
