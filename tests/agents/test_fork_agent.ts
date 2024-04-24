@@ -8,29 +8,56 @@ test("test fork_agent", async () => {
   const result = await forkAgent({
     ...defaultTestContext,
     agents: { forkAgent, stringTemplateAgent },
-    params: { 
-      injectionTo: "node1", 
+    params: {
+      injectionTo: "node1",
       resultFrom: "node2",
       graph: {
         nodes: {
           node1: {
-            value: { fruit: "none" }
+            value: { fruit: "none" },
           },
           node2: {
             agentId: "stringTemplateAgent",
             params: {
-              template: "I love ${0}."
+              template: "I love ${0}.",
             },
             inputs: ["node1.fruit"],
-          }
-        }
-      }
+          },
+        },
+      },
     },
-    inputs: [[{ fruit:"apple" }, { fruit: "orange" }]],
+    inputs: [[{ fruit: "apple" }, { fruit: "orange" }]],
   });
-  console.log(result);
   assert.deepStrictEqual(result, {
-    contents: [ { content: 'I love apple.' }, { content: 'I love orange.' } ]
+    contents: [{ content: "I love apple." }, { content: "I love orange." }],
   });
 });
 
+test("test fork_agent 2", async () => {
+  const result = await forkAgent({
+    ...defaultTestContext,
+    agents: { forkAgent, stringTemplateAgent },
+    params: {
+      injectionTo: "node1",
+      resultFrom: "node2",
+      graph: {
+        nodes: {
+          node1: {
+            value: {},
+          },
+          node2: {
+            agentId: "stringTemplateAgent",
+            params: {
+              template: "I love ${0}.",
+            },
+            inputs: ["node1"],
+          },
+        },
+      },
+    },
+    inputs: [["apple", "orange"]],
+  });
+  assert.deepStrictEqual(result, {
+    contents: [{ content: "I love apple." }, { content: "I love orange." }],
+  });
+});
