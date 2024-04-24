@@ -170,7 +170,7 @@ export class ComputedNode extends Node {
     try {
       const callback = this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
-      const result = await callback({
+      const context: any = {
         params: this.params,
         inputs: previousResults,
         agents: this.graph.callbackDictonary,
@@ -181,7 +181,16 @@ export class ComputedNode extends Node {
           verbose: this.graph.verbose,
         },
         log: localLog,
-      });
+      };
+
+      // NOTE: We use the existence of graph object in the agent-specific params to determine
+      // if this is a nested agent or not.
+      if (typeof context.params?.graph === "object") {
+        this.graph.taskManager.prepareForNesting();
+        context.taskManager = this.graph.taskManager;
+      }
+      const result = await callback(context);
+
       if (!this.isCurrentTransaction(transactionId)) {
         // This condition happens when the agent function returns
         // after the timeout (either retried or not).

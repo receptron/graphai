@@ -1,11 +1,17 @@
 import { GraphAI, GraphData, AgentFunction } from "@/graphai";
+import { assert } from "@/utils/utils";
 
 export const nestedAgent: AgentFunction<{
   graph: GraphData;
   resultFrom: string;
   injectionTo?: Array<string>;
-}> = async ({ params, inputs, agents, log }) => {
-  const graph = new GraphAI(params.graph, agents || {});
+}> = async ({ params, inputs, agents, log, taskManager }) => {
+  if (taskManager) {
+    const status = taskManager.getStatus(false);
+    assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
+  }
+
+  const graph = new GraphAI(params.graph, agents || {}, taskManager);
 
   try {
     // Inject inputs to specified source nodes
