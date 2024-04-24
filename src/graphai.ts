@@ -18,16 +18,22 @@ import { parseNodeName } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { NodeState } from "./type";
 
+function assert(condition: any, message: string): asserts condition {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+
 type TaskEntry = {
-  node: Node;
-  callback: (node: Node) => {};
+  node: ComputedNode;
+  callback: (node: ComputedNode) => void;
 };
 
 class TaskManager {
   private concurrency: number;
   private taskQueue: Array<TaskEntry> = [];
-  private runningNodes = new Set<Node>();
-  
+  private runningNodes = new Set<ComputedNode>();
+
   constructor(concurrency: number) {
     this.concurrency = concurrency;
   }
@@ -39,15 +45,16 @@ class TaskManager {
         this.runningNodes.add(task.node);
         task.callback(task.node);
       }
-    } 
+    }
   }
 
-  public add(node: Node, callback: ()=>{}) {
-    this.taskQueue.push({node, callback});
+  public addTask(node: ComputedNode, callback: (node: ComputedNode) => void) {
+    this.taskQueue.push({ node, callback });
     this.dequeueTaskIfPossible();
   }
 
-  public onComplete(node: Node) {
+  public onComplete(node: ComputedNode) {
+    assert(this.runningNodes.has(node), `TaskManager.onComplete node(${node.nodeId}) is not in list`);
     this.runningNodes.delete(node);
     this.dequeueTaskIfPossible();
   }
@@ -64,9 +71,8 @@ export class GraphAI {
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
-  private nodeQueue: Array<ComputedNode> = []; // for Computed Node
   private onComplete: () => void;
-  private concurrency: number;
+  private taskManager: TaskManager;
   private loop?: LoopData;
   private repeatCount = 0;
   public verbose: boolean;
@@ -175,7 +181,7 @@ export class GraphAI {
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary) {
     this.data = data;
     this.callbackDictonary = callbackDictonary;
-    this.concurrency = data.concurrency ?? defaultConcurrency;
+    this.taskManager = new TaskManager(data.concurrency ?? defaultConcurrency);
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
@@ -237,12 +243,11 @@ export class GraphAI {
 
   // for computed
   public pushQueue(node: ComputedNode) {
-    if (this.runningNodes.size < this.concurrency) {
+    node.state = NodeState.Queued;
+    this.taskManager.addTask(node, (__node: ComputedNode) => {
+      assert(node.nodeId === __node.nodeId, "GraphAI.PushQueue Node mismatch");
       this.runNode(node);
-    } else {
-      node.state = NodeState.Queued;
-      this.nodeQueue.push(node);
-    }
+    });
   }
 
   // Public API
@@ -280,12 +285,7 @@ export class GraphAI {
   // Must be called only from on ExecitionComplete
   private removeRunning(node: ComputedNode) {
     this.runningNodes.delete(node.nodeId);
-    if (this.nodeQueue.length > 0) {
-      const n = this.nodeQueue.shift();
-      if (n) {
-        this.runNode(n);
-      }
-    }
+    this.taskManager.onComplete(node);
   }
 
   public isRunning() {
