@@ -183,6 +183,7 @@ export class ComputedNode extends Node {
         log: localLog,
       };
       if (typeof context.params?.graph === "object") {
+        this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
       }
       const result = await callback(context);

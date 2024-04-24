@@ -36,6 +36,13 @@ export class TaskManager {
     this.dequeueTaskIfPossible();
   }
 
+  public prepareForNesting() {
+    if (this.runningNodes.size === this.concurrency) {
+      this.concurrency++;
+      console.warn("WARNING: increasing concurrenty to", this.concurrency);
+    }
+  }
+
   public getStatus(verbose: boolean) {
     const status: any = {
       concurrency: this.concurrency,
@@ -48,7 +55,9 @@ export class TaskManager {
         ids.push(node.nodeId);
       });
       status.runningNodes = ids;
-      status.queuedNodes = this.taskQueue.map((task) => { return task.node.nodeId; });      
+      status.queuedNodes = this.taskQueue.map((task) => {
+        return task.node.nodeId;
+      });
     }
     return status;
   }
