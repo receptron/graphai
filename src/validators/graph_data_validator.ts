@@ -23,10 +23,18 @@ export const graphNodesValidator = (data: GraphData) => {
 export const graphDataValidator = (data: GraphData) => {
   if (data.loop) {
     if (data.loop.count === undefined && data.loop.while === undefined) {
-      throw new Error("Either count or while is required in loop");
+      throw new Error("Loop: Either count or while is required in loop");
     }
     if (data.loop.count !== undefined && data.loop.while !== undefined) {
-      throw new Error("Both A and B cannot be set");
+      throw new Error("Loop: Both count and while cannot be set");
+    }
+  }
+  if (data.concurrency !== undefined) {
+    if (!Number.isInteger(data.concurrency)) {
+      throw new Error("Concurrency must be an integer");
+    }
+    if (data.concurrency < 1) {
+      throw new Error("Concurrency must be a positive integer");
     }
   }
 };
