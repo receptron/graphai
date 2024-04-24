@@ -1,4 +1,5 @@
 import type { TransactionLog } from "@/log";
+import type { TaskManager } from "@/task";
 
 export enum NodeState {
   Waiting = "waiting",
@@ -62,6 +63,7 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
   };
   agents?: AgentFunctionDictonary;
   log?: TransactionLog[];
+  taskManager?: TaskManager;
 };
 
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (

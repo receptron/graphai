@@ -30,7 +30,7 @@ export class GraphAI {
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
-  private taskManager: TaskManager;
+  public taskManager: TaskManager;
   private onComplete: () => void;
   private loop?: LoopData;
   private repeatCount = 0;
