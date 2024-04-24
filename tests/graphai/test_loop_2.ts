@@ -63,6 +63,7 @@ test("test counter2", async () => {
 
 test("test counter3", async () => {
   const nested_graphdata = {
+    concurrency: 2,
     loop: {
       count: 10,
     },
