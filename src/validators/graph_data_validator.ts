@@ -20,3 +20,13 @@ export const graphNodesValidator = (data: GraphData) => {
     }
   });
 };
+export const graphDataValidator = (data: GraphData) => {
+  if (data.loop) {
+    if (data.loop.count === undefined && data.loop.while === undefined) {
+      throw new Error("Either count or while is required in loop");
+    }
+    if (data.loop.count !== undefined && data.loop.while !== undefined) {
+      throw new Error("Both A and B cannot be set");
+    }
+  }
+};
