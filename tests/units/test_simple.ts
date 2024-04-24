@@ -84,15 +84,15 @@ test("test running", async () => {
   const { injectAgent, injectAgentResolver } = injectAgentGenerator();
 
   const graph = new GraphAI(graph_injection_data, { ...defaultTestAgents, injectAgent });
-  assert.equal(false, graph.isRunning);
+  assert.equal(false, graph.isRunning());
 
   (async () => {
     await graph.run();
-    assert.equal(false, graph.isRunning);
+    assert.equal(false, graph.isRunning());
   })();
 
-  assert.equal(true, graph.isRunning);
+  assert.equal(true, graph.isRunning());
   injectAgentResolver({ message: "inject" });
   await sleep(100);
-  assert.equal(false, graph.isRunning);
+  assert.equal(false, graph.isRunning());
 });
