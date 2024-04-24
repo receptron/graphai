@@ -1,7 +1,7 @@
 import { GraphAI, GraphData, AgentFunction } from "@/graphai";
 import { assert } from "@/utils/utils";
 
-export const forkAgent: AgentFunction<
+export const mapAgent: AgentFunction<
   {
     graph: GraphData;
     resultFrom: string;
@@ -14,7 +14,7 @@ export const forkAgent: AgentFunction<
 > = async ({ params, inputs, agents, log, taskManager }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
-    assert(status.concurrency > status.running, `forkAgent: Concurrency is too low: ${status.concurrency}`);
+    assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
   const input = inputs[0];

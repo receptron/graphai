@@ -8,4 +8,4 @@ export * from "./embedding_agent";
 export * from "./matrix_agent";
 export * from "./token_agent";
 export * from "./test_agents";
-export * from "./fork_agent";
+export * from "./map_agent";

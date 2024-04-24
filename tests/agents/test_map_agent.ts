@@ -1,13 +1,13 @@
-import { forkAgent, stringTemplateAgent } from "@/experimental_agents";
+import { mapAgent, stringTemplateAgent } from "@/experimental_agents";
 import { defaultTestContext } from "~/agents/utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
-test("test fork_agent", async () => {
-  const result = await forkAgent({
+test("test map_agent", async () => {
+  const result = await mapAgent({
     ...defaultTestContext,
-    agents: { forkAgent, stringTemplateAgent },
+    agents: { mapAgent, stringTemplateAgent },
     params: {
       injectionTo: "node1",
       resultFrom: "node2",
@@ -33,10 +33,10 @@ test("test fork_agent", async () => {
   });
 });
 
-test("test fork_agent 2", async () => {
-  const result = await forkAgent({
+test("test map_agent 2", async () => {
+  const result = await mapAgent({
     ...defaultTestContext,
-    agents: { forkAgent, stringTemplateAgent },
+    agents: { mapAgent, stringTemplateAgent },
     params: {
       injectionTo: "node1",
       resultFrom: "node2",
@@ -58,11 +58,6 @@ test("test fork_agent 2", async () => {
     inputs: [["apple", "orange", "banana", "lemon"]],
   });
   assert.deepStrictEqual(result, {
-    contents: [
-      { content: "I love apple." },
-      { content: "I love orange." },
-      { content: "I love banana." },
-      { content: "I love lemon." },
-    ],
+    contents: [{ content: "I love apple." }, { content: "I love orange." }, { content: "I love banana." }, { content: "I love lemon." }],
   });
 });
