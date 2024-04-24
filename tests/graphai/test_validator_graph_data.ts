@@ -1,18 +1,6 @@
-import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "~/agents/agents";
-import { GraphData } from "@/graphai";
+import { rejectTest } from "~/utils/runner";
 
 import test from "node:test";
-import assert from "node:assert";
-
-const rejectTest = async (graphdata: GraphData, errorMessage: string) => {
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graphdata, defaultTestAgents);
-    },
-    { name: "Error", message: errorMessage },
-  );
-};
 
 test("test loop error", async () => {
   const graphdata = {
