@@ -1,9 +1,7 @@
-import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "~/agents/agents";
+import { rejectTest } from "~/utils/runner";
 import { anonymization } from "~/utils/utils";
 
 import test from "node:test";
-import assert from "node:assert";
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
@@ -14,12 +12,7 @@ test("test computed node validation value", async () => {
       },
     },
   });
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
-    },
-    { name: "Error", message: "Cannot set both agentId and value" },
-  );
+  await rejectTest(graph_data, "Cannot set both agentId and value");
 });
 
 test("test static node validation value", async () => {
@@ -31,10 +24,5 @@ test("test static node validation value", async () => {
       },
     },
   });
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
-    },
-    { name: "Error", message: "Computed node does not allow update" },
-  );
+  await rejectTest(graph_data, "Computed node does not allow update");
 });

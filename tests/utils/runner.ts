@@ -1,9 +1,12 @@
 import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
+import { defaultTestAgents } from "~/agents/agents";
 import { NodeState } from "@/type";
 
 import path from "path";
 import * as fs from "fs";
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
+
+import assert from "node:assert";
 
 export const readGraphData = (file: string) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
@@ -53,4 +56,13 @@ export const graphDataTestRunner = async (
     // console.log(graph.transactionLogs());
     return graph.results();
   }
+};
+
+export const rejectTest = async (graphdata: GraphData, errorMessage: string) => {
+  await assert.rejects(
+    async () => {
+      await graphDataTestRunner(__filename, graphdata, defaultTestAgents);
+    },
+    { name: "Error", message: errorMessage },
+  );
 };
