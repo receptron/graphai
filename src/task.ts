@@ -72,14 +72,8 @@ export class TaskManager {
       running: this.runningNodes.size,
     };
     if (verbose) {
-      const ids: Array<string> = [];
-      this.runningNodes.forEach((node) => {
-        ids.push(node.nodeId);
-      });
-      status.runningNodes = ids;
-      status.queuedNodes = this.taskQueue.map((task) => {
-        return task.node.nodeId;
-      });
+      status.runningNodes = Array.from(this.runningNodes).map((node) => node.nodeId);
+      status.queuedNodes = this.taskQueue.map((task) => task.node.nodeId);
     }
     return status;
   }
