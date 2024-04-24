@@ -51,9 +51,8 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
         forkIndex?: number;
         retry: number;
     };
-    agents?: CallbackDictonaryArgs;
+    agents?: AgentFunctionDictonary;
     log?: TransactionLog[];
 };
 export type AgentFunction<ParamsType = Record<string, any>, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>;
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
-export type CallbackDictonaryArgs = AgentFunctionDictonary;

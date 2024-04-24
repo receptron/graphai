@@ -109,7 +109,7 @@ export class ComputedNode extends Node {
       this.result = undefined;
       this.error = error;
       this.transactionId = undefined; // This is necessary for timeout case
-      this.graph.executed(this);
+      this.graph.onExecutionComplete(this);
     }
   }
 
@@ -196,7 +196,7 @@ export class ComputedNode extends Node {
 
       this.onSetResult();
 
-      this.graph.executed(this)
+      this.graph.onExecutionComplete(this);
     } catch (error) {
       this.errorProcess(error, transactionId);
     }

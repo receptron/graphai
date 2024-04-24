@@ -201,6 +201,16 @@ export class GraphAI {
     });
   }
 
+  // for computed
+  public pushQueue(node: ComputedNode) {
+    if (this.runningNodes.size < this.concurrency) {
+      this.runNode(node);
+    } else {
+      node.state = NodeState.Queued;
+      this.nodeQueue.push(node);
+    }
+  }
+
   // Public API
   public async run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>> {
     if (this.isRunning) {
@@ -228,24 +238,15 @@ export class GraphAI {
     this.runningNodes.add(node.nodeId);
     node.execute();
   }
+
   // callback from execute
-  public executed(node: ComputedNode) {
+  public onExecutionComplete(node: ComputedNode) {
     this.removeRunning(node);
-    this.loopProcess()
-  }
-  
-  // for computed
-  public pushQueue(node: ComputedNode) {
-    if (this.runningNodes.size < this.concurrency) {
-      this.runNode(node);
-    } else {
-      node.state = NodeState.Queued;
-      this.nodeQueue.push(node);
-    }
+    this.processLoopIfNecessary();
   }
 
-  // for completed
-  public removeRunning(node: ComputedNode) {
+  // Must be called only from on ExecitionComplete
+  private removeRunning(node: ComputedNode) {
     this.runningNodes.delete(node.nodeId);
     if (this.nodeQueue.length > 0) {
       const n = this.nodeQueue.shift();
@@ -254,7 +255,11 @@ export class GraphAI {
       }
     }
   }
-  private loopProcess() {
+
+  // Must be called only from onExecutionComplete righ after removeRunning
+  // Check if there is any running computed nodes.
+  // In case of no running computed note, start the another iteration if ncessary (loop)
+  private processLoopIfNecessary() {
     if (this.runningNodes.size === 0) {
       this.repeatCount++;
       const loop = this.loop;
