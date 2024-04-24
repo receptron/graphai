@@ -29,9 +29,10 @@ export declare class ComputedNode extends Node {
     readonly isStaticNode = false;
     readonly isComputedNode = true;
     constructor(nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI);
-    pushQueueIfReady(): void;
+    isReadyNode(): boolean;
     private retry;
     removePending(nodeId: string): void;
+    pushQueueIfReadyAndRunning(): void;
     private isCurrentTransaction;
     private executeTimeout;
     execute(): Promise<void>;

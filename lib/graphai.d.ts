@@ -9,9 +9,8 @@ export declare class GraphAI {
     callbackDictonary: AgentFunctionDictonary;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
     private runningNodes;
-    private nodeQueue;
+    private taskManager;
     private onComplete;
-    private concurrency;
     private loop?;
     private repeatCount;
     verbose: boolean;
@@ -25,6 +24,7 @@ export declare class GraphAI {
     results<T = DefaultResultData>(): ResultDataDictonary<T>;
     errors(): Record<string, Error>;
     private pushReadyNodesIntoQueue;
+    pushQueueIfReady(node: ComputedNode): void;
     pushQueue(node: ComputedNode): void;
     run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>>;
     private runNode;
