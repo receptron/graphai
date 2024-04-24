@@ -195,9 +195,14 @@ export class GraphAI {
     Object.keys(this.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       if (node.isComputedNode) {
-        node.pushQueueIfReady();
+        this.pushQueueIfReady(node);
       }
     });
+  }
+  public pushQueueIfReady(node: ComputedNode) {
+    if (node.isReadyNode()) {
+      this.pushQueue(node);
+    }
   }
 
   // for computed

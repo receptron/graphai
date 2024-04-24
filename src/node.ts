@@ -33,6 +33,7 @@ export class Node {
       const waitingNode = this.graph.nodes[waitingNodeId];
       if (waitingNode.isComputedNode) {
         waitingNode.removePending(this.nodeId);
+        waitingNode.pushQueueIfReadyAndRunning();
       }
     });
   }
@@ -77,22 +78,21 @@ export class ComputedNode extends Node {
     this.log.initForComputedNode(this);
   }
 
-  public pushQueueIfReady() {
+  public isReadyNode() {
     if (this.state === NodeState.Waiting && this.pendings.size === 0) {
       // Count the number of data actually available.
       // We care it only when this.anyInput is true.
       // Notice that this logic enables dynamic data-flows.
-      const counter = () => {
-        return this.inputs.reduce((count, nodeId) => {
-          const source = this.sources[nodeId];
-          const [result] = this.graph.resultsOf([source]);
-          return result === undefined ? count : count + 1;
-        }, 0);
-      };
-      if (!this.anyInput || counter() > 0) {
-        this.graph.pushQueue(this);
+      const counter = this.inputs.reduce((count, nodeId) => {
+        const source = this.sources[nodeId];
+        const [result] = this.graph.resultsOf([source]);
+        return result === undefined ? count : count + 1;
+      }, 0);
+      if (!this.anyInput || counter > 0) {
+        return true;
       }
     }
+    return false;
   }
 
   // This private method (only called while executing execute()) performs
@@ -124,9 +124,11 @@ export class ComputedNode extends Node {
     } else {
       this.pendings.delete(nodeId);
     }
+  }
 
+  public pushQueueIfReadyAndRunning() {
     if (this.graph.isRunning()) {
-      this.pushQueueIfReady();
+      this.graph.pushQueueIfReady(this);
     }
   }
 
