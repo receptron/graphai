@@ -6,6 +6,10 @@ type TaskEntry = {
   callback: (node: ComputedNode) => void;
 };
 
+// TaskManage object controls the concurrency of ComputedNode execution.
+//
+// NOTE: A TaskManager instance will be shared between parent graph and its children
+// when nested agents are involved.
 export class TaskManager {
   private concurrency: number;
   private taskQueue: Array<TaskEntry> = [];
@@ -15,6 +19,9 @@ export class TaskManager {
     this.concurrency = concurrency;
   }
 
+  // This internal method dequeus a task from the task queue
+  // and call the associated callback method, if the number of
+  // running task is lower than the spcified limit.
   private dequeueTaskIfPossible() {
     if (this.runningNodes.size < this.concurrency) {
       const task = this.taskQueue.shift();
@@ -25,17 +32,24 @@ export class TaskManager {
     }
   }
 
+  // Node will call this method to put itself in the execution queue.
+  // We call the associated callback function when it is dequeued.
   public addTask(node: ComputedNode, callback: (node: ComputedNode) => void) {
     this.taskQueue.push({ node, callback });
     this.dequeueTaskIfPossible();
   }
 
+  // Node MUST call this method once the execution of agent function is completed
+  // either successfully or not.
   public onComplete(node: ComputedNode) {
     assert(this.runningNodes.has(node), `TaskManager.onComplete node(${node.nodeId}) is not in list`);
     this.runningNodes.delete(node);
     this.dequeueTaskIfPossible();
   }
 
+  // Node will call this method before it hands the task manager from the graph
+  // to a nested agent. We need to make it sure that there is enough room to run
+  // computed nodes inside the nested graph to avoid a deadlock.
   public prepareForNesting() {
     if (this.runningNodes.size === this.concurrency) {
       this.concurrency++;
