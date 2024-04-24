@@ -15,8 +15,9 @@ import {
 import { TransactionLog } from "@/log";
 
 import { ComputedNode, StaticNode } from "@/node";
-import { parseNodeName } from "@/utils/utils";
+import { parseNodeName, assert } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
+import { TaskManager } from "./task";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
@@ -29,9 +30,8 @@ export class GraphAI {
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
-  private nodeQueue: Array<ComputedNode> = []; // for Computed Node
+  private taskManager: TaskManager;
   private onComplete: () => void;
-  private concurrency: number;
   private loop?: LoopData;
   private repeatCount = 0;
   public verbose: boolean;
@@ -140,7 +140,7 @@ export class GraphAI {
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary) {
     this.data = data;
     this.callbackDictonary = callbackDictonary;
-    this.concurrency = data.concurrency ?? defaultConcurrency;
+    this.taskManager = new TaskManager(data.concurrency ?? defaultConcurrency);
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
@@ -207,12 +207,11 @@ export class GraphAI {
 
   // for computed
   public pushQueue(node: ComputedNode) {
-    if (this.runningNodes.size < this.concurrency) {
+    node.state = NodeState.Queued;
+    this.taskManager.addTask(node, (_node) => {
+      assert(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
       this.runNode(node);
-    } else {
-      node.state = NodeState.Queued;
-      this.nodeQueue.push(node);
-    }
+    });
   }
 
   // Public API
@@ -250,12 +249,7 @@ export class GraphAI {
   // Must be called only from on ExecitionComplete
   private removeRunning(node: ComputedNode) {
     this.runningNodes.delete(node.nodeId);
-    if (this.nodeQueue.length > 0) {
-      const n = this.nodeQueue.shift();
-      if (n) {
-        this.runNode(n);
-      }
-    }
+    this.taskManager.onComplete(node);
   }
 
   public isRunning() {
