@@ -11,3 +11,9 @@ export const parseNodeName = (inputNodeId: string): DataSource => {
   }
   return { nodeId: parts[0], propId: parts[1] };
 };
+
+export function assert(condition: any, message: string): asserts condition {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
