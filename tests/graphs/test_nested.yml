@@ -11,30 +11,30 @@ nodes:
     params:
       resultFrom: inner3
       injectionTo: [inner0]
-      graph:
-        nodes:
-          inner0:
-            value: 
-              dummy: 0
-          inner1:
-            agentId: sleeperAgent
-            params:
-              duration: 500
-              value:
-                inner1: output
-          inner2:
-            agentId: sleeperAgent
-            params:
-              duration: 100
-              value:
-                inner2: output
-          inner3:
-            agentId: sleeperAgent
-            params:
-              duration: 500
-              value:
-                inner3: output
-            inputs: [inner0, inner1, inner2]
+    graph:
+      nodes:
+        inner0:
+          value: 
+            dummy: 0
+        inner1:
+          agentId: sleeperAgent
+          params:
+            duration: 500
+            value:
+              inner1: output
+        inner2:
+          agentId: sleeperAgent
+          params:
+            duration: 100
+            value:
+              inner2: output
+        inner3:
+          agentId: sleeperAgent
+          params:
+            duration: 500
+            value:
+              inner3: output
+          inputs: [inner0, inner1, inner2]
   outer3:
     agentId: sleeperAgent
     params:

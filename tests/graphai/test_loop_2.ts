@@ -44,10 +44,10 @@ test("test counter2", async () => {
       },
       nested1: {
         agentId: "nestedAgent",
+        graph: graphdata_counter,
         params: {
           resultFrom: "counter", // nestedAgent result is counter node result in graphdata_counter
           injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
-          graph: graphdata_counter,
         },
         inputs: ["workingMemory"],
       },
@@ -75,10 +75,10 @@ test("test counter3", async () => {
       nested1: {
         fork: 2,
         agentId: "nestedAgent",
+        graph: graphdata_counter,
         params: {
           resultFrom: "counter", // nestedAgent result is counter node result in graphdata_counter
           injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
-          graph: graphdata_counter,
         },
         inputs: ["workingMemory"],
       },
