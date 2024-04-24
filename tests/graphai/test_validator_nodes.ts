@@ -2,7 +2,6 @@ import { rejectTest } from "~/utils/runner";
 import { anonymization } from "~/utils/utils";
 
 import test from "node:test";
-import assert from "node:assert";
 
 test("test validation no data", async () => {
   const graph_data = anonymization({});

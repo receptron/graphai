@@ -1,9 +1,7 @@
 import { rejectTest } from "~/utils/runner";
-import { defaultTestAgents } from "~/agents/agents";
 import { anonymization } from "~/utils/utils";
 
 import test from "node:test";
-import assert from "node:assert";
 
 test("test static node validation inputs", async () => {
   const graph_data = anonymization({
