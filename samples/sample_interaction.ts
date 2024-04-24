@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { echoForkIndexAgent } from "~/agents/agents";
+import { echoForkIndexAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputSelectAgent } from "./agents/interactiveInputAgent";
 

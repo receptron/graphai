@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { mergeNodeIdAgent } from "~/agents/agents";
+import { mergeNodeIdAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 
