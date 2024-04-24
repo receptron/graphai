@@ -6,14 +6,6 @@ type TaskEntry = {
   callback: (node: ComputedNode) => void;
 };
 
-type TaskManagerStatus = {
-  concurrency: number;
-  queue: number;
-  running: number;
-  runningNodes?: string[];
-  queuedNodes?: string[];
-};
-
 // TaskManage object controls the concurrency of ComputedNode execution.
 //
 // NOTE: A TaskManager instance will be shared between parent graph and its children
@@ -65,7 +57,7 @@ export class TaskManager {
     }
   }
 
-  public getStatus(verbose: boolean = false): TaskManagerStatus {
+  public getStatus(verbose: boolean = false) {
     return {
       concurrency: this.concurrency,
       queue: this.taskQueue.length,

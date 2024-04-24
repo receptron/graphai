@@ -1,11 +1,4 @@
 import { ComputedNode } from "./node";
-type TaskManagerStatus = {
-    concurrency: number;
-    queue: number;
-    running: number;
-    runningNodes?: string[];
-    queuedNodes?: string[];
-};
 export declare class TaskManager {
     private concurrency;
     private taskQueue;
@@ -15,6 +8,11 @@ export declare class TaskManager {
     addTask(node: ComputedNode, callback: (node: ComputedNode) => void): void;
     onComplete(node: ComputedNode): void;
     prepareForNesting(): void;
-    getStatus(verbose: boolean): TaskManagerStatus;
+    getStatus(verbose?: boolean): {
+        runningNodes?: string[] | undefined;
+        queuedNodes?: string[] | undefined;
+        concurrency: number;
+        queue: number;
+        running: number;
+    };
 }
-export {};
