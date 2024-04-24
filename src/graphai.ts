@@ -228,7 +228,12 @@ export class GraphAI {
     this.runningNodes.add(node.nodeId);
     node.execute();
   }
-
+  // callback from execute
+  public executed(node: ComputedNode) {
+    this.removeRunning(node);
+    this.loopProcess()
+  }
+  
   // for computed
   public pushQueue(node: ComputedNode) {
     if (this.runningNodes.size < this.concurrency) {
@@ -248,6 +253,8 @@ export class GraphAI {
         this.runNode(n);
       }
     }
+  }
+  private loopProcess() {
     if (this.runningNodes.size === 0) {
       this.repeatCount++;
       const loop = this.loop;
