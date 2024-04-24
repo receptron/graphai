@@ -195,11 +195,17 @@ export class ComputedNode extends Node {
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
-      if (typeof context.params?.graph === "object") {
+      const isNesting = typeof context.params?.graph === "object";
+      if (isNesting) {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
       }
+
       const result = await callback(context);
+
+      if (isNesting) {
+        this.graph.taskManager.restoreAfterNesting();
+      }
 
       if (!this.isCurrentTransaction(transactionId)) {
         // This condition happens when the agent function returns

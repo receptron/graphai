@@ -51,10 +51,11 @@ export class TaskManager {
   // to a nested agent. We need to make it sure that there is enough room to run
   // computed nodes inside the nested graph to avoid a deadlock.
   public prepareForNesting() {
-    if (this.runningNodes.size === this.concurrency) {
-      this.concurrency++;
-      console.warn("WARNING: increasing concurrenty to", this.concurrency);
-    }
+    this.concurrency++;
+  }
+
+  public restoreAfterNesting() {
+    this.concurrency--;
   }
 
   public getStatus(verbose: boolean = false) {
@@ -64,9 +65,9 @@ export class TaskManager {
       running: this.runningNodes.size,
       ...(verbose
         ? {
-          runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
-          queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
-        }
+            runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
+            queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
+          }
         : {}),
     };
   }
