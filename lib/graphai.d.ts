@@ -28,8 +28,10 @@ export declare class GraphAI {
     private pushReadyNodesIntoQueue;
     run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>>;
     private runNode;
+    executed(node: ComputedNode): void;
     pushQueue(node: ComputedNode): void;
     removeRunning(node: ComputedNode): void;
+    private loopProcess;
     appendLog(log: TransactionLog): void;
     updateLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
