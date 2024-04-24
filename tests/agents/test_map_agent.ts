@@ -8,23 +8,23 @@ test("test map_agent", async () => {
   const result = await mapAgent({
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
+    graph: {
+      nodes: {
+        node1: {
+          value: { fruit: "none" },
+        },
+        node2: {
+          agentId: "stringTemplateAgent",
+          params: {
+            template: "I love ${0}.",
+          },
+          inputs: ["node1.fruit"],
+        },
+      },
+    },
     params: {
       injectionTo: "node1",
       resultFrom: "node2",
-      graph: {
-        nodes: {
-          node1: {
-            value: { fruit: "none" },
-          },
-          node2: {
-            agentId: "stringTemplateAgent",
-            params: {
-              template: "I love ${0}.",
-            },
-            inputs: ["node1.fruit"],
-          },
-        },
-      },
     },
     inputs: [[{ fruit: "apple" }, { fruit: "orange" }]],
   });
@@ -37,23 +37,23 @@ test("test map_agent 2", async () => {
   const result = await mapAgent({
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
+    graph: {
+      nodes: {
+        node1: {
+          value: {},
+        },
+        node2: {
+          agentId: "stringTemplateAgent",
+          params: {
+            template: "I love ${0}.",
+          },
+          inputs: ["node1"],
+        },
+      },
+    },
     params: {
       injectionTo: "node1",
       resultFrom: "node2",
-      graph: {
-        nodes: {
-          node1: {
-            value: {},
-          },
-          node2: {
-            agentId: "stringTemplateAgent",
-            params: {
-              template: "I love ${0}.",
-            },
-            inputs: ["node1"],
-          },
-        },
-      },
     },
     inputs: [["apple", "orange", "banana", "lemon"]],
   });

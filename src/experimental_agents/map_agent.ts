@@ -1,9 +1,8 @@
-import { GraphAI, GraphData, AgentFunction } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
 import { assert } from "@/utils/utils";
 
 export const mapAgent: AgentFunction<
   {
-    graph: GraphData;
     resultFrom: string;
     injectionTo?: string;
   },
@@ -11,7 +10,7 @@ export const mapAgent: AgentFunction<
     contents: Array<any>;
   },
   Array<any>
-> = async ({ params, inputs, agents, log, taskManager }) => {
+> = async ({ params, inputs, agents, log, taskManager, graph }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -19,11 +18,11 @@ export const mapAgent: AgentFunction<
 
   const input = inputs[0];
   const graphs: Array<GraphAI> = input.map((data: any) => {
-    const graph = new GraphAI(params.graph, agents || {}, taskManager);
+    const graphObj = new GraphAI(graph!, agents || {}, taskManager);
     if (params.injectionTo) {
-      graph.injectValue(params.injectionTo, data);
+      graphObj.injectValue(params.injectionTo, data);
     }
-    return graph;
+    return graphObj;
   });
 
   const runs = graphs.map((graph) => {
