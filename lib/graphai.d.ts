@@ -7,7 +7,6 @@ export declare class GraphAI {
     private data;
     nodes: GraphNodes;
     callbackDictonary: AgentFunctionDictonary;
-    isRunning: boolean;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
     private runningNodes;
     private nodeQueue;
@@ -31,6 +30,7 @@ export declare class GraphAI {
     private runNode;
     onExecutionComplete(node: ComputedNode): void;
     private removeRunning;
+    isRunning(): boolean;
     private processLoopIfNecessary;
     appendLog(log: TransactionLog): void;
     updateLog(log: TransactionLog): void;
