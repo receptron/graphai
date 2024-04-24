@@ -1,4 +1,4 @@
 nodes:
   node1:
-    agentId: test
+    agentId: testAgent
     
