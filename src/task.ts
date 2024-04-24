@@ -35,4 +35,21 @@ export class TaskManager {
     this.runningNodes.delete(node);
     this.dequeueTaskIfPossible();
   }
+
+  public getStatus(verbose: boolean) {
+    const status: any = {
+      concurrency: this.concurrency,
+      queue: this.taskQueue.length,
+      running: this.runningNodes.size,
+    };
+    if (verbose) {
+      const ids: Array<string> = [];
+      this.runningNodes.forEach((node) => {
+        ids.push(node.nodeId);
+      });
+      status.runningNodes = ids;
+      status.queuedNodes = this.taskQueue.map((task) => { return task.node.nodeId; });      
+    }
+    return status;
+  }
 }

@@ -5,6 +5,10 @@ export const nestedAgent: AgentFunction<{
   resultFrom: string;
   injectionTo?: Array<string>;
 }> = async ({ params, inputs, agents, log, taskManager }) => {
+  if (taskManager) {
+    console.log(taskManager.getStatus(true));
+  }
+
   const graph = new GraphAI(params.graph, agents || {}, taskManager);
 
   try {
