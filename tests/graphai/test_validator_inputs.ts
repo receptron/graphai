@@ -1,4 +1,4 @@
-import { graphDataTestRunner } from "~/utils/runner";
+import { rejectTest } from "~/utils/runner";
 import { defaultTestAgents } from "~/agents/agents";
 import { anonymization } from "~/utils/utils";
 
@@ -17,12 +17,7 @@ test("test computed node validation value", async () => {
       },
     },
   });
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
-    },
-    { name: "Error", message: "Inputs not match: NodeId computed2, Inputs: dummy" },
-  );
+  await rejectTest(graph_data, "Inputs not match: NodeId computed2, Inputs: dummy");
 });
 
 test("test computed node validation value", async () => {
@@ -38,12 +33,7 @@ test("test computed node validation value", async () => {
       },
     },
   });
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
-    },
-    { name: "Error", message: "No Initial Runnning Node" },
-  );
+  await rejectTest(graph_data, "No Initial Runnning Node");
 });
 
 test("test no initial running node", async () => {
@@ -59,12 +49,7 @@ test("test no initial running node", async () => {
       },
     },
   });
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
-    },
-    { name: "Error", message: "No Initial Runnning Node" },
-  );
+  await rejectTest(graph_data, "No Initial Runnning Node");
 });
 
 test("test closed loop validation", async () => {
@@ -83,10 +68,5 @@ test("test closed loop validation", async () => {
       },
     },
   });
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
-    },
-    { name: "Error", message: "Some nodes are not executed: computed3" },
-  );
+  await rejectTest(graph_data, "Some nodes are not executed: computed3");
 });
