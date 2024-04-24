@@ -2,8 +2,7 @@ import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 import { fileBaseName } from "~/utils/file_utils";
 
-import { sleeperAgent } from "@/experimental_agents";
-import { mergeNodeIdAgent } from "~/agents/agents";
+import { sleeperAgent, mergeNodeIdAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";
