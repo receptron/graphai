@@ -1,6 +1,6 @@
 import type { GraphAI } from "./graphai";
 import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "./type";
-import { TransactionLog } from "./log";
+import { TransactionLog } from "./transaction_log";
 export declare class Node {
     nodeId: string;
     waitlist: Set<string>;

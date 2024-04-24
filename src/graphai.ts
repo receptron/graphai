@@ -12,12 +12,12 @@ import {
   ComputedNodeData,
   NodeState,
 } from "@/type";
-import { TransactionLog } from "@/log";
+import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
 import { parseNodeName, assert } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
-import { TaskManager } from "./task";
+import { TaskManager } from "./task_manager";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 

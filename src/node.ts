@@ -12,7 +12,7 @@ import {
   DefaultInputData,
 } from "@/type";
 import { parseNodeName } from "@/utils/utils";
-import { TransactionLog } from "@/log";
+import { TransactionLog } from "@/transaction_log";
 
 export class Node {
   public nodeId: string;

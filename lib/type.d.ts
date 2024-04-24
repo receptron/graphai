@@ -1,5 +1,5 @@
-import type { TransactionLog } from "./log";
-import type { TaskManager } from "./task";
+import type { TransactionLog } from "./transaction_log";
+import type { TaskManager } from "./task_manager";
 export declare enum NodeState {
     Waiting = "waiting",
     Queued = "queued",
