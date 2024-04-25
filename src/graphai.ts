@@ -252,37 +252,36 @@ export class GraphAI {
   // callback from execute
   public onExecutionComplete(node: ComputedNode) {
     this.taskManager.onComplete(node);
-    this.processLoopIfNecessary();
+    if (this.isRunning() || this.processLoopIfNecessary()) {
+      return; // continue running
+    }
+    this.onComplete(); // Nothing to run. Finish it.
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning
   // Check if there is any running computed nodes.
   // In case of no running computed note, start the another iteration if ncessary (loop)
   private processLoopIfNecessary() {
-    if (!this.isRunning()) {
-      this.repeatCount++;
-      const loop = this.loop;
-      if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
-        const results = this.results(); // results from previous loop
+    this.repeatCount++;
+    const loop = this.loop;
+    if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
+      const results = this.results(); // results from previous loop
 
-        this.nodes = this.createNodes(this.data);
-        this.initializeNodes(results);
+      this.nodes = this.createNodes(this.data);
+      this.initializeNodes(results);
 
-        const checkWhileCondition = () => {
-          if (loop.while) {
-            const value = this.getValueFromResults(loop.while, this.results());
-            // NOTE: We treat an empty array as false.
-            return Array.isArray(value) ? value.length > 0 : !!value;
-          }
-          return true;
-        };
-        if (checkWhileCondition()) {
-          this.pushReadyNodesIntoQueue();
-          return;
+      // Notice that we need to check the while condition *after* calling initializeNodes.
+      if (loop.while) {
+        const value = this.getValueFromResults(loop.while, this.results());
+        // NOTE: We treat an empty array as false.
+        if (Array.isArray(value) ? value.length === 0 : !value) {
+          return false; // while condition is not met
         }
       }
-      this.onComplete();
+      this.pushReadyNodesIntoQueue();
+      return true; // Indicating that we are going to continue.
     }
+    return false;
   }
 
   public appendLog(log: TransactionLog) {
