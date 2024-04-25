@@ -19,18 +19,20 @@ import { parseNodeName, assert } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
+import crypto from "crypto";
+
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
 const defaultConcurrency = 8;
 
 export class GraphAI {
+  private id: string;
   private data: GraphData;
   public nodes: GraphNodes;
   public callbackDictonary: AgentFunctionDictonary;
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
-  private taskQueue = new Set<string>();
   public taskManager: TaskManager;
   private onComplete: () => void;
   private loop?: LoopData;
@@ -139,6 +141,7 @@ export class GraphAI {
   }
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
+    this.id = crypto.randomUUID();
     this.data = data;
     this.callbackDictonary = callbackDictonary;
     this.taskManager = taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
@@ -209,11 +212,9 @@ export class GraphAI {
   // for computed
   public pushQueue(node: ComputedNode) {
     node.state = NodeState.Queued;
-    this.taskQueue.add(node.nodeId);
-    this.taskManager.addTask(node, (_node) => {
+    this.taskManager.addTask(node, this.id, (_node) => {
       assert(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
       this.runNode(node);
-      this.taskQueue.delete(_node.nodeId);
     });
   }
 
@@ -256,7 +257,7 @@ export class GraphAI {
   }
 
   public isRunning() {
-    return this.runningNodes.size > 0 || this.taskQueue.size > 0;
+    return this.runningNodes.size > 0 || this.taskManager.countTask(this.id);
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning
