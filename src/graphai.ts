@@ -32,7 +32,6 @@ export class GraphAI {
   public callbackDictonary: AgentFunctionDictonary;
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
-  private runningNodes = new Set<string>();
   public taskManager: TaskManager;
   private onComplete: () => void;
   private loop?: LoopData;
@@ -58,14 +57,14 @@ export class GraphAI {
           // For fork, change the nodeId and increase the node
           nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
             const forkedNodeId = `${nodeId}_${i}`;
-            _nodes[forkedNodeId] = new ComputedNode(forkedNodeId, i, nodeData, this);
+            _nodes[forkedNodeId] = new ComputedNode(this.id, forkedNodeId, i, nodeData, this);
             // Data for pending and waiting
             forkedNodeId2Index[forkedNodeId] = i;
             forkedNodeId2NodeId[forkedNodeId] = nodeId;
             return forkedNodeId;
           });
         } else {
-          _nodes[nodeId] = new ComputedNode(nodeId, undefined, nodeData, this);
+          _nodes[nodeId] = new ComputedNode(this.id, nodeId, undefined, nodeData, this);
         }
       }
       return _nodes;
@@ -240,7 +239,6 @@ export class GraphAI {
 
   // for computed
   private runNode(node: ComputedNode) {
-    this.runningNodes.add(node.nodeId);
     node.execute();
   }
 
@@ -252,12 +250,11 @@ export class GraphAI {
 
   // Must be called only from on ExecitionComplete
   private removeRunning(node: ComputedNode) {
-    this.runningNodes.delete(node.nodeId);
     this.taskManager.onComplete(node);
   }
 
   public isRunning() {
-    return this.runningNodes.size > 0 || this.taskManager.countTask(this.id);
+    return this.taskManager.isRunning(this.id);
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning

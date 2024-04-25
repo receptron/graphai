@@ -47,6 +47,7 @@ export class Node {
 }
 
 export class ComputedNode extends Node {
+  public graphId: string;
   public params: NodeDataParams; // Agent-specific parameters
   public nestedGraph?: GraphData;
   public retryLimit: number;
@@ -66,8 +67,9 @@ export class ComputedNode extends Node {
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
 
-  constructor(nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI) {
+  constructor(graphId: string, nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI) {
     super(nodeId, graph);
+    this.graphId = graphId;
     this.params = data.params ?? {};
     this.nestedGraph = data.graph;
     this.agentId = data.agentId;
