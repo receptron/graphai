@@ -13,6 +13,7 @@ export class TransactionLog {
   public inputs?: Array<ResultData>;
   public errorMessage?: string;
   public result?: ResultData;
+  public mapIndex?: number;
   public log?: TransactionLog[];
   constructor(nodeId: string) {
     this.nodeId = nodeId;

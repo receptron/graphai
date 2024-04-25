@@ -34,8 +34,11 @@ export const mapAgent: AgentFunction<
     return result[params.resultFrom];
   });
   if (log) {
-    const logs = graphs.map((graph) => {
-      return graph.transactionLogs();
+    const logs = graphs.map((graph, index) => {
+      return graph.transactionLogs().map((log) => {
+        log.mapIndex = index;
+        return log;
+      });
     });
     log.push(...logs.flat());
   }
