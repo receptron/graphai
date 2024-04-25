@@ -203,15 +203,9 @@ export class GraphAI {
     });
   }
 
-  private pushQueueIfReady(node: ComputedNode) {
-    if (node.isReadyNode()) {
+  public pushQueueIfReady(node: ComputedNode, allowStopping: boolean = true) {
+    if (node.isReadyNode() && (allowStopping || this.isRunning())) {
       this.pushQueue(node);
-    }
-  }
-
-  public pushQueueIfReadyAndRunning(node: ComputedNode) {
-    if (this.isRunning()) {
-      this.pushQueueIfReady(node);
     }
   }
 

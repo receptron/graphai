@@ -40,7 +40,7 @@ export class Node {
       const waitingNode = this.graph.nodes[waitingNodeId];
       if (waitingNode.isComputedNode) {
         waitingNode.removePending(this.nodeId);
-        this.graph.pushQueueIfReadyAndRunning(waitingNode);
+        this.graph.pushQueueIfReady(waitingNode, false);
       }
     });
   }
