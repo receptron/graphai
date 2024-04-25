@@ -34,8 +34,8 @@ const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => 
   return result;
 };
 
-const copy2ArrayAgent: AgentFunction = async ({ inputs, params }) => {
-  return new Array(10).fill(undefined).map((_, i) => {
+const copy2ArrayAgent: AgentFunction = async ({ inputs }) => {
+  return new Array(10).fill(undefined).map(() => {
     return inputs[0];
   });
 };
