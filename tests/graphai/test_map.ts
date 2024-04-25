@@ -97,7 +97,6 @@ const graphdata_map2 = {
 
 test("test map", async () => {
   const result = await graphDataTestRunner("test_map2", graphdata_map2, { stringTemplateAgent, sleeperAgent, mapAgent });
-  console.log(result);
   assert.deepStrictEqual(result.result, [
     { content: "I love apple." },
     { content: "I love orange." },
