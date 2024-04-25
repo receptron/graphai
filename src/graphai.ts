@@ -202,9 +202,16 @@ export class GraphAI {
       }
     });
   }
-  public pushQueueIfReady(node: ComputedNode) {
+
+  private pushQueueIfReady(node: ComputedNode) {
     if (node.isReadyNode()) {
       this.pushQueue(node);
+    }
+  }
+
+  public pushQueueIfReadyAndRunning(node: ComputedNode) {
+    if (this.isRunning()) {
+      this.pushQueueIfReady(node);
     }
   }
 
@@ -213,7 +220,7 @@ export class GraphAI {
     node.state = NodeState.Queued;
     this.taskManager.addTask(node, this.id, (_node) => {
       assert(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
-      this.runNode(node);
+      node.execute();
     });
   }
 
@@ -237,22 +244,13 @@ export class GraphAI {
     });
   }
 
-  // for computed
-  private runNode(node: ComputedNode) {
-    node.execute();
-  }
-
   // callback from execute
   public onExecutionComplete(node: ComputedNode) {
-    this.removeRunning(node);
+    this.taskManager.onComplete(node);
     this.processLoopIfNecessary();
   }
 
-  // Must be called only from on ExecitionComplete
-  private removeRunning(node: ComputedNode) {
-    this.taskManager.onComplete(node);
-  }
-
+  // Public only for testing
   public isRunning() {
     return this.taskManager.isRunning(this.id);
   }
