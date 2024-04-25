@@ -4,4 +4,4 @@ export declare const mapAgent: AgentFunction<{
     injectionTo?: string;
 }, {
     contents: Array<any>;
-}, Array<any>>;
+}, any>;

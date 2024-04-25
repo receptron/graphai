@@ -12,6 +12,7 @@ export declare class TransactionLog {
     inputs?: Array<ResultData>;
     errorMessage?: string;
     result?: ResultData;
+    mapIndex?: number;
     log?: TransactionLog[];
     constructor(nodeId: string);
     initForComputedNode(node: ComputedNode): void;

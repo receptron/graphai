@@ -244,15 +244,15 @@ export class GraphAI {
     });
   }
 
+  // Public only for testing
+  public isRunning() {
+    return this.taskManager.isRunning(this.graphId);
+  }
+
   // callback from execute
   public onExecutionComplete(node: ComputedNode) {
     this.taskManager.onComplete(node);
     this.processLoopIfNecessary();
-  }
-
-  // Public only for testing
-  public isRunning() {
-    return this.taskManager.isRunning(this.graphId);
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning

@@ -5,7 +5,8 @@ export declare class TaskManager {
     private runningNodes;
     constructor(concurrency: number);
     private dequeueTaskIfPossible;
-    addTask(node: ComputedNode, callback: (node: ComputedNode) => void): void;
+    addTask(node: ComputedNode, graphId: string, callback: (node: ComputedNode) => void): void;
+    isRunning(graphId: string): boolean;
     onComplete(node: ComputedNode): void;
     prepareForNesting(): void;
     restoreAfterNesting(): void;

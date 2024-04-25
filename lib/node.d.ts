@@ -13,6 +13,7 @@ export declare class Node {
     protected onSetResult(): void;
 }
 export declare class ComputedNode extends Node {
+    graphId: string;
     params: NodeDataParams;
     nestedGraph?: GraphData;
     retryLimit: number;
@@ -29,7 +30,7 @@ export declare class ComputedNode extends Node {
     pendings: Set<string>;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
-    constructor(nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI);
+    constructor(graphId: string, nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI);
     isReadyNode(): boolean;
     private retry;
     removePending(nodeId: string): void;
