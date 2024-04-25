@@ -44,7 +44,7 @@ export const graphDataTestRunner = async (
   callback(graph);
 
   try {
-    const results = await graph.run();
+    const results = await graph.run(true);
     fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
     // console.log(graph.transactionLogs());
     return results;
