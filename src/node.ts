@@ -199,7 +199,7 @@ export class ComputedNode extends Node {
       if (this.nestedGraph) {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
-        context.graph = this.nestedGraph;
+        context.graphData = this.nestedGraph;
         context.agents = this.graph.callbackDictonary;
       }
 

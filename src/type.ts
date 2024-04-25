@@ -63,7 +63,7 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
     forkIndex?: number;
     retry: number;
   };
-  graph?: GraphData;
+  graphData?: GraphData;
   agents?: AgentFunctionDictonary;
   log?: TransactionLog[];
   taskManager?: TaskManager;

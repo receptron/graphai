@@ -8,7 +8,7 @@ test("test map_agent", async () => {
   const result = await mapAgent({
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
-    graph: {
+    graphData: {
       nodes: {
         node1: {
           value: { fruit: "none" },
@@ -37,7 +37,7 @@ test("test map_agent 2", async () => {
   const result = await mapAgent({
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
-    graph: {
+    graphData: {
       nodes: {
         node1: {
           value: {},
