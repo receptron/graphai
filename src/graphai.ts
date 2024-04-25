@@ -30,6 +30,7 @@ export class GraphAI {
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   private runningNodes = new Set<string>();
+  private taskQueue = new Set<string>();
   public taskManager: TaskManager;
   private onComplete: () => void;
   private loop?: LoopData;
@@ -208,9 +209,11 @@ export class GraphAI {
   // for computed
   public pushQueue(node: ComputedNode) {
     node.state = NodeState.Queued;
+    this.taskQueue.add(node.nodeId);
     this.taskManager.addTask(node, (_node) => {
       assert(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
       this.runNode(node);
+      this.taskQueue.delete(_node.nodeId);
     });
   }
 
@@ -253,7 +256,7 @@ export class GraphAI {
   }
 
   public isRunning() {
-    return this.runningNodes.size > 0;
+    return this.runningNodes.size > 0 || this.taskQueue.size > 0;
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning
