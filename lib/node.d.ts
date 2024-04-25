@@ -1,4 +1,4 @@
-import type { GraphAI } from "./graphai";
+import type { GraphAI, GraphData } from "./graphai";
 import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "./type";
 import { TransactionLog } from "./transaction_log";
 export declare class Node {
@@ -14,6 +14,7 @@ export declare class Node {
 }
 export declare class ComputedNode extends Node {
     params: NodeDataParams;
+    nestedGraph?: GraphData;
     retryLimit: number;
     retryCount: number;
     agentId?: string;

@@ -1,6 +1,5 @@
-import { GraphData, AgentFunction } from "../graphai";
+import { AgentFunction } from "../graphai";
 export declare const mapAgent: AgentFunction<{
-    graph: GraphData;
     resultFrom: string;
     injectionTo?: string;
 }, {
