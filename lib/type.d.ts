@@ -23,6 +23,7 @@ export type DataSource = {
 export type StaticNodeData = {
     value: ResultData;
     update?: string;
+    isResult?: boolean;
 };
 export type ComputedNodeData = {
     agentId: string;
@@ -33,6 +34,7 @@ export type ComputedNodeData = {
     timeout?: number;
     fork?: number;
     graph?: GraphData;
+    isResult?: boolean;
 };
 export type NodeData = StaticNodeData | ComputedNodeData;
 export type LoopData = {
