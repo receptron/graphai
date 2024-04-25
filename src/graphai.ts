@@ -230,7 +230,7 @@ export class GraphAI {
   }
 
   // Public API
-  public async run<T = DefaultResultData>(all: boolean = true): Promise<ResultDataDictonary<T>> {
+  public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictonary<T>> {
     if (this.isRunning()) {
       console.error("-- Already Running");
     }
