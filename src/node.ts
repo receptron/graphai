@@ -137,10 +137,6 @@ export class ComputedNode extends Node {
     }
   }
 
-  public pushQueueIfReadyAndRunning() {
-    this.graph.pushQueueIfReadyAndRunning(this);
-  }
-
   private isCurrentTransaction(transactionId: number) {
     return this.transactionId === transactionId;
   }
