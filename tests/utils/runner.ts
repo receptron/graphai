@@ -58,10 +58,10 @@ export const graphDataTestRunner = async (
   }
 };
 
-export const rejectTest = async (graphdata: GraphData, errorMessage: string) => {
+export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionDictonary = {}) => {
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graphdata, defaultTestAgents);
+      await graphDataTestRunner(__filename, graphdata, {...defaultTestAgents, ...callbackDictonary});
     },
     { name: "Error", message: errorMessage },
   );

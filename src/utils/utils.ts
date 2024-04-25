@@ -17,3 +17,7 @@ export function assert(condition: boolean, message: string): asserts condition {
     throw new Error(message);
   }
 }
+
+export const isObject = (x: unknown) => {
+  return x !== null && typeof x === 'object'
+}
