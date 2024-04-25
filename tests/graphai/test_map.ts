@@ -34,21 +34,20 @@ const graphdata_push = {
     },
     result: {
       agentId: "sleeperAgent",
-      inputs: ["nestedNode.contents"]
-    }
+      inputs: ["nestedNode.contents"],
+    },
   },
 };
 
 test("test map", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_push, { stringTemplateAgent, sleeperAgent, mapAgent });
+  const result = await graphDataTestRunner("test_map", graphdata_push, { stringTemplateAgent, sleeperAgent, mapAgent });
   assert.deepStrictEqual(result.result, [
-    { content: 'I love apple.' },
-    { content: 'I love orange.' },
-    { content: 'I love banana.' },
-    { content: 'I love lemon.' },
-    { content: 'I love melon.' },
-    { content: 'I love pineapple.' },
-    { content: 'I love tomato.' },
+    { content: "I love apple." },
+    { content: "I love orange." },
+    { content: "I love banana." },
+    { content: "I love lemon." },
+    { content: "I love melon." },
+    { content: "I love pineapple." },
+    { content: "I love tomato." },
   ]);
 });
-
