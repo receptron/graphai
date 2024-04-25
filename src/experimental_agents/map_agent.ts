@@ -9,7 +9,7 @@ export const mapAgent: AgentFunction<
   {
     contents: Array<any>;
   },
-  Array<any>
+  any
 > = async ({ params, inputs, agents, log, taskManager, graphData }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
@@ -17,7 +17,7 @@ export const mapAgent: AgentFunction<
   }
 
   assert(graphData !== undefined, "mapAgent: graphData is required");
-  const input = inputs[0];
+  const input = Array.isArray(inputs[0]) ? inputs[0] : inputs;
   const graphs: Array<GraphAI> = input.map((data: any) => {
     const graphAI = new GraphAI(graphData, agents || {}, taskManager);
     if (params.injectionTo) {
