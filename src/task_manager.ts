@@ -41,7 +41,9 @@ export class TaskManager {
   }
 
   public isRunning(graphId: string) {
-    const count = [...this.runningNodes].filter(node => { return node.graphId == graphId; }).length;
+    const count = [...this.runningNodes].filter((node) => {
+      return node.graphId == graphId;
+    }).length;
     return count > 0 || Array.from(this.taskQueue).filter((data) => data.graphId === graphId).length > 0;
   }
 
@@ -71,9 +73,9 @@ export class TaskManager {
       running: this.runningNodes.size,
       ...(verbose
         ? {
-            runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
-            queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
-          }
+          runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
+          queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
+        }
         : {}),
     };
   }

@@ -254,7 +254,7 @@ export class GraphAI {
   }
 
   public isRunning() {
-    return  this.taskManager.isRunning(this.id);
+    return this.taskManager.isRunning(this.id);
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning
