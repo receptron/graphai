@@ -170,7 +170,7 @@ export class GraphAI {
   }
 
   // Public API
-  public results<T = DefaultResultData>(all: boolean = true): ResultDataDictonary<T> {
+  public results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T> {
     return Object.keys(this.nodes)
       .filter((nodeId) => {
         const node = this.nodes[nodeId];

@@ -54,7 +54,7 @@ export const graphDataTestRunner = async (
     }
     fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
     // console.log(graph.transactionLogs());
-    return graph.results();
+    return graph.results(true);
   }
 };
 
