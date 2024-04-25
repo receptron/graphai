@@ -304,7 +304,8 @@ export class GraphAI {
     if (node && node.isStaticNode) {
       node.injectValue(value);
     } else {
-      console.error("-- Invalid nodeId", nodeId);
+      console.error("-- Inject Error: Invalid nodeId", nodeId);
+      console.error("InjectionTo can only specify static nodes");
     }
   }
 
