@@ -42,8 +42,7 @@ export class TaskManager {
 
   public countTask(graphId: string, foo: number) {
     const count = [...this.runningNodes].filter(node => { return node.graphId == graphId; }).length;
-    assert(count === foo, "COUNT MISMATCH");
-    return count > 0 || Array.from(this.taskQueue).filter((data) => data.graphId === graphId).length;
+    return count > 0 || Array.from(this.taskQueue).filter((data) => data.graphId === graphId).length > 0;
   }
 
   // Node MUST call this method once the execution of agent function is completed

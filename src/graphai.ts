@@ -32,7 +32,6 @@ export class GraphAI {
   public callbackDictonary: AgentFunctionDictonary;
 
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
-  private runningNodes = new Set<string>();
   public taskManager: TaskManager;
   private onComplete: () => void;
   private loop?: LoopData;
@@ -240,7 +239,6 @@ export class GraphAI {
 
   // for computed
   private runNode(node: ComputedNode) {
-    this.runningNodes.add(node.nodeId);
     node.execute();
   }
 
@@ -252,12 +250,11 @@ export class GraphAI {
 
   // Must be called only from on ExecitionComplete
   private removeRunning(node: ComputedNode) {
-    this.runningNodes.delete(node.nodeId);
     this.taskManager.onComplete(node);
   }
 
   public isRunning() {
-    return  this.taskManager.countTask(this.id, this.runningNodes.size);
+    return  this.taskManager.countTask(this.id, 0);
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning
