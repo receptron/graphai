@@ -73,6 +73,7 @@ test("test counter3", async () => {
         update: "merge", // update data from nested1 data
       },
       workingMemory2: {
+        // HACK until we fix the bug (inputs:["workingMemory", "workingMemory"])
         agentId: "totalAgent",
         inputs: ["workingMemory"],
       },
@@ -81,12 +82,12 @@ test("test counter3", async () => {
         inputs: ["workingMemory", "workingMemory2"],
         params: {
           injectionTo: "receiver",
-          resultFrom: "nested1",          
+          resultFrom: "nested1",
         },
         graph: {
           nodes: {
             receiver: {
-              value: {}
+              value: {},
             },
             nested1: {
               agentId: "nestedAgent",
@@ -97,8 +98,8 @@ test("test counter3", async () => {
               },
               inputs: ["receiver"],
             },
-          }
-        }
+          },
+        },
       },
       merge: {
         agentId: "totalAgent",
@@ -114,8 +115,7 @@ test("test counter3", async () => {
   assert.deepStrictEqual(result, {
     workingMemory: { v: 10220 },
     workingMemory2: { v: 10220 },
-    nested1_0: { v: 10230 },
-    nested1_1: { v: 10230 },
+    mapping: { contents: [{ v: 10230 }, { v: 10230 }] },
     merge: { v: 20460 },
   });
 });
