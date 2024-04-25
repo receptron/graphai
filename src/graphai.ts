@@ -26,7 +26,7 @@ type GraphNodes = Record<string, ComputedNode | StaticNode>;
 const defaultConcurrency = 8;
 
 export class GraphAI {
-  private id: string;
+  private graphId: string;
   private data: GraphData;
   public nodes: GraphNodes;
   public callbackDictonary: AgentFunctionDictonary;
@@ -57,14 +57,14 @@ export class GraphAI {
           // For fork, change the nodeId and increase the node
           nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
             const forkedNodeId = `${nodeId}_${i}`;
-            _nodes[forkedNodeId] = new ComputedNode(this.id, forkedNodeId, i, nodeData, this);
+            _nodes[forkedNodeId] = new ComputedNode(this.graphId, forkedNodeId, i, nodeData, this);
             // Data for pending and waiting
             forkedNodeId2Index[forkedNodeId] = i;
             forkedNodeId2NodeId[forkedNodeId] = nodeId;
             return forkedNodeId;
           });
         } else {
-          _nodes[nodeId] = new ComputedNode(this.id, nodeId, undefined, nodeData, this);
+          _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, undefined, nodeData, this);
         }
       }
       return _nodes;
@@ -140,7 +140,7 @@ export class GraphAI {
   }
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
-    this.id = crypto.randomUUID();
+    this.graphId = crypto.randomUUID();
     this.data = data;
     this.callbackDictonary = callbackDictonary;
     this.taskManager = taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
@@ -218,7 +218,7 @@ export class GraphAI {
   // for computed
   public pushQueue(node: ComputedNode) {
     node.state = NodeState.Queued;
-    this.taskManager.addTask(node, this.id, (_node) => {
+    this.taskManager.addTask(node, this.graphId, (_node) => {
       assert(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
       node.execute();
     });
@@ -252,7 +252,7 @@ export class GraphAI {
 
   // Public only for testing
   public isRunning() {
-    return this.taskManager.isRunning(this.id);
+    return this.taskManager.isRunning(this.graphId);
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning
