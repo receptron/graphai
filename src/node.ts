@@ -40,7 +40,7 @@ export class Node {
       const waitingNode = this.graph.nodes[waitingNodeId];
       if (waitingNode.isComputedNode) {
         waitingNode.removePending(this.nodeId);
-        waitingNode.pushQueueIfReadyAndRunning();
+        this.graph.pushQueueIfReadyAndRunning(waitingNode);
       }
     });
   }
@@ -138,9 +138,7 @@ export class ComputedNode extends Node {
   }
 
   public pushQueueIfReadyAndRunning() {
-    if (this.graph.isRunning()) {
-      this.graph.pushQueueIfReady(this);
-    }
+    this.graph.pushQueueIfReadyAndRunning(this);
   }
 
   private isCurrentTransaction(transactionId: number) {
