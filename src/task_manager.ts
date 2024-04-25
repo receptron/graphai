@@ -40,7 +40,7 @@ export class TaskManager {
     this.dequeueTaskIfPossible();
   }
 
-  public countTask(graphId: string, foo: number) {
+  public isRunning(graphId: string) {
     const count = [...this.runningNodes].filter(node => { return node.graphId == graphId; }).length;
     return count > 0 || Array.from(this.taskQueue).filter((data) => data.graphId === graphId).length > 0;
   }
