@@ -58,14 +58,14 @@ export class GraphAI {
           // For fork, change the nodeId and increase the node
           nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
             const forkedNodeId = `${nodeId}_${i}`;
-            _nodes[forkedNodeId] = new ComputedNode(forkedNodeId, i, nodeData, this);
+            _nodes[forkedNodeId] = new ComputedNode(this.id, forkedNodeId, i, nodeData, this);
             // Data for pending and waiting
             forkedNodeId2Index[forkedNodeId] = i;
             forkedNodeId2NodeId[forkedNodeId] = nodeId;
             return forkedNodeId;
           });
         } else {
-          _nodes[nodeId] = new ComputedNode(nodeId, undefined, nodeData, this);
+          _nodes[nodeId] = new ComputedNode(this.id, nodeId, undefined, nodeData, this);
         }
       }
       return _nodes;
@@ -257,7 +257,7 @@ export class GraphAI {
   }
 
   public isRunning() {
-    return this.runningNodes.size > 0 || this.taskManager.countTask(this.id);
+    return  this.taskManager.countTask(this.id, this.runningNodes.size);
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning

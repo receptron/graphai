@@ -40,8 +40,10 @@ export class TaskManager {
     this.dequeueTaskIfPossible();
   }
 
-  public countTask(graphId: string) {
-    return Array.from(this.taskQueue).filter((data) => data.graphId === graphId).length;
+  public countTask(graphId: string, foo: number) {
+    const count = [...this.runningNodes].filter(node => { return node.graphId == graphId; }).length;
+    assert(count === foo, "COUNT MISMATCH");
+    return count > 0 || Array.from(this.taskQueue).filter((data) => data.graphId === graphId).length;
   }
 
   // Node MUST call this method once the execution of agent function is completed
