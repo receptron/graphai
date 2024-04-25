@@ -11,7 +11,9 @@ export const nestedAgent: AgentFunction<{
     assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
-  const graphAI = new GraphAI(graphData!, agents || {}, taskManager);
+  assert(graphData !== undefined, "nestedAgent: graphData is required");
+
+  const graphAI = new GraphAI(graphData, agents || {}, taskManager);
 
   try {
     // Inject inputs to specified source nodes

@@ -16,9 +16,10 @@ export const mapAgent: AgentFunction<
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
+  assert(graphData !== undefined, "mapAgent: graphData is required");
   const input = inputs[0];
   const graphs: Array<GraphAI> = input.map((data: any) => {
-    const graphAI = new GraphAI(graphData!, agents || {}, taskManager);
+    const graphAI = new GraphAI(graphData, agents || {}, taskManager);
     if (params.injectionTo) {
       graphAI.injectValue(params.injectionTo, data);
     }
