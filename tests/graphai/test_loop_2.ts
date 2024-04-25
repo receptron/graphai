@@ -81,25 +81,10 @@ test("test counter3", async () => {
         agentId: "mapAgent",
         inputs: ["workingMemory", "workingMemory2"],
         params: {
-          injectionTo: "receiver",
-          resultFrom: "nested1",
+          injectionTo: "data",
+          resultFrom: "counter",
         },
-        graph: {
-          nodes: {
-            receiver: {
-              value: {},
-            },
-            nested1: {
-              agentId: "nestedAgent",
-              graph: graphdata_counter,
-              params: {
-                resultFrom: "counter", // nestedAgent result is counter node result in graphdata_counter
-                injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
-              },
-              inputs: ["receiver"],
-            },
-          },
-        },
+        graph: graphdata_counter,
       },
       merge: {
         agentId: "totalAgent",
