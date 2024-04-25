@@ -3,6 +3,7 @@ import { assert } from "@/utils/utils";
 
 type TaskEntry = {
   node: ComputedNode;
+  graphId: string;
   callback: (node: ComputedNode) => void;
 };
 
@@ -34,9 +35,13 @@ export class TaskManager {
 
   // Node will call this method to put itself in the execution queue.
   // We call the associated callback function when it is dequeued.
-  public addTask(node: ComputedNode, callback: (node: ComputedNode) => void) {
-    this.taskQueue.push({ node, callback });
+  public addTask(node: ComputedNode, graphId: string, callback: (node: ComputedNode) => void) {
+    this.taskQueue.push({ node, graphId, callback });
     this.dequeueTaskIfPossible();
+  }
+
+  public countTask(graphId: string) {
+    return Array.from(this.taskQueue).filter((data) => data.graphId === graphId).length;
   }
 
   // Node MUST call this method once the execution of agent function is completed
@@ -65,9 +70,9 @@ export class TaskManager {
       running: this.runningNodes.size,
       ...(verbose
         ? {
-          runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
-          queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
-        }
+            runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
+            queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
+          }
         : {}),
     };
   }
