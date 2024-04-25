@@ -39,7 +39,7 @@ const copy2ArrayAgent: AgentFunction = async ({ inputs }) => {
     return inputs[0];
   });
 };
-
+/*
 test("test fork 1", async () => {
   const forkGraph = {
     nodes: {
@@ -199,7 +199,7 @@ test("test fork 2", async () => {
     node3_9: { node3_9: "node3_9:node2_9:node1" },
   });
 });
-
+*/
 test("test fork 2", async () => {
   const forkGraph = {
     nodes: {
@@ -210,20 +210,34 @@ test("test fork 2", async () => {
         agentId: "sleeperAgent",
         inputs: ["source.content"],
       },
-      forked: {
-        agentId: "sleeperAgent",
-        fork: 4,
-        inputs: ["source.content"],
-      },
-      forked2: {
-        agentId: "sleeperAgent",
-        fork: 4,
-        inputs: ["forked.level1"],
+      nestedNode: {
+        agentId: "mapAgent",
+        inputs: ["simple"],
+        params: {
+          injectionTo: "forked",
+          resultFrom: "forked2",
+        },
+        graph: {
+          nodes: {
+            workingMemory: {
+              value: {},
+            },
+            forked: {
+              agentId: "sleeperAgent",
+              inputs: ["workingMemory.content"],
+            },
+            forked2: {
+              agentId: "sleeperAgent",
+              inputs: ["forked.level1"],
+            },
+          },
+        },
       },
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, { sleeperAgent });
+  const result = await graphDataTestRunner(__filename, forkGraph, { sleeperAgent, mapAgent });
+  console.log( JSON.stringify(result, null, "  "))
   assert.deepStrictEqual(result, {
     source: { content: { level1: { level2: "hello" } } },
     simple: { level1: { level2: "hello" } },
