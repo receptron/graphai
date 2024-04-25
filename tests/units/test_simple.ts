@@ -12,15 +12,15 @@ test("test graph", async () => {
   const asString = graph.asString();
   assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
 
-  const beforeResult = graph.results();
+  const beforeResult = graph.results(true);
   assert.deepStrictEqual(beforeResult, {});
 
   const beforeResultOf = graph.resultsOf([{ nodeId: "bypassAgent" }]);
   assert.deepStrictEqual(beforeResultOf, [undefined]);
 
-  await graph.run();
+  await graph.run(true);
 
-  const afterResult = graph.results();
+  const afterResult = graph.results(true);
   assert.deepStrictEqual(afterResult, {
     echo: { message: "hello" },
     bypassAgent: { message: "hello" },
@@ -57,16 +57,16 @@ test("test injection", async () => {
   const asString = graph.asString();
   assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
 
-  const beforeResult = graph.results();
+  const beforeResult = graph.results(true);
   assert.deepStrictEqual(beforeResult, {});
 
   const beforeResultOf = graph.resultsOf([{ nodeId: "bypassAgent" }]);
   assert.deepStrictEqual(beforeResultOf, [undefined]);
 
   (async () => {
-    await graph.run();
+    await graph.run(true);
 
-    const afterResult = graph.results();
+    const afterResult = graph.results(true);
     assert.deepStrictEqual(afterResult, {
       echo: {},
       bypassAgent: { message: "inject" },
@@ -87,7 +87,7 @@ test("test running", async () => {
   assert.equal(false, graph.isRunning());
 
   (async () => {
-    await graph.run();
+    await graph.run(true);
     assert.equal(false, graph.isRunning());
   })();
 

@@ -27,7 +27,7 @@ export const mapAgent: AgentFunction<
   });
 
   const runs = graphs.map((graph) => {
-    return graph.run();
+    return graph.run(true);
   });
   const results = await Promise.all(runs);
   const contents = results.map((result) => {
