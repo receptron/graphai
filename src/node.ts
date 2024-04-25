@@ -1,4 +1,4 @@
-import type { GraphAI } from "@/graphai";
+import type { GraphAI, GraphData } from "@/graphai";
 
 import {
   NodeDataParams,
@@ -48,6 +48,7 @@ export class Node {
 
 export class ComputedNode extends Node {
   public params: NodeDataParams; // Agent-specific parameters
+  public nestedGraph?: GraphData;
   public retryLimit: number;
   public retryCount: number = 0;
   public agentId?: string;
@@ -68,6 +69,7 @@ export class ComputedNode extends Node {
   constructor(nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI) {
     super(nodeId, graph);
     this.params = data.params ?? {};
+    this.nestedGraph = data.graph;
     this.agentId = data.agentId;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
@@ -183,7 +185,6 @@ export class ComputedNode extends Node {
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData> = {
         params: this.params,
         inputs: previousResults,
-        agents: this.graph.callbackDictonary,
         debugInfo: {
           nodeId: this.nodeId,
           retry: this.retryCount,
@@ -195,15 +196,16 @@ export class ComputedNode extends Node {
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
-      const isNesting = typeof context.params?.graph === "object";
-      if (isNesting) {
+      if (this.nestedGraph) {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
+        context.graphData = this.nestedGraph;
+        context.agents = this.graph.callbackDictonary;
       }
 
       const result = await callback(context);
 
-      if (isNesting) {
+      if (this.nestedGraph) {
         this.graph.taskManager.restoreAfterNesting();
       }
 

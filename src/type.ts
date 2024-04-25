@@ -37,6 +37,7 @@ export type ComputedNodeData = {
   retry?: number;
   timeout?: number; // msec
   fork?: number;
+  graph?: GraphData;
 };
 
 export type NodeData = StaticNodeData | ComputedNodeData;
@@ -62,6 +63,7 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
     forkIndex?: number;
     retry: number;
   };
+  graphData?: GraphData;
   agents?: AgentFunctionDictonary;
   log?: TransactionLog[];
   taskManager?: TaskManager;
