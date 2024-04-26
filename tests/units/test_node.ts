@@ -1,7 +1,8 @@
 import { GraphAI } from "@/graphai";
 import { StaticNode } from "@/node";
 import { NodeState } from "@/type";
-import { defaultTestAgents } from "~/agents/agents";
+
+import { defaultTestAgents } from "~/utils/agents";
 import { graph_data } from "~/units/graph_data";
 
 import test from "node:test";
