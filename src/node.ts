@@ -56,8 +56,6 @@ export class ComputedNode extends Node {
   public readonly agentId?: string;
   public readonly timeout?: number; // msec
   public error?: Error;
-  public fork?: number;
-  public forkIndex?: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
   public sources: Record<string, DataSource> = {}; // data sources.
@@ -68,7 +66,7 @@ export class ComputedNode extends Node {
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
 
-  constructor(graphId: string, nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI) {
+  constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI) {
     super(nodeId, graph);
     this.graphId = graphId;
     this.params = data.params ?? {};
@@ -86,8 +84,6 @@ export class ComputedNode extends Node {
     }, {});
     this.inputs = Object.keys(this.sources);
     this.pendings = new Set(this.inputs);
-    this.fork = data.fork;
-    this.forkIndex = forkIndex;
     this.log.initForComputedNode(this);
   }
 
@@ -187,7 +183,6 @@ export class ComputedNode extends Node {
         debugInfo: {
           nodeId: this.nodeId,
           retry: this.retryCount,
-          forkIndex: this.forkIndex,
           verbose: this.graph.verbose,
         },
         log: localLog,
