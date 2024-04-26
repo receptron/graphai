@@ -27,7 +27,7 @@ export const graphDataTestRunner = async (
   mkdirLogDir();
 
   const log_path = path.resolve(__dirname) + "/../logs/" + fileBaseName(logFileName) + ".log";
-  const graph = new GraphAI(graph_data, callbackDictonary);
+  const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...callbackDictonary });
 
   graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
     if (state === NodeState.Executing) {
