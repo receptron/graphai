@@ -48,6 +48,7 @@ export class Node {
 
 export class ComputedNode extends Node {
   public graphId: string;
+  public isResult: boolean;
   public params: NodeDataParams; // Agent-specific parameters
   public nestedGraph?: GraphData;
   public retryLimit: number;
@@ -75,6 +76,7 @@ export class ComputedNode extends Node {
     this.agentId = data.agentId;
     this.retryLimit = data.retry ?? 0;
     this.timeout = data.timeout;
+    this.isResult = data.isResult ?? false;
 
     this.anyInput = data.anyInput ?? false;
     this.sources = (data.inputs ?? []).reduce((tmp: Record<string, DataSource>, input) => {
@@ -135,10 +137,6 @@ export class ComputedNode extends Node {
     } else {
       this.pendings.delete(nodeId);
     }
-  }
-
-  public pushQueueIfReadyAndRunning() {
-    this.graph.pushQueueIfReadyAndRunning(this);
   }
 
   private isCurrentTransaction(transactionId: number) {
@@ -240,7 +238,7 @@ export class ComputedNode extends Node {
   // the agent function. It records the error in the transaction log and handles
   // the retry if specified.
   private errorProcess(error: unknown, transactionId: number) {
-    console.error(this.agentId + ": error")
+    console.error(this.agentId + ": error");
     console.error(error);
     if (!this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
@@ -259,6 +257,7 @@ export class ComputedNode extends Node {
 export class StaticNode extends Node {
   public value?: ResultData;
   public update?: string;
+  public isResult: boolean;
   public readonly isStaticNode = true;
   public readonly isComputedNode = false;
 
@@ -266,6 +265,7 @@ export class StaticNode extends Node {
     super(nodeId, graph);
     this.value = data.value;
     this.update = data.update;
+    this.isResult = data.isResult ?? false;
   }
 
   public injectValue(value: ResultData) {

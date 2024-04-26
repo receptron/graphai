@@ -23,7 +23,7 @@ const graphAISample = async (req: express.Request, res: express.Response) => {
     return {};
   };
   const graph = new GraphAI(graph_data, { testFunction });
-  const response = await graph.run();
+  const response = await graph.run(true);
   res.json({ result: response });
   res.end();
 };

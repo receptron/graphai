@@ -22,13 +22,13 @@ export declare class GraphAI {
     constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager?: TaskManager | undefined);
     getCallback(agentId?: string): import("./type").AgentFunction<any, any, any>;
     asString(): string;
-    results<T = DefaultResultData>(): ResultDataDictonary<T>;
+    results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T>;
     errors(): Record<string, Error>;
     private pushReadyNodesIntoQueue;
     private pushQueueIfReady;
     pushQueueIfReadyAndRunning(node: ComputedNode): void;
     pushQueue(node: ComputedNode): void;
-    run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>>;
+    run<T = DefaultResultData>(all?: boolean): Promise<ResultDataDictonary<T>>;
     isRunning(): boolean;
     onExecutionComplete(node: ComputedNode): void;
     private processLoopIfNecessary;

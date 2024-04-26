@@ -170,14 +170,19 @@ export class GraphAI {
   }
 
   // Public API
-  public results<T = DefaultResultData>(): ResultDataDictonary<T> {
-    return Object.keys(this.nodes).reduce((results: ResultDataDictonary<T>, nodeId) => {
-      const node = this.nodes[nodeId];
-      if (node.result !== undefined) {
-        results[nodeId] = node.result as T;
-      }
-      return results;
-    }, {});
+  public results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T> {
+    return Object.keys(this.nodes)
+      .filter((nodeId) => {
+        const node = this.nodes[nodeId];
+        return all || node.isResult;
+      })
+      .reduce((results: ResultDataDictonary<T>, nodeId) => {
+        const node = this.nodes[nodeId];
+        if (node.result !== undefined) {
+          results[nodeId] = node.result as T;
+        }
+        return results;
+      }, {});
   }
 
   // Public API
@@ -225,7 +230,7 @@ export class GraphAI {
   }
 
   // Public API
-  public async run<T = DefaultResultData>(): Promise<ResultDataDictonary<T>> {
+  public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictonary<T>> {
     if (this.isRunning()) {
       console.error("-- Already Running");
     }
@@ -238,7 +243,7 @@ export class GraphAI {
         if (nodeIds.length > 0) {
           reject(errors[nodeIds[0]]);
         } else {
-          resolve(this.results());
+          resolve(this.results(all));
         }
       };
     });
@@ -265,14 +270,14 @@ export class GraphAI {
     this.repeatCount++;
     const loop = this.loop;
     if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
-      const results = this.results(); // results from previous loop
+      const results = this.results(true); // results from previous loop
 
       this.nodes = this.createNodes(this.data);
       this.initializeNodes(results);
 
       // Notice that we need to check the while condition *after* calling initializeNodes.
       if (loop.while) {
-        const value = this.getValueFromResults(loop.while, this.results());
+        const value = this.getValueFromResults(loop.while, this.results(true));
         // NOTE: We treat an empty array as false.
         if (Array.isArray(value) ? value.length === 0 : !value) {
           return false; // while condition is not met

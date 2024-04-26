@@ -22,6 +22,7 @@ export const graphDataTestRunner = async (
   graph_data: GraphData,
   callbackDictonary: AgentFunctionDictonary,
   callback: (graph: GraphAI) => void = () => {},
+  all: boolean = true,
 ) => {
   mkdirLogDir();
 
@@ -43,9 +44,8 @@ export const graphDataTestRunner = async (
 
   callback(graph);
 
-  const results = await graph.run();
+  const results = await graph.run(all);
   fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-  // console.log(graph.transactionLogs());
   return results;
 };
 
