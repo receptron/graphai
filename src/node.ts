@@ -269,10 +269,10 @@ export class StaticNode extends Node {
     this.isResult = data.isResult ?? false;
   }
 
-  public injectValue(value: ResultData) {
+  public injectValue(value: ResultData, injectFrom?: string) {
     this.state = NodeState.Injected;
     this.result = value;
-    this.log.onInjected(this, this.graph);
+    this.log.onInjected(this, this.graph, injectFrom);
     this.onSetResult();
   }
 }
