@@ -10,9 +10,6 @@ test("test map_agent", async () => {
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
       nodes: {
-        node1: {
-          value: { fruit: "none" },
-        },
         node2: {
           agentId: "stringTemplateAgent",
           params: {
