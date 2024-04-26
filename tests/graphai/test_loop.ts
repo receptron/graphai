@@ -22,6 +22,7 @@ const graphdata_push = {
       },
     },
     reducer: {
+      isResult: true,
       agentId: "push",
       inputs: ["array", "item"],
     },
@@ -29,10 +30,10 @@ const graphdata_push = {
 };
 
 test("test loop & push", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_push, { sleeper: sleeperAgent, push: pushAgent });
+  const result = await graphDataTestRunner(__filename, graphdata_push, { sleeper: sleeperAgent, push: pushAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
-    array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
-    item: "hello",
+    // array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+    // item: "hello",
     reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
   });
 });

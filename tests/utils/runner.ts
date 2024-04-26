@@ -22,6 +22,7 @@ export const graphDataTestRunner = async (
   graph_data: GraphData,
   callbackDictonary: AgentFunctionDictonary,
   callback: (graph: GraphAI) => void = () => {},
+  all: boolean = true,
 ) => {
   mkdirLogDir();
 
@@ -43,25 +44,18 @@ export const graphDataTestRunner = async (
 
   callback(graph);
 
-  try {
-    const results = await graph.run();
-    fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-    // console.log(graph.transactionLogs());
-    return results;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log("Error:", error.message);
-    }
-    fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-    // console.log(graph.transactionLogs());
-    return graph.results();
-  }
+  const results = await graph.run(all);
+  fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
+  return results;
 };
 
-export const rejectTest = async (graphdata: GraphData, errorMessage: string) => {
+export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionDictonary = {}) => {
+  return await rejectTest(readGraphData(file), errorMessage, callbackDictonary);
+};
+export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionDictonary = {}) => {
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graphdata, defaultTestAgents);
+      await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...callbackDictonary });
     },
     { name: "Error", message: errorMessage },
   );

@@ -28,6 +28,7 @@ export type DataSource = {
 export type StaticNodeData = {
   value: ResultData; // initial value for static node.
   update?: string; // nodeId (+.propId) to get value after a loop
+  isResult?: boolean;
 };
 export type ComputedNodeData = {
   agentId: string;
@@ -38,6 +39,7 @@ export type ComputedNodeData = {
   timeout?: number; // msec
   fork?: number;
   graph?: GraphData;
+  isResult?: boolean;
 };
 
 export type NodeData = StaticNodeData | ComputedNodeData;
