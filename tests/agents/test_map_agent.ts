@@ -15,13 +15,10 @@ test("test map_agent", async () => {
           params: {
             template: "I love ${0}.",
           },
-          inputs: ["node1.fruit"],
+          inputs: ["$0.fruit"],
           isResult: true,
         },
       },
-    },
-    params: {
-      injectionTo: "node1",
     },
     inputs: [[{ fruit: "apple" }, { fruit: "orange" }]],
   });

@@ -24,9 +24,7 @@ export const mapAgent: AgentFunction<
 
   const graphs: Array<GraphAI> = input.map((data: any) => {
     const graphAI = new GraphAI(graphData, agents || {}, taskManager);
-    if (params.injectionTo) {
-      graphAI.injectValue(params.injectionTo, data);
-    }
+    graphAI.injectValue(injectionTo, data);
     return graphAI;
   });
 
