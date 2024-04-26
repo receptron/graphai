@@ -20,7 +20,7 @@ export const nestedAgent: AgentFunction<{
     (params.injectionTo ?? []).forEach((injectToNodeId, index) => {
       graphAI.injectValue(injectToNodeId, inputs[index]);
     });
-    const results = await graphAI.run();
+    const results = await graphAI.run(true);
     log?.push(...graphAI.transactionLogs());
     return results[params.resultFrom];
   } catch (error) {

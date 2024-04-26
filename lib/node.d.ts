@@ -14,6 +14,7 @@ export declare class Node {
 }
 export declare class ComputedNode extends Node {
     graphId: string;
+    isResult: boolean;
     params: NodeDataParams;
     nestedGraph?: GraphData;
     retryLimit: number;
@@ -34,7 +35,6 @@ export declare class ComputedNode extends Node {
     isReadyNode(): boolean;
     private retry;
     removePending(nodeId: string): void;
-    pushQueueIfReadyAndRunning(): void;
     private isCurrentTransaction;
     private executeTimeout;
     execute(): Promise<void>;
@@ -44,6 +44,7 @@ export declare class ComputedNode extends Node {
 export declare class StaticNode extends Node {
     value?: ResultData;
     update?: string;
+    isResult: boolean;
     readonly isStaticNode = true;
     readonly isComputedNode = false;
     constructor(nodeId: string, data: StaticNodeData, graph: GraphAI);
