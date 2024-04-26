@@ -73,34 +73,47 @@ test("test bypass2", async () => {
         params: {
           agentId: "echoAgent",
           params: {
-            message: "hello",
+            message: ["hello", "hello"],
           },
         },
       },
-      bypassAgent: {
-        agentId: "httpAgent",
+      mapNode: {
+        agentId: "mapAgent",
+        inputs: ["echo.message"],
         params: {
-          agentId: "bypassAgent",
+          injectionTo: "memory",
         },
-        fork: 2,
-        inputs: ["echo"],
+        graph: {
+          nodes: {
+            memory: {
+              value: {},
+            },
+            bypassAgent: {
+              agentId: "httpAgent",
+              params: {
+                agentId: "bypassAgent",
+              },
+              inputs: ["memory"],
+              isResult: true,
+            },
+          },
+        },
       },
       bypassAgent2: {
         agentId: "httpAgent",
         params: {
           agentId: "bypassAgent",
         },
-        inputs: ["bypassAgent"],
+        inputs: ["mapNode"],
       },
     },
   };
   const result = await graphDataTestRunner(__filename, graph_data, { httpAgent });
-  // console.log(result);
+  console.log(result);
   assert.deepStrictEqual(result, {
-    echo: { message: "hello" },
-    bypassAgent_0: { message: "hello" },
-    bypassAgent_1: { message: "hello" },
-    bypassAgent2: [{ message: "hello" }, { message: "hello" }],
+    echo: { message: ["hello", "hello"] },
+    mapNode: { bypassAgent: ["hello", "hello"] },
+    bypassAgent2: { bypassAgent: ["hello", "hello"] },
   });
   // console.log("COMPLETE 1");
 });
@@ -113,54 +126,61 @@ test("test bypass3", async () => {
         params: {
           agentId: "echoAgent",
           params: {
-            message: "hello",
+            message: ["hello", "hello"],
           },
         },
       },
-      bypassAgent: {
-        agentId: "httpAgent",
+      mapNode: {
+        agentId: "mapAgent",
+        inputs: ["echo.message"],
         params: {
-          agentId: "bypassAgent",
+          injectionTo: "memory",
         },
-        fork: 2,
-        inputs: ["echo"],
-      },
-      bypassAgent2: {
-        agentId: "httpAgent",
-        params: {
-          agentId: "bypassAgent",
+        graph: {
+          nodes: {
+            memory: {
+              value: {},
+            },
+            bypassAgent: {
+              agentId: "httpAgent",
+              params: {
+                agentId: "bypassAgent",
+              },
+              inputs: ["memory"],
+            },
+            bypassAgent2: {
+              agentId: "httpAgent",
+              params: {
+                agentId: "bypassAgent",
+              },
+              inputs: ["bypassAgent"],
+            },
+            bypassAgent3: {
+              agentId: "httpAgent",
+              params: {
+                agentId: "bypassAgent",
+              },
+              inputs: ["bypassAgent2"],
+              isResult: true,
+            },
+          },
         },
-        fork: 2,
-        inputs: ["bypassAgent"],
-      },
-      bypassAgent3: {
-        agentId: "httpAgent",
-        params: {
-          agentId: "bypassAgent",
-        },
-        fork: 2,
-        inputs: ["bypassAgent2"],
       },
       bypassAgent4: {
         agentId: "httpAgent",
         params: {
           agentId: "bypassAgent",
         },
-        inputs: ["bypassAgent3"],
+        inputs: ["mapNode.bypassAgent3"],
       },
     },
   };
   const result = await graphDataTestRunner(__filename, graph_data, { httpAgent });
-  // console.log(result);
+  console.log(result);
   assert.deepStrictEqual(result, {
-    echo: { message: "hello" },
-    bypassAgent_0: { message: "hello" },
-    bypassAgent_1: { message: "hello" },
-    bypassAgent2_0: { message: "hello" },
-    bypassAgent2_1: { message: "hello" },
-    bypassAgent3_0: { message: "hello" },
-    bypassAgent3_1: { message: "hello" },
-    bypassAgent4: [{ message: "hello" }, { message: "hello" }],
+    echo: { message: ["hello", "hello"] },
+    mapNode: { bypassAgent3: ["hello", "hello"] },
+    bypassAgent4: ["hello", "hello"],
   });
   // console.log("COMPLETE 1");
 });
@@ -173,46 +193,64 @@ test("test bypass4", async () => {
         params: {
           agentId: "echoAgent",
           params: {
-            message: "hello",
+            message: ["hello", "hello"],
           },
         },
       },
-      bypassAgent: {
-        agentId: "httpAgent",
+      mapNode: {
+        agentId: "mapAgent",
+        inputs: ["echo.message"],
         params: {
-          agentId: "bypassAgent",
+          injectionTo: "memory",
         },
-        fork: 2,
-        inputs: ["echo"],
-      },
-      bypassAgent2: {
-        agentId: "httpAgent",
-        params: {
-          agentId: "bypassAgent",
+        graph: {
+          nodes: {
+            memory: {
+              value: {},
+            },
+            bypassAgent: {
+              agentId: "httpAgent",
+              params: {
+                agentId: "bypassAgent",
+              },
+              inputs: ["memory"],
+            },
+            bypassAgent2: {
+              agentId: "httpAgent",
+              params: {
+                agentId: "bypassAgent",
+              },
+              inputs: ["bypassAgent", "memory"],
+              isResult: true,
+            },
+          },
         },
-        fork: 2,
-        inputs: ["bypassAgent", "echo"],
       },
       bypassAgent3: {
         agentId: "httpAgent",
         params: {
           agentId: "bypassAgent",
         },
-        inputs: ["bypassAgent2"],
+        inputs: ["mapNode"],
       },
     },
   };
   const result = await graphDataTestRunner(__filename, graph_data, { httpAgent });
+  // console.log(result);
   assert.deepStrictEqual(result, {
-    echo: { message: "hello" },
-    bypassAgent_0: { message: "hello" },
-    bypassAgent_1: { message: "hello" },
-    bypassAgent2_0: [{ message: "hello" }, { message: "hello" }],
-    bypassAgent2_1: [{ message: "hello" }, { message: "hello" }],
-    bypassAgent3: [
-      [{ message: "hello" }, { message: "hello" }],
-      [{ message: "hello" }, { message: "hello" }],
-    ],
+    echo: { message: ["hello", "hello"] },
+    mapNode: {
+      bypassAgent2: [
+        ["hello", "hello"],
+        ["hello", "hello"],
+      ],
+    },
+    bypassAgent3: {
+      bypassAgent2: [
+        ["hello", "hello"],
+        ["hello", "hello"],
+      ],
+    },
   });
   // console.log("COMPLETE 1");
 });

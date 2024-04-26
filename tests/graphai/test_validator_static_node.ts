@@ -63,18 +63,6 @@ test("test static node validation timeout", async () => {
   await rejectTest(graph_data, "Static node does not allow timeout");
 });
 
-test("test static node validation fork", async () => {
-  const graph_data = anonymization({
-    nodes: {
-      static1: {
-        value: {},
-        fork: 1,
-      },
-    },
-  });
-  await rejectTest(graph_data, "Static node does not allow fork");
-});
-
 test("test static node validation update", async () => {
   const graph_data = anonymization({
     nodes: {

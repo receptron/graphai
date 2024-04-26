@@ -19,17 +19,17 @@ test("test map_agent", async () => {
             template: "I love ${0}.",
           },
           inputs: ["node1.fruit"],
+          isResult: true,
         },
       },
     },
     params: {
       injectionTo: "node1",
-      resultFrom: "node2",
     },
     inputs: [[{ fruit: "apple" }, { fruit: "orange" }]],
   });
   assert.deepStrictEqual(result, {
-    contents: [{ content: "I love apple." }, { content: "I love orange." }],
+    node2: [{ content: "I love apple." }, { content: "I love orange." }],
   });
 });
 
@@ -48,16 +48,16 @@ test("test map_agent 2", async () => {
             template: "I love ${0}.",
           },
           inputs: ["node1"],
+          isResult: true,
         },
       },
     },
     params: {
       injectionTo: "node1",
-      resultFrom: "node2",
     },
     inputs: [["apple", "orange", "banana", "lemon"]],
   });
   assert.deepStrictEqual(result, {
-    contents: [{ content: "I love apple." }, { content: "I love orange." }, { content: "I love banana." }, { content: "I love lemon." }],
+    node2: [{ content: "I love apple." }, { content: "I love orange." }, { content: "I love banana." }, { content: "I love lemon." }],
   });
 });

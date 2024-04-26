@@ -17,6 +17,7 @@ const graphdata_counter = {
     counter: {
       agentId: "counterAgent",
       inputs: ["data"],
+      isResult: true,
     },
   },
 };
@@ -82,13 +83,12 @@ test("test counter3", async () => {
         inputs: ["workingMemory", "workingMemory2"],
         params: {
           injectionTo: "data",
-          resultFrom: "counter",
         },
         graph: graphdata_counter,
       },
       merge: {
         agentId: "totalAgent",
-        inputs: ["mapping.contents"],
+        inputs: ["mapping.counter"],
       },
     },
   };
@@ -100,7 +100,7 @@ test("test counter3", async () => {
   assert.deepStrictEqual(result, {
     workingMemory: { v: 10220 },
     workingMemory2: { v: 10220 },
-    mapping: { contents: [{ v: 10230 }, { v: 10230 }] },
+    mapping: { counter: [{ v: 10230 }, { v: 10230 }] },
     merge: { v: 20460 },
   });
 });
