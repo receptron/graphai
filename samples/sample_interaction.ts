@@ -5,7 +5,6 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputSelectAgent } from "./agents/interactiveInputAgent";
 
 const graph_data = {
-  concurrency: 1,
   nodes: {
     echoAgent: {
       agentId: "countingAgent",
@@ -13,25 +12,11 @@ const graph_data = {
         count: 10,
       },
     },
-    mapNode: {
-      agentId: "mapAgent",
+    interactiveInputAgent: {
       inputs: ["echoAgent.list"],
-      params: {
-        injectionTo: "memory",
-      },
-      graph: {
-        nodes: {
-          memory: {
-            value: {},
-          },
-          interactiveInputAgent: {
-            inputs: ["memory"],
-            agentId: "interactiveInputSelectAgent",
-            isResult: true,
-          },
-        }
-      }
-    }
+      agentId: "interactiveInputSelectAgent",
+      isResult: true,
+    },
   },
 };
 

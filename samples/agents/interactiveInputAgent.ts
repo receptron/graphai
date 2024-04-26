@@ -7,7 +7,7 @@ export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; is
   params,
 }) => {
   const { resultKey, isReturnString } = params;
-  const choices = Array.from(inputs.keys()).map((k) => {
+  const choices = Array.from(inputs[0].keys()).map((k) => {
     return {
       name: "input_" + String(k),
       value: String(k),
