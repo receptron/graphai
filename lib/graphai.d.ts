@@ -5,17 +5,17 @@ import { ComputedNode, StaticNode } from "./node";
 import { TaskManager } from "./task_manager";
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 export declare class GraphAI {
-    private graphId;
-    private data;
+    private readonly graphId;
+    private readonly data;
+    private readonly loop?;
+    private readonly logs;
+    readonly callbackDictonary: AgentFunctionDictonary;
+    readonly taskManager: TaskManager;
     nodes: GraphNodes;
-    callbackDictonary: AgentFunctionDictonary;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
-    taskManager: TaskManager;
-    private onComplete;
-    private loop?;
-    private repeatCount;
     verbose: boolean;
-    private logs;
+    private onComplete;
+    private repeatCount;
     private createNodes;
     private getValueFromResults;
     private initializeNodes;
@@ -32,9 +32,10 @@ export declare class GraphAI {
     isRunning(): boolean;
     onExecutionComplete(node: ComputedNode): void;
     private processLoopIfNecessary;
+    setLoopLog(log: TransactionLog): void;
     appendLog(log: TransactionLog): void;
     updateLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
-    injectValue(nodeId: string, value: ResultData): void;
-    resultsOf(sources: Array<DataSource>): any[];
+    injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
+    resultsOf(sources: Array<DataSource>, anyInput?: boolean): any[];
 }

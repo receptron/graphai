@@ -48,5 +48,5 @@ export declare class StaticNode extends Node {
     readonly isStaticNode = true;
     readonly isComputedNode = false;
     constructor(nodeId: string, data: StaticNodeData, graph: GraphAI);
-    injectValue(value: ResultData): void;
+    injectValue(value: ResultData, injectFrom?: string): void;
 }

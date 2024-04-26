@@ -26,18 +26,19 @@ type GraphNodes = Record<string, ComputedNode | StaticNode>;
 const defaultConcurrency = 8;
 
 export class GraphAI {
-  private graphId: string;
-  private data: GraphData;
-  public nodes: GraphNodes;
-  public callbackDictonary: AgentFunctionDictonary;
-
-  public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
-  public taskManager: TaskManager;
-  private onComplete: () => void;
+  private readonly graphId: string;
+  private readonly data: GraphData;
   private readonly loop?: LoopData;
+  private readonly logs: Array<TransactionLog> = [];
+  public readonly callbackDictonary: AgentFunctionDictonary;
+  public readonly taskManager: TaskManager;
+
+  public nodes: GraphNodes;
+  public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
+  public verbose: boolean; // REVIEW: Do we need this?
+
+  private onComplete: () => void;
   private repeatCount = 0;
-  public verbose: boolean;
-  private logs: Array<TransactionLog> = [];
 
   // This method is called when either the GraphAI obect was created,
   // or we are about to start n-th iteration (n>2).
