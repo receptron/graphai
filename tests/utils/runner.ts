@@ -43,21 +43,15 @@ export const graphDataTestRunner = async (
 
   callback(graph);
 
-  try {
-    const results = await graph.run();
-    fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-    // console.log(graph.transactionLogs());
-    return results;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log("Error:", error.message);
-    }
-    fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
-    // console.log(graph.transactionLogs());
-    return graph.results();
-  }
+  const results = await graph.run();
+  fs.writeFileSync(log_path, JSON.stringify(graph.transactionLogs(), null, 2));
+  // console.log(graph.transactionLogs());
+  return results;
 };
 
+export const rejectFileTest = async (file: string, errorMessage: string) => {
+  return await rejectTest(readGraphData(file), errorMessage);
+};
 export const rejectTest = async (graphdata: GraphData, errorMessage: string) => {
   await assert.rejects(
     async () => {

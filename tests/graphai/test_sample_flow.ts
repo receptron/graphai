@@ -1,6 +1,6 @@
 import { GraphAI } from "@/graphai";
 import { defaultTestAgents } from "~/agents/agents";
-import { fileTestRunner } from "~/utils/runner";
+import { fileTestRunner, rejectTest, rejectFileTest } from "~/utils/runner";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -28,20 +28,11 @@ test("test retry", async () => {
 });
 
 test("test error", async () => {
-  const result = await fileTestRunner("/graphs/test_error.yml", defaultTestAgents);
-  assert.deepStrictEqual(result, {
-    node1: { node1: "output" },
-    node2: { node2: "output" },
-  });
+  await rejectFileTest("/graphs/test_error.yml", "Intentional Failure");
 });
 
 test("test timeout", async () => {
-  const result = await fileTestRunner("/graphs/test_timeout.yml", defaultTestAgents);
-  assert.deepStrictEqual(result, {
-    node1: { node1: "output" },
-    node2: { node2: "output" },
-    node3: { node3: "output", node1: "output", node2: "output" },
-  });
+  await rejectFileTest("/graphs/test_timeout.yml", "Timeout");
 });
 
 test("test source", async () => {
