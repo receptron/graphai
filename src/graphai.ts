@@ -15,7 +15,7 @@ import {
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
-import { parseNodeName, assert } from "@/utils/utils";
+import { parseNodeName, assert, isObject } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
@@ -314,9 +314,12 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: Array<DataSource>) {
+  public resultsOf(sources: Array<DataSource>, anyInput: boolean = false) {
     return sources.map((source) => {
-      const result = this.nodes[source.nodeId].result;
+      const { result } = this.nodes[source.nodeId];
+      if (source.propId) {
+        assert(isObject(result), `resultsOf: result is not object. nodeId ${source.nodeId}`, anyInput);
+      }
       return result && source.propId ? result[source.propId] : result;
     });
   }

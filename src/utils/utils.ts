@@ -12,8 +12,15 @@ export const parseNodeName = (inputNodeId: string): DataSource => {
   return { nodeId: parts[0], propId: parts[1] };
 };
 
-export function assert(condition: boolean, message: string): asserts condition {
+export function assert(condition: boolean, message: string, isWarn: boolean = false): asserts condition {
   if (!condition) {
-    throw new Error(message);
+    if (!isWarn) {
+      throw new Error(message);
+    }
+    console.warn("warn: " + message);
   }
 }
+
+export const isObject = (x: unknown) => {
+  return x !== null && typeof x === "object";
+};

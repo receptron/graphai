@@ -98,7 +98,7 @@ export class ComputedNode extends Node {
       // Notice that this logic enables dynamic data-flows.
       const counter = this.inputs.reduce((count, nodeId) => {
         const source = this.sources[nodeId];
-        const [result] = this.graph.resultsOf([source]);
+        const [result] = this.graph.resultsOf([source], this.anyInput);
         return result === undefined ? count : count + 1;
       }, 0);
       if (!this.anyInput || counter > 0) {
@@ -130,7 +130,7 @@ export class ComputedNode extends Node {
   // which this node needs data from.
   public removePending(nodeId: string) {
     if (this.anyInput) {
-      const [result] = this.graph.resultsOf([this.sources[nodeId]]);
+      const [result] = this.graph.resultsOf([this.sources[nodeId]], this.anyInput);
       if (result) {
         this.pendings.clear();
       }
@@ -163,6 +163,7 @@ export class ComputedNode extends Node {
         this.inputs.map((input) => {
           return this.sources[input];
         }),
+        this.anyInput,
       )
       .filter((result) => {
         // Remove undefined if anyInput flag is set.
