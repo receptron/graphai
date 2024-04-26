@@ -50,7 +50,7 @@ test("test fork 1", async () => {
         agentId: "copy2ArrayAgent",
         inputs: ["node1"],
       },
-      nestedNode: {
+      mapNode: {
         agentId: "mapAgent",
         inputs: ["node2"],
         params: {
@@ -114,7 +114,7 @@ test("test fork 1", async () => {
         node1: "node1",
       },
     ],
-    nestedNode: {
+    mapNode: {
       node3: [
         {
           node3: "node3:node2:node1",
@@ -236,7 +236,7 @@ test("test fork 3", async () => {
       source: {
         value: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
       },
-      nestedNode: {
+      mapNode: {
         agentId: "mapAgent",
         inputs: ["source.content"],
         params: {
@@ -261,7 +261,7 @@ test("test fork 3", async () => {
       },
       bypassAgent: {
         agentId: "bypassAgent",
-        inputs: ["nestedNode"],
+        inputs: ["mapNode"],
       },
     },
   };
@@ -270,7 +270,7 @@ test("test fork 3", async () => {
   console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
-    nestedNode: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
+    mapNode: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
     bypassAgent: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
   });
 });
