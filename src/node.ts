@@ -15,8 +15,8 @@ import { parseNodeName } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
 
 export class Node {
-  public nodeId: string;
-  public waitlist = new Set<string>(); // List of nodes which need data from this node.
+  public readonly nodeId: string;
+  public readonly waitlist = new Set<string>(); // List of nodes which need data from this node.
   public state = NodeState.Waiting;
   public result: ResultData | undefined = undefined;
 
@@ -47,21 +47,21 @@ export class Node {
 }
 
 export class ComputedNode extends Node {
-  public graphId: string;
-  public isResult: boolean;
-  public params: NodeDataParams; // Agent-specific parameters
-  public nestedGraph?: GraphData;
-  public retryLimit: number;
+  public readonly graphId: string;
+  public readonly isResult: boolean;
+  public readonly params: NodeDataParams; // Agent-specific parameters
+  public readonly nestedGraph?: GraphData;
+  public readonly retryLimit: number;
   public retryCount: number = 0;
-  public agentId?: string;
-  public timeout?: number; // msec
+  public readonly agentId?: string;
+  public readonly timeout?: number; // msec
   public error?: Error;
   public fork?: number;
   public forkIndex?: number;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
   public sources: Record<string, DataSource> = {}; // data sources.
-  public anyInput: boolean; // any input makes this node ready
+  public readonly anyInput: boolean; // any input makes this node ready
   public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
 
@@ -257,8 +257,8 @@ export class ComputedNode extends Node {
 
 export class StaticNode extends Node {
   public value?: ResultData;
-  public update?: string;
-  public isResult: boolean;
+  public readonly update?: string;
+  public readonly isResult: boolean;
   public readonly isStaticNode = true;
   public readonly isComputedNode = false;
 

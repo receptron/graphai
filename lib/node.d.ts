@@ -2,8 +2,8 @@ import type { GraphAI, GraphData } from "./graphai";
 import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "./type";
 import { TransactionLog } from "./transaction_log";
 export declare class Node {
-    nodeId: string;
-    waitlist: Set<string>;
+    readonly nodeId: string;
+    readonly waitlist: Set<string>;
     state: NodeState;
     result: ResultData | undefined;
     protected graph: GraphAI;
@@ -13,20 +13,20 @@ export declare class Node {
     protected onSetResult(): void;
 }
 export declare class ComputedNode extends Node {
-    graphId: string;
-    isResult: boolean;
-    params: NodeDataParams;
-    nestedGraph?: GraphData;
-    retryLimit: number;
+    readonly graphId: string;
+    readonly isResult: boolean;
+    readonly params: NodeDataParams;
+    readonly nestedGraph?: GraphData;
+    readonly retryLimit: number;
     retryCount: number;
-    agentId?: string;
-    timeout?: number;
+    readonly agentId?: string;
+    readonly timeout?: number;
     error?: Error;
     fork?: number;
     forkIndex?: number;
     transactionId: undefined | number;
     sources: Record<string, DataSource>;
-    anyInput: boolean;
+    readonly anyInput: boolean;
     inputs: Array<string>;
     pendings: Set<string>;
     readonly isStaticNode = false;
@@ -43,8 +43,8 @@ export declare class ComputedNode extends Node {
 }
 export declare class StaticNode extends Node {
     value?: ResultData;
-    update?: string;
-    isResult: boolean;
+    readonly update?: string;
+    readonly isResult: boolean;
     readonly isStaticNode = true;
     readonly isComputedNode = false;
     constructor(nodeId: string, data: StaticNodeData, graph: GraphAI);
