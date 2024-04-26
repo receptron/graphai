@@ -169,7 +169,7 @@ test("test bypass4", async () => {
       },
       bypassAgent3: {
         agentId: "bypassAgent",
-        inputs: ["mapNode"],
+        inputs: ["mapNode.contents"],
       },
     },
   };
@@ -182,12 +182,10 @@ test("test bypass4", async () => {
         ["hello", "hello"],
       ],
     },
-    bypassAgent3: {
-      contents: [
+    bypassAgent3:  [
         ["hello", "hello"],
         ["hello", "hello"],
-      ],
-    },
+    ],
   });
   // console.log("COMPLETE 1");
 });
