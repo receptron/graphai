@@ -74,3 +74,18 @@ export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultRe
 ) => Promise<ResultData<ResultType>>;
 
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
+
+export type AgentFunctionInfo = {
+  name: string;
+  agent: AgentFunction<any, any, any>;
+  mock: AgentFunction<any, any, any>;
+  samples: {
+    inputs: any;
+    params: DefaultParamsType;
+    result: any;
+  }[];
+  description: string;
+  author: string;
+  repository: string;
+  license: string;
+};

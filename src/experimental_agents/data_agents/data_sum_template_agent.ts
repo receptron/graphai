@@ -6,9 +6,25 @@ export const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, nu
   }, 0);
 };
 
-export const dataSumTemplateAgentInfo = {
+// for test and document
+const sampleInputs = [1, 2, 3];
+const sampleParams = {};
+const sampleResult = 6;
+
+const dataSumTemplateAgentInfo = {
   name: "dataSumTemplateAgent",
   agent: dataSumTemplateAgent,
   mock: dataSumTemplateAgent,
+  samples: [
+    {
+      inputs: sampleInputs,
+      params: sampleParams,
+      result: sampleResult,
+    },
+  ],
+  description: "Returns the sum of input values",
+  author: "Satoshi Nakajima",
+  repository: "https://github.com/snakajima/graphai",
+  license: "MIT",
 };
 export default dataSumTemplateAgentInfo;
