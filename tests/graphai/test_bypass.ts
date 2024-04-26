@@ -182,9 +182,9 @@ test("test bypass4", async () => {
         ["hello", "hello"],
       ],
     },
-    bypassAgent3:  [
-        ["hello", "hello"],
-        ["hello", "hello"],
+    bypassAgent3: [
+      ["hello", "hello"],
+      ["hello", "hello"],
     ],
   });
   // console.log("COMPLETE 1");

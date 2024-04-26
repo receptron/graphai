@@ -113,7 +113,7 @@ test("test bypass2", async () => {
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
     mapNode: { bypassAgent: ["hello", "hello"] },
-    bypassAgent2: { bypassAgent: [ 'hello', 'hello' ] }
+    bypassAgent2: { bypassAgent: ["hello", "hello"] },
   });
   // console.log("COMPLETE 1");
 });
@@ -179,8 +179,8 @@ test("test bypass3", async () => {
   console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
-    mapNode: { bypassAgent3: [ 'hello', 'hello' ] },
-    bypassAgent4: [ 'hello', 'hello' ]
+    mapNode: { bypassAgent3: ["hello", "hello"] },
+    bypassAgent4: ["hello", "hello"],
   });
   // console.log("COMPLETE 1");
 });

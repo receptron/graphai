@@ -182,62 +182,51 @@ test("test fork 2", async () => {
               isResult: true,
             },
           },
-        }
-      }
-    }
+        },
+      },
+    },
   };
 
   const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1 });
   console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
-  "echo": {
-    "messages": [
-      "hello",
-      "hello",
-      "hello",
-      "hello",
-      "hello",
-      "hello",
-      "hello",
-      "hello",
-      "hello",
-      "hello"
-    ]
-  },
-  "mapNode": {
-    "node3": [
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      },
-      {
-        "node3": "node3:node2:node1"
-      }
-    ]
-  }
+    echo: {
+      messages: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+    },
+    mapNode: {
+      node3: [
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+        {
+          node3: "node3:node2:node1",
+        },
+      ],
+    },
   });
 });
 
