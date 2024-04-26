@@ -63,21 +63,22 @@ test("test bypass2", async () => {
             bypassAgent: {
               agentId: "bypassAgent",
               inputs: ["memory"],
+              isResult: true,
             },
           },
         },
       },
       bypassAgent2: {
         agentId: "bypassAgent",
-        inputs: ["mapNode.contents"],
+        inputs: ["mapNode.bypassAgent"],
       },
     },
   };
   const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
-  // console.log(result);
+  console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
-    mapNode: { contents: ["hello", "hello"] },
+    mapNode: { bypassAgent: ["hello", "hello"] },
     bypassAgent2: ["hello", "hello"],
   });
   // console.log("COMPLETE 1");
@@ -115,13 +116,14 @@ test("test bypass3", async () => {
             bypassAgent3: {
               agentId: "bypassAgent",
               inputs: ["bypassAgent2"],
+              isResult: true,
             },
           },
         },
       },
       bypassAgent4: {
         agentId: "bypassAgent",
-        inputs: ["mapNode.contents"],
+        inputs: ["mapNode.bypassAgent3"],
       },
     },
   };
@@ -129,7 +131,7 @@ test("test bypass3", async () => {
   // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
-    mapNode: { contents: ["hello", "hello"] },
+    mapNode: { bypassAgent3: ["hello", "hello"] },
     bypassAgent4: ["hello", "hello"],
   });
   // console.log("COMPLETE 1");
@@ -163,21 +165,23 @@ test("test bypass4", async () => {
             bypassAgent2: {
               agentId: "bypassAgent",
               inputs: ["bypassAgent", "memory"],
+              isResult: true,
             },
           },
         },
       },
       bypassAgent3: {
         agentId: "bypassAgent",
-        inputs: ["mapNode.contents"],
+        inputs: ["mapNode.bypassAgent2"],
       },
     },
   };
   const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
+  // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
     mapNode: {
-      contents: [
+      bypassAgent2: [
         ["hello", "hello"],
         ["hello", "hello"],
       ],
@@ -187,5 +191,6 @@ test("test bypass4", async () => {
       ["hello", "hello"],
     ],
   });
+
   // console.log("COMPLETE 1");
 });
