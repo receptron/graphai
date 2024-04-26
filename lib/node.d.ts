@@ -22,8 +22,6 @@ export declare class ComputedNode extends Node {
     readonly agentId?: string;
     readonly timeout?: number;
     error?: Error;
-    fork?: number;
-    forkIndex?: number;
     transactionId: undefined | number;
     sources: Record<string, DataSource>;
     readonly anyInput: boolean;
@@ -31,7 +29,7 @@ export declare class ComputedNode extends Node {
     pendings: Set<string>;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
-    constructor(graphId: string, nodeId: string, forkIndex: number | undefined, data: ComputedNodeData, graph: GraphAI);
+    constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
     isReadyNode(): boolean;
     private retry;
     removePending(nodeId: string): void;

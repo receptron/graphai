@@ -32,7 +32,6 @@ export type ComputedNodeData = {
     params?: NodeDataParams;
     retry?: number;
     timeout?: number;
-    fork?: number;
     graph?: GraphData;
     isResult?: boolean;
 };
@@ -53,7 +52,6 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
     debugInfo: {
         verbose: boolean;
         nodeId: string;
-        forkIndex?: number;
         retry: number;
     };
     graphData?: GraphData;
