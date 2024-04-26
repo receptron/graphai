@@ -33,21 +33,15 @@ test("test map_agent 2", async () => {
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
       nodes: {
-        node1: {
-          value: {},
-        },
         node2: {
           agentId: "stringTemplateAgent",
           params: {
             template: "I love ${0}.",
           },
-          inputs: ["node1"],
+          inputs: ["$0"],
           isResult: true,
         },
       },
-    },
-    params: {
-      injectionTo: "node1",
     },
     inputs: [["apple", "orange", "banana", "lemon"]],
   });
