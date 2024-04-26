@@ -204,7 +204,7 @@ test("test fork 2", async () => {
   const forkGraph = {
     nodes: {
       source: {
-        value: { content: { level1: { level2: "hello" } } },
+        value: { content: [{ level1: { level2: "hello" } }, { level1: { level2: "hello" } }] },
       },
       simple: {
         agentId: "sleeperAgent",
@@ -214,7 +214,7 @@ test("test fork 2", async () => {
         agentId: "mapAgent",
         inputs: ["simple"],
         params: {
-          injectionTo: "forked",
+          injectionTo: "workingMemory",
           resultFrom: "forked2",
         },
         graph: {
@@ -224,11 +224,11 @@ test("test fork 2", async () => {
             },
             forked: {
               agentId: "sleeperAgent",
-              inputs: ["workingMemory.content"],
+              inputs: ["workingMemory.level1"],
             },
             forked2: {
               agentId: "sleeperAgent",
-              inputs: ["forked.level1"],
+              inputs: ["forked"],
             },
           },
         },
