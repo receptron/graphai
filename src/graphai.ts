@@ -43,69 +43,28 @@ export class GraphAI {
   // This method is called when either the GraphAI obect was created,
   // or we are about to start n-th iteration (n>2).
   private createNodes(data: GraphData) {
-    const nodeId2forkedNodeIds: Record<string, string[]> = {};
-    const forkedNodeId2Index: Record<string, number> = {};
-    const forkedNodeId2NodeId: Record<string, string> = {}; // for sources
-
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
       const isStaticNode = "value" in data.nodes[nodeId];
       if (isStaticNode) {
         _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId] as StaticNodeData, this);
       } else {
         const nodeData = data.nodes[nodeId] as ComputedNodeData;
-        const fork = nodeData.fork;
-        if (fork) {
-          // For fork, change the nodeId and increase the node
-          nodeId2forkedNodeIds[nodeId] = new Array(fork).fill(undefined).map((_, i) => {
-            const forkedNodeId = `${nodeId}_${i}`;
-            _nodes[forkedNodeId] = new ComputedNode(this.graphId, forkedNodeId, i, nodeData, this);
-            // Data for pending and waiting
-            forkedNodeId2Index[forkedNodeId] = i;
-            forkedNodeId2NodeId[forkedNodeId] = nodeId;
-            return forkedNodeId;
-          });
-        } else {
-          _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, undefined, nodeData, this);
-        }
+        _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       }
       return _nodes;
     }, {});
 
-    // Generate the waitlist for each node, and update the pendings in case of forked node.
+    // Generate the waitlist for each node.
     Object.keys(nodes).forEach((nodeId) => {
       const node = nodes[nodeId];
       if (node.isComputedNode) {
         node.pendings.forEach((pending) => {
-          // If the pending(previous) node is forking
-          if (nodeId2forkedNodeIds[pending]) {
-            //  update node.pending and pending(previous) node.wailtlist
-            if (node.fork) {
-              //  1:1 if current nodes are also forking.
-              const newPendingId = nodeId2forkedNodeIds[pending][forkedNodeId2Index[nodeId]];
-              nodes[newPendingId].waitlist.add(nodeId); // previousNode
-              node.pendings.add(newPendingId);
-            } else {
-              //  1:n if current node is not forking.
-              nodeId2forkedNodeIds[pending].forEach((newPendingId) => {
-                nodes[newPendingId].waitlist.add(nodeId); // previousNode
-                node.pendings.add(newPendingId);
-              });
-            }
-            node.pendings.delete(pending);
+          if (nodes[pending]) {
+            nodes[pending].waitlist.add(nodeId); // previousNode
           } else {
-            if (nodes[pending]) {
-              nodes[pending].waitlist.add(nodeId); // previousNode
-            } else {
-              console.error(`--- invalid input ${pending} for node, ${nodeId}`);
-            }
+            console.error(`--- invalid input ${pending} for node, ${nodeId}`);
           }
         });
-        node.inputs = Array.from(node.pendings); // for fork.
-        node.sources = node.inputs.reduce((sources: Record<string, DataSource>, input) => {
-          const refNodeId = forkedNodeId2NodeId[input] ?? input;
-          sources[input] = { nodeId: input, propId: node.sources[refNodeId].propId };
-          return sources;
-        }, {});
       }
     });
     return nodes;
