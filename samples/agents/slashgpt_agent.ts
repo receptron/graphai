@@ -2,7 +2,7 @@ import { AgentFunction } from "@/graphai";
 
 export const slashGPTFuncitons2TextAgent: AgentFunction<
   { function_data_key: string; result_key: number },
-  Record<string, string>,
+  Record<string, string[]>,
   { function_data: { [key: string]: string[] } }
 > = async (context) => {
   const { params } = context;
@@ -11,7 +11,7 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
     return ["title:", title, "description:", description].join("\n");
   });
 
-  return { content: result[context.debugInfo?.forkIndex ?? 0] };
+  return { content: result };
 };
 
 /*

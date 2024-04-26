@@ -54,7 +54,6 @@ const graph_data = {
       },
     },
     function2prompt0: {
-      fork: 10,
       params: {
         function_data_key: "methods",
         result_key: 0,
@@ -62,22 +61,36 @@ const graph_data = {
       inputs: ["slashGPTAgent"],
       agentId: "slashGPTFuncitons2TextAgent",
     },
-    slashGPTAgent0: {
-      agentId: "slashGPTAgent",
-      fork: 10,
+    mapNode: {
+      agentId: "mapAgent",
+      inputs: ["function2prompt0.content"],
       params: {
-        manifest: {
-          prompt: "ユーザの問い合わせにある文章の専門家です。専門家として、ユーザのアイデアに対して実現可能なシナリオを100文字で書いてください。",
+        injectionTo: "memory",
+      },
+      graph: {
+        nodes: {
+          memory: {
+            value: {},
+          },
+          slashGPTAgent0: {
+            agentId: "slashGPTAgent",
+            params: {
+              manifest: {
+                prompt: "ユーザの問い合わせにある文章の専門家です。専門家として、ユーザのアイデアに対して実現可能なシナリオを100文字で書いてください。",
+              },
+            },
+            isResult: true,
+            inputs: ["memory"],
+          },
         },
       },
-      inputs: ["function2prompt0.content"],
     },
   },
 };
 
 export const main = async () => {
   const result = await graphDataTestRunner("sample_co2.log", graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
-  console.log(result);
+  console.log(JSON.stringify(result, null, "  "));
   console.log("COMPLETE 1");
 };
 
