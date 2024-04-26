@@ -154,53 +154,94 @@ test("test fork 1", async () => {
 test("test fork 2", async () => {
   const forkGraph = {
     nodes: {
-      node1: {
-        agentId: "testAgent1",
-        params: {},
+      echo: {
+        agentId: "copyMessageAgent",
+        params: {
+          message: "hello",
+          count: 10,
+        },
       },
-      node2: {
-        agentId: "testAgent1",
-        params: {},
-        fork: 10,
-        inputs: ["node1"],
-      },
-      node3: {
-        agentId: "testAgent1",
-        params: {},
-        fork: 10,
-        inputs: ["node2"],
-      },
-    },
+      mapNode: {
+        agentId: "mapAgent",
+        inputs: ["echo.messages"],
+        graph: {
+          nodes: {
+            node1: {
+              agentId: "testAgent1",
+              params: {},
+            },
+            node2: {
+              agentId: "testAgent1",
+              params: {},
+              inputs: ["node1"],
+            },
+            node3: {
+              agentId: "testAgent1",
+              params: {},
+              inputs: ["node2"],
+              isResult: true,
+            },
+          },
+        }
+      }
+    }
   };
 
   const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1 });
-  // console.log(result);
+  console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
-    node1: { node1: "node1" },
-    node2_0: { node2_0: "node2_0:node1" },
-    node2_1: { node2_1: "node2_1:node1" },
-    node2_2: { node2_2: "node2_2:node1" },
-    node2_3: { node2_3: "node2_3:node1" },
-    node2_4: { node2_4: "node2_4:node1" },
-    node2_5: { node2_5: "node2_5:node1" },
-    node2_6: { node2_6: "node2_6:node1" },
-    node2_7: { node2_7: "node2_7:node1" },
-    node2_8: { node2_8: "node2_8:node1" },
-    node2_9: { node2_9: "node2_9:node1" },
-    node3_0: { node3_0: "node3_0:node2_0:node1" },
-    node3_1: { node3_1: "node3_1:node2_1:node1" },
-    node3_2: { node3_2: "node3_2:node2_2:node1" },
-    node3_3: { node3_3: "node3_3:node2_3:node1" },
-    node3_4: { node3_4: "node3_4:node2_4:node1" },
-    node3_5: { node3_5: "node3_5:node2_5:node1" },
-    node3_6: { node3_6: "node3_6:node2_6:node1" },
-    node3_7: { node3_7: "node3_7:node2_7:node1" },
-    node3_8: { node3_8: "node3_8:node2_8:node1" },
-    node3_9: { node3_9: "node3_9:node2_9:node1" },
+  "echo": {
+    "messages": [
+      "hello",
+      "hello",
+      "hello",
+      "hello",
+      "hello",
+      "hello",
+      "hello",
+      "hello",
+      "hello",
+      "hello"
+    ]
+  },
+  "mapNode": {
+    "node3": [
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      },
+      {
+        "node3": "node3:node2:node1"
+      }
+    ]
+  }
   });
 });
 
-test("test fork 2", async () => {
+test("test fork 3", async () => {
   const forkGraph = {
     nodes: {
       source: {
@@ -211,7 +252,6 @@ test("test fork 2", async () => {
         inputs: ["source.content"],
         params: {
           injectionTo: "workingMemory",
-          resultFrom: "forked2",
         },
         graph: {
           nodes: {
@@ -225,6 +265,7 @@ test("test fork 2", async () => {
             forked2: {
               agentId: "sleeperAgent",
               inputs: ["forked"],
+              isResult: true,
             },
           },
         },
@@ -240,7 +281,7 @@ test("test fork 2", async () => {
   console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
-    nestedNode: { contents: [{ level2: "hello1" }, { level2: "hello2" }] },
-    bypassAgent: { contents: [{ level2: "hello1" }, { level2: "hello2" }] },
+    nestedNode: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
+    bypassAgent: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
   });
 });

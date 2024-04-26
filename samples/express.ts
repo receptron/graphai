@@ -39,7 +39,7 @@ const hello = async (req: express.Request, res: express.Response) => {
 const agentDispatcher = async (req: express.Request, res: express.Response) => {
   const { params } = req;
   const { agentId } = params;
-  const { nodeId, retry, params: agentParams, inputs, forkIndex } = req.body;
+  const { nodeId, retry, params: agentParams, inputs } = req.body;
   const agent = defaultTestAgents[agentId];
   const result = await agent({
     params: agentParams,
@@ -47,7 +47,6 @@ const agentDispatcher = async (req: express.Request, res: express.Response) => {
     debugInfo: {
       nodeId,
       retry,
-      forkIndex,
       verbose: false,
     },
     agents: defaultTestAgents,
