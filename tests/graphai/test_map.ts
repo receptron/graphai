@@ -13,21 +13,14 @@ const graphdata_push = {
     nestedNode: {
       agentId: "mapAgent",
       inputs: ["source.fruits"],
-      params: {
-        injectionTo: "node1",
-        resultFrom: "node2",
-      },
       graph: {
         nodes: {
-          node1: {
-            value: { fruit: "none" },
-          },
           node2: {
             agentId: "stringTemplateAgent",
             params: {
               template: "I love ${0}.",
             },
-            inputs: ["node1"],
+            inputs: ["$0"],
             isResult: true,
           },
         },
@@ -70,21 +63,14 @@ const graphdata_map2 = {
     nestedNode: {
       agentId: "mapAgent",
       inputs: ["source1.fruit", "source2.fruit", "source3.fruit", "source4.fruit"],
-      params: {
-        injectionTo: "node1",
-        resultFrom: "node2",
-      },
       graph: {
         nodes: {
-          node1: {
-            value: { fruit: "none" },
-          },
           node2: {
             agentId: "stringTemplateAgent",
             params: {
               template: "I love ${0}.",
             },
-            inputs: ["node1"],
+            inputs: ["$0"],
             isResult: true,
           },
         },
