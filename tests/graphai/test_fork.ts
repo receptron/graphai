@@ -55,7 +55,6 @@ test("test fork 1", async () => {
         inputs: ["node2"],
         params: {
           injectionTo: "buffer",
-          resultFrom: "node3",
         },
         graph: {
           nodes: {
@@ -69,6 +68,7 @@ test("test fork 1", async () => {
             node3: {
               agentId: "testAgent1a",
               inputs: ["node2"],
+              isResult: true,
             },
           },
         },
@@ -115,7 +115,7 @@ test("test fork 1", async () => {
       },
     ],
     nestedNode: {
-      contents: [
+      node3: [
         {
           node3: "node3:node2:node1",
         },

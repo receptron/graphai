@@ -28,13 +28,14 @@ const graphdata_push = {
               template: "I love ${0}.",
             },
             inputs: ["node1"],
+            isResult: true,
           },
         },
       },
     },
     result: {
       agentId: "sleeperAgent",
-      inputs: ["nestedNode.contents"],
+      inputs: ["nestedNode.node2"],
     },
   },
 };
@@ -84,13 +85,14 @@ const graphdata_map2 = {
               template: "I love ${0}.",
             },
             inputs: ["node1"],
+            isResult: true,
           },
         },
       },
     },
     result: {
       agentId: "sleeperAgent",
-      inputs: ["nestedNode.contents"],
+      inputs: ["nestedNode.node2"],
     },
   },
 };
