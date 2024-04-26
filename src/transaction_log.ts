@@ -27,9 +27,10 @@ export class TransactionLog {
 
   public onInjected(node: StaticNode, graph: GraphAI) {
     const isUpdating = "endTime" in this;
-    this.result = node.value;
+    this.result = node.result;
     this.state = node.state;
     this.endTime = Date.now();
+    console.log(this)
     if (isUpdating) {
       graph.updateLog(this);
     } else {
