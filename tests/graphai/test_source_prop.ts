@@ -23,6 +23,6 @@ const testAgent: AgentFunction<Record<never, never>, string> = async () => {
   return "test";
 };
 
-test("test select 1", async () => {
-  await rejectTest(graphData, "resultsOf: result is not object. nodeId input", { testAgent });
+test("test source props test", async () => {
+  await rejectTest(graphData, "resultsOf: result is not object. nodeId test", { testAgent });
 });
