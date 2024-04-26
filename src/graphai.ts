@@ -127,12 +127,12 @@ export class GraphAI {
         const value = node?.value;
         const update = node?.update;
         if (value) {
-          this.injectValue(nodeId, value);
+          this.injectValue(nodeId, value, nodeId);
         }
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
           if (result) {
-            this.injectValue(nodeId, result);
+            this.injectValue(nodeId, result, update);
           }
         }
       }
@@ -234,6 +234,7 @@ export class GraphAI {
     if (this.isRunning()) {
       console.error("-- Already Running");
     }
+    
     this.pushReadyNodesIntoQueue();
 
     return new Promise((resolve, reject) => {
@@ -304,10 +305,10 @@ export class GraphAI {
   }
 
   // Public API
-  public injectValue(nodeId: string, value: ResultData): void {
+  public injectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     const node = this.nodes[nodeId];
     if (node && node.isStaticNode) {
-      node.injectValue(value);
+      node.injectValue(value, injectFrom);
     } else {
       console.error("-- Inject Error: Invalid nodeId", nodeId);
       console.error("InjectionTo can only specify static nodes");
