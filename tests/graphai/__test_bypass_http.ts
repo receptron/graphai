@@ -193,7 +193,7 @@ test("test bypass4", async () => {
         params: {
           agentId: "echoAgent",
           params: {
-            message: ["hello","hello"],
+            message: ["hello", "hello"],
           },
         },
       },
@@ -223,8 +223,8 @@ test("test bypass4", async () => {
               },
               inputs: ["bypassAgent", "memory"],
             },
-          }
-        }
+          },
+        },
       },
       bypassAgent3: {
         agentId: "httpAgent",
@@ -238,9 +238,19 @@ test("test bypass4", async () => {
   const result = await graphDataTestRunner(__filename, graph_data, { httpAgent });
   console.log(result);
   assert.deepStrictEqual(result, {
-    echo: { message: [ 'hello', 'hello' ] },
-    mapNode: { contents: [ ["hello","hello"],["hello","hello"] ] },
-    bypassAgent3: { contents: [ ["hello","hello"],["hello","hello"] ] }
+    echo: { message: ["hello", "hello"] },
+    mapNode: {
+      contents: [
+        ["hello", "hello"],
+        ["hello", "hello"],
+      ],
+    },
+    bypassAgent3: {
+      contents: [
+        ["hello", "hello"],
+        ["hello", "hello"],
+      ],
+    },
   });
   // console.log("COMPLETE 1");
 });
