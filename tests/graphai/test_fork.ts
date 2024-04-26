@@ -1,6 +1,6 @@
 import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent, mapAgent } from "@/experimental_agents";
+import { sleeperAgent, mapAgent, bypassAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -39,7 +39,7 @@ const copy2ArrayAgent: AgentFunction = async ({ inputs }) => {
     return inputs[0];
   });
 };
-/*
+
 test("test fork 1", async () => {
   const forkGraph = {
     nodes: {
@@ -199,20 +199,16 @@ test("test fork 2", async () => {
     node3_9: { node3_9: "node3_9:node2_9:node1" },
   });
 });
-*/
+
 test("test fork 2", async () => {
   const forkGraph = {
     nodes: {
       source: {
-        value: { content: [{ level1: { level2: "hello" } }, { level1: { level2: "hello" } }] },
-      },
-      simple: {
-        agentId: "sleeperAgent",
-        inputs: ["source.content"],
+        value: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
       },
       nestedNode: {
         agentId: "mapAgent",
-        inputs: ["simple"],
+        inputs: ["source.content"],
         params: {
           injectionTo: "workingMemory",
           resultFrom: "forked2",
@@ -233,21 +229,18 @@ test("test fork 2", async () => {
           },
         },
       },
+      bypassAgent: {
+        agentId: "bypassAgent",
+        inputs: ["nestedNode"],
+      },
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, { sleeperAgent, mapAgent });
-  console.log( JSON.stringify(result, null, "  "))
+  const result = await graphDataTestRunner(__filename, forkGraph, { sleeperAgent, mapAgent, bypassAgent });
+  console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
-    source: { content: { level1: { level2: "hello" } } },
-    simple: { level1: { level2: "hello" } },
-    forked_0: { level1: { level2: "hello" } },
-    forked_1: { level1: { level2: "hello" } },
-    forked_2: { level1: { level2: "hello" } },
-    forked_3: { level1: { level2: "hello" } },
-    forked2_0: { level2: "hello" },
-    forked2_1: { level2: "hello" },
-    forked2_2: { level2: "hello" },
-    forked2_3: { level2: "hello" },
+    source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
+    nestedNode: { contents: [{ level2: "hello1" }, { level2: "hello2" }] },
+    bypassAgent: { contents: [{ level2: "hello1" }, { level2: "hello2" }] },
   });
 });
