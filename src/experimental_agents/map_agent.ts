@@ -3,12 +3,9 @@ import { assert } from "@/utils/utils";
 
 export const mapAgent: AgentFunction<
   {
-    resultFrom: string;
     injectionTo?: string;
   },
-  {
-    contents: Array<any>;
-  },
+  Record<string, Array<any>>,
   any
 > = async ({ params, inputs, agents, log, taskManager, graphData }) => {
   if (taskManager) {
@@ -27,12 +24,18 @@ export const mapAgent: AgentFunction<
   });
 
   const runs = graphs.map((graph) => {
-    return graph.run(true);
+    return graph.run(false);
   });
   const results = await Promise.all(runs);
-  const contents = results.map((result) => {
-    return result[params.resultFrom];
-  });
+  const nodeIds = Object.keys(results[0]);
+  assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
+  const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
+    tmp[nodeId] = results.map((result) => {
+      return result[nodeId];
+    });
+    return tmp;
+  }, {});
+
   if (log) {
     const logs = graphs.map((graph, index) => {
       return graph.transactionLogs().map((log) => {
@@ -42,5 +45,5 @@ export const mapAgent: AgentFunction<
     });
     log.push(...logs.flat());
   }
-  return { contents };
+  return compositeResult;
 };
