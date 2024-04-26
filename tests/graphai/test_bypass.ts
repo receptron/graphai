@@ -51,18 +51,11 @@ test("test bypass2", async () => {
       mapNode: {
         agentId: "mapAgent",
         inputs: ["echo.message"],
-        params: {
-          injectionTo: "memory",
-          resultFrom: "bypassAgent",
-        },
         graph: {
           nodes: {
-            memory: {
-              value: {},
-            },
             bypassAgent: {
               agentId: "bypassAgent",
-              inputs: ["memory"],
+              inputs: ["$0"],
               isResult: true,
             },
           },
@@ -96,18 +89,11 @@ test("test bypass3", async () => {
       mapNode: {
         agentId: "mapAgent",
         inputs: ["echo.message"],
-        params: {
-          injectionTo: "memory",
-          resultFrom: "bypassAgent3",
-        },
         graph: {
           nodes: {
-            memory: {
-              value: {},
-            },
             bypassAgent: {
               agentId: "bypassAgent",
-              inputs: ["memory"],
+              inputs: ["$0"],
             },
             bypassAgent2: {
               agentId: "bypassAgent",
@@ -149,22 +135,15 @@ test("test bypass4", async () => {
       mapNode: {
         agentId: "mapAgent",
         inputs: ["echo.message"],
-        params: {
-          injectionTo: "memory",
-          resultFrom: "bypassAgent2",
-        },
         graph: {
           nodes: {
-            memory: {
-              value: {},
-            },
             bypassAgent: {
               agentId: "bypassAgent",
-              inputs: ["memory"],
+              inputs: ["$0"],
             },
             bypassAgent2: {
               agentId: "bypassAgent",
-              inputs: ["bypassAgent", "memory"],
+              inputs: ["bypassAgent", "$0"],
               isResult: true,
             },
           },
