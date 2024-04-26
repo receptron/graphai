@@ -65,12 +65,6 @@ export class GraphAI {
             console.error(`--- invalid input ${pending} for node, ${nodeId}`);
           }
         });
-        node.inputs = Array.from(node.pendings); // for fork. REVIEW
-        node.sources = node.inputs.reduce((sources: Record<string, DataSource>, input) => {
-          const refNodeId = input;
-          sources[input] = { nodeId: input, propId: node.sources[refNodeId].propId };
-          return sources;
-        }, {});
       }
     });
     return nodes;
