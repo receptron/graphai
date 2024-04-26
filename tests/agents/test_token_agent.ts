@@ -1,5 +1,5 @@
 import { tokenBoundStringsAgent } from "@/experimental_agents";
-import { defaultTestContext } from "~/agents/utils";
+import { defaultTestContext } from "~/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
