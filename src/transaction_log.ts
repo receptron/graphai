@@ -16,6 +16,8 @@ export class TransactionLog {
   public errorMessage?: string;
   public result?: ResultData;
   public mapIndex?: number;
+  public isLoop?: boolean;
+  public repeatCount?: number;
   public log?: TransactionLog[];
   constructor(nodeId: string) {
     this.nodeId = nodeId;
@@ -33,6 +35,7 @@ export class TransactionLog {
     this.state = node.state;
     this.endTime = Date.now();
     this.injectFrom = injectFrom;
+    graph.setLoopLog(this);
     // console.log(this)
     if (isUpdating) {
       graph.updateLog(this);
@@ -45,6 +48,7 @@ export class TransactionLog {
     this.result = node.result;
     this.state = node.state;
     this.endTime = Date.now();
+    graph.setLoopLog(this);
     if (localLog.length > 0) {
       this.log = localLog;
     }
@@ -57,6 +61,7 @@ export class TransactionLog {
     this.startTime = transactionId;
     this.inputs = node.inputs;
     this.inputsData = inputs.length > 0 ? inputs : undefined;
+    graph.setLoopLog(this);
     graph.appendLog(this);
   }
 
@@ -64,6 +69,7 @@ export class TransactionLog {
     this.state = node.state;
     this.errorMessage = errorMessage;
     this.endTime = Date.now();
+    graph.setLoopLog(this);
     graph.updateLog(this);
   }
 }

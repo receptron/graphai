@@ -34,7 +34,7 @@ export class GraphAI {
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   public taskManager: TaskManager;
   private onComplete: () => void;
-  private loop?: LoopData;
+  private readonly loop?: LoopData;
   private repeatCount = 0;
   public verbose: boolean;
   private logs: Array<TransactionLog> = [];
@@ -234,7 +234,7 @@ export class GraphAI {
     if (this.isRunning()) {
       console.error("-- Already Running");
     }
-    
+
     this.pushReadyNodesIntoQueue();
 
     return new Promise((resolve, reject) => {
@@ -288,6 +288,11 @@ export class GraphAI {
       return true; // Indicating that we are going to continue.
     }
     return false;
+  }
+
+  public setLoopLog(log: TransactionLog) {
+    log.isLoop = !!this.loop;
+    log.repeatCount = this.repeatCount;
   }
 
   public appendLog(log: TransactionLog) {
