@@ -15,11 +15,16 @@ export const mapAgent: AgentFunction<
 
   assert(graphData !== undefined, "mapAgent: graphData is required");
   const input = Array.isArray(inputs[0]) ? inputs[0] : inputs;
+
+  const injectionTo = params.injectionTo ?? "$0";
+  if (graphData.nodes[injectionTo] === undefined) {
+    // If the input node does not exist, automatically create a static node
+    graphData.nodes[injectionTo] = { value: {} };
+  }
+
   const graphs: Array<GraphAI> = input.map((data: any) => {
     const graphAI = new GraphAI(graphData, agents || {}, taskManager);
-    if (params.injectionTo) {
-      graphAI.injectValue(params.injectionTo, data);
-    }
+    graphAI.injectValue(injectionTo, data);
     return graphAI;
   });
 
