@@ -314,11 +314,17 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: Array<DataSource>) {
+  public resultsOf(sources: Array<DataSource>, anyInput: boolean) {
     return sources.map((source) => {
-      const result = this.nodes[source.nodeId].result;
+      const { result } = this.nodes[source.nodeId];
       if (source.propId) {
-        assert(isObject(result), `resultsOf: result is not object. nodeId ${source.nodeId}`);
+        if (anyInput) {
+          if (!isObject(result)) {
+            console.warn(`warn resultsOf: result is not object. nodeId ${source.nodeId}`);
+          }
+        } else {
+          assert(isObject(result), `resultsOf: result is not object. nodeId ${source.nodeId}`);
+        }
       }
       return result && source.propId ? result[source.propId] : result;
     });
