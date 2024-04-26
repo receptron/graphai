@@ -49,13 +49,13 @@ export const graphDataTestRunner = async (
   return results;
 };
 
-export const rejectFileTest = async (file: string, errorMessage: string) => {
-  return await rejectTest(readGraphData(file), errorMessage);
+export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionDictonary = {}) => {
+  return await rejectTest(readGraphData(file), errorMessage, callbackDictonary);
 };
 export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionDictonary = {}) => {
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graphdata, {...defaultTestAgents, ...callbackDictonary});
+      await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...callbackDictonary });
     },
     { name: "Error", message: errorMessage },
   );

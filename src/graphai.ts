@@ -317,7 +317,7 @@ export class GraphAI {
   public resultsOf(sources: Array<DataSource>) {
     return sources.map((source) => {
       const result = this.nodes[source.nodeId].result;
-      assert(!!(isObject(result) && source.propId), `resultsOf: result is not object. nodeId ${source.nodeId}`)
+      assert(!!(isObject(result) && source.propId), `resultsOf: result is not object. nodeId ${source.nodeId}`);
       return result && source.propId ? result[source.propId] : result;
     });
   }
