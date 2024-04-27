@@ -59,7 +59,7 @@ export class ComputedNode extends Node {
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
   public readonly anyInput: boolean; // any input makes this node ready
-  private dataSources: Array<DataSource>; // data sources, the order is significant.
+  public dataSources: Array<DataSource>; // data sources, the order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
 
   public readonly isStaticNode = false;
@@ -121,8 +121,9 @@ export class ComputedNode extends Node {
   // which this node needs data from.
   public removePending(nodeId: string) {
     if (this.anyInput) {
-      const [result] = this.graph.resultsOf([this.sources[nodeId]], this.anyInput);
-      if (result) {
+      const results = this.graph.resultsOf(this.dataSources, this.anyInput)
+        .filter(result => { return result !== undefined; });
+      if (results.length > 0) {
         this.pendings.clear();
       }
     } else {
