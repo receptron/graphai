@@ -4,22 +4,22 @@
 
 GraphAI is an asynchronous data flow execution engine, which makes it easy to build *agentic* applications, which perform the orchestration of mutiple "AI agents". 
 
-*Agentic* applications need to make asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) multiple times and manage dependencies among them, such as giving the answer from one LLM call to another LLM call as a prompt -- which is quite difficult to do in traditional programing style, because of the asynchronous nature of those APIs.
+*Agentic* applications need to make asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) multiple times and manage data dependencies among them, such as giving the answer from one LLM call to another LLM call as a prompt -- which will become quite difficult to manage in a traditional programing style as the complexity of the application increases, because of the asynchronous nature of those APIs.
 
-GraphAI allows developers to describe dependencies among those API calls in a single data flow graph (either in YAML or JSON), create a GraphAI instance with that graph, and let it run. The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data management, error handling, retries and logging. 
+GraphAI allows developers to describe dependencies among those API calls in a single data flow graph (either in YAML or JSON), create a GraphAI instance with that graph, and let it run. The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependenty management, error handling, retries and logging. 
 
-Here is an example graph, which uses the Wikipedia as the data source and perform an in memory RAG:
+Here is an example graph, which uses the Wikipedia as the data source and perform an in-memory RAG.
 
 ```YAML
 nodes:
-  source: // Input data to this RAG process
+  source: // Input data to this RAG application
     value:
       name: Sam Bankman-Fried
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia: // Retrieve data from Wikipedia。
     agentId: wikipediaAgent
     inputs: [source.name]
-  chunks: // Break the text into chunks(2048 character each with 512 overlap）
+  chunks: // Break the text from Wikipedia into chunks(2048 character each with 512 overlap）
     agentId: stringSplitterAgent
     inputs: [wikipedia]
   chunkEmbeddings: // Get embedding vector of each chunk
