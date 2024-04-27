@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snakajima/graphai"
+    "url": "git+https://github.com/receptron/graphai"
   },
   "author": "Satoshi Nakajima",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/snakajima/graphai/issues"
+    "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/snakajima/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
     "@inquirer/prompts": "^5.0.0",
     "@types/express": "^4.17.21",
