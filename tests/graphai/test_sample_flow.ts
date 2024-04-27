@@ -2,6 +2,7 @@ import { GraphAI } from "@/graphai";
 
 import { defaultTestAgents } from "@/utils/test_agents";
 import { fileTestRunner, rejectFileTest } from "~/utils/runner";
+import { strIntentionalError } from "@/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -29,7 +30,7 @@ test("test retry", async () => {
 });
 
 test("test error", async () => {
-  await rejectFileTest("/graphs/test_error.yml", "Intentional Failure");
+  await rejectFileTest("/graphs/test_error.yml", strIntentionalError);
 });
 
 test("test timeout", async () => {
