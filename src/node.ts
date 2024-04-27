@@ -1,4 +1,5 @@
 import type { GraphAI, GraphData } from "@/graphai";
+import { strIntentionalError } from "@/utils/utils";
 
 import {
   NodeDataParams,
@@ -222,8 +223,10 @@ export class ComputedNode extends Node {
   // the agent function. It records the error in the transaction log and handles
   // the retry if specified.
   private errorProcess(error: unknown, transactionId: number) {
-    console.error(this.agentId + ": error");
-    console.error(error);
+    if (error instanceof Error && error.message !== strIntentionalError) {
+      console.error(this.agentId + ": error");
+      console.error(error);
+    }
     if (!this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
       return;
