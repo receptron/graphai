@@ -100,7 +100,7 @@ export class GraphAI {
   }
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
-    this.graphId = crypto.randomUUID();
+    this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
     this.callbackDictonary = callbackDictonary;
     this.taskManager = taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
