@@ -10,6 +10,7 @@ import {
   copyMessageAgent,
   mergeNodeIdAgent,
   countingAgent,
+  copy2ArrayAgent,
 } from "@/experimental_agents";
 
 export const defaultTestAgents: AgentFunctionDictonary = {
@@ -23,4 +24,5 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   mapAgent,
   totalAgent,
   countingAgent,
+  copy2ArrayAgent,
 };
