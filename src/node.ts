@@ -76,10 +76,14 @@ export class ComputedNode extends Node {
     this.isResult = data.isResult ?? false;
 
     this.anyInput = data.anyInput ?? false;
-    this.dataSources = (data.inputs ?? []).map(input => {
+    this.dataSources = (data.inputs ?? []).map((input) => {
       return parseNodeName(input);
-    }); 
-    this.pendings = new Set(this.dataSources.map(source => { return source.nodeId; }));
+    });
+    this.pendings = new Set(
+      this.dataSources.map((source) => {
+        return source.nodeId;
+      }),
+    );
     this.log.initForComputedNode(this);
   }
 
@@ -121,8 +125,9 @@ export class ComputedNode extends Node {
   // which this node needs data from.
   public removePending(nodeId: string) {
     if (this.anyInput) {
-      const results = this.graph.resultsOf(this.dataSources, this.anyInput)
-        .filter(result => { return result !== undefined; });
+      const results = this.graph.resultsOf(this.dataSources, this.anyInput).filter((result) => {
+        return result !== undefined;
+      });
       if (results.length > 0) {
         this.pendings.clear();
       }
@@ -150,15 +155,10 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const previousResults = this.graph
-      .resultsOf(
-        this.dataSources,
-        this.anyInput,
-      )
-      .filter((result) => {
-        // Remove undefined if anyInput flag is set.
-        return !this.anyInput || result !== undefined;
-      });
+    const previousResults = this.graph.resultsOf(this.dataSources, this.anyInput).filter((result) => {
+      // Remove undefined if anyInput flag is set.
+      return !this.anyInput || result !== undefined;
+    });
     const transactionId = Date.now();
     this.prepareExecute(transactionId, previousResults);
 
