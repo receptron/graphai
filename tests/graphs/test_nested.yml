@@ -10,12 +10,8 @@ nodes:
     inputs: [outer1]
     params:
       resultFrom: inner3
-      injectionTo: [inner0]
     graph:
       nodes:
-        inner0:
-          value: 
-            dummy: 0
         inner1:
           agentId: sleeperAgent
           params:
@@ -34,7 +30,7 @@ nodes:
             duration: 500
             value:
               inner3: output
-          inputs: [inner0, inner1, inner2]
+          inputs: [$0, inner1, inner2]
   outer3:
     agentId: sleeperAgent
     params:
