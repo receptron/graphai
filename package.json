@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "description": "Asynchronous data flow execution engine to make it simple to build LLM apps.",
   "main": "lib/index.js",
-  "bin": {
-    "graphai": "lib/graphai_cli.js"
-  },
   "files": [
     "./lib"
   ],
@@ -14,7 +11,6 @@
     "eslint": "eslint --fix --ext .ts ./src ./tests ./samples",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' .eslintrc.js",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
-    "cli": "npx ts-node  -r tsconfig-paths/register ./src/graphai_cli.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
     "samples": "npx ts-node  -r tsconfig-paths/register samples/sample_runner.ts",
     "sample": "npx ts-node  -r tsconfig-paths/register"
