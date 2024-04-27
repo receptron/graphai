@@ -12,7 +12,7 @@ import {
   countingAgent,
   copy2ArrayAgent,
   pushAgent,
-  popAgent
+  popAgent,
 } from "@/experimental_agents";
 
 export const defaultTestAgents: AgentFunctionDictonary = {
@@ -28,5 +28,5 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   countingAgent,
   copy2ArrayAgent,
   pushAgent,
-  popAgent
+  popAgent,
 };
