@@ -58,9 +58,8 @@ export class ComputedNode extends Node {
   public error?: Error;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
-  public sources: Record<string, DataSource> = {}; // data sources.
   public readonly anyInput: boolean; // any input makes this node ready
-  public inputs: Array<string>; // List of nodes this node needs data from. The order is significant.
+  private dataSources: Array<DataSource>; // data sources, the order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
 
   public readonly isStaticNode = false;
@@ -77,13 +76,10 @@ export class ComputedNode extends Node {
     this.isResult = data.isResult ?? false;
 
     this.anyInput = data.anyInput ?? false;
-    this.sources = (data.inputs ?? []).reduce((tmp: Record<string, DataSource>, input) => {
-      const source = parseNodeName(input);
-      tmp[source.nodeId] = source;
-      return tmp;
-    }, {});
-    this.inputs = Object.keys(this.sources);
-    this.pendings = new Set(this.inputs);
+    this.dataSources = (data.inputs ?? []).map(input => {
+      return parseNodeName(input);
+    }); 
+    this.pendings = new Set(this.dataSources.map(source => { return source.nodeId; }));
     this.log.initForComputedNode(this);
   }
 
@@ -92,8 +88,7 @@ export class ComputedNode extends Node {
       // Count the number of data actually available.
       // We care it only when this.anyInput is true.
       // Notice that this logic enables dynamic data-flows.
-      const counter = this.inputs.reduce((count, nodeId) => {
-        const source = this.sources[nodeId];
+      const counter = this.dataSources.reduce((count, source) => {
         const [result] = this.graph.resultsOf([source], this.anyInput);
         return result === undefined ? count : count + 1;
       }, 0);
@@ -156,9 +151,7 @@ export class ComputedNode extends Node {
   public async execute() {
     const previousResults = this.graph
       .resultsOf(
-        this.inputs.map((input) => {
-          return this.sources[input];
-        }),
+        this.dataSources,
         this.anyInput,
       )
       .filter((result) => {
