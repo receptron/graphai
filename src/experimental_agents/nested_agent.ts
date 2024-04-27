@@ -3,7 +3,6 @@ import { assert } from "@/utils/utils";
 
 export const nestedAgent: AgentFunction<{
   graph: GraphData;
-  resultFrom: string;
   injectionTo?: Array<string>;
 }> = async ({ params, inputs, agents, log, taskManager, graphData }) => {
   if (taskManager) {
@@ -13,16 +12,28 @@ export const nestedAgent: AgentFunction<{
 
   assert(graphData !== undefined, "nestedAgent: graphData is required");
 
+  const injectionTo =
+    params.injectionTo ??
+    inputs.map((__input, index) => {
+      return `$${index}`;
+    });
+  injectionTo.forEach((nodeId) => {
+    if (graphData.nodes[nodeId] === undefined) {
+      // If the input node does not exist, automatically create a static node
+      graphData.nodes[nodeId] = { value: {} };
+    }
+  });
+
   const graphAI = new GraphAI(graphData, agents || {}, taskManager);
 
   try {
     // Inject inputs to specified source nodes
-    (params.injectionTo ?? []).forEach((injectToNodeId, index) => {
+    injectionTo.forEach((injectToNodeId, index) => {
       graphAI.injectValue(injectToNodeId, inputs[index]);
     });
-    const results = await graphAI.run(true);
+    const results = await graphAI.run(false);
     log?.push(...graphAI.transactionLogs());
-    return results[params.resultFrom];
+    return results;
   } catch (error) {
     log?.push(...graphAI.transactionLogs());
     if (error instanceof Error) {

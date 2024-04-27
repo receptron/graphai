@@ -66,7 +66,7 @@ test("test nested", async () => {
   const result = await fileTestRunner("/graphs/test_nested.yml", defaultTestAgents);
   assert.deepStrictEqual(result, {
     outer1: { outer1: "output" },
-    outer2: { inner1: "output", inner2: "output", inner3: "output", outer1: "output" },
+    outer2: { inner3: { inner1: "output", inner2: "output", inner3: "output", outer1: "output" } },
     outer3: { outer3: "output", outer1: "output", inner1: "output", inner2: "output", inner3: "output" },
     outer4: { outer4: "output", outer3: "output", outer1: "output", inner1: "output", inner2: "output", inner3: "output" },
     outer5: { outer5: "output", outer4: "output", outer3: "output", outer1: "output", inner1: "output", inner2: "output", inner3: "output" },
