@@ -1,14 +1,7 @@
 import { AgentFunction } from "@/graphai";
 import wiki from "wikipedia";
 
-export const wikipediaAgent: AgentFunction<
-  { lang?: string; summary?: boolean }, 
-  Record<string, any> | undefined,
-  string
-  > = async ({
-  inputs,
-  params,
-}) => {
+export const wikipediaAgent: AgentFunction<{ lang?: string; summary?: boolean }, Record<string, any> | undefined, string> = async ({ inputs, params }) => {
   const { lang, summary } = params;
   const query = inputs[0];
   try {
