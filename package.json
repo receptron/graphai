@@ -1,7 +1,7 @@
 {
   "name": "graphai",
-  "version": "0.1.1",
-  "description": "Asynchronous data flow execution engine to make it simple to build LLM apps.",
+  "version": "0.1.2",
+  "description": "Asynchronous data flow execution engine for agentic AI apps.",
   "main": "lib/index.js",
   "files": [
     "./lib"
@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/receptron/graphai"
   },
-  "author": "Satoshi Nakajima",
+  "author": "Satoshi Nakajima, Isamu Arimoto",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
