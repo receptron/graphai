@@ -1,8 +1,7 @@
 import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
 import { NodeState, AgentFunctionInfo } from "@/type";
 
-import { defaultTestAgents } from "~/utils/agents";
-import { defaultTestContext } from "~/utils/utils";
+import { defaultTestAgents } from "@/utils/test_agents";
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
 
 import path from "path";
