@@ -19,8 +19,6 @@ import { parseNodeName, assert, isObject } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
-import crypto from "crypto";
-
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
 const defaultConcurrency = 8;
