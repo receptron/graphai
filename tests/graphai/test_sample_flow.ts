@@ -1,5 +1,6 @@
 import { GraphAI } from "@/graphai";
-import { defaultTestAgents } from "~/agents/agents";
+
+import { defaultTestAgents } from "~/utils/agents";
 import { fileTestRunner, rejectFileTest } from "~/utils/runner";
 
 import test from "node:test";

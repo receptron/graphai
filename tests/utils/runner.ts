@@ -1,11 +1,12 @@
 import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
-import { defaultTestAgents } from "~/agents/agents";
-import { defaultTestContext } from "~/agents/utils";
 import { NodeState, AgentFunctionInfo } from "@/type";
+
+import { defaultTestAgents } from "~/utils/agents";
+import { defaultTestContext } from "~/utils/utils";
+import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
 
 import path from "path";
 import * as fs from "fs";
-import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
 
 import assert from "node:assert";
 import test from "node:test";

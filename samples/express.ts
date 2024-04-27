@@ -1,7 +1,7 @@
 // npx ts-node samples/express.ts
 // sample client: samples/curl.sh
 import { GraphAI, AgentFunction } from "@/graphai";
-import { defaultTestAgents } from "~/agents/agents";
+import { defaultTestAgents } from "~/utils/agents";
 
 import express from "express";
 
