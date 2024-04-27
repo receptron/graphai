@@ -11,6 +11,8 @@ import {
   mergeNodeIdAgent,
   countingAgent,
   copy2ArrayAgent,
+  pushAgent,
+  popAgent
 } from "@/experimental_agents";
 
 export const defaultTestAgents: AgentFunctionDictonary = {
@@ -25,4 +27,6 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   totalAgent,
   countingAgent,
   copy2ArrayAgent,
+  pushAgent,
+  popAgent
 };
