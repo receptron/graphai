@@ -41,13 +41,13 @@ test("test counter2", async () => {
     nodes: {
       workingMemory: {
         value: {},
-        update: "nested1", // update data from nested1 data
+        update: "nested1.counter", // update data from nested1 data
       },
       nested1: {
         agentId: "nestedAgent",
+        isResult: true,
         graph: graphdata_counter,
         params: {
-          resultFrom: "counter", // nestedAgent result is counter node result in graphdata_counter
           injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
         },
         inputs: ["workingMemory"],
@@ -59,7 +59,7 @@ test("test counter2", async () => {
     ...defaultTestAgents,
     counterAgent,
   });
-  assert.deepStrictEqual(result, { workingMemory: { v: 90 }, nested1: { v: 100 } });
+  assert.deepStrictEqual(result, { workingMemory: { v: 90 }, nested1: { counter: { v: 100 } } });
 });
 
 test("test counter3", async () => {
