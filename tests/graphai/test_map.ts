@@ -32,7 +32,7 @@ const graphdata_push = {
   },
 };
 
-test("test map", async () => {
+test("test map 1", async () => {
   const result = await graphDataTestRunner("test_map", graphdata_push, defaultTestAgents);
   assert.deepStrictEqual(result.result, [
     { content: "I love apple." },
@@ -82,7 +82,7 @@ const graphdata_map2 = {
   },
 };
 
-test("test map", async () => {
+test("test map 2", async () => {
   const result = await graphDataTestRunner("test_map2", graphdata_map2, defaultTestAgents);
   assert.deepStrictEqual(result.result, [
     { content: "I love apple." },
