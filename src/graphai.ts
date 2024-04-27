@@ -19,8 +19,6 @@ import { parseNodeName, assert, isObject } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
-import crypto from "crypto";
-
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
 const defaultConcurrency = 8;
@@ -100,7 +98,7 @@ export class GraphAI {
   }
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
-    this.graphId = crypto.randomUUID();
+    this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
     this.callbackDictonary = callbackDictonary;
     this.taskManager = taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
