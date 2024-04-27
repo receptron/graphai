@@ -3,7 +3,6 @@ import { assert } from "@/utils/utils";
 
 export const nestedAgent: AgentFunction<{
   graph: GraphData;
-  resultFrom: string;
   injectionTo?: Array<string>;
 }> = async ({ params, inputs, agents, log, taskManager, graphData }) => {
   if (taskManager) {
@@ -32,9 +31,9 @@ export const nestedAgent: AgentFunction<{
     injectionTo.forEach((injectToNodeId, index) => {
       graphAI.injectValue(injectToNodeId, inputs[index]);
     });
-    const results = await graphAI.run(true);
+    const results = await graphAI.run(false);
     log?.push(...graphAI.transactionLogs());
-    return results[params.resultFrom];
+    return results;
   } catch (error) {
     log?.push(...graphAI.transactionLogs());
     if (error instanceof Error) {
