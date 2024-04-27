@@ -24,9 +24,8 @@ const graph_data = {
     wikipedia: {
       // Fetch an article from Wikipedia
       agentId: "wikipediaAgent",
-      inputs: ["source"],
+      inputs: ["source.name"],
       params: {
-        inputKey: "name",
         lang: "en",
       },
     },

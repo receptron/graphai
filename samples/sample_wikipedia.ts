@@ -10,10 +10,9 @@ const graph_data = {
       agentId: "interactiveInputTextAgent",
     },
     wikipedia: {
-      inputs: ["interactiveInputAgent"],
+      inputs: ["interactiveInputAgent.answer"],
       agentId: "wikipediaAgent",
       params: {
-        inputKey: "answer",
         lang: "ja",
       },
     },
