@@ -1,4 +1,4 @@
-import { DataSource } from "@/type";
+import { DataSource, ResultData } from "@/type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -23,4 +23,8 @@ export function assert(condition: boolean, message: string, isWarn: boolean = fa
 
 export const isObject = (x: unknown) => {
   return x !== null && typeof x === "object";
+};
+
+export const getDataFromSource = (result: ResultData, source: DataSource) => {
+  return result && source.propId ? result[source.propId] : result;
 };
