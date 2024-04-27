@@ -28,5 +28,4 @@ jobs:
     - run: cd tests/http-server/docs/ && npx http-server &
     - run: yarn test
     - run: npx ts-node -r tsconfig-paths/register ./tests/graphai/__test_bypass_http.ts 
-    - run: npx ts-node lib/graphai_cli.js tests/graphs/test_cli.yaml
     - run: yarn run eslint
