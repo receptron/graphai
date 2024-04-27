@@ -6,7 +6,7 @@ GraphAI is an asynchronous data flow execution engine, which makes it easy to bu
 
 *Agentic* applications need to make asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) multiple times and manage data dependencies among them, such as giving the answer from one LLM call to another LLM call as a prompt -- which will become quite difficult to manage in a traditional programing style as the complexity of the application increases, because of the asynchronous nature of those APIs.
 
-GraphAI allows developers to describe dependencies among those API calls in a single data flow graph (either in YAML or JSON), create a GraphAI instance with that graph, and let it run. The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependenty management, error handling, retries and logging. 
+GraphAI allows developers to describe dependencies among those API calls in a single data flow graph (either in YAML or JSON), create a GraphAI instance with that graph, and let it run. The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, error handling, retries and logging. 
 
 Here is an example graph, which uses the Wikipedia as the data source and perform an in-memory RAG.
 
@@ -34,7 +34,7 @@ nodes:
   sortedChunks: // Sort chunks based on the similarity
     agentId: sortByValuesAgent
     inputs: [chunks, similarities]
-  referenceText: // Concatinate chunks up to the token limit (5000)
+  referenceText: // Concatenate chunks up to the token limit (5000)
     agentId: tokenBoundStringsAgent
     inputs: [sortedChunks]
     params:
