@@ -30,7 +30,7 @@ export const graphDataTestRunner = async (
   const log_path = path.resolve(__dirname) + "/../logs/" + fileBaseName(logFileName) + ".log";
   const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...callbackDictonary });
 
-  if (process.argv[2] !== "-q") {
+  if (process.argv[2] === "-v") {
     graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
       if (state === NodeState.Executing) {
         console.log(`${nodeId.padEnd(10)} =>( ${(JSON.stringify(inputs) ?? "").slice(0, 60)}`);
