@@ -1,5 +1,5 @@
 import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
-import { NodeState, AgentFunctionInfo } from "@/type";
+import { NodeState } from "@/type";
 
 import { defaultTestAgents } from "@/utils/test_agents";
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
@@ -8,7 +8,6 @@ import path from "path";
 import * as fs from "fs";
 
 import assert from "node:assert";
-import test from "node:test";
 
 export const readGraphData = (file: string) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
