@@ -15,7 +15,7 @@ import dataSumTemplateAgentInfo from "@/experimental_agents/data_agents/data_sum
 // import sortByValuesAgent from "@/experimental_agents/matrix_agents/sort_by_values_agent";
 // import dotProductAgent from "@/experimental_agents/matrix_agents/dot_product_agent";
 
-// import * from "./token_agent";
+// import tokenBoundStringsAgent from "@/experimental_agents/token_agent";
 // import * from "./test_agents";
 
 import { agentTestRunner } from "~/utils/runner";
