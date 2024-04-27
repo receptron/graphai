@@ -28,7 +28,7 @@ nodes:
   topicEmbedding: // Get embedding vector of the question
     agentId: stringEmbeddingsAgent
     inputs: [source.query]
-  similarities: // Perform the cosine similarity of each chunk
+  similarities: // Calculate the cosine similarity of each chunk
     agentId: dotProductAgent
     inputs: [chunkEmbeddings, topicEmbedding]
   sortedChunks: // Sort chunks based on the similarity
@@ -50,7 +50,8 @@ nodes:
     agentId: slashGPTAgent
     params:
       manifest:
-        model: gpt3.5
+        model: gpt-3.5-turbo
+    isResult: true // indicating this is the final result
     inputs: [prompt]
 ```
 
