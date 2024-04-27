@@ -1,5 +1,5 @@
 import { mapAgent, stringTemplateAgent } from "@/experimental_agents";
-import { defaultTestContext } from "~/utils/utils";
+import { defaultTestContext } from "@/utils/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";
