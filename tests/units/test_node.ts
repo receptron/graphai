@@ -2,7 +2,7 @@ import { GraphAI } from "@/graphai";
 import { StaticNode } from "@/node";
 import { NodeState } from "@/type";
 
-import { defaultTestAgents } from "~/utils/agents";
+import { defaultTestAgents } from "@/utils/test_agents";
 import { graph_data } from "~/units/graph_data";
 
 import test from "node:test";

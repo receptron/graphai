@@ -1,15 +1,13 @@
 import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
-import { NodeState, AgentFunctionInfo } from "@/type";
+import { NodeState } from "@/type";
 
-import { defaultTestAgents } from "~/utils/agents";
-import { defaultTestContext } from "~/utils/utils";
+import { defaultTestAgents } from "@/utils/test_agents";
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
 
 import path from "path";
 import * as fs from "fs";
 
 import assert from "node:assert";
-import test from "node:test";
 
 export const readGraphData = (file: string) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
@@ -64,19 +62,3 @@ export const rejectTest = async (graphdata: GraphData, errorMessage: string, cal
   );
 };
 
-// for agent
-export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
-  test(`test ${agentInfo.name}`, async () => {
-    const { agent, samples } = agentInfo;
-    for await (const sample of samples) {
-      const { params, inputs, result } = sample;
-
-      const actual = await agent({
-        ...defaultTestContext,
-        params,
-        inputs,
-      });
-      assert.deepStrictEqual(result, actual);
-    }
-  });
-};

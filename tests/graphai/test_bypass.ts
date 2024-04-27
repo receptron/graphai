@@ -1,4 +1,4 @@
-import { defaultTestAgents } from "~/utils/agents";
+import { defaultTestAgents } from "@/utils/test_agents";
 import { graphDataTestRunner } from "~/utils/runner";
 
 import test from "node:test";

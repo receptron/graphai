@@ -18,7 +18,7 @@ import dataSumTemplateAgentInfo from "@/experimental_agents/data_agents/data_sum
 // import tokenBoundStringsAgent from "@/experimental_agents/token_agent";
 // import * from "./test_agents";
 
-import { agentTestRunner } from "~/utils/runner";
+import { agentTestRunner } from "@/utils/test_utils";
 
 [stringSplitterAgentInfo, stringTemplateAgentInfo, dataSumTemplateAgentInfo, totalAgentInfo, dataObjectMergeTemplateAgentInfo].map((agentInfo) => {
   agentTestRunner(agentInfo);

@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "~/utils/agents";
+import { defaultTestAgents } from "@/utils/test_agents";
 
 import test from "node:test";
 import assert from "node:assert";

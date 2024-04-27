@@ -1,8 +1,8 @@
 import { AgentFunction } from "@/graphai";
 
 import { fileTestRunner } from "~/utils/runner";
-import { sleep } from "~/utils/utils";
-import { defaultTestAgents } from "~/utils/agents";
+import { sleep } from "@/utils/utils";
+import { defaultTestAgents } from "@/utils/test_agents";
 
 import test from "node:test";
 import assert from "node:assert";
