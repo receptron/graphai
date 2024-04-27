@@ -8,14 +8,8 @@ nodes:
   outer2:
     agentId: nestedAgent
     inputs: [outer1]
-    params:
-      resultFrom: inner3
-      injectionTo: [inner0]
     graph:
       nodes:
-        inner0:
-          value: 
-            dummy: 0
         inner1:
           agentId: sleeperAgent
           params:
@@ -30,18 +24,19 @@ nodes:
               inner2: output
         inner3:
           agentId: sleeperAgent
+          isResult: true
           params:
             duration: 500
             value:
               inner3: output
-          inputs: [inner0, inner1, inner2]
+          inputs: [$0, inner1, inner2]
   outer3:
     agentId: sleeperAgent
     params:
       duration: 500
       value:
         outer3: output
-    inputs: [outer2]
+    inputs: [outer2.inner3]
   outer4:
     agentId: sleeperAgent
     params:
@@ -55,4 +50,4 @@ nodes:
       duration: 500
       value:
         outer5: output
-    inputs: [outer2, outer4]
+    inputs: [outer2.inner3, outer4]

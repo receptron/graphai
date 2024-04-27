@@ -2,7 +2,7 @@ import { AgentFunction } from "@/graphai";
 import { graphDataTestRunner } from "~/utils/runner";
 import { fileBaseName } from "~/utils/file_utils";
 
-import { sleeperAgent, mergeNodeIdAgent } from "@/experimental_agents";
+import { defaultTestAgents } from "~/utils/agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -20,10 +20,10 @@ const dispatchAgentGenerator = (selectedNodeId: string) => {
 const dispatchGraph = {
   nodes: {
     select1: {
-      agentId: "dispatcher",
+      agentId: "dispatchAgent",
     },
     select2: {
-      agentId: "dispatcher",
+      agentId: "dispatchAgent",
     },
     ghost: {
       agentId: "sleeperAgent",
@@ -49,7 +49,7 @@ const dispatchGraph = {
 
 test("test select 1", async () => {
   const dispatchAgent = dispatchAgentGenerator("select1");
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_1", dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_1", dispatchGraph, { dispatchAgent, ...defaultTestAgents });
   assert.deepStrictEqual(result, {
     ghost: { from: "select1" },
     node: { node: "hello" },
@@ -62,7 +62,7 @@ test("test select 1", async () => {
 
 test("test select 2", async () => {
   const dispatchAgent = dispatchAgentGenerator("select2");
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2", dispatchGraph, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2", dispatchGraph, { dispatchAgent, ...defaultTestAgents });
   assert.deepStrictEqual(result, {
     ghost: { from: "select2" },
     node: { node: "hello" },
@@ -76,7 +76,7 @@ test("test select 2", async () => {
 const dispatchGraph2 = {
   nodes: {
     select: {
-      agentId: "dispatcher",
+      agentId: "dispatchAgent",
     },
     ghost1: {
       agentId: "sleeperAgent",
@@ -129,7 +129,7 @@ const dispatchAgentGenerator2 = (selectedKeys: string[]) => {
 
 test("test next 1", async () => {
   const dispatchAgent = dispatchAgentGenerator2(["next1"]);
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_3", dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_3", dispatchGraph2, { dispatchAgent, ...defaultTestAgents });
   // console.log(result);
   assert.deepStrictEqual(result, {
     select: { next1: { from: "select" } },
@@ -140,7 +140,7 @@ test("test next 1", async () => {
 
 test("test next 3", async () => {
   const dispatchAgent = dispatchAgentGenerator2(["next3"]);
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_4", dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_4", dispatchGraph2, { dispatchAgent, ...defaultTestAgents });
   assert.deepStrictEqual(result, {
     select: { next3: { from: "select" } },
     ghost3: { from: "select" },
@@ -150,7 +150,7 @@ test("test next 3", async () => {
 
 test("test next 2, 3", async () => {
   const dispatchAgent = dispatchAgentGenerator2(["next2", "next3"]);
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_5", dispatchGraph2, { dispatcher: dispatchAgent, mergeNodeIdAgent, sleeperAgent });
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_5", dispatchGraph2, { dispatchAgent, ...defaultTestAgents });
   // console.log(result);
   assert.deepStrictEqual(result, {
     select: { next2: { from: "select" }, next3: { from: "select" } },
