@@ -1,6 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent, mapAgent, stringTemplateAgent } from "@/experimental_agents";
-// import { fileBaseName } from "~/utils/file_utils";
+import { defaultTestAgents } from "~/utils/agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -33,8 +32,8 @@ const graphdata_push = {
   },
 };
 
-test("test map", async () => {
-  const result = await graphDataTestRunner("test_map", graphdata_push, { stringTemplateAgent, sleeperAgent, mapAgent });
+test("test map 1", async () => {
+  const result = await graphDataTestRunner("test_map", graphdata_push, defaultTestAgents);
   assert.deepStrictEqual(result.result, [
     { content: "I love apple." },
     { content: "I love orange." },
@@ -83,8 +82,8 @@ const graphdata_map2 = {
   },
 };
 
-test("test map", async () => {
-  const result = await graphDataTestRunner("test_map2", graphdata_map2, { stringTemplateAgent, sleeperAgent, mapAgent });
+test("test map 2", async () => {
+  const result = await graphDataTestRunner("test_map2", graphdata_map2, defaultTestAgents);
   assert.deepStrictEqual(result.result, [
     { content: "I love apple." },
     { content: "I love orange." },

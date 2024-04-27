@@ -1,24 +1,22 @@
 import { AgentFunction } from "@/graphai";
+
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent, mapAgent, bypassAgent } from "@/experimental_agents";
+import { defaultTestAgents } from "~/utils/agents";
 
 import test from "node:test";
 import assert from "node:assert";
 
 const testAgent1: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
-  // console.log("executing", nodeId, params, inputs);
   const result = {
     [nodeId]: [nodeId, inputs.map((a) => Object.values(a).flat())]
       .flat()
       .filter((a) => !!a)
       .join(":"),
   };
-  // console.log("completing", nodeId, result);
   return result;
 };
 
 const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
-  // console.log("executing", nodeId, inputs);
   const result = {
     [nodeId]: [
       nodeId,
@@ -30,14 +28,7 @@ const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => 
       .filter((a) => !!a)
       .join(":"),
   };
-  // console.log("completing", nodeId, result);
   return result;
-};
-
-const copy2ArrayAgent: AgentFunction = async ({ inputs }) => {
-  return new Array(10).fill(undefined).map(() => {
-    return inputs[0];
-  });
 };
 
 test("test fork 1", async () => {
@@ -76,76 +67,36 @@ test("test fork 1", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1a, mapAgent, copy2ArrayAgent });
+  const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1a, ...defaultTestAgents });
   // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     node1: {
       node1: "node1",
     },
     node2: [
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
-      {
-        node1: "node1",
-      },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
+      { node1: "node1" },
     ],
     mapNode: {
       node3: [
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
       ],
     },
   });
@@ -195,36 +146,16 @@ test("test fork 2", async () => {
     },
     mapNode: {
       node3: [
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
-        {
-          node3: "node3:node2:node1",
-        },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
+        { node3: "node3:node2:node1" },
       ],
     },
   });
@@ -266,7 +197,7 @@ test("test fork 3", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, { sleeperAgent, mapAgent, bypassAgent });
+  const result = await graphDataTestRunner(__filename, forkGraph, defaultTestAgents);
   console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },

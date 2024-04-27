@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent, pushAgent, popAgent } from "@/experimental_agents";
+import { defaultTestAgents } from "~/utils/agents";
 import { fileBaseName } from "~/utils/file_utils";
 
 import test from "node:test";
@@ -15,7 +15,7 @@ const graphdata_push = {
       update: "reducer",
     },
     item: {
-      agentId: "sleeper",
+      agentId: "sleeperAgent",
       params: {
         duration: 10,
         value: "hello",
@@ -23,14 +23,14 @@ const graphdata_push = {
     },
     reducer: {
       isResult: true,
-      agentId: "push",
+      agentId: "pushAgent",
       inputs: ["array", "item"],
     },
   },
 };
 
 test("test loop & push", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_push, { sleeper: sleeperAgent, push: pushAgent }, () => {}, false);
+  const result = await graphDataTestRunner(__filename, graphdata_push, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {
     // array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
     // item: "hello",
@@ -53,16 +53,16 @@ const graphdata_pop = {
     },
     popper: {
       inputs: ["source"],
-      agentId: "pop", // returns { array, item }
+      agentId: "popAgent", // returns { array, item }
     },
     reducer: {
-      agentId: "push",
+      agentId: "pushAgent",
       inputs: ["result", "popper.item"],
     },
   },
 };
 
 test("test loop & pop", async () => {
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, { sleeper: sleeperAgent, push: pushAgent, pop: popAgent });
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents);
   assert.deepStrictEqual(result.result, ["lemon", "banana", "orange"]);
 });

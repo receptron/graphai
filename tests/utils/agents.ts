@@ -2,6 +2,7 @@ import { AgentFunctionDictonary } from "@/graphai";
 import {
   sleeperAgent,
   sleeperAgentDebug,
+  stringTemplateAgent,
   nestedAgent,
   mapAgent,
   totalAgent,
@@ -10,6 +11,9 @@ import {
   copyMessageAgent,
   mergeNodeIdAgent,
   countingAgent,
+  copy2ArrayAgent,
+  pushAgent,
+  popAgent,
 } from "@/experimental_agents";
 
 export const defaultTestAgents: AgentFunctionDictonary = {
@@ -19,8 +23,12 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   mergeNodeIdAgent,
   sleeperAgent,
   sleeperAgentDebug,
+  stringTemplateAgent,
   nestedAgent,
   mapAgent,
   totalAgent,
   countingAgent,
+  copy2ArrayAgent,
+  pushAgent,
+  popAgent,
 };
