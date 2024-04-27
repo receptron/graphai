@@ -2,48 +2,56 @@
 
 ## Overview
 
-GraphAI is an asynchronous data flow execution engine, which makes it easy to create AI applications that need to make asynchronous AI API calls multiple times with some dependencies among them, such as giving the answer from one LLM call to another LLM call as a prompt.
+GraphAI is an asynchronous data flow execution engine, which makes it easy to build *agentic* applications, which perform the orchestration of mutiple "AI agents". 
 
-You just need to describe dependencies among those API calls in a single data flow graph, create a GraphAI object with that graph, and run it.
+*Agentic* applications need to make asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) multiple times and manage dependencies among them, such as giving the answer from one LLM call to another LLM call as a prompt -- which is quite difficult to do in traditional programing style, because of the asynchronous nature of those APIs.
 
-Here is an example:
+GraphAI allows developers to describe dependencies among those API calls in a single data flow graph (either in YAML or JSON), create a GraphAI instance with that graph, and let it run. The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data management, error handling, retries and logging. 
+
+Here is an example graph, which uses the Wikipedia as the data source and perform an in memory RAG:
 
 ```YAML
 nodes:
-  taskA:
-    agentId: sample
+  source: // Input data to this RAG process
+    value:
+      name: Sam Bankman-Fried
+      query: describe the final sentence by the court for Sam Bank-Fried
+  wikipedia: // Retrieve data from Wikipedia。
+    agentId: wikipediaAgent
+    inputs: [source.name]
+  chunks: // Break the text into chunks(2048 character each with 512 overlap）
+    agentId: stringSplitterAgent
+    inputs: [wikipedia]
+  chunkEmbeddings: // Get embedding vector of each chunk
+    agentId: stringEmbeddingsAgent
+    inputs: [chunks]
+  topicEmbedding: // Get embedding vector of the question
+    agentId: stringEmbeddingsAgent
+    inputs: [source.query]
+  similarities: // Perform the cosine similarity of each chunk
+    agentId: dotProductAgent
+    inputs: [chunkEmbeddings, topicEmbedding]
+  sortedChunks: // Sort chunks based on the similarity
+    agentId: sortByValuesAgent
+    inputs: [chunks, similarities]
+  referenceText: // Concatinate chunks up to the token limit (5000)
+    agentId: tokenBoundStringsAgent
+    inputs: [sortedChunks]
     params:
-      // agent-specific parameters for taskA
-  taskB:
-    agentId: sample
+      limit: 5000
+  prompt: // Generate a prompt with that reference text
+    agentId: stringTemplateAgent
+    inputs: [source, referenceText]
     params:
-      // agent-specific parameters for taskB
-  taskC:
-    agentId: sample
+      template: |-
+        Using the following document, ${0}
+        ${1}
+  query: // retrieves the answer from GPT3.5
+    agentId: slashGPTAgent
     params:
-      // agent-specific parameters for taskC
-    inputs: [taskA, taskB]
-```
-
-``` TypeScript
-const sampleAgentFunction = async (context: AgentFunctionContext) => {
-  const { 
-    nodeId, // taskA, taskB or taskC 
-    params, // agent-specific parameters specified in the graph definition file
-    inputs // inputs from previous nodes
-  } = context;
-  // Agent-specific code (such as calling OpenAI's chat.completions API)
-  ...
-  return result;
-}
-
-  ...
-  const file = fs.readFileSync(pathToYamlFile, "utf8");
-  const graphData = YAML.parse(file);
-  const graph = new GraphAI(graphData, { sample: sampleAgentFunction });
-  const results = await graph.run();
-  return results["taskC"];
-```
+      manifest:
+        model: gpt3.5
+    inputs: [prompt]
 
 ## Background
 

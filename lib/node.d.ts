@@ -23,9 +23,8 @@ export declare class ComputedNode extends Node {
     readonly timeout?: number;
     error?: Error;
     transactionId: undefined | number;
-    sources: Record<string, DataSource>;
     readonly anyInput: boolean;
-    inputs: Array<string>;
+    dataSources: Array<DataSource>;
     pendings: Set<string>;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
