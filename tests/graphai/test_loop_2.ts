@@ -82,7 +82,7 @@ test("test counter3", async () => {
         agentId: "mapAgent",
         inputs: ["workingMemory", "workingMemory2"],
         params: {
-          injectionTo: "data",
+          injectionTo: ["data"],
         },
         graph: graphdata_counter,
       },

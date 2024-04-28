@@ -3,7 +3,7 @@ import { assert } from "@/utils/utils";
 
 export const mapAgent: AgentFunction<
   {
-    injectionTo?: string;
+    injectionTo?: Array<string>;
   },
   Record<string, Array<any>>,
   any
@@ -16,15 +16,24 @@ export const mapAgent: AgentFunction<
   assert(graphData !== undefined, "mapAgent: graphData is required");
   const input = Array.isArray(inputs[0]) ? inputs[0] : inputs;
 
-  const injectionTo = params.injectionTo ?? "$0";
-  if (graphData.nodes[injectionTo] === undefined) {
-    // If the input node does not exist, automatically create a static node
-    graphData.nodes[injectionTo] = { value: {} };
-  }
+  const injectionTo =
+    params.injectionTo ??
+    inputs.map((__input, index) => {
+      return `$${index}`;
+    });
+  injectionTo.forEach((nodeId) => {
+    if (graphData.nodes[nodeId] === undefined) {
+      // If the input node does not exist, automatically create a static node
+      graphData.nodes[nodeId] = { value: {} };
+    }
+  });
 
   const graphs: Array<GraphAI> = input.map((data: any) => {
     const graphAI = new GraphAI(graphData, agents || {}, taskManager);
-    graphAI.injectValue(injectionTo, data, "__mapAgent_inputs__");
+    // Only the first input will be mapped
+    injectionTo.forEach((injectToNodeId, index) => {
+      graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
+    });
     return graphAI;
   });
 
