@@ -33,3 +33,15 @@ export const sortByValuesAgent: AgentFunction<
     });
   return { contents };
 };
+
+const sortByValuesAgentInfo = {
+  name: "sortByValuesAgent",
+  agent: sortByValuesAgent,
+  mock: sortByValuesAgent,
+  samples: [],
+  description: "sortByValues Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default sortByValuesAgentInfo;

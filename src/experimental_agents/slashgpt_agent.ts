@@ -36,3 +36,15 @@ export const slashGPTAgent: AgentFunction<
   }
   return message;
 };
+
+const slashGPTAgentInfo = {
+  name: "slashGPTAgent",
+  agent: slashGPTAgent,
+  mock: slashGPTAgent,
+  samples: [],
+  description: "Slash GPT Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default slashGPTAgentInfo;

@@ -41,3 +41,15 @@ export const nestedAgent: AgentFunction<{
     throw error;
   }
 };
+
+const nestedAgentInfo = {
+  name: "nestedAgent",
+  agent: nestedAgent,
+  mock: nestedAgent,
+  samples: [],
+  description: "nested Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default nestedAgentInfo;

@@ -26,3 +26,15 @@ export const dotProductAgent: AgentFunction<
   });
   return { contents };
 };
+
+const dotProductAgentInfo = {
+  name: "dotProductAgent",
+  agent: dotProductAgent,
+  mock: dotProductAgent,
+  samples: [],
+  description: "dotProduct Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default dotProductAgentInfo;

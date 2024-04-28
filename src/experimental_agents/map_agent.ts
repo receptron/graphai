@@ -52,3 +52,15 @@ export const mapAgent: AgentFunction<
   }
   return compositeResult;
 };
+
+const mapAgentInfo = {
+  name: "mapAgent",
+  agent: mapAgent,
+  mock: mapAgent,
+  samples: [],
+  description: "Map Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default mapAgentInfo;
