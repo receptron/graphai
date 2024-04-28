@@ -30,7 +30,10 @@ export const mapAgent: AgentFunction<
 
   const graphs: Array<GraphAI> = input.map((data: any) => {
     const graphAI = new GraphAI(graphData, agents || {}, taskManager);
-    graphAI.injectValue(injectionTo[0], data, "__mapAgent_inputs__");
+    // Only the first input will be mapped
+    injectionTo.forEach((injectToNodeId, index) => {
+      graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
+    });
     return graphAI;
   });
 
