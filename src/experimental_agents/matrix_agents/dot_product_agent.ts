@@ -27,7 +27,6 @@ export const dotProductAgent: AgentFunction<
   return { contents };
 };
 
-
 const dotProductAgentInfo = {
   name: "dotProductAgent",
   agent: dotProductAgent,

@@ -10,7 +10,6 @@ export const sleeperAgent: AgentFunction<{ duration?: number; value?: Record<str
   }, params.value ?? {});
 };
 
-
 const sleeperAgentInfo = {
   name: "sleeperAgent",
   agent: sleeperAgent,
