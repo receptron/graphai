@@ -2,13 +2,17 @@
 
 ## Overview
 
-GraphAI is an asynchronous data flow execution engine, which makes it easy to build *agentic* applications, which perform the orchestration of mutiple "AI agents". 
+GraphAI is an asynchronous data flow execution engine, which allows developers to build *agentic applications* by describing *agent workflows* as declarative data flow graphs in YAML or JSON. 
 
-*Agentic* applications need to make asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) multiple times and manage data dependencies among them, such as giving the answer from one LLM call to another LLM call as a prompt -- which will become quite difficult to manage in a traditional programing style as the complexity of the application increases, because of the asynchronous nature of those APIs.
+As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.deeplearning.ai/the-batch/issue-242/)", better results can often be achieved by making multiple calls to a Large Language Model (LLM) and allowing it to incrementally build towards a higher-quality output. Dr. Ng refers to this approach as 'agentic workflows.' 
 
-GraphAI allows developers to describe dependencies among those API calls in a single data flow graph (either in YAML or JSON), create a GraphAI instance with that graph, and let it run. The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, error handling, retries and logging. 
+Such *agentic applications* need to make multiple asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) and manage data dependencies among them, such as giving the answer from one LLM call to another -- which will become quite difficult to manage in a traditional programing style as the complexity of the application increases, because of the asynchronous nature of those APIs.
 
-Here is an example graph, which uses the Wikipedia as the data source and perform an in-memory RAG.
+GraphAI allows developers to describe dependencies among those agents (asynchronous API calls) in a data flow graph in YAML or JSON, which is called *declarative data flow programming* . The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, error handling, retries and logging. 
+
+## Example
+
+Here is an simple example, which uses the Wikipedia as the data source and perform an in-memory RAG.
 
 ```YAML
 nodes:
@@ -56,7 +60,7 @@ nodes:
 ```
 
 ```mermaid
-flowchart LR
+flowchart TD
  source(source) -- name --> wikipedia
  source -- query --> topicEmbedding
  wikipedia --> chunks
@@ -69,15 +73,7 @@ flowchart LR
  resourceText --> query
 ```
 
-## Background
-
-As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.deeplearning.ai/the-batch/issue-242/)", better results can often be achieved by making multiple calls to a Large Language Model (LLM) and allowing it to incrementally build towards a higher-quality output. Dr. Ng refers to this approach as 'agentic workflows.' 
-
-Building applications that employ these workflows, however, is challenging due to the complexities of managing multiple asynchronous API calls, including error handling, timeouts, retries, and logging. 
-
-GraphAI is designed to simplify this process by decoupling the complexity of multiple asynchronous calls from the application's core logic. It enables developers to model these calls and their dependencies within a single acyclic Data Flow Graph, enhancing development and debugging processes. 
-
-Furthermore, GraphAI's robust mechanisms for error handling, retry strategies, timeouts, and logging empower developers to concentrate on refining the application logic.
+Notice that the conversion of the querty text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependencies among them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
 
 ## Quick Install
 
@@ -149,7 +145,7 @@ Connections between nodes will be established by references from one not to anot
 
 - 'nodes': A list of node. Required.
 - 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
-- 'loop': An optional property, which specifies if the graph needs to be executed multiple times. The loop is an JavaScript object, which has two optinoal properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
+- 'loop': An optional property, which specifies if the graph needs to be executed multiple times. The loop is an JavaScript object, which has two optional properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
 
 ```
 loop:
