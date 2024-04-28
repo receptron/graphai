@@ -78,4 +78,4 @@ const stringEmbeddingsAgentInfo = {
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
 };
-export default stringEmbeddingsAgent;
+export default stringEmbeddingsAgentInfo;

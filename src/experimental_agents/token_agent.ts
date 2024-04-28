@@ -49,4 +49,4 @@ const tokenBoundStringsAgentInfo = {
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
 };
-export default tokenBoundStringsAgent;
+export default tokenBoundStringsAgentInfo;
