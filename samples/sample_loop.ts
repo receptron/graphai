@@ -27,7 +27,7 @@ const graph_data = {
       agentId: "slashgpt",
       params: {
         manifest: {
-          prompt: "指定した人について日本語で４００字以内で答えて",
+          prompt: "Describe about the person in less than 100 words",
         },
       },
       inputs: ["retriever.item"],
