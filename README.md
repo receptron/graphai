@@ -12,7 +12,7 @@ GraphAI allows developers to describe dependencies among those agents (asynchron
 
 ## Declarative Data Flow Programming
 
-Here is a simple example, which uses the Wikipedia as the data source and perform an in-memory RAG.
+Here is a simple example, which uses the Wikipedia as the data source and perform an in-memory RAG (Retrieval-Augmented Generation).
 
 ```YAML
 nodes:
@@ -73,7 +73,7 @@ flowchart TD
  resourceText --> query
 ```
 
-Notice that the conversion of the querty text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependencies among them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
+Notice that the conversion of the querty text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency among them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
 
 ## Quick Install
 
