@@ -10,15 +10,15 @@ export const getNestedGraphData = (graphData: GraphData | string | undefined, in
     const regex = /^\$(\d+)$/;
     const match = graphData.match(regex);
     if (match) {
-        const index = parseInt(match[1], 10);
-        if (index < inputs.length) {
-          return inputs[index] as GraphData;
-        }
+      const index = parseInt(match[1], 10);
+      if (index < inputs.length) {
+        return inputs[index] as GraphData;
+      }
     }
     assert(false, `getNestedGraphData: Invalid graphData string: ${graphData}`);
   }
   return graphData;
-}
+};
 
 export const nestedAgent: AgentFunction<{
   injectionTo?: Array<string>;
