@@ -8,7 +8,6 @@ export const bypassAgent: AgentFunction = async (context) => {
   return context.inputs;
 };
 
-
 // for test and document
 const bypassAgentInfo: AgentFunctionInfo = {
   name: "bypassAgent",

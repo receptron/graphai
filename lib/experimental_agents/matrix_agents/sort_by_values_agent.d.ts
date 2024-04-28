@@ -4,3 +4,22 @@ export declare const sortByValuesAgent: AgentFunction<{
 }, {
     contents: Array<any>;
 }, Array<any>>;
+declare const sortByValuesAgentInfo: {
+    name: string;
+    agent: AgentFunction<{
+        assendant?: boolean | undefined;
+    }, {
+        contents: Array<any>;
+    }, any[]>;
+    mock: AgentFunction<{
+        assendant?: boolean | undefined;
+    }, {
+        contents: Array<any>;
+    }, any[]>;
+    samples: never[];
+    description: string;
+    author: string;
+    repository: string;
+    license: string;
+};
+export default sortByValuesAgentInfo;
