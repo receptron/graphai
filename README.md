@@ -55,6 +55,20 @@ nodes:
     inputs: [prompt]
 ```
 
+```mermaid
+flowchart TD
+ source -- name --> wikipedia
+ source -- query --> topicEmbedding
+ wikipedia --> chunks
+ chunks --> chunksEmbeddings
+ chunksEmbeddings --> similarities
+ topicEmbedding --> similarities
+ similarities --> sortedChunks
+ sortedChunks --> resourceText
+ source -- query --> query
+ resourceText --> query
+```
+
 ## Background
 
 As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.deeplearning.ai/the-batch/issue-242/)", better results can often be achieved by making multiple calls to a Large Language Model (LLM) and allowing it to incrementally build towards a higher-quality output. Dr. Ng refers to this approach as 'agentic workflows.' 
