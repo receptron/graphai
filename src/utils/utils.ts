@@ -28,3 +28,5 @@ export const isObject = (x: unknown) => {
 export const getDataFromSource = (result: ResultData, source: DataSource) => {
   return result && source.propId ? result[source.propId] : result;
 };
+
+export const strIntentionalError = "Intentional Error for Debugging";
