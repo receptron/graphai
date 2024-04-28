@@ -139,7 +139,7 @@ test("test fork 2", async () => {
   };
 
   const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1 });
-  console.log(JSON.stringify(result, null, "  "));
+  // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     echo: {
       messages: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
@@ -198,7 +198,7 @@ test("test fork 3", async () => {
   };
 
   const result = await graphDataTestRunner(__filename, forkGraph, defaultTestAgents);
-  console.log(JSON.stringify(result, null, "  "));
+  // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
     mapNode: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
