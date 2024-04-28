@@ -10,9 +10,9 @@ Such *agentic applications* need to make multiple asynchronous API calls (such a
 
 GraphAI allows developers to describe dependencies among those agents (asynchronous API calls) in a data flow graph in YAML or JSON, which is called *declarative data flow programming* . The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, error handling, retries and logging. 
 
-## Example
+## Declarative Data Flow Programming
 
-Here is an simple example, which uses the Wikipedia as the data source and perform an in-memory RAG.
+Here is a simple example, which uses the Wikipedia as the data source and perform an in-memory RAG.
 
 ```YAML
 nodes:
