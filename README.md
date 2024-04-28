@@ -56,8 +56,8 @@ nodes:
 ```
 
 ```mermaid
-flowchart TD
- source -- name --> wikipedia
+flowchart LR
+ source(source) -- name --> wikipedia
  source -- query --> topicEmbedding
  wikipedia --> chunks
  chunks --> chunksEmbeddings
