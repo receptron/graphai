@@ -3,6 +3,7 @@ export * from "./sleeper_agents/packages";
 export * from "./data_agents/packages";
 export * from "./array_agents/packages";
 export * from "./matrix_agents/packages";
+export * from "./test_agents/packages";
 
 import slashGPTAgent from "./slashgpt_agent";
 import nestedAgent from "./nested_agent";
