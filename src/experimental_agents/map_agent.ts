@@ -1,5 +1,6 @@
 import { GraphAI, AgentFunction } from "@/graphai";
 import { assert } from "@/utils/utils";
+import { getNestedGraphData } from "./nested_agent";
 
 export const mapAgent: AgentFunction<
   {
@@ -13,7 +14,7 @@ export const mapAgent: AgentFunction<
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
-  assert(graphData !== undefined, "mapAgent: graphData is required");
+  const nestedGraphData = getNestedGraphData(graphData, inputs);
   const input = Array.isArray(inputs[0]) ? inputs[0] : inputs;
 
   const injectionTo =
@@ -22,14 +23,14 @@ export const mapAgent: AgentFunction<
       return `$${index}`;
     });
   injectionTo.forEach((nodeId) => {
-    if (graphData.nodes[nodeId] === undefined) {
+    if (nestedGraphData.nodes[nodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
-      graphData.nodes[nodeId] = { value: {} };
+      nestedGraphData.nodes[nodeId] = { value: {} };
     }
   });
 
   const graphs: Array<GraphAI> = input.map((data: any) => {
-    const graphAI = new GraphAI(graphData, agents || {}, taskManager);
+    const graphAI = new GraphAI(nestedGraphData, agents || {}, taskManager);
     // Only the first input will be mapped
     injectionTo.forEach((injectToNodeId, index) => {
       graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");

@@ -1,5 +1,11 @@
 import { GraphAI, AgentFunction } from "@/graphai";
 import { assert } from "@/utils/utils";
+import { GraphData } from "@/type";
+
+export const getNestedGraphData = (graphData: GraphData | string | undefined, inputs: Array<any>): GraphData => {
+  assert(graphData !== undefined, "nestedAgent: graphData is required");
+  return (typeof graphData === "string") ? inputs[0] as GraphData : graphData;
+}
 
 export const nestedAgent: AgentFunction<{
   injectionTo?: Array<string>;
@@ -9,7 +15,7 @@ export const nestedAgent: AgentFunction<{
     assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
-  assert(graphData !== undefined, "nestedAgent: graphData is required");
+  const nestedGraphData = getNestedGraphData(graphData, inputs);
 
   const injectionTo =
     params.injectionTo ??
@@ -17,13 +23,13 @@ export const nestedAgent: AgentFunction<{
       return `$${index}`;
     });
   injectionTo.forEach((nodeId) => {
-    if (graphData.nodes[nodeId] === undefined) {
+    if (nestedGraphData.nodes[nodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
-      graphData.nodes[nodeId] = { value: {} };
+      nestedGraphData.nodes[nodeId] = { value: {} };
     }
   });
 
-  const graphAI = new GraphAI(graphData, agents || {}, taskManager);
+  const graphAI = new GraphAI(nestedGraphData, agents || {}, taskManager);
 
   try {
     // Inject inputs to specified source nodes
