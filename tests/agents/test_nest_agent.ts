@@ -23,3 +23,25 @@ test("test nest agent", async () => {
     node1: { apple: "red", lemon: "yellow", orange: "orange" },
   });
 });
+
+const dynamic_graph = {
+  nodes: {
+    node1: {
+      agentId: "sleeperAgent",
+      inputs: ["$1", "$2", "$3"],
+      isResult: true,
+    },
+  },
+};
+
+test("test nest agent, eval", async () => {
+  const result = await nestedAgent({
+    ...defaultTestContext,
+    agents: { sleeperAgent },
+    graphData: "$0",
+    inputs: [dynamic_graph, { apple: "red" }, { lemon: "yellow" }, { orange: "orange" }],
+  });
+  assert.deepStrictEqual(result, {
+    node1: { apple: "red", lemon: "yellow", orange: "orange" },
+  });
+});
