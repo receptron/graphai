@@ -1,8 +1,7 @@
-import { GraphAI, GraphData, AgentFunction } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
 import { assert } from "@/utils/utils";
 
 export const nestedAgent: AgentFunction<{
-  graph: GraphData;
   injectionTo?: Array<string>;
 }> = async ({ params, inputs, agents, log, taskManager, graphData }) => {
   if (taskManager) {
