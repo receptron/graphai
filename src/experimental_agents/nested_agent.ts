@@ -1,4 +1,4 @@
-import { GraphAI, GraphData, AgentFunction } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/graphai";
 import { assert } from "@/utils/utils";
 
 export const nestedAgent: AgentFunction<{
