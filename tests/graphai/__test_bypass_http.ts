@@ -81,7 +81,7 @@ test("test bypass2", async () => {
         agentId: "mapAgent",
         inputs: ["echo.message"],
         params: {
-          injectionTo: "memory",
+          injectionTo: ["memory"],
         },
         graph: {
           nodes: {
@@ -134,7 +134,7 @@ test("test bypass3", async () => {
         agentId: "mapAgent",
         inputs: ["echo.message"],
         params: {
-          injectionTo: "memory",
+          injectionTo: ["memory"],
         },
         graph: {
           nodes: {
@@ -201,7 +201,7 @@ test("test bypass4", async () => {
         agentId: "mapAgent",
         inputs: ["echo.message"],
         params: {
-          injectionTo: "memory",
+          injectionTo: ["memory"],
         },
         graph: {
           nodes: {
