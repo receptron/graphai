@@ -8,3 +8,15 @@ export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>,
   const item = array.shift();
   return { array, item };
 };
+
+const shiftAgentInfo = {
+  name: "shiftAgent",
+  agent: shiftAgent,
+  mock: shiftAgent,
+  samples: [],
+  description: "shift Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default shiftAgentInfo;

@@ -9,3 +9,16 @@ export const sleeperAgent: AgentFunction<{ duration?: number; value?: Record<str
     return deepmerge(result, input);
   }, params.value ?? {});
 };
+
+
+const sleeperAgentInfo = {
+  name: "sleeperAgent",
+  agent: sleeperAgent,
+  mock: sleeperAgent,
+  samples: [],
+  description: "sleeper Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default sleeperAgentInfo;

@@ -8,3 +8,15 @@ export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, R
   const item = array.pop();
   return { array, item };
 };
+
+const popAgentInfo = {
+  name: "popAgent",
+  agent: popAgent,
+  mock: popAgent,
+  samples: [],
+  description: "pop Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default popAgentInfo;
