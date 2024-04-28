@@ -58,7 +58,7 @@ const mapAgentInfo = {
   agent: mapAgent,
   mock: mapAgent,
   samples: [],
-  description: "Embeddings Agent",
+  description: "Map Agent",
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
