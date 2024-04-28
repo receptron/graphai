@@ -67,3 +67,15 @@ export const stringEmbeddingsAgent: AgentFunction<
   });
   return { contents: embeddings };
 };
+
+const stringEmbeddingsAgentInfo = {
+  name: "stringEmbeddingsAgent",
+  agent: stringEmbeddingsAgent,
+  mock: stringEmbeddingsAgent,
+  samples: [],
+  description: "Embeddings Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default stringEmbeddingsAgent;

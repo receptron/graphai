@@ -38,3 +38,15 @@ export const tokenBoundStringsAgent: AgentFunction<
     .join("\n");
   return { content, tokenCount, endIndex };
 };
+
+const tokenBoundStringsAgentInfo = {
+  name: "tokenBoundStringsAgent",
+  agent: tokenBoundStringsAgent,
+  mock: tokenBoundStringsAgent,
+  samples: [],
+  description: "nested Agent",
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default tokenBoundStringsAgent;
