@@ -13,7 +13,7 @@ import popAgentInfo from "@/experimental_agents/array_agents/pop_agent";
 import shiftAgentInfo from "@/experimental_agents/array_agents/shift_agent";
 
 // import sortByValuesAgent from "@/experimental_agents/matrix_agents/sort_by_values_agent";
-// import dotProductAgent from "@/experimental_agents/matrix_agents/dot_product_agent";
+import dotProductAgent from "@/experimental_agents/matrix_agents/dot_product_agent";
 
 // import tokenBoundStringsAgent from "@/experimental_agents/token_agent";
 // import * from "./test_agents";
@@ -29,6 +29,7 @@ import { agentTestRunner } from "@/utils/test_utils";
   pushAgentInfo,
   popAgentInfo,
   shiftAgentInfo,
+  dotProductAgent,
 ].map((agentInfo) => {
   agentTestRunner(agentInfo);
 });

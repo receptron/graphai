@@ -31,7 +31,18 @@ const dotProductAgentInfo = {
   name: "dotProductAgent",
   agent: dotProductAgent,
   mock: dotProductAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [[[1, 2], [3,4]], [[3, 2], [4,3]]],
+      params: {},
+      result: {
+        contents: [
+          7,
+          17
+        ]
+      },
+    },
+  ],
   description: "dotProduct Agent",
   category: [],
   author: "Receptron team",
