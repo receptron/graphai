@@ -1,6 +1,6 @@
 import path from "path";
 import { AgentFunction } from "@/graphai";
-import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
+import { ChatSession, ChatConfig, ManifestData, ChatData } from "slashgpt";
 
 const config = new ChatConfig(path.resolve(__dirname));
 
@@ -10,9 +10,7 @@ export const slashGPTAgent: AgentFunction<
     query?: string;
     function_result?: boolean;
   },
-  {
-    content: string;
-  },
+  ChatData[],
   string
 > = async ({ params, inputs, debugInfo: { verbose, nodeId } }) => {
   if (verbose) {
@@ -25,6 +23,8 @@ export const slashGPTAgent: AgentFunction<
 
   session.append_user_question(contents.join("\n"));
   await session.call_loop(() => {});
+  return session.history.messages();
+  /*
   const message = (() => {
     if (params?.function_result) {
       return session.history.messages().find((m) => m.role === "function_result");
@@ -35,6 +35,7 @@ export const slashGPTAgent: AgentFunction<
     throw new Error("No message in the history");
   }
   return message;
+*/
 };
 
 const slashGPTAgentInfo = {
