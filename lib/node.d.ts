@@ -31,6 +31,7 @@ export declare class ComputedNode extends Node {
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
     isReadyNode(): boolean;
     private retry;
+    private checkDataAvailability;
     removePending(nodeId: string): void;
     private isCurrentTransaction;
     private executeTimeout;

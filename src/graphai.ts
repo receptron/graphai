@@ -15,7 +15,7 @@ import {
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
-import { parseNodeName, assert, isObject, getDataFromSource } from "@/utils/utils";
+import { parseNodeName, assert, getDataFromSource } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
@@ -129,10 +129,7 @@ export class GraphAI {
   // Public API
   public results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T> {
     return Object.keys(this.nodes)
-      .filter((nodeId) => {
-        const node = this.nodes[nodeId];
-        return all || node.isResult;
-      })
+      .filter((nodeId) => all || this.nodes[nodeId].isResult)
       .reduce((results: ResultDataDictonary<T>, nodeId) => {
         const node = this.nodes[nodeId];
         if (node.result !== undefined) {
@@ -193,6 +190,11 @@ export class GraphAI {
     }
 
     this.pushReadyNodesIntoQueue();
+
+    if (!this.isRunning()) {
+      console.warn("-- nothing to execute");
+      return {};
+    }
 
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
@@ -277,12 +279,9 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: Array<DataSource>, anyInput: boolean = false) {
+  public resultsOf(sources: Array<DataSource>) {
     return sources.map((source) => {
       const { result } = this.nodes[source.nodeId];
-      if (source.propId) {
-        assert(isObject(result), `resultsOf: result is not object. nodeId ${source.nodeId}`, anyInput);
-      }
       return getDataFromSource(result, source);
     });
   }

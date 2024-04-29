@@ -69,8 +69,9 @@ flowchart TD
  topicEmbedding --> similarities
  similarities --> sortedChunks
  sortedChunks --> resourceText
- source -- query --> query
- resourceText --> query
+ source -- query --> prompt
+ resourceText --> prompt
+ prompt --> query
 ```
 
 Notice that the conversion of the querty text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency among them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
@@ -86,6 +87,120 @@ or
 ```
 yarn add graphai
 ```
+
+
+
+## Data Flow Graph
+
+A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
+
+A DFG consists of a collection of [nodes](#node), which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (such as params, inputs, and value) that dictate the node's behavior and its relationship with other nodes. There are two types of nodes, [computed nodes](#computed-node) and [static nodes](#static-node), which are described below.
+
+Connections between nodes will be established by references from one not to another, using either its "inputs" or "update" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId ("node1.item").
+
+### DFG Structure
+
+- 'nodes': A list of node. Required.
+- 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
+- 'loop': An optional property, which specifies if the graph needs to be executed multiple times. See the [Loop section below](#loop) for details.
+
+## Agent
+
+An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), a media generator, a database, or a REST API over HTTP. A node associated with an agent (specified by 'agentId' property) is called [computed node](#computed-node), which takes a set of inputs from other nodes, lets the agent to process it, and pushes the returned value to other nodes.
+
+### Agent function
+
+An agent function is a TypeScript function, which implements a particular *agent*. An *agent function* receives two set of parameters via AgentFunctionContext:
+
+- params: agent specific parameters specified in the DFG (specified by the "params" property of the node)
+- inputs: a set of inputs came from other nodes (specified by "inputs" property of the node).
+
+## Node
+
+There are two types of Node, *computed nodes* and *static nodes*. A *computed node* is associated with an *agent function*, which receives some inputs, performs some computations asynchronously then returns the result (output). A *static node* is a placeholder of a value (just like a variable in programming language), which is specified by the *value* property, injected by an external program, or is updated at the end of iteration (see the [loop](#loop)). 
+
+### Computed Node
+
+A *computed node* have following properties.
+
+- 'agentId': An **required** property, which specifies the id of the *agent function*.
+- 'params': An optional agent-specific property to control the behavior of the associated agent function. 
+- 'inputs': An optional list of *data sources* that the current node receives the data from. This establishes a data flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty, the associated *agent function* will be immediatley executed. 
+- 'anyInput': An optiona boolean flag, which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise, it will wait until all the data became available.
+- 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, the error will be recorded.
+- 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded. 
+
+### Static Node
+
+A *static* node have following properties.
+
+- 'value': An **required** property, which specifies the initial value of this static node (equivalent to calling the injectValue method from outside).
+- 'update': An optional property, which specifies the *data source* after each iteration. See the [loop](#loop) for details.
+
+## Flow Control
+
+### Loop
+
+The loop is an JavaScript object, which has two optional properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
+
+```
+loop:
+  while: people
+nodes:
+  people:
+    value: [Steve Jobs, Elon Musk, Nikola Tesla]
+    update: retriever.array
+  result:
+    value: []
+    update: reducer
+  retriever:
+    agentId: shift
+    inputs: [people]
+  query:
+    agentId: slashgpt
+    params:
+      manifest:
+        prompt: Describe about the person in less than 100 words
+    inputs: [retriever.item]
+  reducer:
+    agentId: push
+    inputs: [result, query.content]
+```
+
+
+## GraphAI class
+
+### ```constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary)```
+Initializes a new instance of the GraphAI class with the specified graph data and a dictionary of callback functions.
+
+- ```data: GraphData```: The graph data including nodes and optional concurrency limit.
+- ```callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>```: A dictionary mapping agent IDs to their respective callback functions, or a single default callback function to be used for all nodes.
+
+### ```async run(): Promise<ResultDataDictonary<ResultData>>```
+Executes the graph asynchronously, starting with nodes that have no dependencies or whose dependencies have been met. The method continues to execute nodes as their dependencies are satisfied until all nodes have been executed or an error occurs.
+
+Returns: A promise that resolves with the results of all executed nodes or rejects with the first encountered error.
+
+### ```results(): ResultDataDictonary<ResultData>```
+Compiles and returns the results of all executed nodes in the graph.
+
+Returns: A dictionary mapping node IDs to their results. Only includes nodes that have completed execution and produced a result.
+
+### ```errors(): Record<string, Error>```
+Compiles and returns the errors from all nodes that encountered an error during execution.
+
+Returns: A dictionary mapping node IDs to the errors they encountered. Only includes nodes that have executed and encountered an error. It does not include any errors which have been retried.
+
+### ```transactionLogs(): Array<TransactionLog>```
+Retrieves all transaction logs recorded during the execution of the graph.
+
+Returns: An array of transaction logs detailing the execution states and outcomes of the nodes within the graph.
+
+### ```injectValue(nodeId: string, result: ResultData): void```
+Injects a result into a specified node. This is used to manually set the result of a static node, allowing dependent nodes to proceed with execution.
+
+- ```nodeId: string```: The ID of the static node into which the result is to be injected.
+- ```result: ResultData```: The result to be injected into the specified node.
 
 ## Collaboration
 
@@ -125,103 +240,3 @@ Key principles:
 2. Enhance the platform by adding 'agents' (plug ins).
 3. Simple but effective test scripts make it easy to maintain.
 4. Run "npm run format" before submitting pull requests. 
-
-## Data Flow Graph
-
-A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
-
-A DFG consists of a collection of 'nodes', which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (params, inputs, anyInput, retry, timeout, agentId, value, update) that dictate the node's behavior and its relationship with other nodes.
-
-Connections between nodes will be established by references from one not to another, using either its "inputs" or "update" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId ("node1.item").
-
-### DFG Structure
-
-- 'nodes': A list of node. Required.
-- 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
-- 'loop': An optional property, which specifies if the graph needs to be executed multiple times. The loop is an JavaScript object, which has two optional properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
-
-```
-loop:
-  while: people
-nodes:
-  people:
-    value: [Steve Jobs, Elon Musk, Nikola Tesla]
-    update: retriever.array
-  result:
-    value: []
-    update: reducer
-  retriever:
-    agentId: shift
-    inputs: [people]
-  query:
-    agentId: slashgpt
-    params:
-      manifest:
-        prompt: Describe about the person in less than 100 words
-    inputs: [retriever.item]
-  reducer:
-    agentId: push
-    inputs: [result, query.content]
-```
-
-## Agent
-
-An agent is an abstract object, which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), an image/video/music generator, a database, or a REST API over HTTP. Each node (except 'source node') is associated with an agent function, which takes data flow into the node as inputs, and generates an output.
-
-## Agent function
-
-An agent function is a TypeScript function, which implements an agent. A DFG is associated one or more agent functions. If the DFG is associated with multiple agent functions, each node needs to be associated only one of them (either explicitly with 'agentId' or implicitly to the default Agent function).
-
-An agent function receives two set of parameters via AgentFunctionContext, agent specific parameters specified in the DFG and input data came from other nodes.
-
-## Node Structure
-
-There are two types of Node, *computed nodes* and *static nodes*. A *computed node* is associated with an *agent function*, which receives some inputs, performs some computations asynchronously then returns the result (output). A *static node* is a placeholder of a value (just like a variable in programming language), which is injected by an external program, or is retrived from a *data source* (in case of interations). 
-
-A *computed node* have following properties.
-
-- 'agentId': An **required** property, which specifies the id of the *agent function*.
-- 'inputs': An optional list of *data sources* that the current node depends on. This establishes a flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty, the associated *agent function* will be immediatley executed. 
-- 'anyInput': An optiona boolean flag, which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise, it will wait until all the data became available.
-- 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, that return value will be recorded.
-- 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded and the returned value will be discarded. 
-- 'params': An optional property to the associated agent function, which are agent specific.
-
-A *static* node have following properties.
-
-- 'value': An **required** property, which specifies the initial value of this static node (equivalent to calling the injectValue method from outside).
-- 'update': An optional property, which specifies the *data source* after each iteration.
-
-## GraphAI class
-
-### ```constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary)```
-Initializes a new instance of the GraphAI class with the specified graph data and a dictionary of callback functions.
-
-- ```data: GraphData```: The graph data including nodes and optional concurrency limit.
-- ```callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>```: A dictionary mapping agent IDs to their respective callback functions, or a single default callback function to be used for all nodes.
-
-### ```async run(): Promise<ResultDataDictonary<ResultData>>```
-Executes the graph asynchronously, starting with nodes that have no dependencies or whose dependencies have been met. The method continues to execute nodes as their dependencies are satisfied until all nodes have been executed or an error occurs.
-
-Returns: A promise that resolves with the results of all executed nodes or rejects with the first encountered error.
-
-### ```results(): ResultDataDictonary<ResultData>```
-Compiles and returns the results of all executed nodes in the graph.
-
-Returns: A dictionary mapping node IDs to their results. Only includes nodes that have completed execution and produced a result.
-
-### ```errors(): Record<string, Error>```
-Compiles and returns the errors from all nodes that encountered an error during execution.
-
-Returns: A dictionary mapping node IDs to the errors they encountered. Only includes nodes that have executed and encountered an error. It does not include any errors which have been retried.
-
-### ```transactionLogs(): Array<TransactionLog>```
-Retrieves all transaction logs recorded during the execution of the graph.
-
-Returns: An array of transaction logs detailing the execution states and outcomes of the nodes within the graph.
-
-### ```injectValue(nodeId: string, result: ResultData): void```
-Injects a result into a specified node. This is used to manually set the result of a static node, allowing dependent nodes to proceed with execution.
-
-- ```nodeId: string```: The ID of the static node into which the result is to be injected.
-- ```result: ResultData```: The result to be injected into the specified node.

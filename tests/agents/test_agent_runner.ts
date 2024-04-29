@@ -16,7 +16,12 @@ import shiftAgentInfo from "@/experimental_agents/array_agents/shift_agent";
 import dotProductAgent from "@/experimental_agents/matrix_agents/dot_product_agent";
 
 // import tokenBoundStringsAgent from "@/experimental_agents/token_agent";
-// import * from "./test_agents";
+import echoAgent from "@/experimental_agents/test_agents/echo_agent";
+import bypassAgent from "@/experimental_agents/test_agents/bypass_agent";
+import countingAgent from "@/experimental_agents/test_agents/counting_agent";
+import copyMessageAgent from "@/experimental_agents/test_agents/copy_message_agent";
+import copy2ArrayAgent from "@/experimental_agents/test_agents/copy2array_agent";
+import mergeNodeIdAgent from "@/experimental_agents/test_agents/merge_node_id_agent";
 
 import { agentTestRunner } from "@/utils/test_utils";
 
@@ -30,6 +35,12 @@ import { agentTestRunner } from "@/utils/test_utils";
   popAgentInfo,
   shiftAgentInfo,
   dotProductAgent,
+  echoAgent,
+  bypassAgent,
+  countingAgent,
+  copyMessageAgent,
+  copy2ArrayAgent,
+  mergeNodeIdAgent,
 ].map((agentInfo) => {
   agentTestRunner(agentInfo);
 });

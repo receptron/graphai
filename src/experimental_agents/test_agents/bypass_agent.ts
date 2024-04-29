@@ -13,7 +13,18 @@ const bypassAgentInfo: AgentFunctionInfo = {
   name: "bypassAgent",
   agent: bypassAgent,
   mock: bypassAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [{ a: "123" }],
+      params: {},
+      result: { a: "123" },
+    },
+    {
+      inputs: [{ a: "123" }, { b: "abc" }],
+      params: {},
+      result: [{ a: "123" }, { b: "abc" }],
+    },
+  ],
   description: "bypass agent",
   category: [],
   author: "Receptron team",

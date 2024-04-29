@@ -33,9 +33,7 @@ export const stringEmbeddingsAgent: AgentFunction<
   {
     model?: string;
   },
-  {
-    contents: any;
-  },
+  any,
   Array<string> | string
 > = async ({ params, inputs }) => {
   const input = inputs[0];
@@ -65,7 +63,7 @@ export const stringEmbeddingsAgent: AgentFunction<
   const embeddings = jsonResponse.data.map((object) => {
     return object.embedding;
   });
-  return { contents: embeddings };
+  return embeddings;
 };
 
 const stringEmbeddingsAgentInfo = {
