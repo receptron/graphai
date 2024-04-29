@@ -84,16 +84,8 @@ export class ComputedNode extends Node {
 
   public isReadyNode() {
     if (this.state === NodeState.Waiting && this.pendings.size === 0) {
-      // Count the number of data actually available.
-      // We care it only when this.anyInput is true.
-      // Notice that this logic enables dynamic data-flows.
-      const counter = this.dataSources.reduce((count, source) => {
-        const [result] = this.graph.resultsOf([source], this.anyInput);
-        return result === undefined ? count : count + 1;
-      }, 0);
-      if (!this.anyInput || counter > 0) {
-        return true;
-      }
+      // Notice that this logic enables dynamic data-flows for anyInput case.
+      return !this.anyInput || this.checkDataAvailability();
     }
     return false;
   }
@@ -116,14 +108,18 @@ export class ComputedNode extends Node {
     }
   }
 
+  private checkDataAvailability() {
+    const results = this.graph.resultsOf(this.dataSources).filter((result) => {
+      return result !== undefined;
+    });
+    return results.length > 0;
+  }
+
   // This method is called when the data became available on one of nodes,
   // which this node needs data from.
   public removePending(nodeId: string) {
     if (this.anyInput) {
-      const results = this.graph.resultsOf(this.dataSources, this.anyInput).filter((result) => {
-        return result !== undefined;
-      });
-      if (results.length > 0) {
+      if (this.checkDataAvailability()) {
         this.pendings.clear();
       }
     } else {
@@ -150,7 +146,7 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const previousResults = this.graph.resultsOf(this.dataSources, this.anyInput).filter((result) => {
+    const previousResults = this.graph.resultsOf(this.dataSources).filter((result) => {
       // Remove undefined if anyInput flag is set.
       return !this.anyInput || result !== undefined;
     });
