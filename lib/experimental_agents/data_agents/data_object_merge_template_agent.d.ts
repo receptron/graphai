@@ -4,7 +4,7 @@ declare const dataObjectMergeTemplateAgentInfo: {
     name: string;
     agent: AgentFunction;
     mock: AgentFunction;
-    samples: {
+    samples: ({
         inputs: ({
             a: number;
             b: number;
@@ -18,9 +18,64 @@ declare const dataObjectMergeTemplateAgentInfo: {
         result: {
             a: number;
             b: number;
+            c: number;
         };
-    }[];
+    } | {
+        inputs: ({
+            a: {
+                b: {
+                    c: {
+                        d: string;
+                    };
+                };
+            };
+            b?: undefined;
+        } | {
+            b: {
+                c: {
+                    d: {
+                        e: string;
+                    };
+                };
+                d?: undefined;
+            };
+            a?: undefined;
+        } | {
+            b: {
+                d: {
+                    e: {
+                        f: string;
+                    };
+                };
+                c?: undefined;
+            };
+            a?: undefined;
+        })[];
+        params: {};
+        result: {
+            a: {
+                b: {
+                    c: {
+                        d: string;
+                    };
+                };
+            };
+            b: {
+                c: {
+                    d: {
+                        e: string;
+                    };
+                };
+                d: {
+                    e: {
+                        f: string;
+                    };
+                };
+            };
+        };
+    })[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;

@@ -27,19 +27,15 @@ const dataObjectMergeTemplateAgentInfo = {
       result: sampleResult,
     },
     {
-      inputs: [
-        {a: {b: {c: {d: "e"}}}},
-        {b: {c: {d: {e: "f"}}}},
-        {b: {d: {e: {f: "g"}}}},
-      ],
+      inputs: [{ a: { b: { c: { d: "e" } } } }, { b: { c: { d: { e: "f" } } } }, { b: { d: { e: { f: "g" } } } }],
       params: {},
       result: {
-        a: {b: {c: {d: "e"}}},
+        a: { b: { c: { d: "e" } } },
         b: {
-          c: {d: {e: "f"}},
-          d: {e: {f: "g"}}
+          c: { d: { e: "f" } },
+          d: { e: { f: "g" } },
         },
-      }
+      },
     },
   ],
   description: "Merge object",

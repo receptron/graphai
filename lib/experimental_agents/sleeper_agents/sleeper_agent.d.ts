@@ -15,6 +15,7 @@ declare const sleeperAgentInfo: {
     }>;
     samples: never[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;

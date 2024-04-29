@@ -18,6 +18,7 @@ declare const stringEmbeddingsAgentInfo: {
     }, string | string[]>;
     samples: never[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;

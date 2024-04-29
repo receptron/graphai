@@ -7,7 +7,7 @@
     "./lib"
   ],
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint --fix --ext .ts ./src ./tests ./samples",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' .eslintrc.js",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",

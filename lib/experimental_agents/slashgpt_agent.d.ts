@@ -25,6 +25,7 @@ declare const slashGPTAgentInfo: {
     }, string>;
     samples: never[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;
