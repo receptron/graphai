@@ -1,9 +1,7 @@
 import { AgentFunction } from "@/graphai";
-import { graphDataTestRunner } from "~/utils/runner";
-// import { rejectTest } from "~/utils/runner";
+import { rejectTest } from "~/utils/runner";
 
 import test from "node:test";
-import assert from "node:assert";
 
 const graphData = {
   nodes: {
@@ -21,15 +19,10 @@ const graphData = {
   },
 };
 
-const testAgent: AgentFunction<Record<never, never>, string | Record<string, any>> = async ({ inputs }) => {
-  return inputs.length > 0 ? { inputs: inputs } : "test";
+const testAgent: AgentFunction<Record<never, never>, string> = async () => {
+  return "test";
 };
 
-test("test loop & push", async () => {
-  const result = await graphDataTestRunner(__filename, graphData, { testAgent }, () => {}, true);
-  assert.deepStrictEqual(result, {
-    input: "test",
-    test: { inputs: ["test"] },
-    test2: { inputs: [undefined] },
-  });
+test("test source props test", async () => {
+  await rejectTest(graphData, "resultsOf: result is not object. nodeId test", { testAgent });
 });
