@@ -2,7 +2,7 @@ import stringSplitterAgentInfo from "@/experimental_agents/string_agents/string_
 import stringTemplateAgentInfo from "@/experimental_agents/string_agents/string_template_agent";
 
 import totalAgentInfo from "@/experimental_agents/data_agents/total_agent";
-import dataObjectMergeTemplateAgentInfo from "@/experimental_agents/data_agents/total_agent";
+import dataObjectMergeTemplateAgentInfo from "@/experimental_agents/data_agents/data_object_merge_template_agent";
 import dataSumTemplateAgentInfo from "@/experimental_agents/data_agents/data_sum_template_agent";
 
 //import sleeperAgentInfo from "@/experimental_agents/sleeper_agents/sleeper_agent";
