@@ -26,9 +26,7 @@ test("test sortByValuesAgent", async () => {
       [2, 5, 6, 4],
     ],
   });
-  assert.deepStrictEqual(result, {
-    contents: ["lemon", "orange", "apple", "banana"],
-  });
+  assert.deepStrictEqual(result, ["lemon", "orange", "apple", "banana"]);
 });
 
 test("test sortByValuesAgent 2", async () => {
@@ -42,7 +40,5 @@ test("test sortByValuesAgent 2", async () => {
       [2, 5, 6, 4],
     ],
   });
-  assert.deepStrictEqual(result, {
-    contents: ["banana", "apple", "orange", "lemon"],
-  });
+  assert.deepStrictEqual(result, ["banana", "apple", "orange", "lemon"]);
 });
