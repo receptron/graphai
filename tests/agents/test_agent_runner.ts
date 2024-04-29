@@ -10,7 +10,7 @@ import dataSumTemplateAgentInfo from "@/experimental_agents/data_agents/data_sum
 
 import pushAgentInfo from "@/experimental_agents/array_agents/push_agent";
 import popAgentInfo from "@/experimental_agents/array_agents/pop_agent";
-// import shiftAgentInfo from "@/experimental_agents/array_agents/shift_agent";
+import shiftAgentInfo from "@/experimental_agents/array_agents/shift_agent";
 
 // import sortByValuesAgent from "@/experimental_agents/matrix_agents/sort_by_values_agent";
 // import dotProductAgent from "@/experimental_agents/matrix_agents/dot_product_agent";
@@ -20,8 +20,15 @@ import popAgentInfo from "@/experimental_agents/array_agents/pop_agent";
 
 import { agentTestRunner } from "@/utils/test_utils";
 
-[stringSplitterAgentInfo, stringTemplateAgentInfo, dataSumTemplateAgentInfo, totalAgentInfo, dataObjectMergeTemplateAgentInfo, pushAgentInfo, popAgentInfo].map(
-  (agentInfo) => {
-    agentTestRunner(agentInfo);
-  },
-);
+[
+  stringSplitterAgentInfo,
+  stringTemplateAgentInfo,
+  dataSumTemplateAgentInfo,
+  totalAgentInfo,
+  dataObjectMergeTemplateAgentInfo,
+  pushAgentInfo,
+  popAgentInfo,
+  shiftAgentInfo,
+].map((agentInfo) => {
+  agentTestRunner(agentInfo);
+});

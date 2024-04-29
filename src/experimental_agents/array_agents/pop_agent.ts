@@ -23,6 +23,14 @@ const popAgentInfo = {
       },
     },
     {
+      inputs: [["a", "b", "c"]],
+      params: {},
+      result: {
+        array: ["a", "b"],
+        item: "c",
+      },
+    },
+    {
       inputs: [
         [1, 2, 3],
         ["a", "b", "c"],
