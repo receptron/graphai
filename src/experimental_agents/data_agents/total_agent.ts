@@ -44,6 +44,7 @@ const totalAgentInfo = {
     },
   ],
   description: "Returns the sum of input values",
+  category: [],
   author: "Satoshi Nakajima",
   repository: "https://github.com/snakajima/graphai",
   license: "MIT",

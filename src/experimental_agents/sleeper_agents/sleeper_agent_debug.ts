@@ -23,6 +23,7 @@ const sleeperAgentDebugInfo = {
   mock: sleeperAgentDebug,
   samples: [],
   description: "sleeper debug Agent",
+  category: [],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

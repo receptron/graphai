@@ -16,6 +16,7 @@ const sleeperAgentInfo = {
   mock: sleeperAgent,
   samples: [],
   description: "sleeper Agent",
+  category: [],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

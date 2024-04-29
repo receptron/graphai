@@ -13,8 +13,26 @@ const shiftAgentInfo = {
   name: "shiftAgent",
   agent: shiftAgent,
   mock: shiftAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [[1, 2, 3]],
+      params: {},
+      result: {
+        array: [2, 3],
+        item: 1,
+      },
+    },
+    {
+      inputs: [["a", "b", "c"]],
+      params: {},
+      result: {
+        array: ["b", "c"],
+        item: "a",
+      },
+    },
+  ],
   description: "shift Agent",
+  category: [],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

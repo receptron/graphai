@@ -12,8 +12,15 @@ const pushAgentInfo = {
   name: "pushAgent",
   agent: pushAgent,
   mock: pushAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [[1, 2], 3],
+      params: {},
+      result: [1, 2, 3],
+    },
+  ],
   description: "push Agent",
+  category: [],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

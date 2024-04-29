@@ -8,7 +8,7 @@ import { AgentFunction } from "@/graphai";
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
 export const dotProductAgent: AgentFunction<
-  Record<string, any>,
+  Record<never, never>,
   {
     contents: Array<number>;
   },
@@ -31,8 +31,24 @@ const dotProductAgentInfo = {
   name: "dotProductAgent",
   agent: dotProductAgent,
   mock: dotProductAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [
+        [[1, 2], [3,4], [5,6]],
+        [[3, 2]]
+      ],
+      params: {},
+      result: {
+        contents: [
+          7,
+          17,
+          27
+        ]
+      },
+    },
+  ],
   description: "dotProduct Agent",
+  category: [],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

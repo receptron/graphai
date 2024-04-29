@@ -85,6 +85,7 @@ export type AgentFunctionInfo = {
     result: any;
   }[];
   description: string;
+  category: string[];
   author: string;
   repository: string;
   license: string;

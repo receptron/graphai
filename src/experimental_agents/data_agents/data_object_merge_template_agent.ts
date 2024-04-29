@@ -14,7 +14,7 @@ const sampleInputs = [
   { a: 3, b: 0, c: 5 },
 ];
 const sampleParams = {};
-const sampleResult = { a: 6, b: 3 };
+const sampleResult = { a: 3, b: 0, c: 5 };
 
 const dataObjectMergeTemplateAgentInfo = {
   name: "dataObjectMergeTemplateAgent",
@@ -26,8 +26,24 @@ const dataObjectMergeTemplateAgentInfo = {
       params: sampleParams,
       result: sampleResult,
     },
+    {
+      inputs: [
+        {a: {b: {c: {d: "e"}}}},
+        {b: {c: {d: {e: "f"}}}},
+        {b: {d: {e: {f: "g"}}}},
+      ],
+      params: {},
+      result: {
+        a: {b: {c: {d: "e"}}},
+        b: {
+          c: {d: {e: "f"}},
+          d: {e: {f: "g"}}
+        },
+      }
+    },
   ],
   description: "Merge object",
+  category: [],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

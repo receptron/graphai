@@ -45,6 +45,7 @@ const tokenBoundStringsAgentInfo = {
   mock: tokenBoundStringsAgent,
   samples: [],
   description: "token bound Agent",
+  category: [],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
