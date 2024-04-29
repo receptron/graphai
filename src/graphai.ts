@@ -194,6 +194,11 @@ export class GraphAI {
 
     this.pushReadyNodesIntoQueue();
 
+    if (!this.isRunning()) {
+      console.warn("-- nothing to execute");
+      return {};
+    }
+
     return new Promise((resolve, reject) => {
       this.onComplete = () => {
         const errors = this.errors();
