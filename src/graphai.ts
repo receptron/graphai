@@ -283,9 +283,6 @@ export class GraphAI {
   }
 
   public resultsOf(sources: Array<DataSource>) {
-    return sources.map((source) => {
-      const { result } = this.nodes[source.nodeId];
-      return getDataFromSource(result, source);
-    });
+    return sources.map((source) => getDataFromSource(this.nodes[source.nodeId].result, source));
   }
 }
