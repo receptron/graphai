@@ -34,16 +34,16 @@ const dotProductAgentInfo = {
   samples: [
     {
       inputs: [
-        [[1, 2], [3,4], [5,6]],
-        [[3, 2]]
+        [
+          [1, 2],
+          [3, 4],
+          [5, 6],
+        ],
+        [[3, 2]],
       ],
       params: {},
       result: {
-        contents: [
-          7,
-          17,
-          27
-        ]
+        contents: [7, 17, 27],
       },
     },
   ],

@@ -32,6 +32,7 @@ declare const stringSplitterAgentInfo: {
         };
     }[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;

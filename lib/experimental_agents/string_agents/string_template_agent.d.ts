@@ -20,6 +20,7 @@ declare const stringTemplateAgentInfo: {
         };
     }[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;

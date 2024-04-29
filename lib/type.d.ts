@@ -54,7 +54,7 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
         nodeId: string;
         retry: number;
     };
-    graphData?: GraphData;
+    graphData?: GraphData | string;
     agents?: AgentFunctionDictonary;
     log?: TransactionLog[];
     taskManager?: TaskManager;
@@ -71,6 +71,7 @@ export type AgentFunctionInfo = {
         result: any;
     }[];
     description: string;
+    category: string[];
     author: string;
     repository: string;
     license: string;

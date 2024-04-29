@@ -39,6 +39,7 @@ declare const totalAgentInfo: {
         };
     })[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;

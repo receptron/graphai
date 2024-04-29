@@ -18,6 +18,7 @@ declare const sortByValuesAgentInfo: {
     }, any[]>;
     samples: never[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;

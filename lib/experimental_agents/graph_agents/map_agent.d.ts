@@ -1,19 +1,20 @@
-import { AgentFunction } from "../graphai";
-export declare const nestedAgent: AgentFunction<{
+import { AgentFunction } from "../../graphai";
+export declare const mapAgent: AgentFunction<{
     injectionTo?: Array<string>;
-}>;
-declare const nestedAgentInfo: {
+}, Record<string, Array<any>>, any>;
+declare const mapAgentInfo: {
     name: string;
     agent: AgentFunction<{
         injectionTo?: string[] | undefined;
-    }>;
+    }, Record<string, any[]>, any>;
     mock: AgentFunction<{
         injectionTo?: string[] | undefined;
-    }>;
+    }, Record<string, any[]>, any>;
     samples: never[];
     description: string;
+    category: never[];
     author: string;
     repository: string;
     license: string;
 };
-export default nestedAgentInfo;
+export default mapAgentInfo;
