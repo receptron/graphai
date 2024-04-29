@@ -8,7 +8,7 @@ import { AgentFunction } from "@/graphai";
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
 export const dotProductAgent: AgentFunction<
-  Record<string, any>,
+  Record<never, never>
   {
     contents: Array<number>;
   },
