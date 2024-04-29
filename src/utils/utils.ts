@@ -1,4 +1,4 @@
-import { DataSource, ResultData } from "@/type";
+import { DataSource, ResultData, DefaultResultData } from "@/type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -25,16 +25,25 @@ export const isObject = (x: unknown) => {
   return x !== null && typeof x === "object";
 };
 
-export const getDataFromSource = (result: ResultData, source: DataSource) => {
-  if (result && source.propIds && source.propIds.length > 0) {
-    const regex = /^\$(\d+)$/;
-    const match = source.propIds[0].match(regex);
-    if (match && Array.isArray(result)) {
-      const index = parseInt(match[1], 10);
-      return result[index];
+const __get_data = (result: ResultData, propId: string) => {
+  const regex = /^\$(\d+)$/;
+  const match = propId.match(regex);
+  if (match && Array.isArray(result)) {
+    const index = parseInt(match[1], 10);
+    return result[index];
+  }
+  assert(isObject(result), "result is not object.");
+  return (result as Record<string, any>)[propId];
+};
+
+export const getDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
+  if (result && propIds && propIds.length > 0) {
+    const propId = propIds[0];
+    const ret = __get_data(result, propId);
+    if (propIds.length > 1) {
+      return getDataFromSource(ret, propIds.slice(1));
     }
-    assert(isObject(result), "result is not object.");
-    return (result as Record<string, any>)[source.propIds[0]];
+    return ret;
   }
   return result;
 };
