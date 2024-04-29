@@ -15,9 +15,7 @@ test("test dotProductAgent", async () => {
       [[1, 2]],
     ],
   });
-  assert.deepStrictEqual(result, {
-    contents: [5, 8],
-  });
+  assert.deepStrictEqual(result, [5, 8]);
 });
 
 test("test sortByValuesAgent", async () => {

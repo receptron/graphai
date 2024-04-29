@@ -9,9 +9,7 @@ import { AgentFunction } from "@/graphai";
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
 export const dotProductAgent: AgentFunction<
   Record<never, never>,
-  {
-    contents: Array<number>;
-  },
+  Array<number>,
   Array<Array<number>>
 > = async ({ inputs }) => {
   const embeddings: Array<Array<number>> = inputs[0];
@@ -24,7 +22,7 @@ export const dotProductAgent: AgentFunction<
       return dotProduct + value * reference[index];
     }, 0);
   });
-  return { contents };
+  return contents;
 };
 
 const dotProductAgentInfo = {
@@ -42,9 +40,7 @@ const dotProductAgentInfo = {
         [[3, 2]],
       ],
       params: {},
-      result: {
-        contents: [7, 17, 27],
-      },
+      result: [7, 17, 27],
     },
   ],
   description: "dotProduct Agent",
