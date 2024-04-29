@@ -47,17 +47,17 @@ const graph_data = {
     similarityCheck: {
       // Get the cosine similarities of those vectors
       agentId: "dotProductAgent",
-      inputs: ["embeddings.contents", "topicEmbedding.contents"],
+      inputs: ["embeddings", "topicEmbedding"],
     },
     sortedChunks: {
       // Sort chunks based on those similarities
       agentId: "sortByValuesAgent",
-      inputs: ["chunks.contents", "similarityCheck.contents"],
+      inputs: ["chunks.contents", "similarityCheck"],
     },
     referenceText: {
       // Generate reference text from those chunks (token limited)
       agentId: "tokenBoundStringsAgent",
-      inputs: ["sortedChunks.contents"],
+      inputs: ["sortedChunks"],
       params: {
         limit: 5000,
       },

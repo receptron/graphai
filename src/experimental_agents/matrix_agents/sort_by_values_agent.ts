@@ -13,9 +13,7 @@ export const sortByValuesAgent: AgentFunction<
   {
     assendant?: boolean;
   },
-  {
-    contents: Array<any>;
-  },
+  Array<any>,
   Array<any>
 > = async ({ params, inputs }) => {
   const direction = params?.assendant ?? false ? -1 : 1;
@@ -31,7 +29,7 @@ export const sortByValuesAgent: AgentFunction<
     .map((a) => {
       return a.item;
     });
-  return { contents };
+  return contents;
 };
 
 const sortByValuesAgentInfo = {
