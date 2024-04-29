@@ -12,7 +12,7 @@ import {
   DefaultParamsType,
   DefaultInputData,
 } from "@/type";
-import { parseNodeName } from "@/utils/utils";
+import { parseNodeName, assert } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
 
 export class Node {
@@ -109,7 +109,8 @@ export class ComputedNode extends Node {
   }
 
   private checkDataAvailability() {
-    const results = this.graph.resultsOf(this.dataSources).filter((result) => {
+    assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
+    const results = this.graph.resultsOf(this.dataSources, true).filter((result) => {
       return result !== undefined;
     });
     return results.length > 0;
