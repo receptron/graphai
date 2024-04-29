@@ -13,18 +13,18 @@ const graph_data = {
     },
     result: {
       value: [],
-      update: "reducer",
+      update: "reducer2",
     },
     usage: {
       value: {},
       update: "acountant",
     },
     retriever: {
-      agentId: "shift",
+      agentId: "shiftAgent",
       inputs: ["people"],
     },
     query: {
-      agentId: "slashgpt",
+      agentId: "slashGPTAgent",
       params: {
         manifest: {
           prompt: "Describe about the person in less than 100 words",
@@ -32,19 +32,27 @@ const graph_data = {
       },
       inputs: ["retriever.item"],
     },
-    reducer: {
-      agentId: "push",
-      inputs: ["result", "query.content"],
+    reducer1: {
+      agentId: "popAgent",
+      inputs: ["query"],
+    },
+    reducer2: {
+      agentId: "pushAgent",
+      inputs: ["result", "reducer1.item"],
+    },
+    usageData: {
+      agentId: "totalAgent",
+      inputs: ["reducer2.$0"],
     },
     acountant: {
-      agentId: "total",
-      inputs: ["usage", "query.usage"],
+      agentId: "totalAgent",
+      inputs: ["usage", "usageData.usage"],
     },
   },
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { slashgpt: slashGPTAgent, push: pushAgent, shift: shiftAgent, total: totalAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { pushAgent, shiftAgent, slashGPTAgent, totalAgent });
   console.log(result.result);
   console.log(result.usage);
   console.log("COMPLETE 1");
