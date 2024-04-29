@@ -57,7 +57,7 @@ test("test getDataFromSource array $1", async () => {
 
 test("test getDataFromSource nested object", async () => {
   const inputId = "node1.data.sample";
-  const result = { data: {sample: "123"} };
+  const result = { data: { sample: "123" } };
   const data = "123";
 
   const source = parseNodeName(inputId);
@@ -67,7 +67,7 @@ test("test getDataFromSource nested object", async () => {
 
 test("test getDataFromSource nested array", async () => {
   const inputId = "node1.data.sample.$2";
-  const result = { data: {sample: [0, 1, 2, 3]} };
+  const result = { data: { sample: [0, 1, 2, 3] } };
   const data = 2;
 
   const source = parseNodeName(inputId);
@@ -77,7 +77,7 @@ test("test getDataFromSource nested array", async () => {
 
 test("test getDataFromSource nested array last", async () => {
   const inputId = "node1.data.sample.$last";
-  const result = { data: {sample: [0, 1, 2, 3]} };
+  const result = { data: { sample: [0, 1, 2, 3] } };
   const data = 3;
 
   const source = parseNodeName(inputId);
