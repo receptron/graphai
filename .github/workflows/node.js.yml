@@ -27,5 +27,5 @@ jobs:
     - run: npx ts-node -r tsconfig-paths/register  samples/express.ts &
     - run: cd tests/http-server/docs/ && npx http-server &
     - run: yarn test
-    - run: npx ts-node -r tsconfig-paths/register ./tests/graphai/__test_bypass_http.ts 
+    - run: yarn http_test
     - run: yarn run eslint
