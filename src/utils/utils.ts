@@ -26,7 +26,16 @@ export const isObject = (x: unknown) => {
 };
 
 export const getDataFromSource = (result: ResultData, source: DataSource) => {
-  return result && source.propId ? result[source.propId] : result;
+  if (result && source.propId) {
+    const regex = /^\$(\d+)$/;
+    const match = source.propId.match(regex);
+    if (match) {
+      const index = parseInt(match[1], 10);
+      return result[index];
+    }
+    return result[source.propId];
+  }
+  return result;
 };
 
 export const strIntentionalError = "Intentional Error for Debugging";
