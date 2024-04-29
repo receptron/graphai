@@ -59,3 +59,45 @@ test("test any no", async () => {
     negative: { lemon: "yellow" },
   });
 });
+
+const graphdata_any2 = {
+  nodes: {
+    source1: {
+      value: { apple: "red" },
+    },
+    source2: {
+      value: { lemon: "yellow" },
+    },
+    router1: {
+      agentId: "sleeperAgent",
+      params: {
+        duration: 10,
+      },
+      isResult: true,
+      inputs: ["source1"],
+    },
+    router2: {
+      agentId: "sleeperAgent",
+      params: {
+        duration: 100,
+      },
+      isResult: true,
+      inputs: ["source2"],
+    },
+    receiver: {
+      agentId: "sleeperAgent",
+      anyInput: true,
+      isResult: true,
+      inputs: ["router1", "router2"],
+    },
+  },
+};
+
+test("test loop & push", async () => {
+  const result = await graphDataTestRunner(__filename, graphdata_any2, defaultTestAgents, () => {}, false);
+  assert.deepStrictEqual(result, {
+    router1: { apple: "red" },
+    router2: { lemon: "yellow" },
+    receiver: { apple: "red" },
+  });
+});
