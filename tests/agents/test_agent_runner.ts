@@ -20,6 +20,8 @@ import popAgentInfo from "@/experimental_agents/array_agents/pop_agent";
 
 import { agentTestRunner } from "@/utils/test_utils";
 
-[stringSplitterAgentInfo, stringTemplateAgentInfo, dataSumTemplateAgentInfo, totalAgentInfo, dataObjectMergeTemplateAgentInfo, popAgentInfo].map((agentInfo) => {
-  agentTestRunner(agentInfo);
-});
+[stringSplitterAgentInfo, stringTemplateAgentInfo, dataSumTemplateAgentInfo, totalAgentInfo, dataObjectMergeTemplateAgentInfo, popAgentInfo].map(
+  (agentInfo) => {
+    agentTestRunner(agentInfo);
+  },
+);

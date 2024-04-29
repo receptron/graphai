@@ -9,33 +9,31 @@ export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, R
   return { array, item };
 };
 
-
-
 const popAgentInfo = {
   name: "popAgent",
   agent: popAgent,
   mock: popAgent,
-  samples: [{
-    inputs: [[1,2,3]],
-    params: {},
-    result:  {
-      array: [
-        1,
-        2
+  samples: [
+    {
+      inputs: [[1, 2, 3]],
+      params: {},
+      result: {
+        array: [1, 2],
+        item: 3,
+      },
+    },
+    {
+      inputs: [
+        [1, 2, 3],
+        ["a", "b", "c"],
       ],
-      item: 3
-    }
-  }, {
-    inputs: [[1,2,3], ["a", "b", "c"]],
-    params: {},
-    result:  {
-      array: [
-        1,
-        2
-      ],
-      item: 3
-    }
-  }],
+      params: {},
+      result: {
+        array: [1, 2],
+        item: 3,
+      },
+    },
+  ],
   description: "Pop Agent",
   category: ["array"],
   author: "Receptron team",
