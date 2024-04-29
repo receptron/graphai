@@ -25,12 +25,12 @@ const graphdata_any = {
   },
 };
 
-test("test any 1", async () => {
+test("test any: conditional (nothinng)", async () => {
   const result = await graphDataTestRunner(__filename, graphdata_any, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {});
 });
 
-test("test any yes", async () => {
+test("test any: conditional (yes)", async () => {
   const result = await graphDataTestRunner(
     __filename,
     graphdata_any,
@@ -45,7 +45,7 @@ test("test any yes", async () => {
   });
 });
 
-test("test any no", async () => {
+test("test any conditional(no)", async () => {
   const result = await graphDataTestRunner(
     __filename,
     graphdata_any,
@@ -93,7 +93,7 @@ const graphdata_any2 = {
   },
 };
 
-test("test loop & push", async () => {
+test("test any: faster one wins", async () => {
   const result = await graphDataTestRunner(__filename, graphdata_any2, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {
     router1: { apple: "red" },
