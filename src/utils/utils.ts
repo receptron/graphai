@@ -25,7 +25,7 @@ export const isObject = (x: unknown) => {
   return x !== null && typeof x === "object";
 };
 
-const __get_data = (result: ResultData, propId: string) => {
+const getNestedData = (result: ResultData, propId: string) => {
   if (Array.isArray(result)) {
     const regex = /^\$(\d+)$/;
     const match = propId.match(regex);
@@ -44,7 +44,7 @@ const __get_data = (result: ResultData, propId: string) => {
 export const getDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
   if (result && propIds && propIds.length > 0) {
     const propId = propIds[0];
-    const ret = __get_data(result, propId);
+    const ret = getNestedData(result, propId);
     if (propIds.length > 1) {
       return getDataFromSource(ret, propIds.slice(1));
     }
