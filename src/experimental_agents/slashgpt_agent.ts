@@ -24,18 +24,6 @@ export const slashGPTAgent: AgentFunction<
   session.append_user_question(contents.join("\n"));
   await session.call_loop(() => {});
   return session.history.messages();
-  /*
-  const message = (() => {
-    if (params?.function_result) {
-      return session.history.messages().find((m) => m.role === "function_result");
-    }
-    return session.history.last_message();
-  })();
-  if (message === undefined) {
-    throw new Error("No message in the history");
-  }
-  return message;
-*/
 };
 
 const slashGPTAgentInfo = {
