@@ -33,9 +33,8 @@ export const getDataFromSource = (result: ResultData, source: DataSource) => {
       const index = parseInt(match[1], 10);
       return result[index];
     }
-    if (isObject(result)) {
-      return (result as Record<string, any>)[source.propId];
-    }
+    assert(isObject(result), "result is not object.");
+    return (result as Record<string, any>)[source.propId];
   }
   return result;
 };
