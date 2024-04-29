@@ -88,8 +88,6 @@ or
 yarn add graphai
 ```
 
-
-
 ## Data Flow Graph
 
 A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
@@ -139,9 +137,15 @@ A *static* node have following properties.
 
 ## Flow Control
 
+Since the data-flow graph must be asyclic by design, we added a few mechanism to control data flows, [loop](#loop), [nesting](#nesting), [mapping](#mapping) and [condtional flow](#conditional-flow).
+
 ### Loop
 
-The loop is an JavaScript object, which has two optional properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
+The loop is an optioal property of a graph, which has two optional properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
+
+Here is an example, which performs an LLM query for each person in the list and create the list of answers. The "people" node (static), is initialized with an array of names, and the "retriever" node (computed) retrieves one name at a time, and send it to the "query" node (computed) to perform an LLM query. The "reducer" append it the array retrieved form the "result" node (static node, which is initialized as an empty array). 
+
+The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous itelation. This loop continues until the value of "people" node become an empty array.
 
 ```
 loop:
@@ -167,6 +171,17 @@ nodes:
     inputs: [result, query.content]
 ```
 
+### Nesting
+
+To be filled.
+
+### Mapping
+
+To be filled.
+
+### Conditional Flow
+
+To be filled.
 
 ## GraphAI class
 
