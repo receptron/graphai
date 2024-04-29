@@ -26,11 +26,16 @@ export const isObject = (x: unknown) => {
 };
 
 const __get_data = (result: ResultData, propId: string) => {
-  const regex = /^\$(\d+)$/;
-  const match = propId.match(regex);
-  if (match && Array.isArray(result)) {
-    const index = parseInt(match[1], 10);
-    return result[index];
+  if (Array.isArray(result)) {
+    const regex = /^\$(\d+)$/;
+    const match = propId.match(regex);
+    if (match) {
+      const index = parseInt(match[1], 10);
+      return result[index];
+    }
+    if (propId === "$last") {
+      return result[result.length - 1];
+    }
   }
   assert(isObject(result), "result is not object.");
   return (result as Record<string, any>)[propId];
