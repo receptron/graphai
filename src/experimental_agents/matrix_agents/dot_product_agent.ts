@@ -33,12 +33,16 @@ const dotProductAgentInfo = {
   mock: dotProductAgent,
   samples: [
     {
-      inputs: [[[1, 2], [3,4]], [[3, 2], [4,3]]],
+      inputs: [
+        [[1, 2], [3,4], [5,6]],
+        [[3, 2]]
+      ],
       params: {},
       result: {
         contents: [
           7,
-          17
+          17,
+          27
         ]
       },
     },
