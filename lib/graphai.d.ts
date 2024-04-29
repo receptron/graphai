@@ -37,5 +37,5 @@ export declare class GraphAI {
     updateLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
-    resultsOf(sources: Array<DataSource>, anyInput?: boolean): any[];
+    resultsOf(sources: Array<DataSource>, ignoreUndefined?: boolean): any[];
 }
