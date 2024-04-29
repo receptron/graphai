@@ -21,7 +21,7 @@ const graph_data: GraphData = {
     },
     node2: {
       agentId: "slashGPTAgent",
-      inputs: ["node1"],
+      inputs: ["node1.content"],
       params: {
         manifest: {
           skip_function_result: true,
@@ -30,12 +30,20 @@ const graph_data: GraphData = {
         },
       },
     },
+    node3: {
+      agentId: "bypassAgent",
+      inputs: ["node2.$last.content"],
+      isResult: true,
+    },
   },
 };
 
 export const main = async () => {
   const result = await graphDataTestRunner(__filename, graph_data, { slashGPTAgent });
-  console.log(result["node2"]!.content);
+  console.log(result);
+  if (result["node3"]) {
+    console.log(result["node3"]);
+  }
   console.log("COMPLETE 1");
 };
 

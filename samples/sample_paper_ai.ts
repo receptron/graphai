@@ -6,7 +6,8 @@ import { slashGPTAgent } from "@/experimental_agents";
 import { arxivAgent, arxiv2TextAgent } from "./agents/arxiv_agent";
 
 export const main = async () => {
-  await fileTestRunner("/graphs/arxiv.yml", { arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
+  const res = await fileTestRunner("/graphs/arxiv.yml", { arxivAgent: arxivAgent, arxiv2TextAgent, slashGPTAgent });
+  console.log(res);
   console.log("COMPLETE 1");
 };
 
