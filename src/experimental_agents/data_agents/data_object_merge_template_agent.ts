@@ -28,6 +28,7 @@ const dataObjectMergeTemplateAgentInfo = {
     },
   ],
   description: "Merge object",
+  category: [],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

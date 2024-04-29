@@ -33,6 +33,7 @@ const stringTemplateAgentInfo = {
     },
   ],
   description: "Template agent",
+  category: [],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

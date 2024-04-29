@@ -33,6 +33,7 @@ const dotProductAgentInfo = {
   mock: dotProductAgent,
   samples: [],
   description: "dotProduct Agent",
+  category: [],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
