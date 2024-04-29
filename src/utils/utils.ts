@@ -29,11 +29,13 @@ export const getDataFromSource = (result: ResultData, source: DataSource) => {
   if (result && source.propId) {
     const regex = /^\$(\d+)$/;
     const match = source.propId.match(regex);
-    if (match) {
+    if (match && Array.isArray(result)) {
       const index = parseInt(match[1], 10);
       return result[index];
     }
-    return result[source.propId];
+    if (isObject(result)) {
+      return (result as Record<string, any>)[source.propId];
+    }
   }
   return result;
 };
