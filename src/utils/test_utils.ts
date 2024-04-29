@@ -26,7 +26,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
         params,
         inputs,
       });
-      assert.deepStrictEqual(result, actual);
+      assert.deepStrictEqual(actual, result);
     }
   });
 };
