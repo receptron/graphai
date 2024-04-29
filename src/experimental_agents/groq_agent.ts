@@ -1,14 +1,10 @@
-import path from "path";
+import "dotenv/config";
 import { AgentFunction } from "@/graphai";
-import { ChatSession, ChatConfig, ManifestData } from "slashgpt";
 import { Groq } from "groq-sdk";
 
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY
 });
-console.log(groq);
-
-const config = new ChatConfig(path.resolve(__dirname));
 
 export const gloqAgent: AgentFunction<
   {
@@ -17,6 +13,16 @@ export const gloqAgent: AgentFunction<
   Record<string, any> | string,
   string
 > = async ({ params, inputs }) => {
-
-  return { test: 1 };
+  console.log("***");
+　const result = await groq.chat.completions.create({
+    messages: [
+        {
+            role: "user",
+            content: "Explain the importance of fast language models"
+        }
+    ],
+    model: "mixtral-8x7b-32768"
+  });
+  console.log("***", result);
+  return result;
 };

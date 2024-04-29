@@ -5,13 +5,12 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test dataObjectMergeTemplateAgent", async () => {
-  const run = async (inputs: ["Who is Steve Jobs?"]) => {
-    return await gloqAgent({
-      inputs,
-      ...defaultTestContext,
-      params: {
-        model: "foo"
-      },
-    });
-  };
+  const result = await gloqAgent({
+    ...defaultTestContext,
+    params: { model: "foo" },
+    inputs: ["hello"],
+  });
+  assert.deepStrictEqual(result, {
+    content: "hello: test",
+  });
 });
