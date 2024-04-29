@@ -171,7 +171,7 @@ export class ComputedNode extends Node {
     try {
       const callback = this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
-      const context: AgentFunctionContext<DefaultParamsType, DefaultInputData> = {
+      const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | undefined> = {
         params: this.params,
         inputs: previousResults,
         debugInfo: {

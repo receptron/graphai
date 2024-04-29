@@ -70,7 +70,7 @@ export class GraphAI {
 
   private getValueFromResults(key: string, results: ResultDataDictonary<DefaultResultData>) {
     const source = parseNodeName(key);
-    return getDataFromSource(results[source.nodeId], source);
+    return getDataFromSource(results[source.nodeId], source.propIds);
   }
 
   // for static
@@ -282,7 +282,7 @@ export class GraphAI {
   public resultsOf(sources: Array<DataSource>) {
     return sources.map((source) => {
       const { result } = this.nodes[source.nodeId];
-      return getDataFromSource(result, source);
+      return getDataFromSource(result, source.propIds);
     });
   }
 }

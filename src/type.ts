@@ -12,7 +12,7 @@ export enum NodeState {
   Dispatched = "dispatched",
 }
 
-export type DefaultResultData = Record<string, any> | string | Array<any>;
+export type DefaultResultData = Record<string, any> | string | number | Array<DefaultResultData>;
 export type DefaultInputData = Record<string, any>;
 export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
 export type ResultDataDictonary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
@@ -22,7 +22,7 @@ export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType; // Agen
 
 export type DataSource = {
   nodeId: string;
-  propId?: string;
+  propIds?: string[];
 };
 
 export type StaticNodeData = {
