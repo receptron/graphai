@@ -39,6 +39,7 @@ test("test fork 1", async () => {
       },
       node2: {
         agentId: "copy2ArrayAgent",
+        params: { count: 10 },
         inputs: ["node1"],
       },
       mapNode: {

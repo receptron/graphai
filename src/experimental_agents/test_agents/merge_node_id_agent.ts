@@ -1,4 +1,5 @@
 import { AgentFunction } from "@/graphai";
+import { AgentFunctionInfo } from "@/type";
 
 export const mergeNodeIdAgent: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
   // console.log("executing", nodeId);
@@ -9,3 +10,27 @@ export const mergeNodeIdAgent: AgentFunction = async ({ debugInfo: { nodeId }, i
     { [nodeId]: "hello" },
   );
 };
+
+// for test and document
+const mergeNodeIdAgentInfo: AgentFunctionInfo = {
+  name: "mergeNodeIdAgent",
+  agent: mergeNodeIdAgent,
+  mock: mergeNodeIdAgent,
+  samples: [
+    {
+      inputs: [{ message: "hello" }],
+      params: {},
+      result: {
+        message: "hello",
+        test: "hello",
+      },
+    },
+  ],
+  description: "merge node id agent",
+  category: [],
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+
+export default mergeNodeIdAgentInfo;
