@@ -2,9 +2,6 @@ import { AgentFunction } from "@/graphai";
 import { AgentFunctionInfo } from "@/type";
 
 export const bypassAgent: AgentFunction = async (context) => {
-  if (context.inputs.length === 1) {
-    return context.inputs[0];
-  }
   return context.inputs;
 };
 
@@ -17,7 +14,7 @@ const bypassAgentInfo: AgentFunctionInfo = {
     {
       inputs: [{ a: "123" }],
       params: {},
-      result: { a: "123" },
+      result: [{ a: "123" }],
     },
     {
       inputs: [{ a: "123" }, { b: "abc" }],
