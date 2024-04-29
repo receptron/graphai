@@ -9,7 +9,7 @@ export const parseNodeName = (inputNodeId: string): DataSource => {
   if (parts.length == 1) {
     return { nodeId: parts[0] };
   }
-  return { nodeId: parts[0], propId: parts[1] };
+  return { nodeId: parts[0], propIds: parts.slice(1) };
 };
 
 export function assert(condition: boolean, message: string, isWarn: boolean = false): asserts condition {
@@ -25,16 +25,30 @@ export const isObject = (x: unknown) => {
   return x !== null && typeof x === "object";
 };
 
-export const getDataFromSource = (result: ResultData, source: DataSource) => {
-  if (result && source.propId) {
+const getNestedData = (result: ResultData, propId: string) => {
+  if (Array.isArray(result)) {
     const regex = /^\$(\d+)$/;
-    const match = source.propId.match(regex);
-    if (match && Array.isArray(result)) {
+    const match = propId.match(regex);
+    if (match) {
       const index = parseInt(match[1], 10);
       return result[index];
     }
-    assert(isObject(result), "result is not object.");
-    return (result as Record<string, any>)[source.propId];
+    if (propId === "$last") {
+      return result[result.length - 1];
+    }
+  }
+  assert(isObject(result), "result is not object.");
+  return (result as Record<string, any>)[propId];
+};
+
+export const getDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
+  if (result && propIds && propIds.length > 0) {
+    const propId = propIds[0];
+    const ret = getNestedData(result, propId);
+    if (propIds.length > 1) {
+      return getDataFromSource(ret, propIds.slice(1));
+    }
+    return ret;
   }
   return result;
 };
