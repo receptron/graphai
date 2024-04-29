@@ -22,7 +22,7 @@ export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType; // Agen
 
 export type DataSource = {
   nodeId: string;
-  propId?: string;
+  propIds?: string[];
 };
 
 export type StaticNodeData = {

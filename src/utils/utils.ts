@@ -9,7 +9,7 @@ export const parseNodeName = (inputNodeId: string): DataSource => {
   if (parts.length == 1) {
     return { nodeId: parts[0] };
   }
-  return { nodeId: parts[0], propId: parts[1] };
+  return { nodeId: parts[0], propIds: parts.slice(1) };
 };
 
 export function assert(condition: boolean, message: string, isWarn: boolean = false): asserts condition {
@@ -26,15 +26,15 @@ export const isObject = (x: unknown) => {
 };
 
 export const getDataFromSource = (result: ResultData, source: DataSource) => {
-  if (result && source.propId) {
+  if (result && source.propIds && source.propIds.length > 0) {
     const regex = /^\$(\d+)$/;
-    const match = source.propId.match(regex);
+    const match = source.propIds[0].match(regex);
     if (match && Array.isArray(result)) {
       const index = parseInt(match[1], 10);
       return result[index];
     }
     assert(isObject(result), "result is not object.");
-    return (result as Record<string, any>)[source.propId];
+    return (result as Record<string, any>)[source.propIds[0]];
   }
   return result;
 };
