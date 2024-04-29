@@ -12,7 +12,7 @@ import {
   DefaultParamsType,
   DefaultInputData,
 } from "@/type";
-import { parseNodeName } from "@/utils/utils";
+import { parseNodeName, assert } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
 
 export class Node {
@@ -116,14 +116,19 @@ export class ComputedNode extends Node {
     }
   }
 
+  private checkDataAvailability() {
+    assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
+    const results = this.graph.resultsOf(this.dataSources, true).filter((result) => {
+      return result !== undefined;
+    });
+    return results.length > 0;
+  }
+
   // This method is called when the data became available on one of nodes,
   // which this node needs data from.
   public removePending(nodeId: string) {
     if (this.anyInput) {
-      const results = this.graph.resultsOf(this.dataSources, this.anyInput).filter((result) => {
-        return result !== undefined;
-      });
-      if (results.length > 0) {
+      if (this.checkDataAvailability()) {
         this.pendings.clear();
       }
     } else {
