@@ -73,9 +73,9 @@ export class TaskManager {
       running: this.runningNodes.size,
       ...(verbose
         ? {
-          runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
-          queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
-        }
+            runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
+            queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
+          }
         : {}),
     };
   }
