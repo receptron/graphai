@@ -129,9 +129,7 @@ export class GraphAI {
   // Public API
   public results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T> {
     return Object.keys(this.nodes)
-      .filter((nodeId) => {
-        return all || this.nodes[nodeId].isResult;
-      })
+      .filter((nodeId) => all || this.nodes[nodeId].isResult)
       .reduce((results: ResultDataDictonary<T>, nodeId) => {
         const node = this.nodes[nodeId];
         if (node.result !== undefined) {
