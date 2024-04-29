@@ -88,7 +88,7 @@ export class ComputedNode extends Node {
       // We care it only when this.anyInput is true.
       // Notice that this logic enables dynamic data-flows.
       const counter = this.dataSources.reduce((count, source) => {
-        const [result] = this.graph.resultsOf([source], this.anyInput);
+        const [result] = this.graph.resultsOf([source]);
         return result === undefined ? count : count + 1;
       }, 0);
       if (!this.anyInput || counter > 0) {
@@ -118,7 +118,7 @@ export class ComputedNode extends Node {
 
   private checkDataAvailability() {
     assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
-    const results = this.graph.resultsOf(this.dataSources, true).filter((result) => {
+    const results = this.graph.resultsOf(this.dataSources).filter((result) => {
       return result !== undefined;
     });
     return results.length > 0;
@@ -155,7 +155,7 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const previousResults = this.graph.resultsOf(this.dataSources, this.anyInput).filter((result) => {
+    const previousResults = this.graph.resultsOf(this.dataSources).filter((result) => {
       // Remove undefined if anyInput flag is set.
       return !this.anyInput || result !== undefined;
     });

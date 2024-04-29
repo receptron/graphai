@@ -15,7 +15,7 @@ import {
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
-import { parseNodeName, assert, isObject, getDataFromSource } from "@/utils/utils";
+import { parseNodeName, assert, getDataFromSource } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
@@ -279,7 +279,7 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: Array<DataSource>, anyInput: boolean = false) {
+  public resultsOf(sources: Array<DataSource>) {
     return sources.map((source) => {
       const { result } = this.nodes[source.nodeId];
       return getDataFromSource(result, source);
