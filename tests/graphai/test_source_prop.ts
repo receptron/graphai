@@ -42,7 +42,7 @@ const graphData_literal = {
       params: {
         template: "${0}, ${1}, ${2}",
       },
-      inputs: ["source", "\"orange\"", undefined],
+      inputs: ["source", '"orange"', undefined],
       isResult: true,
     },
     step2: {
