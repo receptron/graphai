@@ -28,3 +28,17 @@ export const gloqAgent: AgentFunction<
   });
   return result;
 };
+
+const gloqAgentInfo = {
+  name: "gloqAgent",
+  agent: gloqAgent,
+  mock: gloqAgent,
+  samples: [],
+  description: "Groq Agent",
+  category: [],
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+
+export default gloqAgentInfo;
