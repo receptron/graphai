@@ -8,6 +8,7 @@ const groq = new Groq({
 export const gloqAgent: AgentFunction<
   {
     model: string;
+    prompt: string;
   },
   Record<string, any> | string,
   string
@@ -15,8 +16,8 @@ export const gloqAgent: AgentFunction<
 　const result = await groq.chat.completions.create({
     messages: [
         {
-            role: "user",
-            content: "Explain the importance of fast language models"
+          role: "user",
+          content: params.prompt
         }
     ],
     model: params.model
