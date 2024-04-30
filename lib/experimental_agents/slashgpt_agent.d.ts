@@ -1,28 +1,22 @@
 import { AgentFunction } from "../graphai";
-import { ManifestData } from "slashgpt";
+import { ManifestData, ChatData } from "slashgpt";
 export declare const slashGPTAgent: AgentFunction<{
     manifest: ManifestData;
     query?: string;
     function_result?: boolean;
-}, {
-    content: string;
-}, string>;
+}, ChatData[], string>;
 declare const slashGPTAgentInfo: {
     name: string;
     agent: AgentFunction<{
         manifest: ManifestData;
         query?: string | undefined;
         function_result?: boolean | undefined;
-    }, {
-        content: string;
-    }, string>;
+    }, ChatData[], string>;
     mock: AgentFunction<{
         manifest: ManifestData;
         query?: string | undefined;
         function_result?: boolean | undefined;
-    }, {
-        content: string;
-    }, string>;
+    }, ChatData[], string>;
     samples: never[];
     description: string;
     category: never[];

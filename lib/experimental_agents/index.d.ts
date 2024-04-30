@@ -8,3 +8,4 @@ export * from "./graph_agents";
 export * from "./slashgpt_agent";
 export * from "./embedding_agent";
 export * from "./token_agent";
+export * from "./groq_agent";
