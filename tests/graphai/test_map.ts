@@ -120,6 +120,7 @@ const graphdata_map3 = {
 
 test("test map 3", async () => {
   const result = await graphDataTestRunner("test_map3", graphdata_map3, defaultTestAgents);
+  // console.log(result);
   assert.deepStrictEqual(result.result, [[["hello"], ["hello2"]]]);
 });
 
