@@ -7,7 +7,7 @@ const graph_data = {
     query: {
       agentId: "gloqAgent",
       params: {
-        model: "foo"
+        model: "mixtral-8x7b-32768"
       },
       isResult: true,
     },

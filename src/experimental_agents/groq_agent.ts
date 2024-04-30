@@ -19,7 +19,7 @@ export const gloqAgent: AgentFunction<
             content: "Explain the importance of fast language models"
         }
     ],
-    model: "mixtral-8x7b-32768"
+    model: params.model
   });
   return result;
 };
