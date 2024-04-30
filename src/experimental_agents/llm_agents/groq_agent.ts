@@ -4,8 +4,8 @@ import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY
   ? new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    })
+    apiKey: process.env.GROQ_API_KEY,
+  })
   : undefined;
 
 export const gloqAgent: AgentFunction<
@@ -32,3 +32,17 @@ export const gloqAgent: AgentFunction<
   });
   return result;
 };
+
+const gloqAgentInfo = {
+  name: "gloqAgent",
+  agent: gloqAgent,
+  mock: gloqAgent,
+  samples: [],
+  description: "Groq Agent",
+  category: ["llm"],
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+
+export default gloqAgentInfo;

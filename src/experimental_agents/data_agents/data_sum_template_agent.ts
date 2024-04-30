@@ -23,7 +23,7 @@ const dataSumTemplateAgentInfo = {
     },
   ],
   description: "Returns the sum of input values",
-  category: [],
+  category: ["data"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
