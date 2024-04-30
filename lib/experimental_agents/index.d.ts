@@ -8,3 +8,4 @@ export * from "./graph_agents";
 export * from "./llm_agents";
 export * from "./embedding_agent";
 export * from "./token_agent";
+export * from "./function_agent";
