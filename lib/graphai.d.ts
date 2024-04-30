@@ -12,6 +12,7 @@ export declare class GraphAI {
     private readonly logs;
     readonly callbackDictonary: AgentFunctionDictonary;
     readonly taskManager: TaskManager;
+    readonly retryLimit?: number;
     nodes: GraphNodes;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
     verbose: boolean;

@@ -47,6 +47,7 @@ export type GraphData = {
     concurrency?: number;
     loop?: LoopData;
     verbose?: boolean;
+    retry?: number;
 };
 export type AgentFunctionContext<ParamsType, InputDataType> = {
     params: NodeDataParams<ParamsType>;
