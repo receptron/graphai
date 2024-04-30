@@ -1,10 +1,8 @@
 import { AgentFunction } from "@/graphai";
-import deepmerge from "deepmerge";
 
-export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>> = async ({ inputs }) => {
-  const [array, item] = deepmerge({ inputs }, {}).inputs;
-  // TODO: Validation
-  array.push(item);
+export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ inputs }) => {
+  const array = inputs[0].map((item) => item); // sharrow copy
+  array.push(inputs[1]);
   return array;
 };
 
