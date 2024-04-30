@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { AgentFunction } from "@/graphai";
 import { Groq } from "groq-sdk";
 
@@ -13,7 +12,6 @@ export const gloqAgent: AgentFunction<
   Record<string, any> | string,
   string
 > = async ({ params, inputs }) => {
-  console.log("***");
 　const result = await groq.chat.completions.create({
     messages: [
         {
@@ -23,6 +21,5 @@ export const gloqAgent: AgentFunction<
     ],
     model: "mixtral-8x7b-32768"
   });
-  console.log("***", result);
   return result;
 };
