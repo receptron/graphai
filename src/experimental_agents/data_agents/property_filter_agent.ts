@@ -1,5 +1,4 @@
 import { AgentFunction } from "@/graphai";
-import deepmerge from "deepmerge";
 
 export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string> }> = async ({ inputs, params }) => {
   const [input] = inputs;
