@@ -22,6 +22,15 @@ const functionAgentInfo = {
       },
       result: "A Tesla Model 3 has the range of 300 miles.",
     },
+    {
+      inputs: ['{ "model": "Model 3", "maker": "Tesla", "range": 300 }'],
+      params: {
+        function: (str: string) => {
+          return JSON.parse(str);
+        },
+      },
+      result: { model: "Model 3", maker: "Tesla", range: 300 },
+    },
   ],
   description: "Filter properties based on property name either with 'include' or 'exclude'",
   category: ["data"],
