@@ -2,7 +2,8 @@ import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { sleeperAgent, gloqAgent } from "@/experimental_agents";
 
-const prompt = "I'd like to write a paper about data flow programming for AI application, which involves multiple asynchronous calls, some of operations are done on other machines (distributed computing). Please come up with the title and an abstract for this paper.";
+const prompt =
+  "I'd like to write a paper about data flow programming for AI application, which involves multiple asynchronous calls, some of operations are done on other machines (distributed computing). Please come up with the title and an abstract for this paper.";
 
 const graph_data = {
   nodes: {
@@ -16,9 +17,9 @@ const graph_data = {
     },
     answer: {
       agentId: "sleeperAgent",
-      inputs: ["query.choices.$0.message"]
+      inputs: ["query.choices.$0.message"],
     },
-  }
+  },
 };
 
 export const main = async () => {

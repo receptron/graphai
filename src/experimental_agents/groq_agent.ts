@@ -2,7 +2,7 @@ import { AgentFunction } from "@/graphai";
 import { Groq } from "groq-sdk";
 
 const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 export const gloqAgent: AgentFunction<
@@ -12,15 +12,15 @@ export const gloqAgent: AgentFunction<
   },
   Record<string, any> | string,
   string
-> = async ({ params, inputs }) => {
-　const result = await groq.chat.completions.create({
+> = async ({ params }) => {
+  const result = await groq.chat.completions.create({
     messages: [
-        {
-          role: "user",
-          content: params.prompt
-        }
+      {
+        role: "user",
+        content: params.prompt,
+      },
     ],
-    model: params.model
+    model: params.model,
   });
   return result;
 };
