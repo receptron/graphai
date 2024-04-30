@@ -32,7 +32,7 @@ const functionAgentInfo = {
       result: carInfo,
     },
   ],
-  description: "Filter properties based on property name either with 'include' or 'exclude'",
+  description: "It allows developers to implement the agent function within the graph itself.",
   category: ["data"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
