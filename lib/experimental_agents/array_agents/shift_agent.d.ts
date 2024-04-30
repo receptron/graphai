@@ -1,9 +1,9 @@
 import { AgentFunction } from "../../graphai";
-export declare const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>>;
+export declare const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>>;
 declare const shiftAgentInfo: {
     name: string;
-    agent: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>>;
-    mock: AgentFunction<Record<string, any>, Record<string, any>, Record<string, any>>;
+    agent: AgentFunction<Record<string, any>, Record<string, any>, any[]>;
+    mock: AgentFunction<Record<string, any>, Record<string, any>, any[]>;
     samples: ({
         inputs: number[][];
         params: {};
