@@ -41,16 +41,20 @@ const getNestedData = (result: ResultData, propId: string) => {
   return (result as Record<string, any>)[propId];
 };
 
-export const getDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
+const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
   if (result && propIds && propIds.length > 0) {
     const propId = propIds[0];
     const ret = getNestedData(result, propId);
     if (propIds.length > 1) {
-      return getDataFromSource(ret, propIds.slice(1));
+      return innerGetDataFromSource(ret, propIds.slice(1));
     }
     return ret;
   }
   return result;
+};
+
+export const getDataFromSource = (result: ResultData, source: DataSource): ResultData | undefined => {
+  return innerGetDataFromSource(result, source.propIds);
 };
 
 export const strIntentionalError = "Intentional Error for Debugging";
