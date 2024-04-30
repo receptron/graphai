@@ -16,17 +16,21 @@ export const defaultTestContext = {
 
 // for agent
 export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
-  test(`test ${agentInfo.name}`, async () => {
-    const { agent, samples } = agentInfo;
-    for await (const sample of samples) {
-      const { params, inputs, result } = sample;
+  const { agent, samples } = agentInfo;
+  if (samples.length === 0) {
+    console.log(`test ${agentInfo.name}: No test`);
+  } else {
+    for await (const sampleKey of samples.keys()) {
+      test(`test ${agentInfo.name} ${sampleKey}`, async () => {
+        const { params, inputs, result } = samples[sampleKey];
 
-      const actual = await agent({
-        ...defaultTestContext,
-        params,
-        inputs,
+        const actual = await agent({
+          ...defaultTestContext,
+          params,
+          inputs,
+        });
+        assert.deepStrictEqual(actual, result);
       });
-      assert.deepStrictEqual(actual, result);
     }
-  });
+  }
 };
