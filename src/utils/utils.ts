@@ -4,25 +4,13 @@ export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-export const parseNodeName = (inputNodeId: any, version: number): DataSource => {
-  if (version === 0.2) {
+export const parseNodeName = (inputNodeId: any): DataSource => {
+  if (typeof inputNodeId === "string") {
     const parts = inputNodeId.split(".");
     if (parts.length == 1) {
       return { nodeId: parts[0] };
     }
     return { nodeId: parts[0], propIds: parts.slice(1) };
-  }
-  console.log("***** version not 0.2", version);
-  if (typeof inputNodeId === "string") {
-    const parts = inputNodeId.split(".");
-    if (parts[0].slice(0.1) !== '$') {
-      return { value: parts[0] };
-    }
-    const nodeId = inputNodeId.slice(1);
-    if (parts.length == 1) {
-      return { nodeId };
-    }
-    return { nodeId, propIds: parts.slice(1) };
   }
   return { value: inputNodeId };
 };

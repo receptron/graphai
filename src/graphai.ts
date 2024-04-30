@@ -70,7 +70,7 @@ export class GraphAI {
   }
 
   private getValueFromResults(key: string, results: ResultDataDictonary<DefaultResultData>) {
-    const source = parseNodeName(key, this.version);
+    const source = parseNodeName(key);
     return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source);
   }
 

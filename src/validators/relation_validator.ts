@@ -13,7 +13,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     pendings[computedNodeId] = new Set<string>();
     if (nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
-        const input = parseNodeName(inputNodeId, 0.2).nodeId;
+        const input = parseNodeName(inputNodeId).nodeId;
         if (input) {
           if (!nodeIds.has(input)) {
             throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${input}`);
@@ -31,7 +31,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     const nodeData = data.nodes[staticNodeId] as StaticNodeData;
     const update = nodeData.update;
     if (update) {
-      const updateNodeId = parseNodeName(update, 0.2).nodeId;
+      const updateNodeId = parseNodeName(update).nodeId;
       if (!updateNodeId) {
         throw new Error(`Update it a literal`);
       }
