@@ -24,6 +24,7 @@ type GraphNodes = Record<string, ComputedNode | StaticNode>;
 const defaultConcurrency = 8;
 
 export class GraphAI {
+  private readonly version: number;
   private readonly graphId: string;
   private readonly data: GraphData;
   private readonly loop?: LoopData;
@@ -97,6 +98,7 @@ export class GraphAI {
   }
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
+    this.version = data.version ?? 0.2;
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
     this.callbackDictonary = callbackDictonary;
