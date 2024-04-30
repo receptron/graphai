@@ -5,7 +5,7 @@ export const functionAgent: AgentFunction<{ function: Function }, any, any> = as
   return params.function(...inputs);
 };
 
-const inputs = [{ model: "Model 3", maker: "Tesla", range: 300 }];
+const carInfo = { model: "Model 3", maker: "Tesla", range: 300, price: 35000 };
 
 const functionAgentInfo = {
   name: "functionAgent",
@@ -13,23 +13,23 @@ const functionAgentInfo = {
   mock: functionAgent,
   samples: [
     {
-      inputs,
+      inputs: [carInfo],
       params: {
         function: (info: Record<string, any>) => {
-          const { model, maker, range } = info;
-          return `A ${maker} ${model} has the range of ${range} miles.`;
+          const { model, maker, range, price } = info;
+          return `A ${maker} ${model} has the range of ${range} miles. It costs $${price}.`;
         },
       },
-      result: "A Tesla Model 3 has the range of 300 miles.",
+      result: "A Tesla Model 3 has the range of 300 miles. It costs $35000.",
     },
     {
-      inputs: ['{ "model": "Model 3", "maker": "Tesla", "range": 300 }'],
+      inputs: [JSON.stringify(carInfo)],
       params: {
         function: (str: string) => {
           return JSON.parse(str);
         },
       },
-      result: { model: "Model 3", maker: "Tesla", range: 300 },
+      result: carInfo,
     },
   ],
   description: "Filter properties based on property name either with 'include' or 'exclude'",
