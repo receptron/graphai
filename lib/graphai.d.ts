@@ -5,6 +5,7 @@ import { ComputedNode, StaticNode } from "./node";
 import { TaskManager } from "./task_manager";
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 export declare class GraphAI {
+    private readonly version;
     private readonly graphId;
     private readonly data;
     private readonly loop?;

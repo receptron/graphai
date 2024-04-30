@@ -41,6 +41,7 @@ export type LoopData = {
     while?: string;
 };
 export type GraphData = {
+    version?: number;
     nodes: Record<string, NodeData>;
     concurrency?: number;
     loop?: LoopData;
