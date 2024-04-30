@@ -23,12 +23,12 @@ test("test graph", async () => {
   const afterResult = graph.results(true);
   assert.deepStrictEqual(afterResult, {
     echo: { message: "hello" },
-    bypassAgent: { message: "hello" },
-    bypassAgent2: { message: "hello" },
+    bypassAgent: [{ message: "hello" }],
+    bypassAgent2: [[{ message: "hello" }]],
   });
 
   const afterResultOf = graph.resultsOf([{ nodeId: "bypassAgent" }]);
-  assert.deepStrictEqual(afterResultOf, [{ message: "hello" }]);
+  assert.deepStrictEqual(afterResultOf, [[{ message: "hello" }]]);
 });
 
 const injectAgentGenerator = () => {
@@ -70,7 +70,7 @@ test("test injection", async () => {
     assert.deepStrictEqual(afterResult, {
       echo: {},
       bypassAgent: { message: "inject" },
-      bypassAgent2: { message: "inject" },
+      bypassAgent2: [{ message: "inject" }],
     });
 
     const afterResultOf = graph.resultsOf([{ nodeId: "bypassAgent" }]);

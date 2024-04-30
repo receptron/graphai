@@ -203,6 +203,6 @@ test("test fork 3", async () => {
   assert.deepStrictEqual(result, {
     source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
     mapNode: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
-    bypassAgent: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
+    bypassAgent: [{ forked2: [{ level2: "hello1" }, { level2: "hello2" }] }],
   });
 });

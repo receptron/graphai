@@ -10,7 +10,7 @@ nodes:
     inputs: [searchArxiv]
     agentId: arxiv2TextAgent
   slashGPTAgent:
-    inputs: [arxiv2TextAgent]
+    inputs: [arxiv2TextAgent.content]
     agentId: slashGPTAgent
     params:
       query: |

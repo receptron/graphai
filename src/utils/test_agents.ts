@@ -14,6 +14,7 @@ import {
   copy2ArrayAgent,
   pushAgent,
   popAgent,
+  shiftAgent,
 } from "@/experimental_agents";
 
 export const defaultTestAgents: AgentFunctionDictonary = {
@@ -31,4 +32,5 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   copy2ArrayAgent,
   pushAgent,
   popAgent,
+  shiftAgent,
 };
