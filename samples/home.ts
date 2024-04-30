@@ -34,6 +34,9 @@ const graph_data: GraphData = {
       agentId: "bypassAgent",
       inputs: ["node2.$last.content"],
       isResult: true,
+      params: {
+        firstElement: true
+      },
     },
   },
 };
