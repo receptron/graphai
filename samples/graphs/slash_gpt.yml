@@ -13,7 +13,7 @@ nodes:
         ${0}
   node3:
     agentId: slashgpt
-    inputs: [node2.content]
+    inputs: [node2]
   node4:
     agentId: stringTemplate
     inputs: [node1.$last.content, node3.$last.content]
@@ -26,4 +26,4 @@ nodes:
         ${1}
   node5:
     agentId: slashgpt
-    inputs: [node4.content]
+    inputs: [node4]

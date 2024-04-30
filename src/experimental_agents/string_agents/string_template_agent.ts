@@ -6,19 +6,19 @@ export const stringTemplateAgent: AgentFunction<
   {
     template: string;
   },
-  Record<string, any> | string,
+  string,
   string
 > = async ({ params, inputs }) => {
   const content = inputs.reduce((template, input, index) => {
     return template.replace("${" + index + "}", input);
   }, params.template);
 
-  return { content };
+  return content;
 };
 
 const sampleInput = ["hello", "test"];
 const sampleParams = { template: "${0}: ${1}" };
-const sampleResult = { content: "hello: test" };
+const sampleResult = "hello: test";
 
 // for test and document
 const stringTemplateAgentInfo = {

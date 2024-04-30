@@ -35,13 +35,13 @@ const graphdata_push = {
 test("test map 1", async () => {
   const result = await graphDataTestRunner("test_map", graphdata_push, defaultTestAgents);
   assert.deepStrictEqual(result.result, [
-    { content: "I love apple." },
-    { content: "I love orange." },
-    { content: "I love banana." },
-    { content: "I love lemon." },
-    { content: "I love melon." },
-    { content: "I love pineapple." },
-    { content: "I love tomato." },
+    "I love apple.",
+    "I love orange.",
+    "I love banana.",
+    "I love lemon.",
+    "I love melon.",
+    "I love pineapple.",
+    "I love tomato.",
   ]);
 });
 
@@ -84,12 +84,7 @@ const graphdata_map2 = {
 
 test("test map 2", async () => {
   const result = await graphDataTestRunner("test_map2", graphdata_map2, defaultTestAgents);
-  assert.deepStrictEqual(result.result, [
-    { content: "I love apple." },
-    { content: "I love orange." },
-    { content: "I love banana." },
-    { content: "I love lemon." },
-  ]);
+  assert.deepStrictEqual(result.result, ["I love apple.", "I love orange.", "I love banana.", "I love lemon."]);
 });
 
 // nest graph and flat
@@ -120,7 +115,6 @@ const graphdata_map3 = {
 
 test("test map 3", async () => {
   const result = await graphDataTestRunner("test_map3", graphdata_map3, defaultTestAgents);
-  // console.log(result);
   assert.deepStrictEqual(result.result, [[["hello"], ["hello2"]]]);
 });
 

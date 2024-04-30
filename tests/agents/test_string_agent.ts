@@ -10,9 +10,7 @@ test("test stringTemplateAgent simple", async () => {
     params: { template: "${0}: ${1}" },
     inputs: ["hello", "test"],
   });
-  assert.deepStrictEqual(result, {
-    content: "hello: test",
-  });
+  assert.deepStrictEqual(result, "hello: test");
 });
 
 const sample_apple =

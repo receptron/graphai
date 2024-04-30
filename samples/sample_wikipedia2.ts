@@ -73,7 +73,7 @@ const graph_data = {
     RagQuery: {
       // Get the answer from LLM with that prompt
       agentId: "slashGPTAgent",
-      inputs: ["prompt.content"],
+      inputs: ["prompt"],
     },
     OneShotQuery: {
       // Get the answer from LLM without the reference text
@@ -83,8 +83,8 @@ const graph_data = {
   },
 };
 
-const simplify = (result: any) => {
-  const { content, usage } = result;
+const simplify = (result: Array<any>) => {
+  const { content, usage } = result[result.length - 1];
   return { content, usage };
 };
 
@@ -99,8 +99,8 @@ const main = async () => {
     slashGPTAgent,
     wikipediaAgent,
   });
-  console.log(simplify(result.OneShotQuery));
-  console.log(simplify(result.RagQuery));
+  console.log(simplify(result.OneShotQuery as Array<any>));
+  console.log(simplify(result.RagQuery as Array<any>));
 };
 if (process.argv[1] === __filename) {
   main();
