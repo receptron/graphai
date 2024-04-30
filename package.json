@@ -1,6 +1,6 @@
 {
   "name": "graphai",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Asynchronous data flow execution engine for agentic AI apps.",
   "main": "lib/index.js",
   "files": [
@@ -38,6 +38,7 @@
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-plugin-import": "^2.25.2",
     "express": "^4.19.2",
+    "groq-sdk": "^0.3.3",
     "openai": "^4.12.4",
     "prettier": "^3.0.3",
     "slashgpt": "^0.0.8",
