@@ -5,6 +5,7 @@ export const sleep = async (milliseconds: number) => {
 };
 
 export const parseNodeName = (inputNodeId: any, version: number): DataSource => {
+  assert(version === 0.2, `******** not version 0.2 ${version}`); 
   const parts = inputNodeId.split(".");
   if (parts.length == 1) {
     return { nodeId: parts[0] };
