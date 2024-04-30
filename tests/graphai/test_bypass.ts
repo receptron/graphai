@@ -26,12 +26,16 @@ test("test bypass1", async () => {
   const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
-    bypassAgent2: [{
-      message: "hello",
-    }],
-    bypassAgent: [{
-      message: "hello",
-    }],
+    bypassAgent2: [
+      {
+        message: "hello",
+      },
+    ],
+    bypassAgent: [
+      {
+        message: "hello",
+      },
+    ],
     echo: {
       message: "hello",
     },
