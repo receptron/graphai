@@ -5,6 +5,7 @@ import totalAgentInfo from "@/experimental_agents/data_agents/total_agent";
 import dataObjectMergeTemplateAgentInfo from "@/experimental_agents/data_agents/data_object_merge_template_agent";
 import dataSumTemplateAgentInfo from "@/experimental_agents/data_agents/data_sum_template_agent";
 import propertyFilterAgentInfo from "@/experimental_agents/data_agents/property_filter_agent";
+import functionAgentInfo from "@/experimental_agents/function_agent";
 
 //import sleeperAgentInfo from "@/experimental_agents/sleeper_agents/sleeper_agent";
 //import sleeperAgentDebugInfo from "@/experimental_agents/sleeper_agents/sleeper_agent_debug";
@@ -33,6 +34,7 @@ import { agentTestRunner } from "@/utils/test_utils";
   totalAgentInfo,
   dataObjectMergeTemplateAgentInfo,
   propertyFilterAgentInfo,
+  functionAgentInfo,
   pushAgentInfo,
   popAgentInfo,
   shiftAgentInfo,
