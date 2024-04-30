@@ -10,22 +10,15 @@ export const propertyFilterAgent: AgentFunction<{ includes: Array<string> }> = a
   }, {});
 };
 
-// for test and document
-const sampleInputs = [
-  { color: "red", size: 1, type: "car" },
-];
-const sampleParams = { includes: ["color", "size"] };
-const sampleResult = { color: "red", size: 1 };
-
 const propertyFilterAgentInfo = {
   name: "propertyFilterAgent",
   agent: propertyFilterAgent,
   mock: propertyFilterAgent,
   samples: [
     {
-      inputs: sampleInputs,
-      params: sampleParams,
-      result: sampleResult,
+      inputs: [{ color: "red", size: 1, type: "car" }],
+      params: { includes: ["color", "size"] },
+      result: { color: "red", size: 1 },
     },
   ],
   description: "Filter properties",
