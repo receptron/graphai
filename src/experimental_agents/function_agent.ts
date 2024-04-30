@@ -1,19 +1,10 @@
 import { AgentFunction } from "@/graphai";
 
-export const functionAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string> }> = async ({ inputs, params }) => {
-  const [input] = inputs;
-  const { include, exclude } = params;
-  const propIds = include ? include : Object.keys(input);
-  const excludeSet = new Set(exclude ?? []);
-  return propIds.reduce((tmp: Record<string, any>, propId) => {
-    if (!excludeSet.has(propId)) {
-      tmp[propId] = input[propId];
-    }
-    return tmp;
-  }, {});
+export const functionAgent: AgentFunction<{ function: Function }, any, any> = async ({ inputs, params }) => {
+  return params.function(...inputs);
 };
 
-const inputs = [{ color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 }];
+const inputs = [{ model: "Model 3", maker: "Tesla", range: 300 }];
 
 const functionAgentInfo = {
   name: "functionAgent",
@@ -22,13 +13,13 @@ const functionAgentInfo = {
   samples: [
     {
       inputs,
-      params: { include: ["color", "model"] },
-      result: { color: "red", model: "Model 3" },
-    },
-    {
-      inputs,
-      params: { exclude: ["color", "model"] },
-      result: { type: "EV", maker: "Tesla", range: 300 },
+      params: {
+        function: (info: Record<string, any>) => {
+          const { model, maker, range } = info;
+          return `A ${maker} ${model} has the range of ${range} miles.`;
+        },
+      },
+      result: "A Tesla Model 3 has the range of 300 miles.",
     },
   ],
   description: "Filter properties based on property name either with 'include' or 'exclude'",
