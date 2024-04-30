@@ -4,14 +4,15 @@ import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY
   ? new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-  })
+      apiKey: process.env.GROQ_API_KEY,
+    })
   : undefined;
 
 export const gloqAgent: AgentFunction<
   {
     model: string;
-    query: string;
+    query?: string;
+    system?: string;
   },
   Record<string, any> | string,
   string
@@ -19,13 +20,14 @@ export const gloqAgent: AgentFunction<
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
   const query = params?.query ? [params.query] : [];
   const content = query.concat(inputs).join("\n");
+  const messages = params?.system ? [{ role: "system", content: params.system }] : [];
+  messages.push({
+    role: "user",
+    content,
+  });
+  console.log(messages);
   const result = await groq.chat.completions.create({
-    messages: [
-      {
-        role: "user",
-        content,
-      },
-    ],
+    messages,
     model: params.model,
   });
   return result;
