@@ -98,6 +98,9 @@ export class GraphAI {
   }
 
   constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
+    if (!data.version) {
+      console.log("------------ no version");
+    }
     this.version = data.version ?? 0.2;
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
