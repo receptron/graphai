@@ -1,9 +1,12 @@
 import { AgentFunction } from "@/graphai";
 import { Groq } from "groq-sdk";
+import { assert } from "@/utils/utils";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+const groq = process.env.GROQ_API_KEY
+  ? new Groq({
+    apiKey: process.env.GROQ_API_KEY,
+  })
+  : undefined;
 
 export const gloqAgent: AgentFunction<
   {
@@ -13,6 +16,7 @@ export const gloqAgent: AgentFunction<
   Record<string, any> | string,
   string
 > = async ({ params }) => {
+  assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
   const result = await groq.chat.completions.create({
     messages: [
       {
