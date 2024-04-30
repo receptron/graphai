@@ -31,6 +31,7 @@ export class GraphAI {
   private readonly logs: Array<TransactionLog> = [];
   public readonly callbackDictonary: AgentFunctionDictonary;
   public readonly taskManager: TaskManager;
+  public readonly retryLimit?: number;
 
   public nodes: GraphNodes;
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
@@ -102,6 +103,7 @@ export class GraphAI {
       console.log("------------ no version");
     }
     this.version = data.version ?? 0.2;
+    this.retryLimit = data.retry; // optional
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
     this.callbackDictonary = callbackDictonary;
