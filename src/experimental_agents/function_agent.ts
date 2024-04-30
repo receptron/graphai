@@ -1,7 +1,6 @@
 import { AgentFunction } from "@/graphai";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const functionAgent: AgentFunction<{ function: Function }, any, any> = async ({ inputs, params }) => {
+export const functionAgent: AgentFunction<{ function: (...args: any[]) => any }> = async ({ inputs, params }) => {
   return params.function(...inputs);
 };
 
