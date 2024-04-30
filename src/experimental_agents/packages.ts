@@ -7,7 +7,6 @@ export * from "./test_agents/packages";
 export * from "./graph_agents/packages";
 export * from "./llm_agents/packages";
 
-// import slashGPTAgent from "./slashgpt_agent";
 import stringEmbeddingsAgent from "./embedding_agent";
 import tokenBoundStringsAgent from "./token_agent";
 
