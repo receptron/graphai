@@ -17,7 +17,8 @@ export type ResultDataDictonary<ResultType = DefaultResultData> = Record<string,
 export type DefaultParamsType = Record<string, any>;
 export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType;
 export type DataSource = {
-    nodeId: string;
+    nodeId?: string;
+    value?: any;
     propIds?: string[];
 };
 export type StaticNodeData = {
@@ -27,7 +28,7 @@ export type StaticNodeData = {
 };
 export type ComputedNodeData = {
     agentId: string;
-    inputs?: Array<string>;
+    inputs?: Array<any>;
     anyInput?: boolean;
     params?: NodeDataParams;
     retry?: number;
