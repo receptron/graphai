@@ -189,3 +189,51 @@ test("test bypass4", async () => {
 
   // console.log("COMPLETE 1");
 });
+
+///
+
+test("test bypass 5", async () => {
+  const graph_data = {
+    nodes: {
+      echo: {
+        agentId: "echoAgent",
+        params: {
+          message: "hello",
+        },
+      },
+      bypassAgent: {
+        agentId: "bypassAgent",
+        inputs: ["echo", "echo", "echo"],
+      },
+      bypassAgent2: {
+        agentId: "bypassAgent",
+        inputs: ["bypassAgent", "bypassAgent"],
+      },
+      bypassAgent3: {
+        agentId: "bypassAgent",
+        inputs: ["bypassAgent2", "bypassAgent2"],
+      },
+    },
+  };
+  const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
+  // console.log(JSON.stringify(result));
+  assert.deepStrictEqual(result, {
+    echo: { message: "hello" },
+    bypassAgent: [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+    bypassAgent2: [
+      [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+      [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+    ],
+    bypassAgent3: [
+      [
+        [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+        [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+      ],
+      [
+        [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+        [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+      ],
+    ],
+  });
+  // console.log("COMPLETE 1");
+});
