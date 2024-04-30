@@ -1,8 +1,14 @@
 import { AgentFunction } from "@/graphai";
 import { AgentFunctionInfo } from "@/type";
 
-export const bypassAgent: AgentFunction = async (context) => {
-  return context.inputs;
+export const bypassAgent: AgentFunction<{flat?: number, firstElement?: boolean}> = async ({params, inputs}) => {
+  if (params.firstElement) {
+    return inputs[0];
+  }
+  if (params.flat) {
+    return inputs.flat(params.flat || 1)
+  }
+  return inputs;
 };
 
 // for test and document
