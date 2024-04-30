@@ -32,7 +32,7 @@ const slashGPTAgentInfo = {
   mock: slashGPTAgent,
   samples: [],
   description: "Slash GPT Agent",
-  category: [],
+  category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

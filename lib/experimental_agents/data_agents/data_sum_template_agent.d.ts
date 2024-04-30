@@ -10,7 +10,7 @@ declare const dataSumTemplateAgentInfo: {
         result: number;
     }[];
     description: string;
-    category: never[];
+    category: string[];
     author: string;
     repository: string;
     license: string;

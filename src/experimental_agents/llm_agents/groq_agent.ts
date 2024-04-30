@@ -39,7 +39,7 @@ const gloqAgentInfo = {
   mock: gloqAgent,
   samples: [],
   description: "Groq Agent",
-  category: [],
+  category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
