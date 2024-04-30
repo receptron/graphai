@@ -6,13 +6,18 @@ export const sleep = async (milliseconds: number) => {
 
 export const parseNodeName = (inputNodeId: any): DataSource => {
   if (typeof inputNodeId === "string") {
+    const regex = /^"(.*)"$/;
+    const match = inputNodeId.match(regex);
+    if (match) {
+      return { value: match[1] }; // string literal
+    }
     const parts = inputNodeId.split(".");
     if (parts.length == 1) {
       return { nodeId: parts[0] };
     }
     return { nodeId: parts[0], propIds: parts.slice(1) };
   }
-  return { value: inputNodeId };
+  return { value: inputNodeId }; // non-string literal
 };
 
 export function assert(condition: boolean, message: string, isWarn: boolean = false): asserts condition {
