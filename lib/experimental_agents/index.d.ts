@@ -5,7 +5,6 @@ export * from "./array_agents";
 export * from "./matrix_agents";
 export * from "./test_agents";
 export * from "./graph_agents";
-export * from "./slashgpt_agent";
+export * from "./llm_agents";
 export * from "./embedding_agent";
 export * from "./token_agent";
-export * from "./groq_agent";

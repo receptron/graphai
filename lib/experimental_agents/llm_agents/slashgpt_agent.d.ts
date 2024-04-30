@@ -1,4 +1,4 @@
-import { AgentFunction } from "../graphai";
+import { AgentFunction } from "../../graphai";
 import { ManifestData, ChatData } from "slashgpt";
 export declare const slashGPTAgent: AgentFunction<{
     manifest: ManifestData;
