@@ -1,20 +1,21 @@
 import { AgentFunction } from "@/graphai";
 import deepmerge from "deepmerge";
 
-export const propertyFilterAgent: AgentFunction = async ({ inputs }) => {
-  return inputs.reduce((tmp, input) => {
-    return deepmerge(tmp, input);
+export const propertyFilterAgent: AgentFunction<{ includes: Array<string> }> = async ({ inputs, params }) => {
+  const [input] = inputs;
+  const { includes } = params;
+  return includes.reduce((tmp: Record<string, any>, propId) => {
+    tmp[propId] = input[propId];
+    return tmp;
   }, {});
 };
 
 // for test and document
 const sampleInputs = [
-  { a: 1, b: 1 },
-  { a: 2, b: 2 },
-  { a: 3, b: 0, c: 5 },
+  { color: "red", size: 1, type: "car" },
 ];
-const sampleParams = {};
-const sampleResult = { a: 3, b: 0, c: 5 };
+const sampleParams = { includes: ["color", "size"] };
+const sampleResult = { color: "red", size: 1 };
 
 const propertyFilterAgentInfo = {
   name: "propertyFilterAgent",
@@ -25,17 +26,6 @@ const propertyFilterAgentInfo = {
       inputs: sampleInputs,
       params: sampleParams,
       result: sampleResult,
-    },
-    {
-      inputs: [{ a: { b: { c: { d: "e" } } } }, { b: { c: { d: { e: "f" } } } }, { b: { d: { e: { f: "g" } } } }],
-      params: {},
-      result: {
-        a: { b: { c: { d: "e" } } },
-        b: {
-          c: { d: { e: "f" } },
-          d: { e: { f: "g" } },
-        },
-      },
     },
   ],
   description: "Filter properties",
