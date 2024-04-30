@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
 
 export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ inputs }) => {
-  const array = inputs[0].map((item) => item); // sharrow copy
+  const array = inputs[0].map((item) => item); // shallow copy
   array.push(inputs[1]);
   return array;
 };
