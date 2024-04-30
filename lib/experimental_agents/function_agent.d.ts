@@ -1,15 +1,15 @@
 import { AgentFunction } from "../graphai";
 export declare const functionAgent: AgentFunction<{
-    function: Function;
-}, any, any>;
+    function: (...args: any[]) => any;
+}>;
 declare const functionAgentInfo: {
     name: string;
     agent: AgentFunction<{
-        function: Function;
-    }, any, any>;
+        function: (...args: any[]) => any;
+    }>;
     mock: AgentFunction<{
-        function: Function;
-    }, any, any>;
+        function: (...args: any[]) => any;
+    }>;
     samples: ({
         inputs: {
             model: string;

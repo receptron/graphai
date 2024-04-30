@@ -8,4 +8,5 @@ export * from "./graph_agents/packages";
 export * from "./llm_agents/packages";
 import stringEmbeddingsAgent from "./embedding_agent";
 import tokenBoundStringsAgent from "./token_agent";
-export { stringEmbeddingsAgent, tokenBoundStringsAgent };
+import functionAgentInfo from "./function_agent";
+export { stringEmbeddingsAgent, tokenBoundStringsAgent, functionAgentInfo };
