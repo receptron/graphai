@@ -14,12 +14,14 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     if (nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
         const input = parseNodeName(inputNodeId).nodeId;
-        if (!nodeIds.has(input)) {
-          throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${input}`);
+        if (input) {
+          if (!nodeIds.has(input)) {
+            throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${input}`);
+          }
+          waitlist[input] === undefined && (waitlist[input] = new Set<string>());
+          pendings[computedNodeId].add(input);
+          waitlist[input].add(computedNodeId);
         }
-        waitlist[input] === undefined && (waitlist[input] = new Set<string>());
-        pendings[computedNodeId].add(input);
-        waitlist[input].add(computedNodeId);
       });
     }
   });
@@ -30,6 +32,9 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     const update = nodeData.update;
     if (update) {
       const updateNodeId = parseNodeName(update).nodeId;
+      if (!updateNodeId) {
+        throw new Error(`Update it a literal`);
+      }
       if (!nodeIds.has(updateNodeId)) {
         throw new Error(`Update not match: NodeId ${staticNodeId}, update: ${update}`);
       }
