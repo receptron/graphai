@@ -4,7 +4,7 @@ export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-export const parseNodeName = (inputNodeId: any, version: number = 0.2): DataSource => {
+export const parseNodeName = (inputNodeId: any, version: number): DataSource => {
   const parts = inputNodeId.split(".");
   if (parts.length == 1) {
     return { nodeId: parts[0] };
