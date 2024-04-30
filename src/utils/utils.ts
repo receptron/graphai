@@ -61,7 +61,7 @@ const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefine
   return result;
 };
 
-export const getDataFromSource = (result: ResultData, source: DataSource): ResultData | undefined => {
+export const getDataFromSource = (result: ResultData | undefined, source: DataSource): ResultData | undefined => {
   if (!source.nodeId) {
     return source.value;
   }

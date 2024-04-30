@@ -13,14 +13,14 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     pendings[computedNodeId] = new Set<string>();
     if (nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
-        const input = parseNodeName(inputNodeId).nodeId;
-        if (input) {
-          if (!nodeIds.has(input)) {
-            throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${input}`);
+        const sourceNodeId = parseNodeName(inputNodeId).nodeId;
+        if (sourceNodeId) {
+          if (!nodeIds.has(sourceNodeId)) {
+            throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
           }
-          waitlist[input] === undefined && (waitlist[input] = new Set<string>());
-          pendings[computedNodeId].add(input);
-          waitlist[input].add(computedNodeId);
+          waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
+          pendings[computedNodeId].add(sourceNodeId);
+          waitlist[sourceNodeId].add(computedNodeId);
         }
       });
     }
