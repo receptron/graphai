@@ -35,7 +35,7 @@ const graph_data: GraphData = {
       inputs: ["node2.$last.content"],
       isResult: true,
       params: {
-        firstElement: true
+        firstElement: true,
       },
     },
   },
