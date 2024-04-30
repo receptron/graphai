@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/graphai";
-import { rejectTest, fileTestRunner, graphDataTestRunner } from "~/utils/runner";
+import { rejectTest, graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
 
 import test from "node:test";
@@ -42,7 +42,7 @@ const graphData_literal = {
       params: {
         template: "${0}, ${1}, ${2}",
       },
-      inputs: ["source", '"orange"', undefined],
+      inputs: ["source", "\"orange\"", undefined],
       isResult: true,
     },
     step2: {

@@ -33,7 +33,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     if (update) {
       const updateNodeId = parseNodeName(update).nodeId;
       if (!updateNodeId) {
-        throw new Error(`Update it a literal`);
+        throw new Error("Update it a literal");
       }
       if (!nodeIds.has(updateNodeId)) {
         throw new Error(`Update not match: NodeId ${staticNodeId}, update: ${update}`);
