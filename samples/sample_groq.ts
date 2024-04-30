@@ -2,7 +2,7 @@ import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { sleeperAgent, gloqAgent } from "@/experimental_agents";
 
-const prompt =
+const query =
   "I'd like to write a paper about data flow programming for AI application, which involves multiple asynchronous calls, some of operations are done on other machines (distributed computing). Please come up with the title and an abstract for this paper.";
 
 const graph_data = {
@@ -11,7 +11,7 @@ const graph_data = {
       agentId: "gloqAgent",
       params: {
         model: "mixtral-8x7b-32768",
-        prompt,
+        query,
       },
       isResult: true,
     },
