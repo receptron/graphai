@@ -113,14 +113,13 @@ const graphdata_map3 = {
     },
     result: {
       agentId: "bypassAgent",
-      inputs: ["nestedNode.node1.$0"],
+      inputs: ["nestedNode.node1"],
     },
   },
 };
 
 test("test map 3", async () => {
   const result = await graphDataTestRunner("test_map3", graphdata_map3, defaultTestAgents);
-
   assert.deepStrictEqual(result.result, [[["hello"], ["hello2"]]]);
 });
 
