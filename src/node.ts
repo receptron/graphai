@@ -72,7 +72,7 @@ export class ComputedNode extends Node {
     this.params = data.params ?? {};
     this.nestedGraph = data.graph;
     this.agentId = data.agentId;
-    this.retryLimit = data.retry ?? 0;
+    this.retryLimit = data.retry ?? graph.retry ?? 0;
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
 
