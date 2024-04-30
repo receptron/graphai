@@ -77,8 +77,8 @@ export class ComputedNode extends Node {
     this.isResult = data.isResult ?? false;
 
     this.anyInput = data.anyInput ?? false;
-    this.dataSources = (data.inputs ?? []).map(parseNodeName);
-    this.pendings = new Set(this.dataSources.map((source) => source.nodeId));
+    this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input));
+    this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
     this.log.initForComputedNode(this);
   }
 

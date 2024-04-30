@@ -59,7 +59,7 @@ export class TransactionLog {
     this.state = node.state;
     this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
     this.startTime = transactionId;
-    this.inputs = node.dataSources.map((source) => source.nodeId);
+    this.inputs = node.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!);
     this.inputsData = inputs.length > 0 ? inputs : undefined;
     graph.setLoopLog(this);
     graph.appendLog(this);

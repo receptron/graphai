@@ -21,7 +21,8 @@ export type DefaultParamsType = Record<string, any>;
 export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType; // Agent-specific parameters
 
 export type DataSource = {
-  nodeId: string;
+  nodeId?: string;
+  value?: any;
   propIds?: string[];
 };
 
@@ -32,7 +33,7 @@ export type StaticNodeData = {
 };
 export type ComputedNodeData = {
   agentId: string;
-  inputs?: Array<string>;
+  inputs?: Array<any>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
   retry?: number;

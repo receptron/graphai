@@ -4,12 +4,20 @@ export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-export const parseNodeName = (inputNodeId: string): DataSource => {
-  const parts = inputNodeId.split(".");
-  if (parts.length == 1) {
-    return { nodeId: parts[0] };
+export const parseNodeName = (inputNodeId: any): DataSource => {
+  if (typeof inputNodeId === "string") {
+    const regex = /^"(.*)"$/;
+    const match = inputNodeId.match(regex);
+    if (match) {
+      return { value: match[1] }; // string literal
+    }
+    const parts = inputNodeId.split(".");
+    if (parts.length == 1) {
+      return { nodeId: parts[0] };
+    }
+    return { nodeId: parts[0], propIds: parts.slice(1) };
   }
-  return { nodeId: parts[0], propIds: parts.slice(1) };
+  return { value: inputNodeId }; // non-string literal
 };
 
 export function assert(condition: boolean, message: string, isWarn: boolean = false): asserts condition {
@@ -53,7 +61,10 @@ const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefine
   return result;
 };
 
-export const getDataFromSource = (result: ResultData, source: DataSource): ResultData | undefined => {
+export const getDataFromSource = (result: ResultData | undefined, source: DataSource): ResultData | undefined => {
+  if (!source.nodeId) {
+    return source.value;
+  }
   return innerGetDataFromSource(result, source.propIds);
 };
 
