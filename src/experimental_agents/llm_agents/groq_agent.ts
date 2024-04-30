@@ -4,8 +4,8 @@ import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY
   ? new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-  })
+      apiKey: process.env.GROQ_API_KEY,
+    })
   : undefined;
 
 export const gloqAgent: AgentFunction<
