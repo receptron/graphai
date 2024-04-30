@@ -24,11 +24,11 @@ type GraphNodes = Record<string, ComputedNode | StaticNode>;
 const defaultConcurrency = 8;
 
 export class GraphAI {
-  private readonly version: number;
   private readonly graphId: string;
   private readonly data: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
+  public readonly version: number;
   public readonly callbackDictonary: AgentFunctionDictonary;
   public readonly taskManager: TaskManager;
 
@@ -70,7 +70,7 @@ export class GraphAI {
   }
 
   private getValueFromResults(key: string, results: ResultDataDictonary<DefaultResultData>) {
-    const source = parseNodeName(key);
+    const source = parseNodeName(key, this.version);
     return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source);
   }
 
