@@ -1,17 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import {
-  AgentFunctionDictonary,
-  GraphData,
-  DataSource,
-  LoopData,
-  ResultDataDictonary,
-  ResultData,
-  DefaultResultData,
-  StaticNodeData,
-  ComputedNodeData,
-  NodeState,
-} from "@/type";
+import { AgentFunctionDictonary, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData, NodeState } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -44,12 +33,13 @@ export class GraphAI {
   // or we are about to start n-th iteration (n>2).
   private createNodes(data: GraphData) {
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
-      const isStaticNode = "value" in data.nodes[nodeId];
-      if (isStaticNode) {
-        _nodes[nodeId] = new StaticNode(nodeId, data.nodes[nodeId] as StaticNodeData, this);
-      } else {
-        const nodeData = data.nodes[nodeId] as ComputedNodeData;
+      const nodeData = data.nodes[nodeId];
+      if ("value" in nodeData) {
+        _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
+      } else if ("agentId" in nodeData) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
+      } else {
+        throw new Error("Unknown node: " + nodeId);
       }
       return _nodes;
     }, {});
