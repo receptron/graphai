@@ -10,6 +10,7 @@ nodes:
     agentId: nestedAgent
     inputs: [outer1]
     graph:
+      version: 0.2
       nodes:
         inner1:
           agentId: sleeperAgent
