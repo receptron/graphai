@@ -5,6 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_push = {
+  version: 0.2,
   nodes: {
     source: {
       value: { fruits: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"] },
@@ -13,6 +14,7 @@ const graphdata_push = {
       agentId: "mapAgent",
       inputs: ["source.fruits"],
       graph: {
+        version: 0.2,
         nodes: {
           node2: {
             agentId: "stringTemplateAgent",
@@ -46,6 +48,7 @@ test("test map 1", async () => {
 });
 
 const graphdata_map2 = {
+  version: 0.2,
   nodes: {
     source1: {
       value: { fruit: "apple" },
@@ -63,6 +66,7 @@ const graphdata_map2 = {
       agentId: "mapAgent",
       inputs: ["source1.fruit", "source2.fruit", "source3.fruit", "source4.fruit"],
       graph: {
+        version: 0.2,
         nodes: {
           node2: {
             agentId: "stringTemplateAgent",
@@ -89,6 +93,7 @@ test("test map 2", async () => {
 
 // nest graph and flat
 const graphdata_map3 = {
+  version: 0.2,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
@@ -97,6 +102,7 @@ const graphdata_map3 = {
       agentId: "mapAgent",
       inputs: ["source1"],
       graph: {
+        version: 0.2,
         nodes: {
           node1: {
             agentId: "bypassAgent",

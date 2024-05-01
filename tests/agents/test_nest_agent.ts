@@ -9,6 +9,7 @@ test("test nest agent", async () => {
     ...defaultTestContext,
     agents: { sleeperAgent },
     graphData: {
+      version: 0.2,
       nodes: {
         node1: {
           agentId: "sleeperAgent",
@@ -25,6 +26,7 @@ test("test nest agent", async () => {
 });
 
 const dynamic_graph = {
+  version: 0.2,
   nodes: {
     node1: {
       agentId: "sleeperAgent",
