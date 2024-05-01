@@ -9,6 +9,7 @@ test("test map_agent", async () => {
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
+      version: 0.2,
       nodes: {
         node2: {
           agentId: "stringTemplateAgent",
@@ -32,6 +33,7 @@ test("test map_agent 2", async () => {
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
+      version: 0.2,
       nodes: {
         node2: {
           agentId: "stringTemplateAgent",
@@ -55,6 +57,7 @@ test("test map_agent 3", async () => {
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
+      version: 0.2,
       nodes: {
         node2: {
           agentId: "stringTemplateAgent",

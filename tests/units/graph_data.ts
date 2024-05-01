@@ -1,4 +1,5 @@
 export const graph_data = {
+  version: 0.2,
   nodes: {
     echo: {
       agentId: "echoAgent",
@@ -18,6 +19,7 @@ export const graph_data = {
 };
 
 export const graph_injection_data = {
+  version: 0.2,
   nodes: {
     echo: {
       agentId: "echoAgent",

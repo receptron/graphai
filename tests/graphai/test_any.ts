@@ -6,6 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_any = {
+  version: 0.2,
   nodes: {
     source: {
       value: {},
@@ -61,6 +62,7 @@ test("test any no", async () => {
 });
 
 const graphdata_any2 = {
+  version: 0.2,
   nodes: {
     source1: {
       value: { apple: "red" },

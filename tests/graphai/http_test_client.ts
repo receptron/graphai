@@ -16,6 +16,7 @@ const httpClientAgent: AgentFunction<Record<string, string>> = async (context) =
 };
 
 const graph_data = {
+  version: 0.2,
   nodes: {
     node1: {
       params: {

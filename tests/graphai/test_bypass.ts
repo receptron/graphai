@@ -6,6 +6,7 @@ import assert from "node:assert";
 
 test("test bypass1", async () => {
   const graph_data = {
+    version: 0.2,
     nodes: {
       echo: {
         agentId: "echoAgent",
@@ -45,6 +46,7 @@ test("test bypass1", async () => {
 
 test("test bypass2", async () => {
   const graph_data = {
+    version: 0.2,
     nodes: {
       echo: {
         agentId: "echoAgent",
@@ -56,6 +58,7 @@ test("test bypass2", async () => {
         agentId: "mapAgent",
         inputs: ["echo.message"],
         graph: {
+          version: 0.2,
           nodes: {
             bypassAgent: {
               agentId: "bypassAgent",
@@ -86,6 +89,7 @@ test("test bypass2", async () => {
 
 test("test bypass3", async () => {
   const graph_data = {
+    version: 0.2,
     nodes: {
       echo: {
         agentId: "echoAgent",
@@ -97,6 +101,7 @@ test("test bypass3", async () => {
         agentId: "mapAgent",
         inputs: ["echo.message"],
         graph: {
+          version: 0.2,
           nodes: {
             bypassAgent: {
               agentId: "bypassAgent",
@@ -138,6 +143,7 @@ test("test bypass3", async () => {
 
 test("test bypass4", async () => {
   const graph_data = {
+    version: 0.2,
     nodes: {
       echo: {
         agentId: "echoAgent",
@@ -149,6 +155,7 @@ test("test bypass4", async () => {
         agentId: "mapAgent",
         inputs: ["echo.message"],
         graph: {
+          version: 0.2,
           nodes: {
             bypassAgent: {
               agentId: "bypassAgent",
@@ -194,6 +201,7 @@ test("test bypass4", async () => {
 
 test("test bypass 5", async () => {
   const graph_data = {
+    version: 0.2,
     nodes: {
       echo: {
         agentId: "echoAgent",

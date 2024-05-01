@@ -5,6 +5,7 @@ import test from "node:test";
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       computed1: {
         agentId: "echoAgent",
@@ -20,6 +21,7 @@ test("test computed node validation value", async () => {
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       computed1: {
         agentId: "echoAgent",
@@ -36,6 +38,7 @@ test("test computed node validation value", async () => {
 
 test("test no initial running node", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       computed1: {
         agentId: "echoAgent",
@@ -52,6 +55,7 @@ test("test no initial running node", async () => {
 
 test("test closed loop validation", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       computed1: {
         agentId: "echoAgent",
