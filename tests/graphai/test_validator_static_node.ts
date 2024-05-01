@@ -5,6 +5,7 @@ import test from "node:test";
 
 test("test static node validation inputs", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       static1: {
         value: {},
@@ -17,6 +18,7 @@ test("test static node validation inputs", async () => {
 
 test("test static node validation anyInput", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       static1: {
         value: {},
@@ -29,6 +31,7 @@ test("test static node validation anyInput", async () => {
 
 test("test static node validation params", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       static1: {
         value: {},
@@ -41,6 +44,7 @@ test("test static node validation params", async () => {
 
 test("test static node validation retry", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       static1: {
         value: {},
@@ -53,6 +57,7 @@ test("test static node validation retry", async () => {
 
 test("test static node validation timeout", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       static1: {
         value: {},
@@ -65,6 +70,7 @@ test("test static node validation timeout", async () => {
 
 test("test static node validation update", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       static1: {
         value: {},
@@ -80,6 +86,7 @@ test("test static node validation update", async () => {
 
 test("test static node validation update", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       static1: {
         value: {},

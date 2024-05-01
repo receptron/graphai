@@ -18,6 +18,7 @@ const dispatchAgentGenerator = (selectedNodeId: string) => {
 };
 
 const dispatchGraph = {
+  version: 0.2,
   nodes: {
     select1: {
       agentId: "dispatchAgent",
@@ -74,6 +75,7 @@ test("test select 2", async () => {
 });
 
 const dispatchGraph2 = {
+  version: 0.2,
   nodes: {
     select: {
       agentId: "dispatchAgent",

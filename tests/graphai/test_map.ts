@@ -119,6 +119,7 @@ test("test map 3", async () => {
 });
 
 const graphdata_map4 = {
+  version: 0.2,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
@@ -127,6 +128,7 @@ const graphdata_map4 = {
       agentId: "mapAgent",
       inputs: ["source1"],
       graph: {
+        version: 0.2,
         nodes: {
           node1: {
             agentId: "bypassAgent",
@@ -153,6 +155,7 @@ test("test map 4", async () => {
 });
 
 const graphdata_map5 = {
+  version: 0.2,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
@@ -161,6 +164,7 @@ const graphdata_map5 = {
       agentId: "mapAgent",
       inputs: ["source1"],
       graph: {
+        version: 0.2,
         nodes: {
           node1: {
             agentId: "bypassAgent",

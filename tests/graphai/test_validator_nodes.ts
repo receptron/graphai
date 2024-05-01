@@ -10,6 +10,7 @@ test("test validation no data", async () => {
 
 test("test validation nodes is array", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: [],
   });
   await rejectTest(graph_data, "Invalid Graph Data: nodes must be object");
@@ -17,6 +18,7 @@ test("test validation nodes is array", async () => {
 
 test("test validation nodes is empty", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {},
   });
   await rejectTest(graph_data, "Invalid Graph Data: nodes is empty");
@@ -24,6 +26,7 @@ test("test validation nodes is empty", async () => {
 
 test("test validation nodes is not object", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: "123",
   });
   await rejectTest(graph_data, "Invalid Graph Data: invalid nodes");
@@ -31,6 +34,7 @@ test("test validation nodes is not object", async () => {
 
 test("test validation invalid agent", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       invalidAgent: {
         agentId: "NonExistAgent",
@@ -42,6 +46,7 @@ test("test validation invalid agent", async () => {
 
 test("test validation invalid agent", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       nodeTest: {},
     },
@@ -51,6 +56,7 @@ test("test validation invalid agent", async () => {
 
 test("test validation invalid agent", async () => {
   const graph_data = anonymization({
+    version: 0.2,
     nodes: {
       nodeTest: {
         value: {},

@@ -6,6 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_counter = {
+  version: 0.2,
   loop: {
     count: 10,
   },
@@ -35,6 +36,7 @@ test("test counter", async () => {
 
 test("test counter2", async () => {
   const nested_graphdata = {
+    version: 0.2,
     loop: {
       count: 10,
     },
@@ -64,6 +66,7 @@ test("test counter2", async () => {
 
 test("test counter3", async () => {
   const nested_graphdata = {
+    version: 0.2,
     concurrency: 2,
     loop: {
       count: 10,
