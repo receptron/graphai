@@ -1,4 +1,4 @@
-import { GraphData, ComputedNodeData, StaticNodeData } from "@/type";
+import { GraphData } from "@/type";
 import { parseNodeName } from "@/utils/utils";
 
 export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
@@ -9,9 +9,9 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
 
   // validate input relation and set pendings and wait list
   computedNodeIds.forEach((computedNodeId) => {
-    const nodeData = data.nodes[computedNodeId] as ComputedNodeData;
+    const nodeData = data.nodes[computedNodeId];
     pendings[computedNodeId] = new Set<string>();
-    if (nodeData.inputs) {
+    if ("inputs" in nodeData && nodeData && nodeData.inputs) {
       nodeData.inputs.forEach((inputNodeId) => {
         const sourceNodeId = parseNodeName(inputNodeId).nodeId;
         if (sourceNodeId) {
@@ -28,9 +28,9 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
 
   // TODO. validate update
   staticNodeIds.forEach((staticNodeId) => {
-    const nodeData = data.nodes[staticNodeId] as StaticNodeData;
-    const update = nodeData.update;
-    if (update) {
+    const nodeData = data.nodes[staticNodeId];
+    if ("value" in nodeData && nodeData.update) {
+      const update = nodeData.update;
       const updateNodeId = parseNodeName(update).nodeId;
       if (!updateNodeId) {
         throw new Error("Update it a literal");
