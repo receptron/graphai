@@ -226,6 +226,16 @@ nodes:
     inputs: [result, query.content]
 ```
 
+```mermaid
+flowchart LR
+ result --> reducer(reducer)
+ people --> retriever(retriever)
+ retriever -- item --> query(query)
+ query -- content --> reducer
+ retriever -. array .-> people
+ reducer -.-> result
+```
+
 The *loop* mechanism is often used with a nested graph, which taks an array of data out the outer graph and performs the "reduction" process of a *map-reduce* operation, just like the example above.
 
 ### Mapping
