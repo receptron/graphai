@@ -23,5 +23,6 @@ export declare class TransactionLog {
     onInjected(node: StaticNode, graph: GraphAI, injectFrom?: string): void;
     onComplete(node: ComputedNode, graph: GraphAI, localLog: TransactionLog[]): void;
     beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, inputs: ResultData[]): void;
+    beforeAddTask(node: ComputedNode, graph: GraphAI): void;
     onError(node: ComputedNode, graph: GraphAI, errorMessage: string): void;
 }

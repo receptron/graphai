@@ -32,6 +32,7 @@ export declare class ComputedNode extends Node {
     isReadyNode(): boolean;
     private retry;
     private checkDataAvailability;
+    beforeAddTask(): void;
     removePending(nodeId: string): void;
     private isCurrentTransaction;
     private executeTimeout;
