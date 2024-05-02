@@ -11,8 +11,14 @@ export declare class TaskManager {
     prepareForNesting(): void;
     restoreAfterNesting(): void;
     getStatus(verbose?: boolean): {
-        runningNodes?: string[] | undefined;
-        queuedNodes?: string[] | undefined;
+        runningNodes: string[];
+        queuedNodes: string[];
+        concurrency: number;
+        queue: number;
+        running: number;
+    } | {
+        runningNodes?: undefined;
+        queuedNodes?: undefined;
         concurrency: number;
         queue: number;
         running: number;
