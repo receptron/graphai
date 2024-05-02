@@ -7,8 +7,7 @@ export declare enum NodeState {
     Failed = "failed",
     TimedOut = "timed-out",
     Completed = "completed",
-    Injected = "injected",
-    Dispatched = "dispatched"
+    Injected = "injected"
 }
 export type DefaultResultData = Record<string, any> | string | number | Array<DefaultResultData>;
 export type DefaultInputData = Record<string, any>;
