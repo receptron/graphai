@@ -56,6 +56,7 @@ export class ComputedNode extends Node {
   public retryCount: number = 0;
   public readonly agentId?: string;
   public readonly timeout?: number; // msec
+  public readonly priority: number;
   public error?: Error;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
@@ -75,6 +76,7 @@ export class ComputedNode extends Node {
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
+    this.priority = data.priority ?? 0;
 
     this.anyInput = data.anyInput ?? false;
     this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input));

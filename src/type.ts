@@ -39,6 +39,7 @@ export type ComputedNodeData = {
   timeout?: number; // msec
   graph?: GraphData;
   isResult?: boolean;
+  priority?: number; // The default is 0.
 };
 
 export type NodeData = StaticNodeData | ComputedNodeData;

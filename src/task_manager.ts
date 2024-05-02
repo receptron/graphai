@@ -36,7 +36,12 @@ export class TaskManager {
   // Node will call this method to put itself in the execution queue.
   // We call the associated callback function when it is dequeued.
   public addTask(node: ComputedNode, graphId: string, callback: (node: ComputedNode) => void) {
-    this.taskQueue.push({ node, graphId, callback });
+    // Finder tasks in the queue, which has either the same or higher priority.
+    const count = this.taskQueue.filter((task) => {
+      return task.node.priority >= node.priority;
+    }).length;
+    assert(count <= this.taskQueue.length, "TaskManager.addTask: Something is really wrong.");
+    this.taskQueue.splice(count, 0, { node, graphId, callback });
     this.dequeueTaskIfPossible();
   }
 
@@ -73,9 +78,9 @@ export class TaskManager {
       running: this.runningNodes.size,
       ...(verbose
         ? {
-          runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
-          queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
-        }
+            runningNodes: Array.from(this.runningNodes).map((node) => node.nodeId),
+            queuedNodes: this.taskQueue.map((task) => task.node.nodeId),
+          }
         : {}),
     };
   }
