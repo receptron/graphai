@@ -124,6 +124,12 @@ export class ComputedNode extends Node {
     return results.length > 0;
   }
 
+  // This method is called right before the Graph add this node to the task manager.
+  public beforeAddTask() {
+    this.state = NodeState.Queued;
+    this.log.beforeAddTask(this, this.graph);
+  }
+
   // This method is called when the data became available on one of nodes,
   // which this node needs data from.
   public removePending(nodeId: string) {

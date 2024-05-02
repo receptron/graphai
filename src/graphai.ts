@@ -173,7 +173,8 @@ export class GraphAI {
 
   // for computed
   public pushQueue(node: ComputedNode) {
-    node.state = NodeState.Queued;
+    node.beforeAddTask();
+
     this.taskManager.addTask(node, this.graphId, (_node) => {
       assert(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
       node.execute();
