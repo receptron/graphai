@@ -137,7 +137,42 @@ A *static* node have following properties.
 
 ## Flow Control
 
-Since the data-flow graph must be asyclic by design, we added a few mechanism to control data flows, [loop](#loop), [nesting](#nesting), [mapping](#mapping) and [condtional flow](#conditional-flow).
+Since the data-flow graph must be asyclic by design, we added a few mechanism to control data flows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [condtional flow](#conditional-flow).
+
+### Nesting
+
+In order to make it easy to reuse some code, GraphAI supports nesting. It requires a special agent function, which creates an instance (or instances) of GraphAI within the agent function and execute it. The system supports two types of nesting agent functions (nestAgent and mapAgent), but developers can create their own using the standard agent extension mechanism.
+
+A typical nesting graph looks like this:
+
+```YAML
+nodes:
+  question:
+    value: "Find out which pmaterials we need to purchase this week for Joe Smith's residential house project."
+  projectId: // identifies the projectId from the question
+    agentId: "identifierAgent"
+    inputs: ["source"] // == "sourceNode.query"
+  database:
+    agentId: "nestedAgent"
+    inputs: ["question", "projectId"]
+    graph:
+      nodes:
+        schema: // retrieves the database schema for the apecified projectId
+          agentId: "schemaAgent"
+          inputs: ["$1"]
+        ... // issue query to the database and build an appropriate prompt with it.
+        query: // send the generated prompt to the LLM
+          agentId: "llama3Agent"
+          inputs: ["prompt"]
+          isResult: true
+  responceNode: // Deliver the answer
+    agentid: "deliveryAgent"      
+    inputs: [database.query.$last.content]
+```
+
+The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes via phantom node, "$0" and "$1". After the completion of the inner graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
+
+This mechanism does not only allows devleoper to reuse code, but also makes it possible to execute the inner graph on another machine using a "remote" agent (which will be released later), enabling the *distributed execution* of nested graphs. 
 
 ### Loop
 
@@ -171,9 +206,7 @@ nodes:
     inputs: [result, query.content]
 ```
 
-### Nesting
-
-To be filled.
+The *loop* mechanism is often used with a nested graph, which taks an array of data out the outer graph and performs the "reduction" process of a *map-reduce* operation, just like the example above.
 
 ### Mapping
 
