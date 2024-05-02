@@ -20,7 +20,7 @@ nodes:
     value:
       name: Sam Bankman-Fried
       query: describe the final sentence by the court for Sam Bank-Fried
-  wikipedia: // Retrieve data from Wikipedia。
+  wikipedia: // Retrieve data from Wikipedia
     agentId: wikipediaAgent
     inputs: [source.name]
   chunks: // Break the text from Wikipedia into chunks(2048 character each with 512 overlap）
@@ -126,7 +126,9 @@ A *computed node* have following properties.
 - 'inputs': An optional list of *data sources* that the current node receives the data from. This establishes a data flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty, the associated *agent function* will be immediatley executed. 
 - 'anyInput': An optiona boolean flag, which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise, it will wait until all the data became available.
 - 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, the error will be recorded.
-- 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded. 
+- 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded.
+- 'isResult': An optional boolean value, which indicates that the return value of this node, should be included as a property of the return value from the run() method of the GraphUI instance.
+- 'priority': An optional number, which specifies the priority of the execution of the associated agent (the task). Default is 0, which means "neutral". Negative numbers are allowed as well.
 
 ### Static Node
 
@@ -170,9 +172,9 @@ nodes:
     inputs: [database.query.$last.content]
 ```
 
-The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes via phantom node, "$0" and "$1". After the completion of the inner graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
+The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, "$0" and "$1". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
 
-Here is the diagram of the outer graph.
+Here is the diagram of the parent graph.
 
 ```mermaid
 flowchart LR
@@ -182,7 +184,7 @@ flowchart LR
  database[[database]] -- query --> response(responce)
 ```
 
-Here is the diagram of the inner graph. Notice that two phantom nodes are automatically created to allow inner nodes to access input data from the outer graph.
+Here is the diagram of the child graph. Notice that two phantom nodes are automatically created to allow inner nodes to access input data from the parent graph.
 
 ```mermaid
 flowchart LR
@@ -192,7 +194,7 @@ flowchart LR
  ... --> query(query)
 ```
 
-This mechanism does not only allows devleoper to reuse code, but also makes it possible to execute the inner graph on another machine using a "remote" agent (which will be released later), enabling the *distributed execution* of nested graphs. 
+This mechanism does not only allows devleoper to reuse code, but also makes it possible to execute the child graph on another machine using a "remote" agent (which will be released later), enabling the *distributed execution* of nested graphs. 
 
 ### Loop
 
@@ -237,13 +239,13 @@ flowchart LR
  reducer -.-> result
 ```
 
-The *loop* mechanism is often used with a nested graph, which taks an array of data out the outer graph and performs the "reduction" process of a *map-reduce* operation, just like the example above.
+The *loop* mechanism is often used with a nested graph, which receives an array of data from a node of the parent graph and performs the "reduction" process of a *map-reduce* operation, just like the *reduce* method of JavaScript.
 
 Please notice that each iteration will be done sequencially unlike the *mapping* described below.
 
 ### Mapping
 
-The mapAgent is one of nested agents, which receives an array of data as an input (inputs[0]) and performs the same operation (described as an inner graph) on each item concurrently.
+The mapAgent is one of nested agents, which receives an array of data as an input (inputs[0]) and performs the same operation (specified by its graph property) on each item concurrently.
 
 If the size of array is N, the mapAgent creates N instances of GraphAI object, and run them concurrently.
 
@@ -279,15 +281,21 @@ flowchart LR
  query_1 --> retriever
  query_2 --> retriever
 ```
-### Map-Reduce
-
 ### Conditional Flow
 
 To be filled.
 
 ## Concurrency
 
-To be filled.
+It is possible to specify the maximum number of concurrent execution by setting the *concurrency* property of the graph at the top level. The default is 8.
+
+Since the task queue is shared between the parent graph and the children graph (uness the graph is running remotely), tasks created by the child graph will be bound by the same concurrency specified by the parent graph. 
+
+Since the task executing the nested graph will be in "running" state while tasks within the child graph are runnig, the concurrency limit will be incremented by one when we start running the child graph and restored when it is completed.
+
+By default, all the tasks will have a priority "0", which means neutral. By default, all the tasks will be executed in first-in first-out basis. 
+
+It is possible to change this priority by specifying Node's optional property "priority". The task with higher priority will be executed first. 
 
 ## GraphAI class
 
