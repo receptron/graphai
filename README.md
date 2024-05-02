@@ -141,7 +141,7 @@ Since the data-flow graph must be asyclic by design, we added a few mechanism to
 
 ### Nested Graph
 
-In order to make it easy to reuse some code, GraphAI supports nesting. It requires a special agent function, which creates an instance (or instances) of GraphAI within the agent function and execute it. The system supports two types of nesting agent functions (nestAgent and mapAgent), but developers can create their own using the standard agent extension mechanism.
+In order to make it easy to reuse some code, GraphAI supports nesting. It requires a special agent function, which creates an instance (or instances) of GraphAI object within the agent function and execute it. The system supports two types of nesting agent functions (nestAgent and mapAgent), but developers can create their own using the standard agent extension mechanism.
 
 A typical nesting graph looks like this:
 
@@ -212,6 +212,7 @@ nodes:
   result:
     value: []
     update: reducer
+    isResult: true
   retriever:
     agentId: shift
     inputs: [people]
@@ -238,22 +239,60 @@ flowchart LR
 
 The *loop* mechanism is often used with a nested graph, which taks an array of data out the outer graph and performs the "reduction" process of a *map-reduce* operation, just like the example above.
 
+Please notice that each iteration will be done sequencially unlike the *mapping* described below.
+
 ### Mapping
 
-To be filled.
+The mapAgent is one of nested agents, which receives an array of data as an input (inputs[0]) and performs the same operation (described as an inner graph) on each item concurrently.
 
+If the size of array is N, the mapAgent creates N instances of GraphAI object, and run them concurrently.
+
+After the completion of all of instances, the mapAgent returns an array of results, just like the map function of JavaScript. 
+
+The following graph will generate the same result (an array of answers) as the sample graph for the *loop*, but three queries will be issued concurretly. 
+
+```
+nodes:
+  people:
+    value: [Steve Jobs, Elon Musk, Nikola Tesla]
+  retriever:
+    agentId: "mapAgent"
+    inputs: ["people"]
+    graph:
+      nodes:
+        query:
+          agentId: slashgpt
+          params:
+            manifest:
+              prompt: Describe about the person in less than 100 words
+          inputs: ["$0"]
+```
+
+Here is the conceptual representation of this operation.
+
+```mermaid
+flowchart LR
+ people -- "[0]" --> query_0(query_0)
+ people -- "[1]" --> query_1(query_1)
+ people -- "[2]" --> query_2(query_2)
+ query_0 --> retriever[[retriever]]
+ query_1 --> retriever
+ query_2 --> retriever
+```
 ### Map-Reduce
 
+### Conditional Flow
+
 To be filled.
 
-### Conditional Flow
+## Concurrency
 
 To be filled.
 
 ## GraphAI class
 
 ### ```constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary)```
-Initializes a new instance of the GraphAI class with the specified graph data and a dictionary of callback functions.
+Initializes a new instance of the GraphAI object with the specified graph data and a dictionary of callback functions.
 
 - ```data: GraphData```: The graph data including nodes and optional concurrency limit.
 - ```callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>```: A dictionary mapping agent IDs to their respective callback functions, or a single default callback function to be used for all nodes.
