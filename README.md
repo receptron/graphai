@@ -61,17 +61,17 @@ nodes:
 
 ```mermaid
 flowchart TD
- source(source) -- name --> wikipedia
- source -- query --> topicEmbedding
- wikipedia --> chunks
- chunks --> chunksEmbeddings
- chunksEmbeddings --> similarities
+ source -- name --> wikipedia(wikipedia)
+ source -- query --> topicEmbedding(topicEmbedding)
+ wikipedia --> chunks(chunks)
+ chunks --> chunksEmbeddings(chunksEmbeddings)
+ chunksEmbeddings --> similarities(similarities)
  topicEmbedding --> similarities
- similarities --> sortedChunks
- sortedChunks --> resourceText
- source -- query --> prompt
+ similarities --> sortedChunks(sortedChunks)
+ sortedChunks --> resourceText(resourceText)
+ source -- query --> prompt(prompt)
  resourceText --> prompt
- prompt --> query
+ prompt --> query(query)
 ```
 
 Notice that the conversion of the querty text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
@@ -175,11 +175,21 @@ The databaseQuery node (which is associated "nestedAgent") takes the data from "
 Here is the diagram of the outer graph.
 
 ```mermaid
-flowchart TD
- question(question) --> projectId
+flowchart LR
+ question --> projectId(projectId)
  question --> database
  projectId --> database
- database[[database]] -- query --> response
+ database[[database]] -- query --> response(responce)
+```
+
+Here is the diagram of the inner graph. Notice that two phantom nodes are automatically created to allow inner nodes to access input data from the outer graph.
+
+```mermaid
+flowchart LR
+ $0 --> ...
+ $1 --> schema(schema)
+ schema --> ...(...)
+ ... --> query(query)
 ```
 
 This mechanism does not only allows devleoper to reuse code, but also makes it possible to execute the inner graph on another machine using a "remote" agent (which will be released later), enabling the *distributed execution* of nested graphs. 
