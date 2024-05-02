@@ -65,6 +65,12 @@ export class TransactionLog {
     graph.appendLog(this);
   }
 
+  public beforeAddTask(node: ComputedNode, graph: GraphAI) {
+    this.state = node.state;
+    graph.setLoopLog(this);
+    graph.appendLog(this);
+  }
+
   public onError(node: ComputedNode, graph: GraphAI, errorMessage: string) {
     this.state = node.state;
     this.errorMessage = errorMessage;
