@@ -8,7 +8,7 @@ As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.d
 
 Such *agentic applications* need to make multiple asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) and manage data dependencies among them, such as giving the answer from one LLM call to another -- which will become quite difficult to manage in a traditional programing style as the complexity of the application increases, because of the asynchronous nature of those APIs.
 
-GraphAI allows developers to describe dependencies among those agents (asynchronous API calls) in a data flow graph in YAML or JSON, which is called *declarative data flow programming* . The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, error handling, retries and logging. 
+GraphAI allows developers to describe dependencies among those agents (asynchronous API calls) in a data flow graph in YAML or JSON, which is called *declarative data flow programming* . The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, task priority management, map-reduce processing, error handling, retries and logging. 
 
 ## Declarative Data Flow Programming
 
@@ -176,6 +176,10 @@ nodes:
 To be filled.
 
 ### Mapping
+
+To be filled.
+
+### Map-Reduce
 
 To be filled.
 
