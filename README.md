@@ -23,7 +23,7 @@ nodes:
   wikipedia: // Retrieve data from Wikipedia
     agentId: wikipediaAgent
     inputs: [source.name]
-  chunks: // Break the text from Wikipedia into chunks(2048 character each with 512 overlap）
+  chunks: // Break the text from Wikipedia into chunks (2048 character each with 512 overlap）
     agentId: stringSplitterAgent
     inputs: [wikipedia]
   chunkEmbeddings: // Get embedding vector of each chunk
@@ -35,7 +35,7 @@ nodes:
   similarities: // Calculate the cosine similarity of each chunk
     agentId: dotProductAgent
     inputs: [chunkEmbeddings, topicEmbedding]
-  sortedChunks: // Sort chunks based on the similarity
+  sortedChunks: // Sort chunks based on their similarities
     agentId: sortByValuesAgent
     inputs: [chunks, similarities]
   referenceText: // Concatenate chunks up to the token limit (5000)
