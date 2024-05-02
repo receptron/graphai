@@ -21,6 +21,7 @@ export declare class ComputedNode extends Node {
     retryCount: number;
     readonly agentId?: string;
     readonly timeout?: number;
+    readonly priority: number;
     error?: Error;
     transactionId: undefined | number;
     readonly anyInput: boolean;

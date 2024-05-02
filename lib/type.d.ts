@@ -34,6 +34,7 @@ export type ComputedNodeData = {
     timeout?: number;
     graph?: GraphData;
     isResult?: boolean;
+    priority?: number;
 };
 export type NodeData = StaticNodeData | ComputedNodeData;
 export type LoopData = {
