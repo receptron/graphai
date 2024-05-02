@@ -139,7 +139,7 @@ A *static* node have following properties.
 
 Since the data-flow graph must be asyclic by design, we added a few mechanism to control data flows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [condtional flow](#conditional-flow).
 
-### Nesting
+### Nested Graph
 
 In order to make it easy to reuse some code, GraphAI supports nesting. It requires a special agent function, which creates an instance (or instances) of GraphAI within the agent function and execute it. The system supports two types of nesting agent functions (nestAgent and mapAgent), but developers can create their own using the standard agent extension mechanism.
 
@@ -165,12 +165,22 @@ nodes:
           agentId: "llama3Agent"
           inputs: ["prompt"]
           isResult: true
-  responceNode: // Deliver the answer
+  response: // Deliver the answer
     agentid: "deliveryAgent"      
     inputs: [database.query.$last.content]
 ```
 
 The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes via phantom node, "$0" and "$1". After the completion of the inner graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
+
+Here is the diagram of the outer graph.
+
+```mermaid
+flowchart TD
+ question(question) --> projectId
+ question --> database
+ projectId --> database
+ database[[database]] -- query --> response
+```
 
 This mechanism does not only allows devleoper to reuse code, but also makes it possible to execute the inner graph on another machine using a "remote" agent (which will be released later), enabling the *distributed execution* of nested graphs. 
 
