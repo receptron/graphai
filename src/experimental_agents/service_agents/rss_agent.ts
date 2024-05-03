@@ -18,7 +18,7 @@ const rssAgentInfo = {
   name: "rssAgent",
   agent: rssAgent,
   mock: rssAgent,
-  description: "Retrieves data from wikipedia",
+  description: "Retrieves XML data from RSS feed and convert it to JSON",
   category: ["data"],
   author: "Receptron",
   repository: "https://github.com/receptron/graphai",
