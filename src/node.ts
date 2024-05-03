@@ -201,6 +201,8 @@ export class ComputedNode extends Node {
 
       const result = await callback(context);
 
+      // hoge(context, hoge2)
+      
       if (this.nestedGraph) {
         this.graph.taskManager.restoreAfterNesting();
       }
