@@ -1,11 +1,9 @@
 import { AgentFunction } from "@/graphai";
 
-export const copyAgent: AgentFunction = async ({ inputs, params }) => {
+export const copyAgent: AgentFunction = async ({ inputs }) => {
   const [input] = inputs;
   return input;
 };
-
-const inputs = [{ color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 }];
 
 const copyAgentInfo = {
   name: "copyAgent",
