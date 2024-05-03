@@ -40,7 +40,7 @@ const graph_data = {
           query: {
             agentId: "gloqAgent",
             params: {
-              model: "Llama3-70b-8192", // "mixtral-8x7b-32768",
+              model: "Llama3-8b-8192", // "mixtral-8x7b-32768",
               query: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
             },
             inputs: ["template"],
