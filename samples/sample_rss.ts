@@ -1,11 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import {
-  rssAgent, 
-  propertyFilterAgent,
-  gloqAgent,
-} from "@/experimental_agents";
+import { rssAgent, propertyFilterAgent, gloqAgent, stringTemplateAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.2,
@@ -19,33 +15,52 @@ const graph_data = {
     },
     filter: {
       agentId: "propertyFilterAgent",
-      isResult: true,
       params: {
         include: ["title", "link", "content"],
       },
-      inputs: ["rssFeed.feed.entry.$1"]
+      inputs: ["rssFeed.feed.entry"],
     },
-    query: {
-      agentId: "gloqAgent",
-      params: {
-        model: "Llama3-70b-8192", // "mixtral-8x7b-32768",
-        query: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
-      },
+    map: {
+      agentId: "mapAgent",
+      inputs: ["filter"],
       isResult: true,
-      inputs: ["filter.content._"],
-    }
+      graph: {
+        version: 0.2,
+        nodes: {
+          template: {
+            agentId: "stringTemplateAgent",
+            params: {
+              template: "Title:${0}\n${1}",
+            },
+            inputs: ["$0.title", "$0.content._"],
+          },
+          query: {
+            agentId: "gloqAgent",
+            params: {
+              model: "Llama3-70b-8192", // "mixtral-8x7b-32768",
+              query: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
+            },
+            inputs: ["template"],
+          },
+          extractor: {
+            agentId: "propertyFilterAgent",
+            isResult: true,
+            inputs: ["query.choices.$0.message"],
+          },
+        },
+      },
+    },
   },
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
+  const result = (await graphDataTestRunner("sample_wiki.log", graph_data, {
     rssAgent,
     propertyFilterAgent,
-    gloqAgent
-  }) as any;
-  // console.log(result.rssFeed.feed.entry[0]);
-  console.log(result.filter);
-  console.log(result.query.choices);
+    gloqAgent,
+    stringTemplateAgent,
+  })) as any;
+  console.log(result.map.extractor);
 };
 if (process.argv[1] === __filename) {
   main();

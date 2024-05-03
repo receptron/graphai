@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
-import { parseStringPromise } from 'xml2js';
+import { parseStringPromise } from "xml2js";
 
-export const rssAgent: AgentFunction<{ }, any, string> = async ({ inputs }) => {
+export const rssAgent: AgentFunction<undefined, any, string> = async ({ inputs }) => {
   const url = inputs[0];
   try {
     const response = await fetch(url);
