@@ -42,7 +42,7 @@ export const nestedAgent: AgentFunction<{
     }
   });
 
-  const graphAI = new GraphAI(nestedGraphData, agents || {}, taskManager);
+  const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager });
 
   try {
     // Inject inputs to specified source nodes

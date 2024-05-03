@@ -1,6 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import { AgentFunctionDictonary, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
+import { AgentFunctionDictonary, AgentFunction, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -88,7 +88,11 @@ export class GraphAI {
     });
   }
 
-  constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager: TaskManager | undefined = undefined) {
+  constructor(
+    data: GraphData,
+    callbackDictonary: AgentFunctionDictonary,
+    options: { agentWrapper?: AgentFunction[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentWrapper: [] },
+  ) {
     if (!data.version) {
       console.log("------------ no version");
     }
@@ -97,7 +101,7 @@ export class GraphAI {
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
     this.callbackDictonary = callbackDictonary;
-    this.taskManager = taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
+    this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
