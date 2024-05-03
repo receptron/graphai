@@ -18,12 +18,15 @@ const graph_data = {
       params: {
         include: ["title", "link", "content"],
       },
-      inputs: ["rssFeed.feed.entry.$0"], // "".$0" to avoid rate limit for now
+      inputs: ["rssFeed.feed.entry"],
     },
     map: {
       agentId: "mapAgent",
       inputs: ["filter"],
       isResult: true,
+      params: {
+        limit: 8, // to avoid rate limit
+      },
       graph: {
         version: 0.2,
         nodes: {
