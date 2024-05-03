@@ -22,8 +22,8 @@ const graph_data = {
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
     rssAgent,
-  });
-  console.log(result);
+  }) as any;
+  console.log(result.fetcher.feed.entry[0]);
 };
 if (process.argv[1] === __filename) {
   main();

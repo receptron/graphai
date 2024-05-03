@@ -1,11 +1,13 @@
 import { AgentFunction } from "@/graphai";
+import { parseStringPromise } from 'xml2js';
 
 export const rssAgent: AgentFunction<{ }, any, string> = async ({ inputs }) => {
   const url = inputs[0];
   try {
     const response = await fetch(url);
     const xmlData = await response.text();
-    return xmlData;
+    const jsonData = await parseStringPromise(xmlData, { explicitArray: false, mergeAttrs: true });
+    return jsonData;
   } catch (error) {
     console.log(error);
     throw error;
