@@ -13,7 +13,6 @@ const graph_data = {
     },
     rssFeed: {
       agentId: "rssAgent",
-      isResult: true,
       inputs: ["url"],
     },
     filter: {
