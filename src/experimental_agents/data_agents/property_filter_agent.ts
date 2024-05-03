@@ -1,8 +1,6 @@
 import { AgentFunction } from "@/graphai";
 
-export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string> }> = async ({ inputs, params }) => {
-  const [input] = inputs;
-  const { include, exclude } = params;
+const applyFilter = (input: any, include: Array<string> | undefined, exclude: Array<string> | undefined) => {
   const propIds = include ? include : Object.keys(input);
   const excludeSet = new Set(exclude ?? []);
   return propIds.reduce((tmp: Record<string, any>, propId) => {
@@ -11,6 +9,12 @@ export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclu
     }
     return tmp;
   }, {});
+}
+
+export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string> }> = async ({ inputs, params }) => {
+  const [input] = inputs;
+  const { include, exclude } = params;
+  return applyFilter(input, include, exclude);
 };
 
 const inputs = [{ color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 }];

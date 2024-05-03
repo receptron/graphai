@@ -20,7 +20,7 @@ const graph_data = {
       agentId: "propertyFilterAgent",
       isResult: true,
       params: {
-        include: ["title"],
+        include: ["title"] // , "link", "content"],
       },
       inputs: ["rssFeed.feed.entry.$0"]
     }
