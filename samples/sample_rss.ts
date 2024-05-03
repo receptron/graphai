@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import {
-  rssAgent,
+  rssAgent, propertyFilterAgent,
 } from "@/experimental_agents";
 
 const graph_data = {
@@ -16,14 +16,24 @@ const graph_data = {
       isResult: true,
       inputs: ["url"],
     },
+    filter: {
+      agentId: "propertyFilterAgent",
+      isResult: true,
+      params: {
+        include: ["title"],
+      },
+      inputs: ["rssFeed.feed.entry.$0"]
+    }
   },
 };
 
 const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
     rssAgent,
+    propertyFilterAgent,
   }) as any;
-  console.log(result.rssFeed.feed.entry[0]);
+  // console.log(result.rssFeed.feed.entry[0]);
+  console.log(result.filter);
 };
 if (process.argv[1] === __filename) {
   main();
