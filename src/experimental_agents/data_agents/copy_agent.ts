@@ -1,0 +1,30 @@
+import { AgentFunction } from "@/graphai";
+
+export const copyAgent: AgentFunction = async ({ inputs, params }) => {
+  const [input] = inputs;
+  return input;
+};
+
+const inputs = [{ color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 }];
+
+const copyAgentInfo = {
+  name: "copyAgent",
+  agent: copyAgent,
+  mock: copyAgent,
+  samples: [
+    {
+      inputs: [{ color: "red", model: "Model 3" }],
+      result: { color: "red", model: "Model 3" },
+    },
+    {
+      inputs: ["Hello World"],
+      result: "Hello World",
+    },
+  ],
+  description: "Returns inputs[0]",
+  category: ["data"],
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default copyAgentInfo;

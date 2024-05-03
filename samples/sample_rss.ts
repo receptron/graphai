@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import { rssAgent, propertyFilterAgent, gloqAgent, stringTemplateAgent } from "@/experimental_agents";
+import { rssAgent, propertyFilterAgent, gloqAgent, stringTemplateAgent, copyAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.2,
@@ -18,7 +18,7 @@ const graph_data = {
       params: {
         include: ["title", "link", "content"],
       },
-      inputs: ["rssFeed.feed.entry"],
+      inputs: ["rssFeed.feed.entry.$0"], // "".$0" to avoid rate limit for now
     },
     map: {
       agentId: "mapAgent",
@@ -43,9 +43,9 @@ const graph_data = {
             inputs: ["template"],
           },
           extractor: {
-            agentId: "propertyFilterAgent",
+            agentId: "copyAgent",
             isResult: true,
-            inputs: ["query.choices.$0.message"],
+            inputs: ["query.choices.$0.message.content"],
           },
         },
       },
@@ -59,6 +59,7 @@ const main = async () => {
     propertyFilterAgent,
     gloqAgent,
     stringTemplateAgent,
+    copyAgent,
   })) as any;
   console.log(result.map.extractor);
 };
