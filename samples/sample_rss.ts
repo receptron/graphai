@@ -8,13 +8,13 @@ import {
 const graph_data = {
   version: 0.2,
   nodes: {
-    rssFeed: {
+    url: {
       value: "https://www.theverge.com/apple/rss/index.xml",
     },
-    fetcher: {
+    rssFeed: {
       agentId: "rssAgent",
       isResult: true,
-      inputs: ["rssFeed"],
+      inputs: ["url"],
     },
   },
 };
@@ -23,7 +23,7 @@ const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
     rssAgent,
   }) as any;
-  console.log(result.fetcher.feed.entry[0]);
+  console.log(result.rssFeed.feed.entry[0]);
 };
 if (process.argv[1] === __filename) {
   main();
