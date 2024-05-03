@@ -21,7 +21,7 @@ const graph_data = {
       params: {
         include: ["title"] // , "link", "content"],
       },
-      inputs: ["rssFeed.feed.entry"]
+      inputs: ["rssFeed.feed.entry.$0"]
     }
   },
 };
