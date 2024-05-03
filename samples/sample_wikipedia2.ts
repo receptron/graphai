@@ -1,7 +1,6 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import { wikipediaAgent } from "./agents/wikipedia";
 import {
   tokenBoundStringsAgent,
   sortByValuesAgent,
@@ -10,9 +9,11 @@ import {
   stringSplitterAgent,
   stringTemplateAgent,
   slashGPTAgent,
+  wikipediaAgent,
 } from "@/experimental_agents";
 
 const graph_data = {
+  version: 0.2,
   nodes: {
     source: {
       value: {

@@ -6,6 +6,7 @@ export * from "./matrix_agents";
 export * from "./test_agents";
 export * from "./graph_agents";
 export * from "./llm_agents";
+export * from "./service_agents";
 
 export * from "./embedding_agent";
 export * from "./token_agent";
