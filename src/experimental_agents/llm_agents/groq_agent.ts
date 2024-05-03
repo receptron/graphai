@@ -21,7 +21,6 @@ export const gloqAgent: AgentFunction<
     role: "user",
     content,
   });
-  console.log(messages);
   const result = await groq.chat.completions.create({
     messages,
     model: params.model,
