@@ -19,7 +19,16 @@ const simpleAgentFilter2: AgentFilterFunction = async (context, next) => {
   return next(context);
 };
 
-const agentFilters = [simpleAgentFilter1, simpleAgentFilter2];
+const agentFilters = [
+  {
+    name: "simpleAgentFilter1",
+    agent: simpleAgentFilter1,
+  },
+  {
+    name: "simpleAgentFilter2",
+    agent: simpleAgentFilter2,
+  },
+];
 const callbackDictonary = {};
 
 const graph_data = {

@@ -81,6 +81,11 @@ export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = Def
   agent: AgentFunction,
 ) => Promise<ResultData<ResultType>>;
 
+export type AgentFilterInfo = {
+  name: string;
+  agent: AgentFilterFunction;
+};
+
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 
 export type AgentFunctionInfo = {

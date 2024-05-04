@@ -1,6 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import { AgentFunctionDictonary, AgentFilterFunction, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
+import { AgentFunctionDictonary, AgentFilterInfo, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -20,7 +20,7 @@ export class GraphAI {
   private readonly logs: Array<TransactionLog> = [];
   public readonly callbackDictonary: AgentFunctionDictonary;
   public readonly taskManager: TaskManager;
-  public readonly agentFilters: AgentFilterFunction[];
+  public readonly agentFilters: AgentFilterInfo[];
   public readonly retryLimit?: number;
 
   public nodes: GraphNodes;
@@ -92,7 +92,7 @@ export class GraphAI {
   constructor(
     data: GraphData,
     callbackDictonary: AgentFunctionDictonary,
-    options: { agentFilters?: AgentFilterFunction[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
+    options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
   ) {
     if (!data.version) {
       console.log("------------ no version");

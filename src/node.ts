@@ -165,7 +165,7 @@ export class ComputedNode extends Node {
     const next = (context: AgentFunctionContext) => {
       const agentFilter = this.graph.agentFilters[index++];
       if (agentFilter) {
-        return agentFilter(context, next);
+        return agentFilter.agent(context, next);
       }
       return agent(context);
     };
