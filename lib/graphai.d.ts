@@ -1,5 +1,5 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
-import { AgentFunctionDictonary, GraphData, DataSource, ResultDataDictonary, ResultData, DefaultResultData } from "./type";
+import { AgentFunctionDictonary, AgentFilterInfo, GraphData, DataSource, ResultDataDictonary, ResultData, DefaultResultData } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, StaticNode } from "./node";
 import { TaskManager } from "./task_manager";
@@ -12,6 +12,7 @@ export declare class GraphAI {
     private readonly logs;
     readonly callbackDictonary: AgentFunctionDictonary;
     readonly taskManager: TaskManager;
+    readonly agentFilters: AgentFilterInfo[];
     readonly retryLimit?: number;
     nodes: GraphNodes;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
@@ -21,7 +22,10 @@ export declare class GraphAI {
     private createNodes;
     private getValueFromResults;
     private initializeNodes;
-    constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, taskManager?: TaskManager | undefined);
+    constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, options?: {
+        agentFilters?: AgentFilterInfo[] | undefined;
+        taskManager?: TaskManager | undefined;
+    });
     getCallback(agentId?: string): import("./type").AgentFunction<any, any, any>;
     asString(): string;
     results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T>;

@@ -49,7 +49,7 @@ export type GraphData = {
     verbose?: boolean;
     retry?: number;
 };
-export type AgentFunctionContext<ParamsType, InputDataType> = {
+export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData> = {
     params: NodeDataParams<ParamsType>;
     inputs: Array<InputDataType>;
     debugInfo: {
@@ -63,6 +63,11 @@ export type AgentFunctionContext<ParamsType, InputDataType> = {
     taskManager?: TaskManager;
 };
 export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>;
+export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
+export type AgentFilterInfo = {
+    name: string;
+    agent: AgentFilterFunction;
+};
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 export type AgentFunctionInfo = {
     name: string;
