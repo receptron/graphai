@@ -1,6 +1,6 @@
 export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
 
-import { AgentFunctionDictonary, AgentFunction, PluginAgentFunction, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
+import { AgentFunctionDictonary, AgentFilterFunction, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -20,7 +20,7 @@ export class GraphAI {
   private readonly logs: Array<TransactionLog> = [];
   public readonly callbackDictonary: AgentFunctionDictonary;
   public readonly taskManager: TaskManager;
-  public readonly pluginAgents: PluginAgentFunction[]; 
+  public readonly agentFilters: AgentFilterFunction[];
   public readonly retryLimit?: number;
 
   public nodes: GraphNodes;
@@ -92,7 +92,7 @@ export class GraphAI {
   constructor(
     data: GraphData,
     callbackDictonary: AgentFunctionDictonary,
-    options: { pluginAgents?: PluginAgentFunction[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, pluginAgents: [] },
+    options: { agentFilters?: AgentFilterFunction[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
   ) {
     if (!data.version) {
       console.log("------------ no version");
@@ -103,7 +103,7 @@ export class GraphAI {
     this.data = data;
     this.callbackDictonary = callbackDictonary;
     this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
-    this.pluginAgents = options.pluginAgents ?? [];
+    this.agentFilters = options.agentFilters ?? [];
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {

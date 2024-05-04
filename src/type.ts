@@ -76,11 +76,10 @@ export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultRe
   context: AgentFunctionContext<ParamsType, InputDataType>,
 ) => Promise<ResultData<ResultType>>;
 
-export type PluginAgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (
+export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (
   context: AgentFunctionContext<ParamsType, InputDataType>,
   agent: AgentFunction,
 ) => Promise<ResultData<ResultType>>;
-
 
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 

@@ -9,6 +9,7 @@ import {
   StaticNodeData,
   NodeState,
   AgentFunctionContext,
+  AgentFunction,
   DefaultParamsType,
   DefaultInputData,
 } from "@/type";
@@ -158,6 +159,20 @@ export class ComputedNode extends Node {
     }
   }
 
+  private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction) {
+    let index = 0;
+
+    const next = (context: AgentFunctionContext) => {
+      const agentFilter = this.graph.agentFilters[index++];
+      if (agentFilter) {
+        return agentFilter(context, next);
+      }
+      return agent(context);
+    };
+
+    return next(context);
+  }
+
   // This method is called when this computed node became ready to run.
   // It asynchronously calls the associated with agent function and set the result,
   // then it removes itself from the "running node" list of the graph.
@@ -199,10 +214,8 @@ export class ComputedNode extends Node {
         context.agents = this.graph.callbackDictonary;
       }
 
-      const result = await callback(context);
+      const result = await this.agentFilterHandler(context as AgentFunctionContext, callback);
 
-      // hoge(context, hoge2)
-      
       if (this.nestedGraph) {
         this.graph.taskManager.restoreAfterNesting();
       }
