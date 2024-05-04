@@ -20,3 +20,15 @@ export const wikipediaAgent: AgentFunction<{ lang?: string; summary?: boolean },
   }
   return;
 };
+
+const wikipediaAgentInfo = {
+  name: "wikipediaAgent",
+  agent: wikipediaAgent,
+  mock: wikipediaAgent,
+  description: "Retrieves data from wikipedia",
+  category: ["data"],
+  author: "Receptron",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+export default wikipediaAgentInfo;

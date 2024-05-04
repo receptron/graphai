@@ -5,6 +5,7 @@ import { getNestedGraphData } from "./nested_agent";
 export const mapAgent: AgentFunction<
   {
     injectionTo?: Array<string>;
+    limit?: number;
   },
   Record<string, Array<any>>,
   any
@@ -15,7 +16,10 @@ export const mapAgent: AgentFunction<
   }
 
   const nestedGraphData = getNestedGraphData(graphData, inputs);
-  const input = Array.isArray(inputs[0]) ? inputs[0] : inputs;
+  const input = (Array.isArray(inputs[0]) ? inputs[0] : inputs).map((item) => item);
+  if (params.limit && params.limit < input.length) {
+    input.length = params.limit; // trim
+  }
 
   const injectionTo =
     params.injectionTo ??
