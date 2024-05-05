@@ -1,6 +1,6 @@
 import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
-import { functionAgent } from "@/experimental_agents";
+import { functionAgent, copyAgent } from "@/experimental_agents";
 import { GraphAI } from "@/graphai";
 
 import test from "node:test";
@@ -29,7 +29,7 @@ const graphdata_any = {
       isResult: true,
     },
     destination: {
-      agentId: "sleeperAgent",
+      agentId: "copyAgent",
       isResult: true,
       inputs: ["source"],
     }
@@ -37,8 +37,15 @@ const graphdata_any = {
 };
 
 test("test any 1", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_any, { functionAgent, ...defaultTestAgents }, () => {}, false);
-  console.log(result);
+  const result = await graphDataTestRunner(__filename, graphdata_any, { functionAgent, copyAgent, ...defaultTestAgents }, () => {}, false);
+  const source = result.source as Foo;
+  console.log(typeof source);
+  console.log(Object.keys(source));
+  console.log(source.getMessage());  
+  const destination = result.destination as Foo;
+  console.log(typeof destination);
+  console.log(Object.keys(destination));
+  console.log(destination.getMessage());  
   // assert.deepStrictEqual(result, {});
 });
 
