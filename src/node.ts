@@ -10,6 +10,7 @@ import {
   NodeState,
   AgentFunctionContext,
   AgentFunction,
+  AgentFilterInfo,
   DefaultParamsType,
   DefaultInputData,
 } from "@/type";
@@ -55,7 +56,7 @@ export class ComputedNode extends Node {
   public readonly nestedGraph?: GraphData;
   public readonly retryLimit: number;
   public retryCount: number = 0;
-  public readonly agentId?: string;
+  public readonly agentId: string;
   public readonly timeout?: number; // msec
   public readonly priority: number;
   public error?: Error;
@@ -159,13 +160,30 @@ export class ComputedNode extends Node {
     }
   }
 
+  private applyAgentFilter(agentFilter: AgentFilterInfo) {
+    if (agentFilter.agentId && Array.isArray(agentFilter.agentId) && agentFilter.agentId.length > 0) {
+      if (agentFilter.agentId.includes(this.agentId)) {
+        return true;
+      }
+    }
+    if (agentFilter.nodeId && Array.isArray(agentFilter.nodeId) && agentFilter.nodeId.length > 0) {
+      if (agentFilter.nodeId.includes(this.nodeId)) {
+        return true;
+      }
+    }
+    return !agentFilter.agentId && !agentFilter.nodeId;
+  }
+
   private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction) {
     let index = 0;
 
-    const next = (context: AgentFunctionContext) => {
+    const next = (context: AgentFunctionContext): Promise<ResultData> => {
       const agentFilter = this.graph.agentFilters[index++];
       if (agentFilter) {
-        return agentFilter.agent(context, next);
+        if (this.applyAgentFilter(agentFilter)) {
+          return agentFilter.agent(context, next);
+        }
+        return next(context);
       }
       return agent(context);
     };

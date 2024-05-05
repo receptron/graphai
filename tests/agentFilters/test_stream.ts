@@ -41,7 +41,7 @@ const graph_data = {
       agentId: "streamMockAgent",
       params: {
         message: "this is streaming test1",
-        sleep: 100,
+        sleep: 10,
       },
       //inputs: [],
       isResult: true,
@@ -50,7 +50,7 @@ const graph_data = {
       agentId: "streamMockAgent",
       params: {
         message: "こんにちは。こちらはstreamingのテストです",
-        sleep: 200,
+        sleep: 20,
       },
       isResult: true,
     },
