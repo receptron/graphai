@@ -5,7 +5,7 @@ import test from "node:test";
 
 const nodes = {
   echo: {
-    agentId: "echoAgent",
+    agent: "echoAgent",
     params: {
       message: "hello",
     },

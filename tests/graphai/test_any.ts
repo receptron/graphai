@@ -12,13 +12,13 @@ const graphdata_any = {
       value: {},
     },
     positive: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
       inputs: ["source.yes"],
     },
     negative: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
       inputs: ["source.no"],
@@ -71,7 +71,7 @@ const graphdata_any2 = {
       value: { lemon: "yellow" },
     },
     router1: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       params: {
         duration: 10,
       },
@@ -79,7 +79,7 @@ const graphdata_any2 = {
       inputs: ["source1"],
     },
     router2: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       params: {
         duration: 100,
       },
@@ -87,7 +87,7 @@ const graphdata_any2 = {
       inputs: ["source2"],
     },
     receiver: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
       inputs: ["router1", "router2"],

@@ -6,8 +6,8 @@ import test from "node:test";
 import assert from "node:assert";
 
 const httpAgent: AgentFunction = async ({ inputs, params }) => {
-  const { agentId, params: postParams } = params;
-  const url = "http://localhost:8085/agents/" + agentId;
+  const { agent, params: postParams } = params;
+  const url = "http://localhost:8085/agents/" + agent;
 
   const postData = { inputs, params: postParams };
 
@@ -27,26 +27,26 @@ test("test bypass1", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         params: {
-          agentId: "echoAgent",
+          agent: "echoAgent",
           params: {
             message: "hello",
           },
         },
       },
       bypassAgent: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         inputs: ["echo"],
         params: {
-          agentId: "bypassAgent",
+          agent: "bypassAgent",
         },
       },
       bypassAgent2: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         inputs: ["bypassAgent.$0"],
         params: {
-          agentId: "bypassAgent",
+          agent: "bypassAgent",
         },
       },
     },
@@ -75,24 +75,24 @@ test("test bypass2", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         params: {
-          agentId: "echoAgent",
+          agent: "echoAgent",
           params: {
             message: ["hello", "hello"],
           },
         },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["echo.message"],
         graph: {
           version: 0.2,
           nodes: {
             bypassAgent: {
-              agentId: "httpAgent",
+              agent: "httpAgent",
               params: {
-                agentId: "bypassAgent",
+                agent: "bypassAgent",
                 params: {
                   firstElement: true,
                 },
@@ -104,9 +104,9 @@ test("test bypass2", async () => {
         },
       },
       bypassAgent2: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         params: {
-          agentId: "bypassAgent",
+          agent: "bypassAgent",
         },
         inputs: ["mapNode.bypassAgent"],
       },
@@ -127,38 +127,38 @@ test("test bypass3", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         params: {
-          agentId: "echoAgent",
+          agent: "echoAgent",
           params: {
             message: ["hello", "hello"],
           },
         },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["echo.message"],
         graph: {
           version: 0.2,
           nodes: {
             bypassAgent: {
-              agentId: "httpAgent",
+              agent: "httpAgent",
               params: {
-                agentId: "bypassAgent",
+                agent: "bypassAgent",
               },
               inputs: ["$0"],
             },
             bypassAgent2: {
-              agentId: "httpAgent",
+              agent: "httpAgent",
               params: {
-                agentId: "bypassAgent",
+                agent: "bypassAgent",
               },
               inputs: ["bypassAgent.$0"],
             },
             bypassAgent3: {
-              agentId: "httpAgent",
+              agent: "httpAgent",
               params: {
-                agentId: "bypassAgent",
+                agent: "bypassAgent",
                 params: {
                   firstElement: true,
                 },
@@ -170,9 +170,9 @@ test("test bypass3", async () => {
         },
       },
       bypassAgent4: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         params: {
-          agentId: "bypassAgent",
+          agent: "bypassAgent",
           params: {
             firstElement: true,
           },
@@ -196,16 +196,16 @@ test("test bypass4", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         params: {
-          agentId: "echoAgent",
+          agent: "echoAgent",
           params: {
             message: ["hello", "hello"],
           },
         },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["echo.message"],
         params: {
           injectionTo: ["memory"],
@@ -217,16 +217,16 @@ test("test bypass4", async () => {
               value: {},
             },
             bypassAgent: {
-              agentId: "httpAgent",
+              agent: "httpAgent",
               params: {
-                agentId: "bypassAgent",
+                agent: "bypassAgent",
               },
               inputs: ["memory"],
             },
             bypassAgent2: {
-              agentId: "httpAgent",
+              agent: "httpAgent",
               params: {
-                agentId: "bypassAgent",
+                agent: "bypassAgent",
               },
               inputs: ["bypassAgent.$0", "memory"],
               isResult: true,
@@ -235,9 +235,9 @@ test("test bypass4", async () => {
         },
       },
       bypassAgent3: {
-        agentId: "httpAgent",
+        agent: "httpAgent",
         params: {
-          agentId: "bypassAgent",
+          agent: "bypassAgent",
           firstElement: true,
         },
         inputs: ["mapNode.bypassAgent2"],

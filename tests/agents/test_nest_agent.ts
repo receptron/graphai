@@ -12,7 +12,7 @@ test("test nest agent", async () => {
       version: 0.2,
       nodes: {
         node1: {
-          agentId: "sleeperAgent",
+          agent: "sleeperAgent",
           inputs: ["$0", "$1", "$2"],
           isResult: true,
         },
@@ -29,7 +29,7 @@ const dynamic_graph = {
   version: 0.2,
   nodes: {
     node1: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       inputs: ["$1", "$2", "$3"],
       isResult: true,
     },

@@ -9,14 +9,14 @@ const graphData = {
   version: 0.2,
   nodes: {
     input: {
-      agentId: "testAgent",
+      agent: "testAgent",
     },
     test: {
-      agentId: "testAgent",
+      agent: "testAgent",
       inputs: ["input"],
     },
     test2: {
-      agentId: "testAgent",
+      agent: "testAgent",
       inputs: ["test.hoge"],
     },
   },
@@ -40,7 +40,7 @@ const graphData_literal = {
       value: { apple: "red" },
     },
     step1: {
-      agentId: "stringTemplateAgent",
+      agent: "stringTemplateAgent",
       params: {
         template: "${0}, ${1}, ${2}",
       },
@@ -48,7 +48,7 @@ const graphData_literal = {
       isResult: true,
     },
     step2: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       inputs: ["source2", { lemon: "yellow" }],
       isResult: true,
     },

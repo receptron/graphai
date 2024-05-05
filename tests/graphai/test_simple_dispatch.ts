@@ -21,13 +21,13 @@ const dispatchGraph = {
   version: 0.2,
   nodes: {
     select1: {
-      agentId: "dispatchAgent",
+      agent: "dispatchAgent",
     },
     select2: {
-      agentId: "dispatchAgent",
+      agent: "dispatchAgent",
     },
     ghost: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       params: {
         duration: 20,
       },
@@ -35,15 +35,15 @@ const dispatchGraph = {
       anyInput: true,
     },
     node: {
-      agentId: "mergeNodeIdAgent",
+      agent: "mergeNodeIdAgent",
     },
     merge: {
       inputs: ["node", "ghost"],
-      agentId: "mergeNodeIdAgent",
+      agent: "mergeNodeIdAgent",
     },
     result: {
       inputs: ["merge"],
-      agentId: "mergeNodeIdAgent",
+      agent: "mergeNodeIdAgent",
     },
   },
 };
@@ -78,10 +78,10 @@ const dispatchGraph2 = {
   version: 0.2,
   nodes: {
     select: {
-      agentId: "dispatchAgent",
+      agent: "dispatchAgent",
     },
     ghost1: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       params: {
         duration: 20,
       },
@@ -89,7 +89,7 @@ const dispatchGraph2 = {
       anyInput: true,
     },
     ghost2: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       params: {
         duration: 20,
       },
@@ -97,7 +97,7 @@ const dispatchGraph2 = {
       anyInput: true,
     },
     ghost3: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       params: {
         duration: 20,
       },
@@ -106,15 +106,15 @@ const dispatchGraph2 = {
     },
     result1: {
       inputs: ["ghost1"],
-      agentId: "mergeNodeIdAgent",
+      agent: "mergeNodeIdAgent",
     },
     result2: {
       inputs: ["ghost2"],
-      agentId: "mergeNodeIdAgent",
+      agent: "mergeNodeIdAgent",
     },
     result3: {
       inputs: ["ghost3"],
-      agentId: "mergeNodeIdAgent",
+      agent: "mergeNodeIdAgent",
     },
   },
 };

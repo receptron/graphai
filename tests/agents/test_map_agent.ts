@@ -12,7 +12,7 @@ test("test map_agent", async () => {
       version: 0.2,
       nodes: {
         node2: {
-          agentId: "stringTemplateAgent",
+          agent: "stringTemplateAgent",
           params: {
             template: "I love ${0}.",
           },
@@ -36,7 +36,7 @@ test("test map_agent 2", async () => {
       version: 0.2,
       nodes: {
         node2: {
-          agentId: "stringTemplateAgent",
+          agent: "stringTemplateAgent",
           params: {
             template: "I love ${0}.",
           },
@@ -60,7 +60,7 @@ test("test map_agent 3", async () => {
       version: 0.2,
       nodes: {
         node2: {
-          agentId: "stringTemplateAgent",
+          agent: "stringTemplateAgent",
           params: {
             template: "${1} ${2} ${0}.",
           },

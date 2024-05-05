@@ -37,7 +37,7 @@ test("test validation invalid agent", async () => {
     version: 0.2,
     nodes: {
       invalidAgent: {
-        agentId: "NonExistAgent",
+        agent: "NonExistAgent",
       },
     },
   });
@@ -60,7 +60,7 @@ test("test validation invalid agent", async () => {
     nodes: {
       nodeTest: {
         value: {},
-        agentId: "123",
+        agent: "123",
       },
     },
   });

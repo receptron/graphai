@@ -8,7 +8,7 @@ const query =
 const graph_data = {
   nodes: {
     query: {
-      agentId: "gloqAgent",
+      agent: "gloqAgent",
       params: {
         model: "mixtral-8x7b-32768",
         query,
@@ -16,7 +16,7 @@ const graph_data = {
       isResult: true,
     },
     answer: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       inputs: ["query.choices.$0.message"],
     },
   },

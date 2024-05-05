@@ -32,13 +32,13 @@ const graph_data = {
   version: 0.2,
   nodes: {
     echo: {
-      agentId: "echoAgent",
+      agent: "echoAgent",
       params: {
         message: "hello",
       },
     },
     streamMockAgent: {
-      agentId: "streamMockAgent",
+      agent: "streamMockAgent",
       params: {
         message: "this is streaming test1",
         sleep: 10,
@@ -47,7 +47,7 @@ const graph_data = {
       isResult: true,
     },
     streamMockAgent2: {
-      agentId: "streamMockAgent",
+      agent: "streamMockAgent",
       params: {
         message: "こんにちは。こちらはstreamingのテストです",
         sleep: 20,

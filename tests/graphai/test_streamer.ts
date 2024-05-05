@@ -32,7 +32,7 @@ const graphdata_any = {
       value: theMessage,
     },
     source: {
-      agentId: "functionAgent",
+      agent: "functionAgent",
       params: {
         function: (message: string) => {
           return new WordStreamer(message);
@@ -41,7 +41,7 @@ const graphdata_any = {
       inputs: ["message"],
     },
     destination: {
-      agentId: "functionAgent",
+      agent: "functionAgent",
       params: {
         function: (streamer: WordStreamer) => {
           const words = new Array<string>();

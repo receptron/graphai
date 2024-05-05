@@ -20,7 +20,7 @@ const graph_data: GraphData = {
       value: { content: "Turn on the light in the kitchen" },
     },
     node2: {
-      agentId: "slashGPTAgent",
+      agent: "slashGPTAgent",
       inputs: ["node1.content"],
       params: {
         manifest: {
@@ -31,7 +31,7 @@ const graph_data: GraphData = {
       },
     },
     node3: {
-      agentId: "bypassAgent",
+      agent: "bypassAgent",
       inputs: ["node2.$last.content"],
       isResult: true,
       params: {

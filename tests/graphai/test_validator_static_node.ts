@@ -77,7 +77,7 @@ test("test static node validation update", async () => {
         update: "unknown",
       },
       computed1: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
       },
     },
   });
@@ -93,7 +93,7 @@ test("test static node validation update", async () => {
         update: "unknown.param1",
       },
       computed1: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
       },
     },
   });

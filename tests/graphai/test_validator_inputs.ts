@@ -8,10 +8,10 @@ test("test computed node validation value", async () => {
     version: 0.2,
     nodes: {
       computed1: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
       },
       computed2: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         inputs: ["dummy"],
       },
     },
@@ -24,11 +24,11 @@ test("test computed node validation value", async () => {
     version: 0.2,
     nodes: {
       computed1: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         inputs: ["computed2"],
       },
       computed2: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         inputs: ["computed1"],
       },
     },
@@ -41,11 +41,11 @@ test("test no initial running node", async () => {
     version: 0.2,
     nodes: {
       computed1: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         inputs: ["computed2"],
       },
       computed2: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         inputs: ["computed1"],
       },
     },
@@ -58,14 +58,14 @@ test("test closed loop validation", async () => {
     version: 0.2,
     nodes: {
       computed1: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
       },
       computed2: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         inputs: ["computed1"],
       },
       computed3: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         inputs: ["computed3"],
       },
     },
