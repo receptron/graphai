@@ -11,12 +11,7 @@ class Foo {
   }
 
   public pushWord(word: string | undefined) {
-    console.log(word);
     this.on(word);
-  }
-
-  public getMessage() {
-    return "abc";
   }
 }
 
@@ -53,12 +48,9 @@ const graphdata_any = {
       params: {
         function: (foo: Foo) => {
           const words = new Array<string>();
-          console.log("*****");
           return new Promise((resolve) => {
             foo.on = (word: string | undefined) => {
-              console.log("*****2");
               if (word) {
-                console.log("received", word);
                 words.push(word);
               } else {
                 resolve(words.join(' '));
