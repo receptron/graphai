@@ -6,12 +6,24 @@ import test from "node:test";
 import assert from "node:assert";
 
 class WordStreamer {
-  public on = (__word: string | undefined) => {};
-  constructor() {
+  public onWord = (__word: string | undefined) => {};
+
+  constructor(message: string) {
+    const words = message.split(' ');
+    const streamSimulator = () => {
+      setTimeout(() => {
+        const word = words.shift();
+        this.pushWord(word);
+        if (word) {
+          streamSimulator();
+        }
+      }, 200);
+    };
+    streamSimulator();
   }
 
   public pushWord(word: string | undefined) {
-    this.on(word);
+    this.onWord(word);
   }
 }
 
@@ -27,20 +39,7 @@ const graphdata_any = {
       agentId: "functionAgent",
       params: {
         function: (message: string) => {
-          const words = message.split(' ');
-          const streamer = new WordStreamer();
-          const streamSimulator = () => {
-            setTimeout(() => {
-              const word = words.shift();
-              streamer.pushWord(word);
-              if (word) {
-                streamSimulator();
-              }
-            }, 200);
-          };
-          streamSimulator();
-
-          return streamer;
+          return new WordStreamer(message);
         },
       },
       inputs: ["message"],
@@ -51,7 +50,7 @@ const graphdata_any = {
         function: (streamer: WordStreamer) => {
           const words = new Array<string>();
           return new Promise((resolve) => {
-            streamer.on = (word: string | undefined) => {
+            streamer.onWord = (word: string | undefined) => {
               if (word) {
                 words.push(word);
               } else {
