@@ -19,7 +19,8 @@ export declare class ComputedNode extends Node {
     readonly nestedGraph?: GraphData;
     readonly retryLimit: number;
     retryCount: number;
-    readonly agentId: string;
+    private readonly agentId?;
+    private readonly agentFunction?;
     readonly timeout?: number;
     readonly priority: number;
     error?: Error;
@@ -30,6 +31,7 @@ export declare class ComputedNode extends Node {
     readonly isStaticNode = false;
     readonly isComputedNode = true;
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
+    getAgentId(): string;
     isReadyNode(): boolean;
     private retry;
     private checkDataAvailability;
