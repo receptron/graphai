@@ -37,7 +37,7 @@ export declare class ComputedNode extends Node {
     removePending(nodeId: string): void;
     private isCurrentTransaction;
     private executeTimeout;
-    private applyAgentFilter;
+    private shouldApplyAgentFilter;
     private agentFilterHandler;
     execute(): Promise<void>;
     private prepareExecute;
