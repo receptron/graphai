@@ -16,7 +16,7 @@ const graphdata_push = {
       update: "reducer",
     },
     item: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       params: {
         duration: 10,
         value: "hello",
@@ -24,7 +24,7 @@ const graphdata_push = {
     },
     reducer: {
       isResult: true,
-      agentId: "pushAgent",
+      agent: "pushAgent",
       inputs: ["array", "item"],
     },
   },
@@ -55,10 +55,10 @@ const graphdata_pop = {
     },
     popper: {
       inputs: ["source"],
-      agentId: "popAgent", // returns { array, item }
+      agent: "popAgent", // returns { array, item }
     },
     reducer: {
-      agentId: "pushAgent",
+      agent: "pushAgent",
       inputs: ["result", "popper.item"],
     },
   },

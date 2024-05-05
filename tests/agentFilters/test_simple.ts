@@ -26,14 +26,14 @@ test("test agent filter", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: "hello",
           filter: [],
         },
       },
       bypassAgent: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["echo"],
         isResult: true,
       },
@@ -61,14 +61,14 @@ test("test agent filter with agent condition", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: "hello",
           filter: [],
         },
       },
       bypassAgent: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["echo"],
         isResult: true,
       },
@@ -97,14 +97,14 @@ test("test agent filter with agent condition", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: "hello",
           filter: [],
         },
       },
       bypassAgent: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["echo"],
         isResult: true,
       },

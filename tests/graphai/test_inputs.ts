@@ -14,7 +14,7 @@ const graphdata_inputs = {
       value: { fruits: { lemon: "yellow" } },
     },
     total: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       inputs: ["apple", "lemon", "apple.fruits", "lemon.fruits"],
     },
   },

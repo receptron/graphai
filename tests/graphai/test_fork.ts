@@ -36,15 +36,15 @@ test("test fork 1", async () => {
     version: 0.2,
     nodes: {
       node1: {
-        agentId: "testAgent1a",
+        agent: "testAgent1a",
       },
       node2: {
-        agentId: "copy2ArrayAgent",
+        agent: "copy2ArrayAgent",
         params: { count: 10 },
         inputs: ["node1"],
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["node2"],
         params: {
           injectionTo: ["buffer"],
@@ -56,11 +56,11 @@ test("test fork 1", async () => {
               value: {},
             },
             node2: {
-              agentId: "testAgent1a",
+              agent: "testAgent1a",
               inputs: ["buffer"],
             },
             node3: {
-              agentId: "testAgent1a",
+              agent: "testAgent1a",
               inputs: ["node2"],
               isResult: true,
             },
@@ -110,29 +110,29 @@ test("test fork 2", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "copyMessageAgent",
+        agent: "copyMessageAgent",
         params: {
           message: "hello",
           count: 10,
         },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["echo.messages"],
         graph: {
           version: 0.2,
           nodes: {
             node1: {
-              agentId: "testAgent1",
+              agent: "testAgent1",
               params: {},
             },
             node2: {
-              agentId: "testAgent1",
+              agent: "testAgent1",
               params: {},
               inputs: ["node1"],
             },
             node3: {
-              agentId: "testAgent1",
+              agent: "testAgent1",
               params: {},
               inputs: ["node2"],
               isResult: true,
@@ -174,7 +174,7 @@ test("test fork 3", async () => {
         value: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["source.content"],
         params: {
           injectionTo: ["workingMemory"],
@@ -186,11 +186,11 @@ test("test fork 3", async () => {
               value: {},
             },
             forked: {
-              agentId: "sleeperAgent",
+              agent: "sleeperAgent",
               inputs: ["workingMemory.level1"],
             },
             forked2: {
-              agentId: "sleeperAgent",
+              agent: "sleeperAgent",
               inputs: ["forked"],
               isResult: true,
             },
@@ -198,7 +198,7 @@ test("test fork 3", async () => {
         },
       },
       bypassAgent: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["mapNode"],
       },
     },

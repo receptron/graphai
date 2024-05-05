@@ -11,13 +11,13 @@ const graphdata_push = {
       value: { fruits: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"] },
     },
     nestedNode: {
-      agentId: "mapAgent",
+      agent: "mapAgent",
       inputs: ["source.fruits"],
       graph: {
         version: 0.2,
         nodes: {
           node2: {
-            agentId: "stringTemplateAgent",
+            agent: "stringTemplateAgent",
             params: {
               template: "I love ${0}.",
             },
@@ -28,7 +28,7 @@ const graphdata_push = {
       },
     },
     result: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       inputs: ["nestedNode.node2"],
     },
   },
@@ -63,13 +63,13 @@ const graphdata_map2 = {
       value: { fruit: "lemon" },
     },
     nestedNode: {
-      agentId: "mapAgent",
+      agent: "mapAgent",
       inputs: ["source1.fruit", "source2.fruit", "source3.fruit", "source4.fruit"],
       graph: {
         version: 0.2,
         nodes: {
           node2: {
-            agentId: "stringTemplateAgent",
+            agent: "stringTemplateAgent",
             params: {
               template: "I love ${0}.",
             },
@@ -80,7 +80,7 @@ const graphdata_map2 = {
       },
     },
     result: {
-      agentId: "sleeperAgent",
+      agent: "sleeperAgent",
       inputs: ["nestedNode.node2"],
     },
   },
@@ -99,13 +99,13 @@ const graphdata_map3 = {
       value: ["hello", "hello2"],
     },
     nestedNode: {
-      agentId: "mapAgent",
+      agent: "mapAgent",
       inputs: ["source1"],
       graph: {
         version: 0.2,
         nodes: {
           node1: {
-            agentId: "bypassAgent",
+            agent: "bypassAgent",
             inputs: ["$0"],
             isResult: true,
           },
@@ -113,7 +113,7 @@ const graphdata_map3 = {
       },
     },
     result: {
-      agentId: "bypassAgent",
+      agent: "bypassAgent",
       inputs: ["nestedNode.node1"],
     },
   },
@@ -131,13 +131,13 @@ const graphdata_map4 = {
       value: ["hello", "hello2"],
     },
     nestedNode: {
-      agentId: "mapAgent",
+      agent: "mapAgent",
       inputs: ["source1"],
       graph: {
         version: 0.2,
         nodes: {
           node1: {
-            agentId: "bypassAgent",
+            agent: "bypassAgent",
             inputs: ["$0"],
             isResult: true,
           },
@@ -145,7 +145,7 @@ const graphdata_map4 = {
       },
     },
     result: {
-      agentId: "bypassAgent",
+      agent: "bypassAgent",
       params: {
         flat: 1,
       },
@@ -167,13 +167,13 @@ const graphdata_map5 = {
       value: ["hello", "hello2"],
     },
     nestedNode: {
-      agentId: "mapAgent",
+      agent: "mapAgent",
       inputs: ["source1"],
       graph: {
         version: 0.2,
         nodes: {
           node1: {
-            agentId: "bypassAgent",
+            agent: "bypassAgent",
             inputs: ["$0"],
             isResult: true,
           },
@@ -181,7 +181,7 @@ const graphdata_map5 = {
       },
     },
     result: {
-      agentId: "bypassAgent",
+      agent: "bypassAgent",
       params: {
         flat: 2,
       },

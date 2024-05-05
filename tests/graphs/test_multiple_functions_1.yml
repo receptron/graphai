@@ -3,29 +3,29 @@ nodes:
   node1:
     params:
       delay: 500
-    agentId: test1
+    agent: test1
   node2:
     params:
       delay: 100
-    agentId: test1
+    agent: test1
   node3:
     params:
       delay: 500
     inputs: [node1, node2]
-    agentId: test2
+    agent: test2
   node4:
     params:
       delay: 100
     inputs: [node3]
-    agentId: test1
+    agent: test1
   node5:
     params:
       delay: 500
     inputs: [node2, node4]
-    agentId: test2
+    agent: test2
   node6:
     params:
       delay: 100
       number: 10
     inputs: [node4]
-    agentId: numberTestAgent
+    agent: numberTestAgent

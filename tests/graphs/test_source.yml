@@ -1,7 +1,7 @@
 version: 0.2
 nodes:
   node1:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 500
       value:
@@ -10,21 +10,21 @@ nodes:
     value:
       dummy: true
   node3:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 500
       value:
         node3: output
     inputs: [node1, node2]
   node4:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 100
       value:
         node4: output
     inputs: [node3]
   node5:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 500
       value:

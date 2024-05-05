@@ -16,7 +16,7 @@ const graphdata_counter = {
       update: "counter",
     },
     counter: {
-      agentId: "counterAgent",
+      agent: "counterAgent",
       inputs: ["data"],
       isResult: true,
     },
@@ -46,7 +46,7 @@ test("test counter2", async () => {
         update: "nested1.counter", // update data from nested1 data
       },
       nested1: {
-        agentId: "nestedAgent",
+        agent: "nestedAgent",
         isResult: true,
         graph: graphdata_counter,
         params: {
@@ -78,11 +78,11 @@ test("test counter3", async () => {
       },
       workingMemory2: {
         // HACK until we fix the bug (inputs:["workingMemory", "workingMemory"])
-        agentId: "totalAgent",
+        agent: "totalAgent",
         inputs: ["workingMemory"],
       },
       mapping: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["workingMemory", "workingMemory2"],
         params: {
           injectionTo: ["data"],
@@ -90,7 +90,7 @@ test("test counter3", async () => {
         graph: graphdata_counter,
       },
       merge: {
-        agentId: "totalAgent",
+        agent: "totalAgent",
         inputs: ["mapping.counter"],
       },
     },

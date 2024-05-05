@@ -9,7 +9,7 @@ test("test computed node validation value", async () => {
     nodes: {
       computed1: {
         value: {},
-        agentId: "echoAgent",
+        agent: "echoAgent",
       },
     },
   });
@@ -22,7 +22,7 @@ test("test static node validation value", async () => {
     nodes: {
       computed1: {
         update: "",
-        agentId: "echoAgent",
+        agent: "echoAgent",
       },
     },
   });

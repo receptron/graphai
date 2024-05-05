@@ -2,17 +2,17 @@ export const graph_data = {
   version: 0.2,
   nodes: {
     echo: {
-      agentId: "echoAgent",
+      agent: "echoAgent",
       params: {
         message: "hello",
       },
     },
     bypassAgent: {
-      agentId: "bypassAgent",
+      agent: "bypassAgent",
       inputs: ["echo"],
     },
     bypassAgent2: {
-      agentId: "bypassAgent",
+      agent: "bypassAgent",
       inputs: ["bypassAgent"],
     },
   },
@@ -22,14 +22,14 @@ export const graph_injection_data = {
   version: 0.2,
   nodes: {
     echo: {
-      agentId: "echoAgent",
+      agent: "echoAgent",
     },
     bypassAgent: {
-      agentId: "injectAgent",
+      agent: "injectAgent",
       inputs: ["echo"],
     },
     bypassAgent2: {
-      agentId: "bypassAgent",
+      agent: "bypassAgent",
       inputs: ["bypassAgent"],
     },
   },

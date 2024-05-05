@@ -1,31 +1,31 @@
 version: 0.2
 nodes:
   outer1:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 500
       value:
         outer1: output
   outer2:
-    agentId: nestedAgent
+    agent: nestedAgent
     inputs: [outer1]
     graph:
       version: 0.2
       nodes:
         inner1:
-          agentId: sleeperAgent
+          agent: sleeperAgent
           params:
             duration: 500
             value:
               inner1: output
         inner2:
-          agentId: sleeperAgent
+          agent: sleeperAgent
           params:
             duration: 100
             value:
               inner2: output
         inner3:
-          agentId: sleeperAgent
+          agent: sleeperAgent
           isResult: true
           params:
             duration: 500
@@ -33,21 +33,21 @@ nodes:
               inner3: output
           inputs: [$0, inner1, inner2]
   outer3:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 500
       value:
         outer3: output
     inputs: [outer2.inner3]
   outer4:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 100
       value:
         outer4: output
     inputs: [outer3]
   outer5:
-    agentId: sleeperAgent
+    agent: sleeperAgent
     params:
       duration: 500
       value:

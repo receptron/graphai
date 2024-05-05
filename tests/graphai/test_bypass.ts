@@ -9,17 +9,17 @@ test("test bypass1", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: "hello",
         },
       },
       bypassAgent: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["echo"],
       },
       bypassAgent2: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["bypassAgent.$0"],
       },
     },
@@ -49,19 +49,19 @@ test("test bypass2", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: ["hello", "hello"],
         },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["echo.message"],
         graph: {
           version: 0.2,
           nodes: {
             bypassAgent: {
-              agentId: "bypassAgent",
+              agent: "bypassAgent",
               inputs: ["$0"],
               isResult: true,
               params: {
@@ -72,7 +72,7 @@ test("test bypass2", async () => {
         },
       },
       bypassAgent2: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["mapNode.bypassAgent"],
       },
     },
@@ -92,27 +92,27 @@ test("test bypass3", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: ["hello", "hello"],
         },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["echo.message"],
         graph: {
           version: 0.2,
           nodes: {
             bypassAgent: {
-              agentId: "bypassAgent",
+              agent: "bypassAgent",
               inputs: ["$0"],
             },
             bypassAgent2: {
-              agentId: "bypassAgent",
+              agent: "bypassAgent",
               inputs: ["bypassAgent.$0"],
             },
             bypassAgent3: {
-              agentId: "bypassAgent",
+              agent: "bypassAgent",
               inputs: ["bypassAgent2.$0"],
               params: {
                 firstElement: true,
@@ -123,7 +123,7 @@ test("test bypass3", async () => {
         },
       },
       bypassAgent4: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         params: {
           firstElement: true,
         },
@@ -146,23 +146,23 @@ test("test bypass4", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: ["hello", "hello"],
         },
       },
       mapNode: {
-        agentId: "mapAgent",
+        agent: "mapAgent",
         inputs: ["echo.message"],
         graph: {
           version: 0.2,
           nodes: {
             bypassAgent: {
-              agentId: "bypassAgent",
+              agent: "bypassAgent",
               inputs: ["$0"],
             },
             bypassAgent2: {
-              agentId: "bypassAgent",
+              agent: "bypassAgent",
               inputs: ["bypassAgent.$0", "$0"],
               isResult: true,
             },
@@ -170,7 +170,7 @@ test("test bypass4", async () => {
         },
       },
       bypassAgent3: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["mapNode.bypassAgent2"],
         params: {
           firstElement: true,
@@ -204,21 +204,21 @@ test("test bypass 5", async () => {
     version: 0.2,
     nodes: {
       echo: {
-        agentId: "echoAgent",
+        agent: "echoAgent",
         params: {
           message: "hello",
         },
       },
       bypassAgent: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["echo", "echo", "echo"],
       },
       bypassAgent2: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["bypassAgent", "bypassAgent"],
       },
       bypassAgent3: {
-        agentId: "bypassAgent",
+        agent: "bypassAgent",
         inputs: ["bypassAgent2", "bypassAgent2"],
       },
     },
