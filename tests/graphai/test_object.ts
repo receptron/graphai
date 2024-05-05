@@ -29,16 +29,16 @@ const graphdata_any = {
         function: (message: string) => {
           const words = message.split(' ');
           const streamer = new WordStreamer();
-          const bar = () => {
+          const streamSimulator = () => {
             setTimeout(() => {
               const word = words.shift();
               streamer.pushWord(word);
               if (word) {
-                bar();
+                streamSimulator();
               }
             }, 200);
           };
-          bar();
+          streamSimulator();
 
           return streamer;
         },
