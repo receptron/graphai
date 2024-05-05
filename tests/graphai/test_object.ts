@@ -5,7 +5,7 @@ import { functionAgent, copyAgent } from "@/experimental_agents";
 import test from "node:test";
 import assert from "node:assert";
 
-class Foo {
+class WordStreamer {
   public on = (__word: string | undefined) => {};
   constructor() {
   }
@@ -15,18 +15,20 @@ class Foo {
   }
 }
 
+const theMessage = "May the force be with you.";
+
 const graphdata_any = {
   version: 0.2,
   nodes: {
     message: {
-      value: "May the force be with you.",
+      value: theMessage,
     },
     source: {
       agentId: "functionAgent",
       params: {
         function: (message: string) => {
           const words = message.split(' ');
-          const foo = new Foo();
+          const foo = new WordStreamer();
           const bar = () => {
             setTimeout(() => {
               const word = words.shift();
@@ -46,7 +48,7 @@ const graphdata_any = {
     destination: {
       agentId: "functionAgent",
       params: {
-        function: (foo: Foo) => {
+        function: (foo: WordStreamer) => {
           const words = new Array<string>();
           return new Promise((resolve) => {
             foo.on = (word: string | undefined) => {
@@ -67,5 +69,5 @@ const graphdata_any = {
 
 test("test any 1", async () => {
   const result = await graphDataTestRunner(__filename, graphdata_any, { functionAgent, copyAgent, ...defaultTestAgents }, () => {}, false);
-  assert.deepStrictEqual(result, { destination: "May the force be with you." });
+  assert.deepStrictEqual(result, { destination: theMessage });
 });
