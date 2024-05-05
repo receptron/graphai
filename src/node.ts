@@ -160,7 +160,8 @@ export class ComputedNode extends Node {
     }
   }
 
-  private applyAgentFilter(agentFilter: AgentFilterInfo) {
+  // Check if we need to apply this filter to this node or not.
+  private shouldApplyAgentFilter(agentFilter: AgentFilterInfo) {
     if (agentFilter.agentId && Array.isArray(agentFilter.agentId) && agentFilter.agentId.length > 0) {
       if (agentFilter.agentId.includes(this.agentId)) {
         return true;
@@ -180,7 +181,7 @@ export class ComputedNode extends Node {
     const next = (context: AgentFunctionContext): Promise<ResultData> => {
       const agentFilter = this.graph.agentFilters[index++];
       if (agentFilter) {
-        if (this.applyAgentFilter(agentFilter)) {
+        if (this.shouldApplyAgentFilter(agentFilter)) {
           return agentFilter.agent(context, next);
         }
         return next(context);
