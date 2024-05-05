@@ -28,12 +28,17 @@ const graphdata_any = {
       },
       isResult: true,
     },
+    destination: {
+      agentId: "sleeperAgent",
+      isResult: true,
+      inputs: ["source"],
+    }
   },
 };
 
 test("test any 1", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_any, { functionAgent }, () => {}, false);
-  console.log(result.source);
+  const result = await graphDataTestRunner(__filename, graphdata_any, { functionAgent, ...defaultTestAgents }, () => {}, false);
+  console.log(result);
   // assert.deepStrictEqual(result, {});
 });
 
