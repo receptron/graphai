@@ -19,7 +19,7 @@ const graphdata_any = {
   version: 0.2,
   nodes: {
     message: {
-      value: "Hello World",
+      value: "May the force be with you.",
     },
     source: {
       agentId: "functionAgent",
@@ -45,5 +45,5 @@ const graphdata_any = {
 
 test("test any 1", async () => {
   const result = await graphDataTestRunner(__filename, graphdata_any, { functionAgent, copyAgent, ...defaultTestAgents }, () => {}, false);
-  assert.deepStrictEqual(result, { destination: "Hello World" });
+  assert.deepStrictEqual(result, { destination: "May the force be with you." });
 });
