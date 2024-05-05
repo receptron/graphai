@@ -15,6 +15,7 @@ import {
   pushAgent,
   popAgent,
   shiftAgent,
+  streamMockAgent,
 } from "@/experimental_agents";
 
 export const defaultTestAgents: AgentFunctionDictonary = {
@@ -33,4 +34,5 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   pushAgent,
   popAgent,
   shiftAgent,
+  streamMockAgent,
 };
