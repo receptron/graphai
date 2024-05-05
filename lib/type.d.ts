@@ -26,7 +26,7 @@ export type StaticNodeData = {
     isResult?: boolean;
 };
 export type ComputedNodeData = {
-    agentId: string;
+    agent: string;
     inputs?: Array<any>;
     anyInput?: boolean;
     params?: NodeDataParams;
