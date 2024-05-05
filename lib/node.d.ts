@@ -19,7 +19,7 @@ export declare class ComputedNode extends Node {
     readonly nestedGraph?: GraphData;
     readonly retryLimit: number;
     retryCount: number;
-    readonly agentId?: string;
+    readonly agentId: string;
     readonly timeout?: number;
     readonly priority: number;
     error?: Error;
@@ -37,6 +37,7 @@ export declare class ComputedNode extends Node {
     removePending(nodeId: string): void;
     private isCurrentTransaction;
     private executeTimeout;
+    private applyAgentFilter;
     private agentFilterHandler;
     execute(): Promise<void>;
     private prepareExecute;
