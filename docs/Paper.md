@@ -64,41 +64,41 @@ Here is a graph that describes the necessary operaitions for in-memory RAG (Retr
 
 ```YAML
 nodes:
-  source: // (1)Input data to this RAG application
+  source: // (1)
     value:
       name: Sam Bankman-Fried
       query: describe the final sentence by the court for Sam Bank-Fried
-  wikipedia: // (2) Retrieve data from Wikipedia
+  wikipedia: // (2)
     agentId: wikipediaAgent
     inputs: [source.name]
-  chunks: // (3) Break the text from Wikipedia into chunks (2048 character each with 512 overlap）
+  chunks: // (3) 
     agentId: stringSplitterAgent
     inputs: [wikipedia]
-  chunkEmbeddings: // (4) Get embedding vector of each chunk
+  chunkEmbeddings: // (4)
     agentId: stringEmbeddingsAgent
     inputs: [chunks]
-  topicEmbedding: // (5) Get embedding vector of the question
+  topicEmbedding: // (5) 
     agentId: stringEmbeddingsAgent
     inputs: [source.query]
-  similarities: // (6) Calculate the cosine similarity of each chunk
+  similarities: // (6)
     agentId: dotProductAgent
     inputs: [chunkEmbeddings, topicEmbedding]
-  sortedChunks: // (7) Sort chunks based on their similarities
+  sortedChunks: // (7) 
     agentId: sortByValuesAgent
     inputs: [chunks, similarities]
-  referenceText: // (8) Concatenate chunks up to the token limit (5000)
+  referenceText: // (8) 
     agentId: tokenBoundStringsAgent
     inputs: [sortedChunks]
     params:
       limit: 5000
-  prompt: // (9) Generate a prompt with that reference text
+  prompt: // (9) 
     agentId: stringTemplateAgent
-    inputs: [source, referenceText]
+    inputs: [source.query, referenceText]
     params:
       template: |-
         Using the following document, ${0}
         ${1}
-  query: // (10) retrieves the answer from GPT3.5
+  query: // (10)
     agentId: slashGPTAgent
     params:
       manifest:
@@ -106,6 +106,20 @@ nodes:
     isResult: true // indicating this is the final result
     inputs: [prompt]
 ```
+
+This application consists of 10 nodes. Each node responsible in either holding a data (*static data*) or performing some computations (*computed data*). A *computation node* is associated with a piece of code (*agent function*), which is specified by its *agentId* property. The *inputs* property of a *computation node* specifies the data sources for this node. 
+
+1. "source" node: This is the input data to this RAG application. In the real application, this data will come from the outside of the application, such as the user.
+2. "wikipedia" node: This node retrieves data from Wikipedia. The data source is the "name" property of the "source" property ("Sam Bankman-Fried"). The agent function associated with this node, "wikipadiaAgent" passes the value from this data source to Wikipedia API and retrieves the content of the article of that topic.
+3. "chunks" node: This node receives the text data from the "wikipedia" node, and breaks it into overlapping text chunks, using the agent function, "stringSplitterAgent". The default size is 2048 character each and 512 character overlap, but can be altered by setting the params property.
+4. "chunkEmbeddings" node: This node converts text chunks from the "chunks" node into embedding vectors. The associated "stringEmbeddingsAgent" calls OpenAI's "embeddings" API to perform this operation.
+5. "topicEmbedding" node: This node converts the "query" property of the "source" node ("describe the final sentence by the court for Sam Bank-Frie") into an embedding vectors, also using "stringEmbeddingsAgent".
+6. "similarities" node: This node calculate the cosine similarities of each embedding vector of chunks and the embedding vector of the query, performing the dot product of each. 
+ Calculate the cosine similarity of each chunk
+7. "sortedChunks" node: This node sorts chunks using the similarities as the sort key, putting more similar chunks to the top. 
+8. "referenceText" node: This node generate a reference text by concatenate sorted chunks up to the token limit (5000, which is specified in the "params" property).
+9. "prompt" node: This node generates a prompt using the specified template, using the data from "source" node and "referenceText" node.
+10. "query" node: This node sends the output from "prompt" node to OpenAI's "chatCompletion" API using "slashGPTAgent".
 
 ```mermaid
 flowchart TD
