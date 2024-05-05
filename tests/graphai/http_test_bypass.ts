@@ -6,8 +6,8 @@ import test from "node:test";
 import assert from "node:assert";
 
 const httpAgent: AgentFunction = async ({ inputs, params }) => {
-  const { agentId, params: postParams } = params;
-  const url = "http://localhost:8085/agents/" + agentId;
+  const { agent, params: postParams } = params;
+  const url = "http://localhost:8085/agents/" + agent;
 
   const postData = { inputs, params: postParams };
 
