@@ -37,7 +37,7 @@ export class GraphAI {
       const nodeData = data.nodes[nodeId];
       if ("value" in nodeData) {
         _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
-      } else if ("agentId" in nodeData) {
+      } else if ("agent" in nodeData) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       } else {
         throw new Error("Unknown node: " + nodeId);

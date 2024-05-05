@@ -17,7 +17,7 @@ export const validateGraphData = (data: GraphData, agentIds: string[]) => {
     const node = data.nodes[nodeId];
     const isStaticNode = "value" in node;
     nodeValidator(node);
-    const agentId = isStaticNode ? "" : node.agentId;
+    const agentId = isStaticNode ? "" : node.agent;
     isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);
     !isStaticNode && computedNodeValidator(node) && computedNodeIds.push(nodeId) && graphAgentIds.add(agentId);
   });
