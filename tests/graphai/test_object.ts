@@ -6,12 +6,16 @@ import test from "node:test";
 import assert from "node:assert";
 
 class Foo {
-  private message: string;
-  constructor(message: string) {
-    this.message = message;
+  public on = (__word: string | undefined) => {};
+  constructor() {
   }
+
+  public pushWord(word: string | undefined) {
+    console.log(word);
+  }
+
   public getMessage() {
-    return this.message;
+    return "abc";
   }
 }
 
@@ -25,7 +29,20 @@ const graphdata_any = {
       agentId: "functionAgent",
       params: {
         function: (message: string) => {
-          return new Foo(message);
+          const words = message.split(' ');
+          const foo = new Foo();
+          const bar = () => {
+            setTimeout(() => {
+              const word = words.shift();
+              foo.pushWord(word);
+              if (word) {
+                bar();
+              }
+            }, 200);
+          };
+          bar();
+
+          return foo;
         },
       },
       inputs: ["message"],
@@ -34,6 +51,9 @@ const graphdata_any = {
       agentId: "functionAgent",
       params: {
         function: (foo: Foo) => {
+          foo.on = (word: string | undefined) => {
+            console.log("received", word);
+          }
           return foo.getMessage();
         },
       },
