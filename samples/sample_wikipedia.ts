@@ -8,11 +8,11 @@ const graph_data = {
   version: 0.2,
   nodes: {
     interactiveInputAgent: {
-      agentId: "interactiveInputTextAgent",
+      agent: "interactiveInputTextAgent",
     },
     wikipedia: {
       inputs: ["interactiveInputAgent.answer"],
-      agentId: "wikipediaAgent",
+      agent: "wikipediaAgent",
       params: {
         lang: "ja",
       },
