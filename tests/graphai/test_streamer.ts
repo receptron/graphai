@@ -32,11 +32,8 @@ const graphdata_any = {
       value: theMessage,
     },
     source: {
-      agent: "functionAgent",
-      params: {
-        function: (message: string) => {
-          return new WordStreamer(message);
-        },
+      agent: (message: string) => {
+        return new WordStreamer(message);
       },
       inputs: ["message"],
     },

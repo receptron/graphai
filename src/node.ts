@@ -57,7 +57,7 @@ export class ComputedNode extends Node {
   public readonly retryLimit: number;
   public retryCount: number = 0;
   private readonly agentId?: string;
-  private readonly agentFunction?: AgentFunction;
+  private readonly agentFunction?: AgentFunction<any, any, any>;
   public readonly timeout?: number; // msec
   public readonly priority: number;
   public error?: Error;
@@ -75,10 +75,13 @@ export class ComputedNode extends Node {
     this.graphId = graphId;
     this.params = data.params ?? {};
     this.nestedGraph = data.graph;
-    if (typeof data.agent === 'string') {
+    if (typeof data.agent === "string") {
       this.agentId = data.agent;
-    } else if (typeof data.agent === 'function') {
-      this.agentFunction = data.agent;
+    } else if (typeof data.agent === "function") {
+      const agentFunction: AgentFunction = async ({ inputs }) => {
+        return data.agent(...inputs);
+      };
+      this.agentFunction = agentFunction;
     }
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
     this.timeout = data.timeout;
