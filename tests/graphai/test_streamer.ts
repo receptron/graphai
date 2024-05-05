@@ -38,20 +38,17 @@ const graphdata_any = {
       inputs: ["message"],
     },
     destination: {
-      agent: "functionAgent",
-      params: {
-        function: (streamer: WordStreamer) => {
-          const words = new Array<string>();
-          return new Promise((resolve) => {
-            streamer.onWord = (word: string | undefined) => {
-              if (word) {
-                words.push(word);
-              } else {
-                resolve(words.join(" "));
-              }
-            };
-          });
-        },
+      agent: (streamer: WordStreamer) => {
+        const words = new Array<string>();
+        return new Promise((resolve) => {
+          streamer.onWord = (word: string | undefined) => {
+            if (word) {
+              words.push(word);
+            } else {
+              resolve(words.join(" "));
+            }
+          };
+        });
       },
       isResult: true,
       inputs: ["source"],
