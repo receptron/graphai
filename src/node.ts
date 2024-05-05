@@ -78,10 +78,9 @@ export class ComputedNode extends Node {
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
     } else if (typeof data.agent === "function") {
-      const agentFunction: AgentFunction = async ({ inputs }) => {
+      this.agentFunction = async ({ inputs }) => {
         return data.agent(...inputs);
       };
-      this.agentFunction = agentFunction;
     }
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
     this.timeout = data.timeout;
