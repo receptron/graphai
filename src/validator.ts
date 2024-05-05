@@ -19,7 +19,7 @@ export const validateGraphData = (data: GraphData, agentIds: string[]) => {
     nodeValidator(node);
     const agentId = isStaticNode ? "" : node.agent;
     isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);
-    !isStaticNode && computedNodeValidator(node) && computedNodeIds.push(nodeId) && graphAgentIds.add(agentId);
+    !isStaticNode && computedNodeValidator(node) && computedNodeIds.push(nodeId) && typeof agentId === "string" && graphAgentIds.add(agentId);
   });
   agentValidator(graphAgentIds, new Set<string>(agentIds));
   relationValidator(data, staticNodeIds, computedNodeIds);

@@ -56,7 +56,8 @@ export class ComputedNode extends Node {
   public readonly nestedGraph?: GraphData;
   public readonly retryLimit: number;
   public retryCount: number = 0;
-  public readonly agentId: string;
+  private readonly agentId?: string;
+  private readonly agentFunction?: AgentFunction<any, any, any>;
   public readonly timeout?: number; // msec
   public readonly priority: number;
   public error?: Error;
@@ -74,7 +75,14 @@ export class ComputedNode extends Node {
     this.graphId = graphId;
     this.params = data.params ?? {};
     this.nestedGraph = data.graph;
-    this.agentId = data.agent;
+    if (typeof data.agent === "string") {
+      this.agentId = data.agent;
+    } else {
+      assert(typeof data.agent === "function", "agent must be either string or function");
+      this.agentFunction = async ({ inputs }) => {
+        return data.agent(...inputs);
+      };
+    }
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
@@ -84,6 +92,10 @@ export class ComputedNode extends Node {
     this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input));
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
     this.log.initForComputedNode(this);
+  }
+
+  public getAgentId() {
+    return this.agentId ?? "__custom__function"; // only for display purpose in the log.
   }
 
   public isReadyNode() {
@@ -163,7 +175,7 @@ export class ComputedNode extends Node {
   // Check if we need to apply this filter to this node or not.
   private shouldApplyAgentFilter(agentFilter: AgentFilterInfo) {
     if (agentFilter.agentIds && Array.isArray(agentFilter.agentIds) && agentFilter.agentIds.length > 0) {
-      if (agentFilter.agentIds.includes(this.agentId)) {
+      if (this.agentId && agentFilter.agentIds.includes(this.agentId)) {
         return true;
       }
     }
@@ -211,7 +223,7 @@ export class ComputedNode extends Node {
     }
 
     try {
-      const callback = this.graph.getCallback(this.agentId);
+      const callback = this.agentFunction ?? this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | undefined> = {
         params: this.params,
