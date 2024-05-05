@@ -77,7 +77,8 @@ export class ComputedNode extends Node {
     this.nestedGraph = data.graph;
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
-    } else if (typeof data.agent === "function") {
+    } else {
+      assert(typeof data.agent === "function", "agent must be either string or function");
       this.agentFunction = async ({ inputs }) => {
         return data.agent(...inputs);
       };
