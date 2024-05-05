@@ -12,6 +12,7 @@ class Foo {
 
   public pushWord(word: string | undefined) {
     console.log(word);
+    this.on(word);
   }
 
   public getMessage() {
@@ -51,10 +52,17 @@ const graphdata_any = {
       agentId: "functionAgent",
       params: {
         function: (foo: Foo) => {
-          foo.on = (word: string | undefined) => {
-            console.log("received", word);
-          }
-          return foo.getMessage();
+          console.log("*****");
+          return new Promise((resolve) => {
+            foo.on = (word: string | undefined) => {
+              console.log("*****2");
+              if (word) {
+                console.log("received", word);
+              } else {
+                resolve("hello");
+              }
+            }
+          });
         },
       },
       isResult: true,
