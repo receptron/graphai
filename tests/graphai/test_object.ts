@@ -52,14 +52,16 @@ const graphdata_any = {
       agentId: "functionAgent",
       params: {
         function: (foo: Foo) => {
+          const words = new Array<string>();
           console.log("*****");
           return new Promise((resolve) => {
             foo.on = (word: string | undefined) => {
               console.log("*****2");
               if (word) {
                 console.log("received", word);
+                words.push(word);
               } else {
-                resolve("hello");
+                resolve(words.join(' '));
               }
             }
           });
