@@ -363,9 +363,11 @@ npm run sample ./samples/home.ts
 
 Step 6. Write some code and send pull requests
 
+- Please run "yarn run format" before sending your pull request.
+- Please do not include any build files (files under /lib) to your pull reuquest.
+
 Key principles:
 
 1. Keep the core (Node and GraphAI classes) small and simple.
 2. Enhance the platform by adding 'agents' (plug ins).
 3. Simple but effective test scripts make it easy to maintain.
-4. Run "npm run format" before submitting pull requests. 
