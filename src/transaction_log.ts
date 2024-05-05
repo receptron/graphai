@@ -25,7 +25,7 @@ export class TransactionLog {
   }
 
   public initForComputedNode(node: ComputedNode) {
-    this.agentId = node.agentId;
+    this.agentId = node.getAgentId();
     this.params = node.params;
   }
 

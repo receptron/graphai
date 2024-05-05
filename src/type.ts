@@ -31,7 +31,7 @@ export type StaticNodeData = {
   isResult?: boolean;
 };
 export type ComputedNodeData = {
-  agent: string;
+  agent: string | AgentFunction;
   inputs?: Array<any>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
