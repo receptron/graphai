@@ -150,7 +150,7 @@ A typical nesting graph looks like this:
 ```YAML
 nodes:
   question:
-    value: "Find out which pmaterials we need to purchase this week for Joe Smith's residential house project."
+    value: "Find out which materials we need to purchase this week for Joe Smith's residential house project."
   projectId: // identifies the projectId from the question
     agentId: "identifierAgent"
     inputs: ["source"] // == "sourceNode.query"

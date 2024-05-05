@@ -56,9 +56,71 @@ Moreover, this approach allows for scaling up or down based on the computational
 
 ## Reference Implementation of Data Flow Programming Framework: GraphAI
 
-Since it became clear to us that we need to adapt this data flow programming, we have chosen to create a reference implementation in TypeScript, because it runs both on the server side and the client side, especially inside any web browers.
+Since it became clear to us that we need to adapt this data flow programming for agentic applications, we have chosen to create a reference implementation in TypeScript. We chose TypeScript over Python, because it runs both on the server side and the client side, especially inside any web browers.
 
 The framework is called GraphAI and it serves as a practical embodiment of the principles discussed previously, specifically tailored for building scalable and efficient AI systems in distributed environments. GraphAI leverages the inherent modularity and concurrency of data flow programming to simplify the development and deployment of complex AI-driven applications.
+
+Here is a graph that describes the necessary operaitions for in-memory RAG (Retrieval-Augmented Generation).
+
+```YAML
+nodes:
+  source: // (1)Input data to this RAG application
+    value:
+      name: Sam Bankman-Fried
+      query: describe the final sentence by the court for Sam Bank-Fried
+  wikipedia: // (2) Retrieve data from Wikipedia
+    agentId: wikipediaAgent
+    inputs: [source.name]
+  chunks: // (3) Break the text from Wikipedia into chunks (2048 character each with 512 overlap）
+    agentId: stringSplitterAgent
+    inputs: [wikipedia]
+  chunkEmbeddings: // (4) Get embedding vector of each chunk
+    agentId: stringEmbeddingsAgent
+    inputs: [chunks]
+  topicEmbedding: // (5) Get embedding vector of the question
+    agentId: stringEmbeddingsAgent
+    inputs: [source.query]
+  similarities: // (6) Calculate the cosine similarity of each chunk
+    agentId: dotProductAgent
+    inputs: [chunkEmbeddings, topicEmbedding]
+  sortedChunks: // (7) Sort chunks based on their similarities
+    agentId: sortByValuesAgent
+    inputs: [chunks, similarities]
+  referenceText: // (8) Concatenate chunks up to the token limit (5000)
+    agentId: tokenBoundStringsAgent
+    inputs: [sortedChunks]
+    params:
+      limit: 5000
+  prompt: // (9) Generate a prompt with that reference text
+    agentId: stringTemplateAgent
+    inputs: [source, referenceText]
+    params:
+      template: |-
+        Using the following document, ${0}
+        ${1}
+  query: // (10) retrieves the answer from GPT3.5
+    agentId: slashGPTAgent
+    params:
+      manifest:
+        model: gpt-3.5-turbo
+    isResult: true // indicating this is the final result
+    inputs: [prompt]
+```
+
+```mermaid
+flowchart TD
+ source(source) -- name --> wikipedia(wikipedia)
+ source -- query --> topicEmbedding(topicEmbedding)
+ wikipedia --> chunks(chunks)
+ chunks --> chunksEmbeddings(chunksEmbeddings)
+ chunksEmbeddings --> similarities(similarities)
+ topicEmbedding --> similarities
+ similarities --> sortedChunks(sortedChunks)
+ sortedChunks --> resourceText(resourceText)
+ source -- query --> prompt(prompt)
+ resourceText --> prompt
+ prompt --> query(query)
+```
 
 ### Architecture of GraphAI
 
