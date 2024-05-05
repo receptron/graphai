@@ -10,20 +10,16 @@ class WordStreamer {
 
   constructor(message: string) {
     const words = message.split(' ');
-    const streamSimulator = () => {
+    const next = () => {
       setTimeout(() => {
         const word = words.shift();
-        this.pushWord(word);
+        this.onWord(word);
         if (word) {
-          streamSimulator();
+          next();
         }
       }, 200);
     };
-    streamSimulator();
-  }
-
-  public pushWord(word: string | undefined) {
-    this.onWord(word);
+    next();
   }
 }
 
