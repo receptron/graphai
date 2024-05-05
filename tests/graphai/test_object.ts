@@ -28,11 +28,11 @@ const graphdata_any = {
       params: {
         function: (message: string) => {
           const words = message.split(' ');
-          const foo = new WordStreamer();
+          const streamer = new WordStreamer();
           const bar = () => {
             setTimeout(() => {
               const word = words.shift();
-              foo.pushWord(word);
+              streamer.pushWord(word);
               if (word) {
                 bar();
               }
@@ -40,7 +40,7 @@ const graphdata_any = {
           };
           bar();
 
-          return foo;
+          return streamer;
         },
       },
       inputs: ["message"],
@@ -48,10 +48,10 @@ const graphdata_any = {
     destination: {
       agentId: "functionAgent",
       params: {
-        function: (foo: WordStreamer) => {
+        function: (streamer: WordStreamer) => {
           const words = new Array<string>();
           return new Promise((resolve) => {
-            foo.on = (word: string | undefined) => {
+            streamer.on = (word: string | undefined) => {
               if (word) {
                 words.push(word);
               } else {
