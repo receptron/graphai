@@ -9,7 +9,7 @@ const graph_data = {
   verbose: true,
   nodes: {
     slashGPTAgent: {
-      agentId: "slashGPTAgent",
+      agent: "slashGPTAgent",
       params: {
         function_result: true,
         query: "世界で協力してco2を減らす方法を教えて下さい",
@@ -59,10 +59,10 @@ const graph_data = {
         result_key: 0,
       },
       inputs: ["slashGPTAgent"],
-      agentId: "slashGPTFuncitons2TextAgent",
+      agent: "slashGPTFuncitons2TextAgent",
     },
     mapNode: {
-      agentId: "mapAgent",
+      agent: "mapAgent",
       inputs: ["function2prompt0"],
       params: {
         injectionTo: ["memory"],
@@ -73,7 +73,7 @@ const graph_data = {
             value: {},
           },
           slashGPTAgent0: {
-            agentId: "slashGPTAgent",
+            agent: "slashGPTAgent",
             params: {
               manifest: {
                 prompt: "ユーザの問い合わせにある文章の専門家です。専門家として、ユーザのアイデアに対して実現可能なシナリオを100文字で書いてください。",

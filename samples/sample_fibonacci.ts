@@ -19,7 +19,7 @@ const graph_data = {
       update: "fibonacci",
     },
     fibonacci: {
-      agentId: "fibonacciAgent",
+      agent: "fibonacciAgent",
       inputs: ["data"],
     },
   },

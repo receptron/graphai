@@ -14,11 +14,11 @@ const graph_data = {
       update: "node3",
     },
     node2: {
-      agentId: "input",
+      agent: "input",
     },
     node3: {
       inputs: ["node1", "node2"],
-      agentId: "merge",
+      agent: "merge",
     },
   },
 };

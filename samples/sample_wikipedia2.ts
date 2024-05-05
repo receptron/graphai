@@ -24,7 +24,7 @@ const graph_data = {
     },
     wikipedia: {
       // Fetch an article from Wikipedia
-      agentId: "wikipediaAgent",
+      agent: "wikipediaAgent",
       inputs: ["source.name"],
       params: {
         lang: "en",
@@ -32,32 +32,32 @@ const graph_data = {
     },
     chunks: {
       // Break that article into chunks
-      agentId: "stringSplitterAgent",
+      agent: "stringSplitterAgent",
       inputs: ["wikipedia.content"],
     },
     embeddings: {
       // Get embedding vectors of those chunks
-      agentId: "stringEmbeddingsAgent",
+      agent: "stringEmbeddingsAgent",
       inputs: ["chunks.contents"],
     },
     topicEmbedding: {
       // Get embedding vector of the topic
-      agentId: "stringEmbeddingsAgent",
+      agent: "stringEmbeddingsAgent",
       inputs: ["source.topic"],
     },
     similarityCheck: {
       // Get the cosine similarities of those vectors
-      agentId: "dotProductAgent",
+      agent: "dotProductAgent",
       inputs: ["embeddings", "topicEmbedding"],
     },
     sortedChunks: {
       // Sort chunks based on those similarities
-      agentId: "sortByValuesAgent",
+      agent: "sortByValuesAgent",
       inputs: ["chunks.contents", "similarityCheck"],
     },
     referenceText: {
       // Generate reference text from those chunks (token limited)
-      agentId: "tokenBoundStringsAgent",
+      agent: "tokenBoundStringsAgent",
       inputs: ["sortedChunks"],
       params: {
         limit: 5000,
@@ -65,7 +65,7 @@ const graph_data = {
     },
     prompt: {
       // Generate a prompt with that reference text
-      agentId: "stringTemplateAgent",
+      agent: "stringTemplateAgent",
       inputs: ["source.query", "referenceText.content"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
@@ -73,12 +73,12 @@ const graph_data = {
     },
     RagQuery: {
       // Get the answer from LLM with that prompt
-      agentId: "slashGPTAgent",
+      agent: "slashGPTAgent",
       inputs: ["prompt"],
     },
     OneShotQuery: {
       // Get the answer from LLM without the reference text
-      agentId: "slashGPTAgent",
+      agent: "slashGPTAgent",
       inputs: ["source.query"],
     },
   },

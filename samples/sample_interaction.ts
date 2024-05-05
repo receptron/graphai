@@ -7,14 +7,14 @@ import { interactiveInputSelectAgent } from "./agents/interactiveInputAgent";
 const graph_data = {
   nodes: {
     countingAgent: {
-      agentId: "countingAgent",
+      agent: "countingAgent",
       params: {
         count: 10,
       },
     },
     interactiveInputAgent: {
       inputs: ["countingAgent.list"],
-      agentId: "interactiveInputSelectAgent",
+      agent: "interactiveInputSelectAgent",
       isResult: true,
     },
   },

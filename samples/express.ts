@@ -12,7 +12,7 @@ const graphAISample = async (req: express.Request, res: express.Response) => {
   const graph_data = {
     nodes: {
       node1: {
-        agentId: "testFunction",
+        agent: "testFunction",
         params: {},
       },
     },

@@ -10,18 +10,18 @@ const graph_data = {
       value: "https://www.theverge.com/apple/rss/index.xml",
     },
     rssFeed: {
-      agentId: "rssAgent",
+      agent: "rssAgent",
       inputs: ["url"],
     },
     filter: {
-      agentId: "propertyFilterAgent",
+      agent: "propertyFilterAgent",
       params: {
         include: ["title", "link", "content"],
       },
       inputs: ["rssFeed.feed.entry"],
     },
     map: {
-      agentId: "mapAgent",
+      agent: "mapAgent",
       inputs: ["filter"],
       isResult: true,
       params: {
@@ -31,14 +31,14 @@ const graph_data = {
         version: 0.2,
         nodes: {
           template: {
-            agentId: "stringTemplateAgent",
+            agent: "stringTemplateAgent",
             params: {
               template: "Title:${0}\n${1}",
             },
             inputs: ["$0.title", "$0.content._"],
           },
           query: {
-            agentId: "gloqAgent",
+            agent: "gloqAgent",
             params: {
               model: "Llama3-8b-8192", // "mixtral-8x7b-32768",
               query: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
@@ -46,7 +46,7 @@ const graph_data = {
             inputs: ["template"],
           },
           extractor: {
-            agentId: "copyAgent",
+            agent: "copyAgent",
             isResult: true,
             inputs: ["query.choices.$0.message.content"],
           },

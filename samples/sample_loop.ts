@@ -20,11 +20,11 @@ const graph_data = {
       update: "acountant",
     },
     retriever: {
-      agentId: "shiftAgent",
+      agent: "shiftAgent",
       inputs: ["people"],
     },
     query: {
-      agentId: "slashGPTAgent",
+      agent: "slashGPTAgent",
       params: {
         manifest: {
           prompt: "Describe about the person in less than 100 words",
@@ -33,19 +33,19 @@ const graph_data = {
       inputs: ["retriever.item"],
     },
     reducer1: {
-      agentId: "popAgent",
+      agent: "popAgent",
       inputs: ["query"],
     },
     reducer2: {
-      agentId: "pushAgent",
+      agent: "pushAgent",
       inputs: ["result", "reducer1.item"],
     },
     usageData: {
-      agentId: "totalAgent",
+      agent: "totalAgent",
       inputs: ["reducer2.$0"],
     },
     acountant: {
-      agentId: "totalAgent",
+      agent: "totalAgent",
       inputs: ["usage", "usageData.usage"],
     },
   },
