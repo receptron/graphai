@@ -21,37 +21,37 @@ nodes:
       name: Sam Bankman-Fried
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia: // Retrieve data from Wikipedia
-    agentId: wikipediaAgent
+    agent: wikipediaAgent
     inputs: [source.name]
   chunks: // Break the text from Wikipedia into chunks (2048 character each with 512 overlap）
-    agentId: stringSplitterAgent
+    agent: stringSplitterAgent
     inputs: [wikipedia]
   chunkEmbeddings: // Get embedding vector of each chunk
-    agentId: stringEmbeddingsAgent
+    agent: stringEmbeddingsAgent
     inputs: [chunks]
   topicEmbedding: // Get embedding vector of the question
-    agentId: stringEmbeddingsAgent
+    agent: stringEmbeddingsAgent
     inputs: [source.query]
   similarities: // Calculate the cosine similarity of each chunk
-    agentId: dotProductAgent
+    agent: dotProductAgent
     inputs: [chunkEmbeddings, topicEmbedding]
   sortedChunks: // Sort chunks based on their similarities
-    agentId: sortByValuesAgent
+    agent: sortByValuesAgent
     inputs: [chunks, similarities]
   referenceText: // Concatenate chunks up to the token limit (5000)
-    agentId: tokenBoundStringsAgent
+    agent: tokenBoundStringsAgent
     inputs: [sortedChunks]
     params:
       limit: 5000
   prompt: // Generate a prompt with that reference text
-    agentId: stringTemplateAgent
+    agent: stringTemplateAgent
     inputs: [source, referenceText]
     params:
       template: |-
         Using the following document, ${0}
         ${1}
   query: // retrieves the answer from GPT3.5
-    agentId: slashGPTAgent
+    agent: slashGPTAgent
     params:
       manifest:
         model: gpt-3.5-turbo
@@ -104,7 +104,7 @@ Connections between nodes will be established by references from one not to anot
 
 ## Agent
 
-An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), a media generator, a database, or a REST API over HTTP. A node associated with an agent (specified by 'agentId' property) is called [computed node](#computed-node), which takes a set of inputs from other nodes, lets the agent to process it, and pushes the returned value to other nodes.
+An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), a media generator, a database, or a REST API over HTTP. A node associated with an agent (specified by 'agent' property) is called [computed node](#computed-node), which takes a set of inputs from other nodes, lets the agent to process it, and pushes the returned value to other nodes.
 
 ### Agent function
 
@@ -121,7 +121,7 @@ There are two types of Node, *computed nodes* and *static nodes*. A *computed no
 
 A *computed node* have following properties.
 
-- 'agentId': An **required** property, which specifies the id of the *agent function*.
+- 'agent': An **required** property, which specifies the id of the *agent function*, or TypeScript function (NOTE: this is not possible in JSON or YAML).
 - 'params': An optional agent-specific property to control the behavior of the associated agent function. 
 - 'inputs': An optional list of *data sources* that the current node receives the data from. This establishes a data flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty, the associated *agent function* will be immediatley executed. 
 - 'anyInput': An optiona boolean flag, which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise, it will wait until all the data became available.
@@ -152,23 +152,23 @@ nodes:
   question:
     value: "Find out which materials we need to purchase this week for Joe Smith's residential house project."
   projectId: // identifies the projectId from the question
-    agentId: "identifierAgent"
+    agent: "identifierAgent"
     inputs: ["source"] // == "sourceNode.query"
   database:
-    agentId: "nestedAgent"
+    agent: "nestedAgent"
     inputs: ["question", "projectId"]
     graph:
       nodes:
         schema: // retrieves the database schema for the apecified projectId
-          agentId: "schemaAgent"
+          agent: "schemaAgent"
           inputs: ["$1"]
         ... // issue query to the database and build an appropriate prompt with it.
         query: // send the generated prompt to the LLM
-          agentId: "llama3Agent"
+          agent: "llama3Agent"
           inputs: ["prompt"]
           isResult: true
   response: // Deliver the answer
-    agentid: "deliveryAgent"      
+    agent: "deliveryAgent"      
     inputs: [database.query.$last.content]
 ```
 
@@ -216,16 +216,16 @@ nodes:
     update: reducer
     isResult: true
   retriever:
-    agentId: shift
+    agent: shift
     inputs: [people]
   query:
-    agentId: slashgpt
+    agent: slashgpt
     params:
       manifest:
         prompt: Describe about the person in less than 100 words
     inputs: [retriever.item]
   reducer:
-    agentId: push
+    agent: push
     inputs: [result, query.content]
 ```
 
@@ -258,12 +258,12 @@ nodes:
   people:
     value: [Steve Jobs, Elon Musk, Nikola Tesla]
   retriever:
-    agentId: "mapAgent"
+    agent: "mapAgent"
     inputs: ["people"]
     graph:
       nodes:
         query:
-          agentId: slashgpt
+          agent: slashgpt
           params:
             manifest:
               prompt: Describe about the person in less than 100 words
