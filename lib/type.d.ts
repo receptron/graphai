@@ -67,8 +67,8 @@ export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = Def
 export type AgentFilterInfo = {
     name: string;
     agent: AgentFilterFunction;
-    agentId?: string[];
-    nodeId?: string[];
+    agentIds?: string[];
+    nodeIds?: string[];
 };
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 export type AgentFunctionInfo = {

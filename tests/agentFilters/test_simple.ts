@@ -78,12 +78,12 @@ test("test agent filter with agent condition", async () => {
     {
       name: "simpleAgentFilter1",
       agent: simpleAgentFilter1,
-      agentId: ["echoAgent"],
+      agentIds: ["echoAgent"],
     },
     {
       name: "simpleAgentFilter2",
       agent: simpleAgentFilter2,
-      agentId: ["dummy"],
+      agentIds: ["dummy"],
     },
   ];
   // console.log(JSON.stringify(graph_data, null, 2));
@@ -114,12 +114,12 @@ test("test agent filter with agent condition", async () => {
     {
       name: "simpleAgentFilter1",
       agent: simpleAgentFilter1,
-      nodeId: ["dummy"],
+      nodeIds: ["dummy"],
     },
     {
       name: "simpleAgentFilter2",
       agent: simpleAgentFilter2,
-      nodeId: ["echo"],
+      nodeIds: ["echo"],
     },
   ];
   // console.log(JSON.stringify(graph_data, null, 2));

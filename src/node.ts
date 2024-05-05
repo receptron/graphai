@@ -162,17 +162,17 @@ export class ComputedNode extends Node {
 
   // Check if we need to apply this filter to this node or not.
   private shouldApplyAgentFilter(agentFilter: AgentFilterInfo) {
-    if (agentFilter.agentId && Array.isArray(agentFilter.agentId) && agentFilter.agentId.length > 0) {
-      if (agentFilter.agentId.includes(this.agentId)) {
+    if (agentFilter.agentIds && Array.isArray(agentFilter.agentIds) && agentFilter.agentIds.length > 0) {
+      if (agentFilter.agentIds.includes(this.agentId)) {
         return true;
       }
     }
-    if (agentFilter.nodeId && Array.isArray(agentFilter.nodeId) && agentFilter.nodeId.length > 0) {
-      if (agentFilter.nodeId.includes(this.nodeId)) {
+    if (agentFilter.nodeIds && Array.isArray(agentFilter.nodeIds) && agentFilter.nodeIds.length > 0) {
+      if (agentFilter.nodeIds.includes(this.nodeId)) {
         return true;
       }
     }
-    return !agentFilter.agentId && !agentFilter.nodeId;
+    return !agentFilter.agentIds && !agentFilter.nodeIds;
   }
 
   private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction) {
