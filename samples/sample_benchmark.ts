@@ -3,6 +3,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { sleeperAgent, groqAgent, fetchAgent, copyAgent } from "@/experimental_agents";
 
 const graph_data = {
+  version: 0.2,
   nodes: {
     GSM8: {
       value: {
@@ -23,14 +24,18 @@ const graph_data = {
     rows: {
       agent: (rows:Array<Record<string, any>>) => rows.map(row => row.row),
       inputs: ["fetch.rows"],
-      isResult: true,
     },
     groq: {
       agent: "groqAgent",
       params: {
-        prompt: "Answer the following question."
+        model: "Llama3-8b-8192",
+        query: "Answer the following question.",
       },
-      inputs:["rows.$0"],
+      inputs:["rows.$0.question"],
+    },
+    result: {
+      agent: "copyAgent",
+      inputs: ["groq.choices.$0"],
       isResult: true,
     }
   },
