@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
 
 export const fetchAgent: AgentFunction<{ debug?: boolean }, any, any> = async ({ inputs, params }) => {
-  const [ baseUrl, queryParams, baseHeaders, body ] = inputs;
+  const [baseUrl, queryParams, baseHeaders, body] = inputs;
 
   const url = new URL(baseUrl);
   const headers = baseHeaders ? { ...baseHeaders } : {};
@@ -12,7 +12,7 @@ export const fetchAgent: AgentFunction<{ debug?: boolean }, any, any> = async ({
   }
 
   if (body) {
-    headers['Content-Type'] = 'application/json';
+    headers["Content-Type"] = "application/json";
   }
 
   const fetchOptions: RequestInit = {
@@ -26,8 +26,8 @@ export const fetchAgent: AgentFunction<{ debug?: boolean }, any, any> = async ({
       url: url.toString(),
       method: fetchOptions.method,
       headers,
-      body: fetchOptions.body
-    }
+      body: fetchOptions.body,
+    };
   }
 
   const response = await fetch(url.toString(), fetchOptions);
@@ -49,10 +49,10 @@ const fetchAgentInfo = {
         debug: true,
       },
       result: {
-        method: 'GET',
-        url: 'https://www.google.com/?foo=bar',
+        method: "GET",
+        url: "https://www.google.com/?foo=bar",
         headers: {
-          'x-myHeader': 'secret'
+          "x-myHeader": "secret",
         },
         body: undefined,
       },
@@ -63,10 +63,10 @@ const fetchAgentInfo = {
         debug: true,
       },
       result: {
-        method: 'POST',
-        url: 'https://www.google.com/',
+        method: "POST",
+        url: "https://www.google.com/",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: '{"foo":"bar"}',
       },
