@@ -53,7 +53,7 @@ export const main = async () => {
     () => {},
     false,
   );
-  console.log("Complete");
+  console.log("Complete", result);
 };
 
 if (process.argv[1] === __filename) {
