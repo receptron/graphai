@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent, groqAgent, fetchAgent, copyAgent } from "@/experimental_agents";
+import { sleeperAgent, groqAgent, fetchAgent, copyAgent, nestedAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.2,
@@ -13,7 +13,7 @@ const graph_data = {
           config: "main",
           split: "train",
           offset: 0,
-          length: 10,
+          length: 3,
         },
       },
     },
@@ -32,7 +32,7 @@ const graph_data = {
       },
       inputs: ["rows.$0.question"],
     },
-    result: {
+    output: {
       agent: ((answer:string) => console.log(answer)),
       inputs: ["groq.choices.$0.message.content"],
     },
@@ -48,11 +48,12 @@ export const main = async () => {
       sleeperAgent,
       fetchAgent,
       copyAgent,
+      nestedAgent,
     },
     () => {},
     false,
   );
-  console.log(result.result);
+  console.log("Complete");
 };
 
 if (process.argv[1] === __filename) {
