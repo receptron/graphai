@@ -1,5 +1,4 @@
-import { GraphAI } from "@/graphai";
-import { AgentFilterFunction, AgentFunction } from "@/type";
+import { AgentFilterFunction } from "@/type";
 import { defaultTestAgents } from "@/utils/test_agents";
 
 import { defaultTestContext, agentFilterRunnerBuilder } from "@/utils/test_utils";
