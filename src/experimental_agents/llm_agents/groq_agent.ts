@@ -4,7 +4,7 @@ import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 
-export const gloqAgent: AgentFunction<
+export const groqAgent: AgentFunction<
   {
     model: string;
     query?: string;
@@ -28,10 +28,10 @@ export const gloqAgent: AgentFunction<
   return result;
 };
 
-const gloqAgentInfo = {
-  name: "gloqAgent",
-  agent: gloqAgent,
-  mock: gloqAgent,
+const groqAgentInfo = {
+  name: "groqAgent",
+  agent: groqAgent,
+  mock: groqAgent,
   samples: [],
   description: "Groq Agent",
   category: ["llm"],
@@ -40,4 +40,4 @@ const gloqAgentInfo = {
   license: "MIT",
 };
 
-export default gloqAgentInfo;
+export default groqAgentInfo;
