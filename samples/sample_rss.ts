@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import { rssAgent, propertyFilterAgent, gloqAgent, stringTemplateAgent, copyAgent } from "@/experimental_agents";
+import { fetchAgent, propertyFilterAgent, gloqAgent, stringTemplateAgent, copyAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.2,
@@ -10,7 +10,10 @@ const graph_data = {
       value: "https://www.theverge.com/apple/rss/index.xml",
     },
     rssFeed: {
-      agent: "rssAgent",
+      agent: "fetchAgent",
+      params: {
+        type: "xml"
+      },
       inputs: ["url"],
     },
     filter: {
@@ -58,7 +61,7 @@ const graph_data = {
 
 const main = async () => {
   const result = (await graphDataTestRunner("sample_wiki.log", graph_data, {
-    rssAgent,
+    fetchAgent,
     propertyFilterAgent,
     gloqAgent,
     stringTemplateAgent,
