@@ -36,7 +36,7 @@ const graph_data = {
       graph: {
         version: 0.2,
         loop: {
-          while: '$0',
+          while: "$0",
         },
         nodes: {
           $0: {
@@ -71,7 +71,7 @@ const graph_data = {
             agent: (answer: string) => console.log(`A: ${answer}\n`),
             inputs: ["groq.choices.$0.message.content"],
           },
-        }
+        },
       },
     },
   },
