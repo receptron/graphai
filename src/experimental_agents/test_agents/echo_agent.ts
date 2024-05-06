@@ -1,7 +1,10 @@
 import { AgentFunction } from "@/graphai";
 import { AgentFunctionInfo } from "@/type";
 
-export const echoAgent: AgentFunction = async ({ params }) => {
+export const echoAgent: AgentFunction = async ({ params, filterParams }) => {
+  if (params.filterParams) {
+    return filterParams;
+  }
   return params;
 };
 

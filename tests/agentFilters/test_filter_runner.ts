@@ -1,5 +1,6 @@
 import { GraphAI } from "@/graphai";
 import { AgentFilterFunction, AgentFunction } from "@/type";
+import { defaultTestAgents } from "@/utils/test_agents";
 
 import { defaultTestContext, agentFilterRunnerBuilder } from "@/utils/test_utils";
 
@@ -21,11 +22,6 @@ const simpleAgentFilter2: AgentFilterFunction = async (context, next) => {
   return next(context);
 };
 
-export const echoAgent: AgentFunction = async ({ filterParams }) => {
-  return filterParams;
-};
-
-
 test("test agent filter", async () => {
   const agentFilters = [
     {
@@ -38,7 +34,7 @@ test("test agent filter", async () => {
     },
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
-  const result = await agentFilterRunner({ ...defaultTestContext, inputs: [] }, echoAgent);
+  const result = await agentFilterRunner({ ...defaultTestContext, inputs: [], params: { filterParams: true } }, defaultTestAgents.echoAgent);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, { httpHeaders: { Authorization: "Bearer xxxxxx", "Content-Type": "application/json" } });
 });
