@@ -11,21 +11,25 @@ const graph_data = {
   },
   nodes: {
     continue: {
-      value: true,
+      value: true
     },
     messages: {
+      // This node holds the conversation, array of messages.
       value: [],
       update: "reducer"
     },
     userInput: {
+      // This node receives an input from the user.
       agent: () => input({ message: "You:" }),
       isResult: true,
     },
     appendedMessages: {
+      // This node appends the user's input to the array of messages.
       agent: (content: string, messages: Array<any>) => [...messages, {role: "user", content}],
       inputs: ["userInput", "messages"],
     },
     groq: {
+      // This node sends those messages to Llama3 on groq to get the answer.
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
@@ -33,10 +37,12 @@ const graph_data = {
       inputs: [undefined, "appendedMessages"],
     },
     output: {
+      // This node displays the responce to the user.
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
       inputs: ["groq.choices.$0.message.content"],
     },
     reducer: {
+      // This node append the responce to the messages.
       agent: "pushAgent",
       inputs: ["appendedMessages", "groq.choices.$0.message"],
     },
