@@ -12,7 +12,7 @@ const graph_data = {
     rssFeed: {
       agent: "fetchAgent",
       params: {
-        type: "xml"
+        type: "xml",
       },
       inputs: ["url"],
     },
