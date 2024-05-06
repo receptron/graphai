@@ -3,6 +3,7 @@ export declare const groqAgent: AgentFunction<{
     model: string;
     query?: string;
     system?: string;
+    verbose?: boolean;
 }, Record<string, any> | string, string>;
 declare const groqAgentInfo: {
     name: string;
@@ -10,11 +11,13 @@ declare const groqAgentInfo: {
         model: string;
         query?: string | undefined;
         system?: string | undefined;
+        verbose?: boolean | undefined;
     }, string | Record<string, any>, string>;
     mock: AgentFunction<{
         model: string;
         query?: string | undefined;
         system?: string | undefined;
+        verbose?: boolean | undefined;
     }, string | Record<string, any>, string>;
     samples: never[];
     description: string;
