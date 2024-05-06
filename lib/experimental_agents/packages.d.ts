@@ -6,6 +6,7 @@ export * from "./matrix_agents/packages";
 export * from "./test_agents/packages";
 export * from "./graph_agents/packages";
 export * from "./llm_agents/packages";
+export * from "./service_agents/packages";
 import stringEmbeddingsAgent from "./embedding_agent";
 import tokenBoundStringsAgent from "./token_agent";
 import functionAgentInfo from "./function_agent";
