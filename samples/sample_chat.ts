@@ -13,6 +13,14 @@ const graph_data = {
     continue: {
       value: true,
     },
+    messages: {
+      value: [],
+      update: "reducer"
+    },
+    debugOutputA: {
+      agent: (messages: Array<Record<string, any>>) => console.log(messages),
+      inputs: ["messages"],
+    },
     input: {
       agent: () => input({ message: "You:" }),
       isResult: true,
@@ -27,6 +35,11 @@ const graph_data = {
     output: {
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
       inputs: ["groq.choices.$0.message.content"],
+    },
+    reducer: {
+      // This node pushs the answer from Llama3 into the answer array.
+      agent: "pushAgent",
+      inputs: ["messages", "groq.choices.$0.message"],
     },
   },
 };
