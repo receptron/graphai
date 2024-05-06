@@ -12,7 +12,7 @@ const graph_data = {
     rssFeed: {
       agent: "fetchAgent",
       params: {
-        type: "xml"
+        type: "xml",
       },
       inputs: ["url"],
     },
@@ -28,7 +28,7 @@ const graph_data = {
       inputs: ["filter"],
       isResult: true,
       params: {
-        limit: 8, // to avoid rate limit
+        limit: 4, // to avoid rate limit
       },
       graph: {
         version: 0.2,
