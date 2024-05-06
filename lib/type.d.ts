@@ -59,9 +59,9 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     };
     graphData?: GraphData | string;
     agents?: AgentFunctionDictonary;
-    log?: TransactionLog[];
     taskManager?: TaskManager;
     filterParams: Record<string, any>;
+    log?: TransactionLog[];
 };
 export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>;
 export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
