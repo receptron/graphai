@@ -15,14 +15,14 @@ const graph_data = {
           offset: 0,
           length: 10,
         },
-      }
+      },
     },
     fetch: {
       agent: "fetchAgent",
-      inputs: ["GSM8.url", "GSM8.query"]
+      inputs: ["GSM8.url", "GSM8.query"],
     },
     rows: {
-      agent: (rows:Array<Record<string, any>>) => rows.map(row => row.row),
+      agent: (rows: Array<Record<string, any>>) => rows.map((row) => row.row),
       inputs: ["fetch.rows"],
     },
     groq: {
@@ -31,18 +31,29 @@ const graph_data = {
         model: "Llama3-8b-8192",
         query: "Answer the following question.",
       },
-      inputs:["rows.$0.question"],
+      inputs: ["rows.$0.question"],
     },
     result: {
       agent: "copyAgent",
       inputs: ["groq.choices.$0"],
       isResult: true,
-    }
+    },
   },
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { groqAgent, sleeperAgent, fetchAgent, copyAgent }, () => {}, false);
+  const result = await graphDataTestRunner(
+    __filename,
+    graph_data,
+    {
+      groqAgent,
+      sleeperAgent,
+      fetchAgent,
+      copyAgent,
+    },
+    () => {},
+    false,
+  );
   console.log(result);
 };
 
