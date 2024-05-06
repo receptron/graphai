@@ -7,14 +7,20 @@ import test from "node:test";
 import assert from "node:assert";
 
 const simpleAgentFilter1: AgentFilterFunction = async (context, next) => {
-  if (context.params.filter) {
-    context.params.filter.push("1");
+  if (!context.filterParams["simple"]) {
+    context.filterParams["simple"] = [];
+  }
+  if (context.filterParams) {
+    context.filterParams["simple"].push("1");
   }
   return next(context);
 };
 const simpleAgentFilter2: AgentFilterFunction = async (context, next) => {
-  if (context.params.filter) {
-    context.params.filter.push("2");
+  if (!context.filterParams["simple"]) {
+    context.filterParams["simple"] = [];
+  }
+  if (context.filterParams) {
+    context.filterParams["simple"].push("2");
   }
   return next(context);
 };
@@ -28,8 +34,8 @@ test("test agent filter", async () => {
       echo: {
         agent: "echoAgent",
         params: {
-          message: "hello",
           filter: [],
+          filterParams: true,
         },
       },
       bypassAgent: {
@@ -53,7 +59,7 @@ test("test agent filter", async () => {
   const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
   const result = await graph.run();
   // console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, { bypassAgent: [{ message: "hello", filter: ["1", "2"] }] });
+  assert.deepStrictEqual(result, { bypassAgent: [{ simple: ["1", "2"] }] });
 });
 
 test("test agent filter with agent condition", async () => {
@@ -63,8 +69,7 @@ test("test agent filter with agent condition", async () => {
       echo: {
         agent: "echoAgent",
         params: {
-          message: "hello",
-          filter: [],
+          filterParams: true,
         },
       },
       bypassAgent: {
@@ -89,7 +94,7 @@ test("test agent filter with agent condition", async () => {
   // console.log(JSON.stringify(graph_data, null, 2));
   const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
   const result = await graph.run();
-  assert.deepStrictEqual(result, { bypassAgent: [{ message: "hello", filter: ["1"] }] });
+  assert.deepStrictEqual(result, { bypassAgent: [{ simple: ["1"] }] });
 });
 
 test("test agent filter with agent condition", async () => {
@@ -99,8 +104,7 @@ test("test agent filter with agent condition", async () => {
       echo: {
         agent: "echoAgent",
         params: {
-          message: "hello",
-          filter: [],
+          filterParams: true,
         },
       },
       bypassAgent: {
@@ -125,5 +129,5 @@ test("test agent filter with agent condition", async () => {
   // console.log(JSON.stringify(graph_data, null, 2));
   const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
   const result = await graph.run();
-  assert.deepStrictEqual(result, { bypassAgent: [{ message: "hello", filter: ["2"] }] });
+  assert.deepStrictEqual(result, { bypassAgent: [{ simple: ["2"] }] });
 });

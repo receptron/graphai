@@ -70,6 +70,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
   agents?: AgentFunctionDictonary;
   log?: TransactionLog[];
   taskManager?: TaskManager;
+  filterParams: Record<string, any>;
 };
 
 export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (

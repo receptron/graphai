@@ -1,4 +1,4 @@
-import { AgentFunctionInfo } from "@/type";
+import { AgentFunctionInfo, AgentFunctionContext, AgentFunction, AgentFilterInfo, ResultData } from "@/type";
 
 import assert from "node:assert";
 import test from "node:test";
@@ -10,6 +10,7 @@ export const defaultTestContext = {
     verbose: true,
   },
   params: {},
+  filterParams: {},
   agents: {},
   log: [],
 };
@@ -33,4 +34,23 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
       });
     }
   }
+};
+
+// for agent and agent filter.
+export const agentFilterRunnerBuilder = (__agentFilters: AgentFilterInfo[]) => {
+  const agentFilters = __agentFilters;
+  const agentFilterRunner = (context: AgentFunctionContext, agent: AgentFunction) => {
+    let index = 0;
+
+    const next = (context: AgentFunctionContext): Promise<ResultData> => {
+      const agentFilter = agentFilters[index++];
+      if (agentFilter) {
+        return agentFilter.agent(context, next);
+      }
+      return agent(context);
+    };
+
+    return next(context);
+  };
+  return agentFilterRunner;
 };
