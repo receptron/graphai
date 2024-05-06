@@ -42,7 +42,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { groqAgent, sleeperAgent, fetchAgent, copyAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { groqAgent, sleeperAgent, fetchAgent, copyAgent }, () => {}, false);
   console.log(result);
 };
 
