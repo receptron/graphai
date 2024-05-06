@@ -11,12 +11,12 @@ const graph_data = {
   },
   nodes: {
     continue: {
-      value: true
+      value: true,
     },
     messages: {
       // This node holds the conversation, array of messages.
       value: [],
-      update: "reducer"
+      update: "reducer",
     },
     userInput: {
       // This node receives an input from the user.
@@ -25,7 +25,7 @@ const graph_data = {
     },
     appendedMessages: {
       // This node appends the user's input to the array of messages.
-      agent: (content: string, messages: Array<any>) => [...messages, {role: "user", content}],
+      agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
       inputs: ["userInput", "messages"],
     },
     groq: {
