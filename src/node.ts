@@ -233,6 +233,7 @@ export class ComputedNode extends Node {
           retry: this.retryCount,
           verbose: this.graph.verbose,
         },
+        filterParams: {},
         log: localLog,
       };
 

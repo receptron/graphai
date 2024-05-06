@@ -10,6 +10,7 @@ export const defaultTestContext = {
     verbose: true,
   },
   params: {},
+  filterParams: {},
   agents: {},
   log: [],
 };
