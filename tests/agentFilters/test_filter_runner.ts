@@ -1,8 +1,7 @@
 import { GraphAI } from "@/graphai";
-import { AgentFilterFunction, AgentFunctionContext, AgentFunction, AgentFilterInfo, ResultData } from "@/type";
+import { AgentFilterFunction, AgentFunction } from "@/type";
 
-import { defaultTestAgents } from "@/utils/test_agents";
-import { defaultTestContext } from "@/utils/test_utils";
+import { defaultTestContext, agentFilterRunnerBuilder } from "@/utils/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -23,27 +22,9 @@ const simpleAgentFilter2: AgentFilterFunction = async (context, next) => {
 };
 
 export const echoAgent: AgentFunction = async ({ filterParams }) => {
-  console.log(filterParams);
   return filterParams;
 };
 
-const agentFilterRunner = (__agentFilters: AgentFilterInfo[]) => {
-  const agentFilters = __agentFilters;
-  const agentFilterHandler = (context: AgentFunctionContext, agent: AgentFunction) => {
-    let index = 0;
-
-    const next = (context: AgentFunctionContext): Promise<ResultData> => {
-      const agentFilter = agentFilters[index++];
-      if (agentFilter) {
-        return agentFilter.agent(context, next);
-      }
-      return agent(context);
-    };
-
-    return next(context);
-  };
-  return agentFilterHandler;
-};
 
 test("test agent filter", async () => {
   const agentFilters = [
@@ -56,8 +37,8 @@ test("test agent filter", async () => {
       agent: simpleAgentFilter2,
     },
   ];
-  const agentFilterHandler = agentFilterRunner(agentFilters);
-  const result = await agentFilterHandler({ ...defaultTestContext, inputs: [] }, echoAgent);
-  console.log(JSON.stringify(result));
+  const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
+  const result = await agentFilterRunner({ ...defaultTestContext, inputs: [] }, echoAgent);
+  // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, { httpHeaders: { Authorization: "Bearer xxxxxx", "Content-Type": "application/json" } });
 });
