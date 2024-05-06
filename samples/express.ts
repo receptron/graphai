@@ -49,6 +49,7 @@ const agentDispatcher = async (req: express.Request, res: express.Response) => {
       retry,
       verbose: false,
     },
+    filterParams: {},
     agents: defaultTestAgents,
   });
   res.json(result);
