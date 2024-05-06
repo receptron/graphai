@@ -17,13 +17,13 @@ const graph_data = {
       value: [],
       update: "reducer"
     },
-    input: {
+    userInput: {
       agent: () => input({ message: "You:" }),
       isResult: true,
     },
     appendedMessages: {
-      agent: (input: string, messages: Array<any>) => [...messages, {role: "user", content: input}],
-      inputs: ["input", "messages"],
+      agent: (content: string, messages: Array<any>) => [...messages, {role: "user", content}],
+      inputs: ["userInput", "messages"],
     },
     groq: {
       agent: "groqAgent",
@@ -37,7 +37,6 @@ const graph_data = {
       inputs: ["groq.choices.$0.message.content"],
     },
     reducer: {
-      // This node pushs the answer from Llama3 into the answer array.
       agent: "pushAgent",
       inputs: ["appendedMessages", "groq.choices.$0.message"],
     },
