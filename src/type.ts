@@ -11,7 +11,7 @@ export enum NodeState {
   Injected = "injected",
 }
 
-export type DefaultResultData = Record<string, any> | string | number | Array<DefaultResultData>;
+export type DefaultResultData = Record<string, any> | string | number | boolean | Array<DefaultResultData>;
 export type DefaultInputData = Record<string, any>;
 export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
 export type ResultDataDictonary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
