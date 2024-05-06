@@ -33,7 +33,7 @@ const graph_data = {
       inputs: ["rows.$0.question"],
     },
     output: {
-      agent: ((answer:string) => console.log(answer)),
+      agent: (answer: string) => console.log(answer),
       inputs: ["groq.choices.$0.message.content"],
     },
   },

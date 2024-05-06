@@ -16,7 +16,7 @@ export const groqAgent: AgentFunction<
 > = async ({ params, inputs }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
   const { verbose, query, system } = params;
-  const [ input_query ] = inputs;
+  const [input_query] = inputs;
   const content = (query ? [query] : []).concat(input_query ? [input_query] : []).join("\n");
   const messages = system ? [{ role: "system", content: system }] : [];
   messages.push({
