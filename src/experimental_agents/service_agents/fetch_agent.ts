@@ -44,15 +44,31 @@ const fetchAgentInfo = {
   mock: fetchAgent,
   samples: [
     {
-      inputs: ["https://www.google.com"],
+      inputs: ["https://www.google.com", { foo: "bar" }, { "x-myHeader": "secret" }],
       params: {
         debug: true,
       },
       result: {
-        body: undefined,
-        headers: {},
         method: 'GET',
-        url: 'https://www.google.com/'
+        url: 'https://www.google.com/?foo=bar',
+        headers: {
+          'x-myHeader': 'secret'
+        },
+        body: undefined,
+      },
+    },
+    {
+      inputs: ["https://www.google.com", undefined, undefined, { foo: "bar" }],
+      params: {
+        debug: true,
+      },
+      result: {
+        method: 'POST',
+        url: 'https://www.google.com/',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: '{"foo":"bar"}',
       },
     },
   ],
