@@ -29,7 +29,7 @@ const graph_data = {
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
-        query: "Answer the following question.",
+        system: "Answer the question.",
       },
       inputs: ["rows.$0.question"],
     },
