@@ -25,9 +25,14 @@ const graph_data = {
       agent: (rows: Array<Record<string, any>>) => rows.map((row) => row.row),
       inputs: ["fetch.rows"],
     },
+    debugOutputRow: {
+      agent: (row: Record<string, string>) => console.log(row),
+      inputs: ["rows.$0"],
+    },
     loop: {
       agent: "nestedAgent",
       inputs: ["rows"],
+      isResult: true,
       graph: {
         version: 0.2,
         loop: {
@@ -38,11 +43,16 @@ const graph_data = {
             value: undefined,
             update: "retriever.array",
           },
+          answers: {
+            value: [],
+            update: "reducer",
+            isResult: true,
+          },
           retriever: {
             agent: "shiftAgent",
             inputs: ["$0"],
           },
-          outputQA: {
+          debugOutputQA: {
             agent: (item: Record<string, string>) => console.log(`Q: ${item.question}\nA0: ${item.answer}`),
             inputs: ["retriever.item"],
           },
@@ -53,7 +63,11 @@ const graph_data = {
             },
             inputs: ["retriever.item.question"],
           },
-          output: {
+          reducer: {
+            agent: "pushAgent",
+            inputs: ["answers", "groq.choices.$0.message.content"],
+          },
+          debugOutputA: {
             agent: (answer: string) => console.log(`A: ${answer}\n`),
             inputs: ["groq.choices.$0.message.content"],
           },
