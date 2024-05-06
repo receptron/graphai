@@ -68,7 +68,7 @@ const fetchAgentInfo = {
         headers: {
           "Content-Type": "application/json",
         },
-        body: '{"foo":"bar"}',
+        body: "{\"foo\":\"bar\"}",
       },
     },
   ],
