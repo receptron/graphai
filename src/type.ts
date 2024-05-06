@@ -66,11 +66,11 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     nodeId: string;
     retry: number;
   };
-  graphData?: GraphData | string;
-  agents?: AgentFunctionDictonary;
+  graphData?: GraphData | string; // nested graph
+  agents?: AgentFunctionDictonary; // for nested graph
+  taskManager?: TaskManager; // for nested graph
+  filterParams: Record<string, any>; // agent filter
   log?: TransactionLog[];
-  taskManager?: TaskManager;
-  filterParams: Record<string, any>;
 };
 
 export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (
