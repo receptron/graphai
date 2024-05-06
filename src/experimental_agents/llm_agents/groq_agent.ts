@@ -12,17 +12,24 @@ export const groqAgent: AgentFunction<
     verbose?: boolean;
   },
   Record<string, any> | string,
-  string
+  string | Array<Record<string, any>>
 > = async ({ params, inputs }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
   const { verbose, query, system } = params;
-  const [input_query] = inputs;
-  const content = (query ? [query] : []).concat(input_query ? [input_query] : []).join("\n");
-  const messages = system ? [{ role: "system", content: system }] : [];
-  messages.push({
-    role: "user",
-    content,
-  });
+  const [input_query, previous_messages] = inputs;
+
+  // Notice that we ignore params.system if previous_message exists.
+  const messages: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : 
+    system ? [{ role: "system", content: system }] : [];
+
+  const content = (query ? [query] : []).concat(input_query ? [input_query as string] : []).join("\n");
+  if (content) {
+    messages.push({
+      role: "user",
+      content,
+    });
+  }
+
   if (verbose) {
     console.log(messages);
   }

@@ -17,20 +17,20 @@ const graph_data = {
       value: [],
       update: "reducer"
     },
-    debugOutputA: {
-      agent: (messages: Array<Record<string, any>>) => console.log(messages),
-      inputs: ["messages"],
-    },
     input: {
       agent: () => input({ message: "You:" }),
       isResult: true,
+    },
+    appendedMessages: {
+      agent: (input: string, messages: Array<any>) => [...messages, {role: "user", content: input}],
+      inputs: ["input", "messages"],
     },
     groq: {
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
       },
-      inputs: ["input"],
+      inputs: [undefined, "appendedMessages"],
     },
     output: {
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
@@ -39,7 +39,7 @@ const graph_data = {
     reducer: {
       // This node pushs the answer from Llama3 into the answer array.
       agent: "pushAgent",
-      inputs: ["messages", "groq.choices.$0.message"],
+      inputs: ["appendedMessages", "groq.choices.$0.message"],
     },
   },
 };
