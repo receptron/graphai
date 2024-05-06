@@ -1,10 +1,10 @@
 import { AgentFunction } from "../../graphai";
-export declare const gloqAgent: AgentFunction<{
+export declare const groqAgent: AgentFunction<{
     model: string;
     query?: string;
     system?: string;
 }, Record<string, any> | string, string>;
-declare const gloqAgentInfo: {
+declare const groqAgentInfo: {
     name: string;
     agent: AgentFunction<{
         model: string;
@@ -23,4 +23,4 @@ declare const gloqAgentInfo: {
     repository: string;
     license: string;
 };
-export default gloqAgentInfo;
+export default groqAgentInfo;
