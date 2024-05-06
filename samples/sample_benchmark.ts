@@ -29,14 +29,12 @@ const graph_data = {
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
-        system: "Answer the question.",
       },
       inputs: ["rows.$0.question"],
     },
     result: {
-      agent: "copyAgent",
-      inputs: ["groq.choices.$0"],
-      isResult: true,
+      agent: ((answer:string) => console.log(answer)),
+      inputs: ["groq.choices.$0.message.content"],
     },
   },
 };
@@ -54,7 +52,7 @@ export const main = async () => {
     () => {},
     false,
   );
-  console.log(result);
+  console.log(result.result);
 };
 
 if (process.argv[1] === __filename) {

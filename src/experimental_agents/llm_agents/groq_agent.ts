@@ -9,12 +9,13 @@ export const groqAgent: AgentFunction<
     model: string;
     query?: string;
     system?: string;
+    verbose?: boolean;
   },
   Record<string, any> | string,
   string
 > = async ({ params, inputs }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { query, system } = params;
+  const { verbose, query, system } = params;
   const [ input_query ] = inputs;
   const content = (query ? [query] : []).concat(input_query ? [input_query] : []).join("\n");
   const messages = system ? [{ role: "system", content: system }] : [];
@@ -22,6 +23,9 @@ export const groqAgent: AgentFunction<
     role: "user",
     content,
   });
+  if (verbose) {
+    console.log(messages);
+  }
   const result = await groq.chat.completions.create({
     messages,
     model: params.model,
