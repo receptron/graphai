@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
-import { groqAgent, fetchAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
+import { groqAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const graph_data = {
@@ -56,9 +55,7 @@ export const main = async () => {
     {
       groqAgent,
       shiftAgent,
-      fetchAgent,
       nestedAgent,
-      interactiveInputTextAgent,
     },
     () => {},
     false,
