@@ -7,9 +7,13 @@ import assert from "node:assert";
 
 class WordStreamer {
   public onWord = (__word: string | undefined) => {};
+  private message: string;
 
   constructor(message: string) {
-    const words = message.split(" ");
+    this.message = message;
+  }
+  public run() {
+    const words = this.message.split(" ");
     const next = () => {
       setTimeout(() => {
         const word = words.shift();
@@ -41,6 +45,7 @@ const graphdata_any = {
       agent: (streamer: WordStreamer) => {
         const words = new Array<string>();
         return new Promise((resolve) => {
+          streamer.run();
           streamer.onWord = (word: string | undefined) => {
             if (word) {
               words.push(word);
