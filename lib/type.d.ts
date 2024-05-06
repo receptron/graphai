@@ -61,6 +61,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     agents?: AgentFunctionDictonary;
     log?: TransactionLog[];
     taskManager?: TaskManager;
+    filterParams: Record<string, any>;
 };
 export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>;
 export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
