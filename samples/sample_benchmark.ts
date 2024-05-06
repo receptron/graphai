@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent, gloqAgent, fetchAgent, copyAgent } from "@/experimental_agents";
+import { sleeperAgent, groqAgent, fetchAgent, copyAgent } from "@/experimental_agents";
 
 const graph_data = {
   nodes: {
@@ -21,14 +21,23 @@ const graph_data = {
       inputs: ["GSM8.url", "GSM8.query"]
     },
     rows: {
-      agent: "copyAgent",
-      inputs: ["fetch.rows"]
+      agent: (rows:Array<Record<string, any>>) => rows.map(row => row.row),
+      inputs: ["fetch.rows"],
+      isResult: true,
+    },
+    groq: {
+      agent: "groqAgent",
+      params: {
+        prompt: "Answer the following question."
+      },
+      inputs:["rows.$0"],
+      isResult: true,
     }
   },
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { gloqAgent, sleeperAgent, fetchAgent, copyAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { groqAgent, sleeperAgent, fetchAgent, copyAgent });
   console.log(result);
 };
 
