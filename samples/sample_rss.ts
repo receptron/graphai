@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import { fetchAgent, propertyFilterAgent, gloqAgent, stringTemplateAgent, copyAgent } from "@/experimental_agents";
+import { fetchAgent, propertyFilterAgent, groqAgent, stringTemplateAgent, copyAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.2,
@@ -41,7 +41,7 @@ const graph_data = {
             inputs: ["$0.title", "$0.content._"],
           },
           query: {
-            agent: "gloqAgent",
+            agent: "groqAgent",
             params: {
               model: "Llama3-8b-8192", // "mixtral-8x7b-32768",
               query: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
@@ -63,7 +63,7 @@ const main = async () => {
   const result = (await graphDataTestRunner("sample_wiki.log", graph_data, {
     fetchAgent,
     propertyFilterAgent,
-    gloqAgent,
+    groqAgent,
     stringTemplateAgent,
     copyAgent,
   })) as any;
