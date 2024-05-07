@@ -73,10 +73,15 @@ const graph_data = {
       },
       inputs: [undefined, "appendedMessages"],
     },
-    reducer2: {
+    pushFirstResponce: {
       // This node append the responce to the messages.
       agent: "pushAgent",
       inputs: ["appendedMessages", "groq.choices.$0.message"],
+    },
+    no_tool_call: {
+      agent: "copyAgent",
+      if: "groq.choices.$0.message.content",
+      inputs: ["pushFirstResponce"]
     },
     tool_calls: {
       agent: "copyAgent",
@@ -104,7 +109,7 @@ const graph_data = {
       inputs: ["fetchPoints.properties.forecast", undefined, {"User-Agent": "(receptron.org)"}],
       if: "fetchPoints.properties.forecast"
     },
-    message: {
+    toolMessage: {
       agent: (info:any, res:any) => ({
         "tool_call_id": info.id,
         "role": "tool",
@@ -113,10 +118,10 @@ const graph_data = {
       }),
       inputs: ["tool_calls.$0", "fetchForecast"]
     },
-    reducer3: {
+    pushToolResponce: {
       // This node append the responce to the messages.
       agent: "pushAgent",
-      inputs: ["reducer2", "message"],
+      inputs: ["pushFirstResponce", "toolMessage"],
     },
     groq2: {
       // This node sends those messages to Llama3 on groq to get the answer.
@@ -124,16 +129,16 @@ const graph_data = {
       params: {
         model: "Llama3-8b-8192",
       },
-      inputs: [undefined, "reducer3"],
+      inputs: [undefined, "pushToolResponce"],
     },
     output2: {
       agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
       inputs: ["groq2.choices.$0.message.content"],
     },
-    reducer4: {
+    pushSecondResponse: {
       // This node append the responce to the messages.
       agent: "pushAgent",
-      inputs: ["reducer3", "groq2.choices.$0.message"],
+      inputs: ["pushToolResponce", "groq2.choices.$0.message"],
     },
 
     output: {
@@ -145,7 +150,7 @@ const graph_data = {
     reducerAll: {
       agent: "copyAgent",
       anyInput: true,
-      inputs: ["reducer2", "reducer4"],
+      inputs: ["no_tool_call", "pushSecondResponse"],
     }
   },
 };
