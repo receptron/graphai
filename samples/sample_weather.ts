@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, nestedAgent, copyAgent } from "@/experimental_agents";
+import { groqAgent, nestedAgent, copyAgent, fetchAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -71,12 +71,23 @@ const graph_data = {
       inputs: ["groq.choices.$0.message.tool_calls"],
       if: "groq.choices.$0.message.tool_calls"
     },
-    debug: {
+    urlPoints: {
       agent: (args: any) => {
-        const json = JSON.parse(args);
-        console.log(json);
+        const { latitude, longitude } = JSON.parse(args);
+        const url = `https://api.weather.gov/points/${latitude},${longitude}`;
+        console.log(url);
+        return url;
       },
       inputs: ["tool_calls.$0.function.arguments"]
+    },
+    fetchPoints: {
+      agent: "fetchAgent",
+      inputs: ["urlPoints", undefined, {"User-Agent": "(receptron.org)"}],
+    },
+    fetchWether: {
+      agent: (d:any) => console.log(d),
+      inputs: ["fetchPoints.properties.forecast"],
+      if: "fetchPoints.properties.forecast"
     },
 
     output: {
@@ -101,6 +112,7 @@ export const main = async () => {
       groqAgent,
       copyAgent,
       nestedAgent,
+      fetchAgent,
     },
     () => {},
     false,
