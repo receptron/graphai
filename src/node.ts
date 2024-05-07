@@ -95,9 +95,9 @@ export class ComputedNode extends Node {
     if (data.if) {
       this.ifSource = parseNodeName(data.if);
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
-      this.pendings.add(this.ifSource.nodeId)
+      this.pendings.add(this.ifSource.nodeId);
     }
-    
+
     this.log.initForComputedNode(this);
   }
 
@@ -118,9 +118,9 @@ export class ComputedNode extends Node {
         if (this.ifSource) {
           const [condition] = this.graph.resultsOf([this.ifSource]);
           if (!condition) {
-              this.state = NodeState.Skipped;
-              this.log.onSkipped(this, this.graph);
-              return false;
+            this.state = NodeState.Skipped;
+            this.log.onSkipped(this, this.graph);
+            return false;
           }
           return true;
         }

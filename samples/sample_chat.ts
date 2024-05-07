@@ -17,7 +17,7 @@ const graph_data = {
       // This node holds the conversation, array of messages.
       value: [],
       update: "reducer",
-      isResult: true
+      isResult: true,
     },
     userInput: {
       // This node receives an input from the user.
