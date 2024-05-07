@@ -72,8 +72,11 @@ const graph_data = {
       if: "groq.choices.$0.message.tool_calls"
     },
     debug: {
-      agent: (args: any) => console.log(`Tools: ${JSON.stringify(args)}`),
-      inputs: ["tool_calls.$0"]
+      agent: (args: any) => {
+        const json = JSON.parse(args);
+        console.log(json);
+      },
+      inputs: ["tool_calls.$0.function.arguments"]
     },
 
     output: {
