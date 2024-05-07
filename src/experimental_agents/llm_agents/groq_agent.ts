@@ -4,6 +4,24 @@ import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 
+//
+// This agent takes two optional inputs, and following parameters.
+// inputs:
+// - [0]: query string (typically from the user), optional
+// - [1]: array of messages from previous conversation, optional
+//
+// params:
+// - model: LLM model (Llama3-8b-8192, Llama3-70b-8192, Mixtral-8x7b-32768), required.
+// - query: Additional query string from the app to proceed query from the user=, optional.
+// - system: System prompt (ignore if inputs[1] is specified), optional
+// - tools: Function definitions, optional
+// - tool_choice: Tool choice parameter, optional (default = "auto")
+// - temperature: Controls randomness of responses, optional (default = 0.7)
+// - max_tokens: The maximum number of tokens that the model can process in a single response, optional.
+// - verbose: dumps the message array to the debug console, before sending it the LLM.
+//
+// https://console.groq.com/docs/quickstart
+//
 export const groqAgent: AgentFunction<
   {
     model: string;
@@ -11,13 +29,15 @@ export const groqAgent: AgentFunction<
     system?: string;
     verbose?: boolean;
     tools?: Record<string, any>;
+    temperature?: number;
+    max_tokens?: number;
     tool_choice?: string | Record<string, any>;
   },
   Record<string, any> | string,
   string | Array<Record<string, any>>
 > = async ({ params, inputs }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { verbose, query, system, tools, tool_choice } = params;
+  const { verbose, query, system, tools, tool_choice, max_tokens, temperature } = params;
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
@@ -37,7 +57,11 @@ export const groqAgent: AgentFunction<
   const options: any = {
     messages,
     model: params.model,
+    temperature: temperature ?? 0.7,
   };
+  if (max_tokens) {
+    options.max_tokens = max_tokens;
+  }
   if (tools) {
     options.tools = tools;
     options.tool_choice = tool_choice ?? "auto";
