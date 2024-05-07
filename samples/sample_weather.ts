@@ -130,6 +130,11 @@ const graph_data = {
       agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
       inputs: ["groq2.choices.$0.message.content"],
     },
+    reducer4: {
+      // This node append the responce to the messages.
+      agent: "pushAgent",
+      inputs: ["reducer3", "groq2.choices.$0.message"],
+    },
 
     output: {
       // This node displays the responce to the user.
@@ -140,7 +145,7 @@ const graph_data = {
     reducerAll: {
       agent: "copyAgent",
       anyInput: true,
-      inputs: ["reducer2", "reducer3"],
+      inputs: ["reducer2", "reducer4"],
     }
   },
 };
