@@ -28,6 +28,7 @@ export declare class ComputedNode extends Node {
     readonly anyInput: boolean;
     dataSources: Array<DataSource>;
     pendings: Set<string>;
+    private ifSource?;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);

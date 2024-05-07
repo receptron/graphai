@@ -25,4 +25,5 @@ export declare class TransactionLog {
     beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, inputs: ResultData[]): void;
     beforeAddTask(node: ComputedNode, graph: GraphAI): void;
     onError(node: ComputedNode, graph: GraphAI, errorMessage: string): void;
+    onSkipped(node: ComputedNode, graph: GraphAI): void;
 }

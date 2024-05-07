@@ -7,7 +7,8 @@ export declare enum NodeState {
     Failed = "failed",
     TimedOut = "timed-out",
     Completed = "completed",
-    Injected = "injected"
+    Injected = "injected",
+    Skipped = "skipped"
 }
 export type DefaultResultData = Record<string, any> | string | number | boolean | Array<DefaultResultData>;
 export type DefaultInputData = Record<string, any>;
@@ -32,6 +33,7 @@ export type ComputedNodeData = {
     params?: NodeDataParams;
     retry?: number;
     timeout?: number;
+    if?: string;
     graph?: GraphData;
     isResult?: boolean;
     priority?: number;
