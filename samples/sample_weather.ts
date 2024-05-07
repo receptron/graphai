@@ -43,7 +43,8 @@ const graph_data = {
       update: "reducerAll",
       isResult: true,
     },
-    debug3: {
+    debugMessage: {
+      // Display roles of messages
       agent: (messages:any) => {
         const roles = messages.map((message:any) => message.role);
         console.log(roles);
@@ -55,6 +56,7 @@ const graph_data = {
       agent: () => input({ message: "You:" }),
     },
     checkInput: {
+      // This node chackes if the user wants to end the conversation.
       agent: (query: string) => query !== "/bye",
       inputs: ["userInput"],
     },
@@ -79,16 +81,19 @@ const graph_data = {
       inputs: ["appendedMessages", "groq.choices.$0.message"],
     },
     no_tool_call: {
+      // This node is activated only if this is not a tool responce.
       agent: "copyAgent",
       if: "groq.choices.$0.message.content",
       inputs: ["pushFirstResponce"]
     },
     tool_calls: {
+      // This node is activated if a tool is requested
       agent: "copyAgent",
       inputs: ["groq.choices.$0.message.tool_calls"],
       if: "groq.choices.$0.message.tool_calls"
     },
     urlPoints: {
+      // Build a URL to fetch "points" fro the spcified latitude and longitude
       agent: (args: any) => {
         const { latitude, longitude } = JSON.parse(args);
         const url = `https://api.weather.gov/points/${latitude},${longitude}`;
@@ -98,10 +103,12 @@ const graph_data = {
       inputs: ["tool_calls.$0.function.arguments"]
     },
     fetchPoints: {
+      // Get "points" from the URL.
       agent: "fetchAgent",
       inputs: ["urlPoints", undefined, {"User-Agent": "(receptron.org)"}],
     },
     fetchForecast: {
+      // Get the weather forecast for that points.
       agent: "fetchAgent",
       params: {
         type: 'text'
@@ -110,6 +117,7 @@ const graph_data = {
       if: "fetchPoints.properties.forecast"
     },
     toolMessage: {
+      // Build a message from the tool
       agent: (info:any, res:any) => ({
         "tool_call_id": info.id,
         "role": "tool",
@@ -119,7 +127,7 @@ const graph_data = {
       inputs: ["tool_calls.$0", "fetchForecast"]
     },
     pushToolResponce: {
-      // This node append the responce to the messages.
+      // This node append that message to the messages.
       agent: "pushAgent",
       inputs: ["pushFirstResponce", "toolMessage"],
     },
