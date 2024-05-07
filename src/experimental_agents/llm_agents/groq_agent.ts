@@ -11,7 +11,7 @@ export const groqAgent: AgentFunction<
     system?: string;
     verbose?: boolean;
     tools?: Record<string, any>;
-    tool_choice: string | Record<string, any>;
+    tool_choice?: string | Record<string, any>;
   },
   Record<string, any> | string,
   string | Array<Record<string, any>>
