@@ -5,6 +5,8 @@ export declare const groqAgent: AgentFunction<{
     system?: string;
     verbose?: boolean;
     tools?: Record<string, any>;
+    temperature?: number;
+    max_tokens?: number;
     tool_choice?: string | Record<string, any>;
 }, Record<string, any> | string, string | Array<Record<string, any>>>;
 declare const groqAgentInfo: {
@@ -15,6 +17,8 @@ declare const groqAgentInfo: {
         system?: string | undefined;
         verbose?: boolean | undefined;
         tools?: Record<string, any> | undefined;
+        temperature?: number | undefined;
+        max_tokens?: number | undefined;
         tool_choice?: string | Record<string, any> | undefined;
     }, string | Record<string, any>, string | Record<string, any>[]>;
     mock: AgentFunction<{
@@ -23,6 +27,8 @@ declare const groqAgentInfo: {
         system?: string | undefined;
         verbose?: boolean | undefined;
         tools?: Record<string, any> | undefined;
+        temperature?: number | undefined;
+        max_tokens?: number | undefined;
         tool_choice?: string | Record<string, any> | undefined;
     }, string | Record<string, any>, string | Record<string, any>[]>;
     samples: never[];
