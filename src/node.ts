@@ -66,6 +66,7 @@ export class ComputedNode extends Node {
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: Array<DataSource>; // data sources, the order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
+  private ifSource?: DataSource; // conditional execution
 
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
@@ -91,6 +92,12 @@ export class ComputedNode extends Node {
     this.anyInput = data.anyInput ?? false;
     this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input));
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
+    if (data.if) {
+      this.ifSource = parseNodeName(data.if);
+      assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
+      this.pendings.add(this.ifSource.nodeId)
+    }
+    
     this.log.initForComputedNode(this);
   }
 
@@ -108,6 +115,14 @@ export class ComputedNode extends Node {
         return result === undefined ? count : count + 1;
       }, 0);
       if (!this.anyInput || counter > 0) {
+        if (this.ifSource) {
+          const [condition] = this.graph.resultsOf([this.ifSource]);
+          if (!condition) {
+              // this.state = 
+              return false;
+          }
+          return true;
+        }
         return true;
       }
     }

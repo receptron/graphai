@@ -31,6 +31,7 @@ const graph_data = {
       // This node appends the user's input to the array of messages.
       agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
       inputs: ["userInput", "messages"],
+      if: "checkInput",
     },
     groq: {
       // This node sends those messages to Llama3 on groq to get the answer.
