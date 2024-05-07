@@ -3,6 +3,29 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { groqAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
+const tools = [{
+  type: "function",
+  function: {
+    name: "categorize",
+    description: "categorize the food",
+    parameters: {
+      type: "object",
+      properties: {
+        category: {
+          type: "enum",
+          description: "The category of the food item.",
+          values: [
+            "fruit",
+            "vegetable",
+            "other"
+          ]
+        }
+      },
+      required: "category"
+    },
+  },
+}];
+
 const graph_data = {
   version: 0.2,
   nodes: {
@@ -14,12 +37,13 @@ const graph_data = {
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
-        system: "Please tell the category of the item, either fruit or vegitable."
+        system: "Please tell the category of the item, either fruit or vegitable.",
+        tools
       },
       inputs: ["question.$0"],
     },
     output: {
-      agent: (message:string) => console.log(message),
+      agent: (message:any) => console.log(message),
       inputs: ["groq.choices.$0.message"],
     },
   },
