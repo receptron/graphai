@@ -43,6 +43,13 @@ const graph_data = {
       update: "reducer",
       isResult: true,
     },
+    debug3: {
+      agent: (messages:any) => {
+        const roles = messages.map((message:any) => message.role);
+        console.log(roles);
+      },
+      inputs: ["messages"]
+    },
     userInput: {
       // This node receives an input from the user.
       agent: () => input({ message: "You:" }),
@@ -111,18 +118,11 @@ const graph_data = {
       agent: "pushAgent",
       inputs: ["reducer2", "message"],
     },
-    /*
-    debug2: {
-      agent: (d:any) => console.log(d),
-      inputs: ["reducer3"],
-    },
-    */
     groq2: {
       // This node sends those messages to Llama3 on groq to get the answer.
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
-        verbose: true,
       },
       inputs: [undefined, "reducer3"],
     },
@@ -130,7 +130,6 @@ const graph_data = {
       agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
       inputs: ["groq2.choices.$0.message.content"],
     },
-
 
     output: {
       // This node displays the responce to the user.
