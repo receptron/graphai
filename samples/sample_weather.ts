@@ -66,6 +66,11 @@ const graph_data = {
       },
       inputs: [undefined, "appendedMessages"],
     },
+    reducer2: {
+      // This node append the responce to the messages.
+      agent: "pushAgent",
+      inputs: ["appendedMessages", "groq.choices.$0.message"],
+    },
     tool_calls: {
       agent: "copyAgent",
       inputs: ["groq.choices.$0.message.tool_calls"],
@@ -89,10 +94,33 @@ const graph_data = {
       inputs: ["fetchPoints.properties.forecast", undefined, {"User-Agent": "(receptron.org)"}],
       if: "fetchPoints.properties.forecast"
     },
-    debug: {
-      agent: (d:any) => console.log(JSON.stringify(d, null, 2)),
-      inputs: ["fetchForecast"]
+    message: {
+      agent: (info:any, res:any) => ({
+        "tool_call_id": info.id,
+        "role": "tool",
+        "name": info.function.name,
+        "content": res,
+      }),
+      inputs: ["tool_calls.$0", "fetchForecast"]
     },
+    reducer3: {
+      // This node append the responce to the messages.
+      agent: "pushAgent",
+      inputs: ["reducer2", "message"],
+    },
+    groq2: {
+      // This node sends those messages to Llama3 on groq to get the answer.
+      agent: "groqAgent",
+      params: {
+        model: "Llama3-8b-8192",
+      },
+      inputs: [undefined, "reducer2"],
+    },
+    output2: {
+      agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
+      inputs: ["groq2.choices.$0.message.content"],
+    },
+
 
     output: {
       // This node displays the responce to the user.
