@@ -46,7 +46,7 @@ const graph_data = {
             inputs: ["$0.question"],
           },
           answer: {
-            agent: (item:string) => item,
+            agent: (item: string) => item,
             inputs: ["groq.choices.$0.message.content"],
             isResult: true,
           },
