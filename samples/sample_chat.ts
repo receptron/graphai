@@ -11,6 +11,7 @@ const graph_data = {
   nodes: {
     continue: {
       value: true,
+      update: "checkInput",
     },
     messages: {
       // This node holds the conversation, array of messages.
@@ -20,7 +21,15 @@ const graph_data = {
     userInput: {
       // This node receives an input from the user.
       agent: () => input({ message: "You:" }),
+    },
+    checkInput: {
+      agent: (query:string) => query !== "/bye",
+      inputs: ["userInput"],
       isResult: true,
+    },
+    debugOutputA: {
+      agent: (value: any) => console.log(value),
+      inputs: ["checkInput"],
     },
     appendedMessages: {
       // This node appends the user's input to the array of messages.

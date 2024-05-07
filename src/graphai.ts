@@ -75,15 +75,13 @@ export class GraphAI {
       const node = this.nodes[nodeId];
       if (node?.isStaticNode) {
         const value = node?.value;
-        const update = node?.update;
         if (value) {
           this.injectValue(nodeId, value, nodeId);
         }
+        const update = node?.update;
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
-          if (result) {
-            this.injectValue(nodeId, result, update);
-          }
+          this.injectValue(nodeId, result, update);
         }
       }
     });
