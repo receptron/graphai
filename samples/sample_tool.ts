@@ -28,7 +28,7 @@ const tools = [{
 
 const graph_data = {
   version: 0.2,
-  concurrency: 2,
+  concurrency: 1,
   nodes: {
     foods: {
       value: ["apple", "eggplant", "pork"],
@@ -57,14 +57,13 @@ const graph_data = {
             retry: 1,
             inputs: ["$0"],
           },
-          output: {
-            agent: "copyAgent",
-            inputs: ["groq.choices.$0.message.tool_calls.$0.function.arguments"],
+          parser: {
+            agent: (food: string, args:string) => {
+              const json = JSON.parse(args);
+              return { [food]: json.category };
+            },
+            inputs: ["$0", "groq.choices.$0.message.tool_calls.$0.function.arguments"],
             isResult: true,
-          },
-          debug2: {
-            agent: (args:any) => console.log(args),
-            inputs: ["groq.choices.$0.message.tool_calls.$0.function.arguments"],
           },
         }
       }
@@ -73,7 +72,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(
+  const result: any = await graphDataTestRunner(
     __filename,
     graph_data,
     {
@@ -84,7 +83,7 @@ export const main = async () => {
     () => {},
     false,
   );
-  console.log("Complete", result);
+  console.log(result.categorizer.parser);
 };
 
 if (process.argv[1] === __filename) {
