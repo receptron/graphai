@@ -12,8 +12,8 @@ const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_
 //
 // params:
 // - model: LLM model (Llama3-8b-8192, Llama3-70b-8192, Mixtral-8x7b-32768), required.
-// - query: Additional query string from the app to proceed query from the user=, optional.
-// - system: System prompt (ignore if inputs[1] is specified), optional
+// - query: Additional query string from the app to prepend the query from the user, optional.
+// - system: System prompt (ignored if inputs[1] is specified), optional
 // - tools: Function definitions, optional
 // - tool_choice: Tool choice parameter, optional (default = "auto")
 // - temperature: Controls randomness of responses, optional (default = 0.7)
