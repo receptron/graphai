@@ -21,7 +21,7 @@ const tools = [{
           ]
         }
       },
-      required: "category"
+      required: ["category"]
     },
   },
 }];
@@ -38,7 +38,8 @@ const graph_data = {
       params: {
         model: "Llama3-8b-8192",
         system: "Please tell the category of the item, either fruit or vegitable.",
-        tools
+        tools,
+        tool_choice: {type: "function", function: {name:"categorize"}}
       },
       inputs: ["question.$0"],
     },
