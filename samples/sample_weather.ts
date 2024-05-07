@@ -40,7 +40,7 @@ const graph_data = {
     messages: {
       // This node holds the conversation, array of messages.
       value: [ {role: "system", content:"You are a meteorologist. Use getWeather API, only when the user ask for the weather information."} ],
-      update: "reducer",
+      update: "reducerAll",
       isResult: true,
     },
     debug3: {
@@ -137,11 +137,11 @@ const graph_data = {
       inputs: ["groq.choices.$0.message.content"],
       if: "groq.choices.$0.message.content",
     },
-    reducer: {
-      // This node append the responce to the messages.
-      agent: "pushAgent",
-      inputs: ["appendedMessages", "groq.choices.$0.message"],
-    },
+    reducerAll: {
+      agent: "copyAgent",
+      anyInput: true,
+      inputs: ["reducer2", "reducer3"],
+    }
   },
 };
 
