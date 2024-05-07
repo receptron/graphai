@@ -78,4 +78,10 @@ export class TransactionLog {
     graph.setLoopLog(this);
     graph.updateLog(this);
   }
+
+  public onSkipped(node: ComputedNode, graph: GraphAI) {
+    this.state = node.state;
+    graph.setLoopLog(this);
+    graph.updateLog(this);
+  }
 }

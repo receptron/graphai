@@ -118,7 +118,8 @@ export class ComputedNode extends Node {
         if (this.ifSource) {
           const [condition] = this.graph.resultsOf([this.ifSource]);
           if (!condition) {
-              // this.state = 
+              this.state = NodeState.Skipped;
+              this.log.onSkipped(this, this.graph);
               return false;
           }
           return true;

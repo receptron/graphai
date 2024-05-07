@@ -9,6 +9,7 @@ export enum NodeState {
   TimedOut = "timed-out",
   Completed = "completed",
   Injected = "injected",
+  Skipped = "skipped",
 }
 
 export type DefaultResultData = Record<string, any> | string | number | boolean | Array<DefaultResultData>;
