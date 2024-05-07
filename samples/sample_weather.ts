@@ -91,6 +91,9 @@ const graph_data = {
     },
     fetchForecast: {
       agent: "fetchAgent",
+      params: {
+        type: 'text'
+      },
       inputs: ["fetchPoints.properties.forecast", undefined, {"User-Agent": "(receptron.org)"}],
       if: "fetchPoints.properties.forecast"
     },
@@ -108,13 +111,20 @@ const graph_data = {
       agent: "pushAgent",
       inputs: ["reducer2", "message"],
     },
+    /*
+    debug2: {
+      agent: (d:any) => console.log(d),
+      inputs: ["reducer3"],
+    },
+    */
     groq2: {
       // This node sends those messages to Llama3 on groq to get the answer.
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
+        verbose: true,
       },
-      inputs: [undefined, "reducer2"],
+      inputs: [undefined, "reducer3"],
     },
     output2: {
       agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
