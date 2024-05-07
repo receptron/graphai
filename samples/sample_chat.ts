@@ -27,10 +27,6 @@ const graph_data = {
       inputs: ["userInput"],
       isResult: true,
     },
-    debugOutputA: {
-      agent: (value: any) => console.log(value),
-      inputs: ["checkInput"],
-    },
     appendedMessages: {
       // This node appends the user's input to the array of messages.
       agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
