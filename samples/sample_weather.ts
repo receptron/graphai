@@ -1,7 +1,31 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
+import { groqAgent, nestedAgent, copyAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
+
+const tools = [
+  {
+    type: "function",
+    function: {
+      name: "getWeather",
+      description: "get wether information of the specified location",
+      parameters: {
+        type: "object",
+        properties: {
+          latitude: {
+            type: "number",
+            description: "The latitude of the location.",
+          },
+          longitude: {
+            type: "number",
+            description: "The longitude of the location.",
+          },
+        },
+        required: ["latitude", "longitude"],
+      },
+    },
+  },
+];
 
 const graph_data = {
   version: 0.2,
@@ -15,7 +39,7 @@ const graph_data = {
     },
     messages: {
       // This node holds the conversation, array of messages.
-      value: [ {role: "system", content:"You are a meteorologist, and will give weather focast to the user using weather API."} ],
+      value: [ {role: "system", content:"You are a meteorologist. Use getWeather API, only when the user ask for the weather information."} ],
       update: "reducer",
       isResult: true,
     },
@@ -38,13 +62,25 @@ const graph_data = {
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
+        tools,
       },
       inputs: [undefined, "appendedMessages"],
     },
+    tool_calls: {
+      agent: "copyAgent",
+      inputs: ["groq.choices.$0.message.tool_calls"],
+      if: "groq.choices.$0.message.tool_calls"
+    },
+    debug: {
+      agent: (args: any) => console.log(`Tools: ${JSON.stringify(args)}`),
+      inputs: ["tool_calls.$0"]
+    },
+
     output: {
       // This node displays the responce to the user.
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
       inputs: ["groq.choices.$0.message.content"],
+      if: "groq.choices.$0.message.content",
     },
     reducer: {
       // This node append the responce to the messages.
@@ -60,7 +96,7 @@ export const main = async () => {
     graph_data,
     {
       groqAgent,
-      shiftAgent,
+      copyAgent,
       nestedAgent,
     },
     () => {},
