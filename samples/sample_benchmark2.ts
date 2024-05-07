@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, fetchAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
+import { groqAgent, fetchAgent, mapAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.2,
@@ -62,9 +62,8 @@ export const main = async () => {
     graph_data,
     {
       groqAgent,
-      shiftAgent,
+      mapAgent,
       fetchAgent,
-      nestedAgent,
     },
     () => {},
     false,
