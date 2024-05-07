@@ -84,10 +84,14 @@ const graph_data = {
       agent: "fetchAgent",
       inputs: ["urlPoints", undefined, {"User-Agent": "(receptron.org)"}],
     },
-    fetchWether: {
-      agent: (d:any) => console.log(d),
-      inputs: ["fetchPoints.properties.forecast"],
+    fetchForecast: {
+      agent: "fetchAgent",
+      inputs: ["fetchPoints.properties.forecast", undefined, {"User-Agent": "(receptron.org)"}],
       if: "fetchPoints.properties.forecast"
+    },
+    debug: {
+      agent: (d:any) => console.log(JSON.stringify(d, null, 2)),
+      inputs: ["fetchForecast"]
     },
 
     output: {
