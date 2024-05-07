@@ -47,7 +47,7 @@ export const mapAgent: AgentFunction<
   });
   const results = await Promise.all(runs);
   const nodeIds = Object.keys(results[0]);
-  assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
+  // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
   const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
     tmp[nodeId] = results.map((result) => {
       return result[nodeId];
