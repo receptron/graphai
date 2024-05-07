@@ -36,12 +36,13 @@ const graph_data = {
       // This node sends those messages to Llama3 on groq to get the answer.
       agent: "groqAgent",
       params: {
-        model: "Llama3-8b-8192",
-        system: "Please tell the category of the item, either fruit or vegitable.",
+        model: "llama3-70b-8192", // "Llama3-8b-8192",
+        system: "You are a function calling LLM that categorize the specified food by calling categorize function.",
         tools,
-        tool_choice: {type: "function", function: {name:"categorize"}}
+        tool_choice: {type: "function", function: {name:"categorize"}},
+        verbose: true,
       },
-      inputs: ["question.$0"],
+      inputs: ["question.$1"],
     },
     output: {
       agent: (message:any) => console.log(message),

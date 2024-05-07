@@ -10,12 +10,14 @@ export const groqAgent: AgentFunction<
     query?: string;
     system?: string;
     verbose?: boolean;
+    tools?: Record<string, any>;
+    tool_choice: string | Record<string, any>;
   },
   Record<string, any> | string,
   string | Array<Record<string, any>>
 > = async ({ params, inputs }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { verbose, query, system } = params;
+  const { verbose, query, system, tools, tool_choice } = params;
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
@@ -33,10 +35,15 @@ export const groqAgent: AgentFunction<
   if (verbose) {
     console.log(messages);
   }
-  const result = await groq.chat.completions.create({
+  const options: any = {
     messages,
     model: params.model,
-  });
+  };
+  if (tools) {
+    options.tools = tools;
+    options.tool_choice = tool_choice ?? "auto";
+  }
+  const result = await groq.chat.completions.create(options);
   return result;
 };
 
