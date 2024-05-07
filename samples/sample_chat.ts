@@ -23,7 +23,7 @@ const graph_data = {
       agent: () => input({ message: "You:" }),
     },
     checkInput: {
-      agent: (query:string) => query !== "/bye",
+      agent: (query: string) => query !== "/bye",
       inputs: ["userInput"],
       isResult: true,
     },
