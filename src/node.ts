@@ -300,8 +300,9 @@ export class ComputedNode extends Node {
   // the retry if specified.
   private errorProcess(error: unknown, transactionId: number) {
     if (error instanceof Error && error.message !== strIntentionalError) {
-      console.error(this.agentId + ": error");
-      console.error(error);
+      console.error(`<-- ${this.agentId}`);
+      console.log(error);
+      console.log("-->")
     }
     if (!this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
