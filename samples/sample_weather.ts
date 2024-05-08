@@ -61,9 +61,9 @@ const graph_data = {
       inputs: ["userInput"],
     },
     appendedMessages: {
-      // This node appends the user's input to the array of messages.
-      agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
-      inputs: ["userInput", "messages"],
+      // This node appends the user's input to the messages.
+      agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
+      inputs: ["messages", "userInput"],
       if: "checkInput",
     },
     groq: {
