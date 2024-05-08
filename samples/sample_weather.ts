@@ -88,6 +88,10 @@ const graph_data = {
         // This graph is nested only for the readability.
         version: 0.2,
         nodes: {
+          outputFetching: {
+            agent: (args: any) => console.log(`... fetching weather info ${args}`),
+            inputs: ["$0.$0.function.arguments"],
+          },
           urlPoints: {
             // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
             agent: (args: any) => {
@@ -120,10 +124,15 @@ const graph_data = {
             }),
             inputs: ["$0.$0", "fetchForecast"],
           },
+          filteredMessages: {
+            // Removes previous tool messages to create a room.
+            agent: (messages: any) => messages.filter((message: any) => message.role !== "tool"),
+            inputs: ["$1"],
+          },
           messagesWithToolRes: {
             // Appends that message to the messages.
             agent: "pushAgent",
-            inputs: ["$1", "toolMessage"],
+            inputs: ["filteredMessages", "toolMessage"],
           },
           groq: {
             // Sends those messages to LLM to get the answer.
@@ -155,7 +164,7 @@ const graph_data = {
     },
 
     reducer: {
-      // Receives messages from either case. 
+      // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
       inputs: ["no_tool_calls", "tool_calls.messagesWithSecondRes"],
