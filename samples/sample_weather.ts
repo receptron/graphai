@@ -44,22 +44,22 @@ const graph_data = {
       isResult: true,
     },
     userInput: {
-      // This node receives an input from the user.
+      // Receives an input from the user.
       agent: () => input({ message: "You:" }),
     },
     checkInput: {
-      // This node chackes if the user wants to end the conversation.
+      // Checkes if the user wants to end the conversation.
       agent: (query: string) => query !== "/bye",
       inputs: ["userInput"],
     },
     messagesWithUserInput: {
-      // This node appends the user's input to the messages.
+      // Appends the user's input to the messages.
       agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
       inputs: ["messages", "userInput"],
       if: "checkInput",
     },
     groq: {
-      // This node sends those messages to Llama3 on groq to get the answer.
+      // Sends those messages to LLM to get the answer.
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
@@ -68,26 +68,28 @@ const graph_data = {
       inputs: [undefined, "messagesWithUserInput"],
     },
     output: {
-      // This node displays the responce to the user.
+      // Displays the response to the user.
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
       inputs: ["groq.choices.$0.message.content"],
       if: "groq.choices.$0.message.content",
     },
     messagesWithFirstRes: {
-      // This node append the responce to the messages.
+      // Appends the response to the messages.
       agent: "pushAgent",
       inputs: ["messagesWithUserInput", "groq.choices.$0.message"],
     },
 
     tool_calls: {
+      // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
       inputs: ["groq.choices.$0.message.tool_calls", "messagesWithFirstRes"],
       if: "groq.choices.$0.message.tool_calls",
       graph: {
+        // This graph is nested only for the readability.
         version: 0.2,
         nodes: {
           urlPoints: {
-            // Build a URL to fetch "points" fro the spcified latitude and longitude
+            // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
             agent: (args: any) => {
               const { latitude, longitude } = JSON.parse(args);
               return `https://api.weather.gov/points/${latitude},${longitude}`;
@@ -95,12 +97,12 @@ const graph_data = {
             inputs: ["$0.$0.function.arguments"],
           },
           fetchPoints: {
-            // Get "points" from the URL.
+            // Fetches the "grid location" from the URL.
             agent: "fetchAgent",
             inputs: ["urlPoints", undefined, { "User-Agent": "(receptron.org)" }],
           },
           fetchForecast: {
-            // Get the weather forecast for that points.
+            // Fetches the weather forecast for that location.
             agent: "fetchAgent",
             params: {
               type: "text",
@@ -109,7 +111,7 @@ const graph_data = {
             if: "fetchPoints.properties.forecast",
           },
           toolMessage: {
-            // Build a message from the tool
+            // Creates a tool message as the return value of the tool call.
             agent: (info: any, res: any) => ({
               tool_call_id: info.id,
               role: "tool",
@@ -119,12 +121,12 @@ const graph_data = {
             inputs: ["$0.$0", "fetchForecast"],
           },
           messagesWithToolRes: {
-            // This node append that message to the messages.
+            // Appends that message to the messages.
             agent: "pushAgent",
             inputs: ["$1", "toolMessage"],
           },
           groq: {
-            // This node sends those messages to Llama3 on groq to get the answer.
+            // Sends those messages to LLM to get the answer.
             agent: "groqAgent",
             params: {
               model: "Llama3-8b-8192",
@@ -132,11 +134,12 @@ const graph_data = {
             inputs: [undefined, "messagesWithToolRes"],
           },
           output: {
+            // Displays the response to the user.
             agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
             inputs: ["groq.choices.$0.message.content"],
           },
           messagesWithSecondRes: {
-            // This node append the responce to the messages.
+            // Appends the response to the messages.
             agent: "pushAgent",
             inputs: ["messagesWithToolRes", "groq.choices.$0.message"],
             isResult: true,
@@ -145,13 +148,14 @@ const graph_data = {
       },
     },
     no_tool_calls: {
-      // This node is activated only if this is not a tool responce.
+      // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
       if: "groq.choices.$0.message.content",
       inputs: ["messagesWithFirstRes"],
     },
 
     reducer: {
+      // Receives messages from either case. 
       agent: "copyAgent",
       anyInput: true,
       inputs: ["no_tool_calls", "tool_calls.messagesWithSecondRes"],
