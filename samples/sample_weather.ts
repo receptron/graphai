@@ -103,6 +103,9 @@ const graph_data = {
           fetchPoints: {
             // Fetches the "grid location" from the URL.
             agent: "fetchAgent",
+            params: {
+              errorStatus: true, // returns {status error} in case of error
+            },
             inputs: ["urlPoints", undefined, { "User-Agent": "(receptron.org)" }],
           },
           fetchForecast: {
@@ -117,7 +120,7 @@ const graph_data = {
           responceText: {
             agent: "copyAgent",
             anyInput: true,
-            inputs: ["fetchForecast"],
+            inputs: ["fetchForecast", "fetchPoints.error"],
           },
           toolMessage: {
             // Creates a tool message as the return value of the tool call.
