@@ -1,8 +1,7 @@
 import { AgentFunction } from "@/graphai";
 import { parseStringPromise } from "xml2js";
 
-export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string, errorStatus?: Boolean,
-}, any, any> = async ({ inputs, params }) => {
+export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; errorStatus?: Boolean }, any, any> = async ({ inputs, params }) => {
   const [baseUrl, queryParams, baseHeaders, body] = inputs;
 
   const url = new URL(baseUrl);
@@ -91,7 +90,7 @@ const fetchAgentInfo = {
         headers: {
           "Content-Type": "application/json",
         },
-        body: "{\"foo\":\"bar\"}",
+        body: '{"foo":"bar"}',
       },
     },
   ],
