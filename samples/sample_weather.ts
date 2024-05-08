@@ -75,90 +75,95 @@ const graph_data = {
       },
       inputs: [undefined, "appendedMessages"],
     },
-    pushFirstResponce: {
-      // This node append the responce to the messages.
-      agent: "pushAgent",
-      inputs: ["appendedMessages", "groq.choices.$0.message"],
-    },
-    no_tool_call: {
-      // This node is activated only if this is not a tool responce.
-      agent: "copyAgent",
-      if: "groq.choices.$0.message.content",
-      inputs: ["pushFirstResponce"]
-    },
-    tool_calls: {
-      // This node is activated if a tool is requested
-      agent: "copyAgent",
-      inputs: ["groq.choices.$0.message.tool_calls"],
-      if: "groq.choices.$0.message.tool_calls"
-    },
-    urlPoints: {
-      // Build a URL to fetch "points" fro the spcified latitude and longitude
-      agent: (args: any) => {
-        const { latitude, longitude } = JSON.parse(args);
-        const url = `https://api.weather.gov/points/${latitude},${longitude}`;
-        console.log(url);
-        return url;
-      },
-      inputs: ["tool_calls.$0.function.arguments"]
-    },
-    fetchPoints: {
-      // Get "points" from the URL.
-      agent: "fetchAgent",
-      inputs: ["urlPoints", undefined, {"User-Agent": "(receptron.org)"}],
-    },
-    fetchForecast: {
-      // Get the weather forecast for that points.
-      agent: "fetchAgent",
-      params: {
-        type: 'text'
-      },
-      inputs: ["fetchPoints.properties.forecast", undefined, {"User-Agent": "(receptron.org)"}],
-      if: "fetchPoints.properties.forecast"
-    },
-    toolMessage: {
-      // Build a message from the tool
-      agent: (info:any, res:any) => ({
-        "tool_call_id": info.id,
-        "role": "tool",
-        "name": info.function.name,
-        "content": res,
-      }),
-      inputs: ["tool_calls.$0", "fetchForecast"]
-    },
-    pushToolResponce: {
-      // This node append that message to the messages.
-      agent: "pushAgent",
-      inputs: ["pushFirstResponce", "toolMessage"],
-    },
-    groq2: {
-      // This node sends those messages to Llama3 on groq to get the answer.
-      agent: "groqAgent",
-      params: {
-        model: "Llama3-8b-8192",
-      },
-      inputs: [undefined, "pushToolResponce"],
-    },
-    output2: {
-      agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
-      inputs: ["groq2.choices.$0.message.content"],
-    },
-    pushSecondResponse: {
-      // This node append the responce to the messages.
-      agent: "pushAgent",
-      inputs: ["pushToolResponce", "groq2.choices.$0.message"],
-    },
-
     output: {
       // This node displays the responce to the user.
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
       inputs: ["groq.choices.$0.message.content"],
       if: "groq.choices.$0.message.content",
     },
+    pushFirstResponce: {
+      // This node append the responce to the messages.
+      agent: "pushAgent",
+      inputs: ["appendedMessages", "groq.choices.$0.message"],
+    },
+
+    tool_calls: {
+      agent: "nestedAgent",
+      inputs: ["groq.choices.$0.message.tool_calls", "pushFirstResponce"],
+      if: "groq.choices.$0.message.tool_calls",
+      graph: {
+        nodes: {
+          urlPoints: {
+            // Build a URL to fetch "points" fro the spcified latitude and longitude
+            agent: (args: any) => {
+              const { latitude, longitude } = JSON.parse(args);
+              const url = `https://api.weather.gov/points/${latitude},${longitude}`;
+              console.log(url);
+              return url;
+            },
+            inputs: ["$0.$0.function.arguments"]
+          },
+          fetchPoints: {
+            // Get "points" from the URL.
+            agent: "fetchAgent",
+            inputs: ["urlPoints", undefined, {"User-Agent": "(receptron.org)"}],
+          },
+          fetchForecast: {
+            // Get the weather forecast for that points.
+            agent: "fetchAgent",
+            params: {
+              type: 'text'
+            },
+            inputs: ["fetchPoints.properties.forecast", undefined, {"User-Agent": "(receptron.org)"}],
+            if: "fetchPoints.properties.forecast"
+          },
+          toolMessage: {
+            // Build a message from the tool
+            agent: (info:any, res:any) => ({
+              "tool_call_id": info.id,
+              "role": "tool",
+              "name": info.function.name,
+              "content": res,
+            }),
+            inputs: ["$0.$0", "fetchForecast"]
+          },
+          pushToolResponce: {
+            // This node append that message to the messages.
+            agent: "pushAgent",
+            inputs: ["$1", "toolMessage"],
+          },
+          groq2: {
+            // This node sends those messages to Llama3 on groq to get the answer.
+            agent: "groqAgent",
+            params: {
+              model: "Llama3-8b-8192",
+            },
+            inputs: [undefined, "pushToolResponce"],
+          },
+          output2: {
+            agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
+            inputs: ["groq2.choices.$0.message.content"],
+          },
+          pushSecondResponse: {
+            // This node append the responce to the messages.
+            agent: "pushAgent",
+            inputs: ["pushToolResponce", "groq2.choices.$0.message"],
+            isResult: true,
+          },
+        }
+      },
+    },
+    no_tool_calls: {
+      // This node is activated only if this is not a tool responce.
+      agent: "copyAgent",
+      if: "groq.choices.$0.message.content",
+      inputs: ["pushFirstResponce"]
+    },
+
     reducerAll: {
       agent: "copyAgent",
       anyInput: true,
-      inputs: ["no_tool_call", "pushSecondResponse"],
+      inputs: ["no_tool_calls", "tool_calls.pushSecondResponse"],
     }
   },
 };
