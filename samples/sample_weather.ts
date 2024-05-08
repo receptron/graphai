@@ -126,7 +126,7 @@ const graph_data = {
           },
           filteredMessages: {
             // Removes previous tool messages to create a room.
-            agent: (messages: any) => messages.filter((message:any) => message.role !== 'tool'),
+            agent: (messages: any) => messages.filter((message: any) => message.role !== "tool"),
             inputs: ["$1"],
           },
           messagesWithToolRes: {
@@ -164,7 +164,7 @@ const graph_data = {
     },
 
     reducer: {
-      // Receives messages from either case. 
+      // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
       inputs: ["no_tool_calls", "tool_calls.messagesWithSecondRes"],
