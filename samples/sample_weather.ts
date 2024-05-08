@@ -114,6 +114,11 @@ const graph_data = {
             inputs: ["fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
             if: "fetchPoints.properties.forecast",
           },
+          responceText: {
+            agent: "copyAgent",
+            anyInput: true,
+            inputs: ["fetchForecast"],
+          },
           toolMessage: {
             // Creates a tool message as the return value of the tool call.
             agent: (info: any, res: any) => ({
@@ -122,7 +127,7 @@ const graph_data = {
               name: info.function.name,
               content: res,
             }),
-            inputs: ["$0.$0", "fetchForecast"],
+            inputs: ["$0.$0", "responceText"],
           },
           filteredMessages: {
             // Removes previous tool messages to create a room.

@@ -37,18 +37,22 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, 
     throw new Error(`HTTP error! Status: ${response.status} ${await response.text()} ${url.toString()}`);
   }
 
-  const type = params?.type ?? "json";
-  if (type === "json") {
-    return await response.json();
-  } else {
-    if (type === "xml") {
-      const xmlData = await response.text();
-      return await parseStringPromise(xmlData, { explicitArray: false, mergeAttrs: true });
-    } else if (type === "text") {
-      return response.text();
+  const result = await (async () => {
+    const type = params?.type ?? "json";
+    if (type === "json") {
+      return await response.json();
+    } else {
+      if (type === "xml") {
+        const xmlData = await response.text();
+        return await parseStringPromise(xmlData, { explicitArray: false, mergeAttrs: true });
+      } else if (type === "text") {
+        return response.text();
+      }
+      throw new Error(`Unknown Type! ${type}`);
     }
-    throw new Error(`Unknown Type! ${type}`);
-  }
+  })();
+
+  return result;
 };
 
 const fetchAgentInfo = {
