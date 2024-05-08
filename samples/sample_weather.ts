@@ -98,9 +98,7 @@ const graph_data = {
             // Build a URL to fetch "points" fro the spcified latitude and longitude
             agent: (args: any) => {
               const { latitude, longitude } = JSON.parse(args);
-              const url = `https://api.weather.gov/points/${latitude},${longitude}`;
-              console.log(url);
-              return url;
+              return `https://api.weather.gov/points/${latitude},${longitude}`;
             },
             inputs: ["$0.$0.function.arguments"]
           },
