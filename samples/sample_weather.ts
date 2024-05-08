@@ -43,14 +43,6 @@ const graph_data = {
       update: "reducer",
       isResult: true,
     },
-    debugMessage: {
-      // Display roles of messages
-      agent: (messages:any) => {
-        const roles = messages.map((message:any) => message.role);
-        console.log(roles);
-      },
-      inputs: ["messages"]
-    },
     userInput: {
       // This node receives an input from the user.
       agent: () => input({ message: "You:" }),
@@ -60,7 +52,7 @@ const graph_data = {
       agent: (query: string) => query !== "/bye",
       inputs: ["userInput"],
     },
-    appendedMessages: {
+    messagesWithUserInput: {
       // This node appends the user's input to the messages.
       agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
       inputs: ["messages", "userInput"],
@@ -73,7 +65,7 @@ const graph_data = {
         model: "Llama3-8b-8192",
         tools,
       },
-      inputs: [undefined, "appendedMessages"],
+      inputs: [undefined, "messagesWithUserInput"],
     },
     output: {
       // This node displays the responce to the user.
@@ -84,7 +76,7 @@ const graph_data = {
     messagesWithFirstRes: {
       // This node append the responce to the messages.
       agent: "pushAgent",
-      inputs: ["appendedMessages", "groq.choices.$0.message"],
+      inputs: ["messagesWithUserInput", "groq.choices.$0.message"],
     },
 
     tool_calls: {
@@ -139,8 +131,8 @@ const graph_data = {
             },
             inputs: [undefined, "messagesWithToolRes"],
           },
-          output2: {
-            agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
+          output: {
+            agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
             inputs: ["groq.choices.$0.message.content"],
           },
           messagesWithSecondRes: {
