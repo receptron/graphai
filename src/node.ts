@@ -302,7 +302,7 @@ export class ComputedNode extends Node {
     if (error instanceof Error && error.message !== strIntentionalError) {
       console.error(`<-- ${this.agentId}`);
       console.log(error);
-      console.log("-->")
+      console.log("-->");
     }
     if (!this.isCurrentTransaction(transactionId)) {
       console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
