@@ -300,7 +300,7 @@ export class ComputedNode extends Node {
   // the retry if specified.
   private errorProcess(error: unknown, transactionId: number) {
     if (error instanceof Error && error.message !== strIntentionalError) {
-      console.error(`<-- ${this.agentId}`);
+      console.error(`<-- ${this.nodeId}, ${this.agentId}`);
       console.log(error);
       console.log("-->");
     }
