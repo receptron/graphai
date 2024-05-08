@@ -1,12 +1,6 @@
-export * from "./string_agents";
+export * from "./vanilla";
+export { dataObjectMergeTemplateAgent } from "../experimental_agents/data_agents/data_object_merge_template_agent";
 export * from "./sleeper_agents";
-export * from "./data_agents";
-export * from "./array_agents";
-export * from "./matrix_agents";
-export * from "./test_agents";
-export * from "./graph_agents";
 export * from "./llm_agents";
 export * from "./service_agents";
-export * from "./embedding_agent";
 export * from "./token_agent";
-export * from "./function_agent";
