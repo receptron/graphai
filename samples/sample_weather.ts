@@ -39,7 +39,7 @@ const graph_data = {
     },
     messages: {
       // This node holds the conversation, array of messages.
-      value: [ {role: "system", content:"You are a meteorologist. Use getWeather API, only when the user ask for the weather information."} ],
+      value: [{ role: "system", content: "You are a meteorologist. Use getWeather API, only when the user ask for the weather information." }],
       update: "reducer",
       isResult: true,
     },
@@ -92,31 +92,31 @@ const graph_data = {
               const { latitude, longitude } = JSON.parse(args);
               return `https://api.weather.gov/points/${latitude},${longitude}`;
             },
-            inputs: ["$0.$0.function.arguments"]
+            inputs: ["$0.$0.function.arguments"],
           },
           fetchPoints: {
             // Get "points" from the URL.
             agent: "fetchAgent",
-            inputs: ["urlPoints", undefined, {"User-Agent": "(receptron.org)"}],
+            inputs: ["urlPoints", undefined, { "User-Agent": "(receptron.org)" }],
           },
           fetchForecast: {
             // Get the weather forecast for that points.
             agent: "fetchAgent",
             params: {
-              type: 'text'
+              type: "text",
             },
-            inputs: ["fetchPoints.properties.forecast", undefined, {"User-Agent": "(receptron.org)"}],
-            if: "fetchPoints.properties.forecast"
+            inputs: ["fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
+            if: "fetchPoints.properties.forecast",
           },
           toolMessage: {
             // Build a message from the tool
-            agent: (info:any, res:any) => ({
-              "tool_call_id": info.id,
-              "role": "tool",
-              "name": info.function.name,
-              "content": res,
+            agent: (info: any, res: any) => ({
+              tool_call_id: info.id,
+              role: "tool",
+              name: info.function.name,
+              content: res,
             }),
-            inputs: ["$0.$0", "fetchForecast"]
+            inputs: ["$0.$0", "fetchForecast"],
           },
           messagesWithToolRes: {
             // This node append that message to the messages.
@@ -141,21 +141,21 @@ const graph_data = {
             inputs: ["messagesWithToolRes", "groq.choices.$0.message"],
             isResult: true,
           },
-        }
+        },
       },
     },
     no_tool_calls: {
       // This node is activated only if this is not a tool responce.
       agent: "copyAgent",
       if: "groq.choices.$0.message.content",
-      inputs: ["messagesWithFirstRes"]
+      inputs: ["messagesWithFirstRes"],
     },
 
     reducer: {
       agent: "copyAgent",
       anyInput: true,
       inputs: ["no_tool_calls", "tool_calls.messagesWithSecondRes"],
-    }
+    },
   },
 };
 
