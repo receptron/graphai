@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
 import { parseStringPromise } from "xml2js";
 
-export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; errorStatus?: Boolean }, any, any> = async ({ inputs, params }) => {
+export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; returnErrorResult?: boolean }, any, any> = async ({ inputs, params }) => {
   const [baseUrl, queryParams, baseHeaders, body] = inputs;
 
   const url = new URL(baseUrl);
@@ -36,7 +36,7 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; errorSt
   if (!response.ok) {
     const status = response.status;
     const error = await response.text();
-    if (params?.errorStatus) {
+    if (params?.returnErrorResult) {
       return { status, error };
     }
     throw new Error(`HTTP error! Status: ${status} ${error} ${url.toString()}`);
@@ -46,15 +46,13 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; errorSt
     const type = params?.type ?? "json";
     if (type === "json") {
       return await response.json();
-    } else {
-      if (type === "xml") {
-        const xmlData = await response.text();
-        return await parseStringPromise(xmlData, { explicitArray: false, mergeAttrs: true });
-      } else if (type === "text") {
-        return response.text();
-      }
-      throw new Error(`Unknown Type! ${type}`);
+    } else if (type === "xml") {
+      const xmlData = await response.text();
+      return await parseStringPromise(xmlData, { explicitArray: false, mergeAttrs: true });
+    } else if (type === "text") {
+      return response.text();
     }
+    throw new Error(`Unknown Type! ${type}`);
   })();
 
   return result;
@@ -90,7 +88,7 @@ const fetchAgentInfo = {
         headers: {
           "Content-Type": "application/json",
         },
-        body: '{"foo":"bar"}',
+        body: "{\"foo\":\"bar\"}",
       },
     },
   ],
