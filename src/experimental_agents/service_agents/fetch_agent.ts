@@ -34,7 +34,7 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, 
   const response = await fetch(url.toString(), fetchOptions);
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status} ${url.toString()}`);
+    throw new Error(`HTTP error! Status: ${response.status} ${await response.text()} ${url.toString()}`);
   }
 
   const type = params?.type ?? "json";
@@ -81,7 +81,7 @@ const fetchAgentInfo = {
         headers: {
           "Content-Type": "application/json",
         },
-        body: '{"foo":"bar"}',
+        body: "{\"foo\":\"bar\"}",
       },
     },
   ],
