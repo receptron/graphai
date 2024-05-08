@@ -44,21 +44,13 @@ export const nestedAgent: AgentFunction<{
 
   const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager });
 
-  try {
-    // Inject inputs to specified source nodes
-    injectionTo.forEach((injectToNodeId, index) => {
-      graphAI.injectValue(injectToNodeId, inputs[index]);
-    });
-    const results = await graphAI.run(false);
-    log?.push(...graphAI.transactionLogs());
-    return results;
-  } catch (error) {
-    log?.push(...graphAI.transactionLogs());
-    if (error instanceof Error) {
-      console.log("Error:", error.message);
-    }
-    throw error;
-  }
+  // Inject inputs to specified source nodes
+  injectionTo.forEach((injectToNodeId, index) => {
+    graphAI.injectValue(injectToNodeId, inputs[index]);
+  });
+  const results = await graphAI.run(false);
+  log?.push(...graphAI.transactionLogs());
+  return results;
 };
 
 const nestedAgentInfo = {
