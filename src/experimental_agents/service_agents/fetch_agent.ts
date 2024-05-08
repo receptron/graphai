@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/graphai";
 import { parseStringPromise } from "xml2js";
 
-export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, any> = async ({ inputs, params }) => {
+export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; returnErrorResult?: boolean }, any, any> = async ({ inputs, params }) => {
   const [baseUrl, queryParams, baseHeaders, body] = inputs;
 
   const url = new URL(baseUrl);
@@ -34,21 +34,28 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, 
   const response = await fetch(url.toString(), fetchOptions);
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status} ${await response.text()} ${url.toString()}`);
+    const status = response.status;
+    const error = await response.text();
+    if (params?.returnErrorResult) {
+      return { status, error };
+    }
+    throw new Error(`HTTP error! Status: ${status} ${error} ${url.toString()}`);
   }
 
-  const type = params?.type ?? "json";
-  if (type === "json") {
-    return await response.json();
-  } else {
-    if (type === "xml") {
+  const result = await (async () => {
+    const type = params?.type ?? "json";
+    if (type === "json") {
+      return await response.json();
+    } else if (type === "xml") {
       const xmlData = await response.text();
       return await parseStringPromise(xmlData, { explicitArray: false, mergeAttrs: true });
     } else if (type === "text") {
       return response.text();
     }
     throw new Error(`Unknown Type! ${type}`);
-  }
+  })();
+
+  return result;
 };
 
 const fetchAgentInfo = {
