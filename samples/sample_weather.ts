@@ -40,7 +40,7 @@ const graph_data = {
     messages: {
       // This node holds the conversation, array of messages.
       value: [ {role: "system", content:"You are a meteorologist. Use getWeather API, only when the user ask for the weather information."} ],
-      update: "reducerAll",
+      update: "reducer",
       isResult: true,
     },
     debugMessage: {
@@ -81,7 +81,7 @@ const graph_data = {
       inputs: ["groq.choices.$0.message.content"],
       if: "groq.choices.$0.message.content",
     },
-    pushFirstResponce: {
+    messagesWithFirstRes: {
       // This node append the responce to the messages.
       agent: "pushAgent",
       inputs: ["appendedMessages", "groq.choices.$0.message"],
@@ -89,9 +89,10 @@ const graph_data = {
 
     tool_calls: {
       agent: "nestedAgent",
-      inputs: ["groq.choices.$0.message.tool_calls", "pushFirstResponce"],
+      inputs: ["groq.choices.$0.message.tool_calls", "messagesWithFirstRes"],
       if: "groq.choices.$0.message.tool_calls",
       graph: {
+        version: 0.2,
         nodes: {
           urlPoints: {
             // Build a URL to fetch "points" fro the spcified latitude and longitude
@@ -127,27 +128,27 @@ const graph_data = {
             }),
             inputs: ["$0.$0", "fetchForecast"]
           },
-          pushToolResponce: {
+          messagesWithToolRes: {
             // This node append that message to the messages.
             agent: "pushAgent",
             inputs: ["$1", "toolMessage"],
           },
-          groq2: {
+          groq: {
             // This node sends those messages to Llama3 on groq to get the answer.
             agent: "groqAgent",
             params: {
               model: "Llama3-8b-8192",
             },
-            inputs: [undefined, "pushToolResponce"],
+            inputs: [undefined, "messagesWithToolRes"],
           },
           output2: {
             agent: (answer: string) => console.log(`Llama3': ${answer}\n`),
-            inputs: ["groq2.choices.$0.message.content"],
+            inputs: ["groq.choices.$0.message.content"],
           },
-          pushSecondResponse: {
+          messagesWithSecondRes: {
             // This node append the responce to the messages.
             agent: "pushAgent",
-            inputs: ["pushToolResponce", "groq2.choices.$0.message"],
+            inputs: ["messagesWithToolRes", "groq.choices.$0.message"],
             isResult: true,
           },
         }
@@ -157,13 +158,13 @@ const graph_data = {
       // This node is activated only if this is not a tool responce.
       agent: "copyAgent",
       if: "groq.choices.$0.message.content",
-      inputs: ["pushFirstResponce"]
+      inputs: ["messagesWithFirstRes"]
     },
 
-    reducerAll: {
+    reducer: {
       agent: "copyAgent",
       anyInput: true,
-      inputs: ["no_tool_calls", "tool_calls.pushSecondResponse"],
+      inputs: ["no_tool_calls", "tool_calls.messagesWithSecondRes"],
     }
   },
 };
