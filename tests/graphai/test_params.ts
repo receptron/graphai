@@ -6,10 +6,9 @@ import test from "node:test";
 import assert from "node:assert";
 
 
-const testAgent: AgentFunction<Record<never, never>, string> = async () => {
-  return "test";
+const testAgent: AgentFunction<Record<never, never>, any> = async ({params}) => {
+  return params;
 };
-
 
 const graphData_literal = {
   version: 0.2,
@@ -21,9 +20,8 @@ const graphData_literal = {
       value: { apple: "red" },
     },
     step1: {
-      agent: "stringTemplateAgent",
+      agent: "testAgent",
       params: {
-        template: "${0}, ${1}, ${2}.",
         foo: "${source2}",
         bar: "${source2.bar}",
       },
@@ -31,15 +29,15 @@ const graphData_literal = {
       isResult: true,
     },
     step2: {
-      agent: "sleeperAgent",
+      agent: "testAgent",
       inputs: ["source2", { lemon: "yellow" }],
       isResult: true,
     },
   },
 };
 
-test("test retry", async () => {
-  const result = await graphDataTestRunner(__filename, graphData_literal, defaultTestAgents, () => {}, false);
+test("test params", async () => {
+  const result = await graphDataTestRunner(__filename, graphData_literal, { testAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     step1: "apple, orange, undefined.",
     step2: { apple: "red", lemon: "yellow" },
