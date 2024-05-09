@@ -100,7 +100,7 @@ export class ComputedNode extends Node {
       this.pendings.add(this.ifSource.nodeId);
     }
     this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
-      const dataSource = parseNodeName(this.params[key], graph.version);
+      const dataSource = parseNodeName(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
       if (dataSource.nodeId) {
         tmp[key] = dataSource;
         this.pendings.add(dataSource.nodeId);
