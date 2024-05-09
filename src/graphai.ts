@@ -13,7 +13,7 @@ type GraphNodes = Record<string, ComputedNode | StaticNode>;
 const defaultConcurrency = 8;
 
 export class GraphAI {
-  private readonly version: number;
+  public readonly version: number;
   private readonly graphId: string;
   private readonly data: GraphData;
   private readonly loop?: LoopData;
@@ -62,7 +62,7 @@ export class GraphAI {
   }
 
   private getValueFromResults(key: string, results: ResultDataDictonary<DefaultResultData>) {
-    const source = parseNodeName(key);
+    const source = parseNodeName(key, this.version);
     return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source);
   }
 
@@ -96,6 +96,9 @@ export class GraphAI {
       console.log("------------ no version");
     }
     this.version = data.version ?? 0.2;
+    if (this.version < 0.3) {
+      console.log("------------ upgrade to 0.3!");
+    }
     this.retryLimit = data.retry; // optional
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;

@@ -26,8 +26,9 @@ export type StaticNodeData = {
     update?: string;
     isResult?: boolean;
 };
+export type AgentNamelessFunction = (...param: any[]) => unknown;
 export type ComputedNodeData = {
-    agent: string | any;
+    agent: string | AgentNamelessFunction;
     inputs?: Array<any>;
     anyInput?: boolean;
     params?: NodeDataParams;

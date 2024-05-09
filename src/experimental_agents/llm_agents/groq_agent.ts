@@ -28,13 +28,13 @@ export const groqAgent: AgentFunction<
     query?: string;
     system?: string;
     verbose?: boolean;
-    tools?: Record<string, any>;
+    tools?: Record<string, Groq.Chat.CompletionCreateParams.ToolChoice>;
     temperature?: number;
     max_tokens?: number;
     tool_choice?: string | Record<string, any>;
   },
   Record<string, any> | string,
-  string | Array<Record<string, any>>
+  string | Array<Groq.Chat.CompletionCreateParams.Message>
 > = async ({ params, inputs }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
   const { verbose, query, system, tools, tool_choice, max_tokens, temperature } = params;

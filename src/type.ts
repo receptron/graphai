@@ -31,8 +31,10 @@ export type StaticNodeData = {
   update?: string; // nodeId (+.propId) to get value after a loop
   isResult?: boolean;
 };
+export type AgentNamelessFunction = (...param: any[]) => unknown;
+
 export type ComputedNodeData = {
-  agent: string | any;
+  agent: string | AgentNamelessFunction;
   inputs?: Array<any>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;

@@ -53,6 +53,7 @@ export class ComputedNode extends Node {
   public readonly graphId: string;
   public readonly isResult: boolean;
   public readonly params: NodeDataParams; // Agent-specific parameters
+  private readonly dynamicParams: Record<string, DataSource>;
   public readonly nestedGraph?: GraphData;
   public readonly retryLimit: number;
   public retryCount: number = 0;
@@ -80,8 +81,9 @@ export class ComputedNode extends Node {
       this.agentId = data.agent;
     } else {
       assert(typeof data.agent === "function", "agent must be either string or function");
+      const agent = data.agent;
       this.agentFunction = async ({ inputs }) => {
-        return data.agent(...inputs);
+        return agent(...inputs);
       };
     }
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
@@ -90,13 +92,21 @@ export class ComputedNode extends Node {
     this.priority = data.priority ?? 0;
 
     this.anyInput = data.anyInput ?? false;
-    this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input));
+    this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
     if (data.if) {
-      this.ifSource = parseNodeName(data.if);
+      this.ifSource = parseNodeName(data.if, graph.version);
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
       this.pendings.add(this.ifSource.nodeId);
     }
+    this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
+      const dataSource = parseNodeName(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
+      if (dataSource.nodeId) {
+        tmp[key] = dataSource;
+        this.pendings.add(dataSource.nodeId);
+      }
+      return tmp;
+    }, {});
 
     this.log.initForComputedNode(this);
   }
@@ -203,7 +213,7 @@ export class ComputedNode extends Node {
     return !agentFilter.agentIds && !agentFilter.nodeIds;
   }
 
-  private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction) {
+  private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction): Promise<ResultData> {
     let index = 0;
 
     const next = (context: AgentFunctionContext): Promise<ResultData> => {
@@ -241,8 +251,16 @@ export class ComputedNode extends Node {
     try {
       const callback = this.agentFunction ?? this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
+      const params = Object.keys(this.dynamicParams).reduce(
+        (tmp, key) => {
+          const [result] = this.graph.resultsOf([this.dynamicParams[key]]);
+          tmp[key] = result;
+          return tmp;
+        },
+        { ...this.params },
+      );
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
-        params: this.params,
+        params: params,
         inputs: previousResults,
         debugInfo: {
           nodeId: this.nodeId,

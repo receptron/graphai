@@ -5,19 +5,20 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 
 const graph_data = {
+  version: 0.3,
   loop: {
     count: 3,
   },
   nodes: {
     node1: {
       value: {},
-      update: "node3",
+      update: ":node3",
     },
     node2: {
       agent: "input",
     },
     node3: {
-      inputs: ["node1", "node2"],
+      inputs: [":node1", ":node2"],
       agent: "merge",
     },
   },
