@@ -53,6 +53,7 @@ export class ComputedNode extends Node {
   public readonly graphId: string;
   public readonly isResult: boolean;
   public readonly params: NodeDataParams; // Agent-specific parameters
+  private readonly dynamicParams: Record<string, DataSource>;
   public readonly nestedGraph?: GraphData;
   public readonly retryLimit: number;
   public retryCount: number = 0;
@@ -75,6 +76,16 @@ export class ComputedNode extends Node {
     super(nodeId, graph);
     this.graphId = graphId;
     this.params = data.params ?? {};
+    const regex = /^\$\{(.+)\}$/;
+    this.dynamicParams = Object.keys(this.params).reduce((tmp:Record<string, DataSource>, key) => {
+      const value = this.params[key];
+      const match = (typeof value === "string") ? value.match(regex) : null;
+      if (match) {
+        tmp[key] = parseNodeName(match[1]);
+      }
+      return tmp;
+    }, {});
+    console.log("****", this.dynamicParams);
     this.nestedGraph = data.graph;
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
