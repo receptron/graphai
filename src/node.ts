@@ -98,7 +98,7 @@ export class ComputedNode extends Node {
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
       this.pendings.add(this.ifSource.nodeId);
     }
-    const regex = /^\$\{(.+)\}$/;
+    const regex = /^\$\{([^{}]+)\}$/;
     this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
       const value = this.params[key];
       const match = typeof value === "string" ? value.match(regex) : null;
