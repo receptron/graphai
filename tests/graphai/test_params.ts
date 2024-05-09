@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/graphai";
-import { rejectTest, graphDataTestRunner } from "~/utils/runner";
+import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
 
 import test from "node:test";
