@@ -24,7 +24,7 @@ const httpAgent: AgentFunction = async ({ inputs, params }) => {
 
 test("test bypass1", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -37,14 +37,14 @@ test("test bypass1", async () => {
       },
       bypassAgent: {
         agent: "httpAgent",
-        inputs: ["echo"],
+        inputs: [":echo"],
         params: {
           agent: "bypassAgent",
         },
       },
       bypassAgent2: {
         agent: "httpAgent",
-        inputs: ["bypassAgent.$0"],
+        inputs: [":bypassAgent.$0"],
         params: {
           agent: "bypassAgent",
         },
@@ -72,7 +72,7 @@ test("test bypass1", async () => {
 
 test("test bypass2", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -85,9 +85,9 @@ test("test bypass2", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["echo.message"],
+        inputs: [":echo.message"],
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "httpAgent",
@@ -108,7 +108,7 @@ test("test bypass2", async () => {
         params: {
           agent: "bypassAgent",
         },
-        inputs: ["mapNode.bypassAgent"],
+        inputs: [":mapNode.bypassAgent"],
       },
     },
   };
@@ -124,7 +124,7 @@ test("test bypass2", async () => {
 
 test("test bypass3", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -137,23 +137,23 @@ test("test bypass3", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["echo.message"],
+        inputs: [":echo.message"],
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "httpAgent",
               params: {
                 agent: "bypassAgent",
               },
-              inputs: ["$0"],
+              inputs: [":$0"],
             },
             bypassAgent2: {
               agent: "httpAgent",
               params: {
                 agent: "bypassAgent",
               },
-              inputs: ["bypassAgent.$0"],
+              inputs: [":bypassAgent.$0"],
             },
             bypassAgent3: {
               agent: "httpAgent",
@@ -163,7 +163,7 @@ test("test bypass3", async () => {
                   firstElement: true,
                 },
               },
-              inputs: ["bypassAgent2.$0"],
+              inputs: [":bypassAgent2.$0"],
               isResult: true,
             },
           },
@@ -177,7 +177,7 @@ test("test bypass3", async () => {
             firstElement: true,
           },
         },
-        inputs: ["mapNode.bypassAgent3"],
+        inputs: [":mapNode.bypassAgent3"],
       },
     },
   };
@@ -193,7 +193,7 @@ test("test bypass3", async () => {
 
 test("test bypass4", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -211,7 +211,7 @@ test("test bypass4", async () => {
           injectionTo: ["memory"],
         },
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             memory: {
               value: {},
@@ -221,14 +221,14 @@ test("test bypass4", async () => {
               params: {
                 agent: "bypassAgent",
               },
-              inputs: ["memory"],
+              inputs: [":memory"],
             },
             bypassAgent2: {
               agent: "httpAgent",
               params: {
                 agent: "bypassAgent",
               },
-              inputs: ["bypassAgent.$0", "memory"],
+              inputs: [":bypassAgent.$0", "memory"],
               isResult: true,
             },
           },
@@ -240,7 +240,7 @@ test("test bypass4", async () => {
           agent: "bypassAgent",
           firstElement: true,
         },
-        inputs: ["mapNode.bypassAgent2"],
+        inputs: [":mapNode.bypassAgent2"],
       },
     },
   };
