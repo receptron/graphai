@@ -94,52 +94,82 @@ A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. 
 
 A DFG consists of a collection of [nodes](#node), which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (such as params, inputs, and value) that dictate the node's behavior and its relationship with other nodes. There are two types of nodes, [computed nodes](#computed-node) and [static nodes](#static-node), which are described below.
 
-Connections between nodes will be established by references from one not to another, using either its "inputs" or "update" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId ("node1.item").
+### Data Source
+
+Connections between nodes will be established by references from one node to another, using either its "inputs" or "update" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId (e.g., "node1.item"), index (e.g., "node1.$0", "node2.$last") or combinations (e.g., "node1.messages.$0.content").
 
 ### DFG Structure
 
-- 'nodes': A list of node. Required.
-- 'concurrency': An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
-- 'loop': An optional property, which specifies if the graph needs to be executed multiple times. See the [Loop section below](#loop) for details.
+- *nodes*: A list of node. Required.
+- *concurrency*: An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
+- *loop*: An optional property, which specifies if the graph needs to be executed multiple times (iterations). See the [Loop section below](#loop) for details.
 
 ## Agent
 
-An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM (such as GPT-4), a media generator, a database, or a REST API over HTTP. A node associated with an agent (specified by 'agent' property) is called [computed node](#computed-node), which takes a set of inputs from other nodes, lets the agent to process it, and pushes the returned value to other nodes.
+An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM call (such as GPT-4), a media generator, a database access, or a REST API over HTTP. A node associated with an agent (specified by the *agent*'* property) is called [computed node](#computed-node), which takes a set of *inputs* from *data sources*, asks the *agent function* to process it, and makes the returned value available to other nodes.
 
 ### Agent function
 
-An agent function is a TypeScript function, which implements a particular *agent*. An *agent function* receives two set of parameters via AgentFunctionContext:
+An *agent function* is a TypeScript function, which implements a particular *agent*, performing some computations for the associated *computed node*. An *agent function* receives a *context* (type AgentFunctionContext), which has following properties:
 
-- params: agent specific parameters specified in the DFG (specified by the "params" property of the node)
-- inputs: a set of inputs came from other nodes (specified by "inputs" property of the node).
+- *params*: agent specific parameters specified in the DFG (specified by the "params" property of the node)
+- *inputs*: a set of inputs came from other nodes (specified by "inputs" property of the node).
+- *debugInfo*: a set of information for debugging purposes.
+
+There are additional optional parameters for developers of nested agents and agent filters.
+
+- *graphData*: an optional GraphData (for nested agents)
+- *agents*: AgentFunctionDictonary (for nested agents)
+- *taskManager*: TaskManager (for nested agents)
+- *log*: TransactionLog[] (for nested agents)
+- *filterParams*: agent filter parameters (for agent filters)
+
+### Inline Agent Function
+
+An *inline agent function* is a simplified version of *agent function*, which is embedded in the graph (available only when the graph was described in TypeScript). An *inline agent function* receives only the *inputs* paramter as a variable length arguments.
+
+Here is an examnple (from [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample_weather.ts)):
+
+```typescript
+    messagesWithUserInput: {
+      // Appends the user's input to the messages.
+      agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
+      inputs: ["messages", "userInput"],
+      if: "checkInput",
+    },
+```
 
 ## Node
 
-There are two types of Node, *computed nodes* and *static nodes*. A *computed node* is associated with an *agent function*, which receives some inputs, performs some computations asynchronously then returns the result (output). A *static node* is a placeholder of a value (just like a variable in programming language), which is specified by the *value* property, injected by an external program, or is updated at the end of iteration (see the [loop](#loop)). 
+There are two types of Node, *computed nodes* and *static nodes*. 
+
+A *computed node* is associated with an *agent function*, which receives some inputs, performs some computations asynchronously, and returns the result (output). 
+
+A *static node* is a placeholder of a value (just like a variable in programming languages), which is initially specified by its *value* property, and can be updated by an external program (before the execution of the graph), or updated using the *update* property at the end of each iteration of a [loop](#loop) operation. 
 
 ### Computed Node
 
-A *computed node* have following properties.
+A *computed node* has following properties.
 
-- 'agent': An **required** property, which specifies the id of the *agent function*, or TypeScript function (NOTE: this is not possible in JSON or YAML).
-- 'params': An optional agent-specific property to control the behavior of the associated agent function. 
-- 'inputs': An optional list of *data sources* that the current node receives the data from. This establishes a data flow where the current node can only be executed after the completion of the nodes listed under 'inputs'. If this list is empty, the associated *agent function* will be immediatley executed. 
-- 'anyInput': An optiona boolean flag, which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise, it will wait until all the data became available.
-- 'retry': An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, the error will be recorded.
-- 'timeout': An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded.
-- 'isResult': An optional boolean value, which indicates that the return value of this node, should be included as a property of the return value from the run() method of the GraphUI instance.
-- 'priority': An optional number, which specifies the priority of the execution of the associated agent (the task). Default is 0, which means "neutral". Negative numbers are allowed as well.
+- *agent*: An **required** property, which specifies the id of the *agent function*, or an *inline agent function* (NOTE: this is not possible in JSON or YAML).
+- *params*: An optional agent-specific property to control the behavior of the associated agent function. The top level property may reference a *data source*.
+- *inputs*: An optional list of *data sources* that the current node receives the data from. This establishes a data flow where the current node can only be executed after the completion of the nodes listed under *inputs*. If this list is empty, the associated *agent function* will be immediatley executed. 
+- *anyInput*: An optiona boolean flag, which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise, it will wait until all the data became available.
+- *retry*: An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, the error will be recorded.
+- *timeout*: An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded.
+- *isResult*: An optional boolean value, which indicates that the return value of this node, should be included as a property of the return value from the run() method of the GraphUI instance.
+- *priority*: An optional number, which specifies the priority of the execution of the associated agent (the task). Default is 0, which means "neutral". Negative numbers are allowed as well.
 
 ### Static Node
 
-A *static* node have following properties.
+A *static* node has following properties.
 
-- 'value': An **required** property, which specifies the initial value of this static node (equivalent to calling the injectValue method from outside).
-- 'update': An optional property, which specifies the *data source* after each iteration. See the [loop](#loop) for details.
+- *value*: An **required** property, which specifies the initial value of this static node (equivalent to calling the injectValue method from outside).
+- *update*: An optional property, which specifies the *data source* for a [loop](#loop) operation. After each iteration, the value of this node will be updated with the data from the specified *data source*.
 
 ## Flow Control
 
-Since the data-flow graph must be asyclic by design, we added a few mechanisms to control data flows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [condtional flow](#conditional-flow).
+Since the data-flow graph must be asyclic by design, we added a few mechanisms to control data flows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [conditional flow](#conditional-flow).
 
 ### Nested Graph
 
@@ -198,9 +228,12 @@ This mechanism does not only allows devleoper to reuse code, but also makes it p
 
 ### Loop
 
-The loop is an optioal property of a graph, which has two optional properties. The *count* property specifies the number of times the graph needs to be executed and the *while* property specifies the condition required to contineu the loop in the form of node name (nodeId) or its property (nodeId.propId). Unlike JavaScript, an empty array will be treated as false.
+The loop is an optional property of a graph, which has two optional properties. 
 
-Here is an example, which performs an LLM query for each person in the list and create the list of answers. The "people" node (static), is initialized with an array of names, and the "retriever" node (computed) retrieves one name at a time, and send it to the "query" node (computed) to perform an LLM query. The "reducer" append it the array retrieved form the "result" node (static node, which is initialized as an empty array). 
+- *count*: Specifies the number of times the graph needs to be executed.
+- *while*: Specifies the *data source* to check after the each iteration. It continues if the data from that *data source* is *true*. Unlike JavaScript, an empty array will be treated as *false*.
+
+Here is an example, which performs an LLM query for each person in the list and create the list of answers. The "people" node (static), is initialized with an array of names, and the "retriever" node (computed) retrieves one name at a time, and sends it to the "query" node (computed) to perform an LLM query. The "reducer" append it the array retrieved form the "result" node (static node, which is initialized as an empty array). 
 
 The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous itelation. This loop continues until the value of "people" node become an empty array.
 
