@@ -53,6 +53,7 @@ export class ComputedNode extends Node {
   public readonly graphId: string;
   public readonly isResult: boolean;
   public readonly params: NodeDataParams; // Agent-specific parameters
+  private readonly dynamicParams: Record<string, DataSource>;
   public readonly nestedGraph?: GraphData;
   public readonly retryLimit: number;
   public retryCount: number = 0;
@@ -98,6 +99,18 @@ export class ComputedNode extends Node {
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
       this.pendings.add(this.ifSource.nodeId);
     }
+    const regex = /^\$\{([^{}]+)\}$/;
+    this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
+      const value = this.params[key];
+      const match = typeof value === "string" ? value.match(regex) : null;
+      if (match) {
+        const dataSource = parseNodeName(match[1]);
+        tmp[key] = dataSource;
+        assert(!!dataSource.nodeId, `Invalid data source ${key}:${value}`);
+        this.pendings.add(dataSource.nodeId);
+      }
+      return tmp;
+    }, {});
 
     this.log.initForComputedNode(this);
   }
@@ -242,8 +255,16 @@ export class ComputedNode extends Node {
     try {
       const callback = this.agentFunction ?? this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
+      const params = Object.keys(this.dynamicParams).reduce(
+        (tmp, key) => {
+          const [result] = this.graph.resultsOf([this.dynamicParams[key]]);
+          tmp[key] = result;
+          return tmp;
+        },
+        { ...this.params },
+      );
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
-        params: this.params,
+        params: params,
         inputs: previousResults,
         debugInfo: {
           nodeId: this.nodeId,
