@@ -18,7 +18,7 @@ const dispatchAgentGenerator = (selectedNodeId: string) => {
 };
 
 const dispatchGraph = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     select1: {
       agent: "dispatchAgent",
@@ -31,18 +31,18 @@ const dispatchGraph = {
       params: {
         duration: 20,
       },
-      inputs: ["select1.next", "select2.next"],
+      inputs: [":select1.next", ":select2.next"],
       anyInput: true,
     },
     node: {
       agent: "mergeNodeIdAgent",
     },
     merge: {
-      inputs: ["node", "ghost"],
+      inputs: [":node", ":ghost"],
       agent: "mergeNodeIdAgent",
     },
     result: {
-      inputs: ["merge"],
+      inputs: [":merge"],
       agent: "mergeNodeIdAgent",
     },
   },
@@ -75,7 +75,7 @@ test("test select 2", async () => {
 });
 
 const dispatchGraph2 = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     select: {
       agent: "dispatchAgent",
@@ -85,7 +85,7 @@ const dispatchGraph2 = {
       params: {
         duration: 20,
       },
-      inputs: ["select.next1"],
+      inputs: [":select.next1"],
       anyInput: true,
     },
     ghost2: {
@@ -93,7 +93,7 @@ const dispatchGraph2 = {
       params: {
         duration: 20,
       },
-      inputs: ["select.next2"],
+      inputs: [":select.next2"],
       anyInput: true,
     },
     ghost3: {
@@ -101,19 +101,19 @@ const dispatchGraph2 = {
       params: {
         duration: 20,
       },
-      inputs: ["select.next3"],
+      inputs: [":select.next3"],
       anyInput: true,
     },
     result1: {
-      inputs: ["ghost1"],
+      inputs: [":ghost1"],
       agent: "mergeNodeIdAgent",
     },
     result2: {
-      inputs: ["ghost2"],
+      inputs: [":ghost2"],
       agent: "mergeNodeIdAgent",
     },
     result3: {
-      inputs: ["ghost3"],
+      inputs: [":ghost3"],
       agent: "mergeNodeIdAgent",
     },
   },
