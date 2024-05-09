@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_any = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source: {
       value: {},
@@ -15,13 +15,13 @@ const graphdata_any = {
       agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
-      inputs: ["source.yes"],
+      inputs: [":source.yes"],
     },
     negative: {
       agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
-      inputs: ["source.no"],
+      inputs: [":source.no"],
     },
   },
 };
@@ -62,7 +62,7 @@ test("test any no", async () => {
 });
 
 const graphdata_any2 = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source1: {
       value: { apple: "red" },
@@ -76,7 +76,7 @@ const graphdata_any2 = {
         duration: 10,
       },
       isResult: true,
-      inputs: ["source1"],
+      inputs: [":source1"],
     },
     router2: {
       agent: "sleeperAgent",
@@ -84,13 +84,13 @@ const graphdata_any2 = {
         duration: 100,
       },
       isResult: true,
-      inputs: ["source2"],
+      inputs: [":source2"],
     },
     receiver: {
       agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
-      inputs: ["router1", "router2"],
+      inputs: [":router1", ":router2"],
     },
   },
 };

@@ -1,4 +1,4 @@
-version: 0.2
+version: 0.3
 nodes:
   node1:
     agent: sleeperAgentDebug
@@ -19,7 +19,7 @@ nodes:
       fail: true
       value:
         node3: output
-    inputs: [node1, node2]
+    inputs: [:node1, :node2]
   node4:
     agent: sleeperAgentDebug
     timeout: 200
@@ -28,11 +28,11 @@ nodes:
       duration: 300
       value:
         node4: output
-    inputs: [node3]
+    inputs: [:node3]
   node5:
     agent: sleeperAgentDebug
     params:
       duration: 100
       value:
         node5: output
-    inputs: [node4]
+    inputs: [:node4]
