@@ -6,7 +6,7 @@ import assert from "node:assert";
 
 test("test bypass1", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -16,11 +16,11 @@ test("test bypass1", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: ["echo"],
+        inputs: [":echo"],
       },
       bypassAgent2: {
         agent: "bypassAgent",
-        inputs: ["bypassAgent.$0"],
+        inputs: [":bypassAgent.$0"],
       },
     },
   };
@@ -46,7 +46,7 @@ test("test bypass1", async () => {
 
 test("test bypass2", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -56,13 +56,13 @@ test("test bypass2", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["echo.message"],
+        inputs: [":echo.message"],
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: ["$0"],
+              inputs: [":$0"],
               isResult: true,
               params: {
                 firstElement: true,
@@ -73,7 +73,7 @@ test("test bypass2", async () => {
       },
       bypassAgent2: {
         agent: "bypassAgent",
-        inputs: ["mapNode.bypassAgent"],
+        inputs: [":mapNode.bypassAgent"],
       },
     },
   };
@@ -89,7 +89,7 @@ test("test bypass2", async () => {
 
 test("test bypass3", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -99,21 +99,21 @@ test("test bypass3", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["echo.message"],
+        inputs: [":echo.message"],
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: ["$0"],
+              inputs: [":$0"],
             },
             bypassAgent2: {
               agent: "bypassAgent",
-              inputs: ["bypassAgent.$0"],
+              inputs: [":bypassAgent.$0"],
             },
             bypassAgent3: {
               agent: "bypassAgent",
-              inputs: ["bypassAgent2.$0"],
+              inputs: [":bypassAgent2.$0"],
               params: {
                 firstElement: true,
               },
@@ -127,7 +127,7 @@ test("test bypass3", async () => {
         params: {
           firstElement: true,
         },
-        inputs: ["mapNode.bypassAgent3"],
+        inputs: [":mapNode.bypassAgent3"],
       },
     },
   };
@@ -143,7 +143,7 @@ test("test bypass3", async () => {
 
 test("test bypass4", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -153,17 +153,17 @@ test("test bypass4", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["echo.message"],
+        inputs: [":echo.message"],
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: ["$0"],
+              inputs: [":$0"],
             },
             bypassAgent2: {
               agent: "bypassAgent",
-              inputs: ["bypassAgent.$0", "$0"],
+              inputs: [":bypassAgent.$0", ":$0"],
               isResult: true,
             },
           },
@@ -171,7 +171,7 @@ test("test bypass4", async () => {
       },
       bypassAgent3: {
         agent: "bypassAgent",
-        inputs: ["mapNode.bypassAgent2"],
+        inputs: [":mapNode.bypassAgent2"],
         params: {
           firstElement: true,
         },
@@ -201,7 +201,7 @@ test("test bypass4", async () => {
 
 test("test bypass 5", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -211,15 +211,15 @@ test("test bypass 5", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: ["echo", "echo", "echo"],
+        inputs: [":echo", ":echo", ":echo"],
       },
       bypassAgent2: {
         agent: "bypassAgent",
-        inputs: ["bypassAgent", "bypassAgent"],
+        inputs: [":bypassAgent", ":bypassAgent"],
       },
       bypassAgent3: {
         agent: "bypassAgent",
-        inputs: ["bypassAgent2", "bypassAgent2"],
+        inputs: [":bypassAgent2", ":bypassAgent2"],
       },
     },
   };
