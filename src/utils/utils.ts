@@ -18,7 +18,7 @@ const parseNodeName_02 = (inputNodeId: any) => {
     return { nodeId: parts[0], propIds: parts.slice(1) };
   }
   return { value: inputNodeId }; // non-string literal
-}
+};
 
 export const parseNodeName = (inputNodeId: any, version: number): DataSource => {
   if (version === 0.2) {
