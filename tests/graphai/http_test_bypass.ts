@@ -228,7 +228,7 @@ test("test bypass4", async () => {
               params: {
                 agent: "bypassAgent",
               },
-              inputs: [":bypassAgent.$0", "memory"],
+              inputs: [":bypassAgent.$0", ":memory"],
               isResult: true,
             },
           },
