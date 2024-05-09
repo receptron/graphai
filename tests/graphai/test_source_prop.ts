@@ -6,18 +6,18 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphData = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     input: {
       agent: "testAgent",
     },
     test: {
       agent: "testAgent",
-      inputs: ["input"],
+      inputs: [":input"],
     },
     test2: {
       agent: "testAgent",
-      inputs: ["test.hoge"],
+      inputs: [":test.hoge"],
     },
   },
 };
@@ -31,7 +31,7 @@ test("test source props test", async () => {
 });
 
 const graphData_literal = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source: {
       value: "apple",
@@ -44,12 +44,12 @@ const graphData_literal = {
       params: {
         template: "${0}, ${1}, ${2}.",
       },
-      inputs: ["source", "\"orange\"", undefined],
+      inputs: [":source", "orange", undefined],
       isResult: true,
     },
     step2: {
       agent: "sleeperAgent",
-      inputs: ["source2", { lemon: "yellow" }],
+      inputs: [":source2", { lemon: "yellow" }],
       isResult: true,
     },
   },
