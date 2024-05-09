@@ -26,8 +26,9 @@ export type StaticNodeData = {
     update?: string;
     isResult?: boolean;
 };
+export type AgentAnonFunction<ResultType = DefaultResultData> = (...param: any[]) => Promise<ResultData<ResultType>>;
 export type ComputedNodeData = {
-    agent: string | any;
+    agent: string | AgentAnonFunction;
     inputs?: Array<any>;
     anyInput?: boolean;
     params?: NodeDataParams;
