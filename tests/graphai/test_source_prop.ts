@@ -6,18 +6,18 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphData = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     input: {
       agent: "testAgent",
     },
     test: {
       agent: "testAgent",
-      inputs: ["input"],
+      inputs: [":input"],
     },
     test2: {
       agent: "testAgent",
-      inputs: ["test.hoge"],
+      inputs: [":test.hoge"],
     },
   },
 };
