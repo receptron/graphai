@@ -5,6 +5,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 
 const graph_data = {
+  version: 0.2,
   loop: {
     count: 3,
   },
