@@ -96,6 +96,9 @@ export class GraphAI {
       console.log("------------ no version");
     }
     this.version = data.version ?? 0.2;
+    if (this.version < 0.3) {
+      console.log("------------ upgrade to 0.3!");
+    }
     this.retryLimit = data.retry; // optional
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
