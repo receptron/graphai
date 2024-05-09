@@ -5,7 +5,7 @@ import test from "node:test";
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.2,
+    version: 0.3,
     nodes: {
       computed1: {
         value: {},
@@ -18,7 +18,7 @@ test("test computed node validation value", async () => {
 
 test("test static node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.2,
+    version: 0.3,
     nodes: {
       computed1: {
         update: "",
