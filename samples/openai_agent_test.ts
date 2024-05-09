@@ -10,7 +10,7 @@ const main = async () => {
     inputs: ["日本の歴史について200文字でまとめてください"],
     ...{
       filterParams: {
-        streamCallback: (token: string) => {
+        streamTokenCallback: (token: string) => {
           console.log(token);
         },
       },
@@ -23,7 +23,7 @@ const main = async () => {
     inputs: ["日本の歴史について200文字でまとめてください"],
     ...{
       filterParams: {
-        streamCallback: (token: string) => {
+        streamTokenCallback: (token: string) => {
           console.log(token);
         },
       },

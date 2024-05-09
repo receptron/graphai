@@ -42,8 +42,8 @@ export const openAIAgent: AgentFunction<
 
   for await (const message of chatStream) {
     const token = message.choices[0].delta.content;
-    if (filterParams && filterParams.streamCallback && token) {
-      filterParams.streamCallback(token);
+    if (filterParams && filterParams.streamTokenCallback && token) {
+      filterParams.streamTokenCallback(token);
     }
   }
 
@@ -82,9 +82,9 @@ export const openAIMockAgent: AgentFunction<
   string | Array<any>
 > = async ({ filterParams, params, inputs }) => {
   for await (const token of input_sample.split("")) {
-    if (filterParams && filterParams.streamCallback && token) {
+    if (filterParams && filterParams.streamTokenCallback && token) {
       await sleep(100);
-      filterParams.streamCallback(token);
+      filterParams.streamTokenCallback(token);
     }
   }
 

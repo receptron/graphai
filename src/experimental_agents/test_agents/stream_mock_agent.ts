@@ -6,8 +6,8 @@ export const streamMockAgent: AgentFunction = async ({ params, filterParams }) =
   const message = params.message;
 
   for await (const token of message.split("")) {
-    if (filterParams.streamCallback) {
-      filterParams.streamCallback(token);
+    if (filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback(token);
     }
     await sleep(params.sleep || 100);
   }

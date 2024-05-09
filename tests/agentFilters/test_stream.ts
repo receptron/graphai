@@ -15,7 +15,7 @@ const outSideFunciton = (context: AgentFunctionContext, data: string) => {
 
 const streamAgentFilterGenerator = <T>(callback: (context: AgentFunctionContext, data: T) => void) => {
   const streamAgentFilter: AgentFilterFunction = async (context, next) => {
-    context.filterParams.streamCallback = (data: T) => {
+    context.filterParams.streamTokenCallback = (data: T) => {
       callback(context, data);
     };
     return next(context);
