@@ -5,8 +5,7 @@ import { defaultTestAgents } from "@/utils/test_agents";
 import test from "node:test";
 import assert from "node:assert";
 
-
-const testAgent: AgentFunction<Record<never, never>, any> = async ({params}) => {
+const testAgent: AgentFunction<Record<never, never>, any> = async ({ params }) => {
   return params;
 };
 
@@ -21,14 +20,14 @@ const graphData_literal = {
     },
     delayed1: {
       agent: "sleeperAgent",
-      inputs:["source1"],
+      inputs: ["source1"],
     },
     delayed2: {
       agent: "sleeperAgent",
       params: {
-        duration: 100
+        duration: 100,
       },
-      inputs:["source2"],
+      inputs: ["source2"],
     },
     test1: {
       agent: "testAgent",
@@ -52,7 +51,7 @@ const graphData_literal = {
 test("test params", async () => {
   const result = await graphDataTestRunner(__filename, graphData_literal, { testAgent, ...defaultTestAgents }, () => {}, false);
   assert.deepStrictEqual(result, {
-      test1: { fruit: { apple: 'red' }, color: 'yellow' },
-      test2: { fruit: { apple: 'red' }, color: 'yellow' }
+    test1: { fruit: { apple: "red" }, color: "yellow" },
+    test2: { fruit: { apple: "red" }, color: "yellow" },
   });
 });

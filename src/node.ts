@@ -99,9 +99,9 @@ export class ComputedNode extends Node {
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
       this.pendings.add(this.ifSource.nodeId);
     }
-    this.dynamicParams = Object.keys(this.params).reduce((tmp:Record<string, DataSource>, key) => {
+    this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
       const value = this.params[key];
-      const match = (typeof value === "string") ? value.match(regex) : null;
+      const match = typeof value === "string" ? value.match(regex) : null;
       if (match) {
         const dataSource = parseNodeName(match[1]);
         tmp[key] = dataSource;
@@ -254,11 +254,14 @@ export class ComputedNode extends Node {
     try {
       const callback = this.agentFunction ?? this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
-      const params = Object.keys(this.dynamicParams).reduce((tmp, key) => {
-        const [result] = this.graph.resultsOf([this.dynamicParams[key]]);
-        tmp[key] = result;
-        return tmp;
-      }, { ...this.params });
+      const params = Object.keys(this.dynamicParams).reduce(
+        (tmp, key) => {
+          const [result] = this.graph.resultsOf([this.dynamicParams[key]]);
+          tmp[key] = result;
+          return tmp;
+        },
+        { ...this.params },
+      );
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
         params: params,
         inputs: previousResults,
