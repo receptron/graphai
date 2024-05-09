@@ -28,12 +28,12 @@ export const groqAgent: AgentFunction<
     query?: string;
     system?: string;
     verbose?: boolean;
-    tools?: Record<string, Groq.Chat.CompletionCreateParams.ToolChoice>;
+    tools?: Record<string, Groq.Chat.CompletionCreateParams.Tool>;
     temperature?: number;
     max_tokens?: number;
-    tool_choice?: string | Record<string, any>;
+    tool_choice?: string | Record<string, Groq.Chat.CompletionCreateParams.ToolChoice>;
   },
-  Record<string, any> | string,
+  Groq.Chat.ChatCompletion,
   string | Array<Groq.Chat.CompletionCreateParams.Message>
 > = async ({ params, inputs }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
@@ -41,9 +41,9 @@ export const groqAgent: AgentFunction<
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
-  const messages: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messages: Array<Groq.Chat.CompletionCreateParams.Message> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
 
-  const content = (query ? [query] : []).concat(input_query ? [input_query as string] : []).join("\n");
+  const content = (query ? [query] : []).concat(input_query && typeof input_query === "string" ? [input_query] : []).join("\n");
   if (content) {
     messages.push({
       role: "user",
