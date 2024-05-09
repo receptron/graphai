@@ -1,7 +1,8 @@
 import OpenAI from "openai";
 import { AgentFunction } from "@/graphai";
+import { sleep } from "@/utils/utils";
 
-export const streamopenAIAgent: AgentFunction<
+export const openAIAgent: AgentFunction<
   {
     model?: string;
     query?: string;
@@ -49,19 +50,62 @@ export const streamopenAIAgent: AgentFunction<
   const chatCompletion = await chatStream.finalChatCompletion();
   return chatCompletion;
 };
-/*
-export const openAIAgent: AgentFunction  = async ({ params, inputs, filterParams}) => {
-  const generator = streamopenAIAgent()
-  let result = await generator.next();
-  while (!result.done) {
-    const value = await result.value;
-    if (filterParams.streamCallback) {
-      filterParams.streamCallback(value);
-    }
-    result = await generator.next();
-  }
-  return result.value;
-  // console.log(JSON.stringify(result.value));
-  // return 123;
+
+const input_sample = "this is response result";
+const result_sample = {
+  object: "chat.completion",
+  id: "chatcmpl-9N7HxXYbwjmdbdiQE94MHoVluQhyt",
+  choices: [
+    {
+      message: {
+        role: "assistant",
+        content: input_sample,
+      },
+      finish_reason: "stop",
+      index: 0,
+      logprobs: null,
+    },
+  ],
+  created: 1715296589,
+  model: "gpt-3.5-turbo-0125",
 };
-*/
+
+export const openAIMockAgent: AgentFunction<
+  {
+    model?: string;
+    query?: string;
+    system?: string;
+    verbose?: boolean;
+    temperature?: number;
+  },
+  Record<string, any> | string,
+  string | Array<any>
+> = async ({ filterParams, params, inputs }) => {
+  for await (const token of input_sample.split("")) {
+    if (filterParams && filterParams.streamCallback && token) {
+      await sleep(100);
+      filterParams.streamCallback(token);
+    }
+  }
+
+  return result_sample;
+};
+const openaiAgentInfo = {
+  name: "openAIAgent",
+  agent: openAIAgent,
+  mock: openAIMockAgent,
+  samples: [
+    {
+      inputs: [input_sample],
+      params: {},
+      result: result_sample,
+    },
+  ],
+  description: "Openai Agent",
+  category: ["llm"],
+  author: "Receptron team",
+  repository: "https://github.com/receptron/graphai",
+  license: "MIT",
+};
+
+export default openaiAgentInfo;
