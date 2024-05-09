@@ -5,13 +5,13 @@ import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
 import { wikipediaAgent } from "@/experimental_agents";
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     interactiveInputAgent: {
       agent: "interactiveInputTextAgent",
     },
     wikipedia: {
-      inputs: ["interactiveInputAgent.answer"],
+      inputs: [":interactiveInputAgent.answer"],
       agent: "wikipediaAgent",
       params: {
         lang: "ja",
