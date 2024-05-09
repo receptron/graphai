@@ -42,7 +42,7 @@ test("test loop & push", async () => {
 const graphdata_pop = {
   version: 0.3,
   loop: {
-    while: "source",
+    while: ":source",
   },
   nodes: {
     source: {
