@@ -31,7 +31,7 @@ test("test source props test", async () => {
 });
 
 const graphData_literal = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source: {
       value: "apple",
@@ -44,12 +44,12 @@ const graphData_literal = {
       params: {
         template: "${0}, ${1}, ${2}.",
       },
-      inputs: ["source", "\"orange\"", undefined],
+      inputs: [":source", "orange", undefined],
       isResult: true,
     },
     step2: {
       agent: "sleeperAgent",
-      inputs: ["source2", { lemon: "yellow" }],
+      inputs: [":source2", { lemon: "yellow" }],
       isResult: true,
     },
   },
