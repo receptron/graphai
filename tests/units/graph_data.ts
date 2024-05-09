@@ -1,5 +1,5 @@
 export const graph_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     echo: {
       agent: "echoAgent",
@@ -9,28 +9,28 @@ export const graph_data = {
     },
     bypassAgent: {
       agent: "bypassAgent",
-      inputs: ["echo"],
+      inputs: [":echo"],
     },
     bypassAgent2: {
       agent: "bypassAgent",
-      inputs: ["bypassAgent"],
+      inputs: [":bypassAgent"],
     },
   },
 };
 
 export const graph_injection_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     echo: {
       agent: "echoAgent",
     },
     bypassAgent: {
       agent: "injectAgent",
-      inputs: ["echo"],
+      inputs: [":echo"],
     },
     bypassAgent2: {
       agent: "bypassAgent",
-      inputs: ["bypassAgent"],
+      inputs: [":bypassAgent"],
     },
   },
 };
