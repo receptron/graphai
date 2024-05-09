@@ -22,30 +22,30 @@ nodes:
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia: // Retrieve data from Wikipedia
     agent: wikipediaAgent
-    inputs: [source.name]
+    inputs: [:source.name]
   chunks: // Break the text from Wikipedia into chunks (2048 character each with 512 overlap）
     agent: stringSplitterAgent
-    inputs: [wikipedia]
+    inputs: [:wikipedia]
   chunkEmbeddings: // Get embedding vector of each chunk
     agent: stringEmbeddingsAgent
-    inputs: [chunks]
+    inputs: [:chunks]
   topicEmbedding: // Get embedding vector of the question
     agent: stringEmbeddingsAgent
-    inputs: [source.query]
+    inputs: [:source.query]
   similarities: // Calculate the cosine similarity of each chunk
     agent: dotProductAgent
-    inputs: [chunkEmbeddings, topicEmbedding]
+    inputs: [:chunkEmbeddings, :topicEmbedding]
   sortedChunks: // Sort chunks based on their similarities
     agent: sortByValuesAgent
-    inputs: [chunks, similarities]
+    inputs: [:chunks, :similarities]
   referenceText: // Concatenate chunks up to the token limit (5000)
     agent: tokenBoundStringsAgent
-    inputs: [sortedChunks]
+    inputs: [:sortedChunks]
     params:
       limit: 5000
   prompt: // Generate a prompt with that reference text
     agent: stringTemplateAgent
-    inputs: [source, referenceText]
+    inputs: [:source, :referenceText]
     params:
       template: |-
         Using the following document, ${0}
@@ -56,7 +56,7 @@ nodes:
       manifest:
         model: gpt-3.5-turbo
     isResult: true // indicating this is the final result
-    inputs: [prompt]
+    inputs: [:prompt]
 ```
 
 ```mermaid
@@ -96,10 +96,11 @@ A DFG consists of a collection of [nodes](#node), which contains a series of nes
 
 ### Data Source
 
-Connections between nodes will be established by references from one node to another, using either its "inputs" or "update" property. The values of those properties are *data sources*. A *data souce* is specified by either the nodeId (e.g., "node1"), or nodeId + propertyId (e.g., "node1.item"), index (e.g., "node1.$0", "node2.$last") or combinations (e.g., "node1.messages.$0.content").
+Connections between nodes will be established by references from one node to another, using either its "inputs", "update", "if" or "while" property. The values of those properties are *data sources*. A *data souce* is specified by either the ":" + nodeId (e.g., ":node1"), or ":" + nodeId + propertyId (e.g., ":node1.item"), index (e.g., ":node1.$0", ":node2.$last") or combinations (e.g., ":node1.messages.$0.content").
 
 ### DFG Structure
 
+- *version*: GraphAI version, *required*. The latest version is 0.3.
 - *nodes*: A list of node. Required.
 - *concurrency*: An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
 - *loop*: An optional property, which specifies if the graph needs to be executed multiple times (iterations). See the [Loop section below](#loop) for details.
@@ -134,7 +135,7 @@ Here is an examnple (from [weather chat](https://github.com/receptron/graphai/bl
     messagesWithUserInput: {
       // Appends the user's input to the messages.
       agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
-      inputs: ["messages", "userInput"],
+      inputs: [":messages", ":userInput"],
       if: "checkInput",
     },
 ```
@@ -183,23 +184,23 @@ nodes:
     value: "Find out which materials we need to purchase this week for Joe Smith's residential house project."
   projectId: // identifies the projectId from the question
     agent: "identifierAgent"
-    inputs: ["source"] // == "sourceNode.query"
+    inputs: [":source"] // == "sourceNode.query"
   database:
     agent: "nestedAgent"
-    inputs: ["question", "projectId"]
+    inputs: [":question", ":projectId"]
     graph:
       nodes:
         schema: // retrieves the database schema for the apecified projectId
           agent: "schemaAgent"
-          inputs: ["$1"]
+          inputs: [":$1"]
         ... // issue query to the database and build an appropriate prompt with it.
         query: // send the generated prompt to the LLM
           agent: "llama3Agent"
-          inputs: ["prompt"]
+          inputs: [":prompt"]
           isResult: true
   response: // Deliver the answer
     agent: "deliveryAgent"      
-    inputs: [database.query.$last.content]
+    inputs: [:database.query.$last.content]
 ```
 
 The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, "$0" and "$1". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
@@ -239,14 +240,14 @@ The "update" property of two static nodes ("people" and "result"), updates those
 
 ```
 loop:
-  while: people
+  while: :people
 nodes:
   people:
     value: [Steve Jobs, Elon Musk, Nikola Tesla]
-    update: retriever.array
+    update: :retriever.array
   result:
     value: []
-    update: reducer
+    update: :reducer
     isResult: true
   retriever:
     agent: shift
@@ -256,10 +257,10 @@ nodes:
     params:
       manifest:
         prompt: Describe about the person in less than 100 words
-    inputs: [retriever.item]
+    inputs: [:retriever.item]
   reducer:
     agent: push
-    inputs: [result, query.content]
+    inputs: [:result, :query.content]
 ```
 
 ```mermaid
@@ -292,7 +293,7 @@ nodes:
     value: [Steve Jobs, Elon Musk, Nikola Tesla]
   retriever:
     agent: "mapAgent"
-    inputs: ["people"]
+    inputs: [":people"]
     graph:
       nodes:
         query:
@@ -300,7 +301,7 @@ nodes:
           params:
             manifest:
               prompt: Describe about the person in less than 100 words
-          inputs: ["$0"]
+          inputs: [":$0"]
 ```
 
 Here is the conceptual representation of this operation.
@@ -324,8 +325,8 @@ A sample code, [weather chat](https://github.com/receptron/graphai/blob/main/sam
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: ["groq.choices.$0.message.tool_calls", "messagesWithFirstRes"],
-      if: "groq.choices.$0.message.tool_calls",
+      inputs: [":groq.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
+      if: ":groq.choices.$0.message.tool_calls",
       graph: {
         // This graph is nested only for the readability.
 ```
@@ -341,7 +342,7 @@ The [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample
       // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
-      inputs: ["no_tool_calls", "tool_calls.messagesWithSecondRes"],
+      inputs: [":no_tool_calls", ":tool_calls.messagesWithSecondRes"],
     },
 ```
 
