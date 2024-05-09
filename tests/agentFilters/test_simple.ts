@@ -29,7 +29,7 @@ const callbackDictonary = {};
 
 test("test agent filter", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -40,7 +40,7 @@ test("test agent filter", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: ["echo"],
+        inputs: [":echo"],
         isResult: true,
       },
     },
@@ -64,7 +64,7 @@ test("test agent filter", async () => {
 
 test("test agent filter with agent condition", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -74,7 +74,7 @@ test("test agent filter with agent condition", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: ["echo"],
+        inputs: [":echo"],
         isResult: true,
       },
     },
@@ -99,7 +99,7 @@ test("test agent filter with agent condition", async () => {
 
 test("test agent filter with agent condition", async () => {
   const graph_data = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -109,7 +109,7 @@ test("test agent filter with agent condition", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: ["echo"],
+        inputs: [":echo"],
         isResult: true,
       },
     },
