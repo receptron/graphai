@@ -5,23 +5,23 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_push = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source: {
       value: { fruits: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"] },
     },
     nestedNode: {
       agent: "mapAgent",
-      inputs: ["source.fruits"],
+      inputs: [":source.fruits"],
       graph: {
-        version: 0.2,
+        version: 0.3,
         nodes: {
           node2: {
             agent: "stringTemplateAgent",
             params: {
               template: "I love ${0}.",
             },
-            inputs: ["$0"],
+            inputs: [":$0"],
             isResult: true,
           },
         },
@@ -29,7 +29,7 @@ const graphdata_push = {
     },
     result: {
       agent: "sleeperAgent",
-      inputs: ["nestedNode.node2"],
+      inputs: [":nestedNode.node2"],
     },
   },
 };
@@ -48,7 +48,7 @@ test("test map 1", async () => {
 });
 
 const graphdata_map2 = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source1: {
       value: { fruit: "apple" },
@@ -64,16 +64,16 @@ const graphdata_map2 = {
     },
     nestedNode: {
       agent: "mapAgent",
-      inputs: ["source1.fruit", "source2.fruit", "source3.fruit", "source4.fruit"],
+      inputs: [":source1.fruit", ":source2.fruit", ":source3.fruit", ":source4.fruit"],
       graph: {
-        version: 0.2,
+        version: 0.3,
         nodes: {
           node2: {
             agent: "stringTemplateAgent",
             params: {
               template: "I love ${0}.",
             },
-            inputs: ["$0"],
+            inputs: [":$0"],
             isResult: true,
           },
         },
@@ -81,7 +81,7 @@ const graphdata_map2 = {
     },
     result: {
       agent: "sleeperAgent",
-      inputs: ["nestedNode.node2"],
+      inputs: [":nestedNode.node2"],
     },
   },
 };
@@ -93,20 +93,20 @@ test("test map 2", async () => {
 
 // nest graph and flat
 const graphdata_map3 = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
     },
     nestedNode: {
       agent: "mapAgent",
-      inputs: ["source1"],
+      inputs: [":source1"],
       graph: {
-        version: 0.2,
+        version: 0.3,
         nodes: {
           node1: {
             agent: "bypassAgent",
-            inputs: ["$0"],
+            inputs: [":$0"],
             isResult: true,
           },
         },
@@ -114,7 +114,7 @@ const graphdata_map3 = {
     },
     result: {
       agent: "bypassAgent",
-      inputs: ["nestedNode.node1"],
+      inputs: [":nestedNode.node1"],
     },
   },
 };
@@ -125,20 +125,20 @@ test("test map 3", async () => {
 });
 
 const graphdata_map4 = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
     },
     nestedNode: {
       agent: "mapAgent",
-      inputs: ["source1"],
+      inputs: [":source1"],
       graph: {
-        version: 0.2,
+        version: 0.3,
         nodes: {
           node1: {
             agent: "bypassAgent",
-            inputs: ["$0"],
+            inputs: [":$0"],
             isResult: true,
           },
         },
@@ -149,7 +149,7 @@ const graphdata_map4 = {
       params: {
         flat: 1,
       },
-      inputs: ["nestedNode.node1"],
+      inputs: [":nestedNode.node1"],
     },
   },
 };
@@ -161,20 +161,20 @@ test("test map 4", async () => {
 });
 
 const graphdata_map5 = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
     },
     nestedNode: {
       agent: "mapAgent",
-      inputs: ["source1"],
+      inputs: [":source1"],
       graph: {
-        version: 0.2,
+        version: 0.3,
         nodes: {
           node1: {
             agent: "bypassAgent",
-            inputs: ["$0"],
+            inputs: [":$0"],
             isResult: true,
           },
         },
@@ -185,7 +185,7 @@ const graphdata_map5 = {
       params: {
         flat: 2,
       },
-      inputs: ["nestedNode.node1"],
+      inputs: [":nestedNode.node1"],
     },
   },
 };
