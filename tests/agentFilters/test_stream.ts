@@ -29,7 +29,7 @@ const agentFilters = [
 ];
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     echo: {
       agent: "echoAgent",
