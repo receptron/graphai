@@ -97,7 +97,7 @@ test("test bypass2", async () => {
                   firstElement: true,
                 },
               },
-              inputs: ["$0"],
+              inputs: [":$0"],
               isResult: true,
             },
           },
@@ -206,7 +206,7 @@ test("test bypass4", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["echo.message"],
+        inputs: [":echo.message"],
         params: {
           injectionTo: ["memory"],
         },
