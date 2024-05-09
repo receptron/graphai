@@ -6,18 +6,18 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_counter = {
-  version: 0.2,
+  version: 0.3,
   loop: {
     count: 10,
   },
   nodes: {
     data: {
       value: { v: 0 },
-      update: "counter",
+      update: ":counter",
     },
     counter: {
       agent: "counterAgent",
-      inputs: ["data"],
+      inputs: [":data"],
       isResult: true,
     },
   },
@@ -36,14 +36,14 @@ test("test counter", async () => {
 
 test("test counter2", async () => {
   const nested_graphdata = {
-    version: 0.2,
+    version: 0.3,
     loop: {
       count: 10,
     },
     nodes: {
       workingMemory: {
         value: {},
-        update: "nested1.counter", // update data from nested1 data
+        update: ":nested1.counter", // update data from nested1 data
       },
       nested1: {
         agent: "nestedAgent",
@@ -52,7 +52,7 @@ test("test counter2", async () => {
         params: {
           injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
         },
-        inputs: ["workingMemory"],
+        inputs: [":workingMemory"],
       },
     },
   };
@@ -66,7 +66,7 @@ test("test counter2", async () => {
 
 test("test counter3", async () => {
   const nested_graphdata = {
-    version: 0.2,
+    version: 0.3,
     concurrency: 2,
     loop: {
       count: 10,
@@ -74,16 +74,16 @@ test("test counter3", async () => {
     nodes: {
       workingMemory: {
         value: {},
-        update: "merge", // update data from nested1 data
+        update: ":merge", // update data from nested1 data
       },
       workingMemory2: {
         // HACK until we fix the bug (inputs:["workingMemory", "workingMemory"])
         agent: "totalAgent",
-        inputs: ["workingMemory"],
+        inputs: [":workingMemory"],
       },
       mapping: {
         agent: "mapAgent",
-        inputs: ["workingMemory", "workingMemory2"],
+        inputs: [":workingMemory", ":workingMemory2"],
         params: {
           injectionTo: ["data"],
         },
@@ -91,7 +91,7 @@ test("test counter3", async () => {
       },
       merge: {
         agent: "totalAgent",
-        inputs: ["mapping.counter"],
+        inputs: [":mapping.counter"],
       },
     },
   };

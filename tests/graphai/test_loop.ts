@@ -6,14 +6,14 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_push = {
-  version: 0.2,
+  version: 0.3,
   loop: {
     count: 10,
   },
   nodes: {
     array: {
       value: [],
-      update: "reducer",
+      update: ":reducer",
     },
     item: {
       agent: "sleeperAgent",
@@ -25,7 +25,7 @@ const graphdata_push = {
     reducer: {
       isResult: true,
       agent: "pushAgent",
-      inputs: ["array", "item"],
+      inputs: [":array", ":item"],
     },
   },
 };
@@ -40,26 +40,26 @@ test("test loop & push", async () => {
 });
 
 const graphdata_pop = {
-  version: 0.2,
+  version: 0.3,
   loop: {
     while: "source",
   },
   nodes: {
     source: {
       value: ["orange", "banana", "lemon"],
-      update: "popper.array",
+      update: ":popper.array",
     },
     result: {
       value: [],
-      update: "reducer",
+      update: ":reducer",
     },
     popper: {
-      inputs: ["source"],
+      inputs: [":source"],
       agent: "popAgent", // returns { array, item }
     },
     reducer: {
       agent: "pushAgent",
-      inputs: ["result", "popper.item"],
+      inputs: [":result", ":popper.item"],
     },
   },
 };
