@@ -5,14 +5,14 @@ import test from "node:test";
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.2,
+    version: 0.3,
     nodes: {
       computed1: {
         agent: "echoAgent",
       },
       computed2: {
         agent: "echoAgent",
-        inputs: ["dummy"],
+        inputs: [":dummy"],
       },
     },
   });
@@ -21,15 +21,15 @@ test("test computed node validation value", async () => {
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.2,
+    version: 0.3,
     nodes: {
       computed1: {
         agent: "echoAgent",
-        inputs: ["computed2"],
+        inputs: [":computed2"],
       },
       computed2: {
         agent: "echoAgent",
-        inputs: ["computed1"],
+        inputs: [":computed1"],
       },
     },
   });
@@ -38,15 +38,15 @@ test("test computed node validation value", async () => {
 
 test("test no initial running node", async () => {
   const graph_data = anonymization({
-    version: 0.2,
+    version: 0.3,
     nodes: {
       computed1: {
         agent: "echoAgent",
-        inputs: ["computed2"],
+        inputs: [":computed2"],
       },
       computed2: {
         agent: "echoAgent",
-        inputs: ["computed1"],
+        inputs: [":computed1"],
       },
     },
   });
@@ -55,18 +55,18 @@ test("test no initial running node", async () => {
 
 test("test closed loop validation", async () => {
   const graph_data = anonymization({
-    version: 0.2,
+    version: 0.3,
     nodes: {
       computed1: {
         agent: "echoAgent",
       },
       computed2: {
         agent: "echoAgent",
-        inputs: ["computed1"],
+        inputs: [":computed1"],
       },
       computed3: {
         agent: "echoAgent",
-        inputs: ["computed3"],
+        inputs: [":computed3"],
       },
     },
   });

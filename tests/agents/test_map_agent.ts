@@ -9,14 +9,14 @@ test("test map_agent", async () => {
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
-      version: 0.2,
+      version: 0.3,
       nodes: {
         node2: {
           agent: "stringTemplateAgent",
           params: {
             template: "I love ${0}.",
           },
-          inputs: ["$0.fruit"],
+          inputs: [":$0.fruit"],
           isResult: true,
         },
       },
@@ -33,14 +33,14 @@ test("test map_agent 2", async () => {
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
-      version: 0.2,
+      version: 0.3,
       nodes: {
         node2: {
           agent: "stringTemplateAgent",
           params: {
             template: "I love ${0}.",
           },
-          inputs: ["$0"],
+          inputs: [":$0"],
           isResult: true,
         },
       },
@@ -57,14 +57,14 @@ test("test map_agent 3", async () => {
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
-      version: 0.2,
+      version: 0.3,
       nodes: {
         node2: {
           agent: "stringTemplateAgent",
           params: {
             template: "${1} ${2} ${0}.",
           },
-          inputs: ["$0", "$1", "$2"],
+          inputs: [":$0", ":$1", ":$2"],
           isResult: true,
         },
       },

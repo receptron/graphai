@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_inputs = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     apple: {
       value: { fruits: { apple: "red" } },
@@ -15,7 +15,7 @@ const graphdata_inputs = {
     },
     total: {
       agent: "sleeperAgent",
-      inputs: ["apple", "lemon", "apple.fruits", "lemon.fruits"],
+      inputs: [":apple", ":lemon", ":apple.fruits", ":lemon.fruits"],
     },
   },
 };
