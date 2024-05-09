@@ -13,7 +13,7 @@ import {
 } from "@/experimental_agents";
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source: {
       value: {
@@ -25,7 +25,7 @@ const graph_data = {
     wikipedia: {
       // Fetch an article from Wikipedia
       agent: "wikipediaAgent",
-      inputs: ["source.name"],
+      inputs: [":source.name"],
       params: {
         lang: "en",
       },
@@ -33,32 +33,32 @@ const graph_data = {
     chunks: {
       // Break that article into chunks
       agent: "stringSplitterAgent",
-      inputs: ["wikipedia.content"],
+      inputs: [":wikipedia.content"],
     },
     embeddings: {
       // Get embedding vectors of those chunks
       agent: "stringEmbeddingsAgent",
-      inputs: ["chunks.contents"],
+      inputs: [":chunks.contents"],
     },
     topicEmbedding: {
       // Get embedding vector of the topic
       agent: "stringEmbeddingsAgent",
-      inputs: ["source.topic"],
+      inputs: [":source.topic"],
     },
     similarityCheck: {
       // Get the cosine similarities of those vectors
       agent: "dotProductAgent",
-      inputs: ["embeddings", "topicEmbedding"],
+      inputs: [":embeddings", ":topicEmbedding"],
     },
     sortedChunks: {
       // Sort chunks based on those similarities
       agent: "sortByValuesAgent",
-      inputs: ["chunks.contents", "similarityCheck"],
+      inputs: [":chunks.contents", ":similarityCheck"],
     },
     referenceText: {
       // Generate reference text from those chunks (token limited)
       agent: "tokenBoundStringsAgent",
-      inputs: ["sortedChunks"],
+      inputs: [":sortedChunks"],
       params: {
         limit: 5000,
       },
@@ -66,7 +66,7 @@ const graph_data = {
     prompt: {
       // Generate a prompt with that reference text
       agent: "stringTemplateAgent",
-      inputs: ["source.query", "referenceText.content"],
+      inputs: [":source.query", ":referenceText.content"],
       params: {
         template: "Using the following document, ${0}\n\n${1}",
       },
@@ -74,12 +74,12 @@ const graph_data = {
     RagQuery: {
       // Get the answer from LLM with that prompt
       agent: "slashGPTAgent",
-      inputs: ["prompt"],
+      inputs: [":prompt"],
     },
     OneShotQuery: {
       // Get the answer from LLM without the reference text
       agent: "slashGPTAgent",
-      inputs: ["source.query"],
+      inputs: [":source.query"],
     },
   },
 };

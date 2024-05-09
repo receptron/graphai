@@ -24,7 +24,7 @@ const tools = [
 ];
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   concurrency: 1,
   nodes: {
     foods: {
@@ -32,14 +32,14 @@ const graph_data = {
     },
     categorizer: {
       agent: "mapAgent",
-      inputs: ["foods"],
+      inputs: [":foods"],
       isResult: true,
       graph: {
-        version: 0.2,
+        version: 0.3,
         nodes: {
           debug: {
             agent: (food: string) => console.log(food),
-            inputs: ["$0"],
+            inputs: [":$0"],
             isResult: true,
           },
           groq: {
@@ -52,14 +52,14 @@ const graph_data = {
               tool_choice: { type: "function", function: { name: "categorize" } },
             },
             retry: 1,
-            inputs: ["$0"],
+            inputs: [":$0"],
           },
           parser: {
             agent: (food: string, args: string) => {
               const json = JSON.parse(args);
               return { [food]: json.category };
             },
-            inputs: ["$0", "groq.choices.$0.message.tool_calls.$0.function.arguments"],
+            inputs: [":$0", ":groq.choices.$0.message.tool_calls.$0.function.arguments"],
             isResult: true,
           },
         },

@@ -4,19 +4,19 @@ import { groqAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   loop: {
-    while: "continue",
+    while: ":continue",
   },
   nodes: {
     continue: {
       value: true,
-      update: "checkInput",
+      update: ":checkInput",
     },
     messages: {
       // This node holds the conversation, array of messages.
       value: [],
-      update: "reducer",
+      update: ":reducer",
       isResult: true,
     },
     userInput: {
@@ -25,13 +25,13 @@ const graph_data = {
     },
     checkInput: {
       agent: (query: string) => query !== "/bye",
-      inputs: ["userInput"],
+      inputs: [":userInput"],
     },
     appendedMessages: {
       // This node appends the user's input to the array of messages.
       agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
-      inputs: ["userInput", "messages"],
-      if: "checkInput",
+      inputs: [":userInput", ":messages"],
+      if: ":checkInput",
     },
     groq: {
       // This node sends those messages to Llama3 on groq to get the answer.
@@ -39,17 +39,17 @@ const graph_data = {
       params: {
         model: "Llama3-8b-8192",
       },
-      inputs: [undefined, "appendedMessages"],
+      inputs: [undefined, ":appendedMessages"],
     },
     output: {
       // This node displays the responce to the user.
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
-      inputs: ["groq.choices.$0.message.content"],
+      inputs: [":groq.choices.$0.message.content"],
     },
     reducer: {
       // This node append the responce to the messages.
       agent: "pushAgent",
-      inputs: ["appendedMessages", "groq.choices.$0.message"],
+      inputs: [":appendedMessages", ":groq.choices.$0.message"],
     },
   },
 };

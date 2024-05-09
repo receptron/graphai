@@ -3,7 +3,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { groqAgent, fetchAgent, mapAgent } from "@/experimental_agents";
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     GSM8: {
       // This node specifies the URL and query paramters to fetch GSM8K dataset.
@@ -21,20 +21,20 @@ const graph_data = {
     fetch: {
       // This node fetches the dataset over HTTP.
       agent: "fetchAgent",
-      inputs: ["GSM8.url", "GSM8.query"],
+      inputs: [":GSM8.url", ":GSM8.query"],
     },
     rows: {
       // This node extract the "row" property from each item in the dataset.
       agent: (items: Array<Record<string, any>>) => items.map((item) => item.row),
-      inputs: ["fetch.rows"],
+      inputs: [":fetch.rows"],
     },
     map: {
       // This node executes the nested graph concurrently
       agent: "mapAgent",
-      inputs: ["rows"],
+      inputs: [":rows"],
       isResult: true,
       graph: {
-        version: 0.2,
+        version: 0.3,
         nodes: {
           groq: {
             // This node sends the question on the current item to Llama3 on groq and get the answer.
@@ -42,11 +42,11 @@ const graph_data = {
             params: {
               model: "Llama3-8b-8192",
             },
-            inputs: ["$0.question"],
+            inputs: [":$0.question"],
           },
           answer: {
             agent: (item: string) => item,
-            inputs: ["groq.choices.$0.message.content"],
+            inputs: [":groq.choices.$0.message.content"],
             isResult: true,
           },
         },
