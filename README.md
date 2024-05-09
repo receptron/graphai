@@ -139,7 +139,7 @@ A *static* node have following properties.
 
 ## Flow Control
 
-Since the data-flow graph must be asyclic by design, we added a few mechanism to control data flows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [condtional flow](#conditional-flow).
+Since the data-flow graph must be asyclic by design, we added a few mechanisms to control data flows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [condtional flow](#conditional-flow).
 
 ### Nested Graph
 
@@ -283,7 +283,34 @@ flowchart LR
 ```
 ### Conditional Flow
 
-To be filled.
+When a node has *if* property (which specifies the data source), the data flows to this node only if the value from the data source has some value. 
+
+A sample code, [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample_weather.ts) uses the following *if* property to execute a block of graph, if the LLM asks to use a tool (i.e., function call).
+
+```typescript
+    tool_calls: {
+      // This node is activated if the LLM requests a tool call.
+      agent: "nestedAgent",
+      inputs: ["groq.choices.$0.message.tool_calls", "messagesWithFirstRes"],
+      if: "groq.choices.$0.message.tool_calls",
+      graph: {
+        // This graph is nested only for the readability.
+```
+
+Even though it is not required, we strongly recommand to use it with a nested graph for the readability. 
+
+The *anyInput* property (boolean) allows the developer to "merge" multiple data flow paths into one. When the value of this property is true, the agent function associated with this node will be executed when the data from one of data sources became available.
+
+The [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample_weather.ts) sample application uses this property to continue the chat iteration either a tool was requested by LLM or not.
+
+```typescript
+    reducer: {
+      // Receives messages from either case.
+      agent: "copyAgent",
+      anyInput: true,
+      inputs: ["no_tool_calls", "tool_calls.messagesWithSecondRes"],
+    },
+```
 
 ## Concurrency
 
