@@ -33,7 +33,7 @@ const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => 
 
 test("test fork 1", async () => {
   const forkGraph = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       node1: {
         agent: "testAgent1a",
@@ -41,27 +41,27 @@ test("test fork 1", async () => {
       node2: {
         agent: "copy2ArrayAgent",
         params: { count: 10 },
-        inputs: ["node1"],
+        inputs: [":node1"],
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["node2"],
+        inputs: [":node2"],
         params: {
           injectionTo: ["buffer"],
         },
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             buffer: {
               value: {},
             },
             node2: {
               agent: "testAgent1a",
-              inputs: ["buffer"],
+              inputs: [":buffer"],
             },
             node3: {
               agent: "testAgent1a",
-              inputs: ["node2"],
+              inputs: [":node2"],
               isResult: true,
             },
           },
@@ -107,7 +107,7 @@ test("test fork 1", async () => {
 
 test("test fork 2", async () => {
   const forkGraph = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       echo: {
         agent: "copyMessageAgent",
@@ -118,9 +118,9 @@ test("test fork 2", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["echo.messages"],
+        inputs: [":echo.messages"],
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             node1: {
               agent: "testAgent1",
@@ -129,12 +129,12 @@ test("test fork 2", async () => {
             node2: {
               agent: "testAgent1",
               params: {},
-              inputs: ["node1"],
+              inputs: [":node1"],
             },
             node3: {
               agent: "testAgent1",
               params: {},
-              inputs: ["node2"],
+              inputs: [":node2"],
               isResult: true,
             },
           },
@@ -168,30 +168,30 @@ test("test fork 2", async () => {
 
 test("test fork 3", async () => {
   const forkGraph = {
-    version: 0.2,
+    version: 0.3,
     nodes: {
       source: {
         value: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: ["source.content"],
+        inputs: [":source.content"],
         params: {
           injectionTo: ["workingMemory"],
         },
         graph: {
-          version: 0.2,
+          version: 0.3,
           nodes: {
             workingMemory: {
               value: {},
             },
             forked: {
               agent: "sleeperAgent",
-              inputs: ["workingMemory.level1"],
+              inputs: [":workingMemory.level1"],
             },
             forked2: {
               agent: "sleeperAgent",
-              inputs: ["forked"],
+              inputs: [":forked"],
               isResult: true,
             },
           },
@@ -199,7 +199,7 @@ test("test fork 3", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: ["mapNode"],
+        inputs: [":mapNode"],
       },
     },
   };
