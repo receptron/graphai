@@ -10,7 +10,7 @@ const testAgent: AgentFunction<Record<never, never>, any> = async ({ params }) =
 };
 
 const graphData_literal = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     source1: {
       value: { apple: "red" },
@@ -20,28 +20,28 @@ const graphData_literal = {
     },
     delayed1: {
       agent: "sleeperAgent",
-      inputs: ["source1"],
+      inputs: [":source1"],
     },
     delayed2: {
       agent: "sleeperAgent",
       params: {
         duration: 100,
       },
-      inputs: ["source2"],
+      inputs: [":source2"],
     },
     test1: {
       agent: "testAgent",
       params: {
-        fruit: "${source1}",
-        color: "${source2.lemon}",
+        fruit: ":source1",
+        color: ":source2.lemon",
       },
       isResult: true,
     },
     test2: {
       agent: "testAgent",
       params: {
-        fruit: "${delayed1}",
-        color: "${delayed2.lemon}",
+        fruit: ":delayed1",
+        color: ":delayed2.lemon",
       },
       isResult: true,
     },

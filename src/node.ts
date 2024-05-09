@@ -92,21 +92,17 @@ export class ComputedNode extends Node {
     this.priority = data.priority ?? 0;
 
     this.anyInput = data.anyInput ?? false;
-    this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input));
+    this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
     if (data.if) {
-      this.ifSource = parseNodeName(data.if);
+      this.ifSource = parseNodeName(data.if, graph.version);
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
       this.pendings.add(this.ifSource.nodeId);
     }
-    const regex = /^\$\{([^{}]+)\}$/;
     this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
-      const value = this.params[key];
-      const match = typeof value === "string" ? value.match(regex) : null;
-      if (match) {
-        const dataSource = parseNodeName(match[1]);
+      const dataSource = parseNodeName(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
+      if (dataSource.nodeId) {
         tmp[key] = dataSource;
-        assert(!!dataSource.nodeId, `Invalid data source ${key}:${value}`);
         this.pendings.add(dataSource.nodeId);
       }
       return tmp;
