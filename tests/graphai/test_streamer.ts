@@ -30,7 +30,7 @@ class WordStreamer {
 const theMessage = "May the force be with you.";
 
 const graphdata_any = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     message: {
       value: theMessage,
@@ -39,7 +39,7 @@ const graphdata_any = {
       agent: (message: string) => {
         return new WordStreamer(message);
       },
-      inputs: ["message"],
+      inputs: [":message"],
     },
     destination: {
       agent: (streamer: WordStreamer) => {
@@ -56,7 +56,7 @@ const graphdata_any = {
         });
       },
       isResult: true,
-      inputs: ["source"],
+      inputs: [":source"],
     },
   },
 };
