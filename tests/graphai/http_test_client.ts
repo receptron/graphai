@@ -16,7 +16,7 @@ const httpClientAgent: AgentFunction<Record<string, string>> = async (context) =
 };
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     node1: {
       params: {
@@ -28,7 +28,7 @@ const graph_data = {
       params: {
         url: "http://127.0.0.1:8080/llm2.json",
       },
-      inputs: ["node1"],
+      inputs: [":node1"],
       agent: "httpClientAgent",
     },
   },
