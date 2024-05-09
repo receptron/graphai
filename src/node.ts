@@ -110,7 +110,6 @@ export class ComputedNode extends Node {
       }
       return tmp;
     }, {});
-    console.log("****", this.dynamicParams);
 
     this.log.initForComputedNode(this);
   }
@@ -255,7 +254,11 @@ export class ComputedNode extends Node {
     try {
       const callback = this.agentFunction ?? this.graph.getCallback(this.agentId);
       const localLog: TransactionLog[] = [];
-      const params = { ...this.params };
+      const params = Object.keys(this.dynamicParams).reduce((tmp, key) => {
+        const [result] = this.graph.resultsOf([this.dynamicParams[key]]);
+        tmp[key] = result;
+        return tmp;
+      }, { ...this.params });
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
         params: params,
         inputs: previousResults,

@@ -13,33 +13,46 @@ const testAgent: AgentFunction<Record<never, never>, any> = async ({params}) => 
 const graphData_literal = {
   version: 0.2,
   nodes: {
-    source: {
-      value: "apple",
-    },
-    source2: {
+    source1: {
       value: { apple: "red" },
     },
-    step1: {
+    source2: {
+      value: { lemon: "yellow" },
+    },
+    delayed1: {
+      agent: "sleeperAgent",
+      inputs:["source1"],
+    },
+    delayed2: {
+      agent: "sleeperAgent",
+      params: {
+        duration: 100
+      },
+      inputs:["source2"],
+    },
+    test1: {
       agent: "testAgent",
       params: {
-        foo: "${source2}",
-        bar: "${source2.bar}",
+        fruit: "${source1}",
+        color: "${source2.lemon}",
       },
-      inputs: ["source", "\"orange\"", undefined],
       isResult: true,
     },
-    step2: {
+    test2: {
       agent: "testAgent",
-      inputs: ["source2", { lemon: "yellow" }],
+      params: {
+        fruit: "${delayed1}",
+        color: "${delayed2.lemon}",
+      },
       isResult: true,
     },
   },
 };
 
 test("test params", async () => {
-  const result = await graphDataTestRunner(__filename, graphData_literal, { testAgent }, () => {}, false);
+  const result = await graphDataTestRunner(__filename, graphData_literal, { testAgent, ...defaultTestAgents }, () => {}, false);
   assert.deepStrictEqual(result, {
-    step1: "apple, orange, undefined.",
-    step2: { apple: "red", lemon: "yellow" },
+      test1: { fruit: { apple: 'red' }, color: 'yellow' },
+      test2: { fruit: { apple: 'red' }, color: 'yellow' }
   });
 });
