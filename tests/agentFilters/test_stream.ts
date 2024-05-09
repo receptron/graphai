@@ -1,11 +1,9 @@
 import { GraphAI } from "@/graphai";
 import { AgentFilterFunction } from "@/type";
 
-// import { sleep } from "@/utils/utils";
 import { defaultTestAgents } from "@/utils/test_agents";
 
 import test from "node:test";
-// import assert from "node:assert";
 
 const streamData: Record<string, string> = {};
 
@@ -15,7 +13,7 @@ const outSideFunciton = (nodeId: string, token: string) => {
 };
 
 const streamAgentFilter: AgentFilterFunction = async (context, next) => {
-  context.params.streamCallback = (token: string) => {
+  context.filterParams.streamCallback = (token: string) => {
     outSideFunciton(context.debugInfo.nodeId, token);
   };
   return next(context);

@@ -2,12 +2,12 @@ import { AgentFunction } from "@/graphai";
 import { AgentFunctionInfo } from "@/type";
 import { sleep } from "@/utils/utils";
 
-export const streamMockAgent: AgentFunction = async ({ params }) => {
+export const streamMockAgent: AgentFunction = async ({ params, filterParams }) => {
   const message = params.message;
 
   for await (const token of message.split("")) {
-    if (params.streamCallback) {
-      params.streamCallback(token);
+    if (filterParams.streamCallback) {
+      filterParams.streamCallback(token);
     }
     await sleep(params.sleep || 100);
   }
