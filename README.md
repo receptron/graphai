@@ -74,7 +74,7 @@ flowchart TD
  prompt --> query(query)
 ```
 
-Notice that the conversion of the querty text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
+Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
 
 ## Quick Install
 
@@ -181,7 +181,7 @@ flowchart LR
  question --> projectId(projectId)
  question --> database
  projectId --> database
- database[[database]] -- query --> response(responce)
+ database[[database]] -- query --> response(response)
 ```
 
 Here is the diagram of the child graph. Notice that two phantom nodes are automatically created to allow inner nodes to access input data from the parent graph.
