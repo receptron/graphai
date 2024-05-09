@@ -64,8 +64,8 @@ flowchart TD
  source -- name --> wikipedia(wikipedia)
  source -- query --> topicEmbedding(topicEmbedding)
  wikipedia --> chunks(chunks)
- chunks --> chunksEmbeddings(chunksEmbeddings)
- chunksEmbeddings --> similarities(similarities)
+ chunks --> chunkEmbeddings(chunkEmbeddings)
+ chunkEmbeddings --> similarities(similarities)
  topicEmbedding --> similarities
  similarities --> sortedChunks(sortedChunks)
  sortedChunks --> resourceText(resourceText)
