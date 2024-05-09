@@ -1,4 +1,4 @@
-version: 0.2
+version: 0.3
 nodes:
   node1:
     agent: sleeperAgent
@@ -15,18 +15,18 @@ nodes:
       duration: 500
       value:
         node3: output
-    inputs: [node1, node2]
+    inputs: [:node1, :node2]
   node4:
     agent: sleeperAgent
     params:
       duration: 100
       value:
         node4: output
-    inputs: [node3]
+    inputs: [:node3]
   node5:
     agent: sleeperAgent
     params:
       duration: 500
       value:
         node5: output
-    inputs: [node2, node4]
+    inputs: [:node2, :node4]

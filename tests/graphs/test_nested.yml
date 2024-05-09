@@ -1,4 +1,4 @@
-version: 0.2
+version: 0.3
 nodes:
   outer1:
     agent: sleeperAgent
@@ -8,9 +8,9 @@ nodes:
         outer1: output
   outer2:
     agent: nestedAgent
-    inputs: [outer1]
+    inputs: [:outer1]
     graph:
-      version: 0.2
+      version: 0.3
       nodes:
         inner1:
           agent: sleeperAgent
@@ -31,25 +31,25 @@ nodes:
             duration: 500
             value:
               inner3: output
-          inputs: [$0, inner1, inner2]
+          inputs: [:$0, :inner1, :inner2]
   outer3:
     agent: sleeperAgent
     params:
       duration: 500
       value:
         outer3: output
-    inputs: [outer2.inner3]
+    inputs: [:outer2.inner3]
   outer4:
     agent: sleeperAgent
     params:
       duration: 100
       value:
         outer4: output
-    inputs: [outer3]
+    inputs: [:outer3]
   outer5:
     agent: sleeperAgent
     params:
       duration: 500
       value:
         outer5: output
-    inputs: [outer2.inner3, outer4]
+    inputs: [:outer2.inner3, :outer4]
