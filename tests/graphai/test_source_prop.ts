@@ -42,7 +42,7 @@ const graphData_literal = {
     step1: {
       agent: "stringTemplateAgent",
       params: {
-        template: "${0}, ${1}, ${2}",
+        template: "${0}, ${1}, ${2}.",
       },
       inputs: ["source", "\"orange\"", undefined],
       isResult: true,
@@ -58,7 +58,7 @@ const graphData_literal = {
 test("test retry", async () => {
   const result = await graphDataTestRunner(__filename, graphData_literal, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {
-    step1: "apple, orange, undefined",
+    step1: "apple, orange, undefined.",
     step2: { apple: "red", lemon: "yellow" },
   });
 });
