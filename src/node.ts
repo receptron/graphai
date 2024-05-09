@@ -80,8 +80,9 @@ export class ComputedNode extends Node {
       this.agentId = data.agent;
     } else {
       assert(typeof data.agent === "function", "agent must be either string or function");
+      const agent = data.agent;
       this.agentFunction = async ({ inputs }) => {
-        return data.agent(...inputs);
+        return agent(...inputs);
       };
     }
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
@@ -203,7 +204,7 @@ export class ComputedNode extends Node {
     return !agentFilter.agentIds && !agentFilter.nodeIds;
   }
 
-  private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction) {
+  private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction): Promise<ResultData> {
     let index = 0;
 
     const next = (context: AgentFunctionContext): Promise<ResultData> => {
