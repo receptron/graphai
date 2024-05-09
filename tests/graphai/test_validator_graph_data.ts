@@ -15,7 +15,7 @@ const nodes = {
 // loop test
 test("test loop error", async () => {
   const graphdata = {
-    version: 0.2,
+    version: 0.3,
     loop: {},
     nodes,
   };
@@ -25,7 +25,7 @@ test("test loop error", async () => {
 
 test("test loop error 1", async () => {
   const graphdata = {
-    version: 0.2,
+    version: 0.3,
     loop: {
       count: 1,
       while: "123",
@@ -38,7 +38,7 @@ test("test loop error 1", async () => {
 // concurrency test
 test("test concurrency error zero", async () => {
   const graphdata = {
-    version: 0.2,
+    version: 0.3,
     concurrency: 0,
     nodes,
   };
@@ -47,7 +47,7 @@ test("test concurrency error zero", async () => {
 
 test("test concurrency error nagative", async () => {
   const graphdata = {
-    version: 0.2,
+    version: 0.3,
     concurrency: -1,
     nodes,
   };
@@ -56,7 +56,7 @@ test("test concurrency error nagative", async () => {
 
 test("test concurrency error float", async () => {
   const graphdata = {
-    version: 0.2,
+    version: 0.3,
     concurrency: 0.1,
     nodes,
   };
@@ -65,7 +65,7 @@ test("test concurrency error float", async () => {
 
 test("test concurrency error string", async () => {
   const graphdata = anonymization({
-    version: 0.2,
+    version: 0.3,
     concurrency: "1",
     nodes,
   });
