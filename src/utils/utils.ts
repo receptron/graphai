@@ -4,7 +4,7 @@ export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-export const parseNodeName = (inputNodeId: any): DataSource => {
+export const parseNodeName = (inputNodeId: any, version: number): DataSource => {
   if (typeof inputNodeId === "string") {
     const regex = /^"(.*)"$/;
     const match = inputNodeId.match(regex);
