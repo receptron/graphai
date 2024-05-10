@@ -44,7 +44,7 @@
     "groq-sdk": "^0.3.3",
     "openai": "^4.12.4",
     "prettier": "^3.0.3",
-    "slashgpt": "^0.0.8",
+    "slashgpt": "^0.0.9",
     "tiktoken": "^1.0.14",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.8",
