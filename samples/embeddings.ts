@@ -17,7 +17,7 @@ const graph_data = {
   nodes: {
     strings: {
       value: [
-        "王様", "女王様", "貴族", "男", "女", "庶民", "農民"
+        "王", "女王", "貴族", "男", "女", "庶民", "農民"
       ],
       isResult: true,
     },
@@ -26,9 +26,18 @@ const graph_data = {
       inputs: [":strings"],
     },
     similarities: {
-      agent: "dotProductAgent",
-      inputs: [":embeddings", ":embeddings.$0"],
-      isResult: true,
+      agent: "mapAgent",
+      inputs: [":embeddings", ":embeddings"],
+      graph: {
+        nodes: {
+          result: {
+            agent: "dotProductAgent",
+            inputs: [":$1", ":$0"],
+            isResult: true,
+          }
+        }
+      },
+      isResult: true
     }
   },
 };
@@ -49,7 +58,7 @@ const main = async () => {
     slashGPTAgent,
     wikipediaAgent,
   });
-  console.log(result);
+  console.log(result.similarities);
 };
 if (process.argv[1] === __filename) {
   main();
