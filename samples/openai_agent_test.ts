@@ -2,7 +2,6 @@ import "dotenv/config";
 
 import { openAIAgent, openAIMockAgent } from "@/experimental_agents/llm_agents/openai_agent";
 import { defaultTestContext } from "@/utils/test_utils";
-import OpenAI from "openai";
 
 const main = async () => {
   const res = await openAIAgent({

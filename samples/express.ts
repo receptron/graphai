@@ -1,40 +1,15 @@
 // npx ts-node samples/express.ts
 // sample client: samples/curl.sh
-import { GraphAI, AgentFunction } from "@/graphai";
 import { defaultTestAgents } from "@/utils/test_agents";
+import { hello } from "./express/hello";
+import { graphAISample } from "./express/graph_sample";
 
 import express from "express";
 
 const app = express();
 app.use(express.json());
 
-const graphAISample = async (req: express.Request, res: express.Response) => {
-  const graph_data = {
-    nodes: {
-      node1: {
-        agent: "testFunction",
-        params: {},
-      },
-    },
-    concurrency: 8,
-  };
-  const testFunction: AgentFunction<Record<string, string>> = async () => {
-    console.log("hello");
-    return {};
-  };
-  const graph = new GraphAI(graph_data, { testFunction });
-  const response = await graph.run(true);
-  res.json({ result: response });
-  res.end();
-};
 
-const hello = async (req: express.Request, res: express.Response) => {
-  // const { params, query } = req;
-  res.json({
-    message: "hello",
-  });
-  res.end();
-};
 
 const agentDispatcher = async (req: express.Request, res: express.Response) => {
   const { params } = req;
