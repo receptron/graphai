@@ -11,6 +11,7 @@ import {
   AgentFunctionContext,
   AgentFunction,
   AgentFilterInfo,
+  AgentFilterParams,
   DefaultParamsType,
   DefaultInputData,
 } from "@/type";
@@ -53,6 +54,7 @@ export class ComputedNode extends Node {
   public readonly graphId: string;
   public readonly isResult: boolean;
   public readonly params: NodeDataParams; // Agent-specific parameters
+  private readonly filterParams: AgentFilterParams;
   private readonly dynamicParams: Record<string, DataSource>;
   public readonly nestedGraph?: GraphData;
   public readonly retryLimit: number;
@@ -76,6 +78,7 @@ export class ComputedNode extends Node {
     super(nodeId, graph);
     this.graphId = graphId;
     this.params = data.params ?? {};
+    this.filterParams = data.filterParams ?? {};
     this.nestedGraph = data.graph;
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
@@ -220,6 +223,9 @@ export class ComputedNode extends Node {
       const agentFilter = this.graph.agentFilters[index++];
       if (agentFilter) {
         if (this.shouldApplyAgentFilter(agentFilter)) {
+          if (agentFilter.filterParams) {
+            context.filterParams = { ...agentFilter.filterParams, ...context.filterParams };
+          }
           return agentFilter.agent(context, next);
         }
         return next(context);
@@ -267,7 +273,7 @@ export class ComputedNode extends Node {
           retry: this.retryCount,
           verbose: this.graph.verbose,
         },
-        filterParams: {},
+        filterParams: this.filterParams,
         log: localLog,
       };
 
