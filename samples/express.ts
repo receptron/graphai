@@ -1,59 +1,25 @@
 // npx ts-node samples/express.ts
 // sample client: samples/curl.sh
-import { GraphAI, AgentFunction } from "@/graphai";
-import { defaultTestAgents } from "@/utils/test_agents";
+
+import { hello } from "./express/hello";
+import { graphAISample } from "./express/graph_sample";
+import { agentDispatcher } from "./express/agent_dispatcher";
+
 
 import express from "express";
+import cors from "cors";
 
 const app = express();
+
+const allowedOrigins = ["http://localhost:8080"];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins,
+};
+
 app.use(express.json());
+app.use(cors(options));
 
-const graphAISample = async (req: express.Request, res: express.Response) => {
-  const graph_data = {
-    nodes: {
-      node1: {
-        agent: "testFunction",
-        params: {},
-      },
-    },
-    concurrency: 8,
-  };
-  const testFunction: AgentFunction<Record<string, string>> = async () => {
-    console.log("hello");
-    return {};
-  };
-  const graph = new GraphAI(graph_data, { testFunction });
-  const response = await graph.run(true);
-  res.json({ result: response });
-  res.end();
-};
-
-const hello = async (req: express.Request, res: express.Response) => {
-  // const { params, query } = req;
-  res.json({
-    message: "hello",
-  });
-  res.end();
-};
-
-const agentDispatcher = async (req: express.Request, res: express.Response) => {
-  const { params } = req;
-  const { agentId } = params;
-  const { nodeId, retry, params: agentParams, inputs } = req.body;
-  const agent = defaultTestAgents[agentId];
-  const result = await agent({
-    params: agentParams || {},
-    inputs,
-    debugInfo: {
-      nodeId,
-      retry,
-      verbose: false,
-    },
-    filterParams: {},
-    agents: defaultTestAgents,
-  });
-  res.json(result);
-};
 
 app.use(express.json());
 app.get("/", hello);

@@ -12,7 +12,7 @@ export const slashGPTAgent: AgentFunction<
   },
   ChatData[],
   string
-> = async ({ params, inputs, debugInfo: { verbose, nodeId } }) => {
+> = async ({ params, inputs, debugInfo: { verbose, nodeId }, filterParams }) => {
   if (verbose) {
     console.log("executing", nodeId, params);
   }
@@ -22,7 +22,11 @@ export const slashGPTAgent: AgentFunction<
   const contents = query.concat(inputs);
 
   session.append_user_question(contents.join("\n"));
-  await session.call_loop(() => {});
+  await session.call_loop((token: string) => {
+    if (filterParams && filterParams.streamTokenCallback && token) {
+      filterParams.streamTokenCallback(token);
+    }
+  });
   return session.history.messages();
 };
 

@@ -18,6 +18,10 @@ import {
   streamMockAgent,
 } from "@/experimental_agents";
 
+import {
+  openAIMockAgent
+} from "@/experimental_agents/llm_agents/openai_agent";
+
 export const defaultTestAgents: AgentFunctionDictonary = {
   bypassAgent,
   echoAgent,
@@ -35,4 +39,5 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   popAgent,
   shiftAgent,
   streamMockAgent,
+  openAIMockAgent,
 };

@@ -2,12 +2,12 @@ import { AgentFunction } from "@/graphai";
 import { AgentFunctionInfo } from "@/type";
 import { sleep } from "@/utils/utils";
 
-export const streamMockAgent: AgentFunction = async ({ params }) => {
-  const message = params.message;
+export const streamMockAgent: AgentFunction = async ({ params, filterParams }) => {
+  const message = params.message || "";
 
   for await (const token of message.split("")) {
-    if (params.streamCallback) {
-      params.streamCallback(token);
+    if (filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback(token);
     }
     await sleep(params.sleep || 100);
   }
@@ -21,9 +21,9 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   agent: streamMockAgent,
   mock: streamMockAgent,
   samples: [],
-  description: "Sstream mock agent",
+  description: "Stream mock agent",
   category: [],
-  author: "xSatoshi Nakajima",
+  author: "Isamu Arimoto",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
 };

@@ -1,30 +1,23 @@
 import { GraphAI } from "@/graphai";
-import { AgentFilterFunction } from "@/type";
+import { AgentFunctionContext } from "@/type";
 
-// import { sleep } from "@/utils/utils";
 import { defaultTestAgents } from "@/utils/test_agents";
+import { streamAgentFilterGenerator } from "@/experimental_agent_filters/stream";
 
 import test from "node:test";
-// import assert from "node:assert";
 
 const streamData: Record<string, string> = {};
 
-const outSideFunciton = (nodeId: string, token: string) => {
-  streamData[nodeId] = (streamData[nodeId] || "") + token;
+const outSideFunciton = (context: AgentFunctionContext, data: string) => {
+  const nodeId = context.debugInfo.nodeId;
+  streamData[nodeId] = (streamData[nodeId] || "") + data;
   console.log(streamData);
-};
-
-const streamAgentFilter: AgentFilterFunction = async (context, next) => {
-  context.params.streamCallback = (token: string) => {
-    outSideFunciton(context.debugInfo.nodeId, token);
-  };
-  return next(context);
 };
 
 const agentFilters = [
   {
     name: "streamAgentFilter",
-    agent: streamAgentFilter,
+    agent: streamAgentFilterGenerator<string>(outSideFunciton),
   },
 ];
 
