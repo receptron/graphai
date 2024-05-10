@@ -33,11 +33,14 @@ export type StaticNodeData = {
 };
 export type AgentNamelessFunction = (...param: any[]) => unknown;
 
+export type AgentFilterParams = Record<string, any>;
+
 export type ComputedNodeData = {
   agent: string | AgentNamelessFunction;
   inputs?: Array<any>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
+  filterParams?: AgentFilterParams; // agent filter
   retry?: number;
   timeout?: number; // msec
   if?: string; // conditional execution
@@ -74,7 +77,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
   graphData?: GraphData | string; // nested graph
   agents?: AgentFunctionDictonary; // for nested graph
   taskManager?: TaskManager; // for nested graph
-  filterParams: Record<string, any>; // agent filter
+  filterParams: AgentFilterParams; // agent filter
   log?: TransactionLog[];
 };
 
@@ -92,6 +95,7 @@ export type AgentFilterInfo = {
   agent: AgentFilterFunction;
   agentIds?: string[];
   nodeIds?: string[];
+  filterParams?: AgentFilterParams;
 };
 
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;

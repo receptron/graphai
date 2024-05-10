@@ -27,11 +27,13 @@ export type StaticNodeData = {
     isResult?: boolean;
 };
 export type AgentNamelessFunction = (...param: any[]) => unknown;
+export type AgentFilterParams = Record<string, any>;
 export type ComputedNodeData = {
     agent: string | AgentNamelessFunction;
     inputs?: Array<any>;
     anyInput?: boolean;
     params?: NodeDataParams;
+    filterParams?: AgentFilterParams;
     retry?: number;
     timeout?: number;
     if?: string;
@@ -64,7 +66,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     graphData?: GraphData | string;
     agents?: AgentFunctionDictonary;
     taskManager?: TaskManager;
-    filterParams: Record<string, any>;
+    filterParams: AgentFilterParams;
     log?: TransactionLog[];
 };
 export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>;
@@ -74,6 +76,7 @@ export type AgentFilterInfo = {
     agent: AgentFilterFunction;
     agentIds?: string[];
     nodeIds?: string[];
+    filterParams?: AgentFilterParams;
 };
 export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 export type AgentFunctionInfo = {

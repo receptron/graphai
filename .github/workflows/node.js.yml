@@ -24,7 +24,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: yarn install
-    - run: npx ts-node -r tsconfig-paths/register  samples/express.ts &
+    - run: npx ts-node -r tsconfig-paths/register  samples/express/server.ts &
     - run: cd tests/http-server/docs/ && npx http-server &
     - run: yarn test
     - run: yarn http_test

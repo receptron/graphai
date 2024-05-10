@@ -16,6 +16,7 @@ export declare class ComputedNode extends Node {
     readonly graphId: string;
     readonly isResult: boolean;
     readonly params: NodeDataParams;
+    private readonly filterParams;
     private readonly dynamicParams;
     readonly nestedGraph?: GraphData;
     readonly retryLimit: number;
