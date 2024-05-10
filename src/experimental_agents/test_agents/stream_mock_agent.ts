@@ -3,7 +3,7 @@ import { AgentFunctionInfo } from "@/type";
 import { sleep } from "@/utils/utils";
 
 export const streamMockAgent: AgentFunction = async ({ params, filterParams }) => {
-  const message = params.message;
+  const message = params.message || "";
 
   for await (const token of message.split("")) {
     if (filterParams.streamTokenCallback) {
