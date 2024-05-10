@@ -66,7 +66,7 @@ const main = async () => {
     stringTemplateAgent,
     copyAgent,
   })) as any;
-  console.log(result.map.extractor.join('\n\n'));
+  console.log(result.map.extractor.join("\n\n"));
 };
 if (process.argv[1] === __filename) {
   main();
