@@ -1,3 +1,4 @@
+version: 0.3
 nodes:
   searchArxiv:
     params:
@@ -7,10 +8,10 @@ nodes:
       limit: 10
     agent: arxivAgent
   arxiv2TextAgent:
-    inputs: [searchArxiv]
+    inputs: [:searchArxiv]
     agent: arxiv2TextAgent
   slashGPTAgent:
-    inputs: [arxiv2TextAgent.content]
+    inputs: [:arxiv2TextAgent.content]
     agent: slashGPTAgent
     params:
       query: |
