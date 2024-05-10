@@ -13,7 +13,7 @@ test("test computed node validation value", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Cannot set both agentId and value");
+  await rejectTest(graph_data, "Cannot set both agent and value");
 });
 
 test("test static node validation value", async () => {
