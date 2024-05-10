@@ -49,7 +49,7 @@ export declare class ComputedNode extends Node {
 }
 export declare class StaticNode extends Node {
     value?: ResultData;
-    readonly update?: string;
+    readonly update?: DataSource;
     readonly isResult: boolean;
     readonly isStaticNode = true;
     readonly isComputedNode = false;
