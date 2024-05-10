@@ -15,7 +15,7 @@ const graph_data = {
       update: ":node3",
     },
     node2: {
-      agent: "input",
+      agent: "interactiveInputTextAgent",
     },
     node3: {
       inputs: [":node1", ":node2"],
@@ -27,7 +27,7 @@ const graph_data = {
 export const main = async () => {
   graph_data.nodes.node1.value = { injected: "test" };
 
-  const result = await graphDataTestRunner(__filename, graph_data, { merge: mergeNodeIdAgent, input: interactiveInputTextAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { merge: mergeNodeIdAgent, interactiveInputTextAgent });
   console.log(result);
 
   console.log("COMPLETE 1");
