@@ -15,13 +15,14 @@ const home_actions = {
 };
 
 const graph_data: GraphData = {
+  version: 0.3,
   nodes: {
     node1: {
       value: { content: "Turn on the light in the kitchen" },
     },
     node2: {
       agent: "slashGPTAgent",
-      inputs: ["node1.content"],
+      inputs: [":node1.content"],
       params: {
         manifest: {
           skip_function_result: true,
@@ -32,7 +33,7 @@ const graph_data: GraphData = {
     },
     node3: {
       agent: "bypassAgent",
-      inputs: ["node2.$last.content"],
+      inputs: [":node2.$last.content"],
       isResult: true,
       params: {
         firstElement: true,
