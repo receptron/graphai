@@ -35,7 +35,6 @@ const graph_data = {
       inputs: [":foods"],
       isResult: true,
       graph: {
-        version: 0.3,
         nodes: {
           debug: {
             agent: (food: string) => console.log(food),

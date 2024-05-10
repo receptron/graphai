@@ -38,8 +38,7 @@ const graph_data = {
       inputs: [":rows"],
       isResult: true,
       graph: {
-        // This graph continues until the array on node "$0" becomes empty
-        version: 0.3,
+        // This graph continues until the array on node ":$0" becomes empty
         loop: {
           while: ":$0",
         },
