@@ -57,7 +57,7 @@ const main = async () => {
     stringTemplateAgent,
     slashGPTAgent,
     wikipediaAgent,
-  });
+  }, undefined, false);
   console.log(result.similarities);
 };
 if (process.argv[1] === __filename) {
