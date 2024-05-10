@@ -34,7 +34,6 @@ const graph_data = {
       inputs: [":rows"],
       isResult: true,
       graph: {
-        version: 0.3,
         nodes: {
           groq: {
             // This node sends the question on the current item to Llama3 on groq and get the answer.
