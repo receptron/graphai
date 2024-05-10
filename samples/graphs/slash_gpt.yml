@@ -14,7 +14,7 @@ nodes:
         ${0}
   node3:
     agent: slashgpt
-    inputs: [node2]
+    inputs: [:node2]
   node4:
     agent: stringTemplate
     inputs: [:node1.$last.content, :node3.$last.content]
