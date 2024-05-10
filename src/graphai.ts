@@ -92,10 +92,7 @@ export class GraphAI {
     callbackDictonary: AgentFunctionDictonary,
     options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
   ) {
-    if (!data.version) {
-      console.log("------------ no version");
-    }
-    this.version = data.version ?? 0.2;
+    this.version = data.version;
     if (this.version < 0.3) {
       console.log("------------ upgrade to 0.3!");
     }
