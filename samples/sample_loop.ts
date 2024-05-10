@@ -3,25 +3,26 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { pushAgent, shiftAgent, slashGPTAgent, totalAgent } from "@/experimental_agents";
 
 const graph_data = {
+  version: 0.3,
   loop: {
-    while: "people",
+    while: ":people",
   },
   nodes: {
     people: {
       value: ["Steve Jobs", "Elon Musk", "Nikola Tesla"],
-      update: "retriever.array",
+      update: ":retriever.array",
     },
     result: {
       value: [],
-      update: "reducer2",
+      update: ":reducer2",
     },
     usage: {
       value: {},
-      update: "acountant",
+      update: ":acountant",
     },
     retriever: {
       agent: "shiftAgent",
-      inputs: ["people"],
+      inputs: [":people"],
     },
     query: {
       agent: "slashGPTAgent",
@@ -30,23 +31,23 @@ const graph_data = {
           prompt: "Describe about the person in less than 100 words",
         },
       },
-      inputs: ["retriever.item"],
+      inputs: [":retriever.item"],
     },
     reducer1: {
       agent: "popAgent",
-      inputs: ["query"],
+      inputs: [":query"],
     },
     reducer2: {
       agent: "pushAgent",
-      inputs: ["result", "reducer1.item"],
+      inputs: [":result", ":reducer1.item"],
     },
     usageData: {
       agent: "totalAgent",
-      inputs: ["reducer2.$0"],
+      inputs: [":reducer2.$0"],
     },
     acountant: {
       agent: "totalAgent",
-      inputs: ["usage", "usageData.usage"],
+      inputs: [":usage", ":usageData.usage"],
     },
   },
 };
