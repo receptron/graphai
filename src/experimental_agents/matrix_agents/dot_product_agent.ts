@@ -4,14 +4,14 @@ import { AgentFunction } from "@/graphai";
 // typically used to calculate cosine similarity of embedding vectors.
 // Inputs:
 //  inputs[0]: Two dimentional array of numbers.
-//  inputs[1]: Two dimentional array of numbers (but the array size is 1 for the first dimention)
+//  inputs[1]: One dimentional array of numbers.
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
-export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, Array<Array<number>>> = async ({ inputs }) => {
-  const embeddings: Array<Array<number>> = inputs[0];
-  const reference: Array<number> = inputs[1][0];
+export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, Array<Array<number>> | Array<number>> = async ({ inputs }) => {
+  const embeddings: Array<Array<number>> = inputs[0] as Array<Array<number>>;
+  const reference: Array<number> = inputs[1] as Array<number>;
   if (embeddings[0].length != reference.length) {
-    throw new Error("dotProduct: Length of vectors do not match.");
+    throw new Error(`dotProduct: Length of vectors do not match. ${embeddings[0].length}, ${reference.length}`);
   }
   const contents = embeddings.map((embedding) => {
     return embedding.reduce((dotProduct: number, value, index) => {
@@ -33,7 +33,7 @@ const dotProductAgentInfo = {
           [3, 4],
           [5, 6],
         ],
-        [[3, 2]],
+        [3, 2],
       ],
       params: {},
       result: [7, 17, 27],

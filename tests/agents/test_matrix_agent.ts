@@ -12,7 +12,7 @@ test("test dotProductAgent", async () => {
         [1, 2],
         [2, 3],
       ],
-      [[1, 2]],
+      [1, 2],
     ],
   });
   assert.deepStrictEqual(result, [5, 8]);
