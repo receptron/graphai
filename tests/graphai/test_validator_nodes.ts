@@ -41,7 +41,7 @@ test("test validation invalid agent", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Invalid AgentId : NonExistAgent is not in callbackDictonary.");
+  await rejectTest(graph_data, "Invalid Agent : NonExistAgent is not in callbackDictonary.");
 });
 
 test("test validation invalid agent", async () => {
@@ -51,7 +51,7 @@ test("test validation invalid agent", async () => {
       nodeTest: {},
     },
   });
-  await rejectTest(graph_data, "Either agentId or value is required");
+  await rejectTest(graph_data, "Either agent or value is required");
 });
 
 test("test validation invalid agent", async () => {
@@ -64,5 +64,5 @@ test("test validation invalid agent", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Cannot set both agentId and value");
+  await rejectTest(graph_data, "Cannot set both agent and value");
 });
