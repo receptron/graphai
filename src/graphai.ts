@@ -62,8 +62,7 @@ export class GraphAI {
     return nodes;
   }
 
-  private getValueFromResults(key: string, results: ResultDataDictonary<DefaultResultData>) {
-    const source = parseNodeName(key, this.version);
+  private getValueFromResults(source: DataSource, results: ResultDataDictonary<DefaultResultData>) {
     return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source);
   }
 
@@ -82,7 +81,7 @@ export class GraphAI {
         const update = node?.update;
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
-          this.injectValue(nodeId, result, update);
+          this.injectValue(nodeId, result, update.nodeId);
         }
       }
     });
@@ -243,7 +242,8 @@ export class GraphAI {
 
       // Notice that we need to check the while condition *after* calling initializeNodes.
       if (loop.while) {
-        const value = this.getValueFromResults(loop.while, this.results(true));
+        const source = parseNodeName(loop.while, this.version);
+        const value = this.getValueFromResults(source, this.results(true));
         // NOTE: We treat an empty array as false.
         if (Array.isArray(value) ? value.length === 0 : !value) {
           return false; // while condition is not met
