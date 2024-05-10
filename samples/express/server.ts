@@ -1,9 +1,9 @@
 // npx ts-node samples/express.ts
 // sample client: samples/curl.sh
 
-import { hello } from "./express/hello";
-import { graphAISample } from "./express/graph_sample";
-import { agentDispatcher } from "./express/agent_dispatcher";
+import { hello } from "./hello";
+import { graphAISample } from "./graph_sample";
+import { agentDispatcher } from "./agent_dispatcher";
 
 import express from "express";
 import cors from "cors";
