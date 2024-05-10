@@ -1,11 +1,11 @@
 import { AgentFunction } from "../../graphai";
-export declare const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, Array<Array<number>>>;
+export declare const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, Array<Array<number>> | Array<number>>;
 declare const dotProductAgentInfo: {
     name: string;
-    agent: AgentFunction<Record<never, never>, number[], number[][]>;
-    mock: AgentFunction<Record<never, never>, number[], number[][]>;
+    agent: AgentFunction<Record<never, never>, number[], number[] | number[][]>;
+    mock: AgentFunction<Record<never, never>, number[], number[] | number[][]>;
     samples: {
-        inputs: number[][][];
+        inputs: (number[] | number[][])[];
         params: {};
         result: number[];
     }[];
