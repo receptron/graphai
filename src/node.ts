@@ -340,7 +340,7 @@ export class ComputedNode extends Node {
 
 export class StaticNode extends Node {
   public value?: ResultData;
-  public readonly update?: string;
+  public readonly update?: DataSource;
   public readonly isResult: boolean;
   public readonly isStaticNode = true;
   public readonly isComputedNode = false;
@@ -348,7 +348,7 @@ export class StaticNode extends Node {
   constructor(nodeId: string, data: StaticNodeData, graph: GraphAI) {
     super(nodeId, graph);
     this.value = data.value;
-    this.update = data.update;
+    this.update = data.update ? parseNodeName(data.update, graph.version) : undefined;
     this.isResult = data.isResult ?? false;
   }
 
