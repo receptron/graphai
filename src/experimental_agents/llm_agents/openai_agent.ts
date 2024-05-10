@@ -80,7 +80,7 @@ export const openAIMockAgent: AgentFunction<
   },
   Record<string, any> | string,
   string | Array<any>
-> = async ({ filterParams, params, inputs }) => {
+> = async ({ filterParams }) => {
   for await (const token of input_sample.split("")) {
     if (filterParams && filterParams.streamTokenCallback && token) {
       await sleep(100);

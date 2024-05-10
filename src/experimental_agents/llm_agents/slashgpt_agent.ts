@@ -12,7 +12,7 @@ export const slashGPTAgent: AgentFunction<
   },
   ChatData[],
   string
-> = async ({ params, inputs, debugInfo: { verbose, nodeId } }) => {
+> = async ({ params, inputs, debugInfo: { verbose, nodeId }, filterParams }) => {
   if (verbose) {
     console.log("executing", nodeId, params);
   }
