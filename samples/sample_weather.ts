@@ -86,7 +86,6 @@ const graph_data = {
       if: ":groq.choices.$0.message.tool_calls",
       graph: {
         // This graph is nested only for the readability.
-        version: 0.3,
         nodes: {
           outputFetching: {
             agent: (args: any) => console.log(`... fetching weather info ${args}`),
