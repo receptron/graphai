@@ -5,7 +5,6 @@ import { hello } from "./express/hello";
 import { graphAISample } from "./express/graph_sample";
 import { agentDispatcher } from "./express/agent_dispatcher";
 
-
 import express from "express";
 import cors from "cors";
 
@@ -19,7 +18,6 @@ const options: cors.CorsOptions = {
 
 app.use(express.json());
 app.use(cors(options));
-
 
 app.use(express.json());
 app.get("/", hello);

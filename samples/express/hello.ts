@@ -7,4 +7,3 @@ export const hello = async (req: express.Request, res: express.Response) => {
   });
   res.end();
 };
-

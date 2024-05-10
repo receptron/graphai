@@ -41,7 +41,8 @@ export const groqAgent: AgentFunction<
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
-  const messages: Array<Groq.Chat.CompletionCreateParams.Message> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messages: Array<Groq.Chat.CompletionCreateParams.Message> =
+    previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
 
   const content = (query ? [query] : []).concat(input_query && typeof input_query === "string" ? [input_query] : []).join("\n");
   if (content) {

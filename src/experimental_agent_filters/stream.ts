@@ -9,5 +9,3 @@ export const streamAgentFilterGenerator = <T>(callback: (context: AgentFunctionC
   };
   return streamAgentFilter;
 };
-
-

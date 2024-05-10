@@ -102,7 +102,7 @@ export class ComputedNode extends Node {
     this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
       const dataSource = parseNodeName(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
       if (dataSource.nodeId) {
-        assert(!this.anyInput, "Dynamic params are not supported with anyInput"); 
+        assert(!this.anyInput, "Dynamic params are not supported with anyInput");
         tmp[key] = dataSource;
         this.pendings.add(dataSource.nodeId);
       }
