@@ -179,3 +179,53 @@ test("test filterParams on each agent", async () => {
     bypassAgent: [{ agentServer: { baseUrl: "http://localhost:8081/nodeParameter/" } }, { agentServer: { baseUrl: "http://localhost:8081/nodeParameter2/" } }],
   });
 });
+
+
+test("test filterParams on agent filter", async () => {
+  const graph_data = {
+    version: 0.3,
+    nodes: {
+      echo: {
+        agent: "echoAgent",
+        params: {
+          filterParams: true,
+        },
+      },
+      bypassAgent: {
+        agent: "bypassAgent",
+        inputs: [":echo"],
+        isResult: true,
+      },
+    },
+  };
+  const agentFilters = [
+    {
+      name: "httpAgentFilter",
+      agent: httpAgentFilter,
+      filterParams: {
+        agentServer: {
+          baseUrl: "http://localhost:8085/agentFilters/",
+          stream: true,
+        },
+      },
+      agentIds: ["echoAgent"],
+    },
+    {
+      name: "httpAgentFilter",
+      agent: httpAgentFilter,
+      filterParams: {
+        agentServer: {
+          baseUrl: "http://localhost:8085/agentFilters2/",
+          stream: true,
+        },
+      },
+      agentIds: ["echoAgent"],
+    },
+  ];
+
+  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
+
+  const result = await graph.run();
+  // console.log(JSON.stringify(result));
+  assert.deepStrictEqual(result, { bypassAgent: [{ agentServer: { baseUrl: "http://localhost:8085/agentFilters/", stream: true } }] });
+});
