@@ -40,11 +40,6 @@ const graph_data = {
   },
 };
 
-const simplify = (result: Array<any>) => {
-  const { content, usage } = result[result.length - 1];
-  return { content, usage };
-};
-
 const main = async () => {
   const result = await graphDataTestRunner(
     "sample_wiki.log",
