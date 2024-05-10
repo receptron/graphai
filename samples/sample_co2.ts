@@ -58,12 +58,12 @@ const graph_data = {
         function_data_key: "methods",
         result_key: 0,
       },
-      inputs: ["slashGPTAgent"],
+      inputs: [":slashGPTAgent"],
       agent: "slashGPTFuncitons2TextAgent",
     },
     mapNode: {
       agent: "mapAgent",
-      inputs: ["function2prompt0"],
+      inputs: [":function2prompt0"],
       params: {
         injectionTo: ["memory"],
       },
@@ -80,7 +80,7 @@ const graph_data = {
               },
             },
             isResult: true,
-            inputs: ["memory"],
+            inputs: [":memory"],
           },
         },
       },

@@ -5,6 +5,7 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<{ function_data_key: str
   params,
   inputs,
 }) => {
+  console.log(inputs);
   const message = inputs[0].find((m) => m.role === "function_result");
   if (!message) {
     return;
