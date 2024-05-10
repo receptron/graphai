@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { countingAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
-import { interactiveInputSelectAgent } from "./agents/interactiveInputAgent";
+import { interactiveInputSelectAgent } from "../agents/interactiveInputAgent";
 
 const graph_data = {
   version: 0.3,
@@ -21,7 +21,7 @@ const graph_data = {
   },
 };
 
-const main = async () => {
+export const main = async () => {
   const result = await graphDataTestRunner(__filename, graph_data, { countingAgent, interactiveInputSelectAgent });
   console.log(JSON.stringify(result, null, "  "));
   console.log("COMPLETE 1");

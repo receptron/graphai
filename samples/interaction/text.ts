@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { mergeNodeIdAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
-import { interactiveInputTextAgent } from "./agents/interactiveInputAgent";
+import { interactiveInputTextAgent } from "../agents/interactiveInputAgent";
 
 const graph_data = {
   version: 0.3,
