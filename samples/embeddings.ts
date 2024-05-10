@@ -24,6 +24,10 @@ const graph_data = {
     embeddings: {
       agent: "stringEmbeddingsAgent",
       inputs: [":strings"],
+    },
+    similarities: {
+      agent: "dotProductAgent",
+      inputs: [":embeddings", ":embeddings.$0"],
       isResult: true,
     }
   },
