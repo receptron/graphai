@@ -59,6 +59,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
         verbose: boolean;
         nodeId: string;
         retry: number;
+        agentId?: string;
     };
     graphData?: GraphData | string;
     agents?: AgentFunctionDictonary;
