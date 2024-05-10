@@ -5,6 +5,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputSelectAgent } from "./agents/interactiveInputAgent";
 
 const graph_data = {
+  version: 0.3,
   nodes: {
     countingAgent: {
       agent: "countingAgent",
@@ -13,7 +14,7 @@ const graph_data = {
       },
     },
     interactiveInputAgent: {
-      inputs: ["countingAgent.list"],
+      inputs: [":countingAgent.list"],
       agent: "interactiveInputSelectAgent",
       isResult: true,
     },

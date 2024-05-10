@@ -10,17 +10,18 @@ const fibonacciAgent: AgentFunction = async ({ inputs }) => {
 };
 
 const graph_data = {
+  version: 0.3,
   loop: {
     count: 1000,
   },
   nodes: {
     data: {
       value: [1, 1],
-      update: "fibonacci",
+      update: ":fibonacci",
     },
     fibonacci: {
       agent: "fibonacciAgent",
-      inputs: ["data"],
+      inputs: [":data"],
     },
   },
 };

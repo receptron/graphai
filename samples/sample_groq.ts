@@ -6,7 +6,7 @@ const query =
   "I'd like to write a paper about data flow programming for AI application, which involves multiple asynchronous calls, some of operations are done on other machines (distributed computing). Please come up with the title and an abstract for this paper.";
 
 const graph_data = {
-  version: 0.2,
+  version: 0.3,
   nodes: {
     query: {
       agent: "groqAgent",
@@ -18,7 +18,7 @@ const graph_data = {
     },
     answer: {
       agent: "sleeperAgent",
-      inputs: ["query.choices.$0.message"],
+      inputs: [":query.choices.$0.message"],
     },
   },
 };
