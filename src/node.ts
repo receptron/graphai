@@ -264,6 +264,7 @@ export class ComputedNode extends Node {
         inputs: previousResults,
         debugInfo: {
           nodeId: this.nodeId,
+          agentId: this.agentId,
           retry: this.retryCount,
           verbose: this.graph.verbose,
         },
