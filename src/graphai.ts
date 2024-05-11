@@ -19,6 +19,7 @@ export class GraphAI {
   private readonly data: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
+  private readonly hooks: Record<string, () => {}>;
   public readonly callbackDictonary: AgentFunctionDictonary;
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
@@ -90,7 +91,7 @@ export class GraphAI {
   constructor(
     data: GraphData,
     callbackDictonary: AgentFunctionDictonary,
-    options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
+    options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined, hooks?: Record<string, () => {}> } = { taskManager: undefined, agentFilters: [] },
   ) {
     if (!data.version && !options.taskManager) {
       console.log("------------ missing version number");
@@ -106,6 +107,7 @@ export class GraphAI {
     this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
     this.loop = data.loop;
+    this.hooks = options.hooks ?? {};
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
