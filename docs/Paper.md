@@ -70,30 +70,30 @@ nodes:
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia: // (2)
     agentId: wikipediaAgent
-    inputs: [source.name]
+    inputs: [:source.name]
   chunks: // (3) 
     agentId: stringSplitterAgent
-    inputs: [wikipedia]
+    inputs: [:wikipedia]
   chunkEmbeddings: // (4)
     agentId: stringEmbeddingsAgent
-    inputs: [chunks]
+    inputs: [:chunks]
   topicEmbedding: // (5) 
     agentId: stringEmbeddingsAgent
-    inputs: [source.query]
+    inputs: [:source.query]
   similarities: // (6)
     agentId: dotProductAgent
-    inputs: [chunkEmbeddings, topicEmbedding]
+    inputs: [:chunkEmbeddings, :topicEmbedding.$0]
   sortedChunks: // (7) 
     agentId: sortByValuesAgent
-    inputs: [chunks, similarities]
+    inputs: [:chunks, :similarities]
   referenceText: // (8) 
     agentId: tokenBoundStringsAgent
-    inputs: [sortedChunks]
+    inputs: [:sortedChunks]
     params:
       limit: 5000
   prompt: // (9) 
     agentId: stringTemplateAgent
-    inputs: [source.query, referenceText]
+    inputs: [:source.query, :referenceText]
     params:
       template: |-
         Using the following document, ${0}
@@ -104,7 +104,7 @@ nodes:
       manifest:
         model: gpt-3.5-turbo
     isResult: true // indicating this is the final result
-    inputs: [prompt]
+    inputs: [:prompt]
 ```
 
 This application consists of 10 nodes. Each node responsible in either holding a data (*static data*) or performing some computations (*computed data*). A *computation node* is associated with a piece of code (*agent function*), which is specified by its *agentId* property. The *inputs* property of a *computation node* specifies the data sources for this node. 
