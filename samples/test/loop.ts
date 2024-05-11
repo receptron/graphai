@@ -52,7 +52,7 @@ const graph_data = {
   },
 };
 
-const main = async () => {
+export const main = async () => {
   const result = await graphDataTestRunner(__filename, graph_data, { pushAgent, shiftAgent, slashGPTAgent, totalAgent });
   console.log(result.result);
   console.log(result.usage);

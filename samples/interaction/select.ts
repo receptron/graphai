@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { countingAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
-import { interactiveInputSelectAgent } from "../agents/interactiveInputAgent";
+import { interactiveInputSelectAgent } from "../utils/agents/interactiveInputAgent";
 
 const graph_data = {
   version: 0.3,

@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { fileTestRunner } from "../runner";
+import { fileTestRunner } from "../utils/runner";
 
 import { stringTemplateAgent, slashGPTAgent } from "@/experimental_agents";
 
