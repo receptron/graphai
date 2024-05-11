@@ -34,7 +34,7 @@ export const groqStreamAgent: AgentFunction<
     max_tokens?: number;
     tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
   },
-  Groq.Chat.ChatCompletion,
+  any,
   string | Array<Groq.Chat.CompletionCreateParams.Message>
 > = async ({ params, inputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
@@ -70,14 +70,22 @@ export const groqStreamAgent: AgentFunction<
     options.tool_choice = tool_choice ?? "auto" as Groq.Chat.CompletionCreateParams.ToolChoice;
   }
   const stream = await groq.chat.completions.create(options);
+  let lastMessage = null;
+  let contents = [];
   for await (const message of stream) {
     const token = message.choices[0].delta.content;
-    if (filterParams && filterParams.streamTokenCallback && token) {
-      filterParams.streamTokenCallback(token);
+    if (token) {
+      if (filterParams && filterParams.streamTokenCallback) {
+        filterParams.streamTokenCallback(token);
+      }
+      contents.push(token);
     }
+    lastMessage = message as any;
   };
-  // console.log(stream);
-  return stream as any;
+  if (lastMessage) {
+    lastMessage.choices[0]["message"] = [{"role": "assistant", "content": contents.join("")}];
+  }
+  return lastMessage;
 };
 
 const groqStreamAgentInfo = {
