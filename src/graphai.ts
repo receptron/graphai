@@ -19,7 +19,7 @@ export class GraphAI {
   private readonly data: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
-  private readonly hooks: Record<string, () => {}>;
+  private readonly hooks: Record<string, (__: Record<string, any>) => void>;
   public readonly callbackDictonary: AgentFunctionDictonary;
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
@@ -91,7 +91,7 @@ export class GraphAI {
   constructor(
     data: GraphData,
     callbackDictonary: AgentFunctionDictonary,
-    options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined, hooks?: Record<string, () => {}> } = { taskManager: undefined, agentFilters: [] },
+    options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined, hooks?: Record<string, (params: Record<string, any>) => void> } = { taskManager: undefined, agentFilters: [] },
   ) {
     if (!data.version && !options.taskManager) {
       console.log("------------ missing version number");
@@ -289,11 +289,12 @@ export class GraphAI {
 
   public resultsOf(sources: Array<DataSource>) {
     return sources.map((source) => {
-      if (source.isHook) {
-        return this.hooks[source.value];
-      }
       const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
       return getDataFromSource(result, source);
     });
+  }
+
+  public getHook(hookId: string) {
+    return this.hooks[hookId];
   }
 }

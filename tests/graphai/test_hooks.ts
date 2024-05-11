@@ -30,11 +30,10 @@ const streamAgent: AgentFunction<{ stream?: (data:Record<string, any>)=> void },
   const [message] = inputs;
   const {stream} = params;
   if (stream) {
-    message.split(' ').forEach(async (word: string) => {
+    for await (const word of message.split(' ')) {
       await sleep(10);
-      console.log(word);
-      //stream({word});
-    });
+      stream({word});
+    };
   }
   return message;
 };

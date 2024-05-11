@@ -108,6 +108,10 @@ export class ComputedNode extends Node {
         assert(!this.anyInput, "Dynamic params are not supported with anyInput");
         tmp[key] = dataSource;
         this.pendings.add(dataSource.nodeId);
+      } else if (dataSource.isHook) {
+        const hook = graph.getHook(dataSource.value);
+        assert(hook !== undefined, `Specified hook does not exist: ${dataSource.value}`);
+        this.params[key] = hook;
       }
       return tmp;
     }, {});

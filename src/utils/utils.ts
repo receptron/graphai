@@ -28,6 +28,7 @@ export const parseNodeName = (inputNodeId: any, version: number): DataSource => 
     const regexHook = /^~(.*)$/;
     const matchHook = inputNodeId.match(regexHook);
     if (matchHook) {
+      console.log("****", inputNodeId, matchHook[1]);
       return { value: matchHook[1], isHook: true };
     }
     const regex = /^:(.*)$/;
