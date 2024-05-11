@@ -19,7 +19,7 @@ nodes:
     agent: stringTemplate
     inputs: [:node1.$last.content, :node3.$last.content]
     params:
-      template:  |
+      template: |
         Please pick the winner of this business idea contest.
         [ideas]
         ${0}
