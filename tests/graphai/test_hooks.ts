@@ -9,25 +9,29 @@ import test from "node:test";
 const graphdata_hook = {
   version: 0.3,
   nodes: {
+    source: {
+      value: "May the force be with you"
+    },
     streamNode: {
       agent: "streamAgent",
       params: {
-        stream: "~test_hook",
+        streamx: "~test_hook",
       },
       isResult: true,
+      inputs: [":source"],
     },
   },
 };
 
 
-const streamAgent: AgentFunction<{ stream: (data:Record<string, any>)=> void }, string, any> = async ({
-  params,
+const streamAgent: AgentFunction<{ stream: (data:Record<string, any>)=> void }, string, string> = async ({
+  params, inputs
 }) => {
-  const message = "May the force be with you";
+  const [message] = inputs;
   if (params.stream) {
     message.split('').forEach(async (word: string) => {
       await sleep(10);
-      params.stream({word});    
+      params.stream({word});
     });
   }
   return message;
@@ -37,7 +41,7 @@ const test_hook = (data: Record<string, any>) => {
   console.log(data.word);
 }
 
-test("test dispatch", async () => {
+test("test hook", async () => {
   const graph = new GraphAI(graphdata_hook, { ...defaultTestAgents, streamAgent }, { hooks: { test_hook }});
   const result = await graph.run(false);  
   console.log(result);
