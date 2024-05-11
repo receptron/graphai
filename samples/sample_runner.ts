@@ -5,13 +5,21 @@ import { main as streaming_openai } from "./streaming/openai";
 import { main as streaming_slashgpt } from "./streaming/slashgpt";
 import { main as streaming_openai_agent } from "./streaming/openai_agent";
 
+import { main as test_fibonacci } from "./test/fibonacci";
+import { main as test_loop } from "./test/loop";
+
 import { main as slashgpt } from "./llm/slashgpt";
 import { main as groq } from "./llm/groq";
+
+import { main as net_paper_ai } from "./net/paper_ai"
+import { main as net_rss } from "./net/rss";
+
 import { main as interaction_text } from "./interaction/text";
 import { main as interaction_select } from "./interaction/select";
+
 import { main as sample_co2 } from "./tools/sample_co2";
 import { main as tools_home } from "./tools/home";
-import { main as net_paper_ai } from "./net/paper_ai";
+
 
 const main = async () => {
   // streaming
@@ -20,19 +28,27 @@ const main = async () => {
   await streaming_slashgpt();
   await streaming_openai_agent();
 
+  // test
+  await test_fibonacci();
+  await test_loop();
+  
   // llm
   await slashgpt();
   await groq();
+
   // interaction
   await interaction_text();
   await interaction_select();
-  // chat wikipedia
+  // TODO: chat wikipedia
 
+  // net
+  await net_paper_ai();
+  await net_rss();
+  
   // tools
   await sample_co2();
   await tools_home();
 
-  await net_paper_ai();
 };
 
 main();
