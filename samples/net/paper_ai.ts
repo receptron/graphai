@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { fileTestRunner } from "../runner";
+import { fileTestRunner } from "../utils/runner";
 
 import { slashGPTAgent } from "@/experimental_agents";
 import { arxivAgent, arxiv2TextAgent } from "../utils/agents/arxiv_agent";
