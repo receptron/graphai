@@ -10,12 +10,12 @@ const graphdata_hook = {
   version: 0.3,
   nodes: {
     source: {
-      value: "May the force be with you"
+      value: "May the force be with you."
     },
     streamNode: {
       agent: "streamAgent",
       params: {
-        streamx: "~test_hook",
+        stream: "~test_hook",
       },
       isResult: true,
       inputs: [":source"],
@@ -24,14 +24,16 @@ const graphdata_hook = {
 };
 
 
-const streamAgent: AgentFunction<{ stream: (data:Record<string, any>)=> void }, string, string> = async ({
+const streamAgent: AgentFunction<{ stream?: (data:Record<string, any>)=> void }, string, string> = async ({
   params, inputs
 }) => {
   const [message] = inputs;
-  if (params.stream) {
-    message.split('').forEach(async (word: string) => {
+  const {stream} = params;
+  if (stream) {
+    message.split(' ').forEach(async (word: string) => {
       await sleep(10);
-      params.stream({word});
+      console.log(word);
+      //stream({word});
     });
   }
   return message;
