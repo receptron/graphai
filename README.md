@@ -317,9 +317,12 @@ flowchart LR
 ```
 ### Conditional Flow
 
-When a node has *if* property (which specifies the data source), the data flows to this node only if the value from the data source has some value. 
+GraphAI provides mechanisms to control the flow of data based on certain conditions. This is achieved through the *if* and *anyInput* properties.
 
-A sample code, [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample_weather.ts) uses the following *if* property to execute a block of graph, if the LLM asks to use a tool (i.e., function call).
+#### If Property
+
+The *if* property allows you to specify a condition that must be met for the data to flow into a particular node. The condition is defined by a data source. If the value obtained from the specified *data source* is truthy (i.e., not null, undefined, 0, false, NaN, or an empty array/string), the node will be executed; otherwise, it will be skipped.
+For example, the following node will only be executed if the *tool_calls* property of the message from the LLM contains a value:
 
 ```typescript
     tool_calls: {
@@ -331,11 +334,13 @@ A sample code, [weather chat](https://github.com/receptron/graphai/blob/main/sam
         // This graph is nested only for the readability.
 ```
 
-Even though it is not required, we strongly recommand to use it with a nested graph for the readability. 
+It is recommended to use the *if* property in conjunction with nested graphs for better code readability and organization.
 
-The *anyInput* property (boolean) allows the developer to "merge" multiple data flow paths into one. When the value of this property is true, the agent function associated with this node will be executed when the data from one of data sources became available.
+#### AnyInput Property
 
-The [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample_weather.ts) sample application uses this property to continue the chat iteration either a tool was requested by LLM or not.
+The *anyInput* property (boolean) allows you to merge multiple data flow paths into a single node. When set to *true*, the agent function associated with the node will be executed as soon as data becomes available from any of the specified input data sources.
+
+This property is particularly useful when you want to continue the flow regardless of which path the data comes from. In the weather chat sample application, it is used to continue the chat iteration whether a tool was requested by the LLM or not:
 
 ```typescript
     reducer: {
@@ -346,17 +351,31 @@ The [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample
     },
 ```
 
+In this example, the "reducer" node will execute as soon as data is available from either the "no_tool_calls" or "tool_calls.messagesWithSecondRes" data source.
+
+By combining the *if* and *anyInput* properties, you can create complex conditional flows that control the execution of nodes based on the availability and values of data from various sources. This flexibility allows you to build sophisticated data-driven applications with GraphAI.
+
 ## Concurrency
 
-It is possible to specify the maximum number of concurrent execution by setting the *concurrency* property of the graph at the top level. The default is 8.
+GraphAI supports concurrent execution of tasks, allowing you to leverage parallelism and improve performance. The level of concurrency can be controlled through the *concurrency* property at the top level of the graph definition.
+
+```typescript
+  concurrency: 16 # Maximum number of concurrent tasks
+```
+
+If the *concurrency* property is not specified, the default value of 8 is used.
+
+### Concurrency and Nested Graphs
 
 Since the task queue is shared between the parent graph and the children graph (uness the graph is running remotely), tasks created by the child graph will be bound by the same concurrency specified by the parent graph. 
 
 Since the task executing the nested graph will be in "running" state while tasks within the child graph are runnig, the concurrency limit will be incremented by one when we start running the child graph and restored when it is completed.
 
-By default, all the tasks will have a priority "0", which means neutral. By default, all the tasks will be executed in first-in first-out basis. 
+### Task Prioritization
 
-It is possible to change this priority by specifying Node's optional property "priority". The task with higher priority will be executed first. 
+By default, tasks are executed in a first-in, first-out (FIFO) order with a neutral priority (0). However, you can assign custom priorities to nodes using the *priority* property. Tasks associated with nodes that have a higher priority value will be executed before those with lower priorities.
+
+Negative priority values are allowed, enabling you to fine-tune the execution order based on your application's requirements.
 
 ## GraphAI class
 
