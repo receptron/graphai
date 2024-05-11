@@ -1,6 +1,6 @@
 import { AgentFunction } from "@/graphai";
 import { Groq } from "groq-sdk";
-import { ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions"
+import { ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
 import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
@@ -67,7 +67,7 @@ export const groqStreamAgent: AgentFunction<
   }
   if (tools) {
     options.tools = tools;
-    options.tool_choice = tool_choice ?? "auto" as Groq.Chat.CompletionCreateParams.ToolChoice;
+    options.tool_choice = tool_choice ?? ("auto" as Groq.Chat.CompletionCreateParams.ToolChoice);
   }
   const stream = await groq.chat.completions.create(options);
   let lastMessage = null;
@@ -81,9 +81,9 @@ export const groqStreamAgent: AgentFunction<
       contents.push(token);
     }
     lastMessage = message as any;
-  };
+  }
   if (lastMessage) {
-    lastMessage.choices[0]["message"] = [{"role": "assistant", "content": contents.join("")}];
+    lastMessage.choices[0]["message"] = [{ role: "assistant", content: contents.join("") }];
   }
   return lastMessage;
 };

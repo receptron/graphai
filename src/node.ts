@@ -220,18 +220,18 @@ export class ComputedNode extends Node {
   private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction): Promise<ResultData> {
     let index = 0;
 
-    const next = (context: AgentFunctionContext): Promise<ResultData> => {
+    const next = (innerContext: AgentFunctionContext): Promise<ResultData> => {
       const agentFilter = this.graph.agentFilters[index++];
       if (agentFilter) {
         if (this.shouldApplyAgentFilter(agentFilter)) {
           if (agentFilter.filterParams) {
-            context.filterParams = { ...agentFilter.filterParams, ...context.filterParams };
+            innerContext.filterParams = { ...agentFilter.filterParams, ...innerContext.filterParams };
           }
-          return agentFilter.agent(context, next);
+          return agentFilter.agent(innerContext, next);
         }
-        return next(context);
+        return next(innerContext);
       }
-      return agent(context);
+      return agent(innerContext);
     };
 
     return next(context);

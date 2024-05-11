@@ -22,11 +22,14 @@ export const slashGPTAgent: AgentFunction<
   const contents = query.concat(inputs);
 
   session.append_user_question(contents.join("\n"));
-  await session.call_loop(() => {}, (token: string) => {
-    if (filterParams && filterParams.streamTokenCallback && token) {
-      filterParams.streamTokenCallback(token);
-    }
-  });
+  await session.call_loop(
+    () => {},
+    (token: string) => {
+      if (filterParams && filterParams.streamTokenCallback && token) {
+        filterParams.streamTokenCallback(token);
+      }
+    },
+  );
   return session.history.messages();
 };
 
