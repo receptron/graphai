@@ -180,7 +180,6 @@ test("test filterParams on each agent", async () => {
   });
 });
 
-
 test("test filterParams on agent filter", async () => {
   const graph_data = {
     version: 0.3,
