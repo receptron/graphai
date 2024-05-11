@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import { interactiveInputTextAgent } from "../agents/interactiveInputAgent";
+import { interactiveInputTextAgent } from "../utils/agents/interactiveInputAgent";
 import { wikipediaAgent } from "@/experimental_agents";
 
 const graph_data = {
