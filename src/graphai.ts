@@ -106,8 +106,8 @@ export class GraphAI {
     this.callbackDictonary = callbackDictonary;
     this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
-    this.loop = data.loop;
     this.hooks = options.hooks ?? {};
+    this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
@@ -289,6 +289,9 @@ export class GraphAI {
 
   public resultsOf(sources: Array<DataSource>) {
     return sources.map((source) => {
+      if (source.isHook) {
+        return this.hooks[source.value];
+      }
       const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
       return getDataFromSource(result, source);
     });
