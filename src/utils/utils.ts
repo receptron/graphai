@@ -25,6 +25,11 @@ export const parseNodeName = (inputNodeId: any, version: number): DataSource => 
     return parseNodeName_02(inputNodeId);
   }
   if (typeof inputNodeId === "string") {
+    const regexHook = /^~(.*)$/;
+    const matchHook = inputNodeId.match(regexHook);
+    if (matchHook) {
+      return { value: matchHook[1], isHook: true };
+    }
     const regex = /^:(.*)$/;
     const match = inputNodeId.match(regex);
     if (!match) {

@@ -24,6 +24,7 @@ export type DataSource = {
   nodeId?: string;
   value?: any;
   propIds?: string[];
+  isHook?: boolean;
 };
 
 export type StaticNodeData = {
