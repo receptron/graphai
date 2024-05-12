@@ -106,9 +106,8 @@ const graphdata_nested = {
   },
 };
 
-test("test loop & push", async () => {
+test("test nested loop & $0", async () => {
   const result = await graphDataTestRunner(__filename, graphdata_nested, defaultTestAgents, () => {}, false);
-  console.log(result);
   assert.deepStrictEqual(result, {
     parent: {
       reducer: [
