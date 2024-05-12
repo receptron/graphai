@@ -68,5 +68,3 @@ test("test loop & pop", async () => {
   const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents);
   assert.deepStrictEqual(result.result, ["lemon", "banana", "orange"]);
 });
-
-
