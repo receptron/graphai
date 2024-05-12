@@ -49,15 +49,10 @@ const graph_data = {
             inputs: [undefined, ":messages"],
           },
           // \x1b[31m%s\x1b[0m
-          debugOut: {
-            agent: (answer: string, content: string, name: string, system: string) => 
-              console.log(content, system),
-            inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":$0", ":$1"],
-          },
           output: {
             // This node displays the responce to the user.
-            agent: (answer: string, content: string, name: string, system: string) => 
-              console.log(`\x1b[31m${ content === system ? name : "Interviewer" }:\x1b[0m ${answer}\n`),
+            agent: (answer: string, content: string, name: string, system_target: string) => 
+              console.log(`\x1b[31m${ content === system_target ? name : "Interviewer" }:\x1b[0m ${answer}\n`),
             inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":$0", ":$1"],
           },
           reducer: {
@@ -66,14 +61,14 @@ const graph_data = {
             inputs: [":messages", ":groq.choices.$0.message"],
           },
           switcher: {
-            agent: (messages:Array<Record<string, string>>, system: string) => {
+            agent: (messages:Array<Record<string, string>>, system_target: string) => {
               return messages.map((message, index) => {
                 const { role, content } = message;
                 if (index === 0) {
-                  if (content === system) {
+                  if (content === system_target) {
                     return { role, content: system_interviewer}
                   } else {
-                    return { role, content: system}
+                    return { role, content: system_target}
                   }
                 }
                 if (role === "user") {
