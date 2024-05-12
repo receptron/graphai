@@ -33,8 +33,9 @@ const graph_data = {
     },
     output: {
       // This node displays the responce to the user.
-      agent: (answer: string) => console.log(`Interviewer: ${answer}\n`),
-      inputs: [":groq.choices.$0.message.content"],
+      agent: (answer: string, content: string) => 
+        console.log(`${ content === system_jobs ? "Steve Jobs" : "Interviewer" }: ${answer}\n`),
+      inputs: [":groq.choices.$0.message.content", ":messages.$0.content"],
     },
     reducer: {
       // This node append the responce to the messages.
