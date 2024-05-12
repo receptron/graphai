@@ -5,13 +5,12 @@ import input from "@inquirer/input";
 
 
 const system_interviewer = "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
-const query = "Hi, I'm Steve Jobs.";
 
 const graph_data = {
   version: 0.3,
   nodes: {
     name: {
-      value: "Steve Jobs"
+      agent: () => input({ message: "Name of a famous person you want to interview:" }),
     },
     target: {
       agent: (name: string) => ({
