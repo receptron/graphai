@@ -34,18 +34,12 @@ export const nestedAgent: AgentFunction<{injectionTo?: Array<string>;}> = async 
       // If the input node does not exist, automatically create a static node
       nestedGraphData.nodes[nodeId] = { value: inputs[index] };
     } else {
+      // Otherwise, inject the proper data here (instead of calling injectTo method later)
       (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = inputs[index];
     }
   });
 
   const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager });
-
-  if (params.injectionTo) {
-    // We need this only when the injectionTo param was specified.
-    injectionTo.forEach((injectToNodeId, index) => {
-      graphAI.injectValue(injectToNodeId, inputs[index]);
-    });
-  }
 
   const results = await graphAI.run(false);
   log?.push(...graphAI.transactionLogs());
