@@ -36,7 +36,26 @@ const sortByValuesAgentInfo = {
   name: "sortByValuesAgent",
   agent: sortByValuesAgent,
   mock: sortByValuesAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [
+        ["banana", "orange", "lemon", "apple"],
+        [2, 5, 6, 4],
+      ],
+      params: {},
+      result: ["lemon", "orange", "apple", "banana"],
+    },
+    {
+      inputs: [
+        ["banana", "orange", "lemon", "apple"],
+        [2, 5, 6, 4],
+      ],
+      params: {
+        assendant: true,
+      },
+      result: ["banana", "apple", "orange", "lemon"],
+    },
+  ],
   description: "sortByValues Agent",
   category: [],
   author: "Receptron team",

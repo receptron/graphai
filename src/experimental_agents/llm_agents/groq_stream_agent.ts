@@ -71,7 +71,7 @@ export const groqStreamAgent: AgentFunction<
   }
   const stream = await groq.chat.completions.create(options);
   let lastMessage = null;
-  let contents = [];
+  const contents = [];
   for await (const message of stream) {
     const token = message.choices[0].delta.content;
     if (token) {
