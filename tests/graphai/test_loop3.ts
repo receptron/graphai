@@ -60,9 +60,13 @@ test("test nested loop & $0", async () => {
 const graphdata_pop = {
   version: 0.3,
   nodes: {
+    fruits: {
+      value: ["orange", "banana", "lemon"],
+    },
     parent: {
       agent: "nestedAgent",
       isResult: true,
+      inputs: [":fruits"],
       graph: {
         loop: {
           while: ":source",
