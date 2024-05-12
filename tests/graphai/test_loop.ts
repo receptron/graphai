@@ -68,3 +68,56 @@ test("test loop & pop", async () => {
   const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents);
   assert.deepStrictEqual(result.result, ["lemon", "banana", "orange"]);
 });
+
+const graphdata_nested = {
+  version: 0.3,
+  nodes: {
+    source: {
+      value: "hello",
+    },
+    parent: {
+      agent: "nestedAgent",
+      inputs: [":source"],
+      isResult: true,
+      graph: {
+        loop: {
+          count: 10,
+        },
+        nodes: {
+          array: {
+            value: [],
+            update: ":reducer",
+          },
+          item: {
+            agent: "sleeperAgent",
+            params: {
+              duration: 10,
+              value: ":$0",
+            },
+          },
+          reducer: {
+            agent: "pushAgent",
+            inputs: [":array", ":item"],
+            isResult: true,
+          },
+        },
+      },
+    },
+  },
+};
+
+test("test loop & push", async () => {
+  const result = await graphDataTestRunner(__filename, graphdata_nested, defaultTestAgents, () => {}, false);
+  console.log(result);
+  assert.deepStrictEqual(result, {
+    parent: {
+      reducer: [
+        'hello', 'hello',
+        'hello', 'hello',
+        'hello', 'hello',
+        'hello', 'hello',
+        'hello', 'hello'
+      ]
+    }
+  });
+});

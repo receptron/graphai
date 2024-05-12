@@ -35,19 +35,15 @@ export const nestedAgent: AgentFunction<{
     inputs.map((__input, index) => {
       return `$${index}`;
     });
-  injectionTo.forEach((nodeId) => {
+  injectionTo.forEach((nodeId, index) => {
     if (nestedGraphData.nodes[nodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
-      nestedGraphData.nodes[nodeId] = { value: {} };
+      nestedGraphData.nodes[nodeId] = { value: inputs[index] };
     }
   });
 
   const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager });
 
-  // Inject inputs to specified source nodes
-  injectionTo.forEach((injectToNodeId, index) => {
-    graphAI.injectValue(injectToNodeId, inputs[index]);
-  });
   const results = await graphAI.run(false);
   log?.push(...graphAI.transactionLogs());
   return results;
