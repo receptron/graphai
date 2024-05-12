@@ -1,4 +1,5 @@
 import groqAgent from "@/experimental_agents/llm_agents/groq_agent";
 import slashGPTAgent from "@/experimental_agents/llm_agents/slashgpt_agent";
+import openAIAgent from "@/experimental_agents/llm_agents/openai_agent";
 
-export { groqAgent, slashGPTAgent };
+export { groqAgent, slashGPTAgent, openAIAgent};
