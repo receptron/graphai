@@ -1,6 +1,6 @@
 import { GraphAI, AgentFunction } from "@/graphai";
 import { assert } from "@/utils/utils";
-import { GraphData } from "@/type";
+import { GraphData, StaticNodeData } from "@/type";
 
 // This function allows us to use one of inputs as the graph data for this nested agent,
 // which is equivalent to "eval" of JavaScript.
@@ -33,6 +33,8 @@ export const nestedAgent: AgentFunction<{injectionTo?: Array<string>;}> = async 
     if (nestedGraphData.nodes[nodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
       nestedGraphData.nodes[nodeId] = { value: inputs[index] };
+    } else {
+      (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = inputs[index];
     }
   });
 

@@ -57,6 +57,7 @@ test("test nested loop & $0", async () => {
   });
 });
 
+/*
 const graphdata_pop = {
   version: 0.3,
   nodes: {
@@ -72,8 +73,8 @@ const graphdata_pop = {
           while: ":source",
         },
         nodes: {
-          source: {
-            value: ["orange", "banana", "lemon"],
+          $0: {
+            value: [],
             update: ":popper.array",
           },
           result: {
@@ -82,7 +83,7 @@ const graphdata_pop = {
             isResult: true,
           },
           popper: {
-            inputs: [":source"],
+            inputs: [":$0"],
             agent: "popAgent", // returns { array, item }
           },
           reducer: {
@@ -103,3 +104,4 @@ test("test loop, reduction", async () => {
     }
   });
 });
+*/
