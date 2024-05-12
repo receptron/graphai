@@ -38,6 +38,13 @@ export const nestedAgent: AgentFunction<{injectionTo?: Array<string>;}> = async 
 
   const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager });
 
+  if (params.injectionTo) {
+    // We need this only when the injectionTo param was specified.
+    injectionTo.forEach((injectToNodeId, index) => {
+      graphAI.injectValue(injectToNodeId, inputs[index]);
+    });
+  }
+
   const results = await graphAI.run(false);
   log?.push(...graphAI.transactionLogs());
   return results;
