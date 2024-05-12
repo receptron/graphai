@@ -21,6 +21,21 @@ const dataSumTemplateAgentInfo = {
       params: sampleParams,
       result: sampleResult,
     },
+    {
+      inputs: [1],
+      params: {},
+      result: 1,
+    },
+    {
+      inputs: [1, 2],
+      params: {},
+      result: 3,
+    },
+    {
+      inputs: [1, 2, 3],
+      params: {},
+      result: 6,
+    },
   ],
   description: "Returns the sum of input values",
   category: ["data"],
