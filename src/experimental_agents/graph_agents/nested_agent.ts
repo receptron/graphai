@@ -20,7 +20,7 @@ export const getNestedGraphData = (graphData: GraphData | string | undefined, in
   return graphData;
 };
 
-export const nestedAgent: AgentFunction<{injectionTo?: Array<string>;}> = async ({ params, inputs, agents, log, taskManager, graphData }) => {
+export const nestedAgent: AgentFunction<{injectionTo?: Array<string>;}> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
   if (taskManager) {
     const status = taskManager.getStatus(false);
     assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -39,7 +39,7 @@ export const nestedAgent: AgentFunction<{injectionTo?: Array<string>;}> = async 
     }
   });
 
-  const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager });
+  const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters });
 
   const results = await graphAI.run(false);
   log?.push(...graphAI.transactionLogs());

@@ -78,6 +78,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
   agents?: AgentFunctionDictonary; // for nested graph
   taskManager?: TaskManager; // for nested graph
   filterParams: AgentFilterParams; // agent filter
+  agentFilters: AgentFilterInfo[];
   log?: TransactionLog[];
 };
 
