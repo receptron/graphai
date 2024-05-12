@@ -111,11 +111,11 @@ test("test nested loop & $0", async () => {
   assert.deepStrictEqual(result, {
     parent: {
       reducer: [
-        'hello', 'hello',
-        'hello', 'hello',
-        'hello', 'hello',
-        'hello', 'hello',
-        'hello', 'hello'
+        "hello", "hello",
+        "hello", "hello",
+        "hello", "hello",
+        "hello", "hello",
+        "hello", "hello"
       ]
     }
   });
