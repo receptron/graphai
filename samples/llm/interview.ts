@@ -11,13 +11,35 @@ const query = "Hi, I'm Steve Jobs.";
 const graph_data = {
   version: 0.3,
   nodes: {
+    name: {
+      value: "Steve Jobs"
+    },
+    debugOutput: {
+      agent: (foo: string) => console.log(foo),
+      inputs: [":name"],
+    },
+    target: {
+      agent: (name: string) => ({
+        system: `You are ${name}`,
+        /*
+        content: `Hi, I'm ${name}`,
+        messages: [
+          { role: "system", content: system_interviewer },
+          { role: "user", content: `Hi, I'm ${name}`}
+        ],
+        */
+      }),
+      inputs: [":name"],   
+    },
     chat: {
       agent: "nestedAgent",
+      inputs: [":name", ":target.system"],
       graph: {
         loop: {
-          count: 4,
+          count: 2,
         },
         nodes: {
+      
           messages: {
             // This node holds the conversation, array of messages.
             value: [
@@ -35,11 +57,16 @@ const graph_data = {
             },
             inputs: [undefined, ":messages"],
           },
+          debugOutput: {
+            agent: (foo: string) => console.log(foo),
+            inputs: [":$0"],
+          },
+
           output: {
             // This node displays the responce to the user.
-            agent: (answer: string, content: string) => 
-              console.log(`${ content === system_jobs ? "Steve Jobs" : "Interviewer" }: ${answer}\n`),
-            inputs: [":groq.choices.$0.message.content", ":messages.$0.content"],
+            agent: (answer: string, content: string, name: string) => 
+              console.log(`${ content === system_jobs ? name : "Interviewer" }: ${answer}\n`),
+            inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":$0"],
           },
           reducer: {
             // This node append the responce to the messages.
