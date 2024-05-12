@@ -109,6 +109,7 @@ export type AgentFunctionInfo = {
     params: DefaultParamsType;
     result: any;
   }[];
+  skipTest?: boolean;
   description: string;
   category: string[];
   author: string;
