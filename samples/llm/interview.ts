@@ -5,7 +5,6 @@ import input from "@inquirer/input";
 
 
 const system_interviewer = "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
-const system_jobs = "You are Steve Jobs.";
 const query = "Hi, I'm Steve Jobs.";
 
 const graph_data = {
@@ -16,13 +15,9 @@ const graph_data = {
     },
     target: {
       agent: (name: string) => ({
-        system: `You are ${name}`,
+        system: `You are ${name}.`,
         /*
         content: `Hi, I'm ${name}`,
-        messages: [
-          { role: "system", content: system_interviewer },
-          { role: "user", content: `Hi, I'm ${name}`}
-        ],
         */
       }),
       inputs: [":name"],   
@@ -35,6 +30,7 @@ const graph_data = {
           count: 2,
         },
         nodes: {
+      
           messages: {
             // This node holds the conversation, array of messages.
             value: [
@@ -53,11 +49,16 @@ const graph_data = {
             inputs: [undefined, ":messages"],
           },
           // \x1b[31m%s\x1b[0m
+          debugOut: {
+            agent: (answer: string, content: string, name: string, system: string) => 
+              console.log(content, system),
+            inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":$0", ":$1"],
+          },
           output: {
             // This node displays the responce to the user.
-            agent: (answer: string, content: string, name: string) => 
-              console.log(`\x1b[31m${ content === system_jobs ? name : "Interviewer" }:\x1b[0m ${answer}\n`),
-            inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":$0"],
+            agent: (answer: string, content: string, name: string, system: string) => 
+              console.log(`\x1b[31m${ content === system ? name : "Interviewer" }:\x1b[0m ${answer}\n`),
+            inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":$0", ":$1"],
           },
           reducer: {
             // This node append the responce to the messages.
@@ -65,14 +66,14 @@ const graph_data = {
             inputs: [":messages", ":groq.choices.$0.message"],
           },
           switcher: {
-            agent: (messages:Array<Record<string, string>>) => {
+            agent: (messages:Array<Record<string, string>>, system: string) => {
               return messages.map((message, index) => {
                 const { role, content } = message;
                 if (index === 0) {
-                  if (content === system_jobs) {
+                  if (content === system) {
                     return { role, content: system_interviewer}
                   } else {
-                    return { role, content: system_jobs}
+                    return { role, content: system}
                   }
                 }
                 if (role === "user") {
@@ -82,7 +83,7 @@ const graph_data = {
                 }
               });
             },
-            inputs: [":reducer"]
+            inputs: [":reducer", ":$1"]
           },
         },
       }
