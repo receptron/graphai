@@ -217,7 +217,7 @@ export class ComputedNode extends Node {
     return !agentFilter.agentIds && !agentFilter.nodeIds;
   }
 
-  private agentFilterHandler(context: AgentFunctionContext, agent: AgentFunction): Promise<ResultData> {
+  private agentFilterHandler(context: AgentFunctionContext, agentFunction: AgentFunction): Promise<ResultData> {
     let index = 0;
 
     const next = (innerContext: AgentFunctionContext): Promise<ResultData> => {
@@ -231,7 +231,7 @@ export class ComputedNode extends Node {
         }
         return next(innerContext);
       }
-      return agent(innerContext);
+      return agentFunction(innerContext);
     };
 
     return next(context);
@@ -256,7 +256,7 @@ export class ComputedNode extends Node {
     }
 
     try {
-      const callback = this.agentFunction ?? this.graph.getCallback(this.agentId);
+      const agentFunction = this.agentFunction ?? this.graph.getAgentFunction(this.agentId);
       const localLog: TransactionLog[] = [];
       const params = Object.keys(this.dynamicParams).reduce(
         (tmp, key) => {
@@ -285,10 +285,10 @@ export class ComputedNode extends Node {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
         context.graphData = this.nestedGraph;
-        context.agents = this.graph.callbackDictonary;
+        context.agents = this.graph.agentFunctionDictionary;
       }
 
-      const result = await this.agentFilterHandler(context as AgentFunctionContext, callback);
+      const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);
 
       if (this.nestedGraph) {
         this.graph.taskManager.restoreAfterNesting();
