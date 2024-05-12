@@ -17,8 +17,8 @@ export const defaultTestContext = {
 
 // for agent
 export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
-  const { agent, samples } = agentInfo;
-  if (samples.length === 0) {
+  const { agent, samples, skipTest } = agentInfo;
+  if (samples.length === 0 || skipTest) {
     console.log(`test ${agentInfo.name}: No test`);
   } else {
     for await (const sampleKey of samples.keys()) {
