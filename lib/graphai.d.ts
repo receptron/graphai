@@ -10,7 +10,7 @@ export declare class GraphAI {
     private readonly data;
     private readonly loop?;
     private readonly logs;
-    readonly callbackDictonary: AgentFunctionDictonary;
+    readonly agentFunctionDictionary: AgentFunctionDictonary;
     readonly taskManager: TaskManager;
     readonly agentFilters: AgentFilterInfo[];
     readonly retryLimit?: number;
@@ -22,11 +22,11 @@ export declare class GraphAI {
     private createNodes;
     private getValueFromResults;
     private initializeNodes;
-    constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary, options?: {
+    constructor(data: GraphData, agentFunctionDictionary: AgentFunctionDictonary, options?: {
         agentFilters?: AgentFilterInfo[] | undefined;
         taskManager?: TaskManager | undefined;
     });
-    getCallback(agentId?: string): import("./type").AgentFunction<any, any, any>;
+    getAgentFunction(agentId?: string): import("./type").AgentFunction<any, any, any>;
     asString(): string;
     results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T>;
     errors(): Record<string, Error>;

@@ -16,7 +16,17 @@ declare const tokenBoundStringsAgentInfo: {
     }, {
         content: string;
     }, string[]>;
-    samples: never[];
+    samples: {
+        inputs: string[][];
+        params: {
+            limit: number;
+        };
+        result: {
+            content: string;
+            tokenCount: number;
+            endIndex: number;
+        };
+    }[];
     description: string;
     category: never[];
     author: string;

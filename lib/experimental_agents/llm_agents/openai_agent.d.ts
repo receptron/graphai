@@ -48,6 +48,7 @@ declare const openaiAgentInfo: {
             model: string;
         };
     }[];
+    skipTest: boolean;
     description: string;
     category: string[];
     author: string;

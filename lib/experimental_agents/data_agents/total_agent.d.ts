@@ -37,6 +37,19 @@ declare const totalAgentInfo: {
             c: number;
             d: number;
         };
+    } | {
+        inputs: ({
+            a: number;
+            b?: undefined;
+        } | {
+            a: number;
+            b: number;
+        })[];
+        params: {};
+        result: {
+            a: number;
+            b: number;
+        };
     })[];
     description: string;
     category: string[];

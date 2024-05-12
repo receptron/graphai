@@ -15,6 +15,7 @@ declare const wikipediaAgentInfo: {
     }, Record<string, any> | undefined, string>;
     description: string;
     category: string[];
+    samples: never[];
     author: string;
     repository: string;
     license: string;
