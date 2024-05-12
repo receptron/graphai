@@ -57,7 +57,6 @@ test("test nested loop & $0", async () => {
   });
 });
 
-/*
 const graphdata_pop = {
   version: 0.3,
   nodes: {
@@ -70,11 +69,11 @@ const graphdata_pop = {
       inputs: [":fruits"],
       graph: {
         loop: {
-          while: ":source",
+          while: ":$0",
         },
         nodes: {
           $0: {
-            value: [],
+            value: [], // it will be filled with inputs[0]
             update: ":popper.array",
           },
           result: {
@@ -96,7 +95,7 @@ const graphdata_pop = {
   }
 };
 
-test("test loop, reduction", async () => {
+test("test loop, update $0", async () => {
   const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
@@ -104,4 +103,3 @@ test("test loop, reduction", async () => {
     }
   });
 });
-*/
