@@ -11,7 +11,7 @@ const query = "Hi, I'm Steve Jobs.";
 const graph_data = {
   version: 0.3,
   loop: {
-    count: 1,
+    count: 4,
   },
   nodes: {
     messages: {
@@ -20,7 +20,7 @@ const graph_data = {
         { role: "system", content: system_interviewer },
         { role: "user", content: "Hi, I'm Steve Jobs" }
       ],
-      update: ":reducer",
+      update: ":switcher",
       isResult: true,
     },
     groq: {
@@ -41,6 +41,26 @@ const graph_data = {
       agent: "pushAgent",
       inputs: [":messages", ":groq.choices.$0.message"],
     },
+    switcher: {
+      agent: (messages:Array<Record<string, string>>) => {
+        return messages.map((message, index) => {
+          const { role, content } = message;
+          if (index === 0) {
+            if (content === system_jobs) {
+              return { role, content: system_interviewer}
+            } else {
+              return { role, content: system_jobs}
+            }
+          }
+          if (role === "user") {
+            return { role: "assistant", content };
+          } else {
+            return { role: "user", content };
+          }
+        });
+      },
+      inputs: [":reducer"]
+    },
   },
 };
 
@@ -56,7 +76,7 @@ export const main = async () => {
     () => {},
     false,
   );
-  console.log("Complete", result);
+  console.log("Complete");
 };
 
 if (process.argv[1] === __filename) {
