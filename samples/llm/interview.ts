@@ -14,10 +14,6 @@ const graph_data = {
     name: {
       value: "Steve Jobs"
     },
-    debugOutput: {
-      agent: (foo: string) => console.log(foo),
-      inputs: [":name"],
-    },
     target: {
       agent: (name: string) => ({
         system: `You are ${name}`,
@@ -39,7 +35,6 @@ const graph_data = {
           count: 2,
         },
         nodes: {
-      
           messages: {
             // This node holds the conversation, array of messages.
             value: [
@@ -56,10 +51,6 @@ const graph_data = {
               model: "Llama3-8b-8192",
             },
             inputs: [undefined, ":messages"],
-          },
-          debugOutput: {
-            agent: (foo: string) => console.log(foo),
-            inputs: [":$0"],
           },
 
           output: {
