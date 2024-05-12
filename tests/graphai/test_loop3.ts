@@ -56,3 +56,33 @@ test("test nested loop & $0", async () => {
     }
   });
 });
+
+const graphdata_pop = {
+  version: 0.3,
+  loop: {
+    while: ":source",
+  },
+  nodes: {
+    source: {
+      value: ["orange", "banana", "lemon"],
+      update: ":popper.array",
+    },
+    result: {
+      value: [],
+      update: ":reducer",
+    },
+    popper: {
+      inputs: [":source"],
+      agent: "popAgent", // returns { array, item }
+    },
+    reducer: {
+      agent: "pushAgent",
+      inputs: [":result", ":popper.item"],
+    },
+  },
+};
+
+test("test loop, reduction", async () => {
+  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents);
+  assert.deepStrictEqual(result.result, ["lemon", "banana", "orange"]);
+});
