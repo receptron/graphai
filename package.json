@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts' .eslintrc.js",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
