@@ -27,21 +27,21 @@ const dataObjectMergeTemplateAgentInfo = {
       result: {
         content1: "hello",
         content2: "test",
-      }
+      },
     },
     {
       inputs: [{ content1: "hello" }],
       params: {},
       result: {
         content1: "hello",
-      }
+      },
     },
     {
       inputs: [{ content: "hello1" }, { content: "hello2" }],
       params: {},
       result: {
         content: "hello2",
-      }
+      },
     },
     {
       inputs: sampleInputs,
