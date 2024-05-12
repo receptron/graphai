@@ -25,6 +25,7 @@ const graph_data = {
     chat: {
       agent: "nestedAgent",
       inputs: [":name", ":target.system", ":target.messages"],
+      isResult: true,
       graph: {
         loop: {
           count: 6,
@@ -61,9 +62,9 @@ const graph_data = {
                 const { role, content } = message;
                 if (index === 0) {
                   if (content === system_target) {
-                    return { role, content: system_interviewer}
+                    return { role, content: system_interviewer};
                   } else {
-                    return { role, content: system_target}
+                    return { role, content: system_target};
                   }
                 }
                 if (role === "user") {
@@ -93,8 +94,8 @@ export const main = async () => {
     },
     () => {},
     false,
-  );
-  console.log("Complete");
+  ) as any;
+  console.log("Complete", result.chat["$2"].length);
 };
 
 if (process.argv[1] === __filename) {
