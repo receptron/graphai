@@ -52,11 +52,11 @@ const graph_data = {
             },
             inputs: [undefined, ":messages"],
           },
-
+          // \x1b[31m%s\x1b[0m
           output: {
             // This node displays the responce to the user.
             agent: (answer: string, content: string, name: string) => 
-              console.log(`${ content === system_jobs ? name : "Interviewer" }: ${answer}\n`),
+              console.log(`\x1b[31m${ content === system_jobs ? name : "Interviewer" }:\x1b[0m ${answer}\n`),
             inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":$0"],
           },
           reducer: {
