@@ -276,6 +276,7 @@ export class ComputedNode extends Node {
           verbose: this.graph.verbose,
         },
         filterParams: this.filterParams,
+        agentFilters: this.graph.agentFilters,
         log: localLog,
       };
 

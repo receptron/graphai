@@ -9,7 +9,7 @@ export const mapAgent: AgentFunction<
   },
   Record<string, Array<any>>,
   any
-> = async ({ params, inputs, agents, log, taskManager, graphData }) => {
+> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -34,7 +34,7 @@ export const mapAgent: AgentFunction<
   });
 
   const graphs: Array<GraphAI> = input.map((data: any) => {
-    const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager });
+    const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters: agentFilters || [] });
     // Only the first input will be mapped
     injectionTo.forEach((injectToNodeId, index) => {
       graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
