@@ -20,7 +20,10 @@ export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclu
   return applyFilter(input, include, exclude);
 };
 
-const inputs = [{ color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 }];
+const inputs = [[
+  { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
+  { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+]];
 
 const propertyFilterAgentInfo = {
   name: "propertyFilterAgent",
@@ -30,12 +33,12 @@ const propertyFilterAgentInfo = {
     {
       inputs,
       params: { include: ["color", "model"] },
-      result: { color: "red", model: "Model 3" },
+      result: [{ color: "red", model: "Model 3" }, { color: "blue", model: "Model Y" }],
     },
     {
       inputs,
       params: { exclude: ["color", "model"] },
-      result: { type: "EV", maker: "Tesla", range: 300 },
+      result: [{ type: "EV", maker: "Tesla", range: 300 }, { type: "EV", maker: "Tesla", range: 400 }],
     },
   ],
   description: "Filter properties based on property name either with 'include' or 'exclude'",
