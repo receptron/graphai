@@ -75,7 +75,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     agentId?: string;
   };
   graphData?: GraphData | string; // nested graph
-  agents?: AgentFunctionDictonary; // for nested graph
+  agents?: AgentFunctionInfoDictonary; // for nested graph
   taskManager?: TaskManager; // for nested graph
   filterParams: AgentFilterParams; // agent filter
   agentFilters?: AgentFilterInfo[];
@@ -104,7 +104,7 @@ export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>
 export type AgentFunctionInfo = {
   name: string;
   agent: AgentFunction<any, any, any>;
-  mock: AgentFunction<any, any, any>;
+  mock?: AgentFunction<any, any, any>;
   samples: {
     inputs: any;
     params: DefaultParamsType;
@@ -117,3 +117,5 @@ export type AgentFunctionInfo = {
   repository: string;
   license: string;
 };
+
+export type AgentFunctionInfoDictonary = Record<string, AgentFunctionInfo>;

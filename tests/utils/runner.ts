@@ -1,4 +1,4 @@
-import { GraphAI, GraphData, AgentFunctionDictonary } from "@/graphai";
+import { GraphAI, GraphData, AgentFunctionInfoDictonary } from "@/graphai";
 import { NodeState } from "@/type";
 
 import { defaultTestAgents } from "@/utils/test_agents";
@@ -14,14 +14,14 @@ export const readGraphData = (file: string) => {
   return readGraphaiData(file_path);
 };
 
-export const fileTestRunner = async (file: string, callbackDictonary: AgentFunctionDictonary, callback: (graph: GraphAI) => void = () => {}) => {
+export const fileTestRunner = async (file: string, callbackDictonary: AgentFunctionInfoDictonary, callback: (graph: GraphAI) => void = () => {}) => {
   return await graphDataTestRunner(file, readGraphData(file), callbackDictonary, callback);
 };
 
 export const graphDataTestRunner = async (
   logFileName: string,
   graph_data: GraphData,
-  callbackDictonary: AgentFunctionDictonary,
+  callbackDictonary: AgentFunctionInfoDictonary,
   callback: (graph: GraphAI) => void = () => {},
   all: boolean = true,
 ) => {
@@ -52,10 +52,10 @@ export const graphDataTestRunner = async (
   return results;
 };
 
-export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionDictonary = {}) => {
+export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}) => {
   return await rejectTest(readGraphData(file), errorMessage, callbackDictonary);
 };
-export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionDictonary = {}) => {
+export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}) => {
   await assert.rejects(
     async () => {
       await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...callbackDictonary });

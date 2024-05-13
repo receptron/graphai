@@ -286,7 +286,7 @@ export class ComputedNode extends Node {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
         context.graphData = this.nestedGraph;
-        context.agents = this.graph.agentFunctionDictionary;
+        context.agents = this.graph.agentFunctionInfoDictionary;
       }
 
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);

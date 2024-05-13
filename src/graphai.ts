@@ -1,6 +1,6 @@
-export { AgentFunction, AgentFunctionDictonary, GraphData } from "@/type";
+export { AgentFunction, AgentFunctionDictonary, GraphData, AgentFunctionInfoDictonary } from "@/type";
 
-import { AgentFunctionDictonary, AgentFilterInfo, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
+import { AgentFunctionInfoDictonary, AgentFilterInfo, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -19,7 +19,7 @@ export class GraphAI {
   private readonly data: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
-  public readonly agentFunctionDictionary: AgentFunctionDictonary;
+  public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictonary;
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
   public readonly retryLimit?: number;
@@ -89,7 +89,7 @@ export class GraphAI {
 
   constructor(
     data: GraphData,
-    agentFunctionDictionary: AgentFunctionDictonary,
+    agentFunctionInfoDictionary: AgentFunctionInfoDictonary,
     options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
   ) {
     if (!data.version && !options.taskManager) {
@@ -102,7 +102,7 @@ export class GraphAI {
     this.retryLimit = data.retry; // optional
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
-    this.agentFunctionDictionary = agentFunctionDictionary;
+    this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
     this.loop = data.loop;
@@ -111,15 +111,15 @@ export class GraphAI {
       console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
     };
 
-    validateGraphData(data, Object.keys(agentFunctionDictionary));
+    validateGraphData(data, Object.keys(agentFunctionInfoDictionary));
 
     this.nodes = this.createNodes(data);
     this.initializeNodes();
   }
 
   public getAgentFunction(agentId?: string) {
-    if (agentId && this.agentFunctionDictionary[agentId]) {
-      return this.agentFunctionDictionary[agentId];
+    if (agentId && this.agentFunctionInfoDictionary[agentId]) {
+      return this.agentFunctionInfoDictionary[agentId].agent;
     }
     throw new Error("No agent: " + agentId);
   }

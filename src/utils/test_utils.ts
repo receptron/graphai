@@ -15,6 +15,20 @@ export const defaultTestContext = {
   log: [],
 };
 
+export const defaultAgentInfo = {
+  name: "defaultAgentInfo",
+  samples: [{
+    inputs: [],
+    params: {},
+    result: {},
+  }],
+  description: "",
+  category: [],
+  author: "",
+  repository: "",
+  license: ""
+}
+
 // for agent
 export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
   const { agent, samples, skipTest } = agentInfo;
