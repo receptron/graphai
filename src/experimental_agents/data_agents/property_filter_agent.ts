@@ -5,7 +5,12 @@ const applyFilter = (input: any, include: Array<string> | undefined, exclude: Ar
   const excludeSet = new Set(exclude ?? []);
   return propIds.reduce((tmp: Record<string, any>, propId) => {
     if (!excludeSet.has(propId)) {
-      tmp[propId] = input[propId];
+      const mapping = alter && alter[propId];
+      if (mapping && mapping[input[propId]]) {
+        tmp[propId] = mapping[input[propId]];
+      } else {
+        tmp[propId] = input[propId];
+      }
     }
     return tmp;
   }, {});
@@ -44,8 +49,8 @@ const propertyFilterAgentInfo = {
       inputs,
       params: { alter: { color: { red:"blue", blue:"red" } } },
       result: [
-        { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
-        { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+        { color: "blue", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
+        { color: "red", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
       ],
     },
   ],
