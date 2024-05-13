@@ -16,8 +16,7 @@ const applyFilter = (input: any, include: Array<string> | undefined, exclude: Ar
   }, {});
 };
 
-export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string>; alter?: Record<string, Record<string, string>> }> = async ({ inputs, params }) => {
-  const [input] = inputs;
+export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string>; alter?: Record<string, Record<string, string>> }> = async ({ inputs, params }) => {  const [input] = inputs;
   const { include, exclude, alter } = params;
   if (Array.isArray(input)) {
     return input.map((item) => applyFilter(item, include, exclude, alter));
@@ -25,7 +24,7 @@ export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclu
   return applyFilter(input, include, exclude, alter);
 };
 
-const inputs = [[
+const testInputs = [[
   { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
   { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
 ]];
@@ -36,17 +35,17 @@ const propertyFilterAgentInfo = {
   mock: propertyFilterAgent,
   samples: [
     {
-      inputs,
+      testInputs,
       params: { include: ["color", "model"] },
       result: [{ color: "red", model: "Model 3" }, { color: "blue", model: "Model Y" }],
     },
     {
-      inputs,
+      testInputs,
       params: { exclude: ["color", "model"] },
       result: [{ type: "EV", maker: "Tesla", range: 300 }, { type: "EV", maker: "Tesla", range: 400 }],
     },
     {
-      inputs,
+      testInputs,
       params: { alter: { color: { red:"blue", blue:"red" } } },
       result: [
         { color: "blue", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
