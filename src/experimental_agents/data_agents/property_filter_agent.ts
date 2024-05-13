@@ -1,6 +1,10 @@
 import { AgentFunction } from "@/graphai";
 
-const applyFilter = (input: any, include: Array<string> | undefined, exclude: Array<string> | undefined, alter: Record<string, Record<string, string>> | undefined) => {
+const applyFilter = (input: any, 
+    include: Array<string> | undefined, 
+    exclude: Array<string> | undefined, 
+    alter: Record<string, Record<string, string>> | undefined,
+    inject?: Record<string, Record<string, any>> | undefined) => {
   const propIds = include ? include : Object.keys(input);
   const excludeSet = new Set(exclude ?? []);
   return propIds.reduce((tmp: Record<string, any>, propId) => {
@@ -16,11 +20,16 @@ const applyFilter = (input: any, include: Array<string> | undefined, exclude: Ar
   }, {});
 };
 
-export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string>; alter?: Record<string, Record<string, string>> }> = async ({ inputs, params }) => {
+export const propertyFilterAgent: AgentFunction<{ 
+  include?: Array<string>; 
+  exclude?: Array<string>; 
+  alter?: Record<string, Record<string, string>>;
+  inject?: Record<string, Record<string, any>>;
+ }> = async ({ inputs, params }) => {
   const [input] = inputs;
-  const { include, exclude, alter } = params;
+  const { include, exclude, alter, inject } = params;
   if (Array.isArray(input)) {
-    return input.map((item) => applyFilter(item, include, exclude, alter));
+    return input.map((item) => applyFilter(item, include, exclude, alter, inject));
   }
   return applyFilter(input, include, exclude, alter);
 };
