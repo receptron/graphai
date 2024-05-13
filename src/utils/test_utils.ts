@@ -27,7 +27,15 @@ export const defaultAgentInfo = {
   author: "",
   repository: "",
   license: ""
-}
+};
+
+export const getAgentInfo = (agent: AgentFunction<any, any, any>) => {
+  return {
+    agent,
+    mock: agent,
+    ...defaultAgentInfo,
+  };
+};
 
 // for agent
 export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {

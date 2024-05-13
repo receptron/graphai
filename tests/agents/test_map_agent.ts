@@ -1,11 +1,11 @@
-import { mapAgent, stringTemplateAgent } from "@/experimental_agents";
+import { mapAgent, stringTemplateAgent } from "@/experimental_agents/packages";
 import { defaultTestContext } from "@/utils/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
 test("test map_agent", async () => {
-  const result = await mapAgent({
+  const result = await mapAgent.agent({
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
@@ -29,7 +29,7 @@ test("test map_agent", async () => {
 });
 
 test("test map_agent 2", async () => {
-  const result = await mapAgent({
+  const result = await mapAgent.agent({
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {
@@ -53,7 +53,7 @@ test("test map_agent 2", async () => {
 });
 
 test("test map_agent 3", async () => {
-  const result = await mapAgent({
+  const result = await mapAgent.agent({
     ...defaultTestContext,
     agents: { mapAgent, stringTemplateAgent },
     graphData: {

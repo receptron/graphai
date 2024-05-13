@@ -10,6 +10,6 @@ export * from "./service_agents/packages";
 
 import stringEmbeddingsAgent from "./embedding_agent";
 import tokenBoundStringsAgent from "./token_agent";
-import functionAgentInfo from "./function_agent";
+import functionAgent from "./function_agent";
 
-export { stringEmbeddingsAgent, tokenBoundStringsAgent, functionAgentInfo };
+export { stringEmbeddingsAgent, tokenBoundStringsAgent, functionAgent };
