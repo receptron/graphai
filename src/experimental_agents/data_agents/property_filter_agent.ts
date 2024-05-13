@@ -1,6 +1,6 @@
 import { AgentFunction } from "@/graphai";
 
-const applyFilter = (input: any, 
+const applyFilter = (input: any, index: number,
     include: Array<string> | undefined, 
     exclude: Array<string> | undefined, 
     alter: Record<string, Record<string, string>> | undefined,
@@ -29,9 +29,9 @@ export const propertyFilterAgent: AgentFunction<{
   const [input] = inputs;
   const { include, exclude, alter, inject } = params;
   if (Array.isArray(input)) {
-    return input.map((item) => applyFilter(item, include, exclude, alter, inject));
+    return input.map((item, index) => applyFilter(item, index, include, exclude, alter, inject));
   }
-  return applyFilter(input, include, exclude, alter);
+  return applyFilter(input, 0, include, exclude, alter);
 };
 
 const inputs = [[
@@ -44,6 +44,11 @@ const propertyFilterAgentInfo = {
   agent: propertyFilterAgent,
   mock: propertyFilterAgent,
   samples: [
+    {
+      inputs: [inputs[0][0]],
+      params: { include: ["color", "model"] },
+      result: { color: "red", model: "Model 3" },
+    },
     {
       inputs,
       params: { include: ["color", "model"] },
