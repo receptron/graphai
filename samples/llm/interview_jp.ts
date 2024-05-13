@@ -10,7 +10,7 @@ const graph_data = {
   version: 0.3,
   nodes: {
     name: {
-      agent: () => input({ message: "Name of a famous person you want to interview:" }),
+      agent: () => input({ message: "インタビューしたい人の名前を入力してください:" }),
     },
     target: {
       agent: (name: string) => ({
@@ -39,9 +39,11 @@ const graph_data = {
           },
           groq: {
             // This node sends those messages to Llama3 on groq to get the answer.
-            agent: "groqAgent",
+            agent: "openAIAgent",
+            //agent: "groqAgent",
             params: {
-              model: "Llama3-8b-8192",
+              //model: "Llama3-8b-8192",
+              model: "gpt-4o",
             },
             inputs: [undefined, ":$2"],
           },
@@ -49,14 +51,15 @@ const graph_data = {
             // This node sends those messages to Llama3 on groq to get the answer.
             agent: "openAIAgent",
             params: {
-              system: "この文章を日本語に訳して。意訳でも良いので、出来るだけ自然に相手に敬意を払う言葉遣いで。余計なことは書かずに、翻訳の結果だけ返して。"
+              system: "この文章を日本語に訳して。意訳でも良いので、出来るだけ自然に相手に敬意を払う言葉遣いで。余計なことは書かずに、翻訳の結果だけ返して。",
+              model: "gpt-4o",
             },
             inputs: [":$2.$last.content"],
           },
           output: {
             // This node displays the responce to the user.
             agent: (answer: string, content: string, name: string, system_target: string) => 
-              console.log(`\x1b[31m${ content !== system_target ? name : "Interviewer" }:\x1b[0m ${answer}\n`),
+              console.log(`\x1b[31m${ content !== system_target ? name : "司会" }:\x1b[0m ${answer}\n`),
             inputs: [":translate.choices.$0.message.content", ":$2.$0.content", ":$0", ":$1"],
           },
           reducer: {
