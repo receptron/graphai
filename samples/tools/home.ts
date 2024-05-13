@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { GraphData } from "@/graphai";
-import { slashGPTAgent } from "@/experimental_agents";
+import { slashGPTAgent } from "@/experimental_agents/packages";
 import { graphDataTestRunner } from "~/utils/runner";
 import { home_functions } from "./home_functions";
 
