@@ -12,7 +12,7 @@ const applyFilter = (input: any, index: number,
     if (!excludeSet.has(propId)) {
       const injection = inject && inject[propId];
       const mapping = alter && alter[propId];
-      if (injection) {
+      if (injection && (injection.index === undefined || injection.index === index)) {
         tmp[propId] = inputs[injection.from];
       } else if (mapping && mapping[input[propId]]) {
         tmp[propId] = mapping[input[propId]];
@@ -77,6 +77,14 @@ const propertyFilterAgentInfo = {
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla Motors", range: 400 },
+      ],
+    },
+    {
+      inputs: testInputs,
+      params: { inject: { maker: { index: 0, from: 1 } } },
+      result: [
+        { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
+        { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
       ],
     },
   ],
