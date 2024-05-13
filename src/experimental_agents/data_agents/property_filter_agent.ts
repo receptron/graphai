@@ -1,11 +1,14 @@
 import { AgentFunction } from "@/graphai";
 
-const applyFilter = (input: any, index: number,
-    inputs: any,
-    include: Array<string> | undefined, 
-    exclude: Array<string> | undefined, 
-    alter: Record<string, Record<string, string>> | undefined,
-    inject?: Record<string, Record<string, any>> | undefined) => {
+const applyFilter = (
+  input: any,
+  index: number,
+  inputs: any,
+  include: Array<string> | undefined,
+  exclude: Array<string> | undefined,
+  alter: Record<string, Record<string, string>> | undefined,
+  inject?: Record<string, Record<string, any>> | undefined,
+) => {
   const propIds = include ? include : Object.keys(input);
   const excludeSet = new Set(exclude ?? []);
   return propIds.reduce((tmp: Record<string, any>, propId) => {
@@ -24,12 +27,12 @@ const applyFilter = (input: any, index: number,
   }, {});
 };
 
-export const propertyFilterAgent: AgentFunction<{ 
-  include?: Array<string>; 
-  exclude?: Array<string>; 
+export const propertyFilterAgent: AgentFunction<{
+  include?: Array<string>;
+  exclude?: Array<string>;
   alter?: Record<string, Record<string, string>>;
   inject?: Record<string, Record<string, any>>;
- }> = async ({ inputs, params }) => {
+}> = async ({ inputs, params }) => {
   const [input] = inputs;
   const { include, exclude, alter, inject } = params;
   if (Array.isArray(input)) {
@@ -38,10 +41,13 @@ export const propertyFilterAgent: AgentFunction<{
   return applyFilter(input, 0, inputs, include, exclude, alter);
 };
 
-const testInputs = [[
-  { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
-  { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
-], "Tesla Motors"];
+const testInputs = [
+  [
+    { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
+    { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+  ],
+  "Tesla Motors",
+];
 
 const propertyFilterAgentInfo = {
   name: "propertyFilterAgent",
@@ -56,16 +62,22 @@ const propertyFilterAgentInfo = {
     {
       inputs: testInputs,
       params: { include: ["color", "model"] },
-      result: [{ color: "red", model: "Model 3" }, { color: "blue", model: "Model Y" }],
+      result: [
+        { color: "red", model: "Model 3" },
+        { color: "blue", model: "Model Y" },
+      ],
     },
     {
       inputs: testInputs,
       params: { exclude: ["color", "model"] },
-      result: [{ type: "EV", maker: "Tesla", range: 300 }, { type: "EV", maker: "Tesla", range: 400 }],
+      result: [
+        { type: "EV", maker: "Tesla", range: 300 },
+        { type: "EV", maker: "Tesla", range: 400 },
+      ],
     },
     {
       inputs: testInputs,
-      params: { alter: { color: { red:"blue", blue:"red" } } },
+      params: { alter: { color: { red: "blue", blue: "red" } } },
       result: [
         { color: "blue", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
         { color: "red", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
