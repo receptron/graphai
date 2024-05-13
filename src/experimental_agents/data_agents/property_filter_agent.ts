@@ -34,7 +34,7 @@ export const propertyFilterAgent: AgentFunction<{
   return applyFilter(input, 0, include, exclude, alter);
 };
 
-const inputs = [[
+const testInputs = [[
   { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
   { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
 ], "Tesla Motors"];
@@ -45,22 +45,22 @@ const propertyFilterAgentInfo = {
   mock: propertyFilterAgent,
   samples: [
     {
-      inputs: [inputs[0][0]],
+      inputs: [testInputs[0][0]],
       params: { include: ["color", "model"] },
       result: { color: "red", model: "Model 3" },
     },
     {
-      inputs,
+      inputs: testInputs,
       params: { include: ["color", "model"] },
       result: [{ color: "red", model: "Model 3" }, { color: "blue", model: "Model Y" }],
     },
     {
-      inputs,
+      inputs: testInputs,
       params: { exclude: ["color", "model"] },
       result: [{ type: "EV", maker: "Tesla", range: 300 }, { type: "EV", maker: "Tesla", range: 400 }],
     },
     {
-      inputs,
+      inputs: testInputs,
       params: { alter: { color: { red:"blue", blue:"red" } } },
       result: [
         { color: "blue", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
@@ -68,7 +68,7 @@ const propertyFilterAgentInfo = {
       ],
     },
     {
-      inputs,
+      inputs: testInputs,
       params: { inject: { maker: { from: 1 } } },
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
