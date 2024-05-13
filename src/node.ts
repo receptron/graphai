@@ -112,7 +112,7 @@ export class ComputedNode extends Node {
       return tmp;
     }, {});
 
-    this.log.initForComputedNode(this);
+    this.log.initForComputedNode(this, graph);
   }
 
   public getAgentId() {
