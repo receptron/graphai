@@ -37,7 +37,7 @@ export const propertyFilterAgent: AgentFunction<{
 const inputs = [[
   { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
   { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
-]];
+], "Tesla Motors"];
 
 const propertyFilterAgentInfo = {
   name: "propertyFilterAgent",
@@ -65,6 +65,14 @@ const propertyFilterAgentInfo = {
       result: [
         { color: "blue", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
         { color: "red", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+      ],
+    },
+    {
+      inputs,
+      params: { inject: { maker: { from: 1 } } },
+      result: [
+        { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
+        { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
       ],
     },
   ],
