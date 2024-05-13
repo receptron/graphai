@@ -1,6 +1,7 @@
 import { AgentFunction } from "@/graphai";
 
 const applyFilter = (input: any, index: number,
+    inputs: any,
     include: Array<string> | undefined, 
     exclude: Array<string> | undefined, 
     alter: Record<string, Record<string, string>> | undefined,
@@ -9,8 +10,11 @@ const applyFilter = (input: any, index: number,
   const excludeSet = new Set(exclude ?? []);
   return propIds.reduce((tmp: Record<string, any>, propId) => {
     if (!excludeSet.has(propId)) {
+      const injection = inject && inject[propId];
       const mapping = alter && alter[propId];
-      if (mapping && mapping[input[propId]]) {
+      if (injection) {
+        tmp[propId] = inputs[injection.from];
+      } else if (mapping && mapping[input[propId]]) {
         tmp[propId] = mapping[input[propId]];
       } else {
         tmp[propId] = input[propId];
@@ -29,9 +33,9 @@ export const propertyFilterAgent: AgentFunction<{
   const [input] = inputs;
   const { include, exclude, alter, inject } = params;
   if (Array.isArray(input)) {
-    return input.map((item, index) => applyFilter(item, index, include, exclude, alter, inject));
+    return input.map((item, index) => applyFilter(item, index, inputs, include, exclude, alter, inject));
   }
-  return applyFilter(input, 0, include, exclude, alter);
+  return applyFilter(input, 0, inputs, include, exclude, alter);
 };
 
 const testInputs = [[
@@ -71,8 +75,8 @@ const propertyFilterAgentInfo = {
       inputs: testInputs,
       params: { inject: { maker: { from: 1 } } },
       result: [
-        { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
-        { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+        { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
+        { color: "blue", model: "Model Y", type: "EV", maker: "Tesla Motors", range: 400 },
       ],
     },
   ],
