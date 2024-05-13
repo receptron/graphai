@@ -1,5 +1,6 @@
 import express from "express";
 import { GraphAI, AgentFunction } from "@/graphai";
+import { getAgentInfo } from "@/utils/test_utils";
 
 export const graphAISample = async (req: express.Request, res: express.Response) => {
   const graph_data = {
@@ -15,7 +16,7 @@ export const graphAISample = async (req: express.Request, res: express.Response)
     console.log("hello");
     return {};
   };
-  const graph = new GraphAI(graph_data, { testFunction });
+  const graph = new GraphAI(graph_data, { testFunction: getAgentInfo(testFunction) });
   const response = await graph.run(true);
   res.json({ result: response });
   res.end();
