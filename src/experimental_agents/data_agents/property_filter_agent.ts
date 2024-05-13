@@ -16,7 +16,8 @@ const applyFilter = (input: any, include: Array<string> | undefined, exclude: Ar
   }, {});
 };
 
-export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string>; alter?: Record<string, Record<string, string>> }> = async ({ inputs, params }) => {  const [input] = inputs;
+export const propertyFilterAgent: AgentFunction<{ include?: Array<string>; exclude?: Array<string>; alter?: Record<string, Record<string, string>> }> = async ({ inputs, params }) => {
+  const [input] = inputs;
   const { include, exclude, alter } = params;
   if (Array.isArray(input)) {
     return input.map((item) => applyFilter(item, include, exclude, alter));
