@@ -73,8 +73,7 @@ test("test fork 1", async () => {
 
   const result = await graphDataTestRunner(__filename, forkGraph, {
     testAgent1a: getAgentInfo(testAgent1a),
-    ...defaultTestAgents
-
+    ...defaultTestAgents,
   });
   // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {

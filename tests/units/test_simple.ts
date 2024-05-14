@@ -49,7 +49,7 @@ const injectAgentGenerator = () => {
       return promise;
     },
   };
-  
+
   return {
     injectAgent,
     injectAgentResolver: resolve,

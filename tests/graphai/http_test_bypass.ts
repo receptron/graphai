@@ -113,7 +113,7 @@ test("test bypass2", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data,  { httpAgent: getAgentInfo(httpAgent) });
+  const result = await graphDataTestRunner(__filename, graph_data, { httpAgent: getAgentInfo(httpAgent) });
   // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
@@ -182,7 +182,7 @@ test("test bypass3", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("http_test_bypass_3", graph_data,  { httpAgent: getAgentInfo(httpAgent) });
+  const result = await graphDataTestRunner("http_test_bypass_3", graph_data, { httpAgent: getAgentInfo(httpAgent) });
   // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
@@ -245,7 +245,7 @@ test("test bypass4", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data,  { httpAgent: getAgentInfo(httpAgent) });
+  const result = await graphDataTestRunner(__filename, graph_data, { httpAgent: getAgentInfo(httpAgent) });
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
     mapNode: {

@@ -74,7 +74,7 @@ export class TaskManager {
   public getStatus(verbose: boolean = false) {
     const runningNodes = Array.from(this.runningNodes).map((node) => node.nodeId);
     const queuedNodes = this.taskQueue.map((task) => task.node.nodeId);
-    const nodes = verbose ? { runningNodes, queuedNodes }: {};
+    const nodes = verbose ? { runningNodes, queuedNodes } : {};
     return {
       concurrency: this.concurrency,
       queue: this.taskQueue.length,

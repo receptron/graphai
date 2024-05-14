@@ -17,16 +17,18 @@ export const defaultTestContext = {
 
 export const defaultAgentInfo = {
   name: "defaultAgentInfo",
-  samples: [{
-    inputs: [],
-    params: {},
-    result: {},
-  }],
+  samples: [
+    {
+      inputs: [],
+      params: {},
+      result: {},
+    },
+  ],
   description: "",
   category: [],
   author: "",
   repository: "",
-  license: ""
+  license: "",
 };
 
 export const getAgentInfo = (agent: AgentFunction<any, any, any>) => {

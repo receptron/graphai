@@ -46,14 +46,8 @@ test("test nested loop & $0", async () => {
   const result = await graphDataTestRunner(__filename, graphdata_nested, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
-      reducer: [
-        "hello", "hello",
-        "hello", "hello",
-        "hello", "hello",
-        "hello", "hello",
-        "hello", "hello"
-      ]
-    }
+      reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+    },
   });
 });
 
@@ -90,16 +84,16 @@ const graphdata_pop = {
             inputs: [":result", ":popper.item"],
           },
         },
-      }        
-    }
-  }
+      },
+    },
+  },
 };
 
 test("test loop, update $0", async () => {
   const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
-      result: ["lemon", "banana", "orange"] 
-    }
+      result: ["lemon", "banana", "orange"],
+    },
   });
 });

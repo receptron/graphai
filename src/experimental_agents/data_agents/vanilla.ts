@@ -4,4 +4,3 @@ import propertyFilterAgent from "@/experimental_agents/data_agents/property_filt
 import copyAgent from "@/experimental_agents/data_agents/copy_agent";
 
 export { totalAgent, dataSumTemplateAgent, propertyFilterAgent, copyAgent };
-
