@@ -111,25 +111,21 @@ const graph_data = {
             inputs: [":context"],
           },
           swappedMessages: {
-            agent: (messages: Array<Record<string, string>>, system_target: string) => {
-              return messages.map((message, index) => {
-                const { role, content } = message;
-                if (index === 0) {
-                  if (content === system_target) {
-                    return { role, content: system_interviewer };
-                  } else {
-                    return { role, content: system_target };
-                  }
+            agent: "propertyFilterAgent",
+            params: {
+              inject: [{
+                propId: "content",
+                index: 0,
+                from: 1,
+              }],
+              alter: {
+                role: {
+                  assistant: "user",
+                  user: "assistant",
                 }
-                if (role === "user") {
-                  return { role: "assistant", content };
-                } else {
-                  return { role: "user", content };
-                }
-              });
+              },
             },
-            inputs: [":reducer", ":system"],
-            isResult: true,
+            inputs: [":reducer", ":swappedContext.person0.system"],
           },
         },
       },
