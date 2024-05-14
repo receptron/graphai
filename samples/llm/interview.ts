@@ -45,13 +45,13 @@ const graph_data = {
       isResult: true,
       graph: {
         loop: {
-          count: 2,
+          count: 6,
         },
         nodes: {
           messages: {
             // This node holds the conversation, array of messages.
             value: [], // to be filled with inputs[0]
-            update: ":switcher",
+            update: ":swappedMessages",
             isResult: true,
           },
           context: {
@@ -88,25 +88,23 @@ const graph_data = {
             isResult: true,
             inputs: [":context"],
           },
-          switcher: {
-            agent: (messages: Array<Record<string, string>>, system_target: string) => {
-              return messages.map((message, index) => {
-                const { role, content } = message;
-                if (index === 0) {
-                  if (content === system_target) {
-                    return { role, content: system_interviewer };
-                  } else {
-                    return { role, content: system_target };
-                  }
+          swappedMessages: {
+            agent: "propertyFilterAgent",
+            params: {
+              inject: {
+                content: {
+                  index: 0,
+                  from: 1,
+                },
+              },
+              alter: {
+                role: {
+                  assistant: "user",
+                  user: "assistant",
                 }
-                if (role === "user") {
-                  return { role: "assistant", content };
-                } else {
-                  return { role: "user", content };
-                }
-              });
+              },
             },
-            inputs: [":reducer", ":system"],
+            inputs: [":reducer", ":swappedContext.person0.system"],
           },
         },
       },
