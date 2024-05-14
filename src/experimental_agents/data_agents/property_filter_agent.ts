@@ -26,6 +26,13 @@ const applyFilter = (
     }
     return tmp;
   }, {});
+  if (swap) {
+    Object.keys(swap).forEach((key) => {
+      const tmp = result[key];
+      result[key] = result[swap[key]];
+      result[swap[key]] = tmp;
+    });
+  }
   return result;
 };
 
@@ -100,6 +107,14 @@ const propertyFilterAgentInfo = {
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+      ],
+    },
+    {
+      inputs: testInputs,
+      params: { swap: { maker: "model" } },
+      result: [
+        { color: "red", model: "Tesla", type: "EV", maker: "Model 3", range: 300 },
+        { color: "blue", model: "Tesla", type: "EV", maker: "Model Y", range: 400 },
       ],
     },
   ],
