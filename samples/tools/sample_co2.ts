@@ -66,7 +66,7 @@ const graph_data = {
       agent: "mapAgent",
       inputs: [":function2prompt0"],
       params: {
-        injectionTo: ["memory"],
+        namedInputs: ["memory"],
       },
       graph: {
         nodes: {
