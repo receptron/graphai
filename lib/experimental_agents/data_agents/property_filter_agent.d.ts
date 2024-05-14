@@ -4,6 +4,7 @@ export declare const propertyFilterAgent: AgentFunction<{
     exclude?: Array<string>;
     alter?: Record<string, Record<string, string>>;
     inject?: Record<string, Record<string, any>>;
+    swap?: Record<string, string>;
 }>;
 declare const propertyFilterAgentInfo: {
     name: string;
@@ -12,12 +13,14 @@ declare const propertyFilterAgentInfo: {
         exclude?: string[] | undefined;
         alter?: Record<string, Record<string, string>> | undefined;
         inject?: Record<string, Record<string, any>> | undefined;
+        swap?: Record<string, string> | undefined;
     }>;
     mock: AgentFunction<{
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         alter?: Record<string, Record<string, string>> | undefined;
         inject?: Record<string, Record<string, any>> | undefined;
+        swap?: Record<string, string> | undefined;
     }>;
     samples: ({
         inputs: (string | {
@@ -32,6 +35,7 @@ declare const propertyFilterAgentInfo: {
             exclude?: undefined;
             alter?: undefined;
             inject?: undefined;
+            swap?: undefined;
         };
         result: {
             color: string;
@@ -50,6 +54,7 @@ declare const propertyFilterAgentInfo: {
             exclude?: undefined;
             alter?: undefined;
             inject?: undefined;
+            swap?: undefined;
         };
         result: {
             color: string;
@@ -68,6 +73,7 @@ declare const propertyFilterAgentInfo: {
             include?: undefined;
             alter?: undefined;
             inject?: undefined;
+            swap?: undefined;
         };
         result: {
             type: string;
@@ -92,6 +98,7 @@ declare const propertyFilterAgentInfo: {
             include?: undefined;
             exclude?: undefined;
             inject?: undefined;
+            swap?: undefined;
         };
         result: {
             color: string;
@@ -118,6 +125,7 @@ declare const propertyFilterAgentInfo: {
             include?: undefined;
             exclude?: undefined;
             alter?: undefined;
+            swap?: undefined;
         };
         result: {
             color: string;
@@ -144,6 +152,31 @@ declare const propertyFilterAgentInfo: {
             include?: undefined;
             exclude?: undefined;
             alter?: undefined;
+            swap?: undefined;
+        };
+        result: {
+            color: string;
+            model: string;
+            type: string;
+            maker: string;
+            range: number;
+        }[];
+    } | {
+        inputs: (string | {
+            color: string;
+            model: string;
+            type: string;
+            maker: string;
+            range: number;
+        }[])[];
+        params: {
+            swap: {
+                maker: string;
+            };
+            include?: undefined;
+            exclude?: undefined;
+            alter?: undefined;
+            inject?: undefined;
         };
         result: {
             color: string;
