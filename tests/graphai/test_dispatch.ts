@@ -3,7 +3,7 @@ import { AgentFunction } from "@/graphai";
 import { fileTestRunner } from "~/utils/runner";
 import { sleep } from "@/utils/utils";
 import { defaultTestAgents } from "@/utils/test_agents";
-import { getAgentInfo } from "@/utils/test_utils";
+import { agentInfoWrapper } from "@/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -31,7 +31,7 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
 };
 
 test("test dispatch", async () => {
-  const result = await fileTestRunner("/graphs/test_dispatch.yml", { ...defaultTestAgents, dispatchAgent: getAgentInfo(dispatchAgent) });
+  const result = await fileTestRunner("/graphs/test_dispatch.yml", { ...defaultTestAgents, dispatchAgent: agentInfoWrapper(dispatchAgent) });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { port1: { node2: "dispatch" } },

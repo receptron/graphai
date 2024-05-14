@@ -1,7 +1,11 @@
 import { AgentFunctionInfo, AgentFunctionContext, AgentFunction, AgentFilterInfo, ResultData } from "@/type";
 
+import { agentInfoWrapper } from "@/utils/utils";
+
 import assert from "node:assert";
 import test from "node:test";
+
+export const getAgentInfo = agentInfoWrapper;
 
 export const defaultTestContext = {
   debugInfo: {
@@ -13,30 +17,6 @@ export const defaultTestContext = {
   filterParams: {},
   agents: {},
   log: [],
-};
-
-export const defaultAgentInfo = {
-  name: "defaultAgentInfo",
-  samples: [
-    {
-      inputs: [],
-      params: {},
-      result: {},
-    },
-  ],
-  description: "",
-  category: [],
-  author: "",
-  repository: "",
-  license: "",
-};
-
-export const getAgentInfo = (agent: AgentFunction<any, any, any>) => {
-  return {
-    agent,
-    mock: agent,
-    ...defaultAgentInfo,
-  };
 };
 
 // for agent

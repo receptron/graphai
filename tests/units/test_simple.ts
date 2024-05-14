@@ -1,7 +1,7 @@
 import { GraphAI } from "@/graphai";
 
 import { defaultTestAgents } from "@/utils/test_agents";
-import { defaultAgentInfo } from "@/utils/test_utils";
+import { defaultAgentInfo } from "@/utils/utils";
 import { graph_data, graph_injection_data } from "~/units/graph_data";
 import { sleep } from "@/utils/utils";
 

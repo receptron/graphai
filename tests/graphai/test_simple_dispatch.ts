@@ -3,7 +3,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { fileBaseName } from "~/utils/file_utils";
 
 import { defaultTestAgents } from "@/utils/test_agents";
-import { getAgentInfo } from "@/utils/test_utils";
+import { agentInfoWrapper } from "@/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -15,7 +15,7 @@ const dispatchAgentGenerator = (selectedNodeId: string) => {
     }
     return {};
   };
-  return getAgentInfo(dispatchAgent);
+  return agentInfoWrapper(dispatchAgent);
 };
 
 const dispatchGraph = {
@@ -127,7 +127,7 @@ const dispatchAgentGenerator2 = (selectedKeys: string[]) => {
       return tmp;
     }, {});
   };
-  return getAgentInfo(dispatchAgent);
+  return agentInfoWrapper(dispatchAgent);
 };
 
 test("test next 1", async () => {
