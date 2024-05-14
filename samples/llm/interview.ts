@@ -16,7 +16,7 @@ const graph_data = {
       agent: (name: string) => ({
         person0: {
           system: `You are ${name}.`,
-          name: '${name}',
+          name: `${name}`,
         },
         person1: {
           system: system_interviewer,
