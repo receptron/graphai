@@ -38,9 +38,9 @@ const graph_data = {
     },
     chat: {
       agent: "nestedAgent",
-      inputs: [":messages", ":context", ":name", ":target"],
+      inputs: [":messages", ":context"],
       params: {
-        injectionTo: ["messages", "context", "name", "system"]
+        injectionTo: ["messages", "context"]
       },
       isResult: true,
       graph: {
@@ -57,7 +57,6 @@ const graph_data = {
           context: {
             value: {}, // te be mfilled with inputs[1]
             update: ":swappedContext",
-            isResult: true,
           },
           groq: {
             // This node sends those messages to Llama3 on groq to get the answer.
@@ -85,7 +84,6 @@ const graph_data = {
                 person0: "person1",
               },
             },
-            isResult: true,
             inputs: [":context"],
           },
           swappedMessages: {
@@ -125,8 +123,6 @@ export const main = async () => {
     () => {},
     false,
   )) as any;
-  console.log(result.chat.context);
-  console.log(result.chat.swappedContext);
   console.log("Complete", result.chat.messages.length);
 };
 
