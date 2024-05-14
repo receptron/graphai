@@ -64,8 +64,12 @@ const graph_data = {
           messages: {
             // This node holds the conversation, array of messages.
             value: [], // to be filled with inputs[2]
-            update: ":switcher",
+            update: ":swappedMessages",
             isResult: true,
+          },
+          context: {
+            value: {}, // te be mfilled with inputs[1]
+            update: ":swappedContext",
           },
           groq: {
             // This node sends those messages to Llama3 on groq to get the answer.
@@ -97,7 +101,16 @@ const graph_data = {
             agent: "pushAgent",
             inputs: [":messages", ":groq.choices.$0.message"],
           },
-          switcher: {
+          swappedContext: {
+            agent: "propertyFilterAgent",
+            params: {
+              swap: {
+                person0: "person1",
+              },
+            },
+            inputs: [":context"],
+          },
+          swappedMessages: {
             agent: (messages: Array<Record<string, string>>, system_target: string) => {
               return messages.map((message, index) => {
                 const { role, content } = message;
@@ -127,13 +140,13 @@ const graph_data = {
       params: {
         system: "この文章を日本語に訳して。出来るだけ自然な口語に。余計なことは書かずに、翻訳の結果だけ返して。",
       },
-      inputs: [":chat.switcher.$last.content"],
+      inputs: [":chat.swappedMessages.$last.content"],
     },
     output: {
       // This node displays the responce to the user.
       agent: (answer: string, content: string, name: string, system_target: string) =>
         console.log(`\x1b[31m${content !== system_target ? name : "Interviewer"}:\x1b[0m ${answer}\n`),
-      inputs: [":translate.choices.$0.message.content", ":chat.switcher.$0.content", ":name", ":target.system"],
+      inputs: [":translate.choices.$0.message.content", ":chat.swappedMessages.$0.content", ":name", ":target.system"],
     },
   },
 };
