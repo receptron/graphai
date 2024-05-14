@@ -25,10 +25,6 @@ const graph_data = {
       }),
       inputs: [":name"],
     },
-    target: {
-      agent: (name: string) => `You are ${name}.`,
-      inputs: [":name"],
-    },
     messages: {
       agent: (name: string) => [
           { role: "system", content: system_interviewer },
