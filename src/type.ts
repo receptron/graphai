@@ -104,7 +104,7 @@ export type AgentFilterInfo = {
 export type AgentFunctionInfo = {
   name: string;
   agent: AgentFunction<any, any, any>;
-  mock?: AgentFunction<any, any, any>;
+  mock: AgentFunction<any, any, any>;
   samples: {
     inputs: any;
     params: DefaultParamsType;
