@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent, openAIAgent } from "@/experimental_agents";
+import { groqAgent, shiftAgent, nestedAgent, openAIAgent, propertyFilterAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const system_interviewer =
@@ -22,16 +22,50 @@ const graph_data = {
       }),
       inputs: [":name"],
     },
+
+    context: {
+      agent: (name: string) => ({
+        person0: {
+          name: "Interviewer",
+          system: system_interviewer,
+        },
+        person1: {
+          name: `${name}`,
+          system: `You are ${name}.`,
+          greeting: `Hi, I'm ${name}`,
+        },
+      }),
+      inputs: [":name"],
+    },
+    messages: {
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [{
+          index: 0,
+          propId: "content",
+          from: 1,
+        },{
+          index: 1,
+          propId: "content",
+          from: 2,
+        }],
+      },
+      inputs: [[{ role:"system" }, { role:"user" }], ":context.person0.system", ":context.person1.greeting"],
+    },
+
     chat: {
       agent: "nestedAgent",
       inputs: [":name", ":target.system", ":target.messages"],
+      params: {
+        injectionTo: ["name", "system", "messages"],
+      },
       isResult: true,
       graph: {
         loop: {
           count: 6,
         },
         nodes: {
-          $2: {
+          messages: {
             // This node holds the conversation, array of messages.
             value: [], // to be filled with inputs[2]
             update: ":switcher",
@@ -45,7 +79,7 @@ const graph_data = {
               //model: "Llama3-8b-8192",
               model: "gpt-4o",
             },
-            inputs: [undefined, ":$2"],
+            inputs: [undefined, ":messages"],
           },
           translate: {
             // This node sends those messages to Llama3 on groq to get the answer.
@@ -54,18 +88,18 @@ const graph_data = {
               system: "この文章を日本語に訳して。意訳でも良いので、出来るだけ自然に相手に敬意を払う言葉遣いで。余計なことは書かずに、翻訳の結果だけ返して。",
               model: "gpt-4o",
             },
-            inputs: [":$2.$last.content"],
+            inputs: [":messages.$last.content"],
           },
           output: {
             // This node displays the responce to the user.
             agent: (answer: string, content: string, name: string, system_target: string) =>
               console.log(`\x1b[31m${content !== system_target ? name : "司会"}:\x1b[0m ${answer}\n`),
-            inputs: [":translate.choices.$0.message.content", ":$2.$0.content", ":$0", ":$1"],
+            inputs: [":translate.choices.$0.message.content", ":messages.$0.content", ":name", ":system"],
           },
           reducer: {
             // This node append the responce to the messages.
             agent: "pushAgent",
-            inputs: [":$2", ":groq.choices.$0.message"],
+            inputs: [":messages", ":groq.choices.$0.message"],
           },
           switcher: {
             agent: (messages: Array<Record<string, string>>, system_target: string) => {
@@ -85,7 +119,7 @@ const graph_data = {
                 }
               });
             },
-            inputs: [":reducer", ":$1"],
+            inputs: [":reducer", ":system"],
             isResult: true,
           },
         },
@@ -117,11 +151,12 @@ export const main = async () => {
       shiftAgent,
       nestedAgent,
       openAIAgent,
+      propertyFilterAgent,
     },
     () => {},
     false,
   )) as any;
-  console.log("Complete", result.chat["$2"].length);
+  console.log("Complete", result.chat["messages"].length);
 };
 
 if (process.argv[1] === __filename) {
