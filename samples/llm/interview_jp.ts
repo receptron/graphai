@@ -15,10 +15,6 @@ const graph_data = {
     target: {
       agent: (name: string) => ({
         system: `You are ${name}.`,
-        messages: [
-          { role: "system", content: system_interviewer },
-          { role: "user", content: `Hi, I'm ${name}` },
-        ],
       }),
       inputs: [":name"],
     },
@@ -55,7 +51,7 @@ const graph_data = {
 
     chat: {
       agent: "nestedAgent",
-      inputs: [":name", ":target.system", ":target.messages"],
+      inputs: [":name", ":target.system", ":messages", ":context"],
       params: {
         injectionTo: ["name", "system", "messages"],
       },
