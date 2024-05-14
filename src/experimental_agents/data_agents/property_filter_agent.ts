@@ -7,18 +7,15 @@ const applyFilter = (
   include: Array<string> | undefined,
   exclude: Array<string> | undefined,
   alter: Record<string, Record<string, string>> | undefined,
-  inject: Record<string, Record<string, any>> | undefined,
+  inject: Array<Record<string, any>> | undefined,
   swap: Record<string, string> | undefined,
 ) => {
   const propIds = include ? include : Object.keys(input);
   const excludeSet = new Set(exclude ?? []);
   const result = propIds.reduce((tmp: Record<string, any>, propId) => {
     if (!excludeSet.has(propId)) {
-      const injection = inject && inject[propId];
       const mapping = alter && alter[propId];
-      if (injection && (injection.index === undefined || injection.index === index)) {
-        tmp[propId] = inputs[injection.from];
-      } else if (mapping && mapping[input[propId]]) {
+      if (mapping && mapping[input[propId]]) {
         tmp[propId] = mapping[input[propId]];
       } else {
         tmp[propId] = input[propId];
@@ -26,6 +23,14 @@ const applyFilter = (
     }
     return tmp;
   }, {});
+
+  if (inject) {
+    inject.forEach((item) => {
+      if (item.index === undefined || item.index === index) {
+        result[item.propId] = inputs[item.from];
+      }
+    });   
+  }
   if (swap) {
     Object.keys(swap).forEach((key) => {
       const tmp = result[key];
@@ -40,7 +45,7 @@ export const propertyFilterAgent: AgentFunction<{
   include?: Array<string>;
   exclude?: Array<string>;
   alter?: Record<string, Record<string, string>>;
-  inject?: Record<string, Record<string, any>>;
+  inject?: Array<Record<string, any>>;
   swap?: Record<string, string>;
 }> = async ({ inputs, params }) => {
   const [input] = inputs;
@@ -95,7 +100,7 @@ const propertyFilterAgentInfo = {
     },
     {
       inputs: testInputs,
-      params: { inject: { maker: { from: 1 } } },
+      params: { inject: [ { propId: "maker", from: 1 } ] },
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla Motors", range: 400 },
@@ -103,7 +108,7 @@ const propertyFilterAgentInfo = {
     },
     {
       inputs: testInputs,
-      params: { inject: { maker: { index: 0, from: 1 } } },
+      params: { inject: [ { propId: "maker", from: 1, index: 0 } ] },
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
