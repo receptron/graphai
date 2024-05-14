@@ -5,12 +5,12 @@ import { fileTestRunner } from "../utils/runner";
 import { slashGPTAgent } from "@/experimental_agents";
 import { arxivAgent, arxiv2TextAgent } from "../utils/agents/arxiv_agent";
 
-import { getAgentInfo } from "@/utils/test_utils";
+import { agentInfoWrapper } from "@/utils/utils";
 
 export const main = async () => {
   const res = await fileTestRunner("/graphs/arxiv.yml", {
-    arxivAgent: getAgentInfo(arxivAgent),
-    arxiv2TextAgent: getAgentInfo(arxiv2TextAgent),
+    arxivAgent: agentInfoWrapper(arxivAgent),
+    arxiv2TextAgent: agentInfoWrapper(arxiv2TextAgent),
     slashGPTAgent,
   });
   console.log(res);

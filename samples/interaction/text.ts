@@ -3,7 +3,7 @@ import "dotenv/config";
 import { mergeNodeIdAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputTextAgent } from "../utils/agents/interactiveInputAgent";
-import { getAgentInfo } from "@/utils/test_utils";
+import { agentInfoWrapper } from "@/utils/utils";
 
 const graph_data = {
   version: 0.3,
@@ -30,7 +30,7 @@ export const main = async () => {
 
   const result = await graphDataTestRunner(__filename, graph_data, {
     merge: mergeNodeIdAgent,
-    interactiveInputTextAgent: getAgentInfo(interactiveInputTextAgent),
+    interactiveInputTextAgent: agentInfoWrapper(interactiveInputTextAgent),
   });
   console.log(result);
 
