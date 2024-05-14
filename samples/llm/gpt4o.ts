@@ -12,7 +12,10 @@ const graph_data = {
       value: [
         {
           role: "user",
-          content: query,
+          content: [{
+            type: "text", 
+            text: query,
+          }]
         }
       ],
     },
