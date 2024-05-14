@@ -109,6 +109,7 @@ const graph_data = {
               },
             },
             inputs: [":context"],
+            isResult: true,
           },
           swappedMessages: {
             agent: "propertyFilterAgent",
@@ -126,6 +127,7 @@ const graph_data = {
               },
             },
             inputs: [":reducer", ":swappedContext.person0.system"],
+            isResult: true,
           },
         },
       },
@@ -140,9 +142,9 @@ const graph_data = {
     },
     output: {
       // This node displays the responce to the user.
-      agent: (answer: string, content: string, name: string, system_target: string) =>
-        console.log(`\x1b[31m${content !== system_target ? name : "Interviewer"}:\x1b[0m ${answer}\n`),
-      inputs: [":translate.choices.$0.message.content", ":chat.swappedMessages.$0.content", ":name", ":target.system"],
+      agent: (answer: string, name: string) =>
+        console.log(`\x1b[31m${name}:\x1b[0m ${answer}\n`),
+      inputs: [":translate.choices.$0.message.content", ":chat.swappedContext.person1.name"],
     },
   },
 };
