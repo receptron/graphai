@@ -25,6 +25,9 @@ const graph_data = {
     chat: {
       agent: "nestedAgent",
       inputs: [":name", ":target.system", ":target.messages"],
+      params: {
+        injectionTo: ["name", "system", "messages"]
+      },
       isResult: true,
       graph: {
         loop: {
@@ -43,18 +46,18 @@ const graph_data = {
             params: {
               model: "Llama3-8b-8192",
             },
-            inputs: [undefined, ":$2"],
+            inputs: [undefined, ":messages"],
           },
           output: {
             // This node displays the responce to the user.
             agent: (answer: string, content: string, name: string, system_target: string) =>
               console.log(`\x1b[31m${content === system_target ? name : "Interviewer"}:\x1b[0m ${answer}\n`),
-            inputs: [":groq.choices.$0.message.content", ":$2.$0.content", ":$0", ":$1"],
+            inputs: [":groq.choices.$0.message.content", ":messages.$0.content", ":name", ":system"],
           },
           reducer: {
             // This node append the responce to the messages.
             agent: "pushAgent",
-            inputs: [":$2", ":groq.choices.$0.message"],
+            inputs: [":messages", ":groq.choices.$0.message"],
           },
           switcher: {
             agent: (messages: Array<Record<string, string>>, system_target: string) => {
@@ -74,7 +77,7 @@ const graph_data = {
                 }
               });
             },
-            inputs: [":reducer", ":$1"],
+            inputs: [":reducer", ":system"],
           },
         },
       },
