@@ -13,18 +13,19 @@ const graph_data = {
       agent: () => input({ message: "Name of a famous person you want to interview:" }),
     },
     target: {
-      agent: (name: string) => ({
-        system: `You are ${name}.`,
-        messages: [
+      agent: (name: string) => `You are ${name}.`,
+      inputs: [":name"],
+    },
+    messages: {
+      agent: (name: string) => [
           { role: "system", content: system_interviewer },
           { role: "user", content: `Hi, I'm ${name}` },
         ],
-      }),
       inputs: [":name"],
     },
     chat: {
       agent: "nestedAgent",
-      inputs: [":name", ":target.system", ":target.messages"],
+      inputs: [":name", ":target", ":messages"],
       params: {
         injectionTo: ["name", "system", "messages"]
       },
@@ -97,7 +98,7 @@ export const main = async () => {
     () => {},
     false,
   )) as any;
-  console.log("Complete", result.chat["$2"].length);
+  console.log("Complete", result.chat["messages"].length);
 };
 
 if (process.argv[1] === __filename) {
