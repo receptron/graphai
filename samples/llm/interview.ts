@@ -38,14 +38,14 @@ const graph_data = {
     },
     chat: {
       agent: "nestedAgent",
-      inputs: [":name", ":target", ":messages"],
+      inputs: [":messages", ":name", ":target"],
       params: {
-        injectionTo: ["name", "system", "messages"]
+        injectionTo: ["messages", "name", "system"]
       },
       isResult: true,
       graph: {
         loop: {
-          count: 6,
+          count: 2,
         },
         nodes: {
           messages: {
