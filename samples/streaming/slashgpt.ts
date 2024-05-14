@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { GraphAI } from "@/graphai";
-import { slashGPTAgent } from "@/experimental_agents/llm_agents/slashgpt_agent";
+import slashGPTAgent from "@/experimental_agents/llm_agents/slashgpt_agent";
 import { agentFilters } from "./streamAgentFilter";
 
 const graph_data = {

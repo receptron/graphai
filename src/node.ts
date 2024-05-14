@@ -256,7 +256,7 @@ export class ComputedNode extends Node {
     }
 
     try {
-      const agentFunction = this.agentFunction ?? this.graph.getAgentFunction(this.agentId);
+      const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
       const localLog: TransactionLog[] = [];
       const params = Object.keys(this.dynamicParams).reduce(
         (tmp, key) => {
@@ -286,7 +286,7 @@ export class ComputedNode extends Node {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
         context.graphData = this.nestedGraph;
-        context.agents = this.graph.agentFunctionDictionary;
+        context.agents = this.graph.agentFunctionInfoDictionary;
       }
 
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);

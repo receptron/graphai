@@ -1,6 +1,7 @@
 import { AgentFunction } from "@/graphai";
 import { rejectTest, graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
+import { getAgentInfo } from "@/utils/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -27,7 +28,7 @@ const testAgent: AgentFunction<Record<never, never>, string> = async () => {
 };
 
 test("test source props test", async () => {
-  await rejectTest(graphData, "result is not object.", { testAgent });
+  await rejectTest(graphData, "result is not object.", { testAgent: getAgentInfo(testAgent) });
 });
 
 const graphData_literal = {

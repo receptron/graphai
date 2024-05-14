@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test nest agent", async () => {
-  const result = await nestedAgent({
+  const result = await nestedAgent.agent({
     ...defaultTestContext,
     agents: { sleeperAgent },
     graphData: {
@@ -37,7 +37,7 @@ const dynamic_graph = {
 };
 
 test("test nest agent, eval", async () => {
-  const result = await nestedAgent({
+  const result = await nestedAgent.agent({
     ...defaultTestContext,
     agents: { sleeperAgent },
     graphData: "$0",

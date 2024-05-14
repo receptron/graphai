@@ -12,10 +12,12 @@ const copyAgentInfo = {
   samples: [
     {
       inputs: [{ color: "red", model: "Model 3" }],
+      params: {},
       result: { color: "red", model: "Model 3" },
     },
     {
       inputs: ["Hello World"],
+      params: {},
       result: "Hello World",
     },
   ],

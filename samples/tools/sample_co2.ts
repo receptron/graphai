@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { slashGPTFuncitons2TextAgent } from "../utils/agents/slashgpt_agent";
 import { slashGPTAgent } from "@/experimental_agents";
+import { getAgentInfo } from "@/utils/test_utils";
 
 import { graphDataTestRunner } from "~/utils/runner";
 
@@ -89,7 +90,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent });
+  const result = await graphDataTestRunner(__filename, graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent: getAgentInfo(slashGPTFuncitons2TextAgent) });
   console.log(JSON.stringify(result, null, "  "));
   console.log("COMPLETE 1");
 };

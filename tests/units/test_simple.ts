@@ -1,6 +1,7 @@
 import { GraphAI } from "@/graphai";
 
 import { defaultTestAgents } from "@/utils/test_agents";
+import { defaultAgentInfo } from "@/utils/test_utils";
 import { graph_data, graph_injection_data } from "~/units/graph_data";
 import { sleep } from "@/utils/utils";
 
@@ -39,8 +40,14 @@ const injectAgentGenerator = () => {
     reject = rej;
   });
 
-  const injectAgent = () => {
-    return promise;
+  const injectAgent = {
+    ...defaultAgentInfo,
+    agent: () => {
+      return promise;
+    },
+    mock: () => {
+      return promise;
+    },
   };
 
   return {

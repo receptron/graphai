@@ -1,4 +1,4 @@
-import { AgentFunctionDictonary } from "@/graphai";
+import { AgentFunctionInfoDictonary } from "@/graphai";
 import {
   sleeperAgent,
   sleeperAgentDebug,
@@ -16,11 +16,12 @@ import {
   popAgent,
   shiftAgent,
   streamMockAgent,
+  //  openAIMockAgent.
 } from "@/experimental_agents";
 
-import { openAIMockAgent } from "@/experimental_agents/llm_agents/openai_agent";
+// import openAIMockAgent from "@/experimental_agents/llm_agents/openai_agent";
 
-export const defaultTestAgents: AgentFunctionDictonary = {
+export const defaultTestAgents: AgentFunctionInfoDictonary = {
   bypassAgent,
   echoAgent,
   copyMessageAgent,
@@ -37,5 +38,5 @@ export const defaultTestAgents: AgentFunctionDictonary = {
   popAgent,
   shiftAgent,
   streamMockAgent,
-  openAIMockAgent,
+  // openAIMockAgent,
 };

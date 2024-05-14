@@ -33,7 +33,7 @@ test("test agent filter", async () => {
     },
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
-  const result = await agentFilterRunner({ ...defaultTestContext, inputs: [], params: { filterParams: true } }, defaultTestAgents.echoAgent);
+  const result = await agentFilterRunner({ ...defaultTestContext, inputs: [], params: { filterParams: true } }, defaultTestAgents.echoAgent.agent);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, { httpHeaders: { Authorization: "Bearer xxxxxx", "Content-Type": "application/json" } });
 });

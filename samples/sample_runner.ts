@@ -10,6 +10,8 @@ import { main as test_loop } from "./test/loop";
 
 import { main as slashgpt } from "./llm/slashgpt";
 import { main as groq } from "./llm/groq";
+import { main as interview_jp } from "./llm/interview_jp";
+import { main as interview } from "./llm/interview";
 
 import { main as net_paper_ai } from "./net/paper_ai";
 import { main as net_rss } from "./net/rss";
@@ -34,6 +36,8 @@ const main = async () => {
   // llm
   await slashgpt();
   await groq();
+  await interview_jp();
+  await interview();
 
   // interaction
   await interaction_text();

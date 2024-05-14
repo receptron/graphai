@@ -24,7 +24,7 @@ export class TransactionLog {
     this.state = NodeState.Waiting;
   }
 
-  public initForComputedNode(node: ComputedNode,  graph: GraphAI) {
+  public initForComputedNode(node: ComputedNode, graph: GraphAI) {
     this.agentId = node.getAgentId();
     this.params = node.params;
     graph.appendLog(this);

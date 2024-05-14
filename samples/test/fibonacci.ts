@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { AgentFunction } from "@/graphai";
+import { getAgentInfo } from "@/utils/test_utils";
 
 const fibonacciAgent: AgentFunction = async ({ inputs }) => {
   const prev = inputs[0];
@@ -27,7 +28,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner("fibonacci", graph_data, { fibonacciAgent });
+  const result = await graphDataTestRunner("fibonacci", graph_data, { fibonacciAgent: getAgentInfo(fibonacciAgent) });
   console.log(result);
   console.log("COMPLETE 1");
 };

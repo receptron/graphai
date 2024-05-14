@@ -1,4 +1,3 @@
-export { totalAgent } from "@/experimental_agents/data_agents/total_agent";
-export { dataSumTemplateAgent } from "@/experimental_agents/data_agents/data_sum_template_agent";
-export { propertyFilterAgent } from "@/experimental_agents/data_agents/property_filter_agent";
-export { copyAgent } from "@/experimental_agents/data_agents/copy_agent";
+export * from "./vanilla";
+import dataObjectMergeTemplateAgent from "./data_object_merge_template_agent";
+export { dataObjectMergeTemplateAgent };

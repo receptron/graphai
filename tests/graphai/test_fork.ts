@@ -2,6 +2,7 @@ import { AgentFunction } from "@/graphai";
 
 import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
+import { getAgentInfo } from "@/utils/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -70,7 +71,10 @@ test("test fork 1", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1a, ...defaultTestAgents });
+  const result = await graphDataTestRunner(__filename, forkGraph, {
+    testAgent1a: getAgentInfo(testAgent1a),
+    ...defaultTestAgents,
+  });
   // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     node1: {
@@ -143,7 +147,9 @@ test("test fork 2", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, { testAgent1 });
+  const result = await graphDataTestRunner(__filename, forkGraph, {
+    testAgent1: getAgentInfo(testAgent1),
+  });
   // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     echo: {

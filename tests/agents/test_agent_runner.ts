@@ -1,4 +1,4 @@
-import * as packages from "@/experimental_agents/packages";
+import * as packages from "@/experimental_agents";
 
 import { agentTestRunner } from "@/utils/test_utils";
 

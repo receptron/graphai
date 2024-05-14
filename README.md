@@ -120,7 +120,7 @@ An *agent function* is a TypeScript function, which implements a particular *age
 There are additional optional parameters for developers of nested agents and agent filters.
 
 - *graphData*: an optional GraphData (for nested agents)
-- *agents*: AgentFunctionDictonary (for nested agents)
+- *agents*: AgentFunctionInfoDictonary (for nested agents)
 - *taskManager*: TaskManager (for nested agents)
 - *log*: TransactionLog[] (for nested agents)
 - *filterParams*: agent filter parameters (for agent filters)
@@ -379,11 +379,11 @@ Negative priority values are allowed, enabling you to fine-tune the execution or
 
 ## GraphAI class
 
-### ```constructor(data: GraphData, callbackDictonary: AgentFunctionDictonary)```
+### ```constructor(data: GraphData, callbackDictonary: AgentFunctionInfoDictonary)```
 Initializes a new instance of the GraphAI object with the specified graph data and a dictionary of callback functions.
 
 - ```data: GraphData```: The graph data including nodes and optional concurrency limit.
-- ```callbackDictonary: AgentFunctionDictonary | AgentFunction<any, any, any>```: A dictionary mapping agent IDs to their respective callback functions, or a single default callback function to be used for all nodes.
+- ```callbackDictonary: AgentFunctionInfoDictonary```: A dictionary mapping agent IDs to their respective callback functions info to be used for all nodes.
 
 ### ```async run(): Promise<ResultDataDictonary<ResultData>>```
 Executes the graph asynchronously, starting with nodes that have no dependencies or whose dependencies have been met. The method continues to execute nodes as their dependencies are satisfied until all nodes have been executed or an error occurs.
