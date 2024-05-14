@@ -77,6 +77,16 @@ const graph_data = {
             agent: "pushAgent",
             inputs: [":messages", ":groq.choices.$0.message"],
           },
+          swappedContext: {
+            agent: "propertyFilterAgent",
+            params: {
+              swap: {
+                person0: "person1",
+              },
+            },
+            isResult: true,
+            inputs: [":context"],
+          },
           switcher: {
             agent: (messages: Array<Record<string, string>>, system_target: string) => {
               return messages.map((message, index) => {
@@ -117,6 +127,7 @@ export const main = async () => {
     false,
   )) as any;
   console.log(result.chat.context);
+  console.log(result.chat.swappedContext);
   console.log("Complete", result.chat.messages.length);
 };
 
