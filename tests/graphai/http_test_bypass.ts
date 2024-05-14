@@ -209,7 +209,7 @@ test("test bypass4", async () => {
         agent: "mapAgent",
         inputs: [":echo.message"],
         params: {
-          injectionTo: ["memory"],
+          namedInputs: ["memory"],
         },
         graph: {
           version: 0.3,

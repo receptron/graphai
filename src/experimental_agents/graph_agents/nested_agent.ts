@@ -20,7 +20,7 @@ export const getNestedGraphData = (graphData: GraphData | string | undefined, in
   return graphData;
 };
 
-export const nestedAgent: AgentFunction<{ injectionTo?: Array<string> }> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
+export const nestedAgent: AgentFunction<{ namedInputs?: Array<string> }> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
   if (taskManager) {
     const status = taskManager.getStatus(false);
     assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -28,8 +28,8 @@ export const nestedAgent: AgentFunction<{ injectionTo?: Array<string> }> = async
 
   const nestedGraphData = getNestedGraphData(graphData, inputs);
 
-  const injectionTo = params.injectionTo ?? inputs.map((__input, index) => `$${index}`);
-  injectionTo.forEach((nodeId, index) => {
+  const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
+  namedInputs.forEach((nodeId, index) => {
     if (nestedGraphData.nodes[nodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
       nestedGraphData.nodes[nodeId] = { value: inputs[index] };

@@ -47,7 +47,7 @@ const graph_data = {
       agent: "nestedAgent",
       inputs: [":messages", ":context"],
       params: {
-        injectionTo: ["messages", "context"],
+        namedInputs: ["messages", "context"],
       },
       isResult: true,
       graph: {
