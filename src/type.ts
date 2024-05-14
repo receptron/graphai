@@ -99,7 +99,7 @@ export type AgentFilterInfo = {
   filterParams?: AgentFilterParams;
 };
 
-export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
+// export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 
 export type AgentFunctionInfo = {
   name: string;

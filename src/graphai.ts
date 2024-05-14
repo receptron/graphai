@@ -1,4 +1,4 @@
-export { AgentFunction, AgentFunctionDictonary, GraphData, AgentFunctionInfoDictonary } from "@/type";
+export { AgentFunction, GraphData, AgentFunctionInfoDictonary } from "@/type";
 
 import { AgentFunctionInfoDictonary, AgentFilterInfo, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
 import { TransactionLog } from "@/transaction_log";
