@@ -256,7 +256,7 @@ export class ComputedNode extends Node {
     }
 
     try {
-      const agentFunction = this.agentFunction ?? this.graph.getAgentFunction(this.agentId);
+      const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
       const localLog: TransactionLog[] = [];
       const params = Object.keys(this.dynamicParams).reduce(
         (tmp, key) => {

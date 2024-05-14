@@ -117,9 +117,9 @@ export class GraphAI {
     this.initializeNodes();
   }
 
-  public getAgentFunction(agentId?: string) {
+  public getAgentFunctionInfo(agentId?: string) {
     if (agentId && this.agentFunctionInfoDictionary[agentId]) {
-      return this.agentFunctionInfoDictionary[agentId].agent;
+      return this.agentFunctionInfoDictionary[agentId];
     }
     throw new Error("No agent: " + agentId);
   }
