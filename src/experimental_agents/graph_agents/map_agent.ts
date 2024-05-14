@@ -4,7 +4,7 @@ import { getNestedGraphData } from "./nested_agent";
 
 export const mapAgent: AgentFunction<
   {
-    injectionTo?: Array<string>;
+    namedInputs?: Array<string>;
     limit?: number;
   },
   Record<string, Array<any>>,
@@ -21,12 +21,12 @@ export const mapAgent: AgentFunction<
     input.length = params.limit; // trim
   }
 
-  const injectionTo =
-    params.injectionTo ??
+  const namedInputs =
+    params.namedInputs ??
     inputs.map((__input, index) => {
       return `$${index}`;
     });
-  injectionTo.forEach((nodeId) => {
+  namedInputs.forEach((nodeId) => {
     if (nestedGraphData.nodes[nodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
       nestedGraphData.nodes[nodeId] = { value: {} };
@@ -36,7 +36,7 @@ export const mapAgent: AgentFunction<
   const graphs: Array<GraphAI> = input.map((data: any) => {
     const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters: agentFilters || [] });
     // Only the first input will be mapped
-    injectionTo.forEach((injectToNodeId, index) => {
+    namedInputs.forEach((injectToNodeId, index) => {
       graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
     });
     return graphAI;

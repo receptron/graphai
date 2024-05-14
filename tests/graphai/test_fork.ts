@@ -48,7 +48,7 @@ test("test fork 1", async () => {
         agent: "mapAgent",
         inputs: [":node2"],
         params: {
-          injectionTo: ["buffer"],
+          namedInputs: ["buffer"],
         },
         graph: {
           version: 0.3,
@@ -183,7 +183,7 @@ test("test fork 3", async () => {
         agent: "mapAgent",
         inputs: [":source.content"],
         params: {
-          injectionTo: ["workingMemory"],
+          namedInputs: ["workingMemory"],
         },
         graph: {
           version: 0.3,

@@ -52,7 +52,7 @@ test("test counter2", async () => {
         isResult: true,
         graph: graphdata_counter,
         params: {
-          injectionTo: ["data"], // inject workingMemory data to data node in graphdata_counter
+          namedInputs: ["data"], // inject workingMemory data to data node in graphdata_counter
         },
         inputs: [":workingMemory"],
       },
@@ -87,7 +87,7 @@ test("test counter3", async () => {
         agent: "mapAgent",
         inputs: [":workingMemory", ":workingMemory2"],
         params: {
-          injectionTo: ["data"],
+          namedInputs: ["data"],
         },
         graph: graphdata_counter,
       },
