@@ -97,3 +97,52 @@ test("test loop, update $0", async () => {
     },
   });
 });
+
+const graphdata_nested_injection = {
+  version: 0.3,
+  nodes: {
+    source: {
+      value: "hello",
+    },
+    parent: {
+      agent: "nestedAgent",
+      inputs: [":source"],
+      params: {
+        injectionTo: ["inner_source"]
+      },
+      isResult: true,
+      graph: {
+        loop: {
+          count: 10,
+        },
+        nodes: {
+          array: {
+            value: [],
+            update: ":reducer",
+          },
+          item: {
+            agent: "sleeperAgent",
+            params: {
+              duration: 10,
+              value: ":inner_source",
+            },
+          },
+          reducer: {
+            agent: "pushAgent",
+            inputs: [":array", ":item"],
+            isResult: true,
+          },
+        },
+      },
+    },
+  },
+};
+
+test("test nested loop & injection", async () => {
+  const result = await graphDataTestRunner(__filename, graphdata_nested_injection, defaultTestAgents, () => {}, false);
+  assert.deepStrictEqual(result, {
+    parent: {
+      reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+    },
+  });
+});
