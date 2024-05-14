@@ -7,11 +7,12 @@ const applyFilter = (
   include: Array<string> | undefined,
   exclude: Array<string> | undefined,
   alter: Record<string, Record<string, string>> | undefined,
-  inject?: Record<string, Record<string, any>> | undefined,
+  inject: Record<string, Record<string, any>> | undefined,
+  swap: Record<string, string> | undefined,
 ) => {
   const propIds = include ? include : Object.keys(input);
   const excludeSet = new Set(exclude ?? []);
-  return propIds.reduce((tmp: Record<string, any>, propId) => {
+  const result = propIds.reduce((tmp: Record<string, any>, propId) => {
     if (!excludeSet.has(propId)) {
       const injection = inject && inject[propId];
       const mapping = alter && alter[propId];
@@ -25,6 +26,14 @@ const applyFilter = (
     }
     return tmp;
   }, {});
+  if (swap) {
+    Object.keys(swap).forEach((key) => {
+      const tmp = result[key];
+      result[key] = result[swap[key]];
+      result[swap[key]] = tmp;
+    });
+  }
+  return result;
 };
 
 export const propertyFilterAgent: AgentFunction<{
@@ -32,13 +41,14 @@ export const propertyFilterAgent: AgentFunction<{
   exclude?: Array<string>;
   alter?: Record<string, Record<string, string>>;
   inject?: Record<string, Record<string, any>>;
+  swap?: Record<string, string>;
 }> = async ({ inputs, params }) => {
   const [input] = inputs;
-  const { include, exclude, alter, inject } = params;
+  const { include, exclude, alter, inject, swap } = params;
   if (Array.isArray(input)) {
-    return input.map((item, index) => applyFilter(item, index, inputs, include, exclude, alter, inject));
+    return input.map((item, index) => applyFilter(item, index, inputs, include, exclude, alter, inject, swap));
   }
-  return applyFilter(input, 0, inputs, include, exclude, alter);
+  return applyFilter(input, 0, inputs, include, exclude, alter, inject, swap);
 };
 
 const testInputs = [
@@ -97,6 +107,14 @@ const propertyFilterAgentInfo = {
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+      ],
+    },
+    {
+      inputs: testInputs,
+      params: { swap: { maker: "model" } },
+      result: [
+        { color: "red", model: "Tesla", type: "EV", maker: "Model 3", range: 300 },
+        { color: "blue", model: "Tesla", type: "EV", maker: "Model Y", range: 400 },
       ],
     },
   ],
