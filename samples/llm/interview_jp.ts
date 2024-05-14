@@ -12,12 +12,6 @@ const graph_data = {
     name: {
       agent: () => input({ message: "インタビューしたい人の名前を入力してください:" }),
     },
-    target: {
-      agent: (name: string) => ({
-        system: `You are ${name}.`,
-      }),
-      inputs: [":name"],
-    },
 
     context: {
       agent: (name: string) => ({
@@ -51,9 +45,9 @@ const graph_data = {
 
     chat: {
       agent: "nestedAgent",
-      inputs: [":name", ":target.system", ":messages", ":context"],
+      inputs: [":messages", ":context"],
       params: {
-        injectionTo: ["name", "system", "messages", "context"],
+        injectionTo: ["messages", "context"],
       },
       isResult: true,
       graph: {
