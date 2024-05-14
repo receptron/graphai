@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { slashGPTFuncitons2TextAgent } from "../utils/agents/slashgpt_agent";
-import { slashGPTAgent } from "@/experimental_agents/packages";
+import { slashGPTAgent } from "@/experimental_agents";
 import { getAgentInfo } from "@/utils/test_utils";
 
 import { graphDataTestRunner } from "~/utils/runner";

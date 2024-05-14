@@ -28,7 +28,7 @@ const graph_data = {
 export const main = async () => {
   graph_data.nodes.node1.value = { injected: "test" };
 
-  const result = await graphDataTestRunner(__filename, graph_data, { merge: getAgentInfo(mergeNodeIdAgent), interactiveInputTextAgent: getAgentInfo(interactiveInputTextAgent) });
+  const result = await graphDataTestRunner(__filename, graph_data, { merge: mergeNodeIdAgent, interactiveInputTextAgent: getAgentInfo(interactiveInputTextAgent) });
   console.log(result);
 
   console.log("COMPLETE 1");

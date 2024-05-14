@@ -17,7 +17,7 @@ import {
   shiftAgent,
   streamMockAgent,
   //  openAIMockAgent.
-} from "@/experimental_agents/packages";
+} from "@/experimental_agents";
 
 // import openAIMockAgent from "@/experimental_agents/llm_agents/openai_agent";
 

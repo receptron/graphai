@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { GraphAI } from "@/graphai";
-import { groqStreamAgent, sleeperAgent } from "@/experimental_agents/packages";
+import { groqStreamAgent, sleeperAgent } from "@/experimental_agents";
 import { agentFilters } from "./streamAgentFilter";
 
 const query =

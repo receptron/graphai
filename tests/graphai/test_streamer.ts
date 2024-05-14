@@ -1,6 +1,6 @@
 import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
-import { functionAgent, copyAgent } from "@/experimental_agents/packages";
+import { functionAgent, copyAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";

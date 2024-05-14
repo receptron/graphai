@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent } from "@/experimental_agents/packages";
+import { sleeperAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";

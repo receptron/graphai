@@ -1,4 +1,4 @@
-import { mapAgent, stringTemplateAgent } from "@/experimental_agents/packages";
+import { mapAgent, stringTemplateAgent } from "@/experimental_agents";
 import { defaultTestContext } from "@/utils/test_utils";
 
 import test from "node:test";

@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent, openAIAgent } from "@/experimental_agents/packages";
+import { groqAgent, shiftAgent, nestedAgent, openAIAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 

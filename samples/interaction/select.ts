@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { countingAgent } from "@/experimental_agents/packages";
+import { countingAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
 import { interactiveInputSelectAgent } from "../utils/agents/interactiveInputAgent";
 import { getAgentInfo } from "@/utils/test_utils";

@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { pushAgent, shiftAgent, slashGPTAgent, totalAgent } from "@/experimental_agents/packages";
+import { pushAgent, shiftAgent, slashGPTAgent, totalAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.3,
