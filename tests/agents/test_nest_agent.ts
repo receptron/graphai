@@ -1,6 +1,5 @@
 import { nestedAgent, sleeperAgent } from "@/experimental_agents";
 import { defaultTestContext } from "@/utils/test_utils";
-import { getAgentInfo } from "@/utils/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";

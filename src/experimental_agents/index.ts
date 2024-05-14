@@ -1,4 +1,3 @@
-
 export * from "./string_agents";
 export * from "./array_agents";
 export * from "./matrix_agents";
@@ -17,4 +16,4 @@ import functionAgent from "./function_agent";
 import stringEmbeddingsAgent from  "./embedding_agent";
 import tokenBoundStringsAgent from "./token_agent";
 
-export { functionAgent, stringEmbeddingsAgent, tokenBoundStringsAgent }
+export { functionAgent, stringEmbeddingsAgent, tokenBoundStringsAgent };
