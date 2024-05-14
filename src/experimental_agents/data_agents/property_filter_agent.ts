@@ -8,6 +8,7 @@ const applyFilter = (
   exclude: Array<string> | undefined,
   alter: Record<string, Record<string, string>> | undefined,
   inject: Record<string, Record<string, any>> | undefined,
+  swap: Record<string, string> | undefined,
 ) => {
   const propIds = include ? include : Object.keys(input);
   const excludeSet = new Set(exclude ?? []);
@@ -32,13 +33,14 @@ export const propertyFilterAgent: AgentFunction<{
   exclude?: Array<string>;
   alter?: Record<string, Record<string, string>>;
   inject?: Record<string, Record<string, any>>;
+  swap?: Record<string, string>;
 }> = async ({ inputs, params }) => {
   const [input] = inputs;
-  const { include, exclude, alter, inject } = params;
+  const { include, exclude, alter, inject, swap } = params;
   if (Array.isArray(input)) {
-    return input.map((item, index) => applyFilter(item, index, inputs, include, exclude, alter, inject));
+    return input.map((item, index) => applyFilter(item, index, inputs, include, exclude, alter, inject, swap));
   }
-  return applyFilter(input, 0, inputs, include, exclude, alter, inject);
+  return applyFilter(input, 0, inputs, include, exclude, alter, inject, swap);
 };
 
 const testInputs = [
