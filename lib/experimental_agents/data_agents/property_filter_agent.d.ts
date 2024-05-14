@@ -3,7 +3,7 @@ export declare const propertyFilterAgent: AgentFunction<{
     include?: Array<string>;
     exclude?: Array<string>;
     alter?: Record<string, Record<string, string>>;
-    inject?: Record<string, Record<string, any>>;
+    inject?: Array<Record<string, any>>;
     swap?: Record<string, string>;
 }>;
 declare const propertyFilterAgentInfo: {
@@ -12,14 +12,14 @@ declare const propertyFilterAgentInfo: {
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         alter?: Record<string, Record<string, string>> | undefined;
-        inject?: Record<string, Record<string, any>> | undefined;
+        inject?: Record<string, any>[] | undefined;
         swap?: Record<string, string> | undefined;
     }>;
     mock: AgentFunction<{
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         alter?: Record<string, Record<string, string>> | undefined;
-        inject?: Record<string, Record<string, any>> | undefined;
+        inject?: Record<string, any>[] | undefined;
         swap?: Record<string, string> | undefined;
     }>;
     samples: ({
@@ -117,11 +117,9 @@ declare const propertyFilterAgentInfo: {
         }[])[];
         params: {
             inject: {
-                maker: {
-                    from: number;
-                    index?: undefined;
-                };
-            };
+                propId: string;
+                from: number;
+            }[];
             include?: undefined;
             exclude?: undefined;
             alter?: undefined;
@@ -144,11 +142,10 @@ declare const propertyFilterAgentInfo: {
         }[])[];
         params: {
             inject: {
-                maker: {
-                    index: number;
-                    from: number;
-                };
-            };
+                propId: string;
+                from: number;
+                index: number;
+            }[];
             include?: undefined;
             exclude?: undefined;
             alter?: undefined;
