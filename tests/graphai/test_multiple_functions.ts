@@ -1,6 +1,6 @@
 import { AgentFunction } from "@/graphai";
 import { fileTestRunner } from "~/utils/runner";
-import { getAgentInfo } from "@/utils/test_utils";
+import { agentInfoWrapper } from "@/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -22,9 +22,9 @@ const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number
 
 test("test multiple function", async () => {
   const result = await fileTestRunner("/graphs/test_multiple_functions_1.yml", {
-    test1: getAgentInfo(testAgent1),
-    test2: getAgentInfo(testAgent2),
-    numberTestAgent: getAgentInfo(numberTestAgent),
+    test1: agentInfoWrapper(testAgent1),
+    test2: agentInfoWrapper(testAgent2),
+    numberTestAgent: agentInfoWrapper(numberTestAgent),
   });
   assert.deepStrictEqual(result, {
     node1: { node1: "output 1" },

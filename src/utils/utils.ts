@@ -1,4 +1,4 @@
-import { DataSource, ResultData } from "@/type";
+import { DataSource, ResultData, AgentFunction } from "@/type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -88,3 +88,27 @@ export const getDataFromSource = (result: ResultData | undefined, source: DataSo
 };
 
 export const strIntentionalError = "Intentional Error for Debugging";
+
+export const defaultAgentInfo = {
+  name: "defaultAgentInfo",
+  samples: [
+    {
+      inputs: [],
+      params: {},
+      result: {},
+    },
+  ],
+  description: "",
+  category: [],
+  author: "",
+  repository: "",
+  license: "",
+};
+
+export const agentInfoWrapper = (agent: AgentFunction<any, any, any>) => {
+  return {
+    agent,
+    mock: agent,
+    ...defaultAgentInfo,
+  };
+};
