@@ -6,9 +6,9 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test nest agent", async () => {
-  const result = await nestedAgent({
+  const result = await nestedAgent.agent({
     ...defaultTestContext,
-    agents: { sleeperAgent: getAgentInfo(sleeperAgent) },
+    agents: { sleeperAgent },
     graphData: {
       version: 0.3,
       nodes: {
@@ -38,9 +38,9 @@ const dynamic_graph = {
 };
 
 test("test nest agent, eval", async () => {
-  const result = await nestedAgent({
+  const result = await nestedAgent.agent({
     ...defaultTestContext,
-    agents: { sleeperAgent: getAgentInfo(sleeperAgent) },
+    agents: { sleeperAgent },
     graphData: "$0",
     inputs: [dynamic_graph, { apple: "red" }, { lemon: "yellow" }, { orange: "orange" }],
   });
