@@ -34,7 +34,7 @@ const graph_data = {
           count: 6,
         },
         nodes: {
-          $2: {
+          messages: {
             // This node holds the conversation, array of messages.
             value: [], // to be filled with inputs[2]
             update: ":switcher",
