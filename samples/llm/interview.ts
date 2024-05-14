@@ -12,6 +12,19 @@ const graph_data = {
     name: {
       agent: () => input({ message: "Name of a famous person you want to interview:" }),
     },
+    context: {
+      agent: (name: string) => ({
+        person0: {
+          system: `You are ${name}.`,
+          name: '${name}',
+        },
+        person1: {
+          system: system_interviewer,
+          name: "Interviewer",
+        }
+      }),
+      inputs: [":name"],
+    },
     target: {
       agent: (name: string) => `You are ${name}.`,
       inputs: [":name"],
