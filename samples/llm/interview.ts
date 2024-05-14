@@ -85,12 +85,11 @@ const graph_data = {
           swappedMessages: {
             agent: "propertyFilterAgent",
             params: {
-              inject: {
-                content: {
-                  index: 0,
-                  from: 1,
-                },
-              },
+              inject: [{
+                propId: "content",
+                index: 0,
+                from: 1,
+              }],
               alter: {
                 role: {
                   assistant: "user",
