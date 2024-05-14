@@ -38,9 +38,9 @@ const graph_data = {
     },
     chat: {
       agent: "nestedAgent",
-      inputs: [":messages", ":name", ":target"],
+      inputs: [":messages", ":context", ":name", ":target"],
       params: {
-        injectionTo: ["messages", "name", "system"]
+        injectionTo: ["messages", "context", "name", "system"]
       },
       isResult: true,
       graph: {
@@ -50,8 +50,12 @@ const graph_data = {
         nodes: {
           messages: {
             // This node holds the conversation, array of messages.
-            value: [], // to be filled with inputs[2]
+            value: [], // to be filled with inputs[0]
             update: ":switcher",
+            isResult: true,
+          },
+          context: {
+            value: {}, // te be mfilled with inputs[1]
             isResult: true,
           },
           groq: {
@@ -112,7 +116,8 @@ export const main = async () => {
     () => {},
     false,
   )) as any;
-  console.log("Complete", result.chat["messages"].length);
+  console.log(result.chat.context);
+  console.log("Complete", result.chat.messages.length);
 };
 
 if (process.argv[1] === __filename) {
