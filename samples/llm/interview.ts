@@ -21,16 +21,25 @@ const graph_data = {
         person1: {
           name: `${name}`,
           system: `You are ${name}.`,
+          greeting: `Hi, I'm ${name}`,
         },
       }),
       inputs: [":name"],
     },
     messages: {
-      agent: (name: string) => [
-          { role: "system", content: system_interviewer },
-          { role: "user", content: `Hi, I'm ${name}` },
-        ],
-      inputs: [":name"],
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [{
+          index: 0,
+          propId: "content",
+          from: 1,
+        },{
+          index: 1,
+          propId: "content",
+          from: 2,
+        }],
+      },
+      inputs: [[{ role:"system" }, { role:"user" }], ":context.person0.system", ":context.person1.greeting"],
     },
     chat: {
       agent: "nestedAgent",
