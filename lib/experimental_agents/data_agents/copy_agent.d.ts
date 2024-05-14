@@ -9,12 +9,14 @@ declare const copyAgentInfo: {
             color: string;
             model: string;
         }[];
+        params: {};
         result: {
             color: string;
             model: string;
         };
     } | {
         inputs: string[];
+        params: {};
         result: string;
     })[];
     description: string;

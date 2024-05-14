@@ -1,5 +1,5 @@
-export { AgentFunction, AgentFunctionDictonary, GraphData } from "./type";
-import { AgentFunctionDictonary, AgentFilterInfo, GraphData, DataSource, ResultDataDictonary, ResultData, DefaultResultData } from "./type";
+export { AgentFunction, GraphData, AgentFunctionInfoDictonary } from "./type";
+import { AgentFunctionInfoDictonary, AgentFilterInfo, GraphData, DataSource, ResultDataDictonary, ResultData, DefaultResultData } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, StaticNode } from "./node";
 import { TaskManager } from "./task_manager";
@@ -10,7 +10,7 @@ export declare class GraphAI {
     private readonly data;
     private readonly loop?;
     private readonly logs;
-    readonly agentFunctionDictionary: AgentFunctionDictonary;
+    readonly agentFunctionInfoDictionary: AgentFunctionInfoDictonary;
     readonly taskManager: TaskManager;
     readonly agentFilters: AgentFilterInfo[];
     readonly retryLimit?: number;
@@ -22,11 +22,11 @@ export declare class GraphAI {
     private createNodes;
     private getValueFromResults;
     private initializeNodes;
-    constructor(data: GraphData, agentFunctionDictionary: AgentFunctionDictonary, options?: {
+    constructor(data: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictonary, options?: {
         agentFilters?: AgentFilterInfo[] | undefined;
         taskManager?: TaskManager | undefined;
     });
-    getAgentFunction(agentId?: string): import("./type").AgentFunction<any, any, any>;
+    getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo;
     asString(): string;
     results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T>;
     errors(): Record<string, Error>;

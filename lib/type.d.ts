@@ -64,7 +64,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
         agentId?: string;
     };
     graphData?: GraphData | string;
-    agents?: AgentFunctionDictonary;
+    agents?: AgentFunctionInfoDictonary;
     taskManager?: TaskManager;
     filterParams: AgentFilterParams;
     agentFilters?: AgentFilterInfo[];
@@ -79,7 +79,6 @@ export type AgentFilterInfo = {
     nodeIds?: string[];
     filterParams?: AgentFilterParams;
 };
-export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
 export type AgentFunctionInfo = {
     name: string;
     agent: AgentFunction<any, any, any>;
@@ -96,3 +95,4 @@ export type AgentFunctionInfo = {
     repository: string;
     license: string;
 };
+export type AgentFunctionInfoDictonary = Record<string, AgentFunctionInfo>;
