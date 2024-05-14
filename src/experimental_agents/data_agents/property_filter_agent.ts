@@ -12,7 +12,7 @@ const applyFilter = (
 ) => {
   const propIds = include ? include : Object.keys(input);
   const excludeSet = new Set(exclude ?? []);
-  return propIds.reduce((tmp: Record<string, any>, propId) => {
+  const result = propIds.reduce((tmp: Record<string, any>, propId) => {
     if (!excludeSet.has(propId)) {
       const injection = inject && inject[propId];
       const mapping = alter && alter[propId];
@@ -26,6 +26,7 @@ const applyFilter = (
     }
     return tmp;
   }, {});
+  return result;
 };
 
 export const propertyFilterAgent: AgentFunction<{
