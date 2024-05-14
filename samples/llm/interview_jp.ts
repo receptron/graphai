@@ -22,7 +22,7 @@ const graph_data = {
     context: {
       agent: (name: string) => ({
         person0: {
-          name: "Interviewer",
+          name: "司会",
           system: system_interviewer,
         },
         person1: {
@@ -53,7 +53,7 @@ const graph_data = {
       agent: "nestedAgent",
       inputs: [":name", ":target.system", ":messages", ":context"],
       params: {
-        injectionTo: ["name", "system", "messages"],
+        injectionTo: ["name", "system", "messages", "context"],
       },
       isResult: true,
       graph: {
@@ -92,9 +92,9 @@ const graph_data = {
           },
           output: {
             // This node displays the responce to the user.
-            agent: (answer: string, content: string, name: string, system_target: string) =>
-              console.log(`\x1b[31m${content !== system_target ? name : "司会"}:\x1b[0m ${answer}\n`),
-            inputs: [":translate.choices.$0.message.content", ":messages.$0.content", ":name", ":system"],
+            agent: (answer: string, name: string) =>
+              console.log(`\x1b[31m${name}:\x1b[0m ${answer}\n`),
+            inputs: [":translate.choices.$0.message.content", ":context.person1.name"],
           },
           reducer: {
             // This node append the responce to the messages.
