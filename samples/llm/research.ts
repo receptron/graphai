@@ -28,6 +28,42 @@ const tools = [
   },
 ];
 
+const translation_grap = {
+  nodes: {
+    identifier: {
+      // This node sends those messages to Llama3 on groq to get the answer.
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        system: "You are responsible in identifying the language of the input and translate it into English. " +
+              "Call the 'translated' function with 'language' and 'englishTranslation'. " +
+              "If the input is already in English, call the 'translated' function with 'englishTranslate=the input text', and 'langage=English'." ,
+        tools,
+        tool_choice: { type: "function", function: { name: "translated" } },
+      },
+      inputs: [":$0"],
+    },
+    parser: {
+      agent: (args: string) => JSON.parse(args),
+      inputs: [":identifier.choices.$0.message.tool_calls.$0.function.arguments"],
+    },
+    result: {
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [{
+          propId: 'language',
+          from: 1,
+        },{
+          propId: 'text',
+          from: 2,
+        }]
+      },
+      inputs: [{}, ":parser.language", ":parser.englishTranslation"],
+      isResult: true
+    }
+  }
+};
+
 const graph_data = {
   version: 0.3,
   nodes: {
@@ -38,44 +74,7 @@ const graph_data = {
       agent: "nestedAgent",
       isResult: true,
       inputs: [":topic"],
-      params: {
-        namedInputs: ["inputText"],
-      },
-      graph: {
-        nodes: {
-          identifier: {
-            // This node sends those messages to Llama3 on groq to get the answer.
-            agent: "openAIAgent",
-            params: {
-              model: "gpt-4o",
-              system: "You are responsible in identifying the language of the input and translate it into English. " +
-                    "Call the 'translated' function with 'language' and 'englishTranslation'. " +
-                    "If the input is already in English, call the 'translated' function with 'englishTranslate=the input text', and 'langage=English'." ,
-              tools,
-              tool_choice: { type: "function", function: { name: "translated" } },
-            },
-            inputs: [":inputText"],
-          },
-          parser: {
-            agent: (args: string) => JSON.parse(args),
-            inputs: [":identifier.choices.$0.message.tool_calls.$0.function.arguments"],
-          },
-          result: {
-            agent: "propertyFilterAgent",
-            params: {
-              inject: [{
-                propId: 'language',
-                from: 1,
-              },{
-                propId: 'text',
-                from: 2,
-              }]
-            },
-            inputs: [{}, ":parser.language", ":parser.englishTranslation"],
-            isResult: true
-          }
-        }
-      },
+      graph: translation_grap,
     },
   },
 };
