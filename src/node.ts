@@ -296,7 +296,7 @@ export class ComputedNode extends Node {
       }
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);
       if (this.console.after) {
-        console.log((this.console.after === true) ? JSON.stringify(result, null, 2) : this.console.after);
+        console.log((this.console.after === true) ? (typeof result === "string" ? result : JSON.stringify(result, null, 2)) : this.console.after);
       }
 
       if (this.nestedGraph) {
