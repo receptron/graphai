@@ -7,6 +7,7 @@ export const openAIAgent: AgentFunction<
     model?: string;
     query?: string;
     system?: string;
+    tools?: any;
     verbose?: boolean;
     temperature?: number;
   },
@@ -36,6 +37,7 @@ export const openAIAgent: AgentFunction<
   const chatStream = await openai.beta.chat.completions.stream({
     model: params.model || "gpt-3.5-turbo",
     messages,
+    tools: params.tools,
     temperature: temperature ?? 0.7,
     stream: true,
   });
