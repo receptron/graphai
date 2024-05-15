@@ -3,7 +3,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent, wikipediaAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
-const tools = [
+const tools_translated = [
   {
     type: "function",
     function: {
@@ -28,7 +28,7 @@ const tools = [
   },
 ];
 
-const translation_graph = {
+const language_detection_graph = {
   nodes: {
     identifier: {
       // This node sends those messages to Llama3 on groq to get the answer.
@@ -38,7 +38,7 @@ const translation_graph = {
         system: "You are responsible in identifying the language of the input and translate it into English. " +
               "Call the 'translated' function with 'language' and 'englishTranslation'. " +
               "If the input is already in English, call the 'translated' function with 'englishTranslate=the input text', and 'langage=English'." ,
-        tools,
+        tools: tools_translated,
         tool_choice: { type: "function", function: { name: "translated" } },
       },
       inputs: [":$0"],
@@ -106,7 +106,7 @@ const graph_data = {
     translator: {
       agent: "nestedAgent",
       inputs: [":topic"],
-      graph: translation_graph,
+      graph: language_detection_graph,
     },
     wikipedia: {
       agent: "nestedAgent",
