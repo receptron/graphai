@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent } from "@/experimental_agents";
+import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent, wikipediaAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -80,10 +80,29 @@ const graph_data = {
     },
     translator: {
       agent: "nestedAgent",
-      isResult: true,
       inputs: [":topic"],
       graph: translation_graph,
     },
+    wikipedia: {
+      agent: "wikipediaAgent",
+      params: {
+        lang: "en",
+      },
+      inputs: [":translator.result.text"],
+    },
+    summary: {
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        system: "Summarize the text below in 400 words" ,
+      },
+      inputs: [":wikipedia.content"],
+    },
+    result: {
+      agent: "copyAgent",
+      isResult: true,
+      inputs: [":summary.choices.$0.message.content"]
+    }
   },
 };
 
@@ -97,6 +116,7 @@ export const main = async () => {
       copyAgent,
       openAIAgent,
       propertyFilterAgent,
+      wikipediaAgent,
     },
     () => {},
     false,
