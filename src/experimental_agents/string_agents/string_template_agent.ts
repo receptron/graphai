@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 // see example
 //  tests/agents/test_string_agent.ts

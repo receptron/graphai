@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { select } from "@inquirer/prompts";
 import input from "@inquirer/input";
 

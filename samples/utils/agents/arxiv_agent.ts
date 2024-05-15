@@ -1,6 +1,6 @@
 import search from "arXiv-api-ts";
 
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 type arxivData = { id: string; title: string; summary: string };
 

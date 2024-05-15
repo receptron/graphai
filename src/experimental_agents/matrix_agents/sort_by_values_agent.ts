@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 // This agent returned a sorted array of one array (A) based on another array (B).
 // The default sorting order is "decendant".

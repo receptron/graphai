@@ -1,5 +1,4 @@
-import { AgentFunction } from "@/graphai";
-import { AgentFunctionInfo } from "@/type";
+import { AgentFunction, AgentFunctionInfo } from "@/index";
 
 export const countingAgent: AgentFunction<{ count: number }, { list: number[] }> = async ({ params }) => {
   return {

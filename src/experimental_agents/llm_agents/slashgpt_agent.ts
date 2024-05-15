@@ -1,5 +1,5 @@
 import path from "path";
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { ChatSession, ChatConfig, ManifestData, ChatData } from "slashgpt";
 
 const config = new ChatConfig(path.resolve(__dirname));

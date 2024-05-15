@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictonary } from "@/graphai";
+import { AgentFunctionInfoDictonary } from "@/index";
 import {
   sleeperAgent,
   sleeperAgentDebug,

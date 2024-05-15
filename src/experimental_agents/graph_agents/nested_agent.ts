@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/index";
 import { assert } from "@/utils/utils";
 import { GraphData, StaticNodeData } from "@/type";
 

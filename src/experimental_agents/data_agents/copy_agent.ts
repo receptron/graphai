@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 export const copyAgent: AgentFunction = async ({ inputs }) => {
   const [input] = inputs;

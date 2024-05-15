@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction, AgentFunctionInfo } from "@/index";
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -57,7 +57,7 @@ const sampleResult = {
   overlap: 8,
 };
 
-const stringSplitterAgentInfo = {
+const stringSplitterAgentInfo: AgentFunctionInfo = {
   name: "stringSplitterAgent",
   agent: stringSplitterAgent,
   mock: stringSplitterAgent,

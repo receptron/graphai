@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 export const totalAgent: AgentFunction<Record<never, never>, Record<string, number>> = async ({ inputs }) => {
   return inputs.reduce((result, input) => {

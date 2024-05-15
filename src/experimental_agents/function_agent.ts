@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 export const functionAgent: AgentFunction<{ function: (...args: any[]) => any }> = async ({ inputs, params }) => {
   return params.function(...inputs);

@@ -1,4 +1,4 @@
-import { GraphAI } from "@/graphai";
+import { GraphAI } from "@/index";
 
 import { defaultTestAgents } from "@/utils/test_agents";
 import { defaultAgentInfo } from "@/utils/utils";

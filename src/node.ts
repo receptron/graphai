@@ -1,4 +1,4 @@
-import type { GraphAI, GraphData } from "@/graphai";
+import type { GraphAI, GraphData } from "@/index";
 import { strIntentionalError } from "@/utils/utils";
 
 import {

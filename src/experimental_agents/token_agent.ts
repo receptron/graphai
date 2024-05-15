@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { get_encoding } from "tiktoken";
 
 const defaultMaxToken = 5000;

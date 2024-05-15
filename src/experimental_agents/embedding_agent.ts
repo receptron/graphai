@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 // Type for OpenAI's Embedding API
 interface EmbeddingResponse {
