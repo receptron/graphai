@@ -63,7 +63,7 @@ const language_detection_graph = {
     result: {
       agent: (data: Record<string, any>) => ({
         isEnglish: data.language === "English",
-        isNonEnglish: data.langage !== "English",
+        isNonEnglish: data.language !== "English",
         ...data
       }),
       inputs: [":extractor"],
@@ -85,7 +85,7 @@ const wikipedia_graph = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system: "Summarize the text below in 400 words" ,
+        system: "Summarize the text below in 200 words" ,
       },
       inputs: [":wikipedia.content"],
     },
@@ -103,7 +103,7 @@ const graph_data = {
     topic: {
       agent: () => input({ message: "Type the topic you want to research:" }),
     },
-    translator: {
+    detector: {
       agent: "nestedAgent",
       inputs: [":topic"],
       graph: language_detection_graph,
@@ -111,30 +111,37 @@ const graph_data = {
     },
     wikipedia: {
       agent: "nestedAgent",
-      inputs: [":translator.result.text"],
+      inputs: [":detector.result.text"],
       isResult: true,
       graph: wikipedia_graph,
     },
-    instruction: {
+    english: {
+      agent: "copyAgent",
+      if: ":detector.result.isEnglish",
+      inputs: [":wikipedia.result"],
+    },
+    nonEnglish: {
       agent: "stringTemplateAgent",
       params: {
         template: "Translate the text below into ${0}"
       },
-      inputs: [":translator.result.language"],
+      inputs: [":detector.result.language"],
+      if: ":detector.result.isNonEnglish",
       isResult: true,
     },
     translate: {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system: ":instruction" ,
+        system: ":nonEnglish" ,
       },
       inputs: [":wikipedia.result"],
       isResult: true,
     },
     result: {
       agent: "copyAgent",
-      inputs: [":translate.choices.$0.message.content"],
+      anyInput: true,
+      inputs: [":english", ":translate.choices.$0.message.content"],
       isResult: true
     }
   },
@@ -155,7 +162,6 @@ export const main = async () => {
     () => {},
     false,
   );
-  // console.log(JSON.stringify(result, null, 2));
   console.log(result.result);
 };
 
