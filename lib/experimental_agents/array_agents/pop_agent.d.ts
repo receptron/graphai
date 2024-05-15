@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 export declare const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>>;
 declare const popAgentInfo: {
     name: string;

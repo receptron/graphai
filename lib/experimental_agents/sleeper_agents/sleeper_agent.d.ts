@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 export declare const sleeperAgent: AgentFunction<{
     duration?: number;
     value?: Record<string, any>;

@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 export declare const sortByValuesAgent: AgentFunction<{
     assendant?: boolean;
 }, Array<any>, Array<any>>;

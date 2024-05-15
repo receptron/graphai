@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 import { GraphData } from "../../type";
 export declare const getNestedGraphData: (graphData: GraphData | string | undefined, inputs: Array<any>) => GraphData;
 export declare const nestedAgent: AgentFunction<{

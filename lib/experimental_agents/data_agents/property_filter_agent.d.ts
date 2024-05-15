@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 export declare const propertyFilterAgent: AgentFunction<{
     include?: Array<string>;
     exclude?: Array<string>;

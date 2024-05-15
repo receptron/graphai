@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 import { AgentFunctionInfo } from "../../type";
 export declare const bypassAgent: AgentFunction<{
     flat?: number;

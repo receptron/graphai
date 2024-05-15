@@ -1,4 +1,4 @@
-import type { GraphAI, GraphData } from "./graphai";
+import type { GraphAI, GraphData } from "./index";
 import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "./type";
 import { TransactionLog } from "./transaction_log";
 export declare class Node {

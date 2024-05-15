@@ -1,2 +1,2 @@
-import { AgentFunctionInfoDictonary } from "../graphai";
+import { AgentFunctionInfoDictonary } from "../index";
 export declare const defaultTestAgents: AgentFunctionInfoDictonary;

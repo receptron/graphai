@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 export declare const mapAgent: AgentFunction<{
     namedInputs?: Array<string>;
     limit?: number;

@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 export declare const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, number>;
 declare const dataSumTemplateAgentInfo: {
     name: string;

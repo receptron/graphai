@@ -1,4 +1,4 @@
-import { AgentFunction } from "../../graphai";
+import { AgentFunction } from "../../index";
 export declare const wikipediaAgent: AgentFunction<{
     lang?: string;
     summary?: boolean;
