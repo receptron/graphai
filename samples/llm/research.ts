@@ -47,7 +47,7 @@ const translation_graph = {
       agent: (args: string) => JSON.parse(args),
       inputs: [":identifier.choices.$0.message.tool_calls.$0.function.arguments"],
     },
-    result: {
+    extractor: {
       agent: "propertyFilterAgent",
       params: {
         inject: [{
@@ -59,8 +59,16 @@ const translation_graph = {
         }]
       },
       inputs: [{}, ":parser.language", ":parser.englishTranslation"],
+    },
+    result: {
+      agent: (data: Record<string, any>) => ({
+        isEnglish: data.language === "English",
+        isNonEnglish: data.langage !== "English",
+        ...data
+      }),
+      inputs: [":extractor"],
       isResult: true
-    }
+    },
   }
 };
 
