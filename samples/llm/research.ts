@@ -34,7 +34,7 @@ const graph_data = {
     topic: {
       agent: () => input({ message: "Type the topic you want to research:" }),
     },
-    groq: {
+    identifier: {
       // This node sends those messages to Llama3 on groq to get the answer.
       agent: "openAIAgent",
       params: {
@@ -47,6 +47,10 @@ const graph_data = {
       },
       inputs: [":topic"],
     },
+    parser: {
+      agent: (args: string) => JSON.parse(args),
+      inputs: [":identifier.choices.$0.message.tool_calls.$0.function.arguments"],
+    },
     tool: {
       agent: "propertyFilterAgent",
       params: {
@@ -55,10 +59,10 @@ const graph_data = {
           from: 1,
         },{
           topic: 'topic',
-          from: 1,
+          from: 2,
         }]
       },
-      inputs: [{}, ":groq.choices.$0.message.tool_calls.$0.function.arguments"],
+      inputs: [{}, ":parser.language", ":parser.englishTranslation"],
       isResult: true
     }
   },
