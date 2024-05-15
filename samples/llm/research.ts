@@ -39,7 +39,7 @@ const graph_data = {
       isResult: true,
       inputs: [":topic"],
       params: {
-        namedInputs: ["topic"],
+        namedInputs: ["inputText"],
       },
       graph: {
         nodes: {
@@ -54,7 +54,7 @@ const graph_data = {
               tools,
               tool_choice: { type: "function", function: { name: "translated" } },
             },
-            inputs: [":topic"],
+            inputs: [":inputText"],
           },
           parser: {
             agent: (args: string) => JSON.parse(args),
