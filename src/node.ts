@@ -70,6 +70,7 @@ export class ComputedNode extends Node {
   public dataSources: Array<DataSource>; // data sources, the order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
+  private console: Record<string, string | boolean>; // console output option (before and/or after)
 
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
@@ -78,6 +79,7 @@ export class ComputedNode extends Node {
     super(nodeId, graph);
     this.graphId = graphId;
     this.params = data.params ?? {};
+    this.console = data.console ?? {};
     this.filterParams = data.filterParams ?? {};
     this.nestedGraph = data.graph;
     if (typeof data.agent === "string") {
@@ -289,7 +291,13 @@ export class ComputedNode extends Node {
         context.agents = this.graph.agentFunctionInfoDictionary;
       }
 
+      if (this.console.before) {
+        console.log((this.console.before === true) ? JSON.stringify(context.inputs, null, 2) : this.console.before);
+      }
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);
+      if (this.console.after) {
+        console.log((this.console.after === true) ? JSON.stringify(result, null, 2) : this.console.after);
+      }
 
       if (this.nestedGraph) {
         this.graph.taskManager.restoreAfterNesting();

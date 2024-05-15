@@ -47,6 +47,7 @@ export type ComputedNodeData = {
   graph?: GraphData;
   isResult?: boolean;
   priority?: number; // The default is 0.
+  console?: Record<string, string | boolean>;
 };
 
 export type NodeData = StaticNodeData | ComputedNodeData;
