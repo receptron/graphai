@@ -3,6 +3,7 @@ export declare const openAIAgent: AgentFunction<{
     model?: string;
     query?: string;
     system?: string;
+    tools?: any;
     verbose?: boolean;
     temperature?: number;
 }, Record<string, any> | string, string | Array<any>>;
@@ -19,6 +20,7 @@ declare const openaiAgentInfo: {
         model?: string | undefined;
         query?: string | undefined;
         system?: string | undefined;
+        tools?: any;
         verbose?: boolean | undefined;
         temperature?: number | undefined;
     }, string | Record<string, any>, string | any[]>;
