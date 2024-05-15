@@ -1,0 +1,17 @@
+version: 0.3
+nodes:
+  source1:
+    value: ["hello", "hello2"]
+  nestedNode:
+    agent: "mapAgent"
+    inputs: [":source1"]
+    graph:
+      version: 0.3
+      nodes:
+        node1:
+          agent: "bypassAgent"
+          inputs: [":$0"]
+          isResult: true
+  result:
+    agent: "bypassAgent"
+    inputs: [":nestedNode.node1"]
