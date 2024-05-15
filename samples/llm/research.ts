@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, openAIAgent, copyAgent, propertyFilterAgent } from "@/experimental_agents";
+import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -51,14 +51,14 @@ const graph_data = {
       agent: (args: string) => JSON.parse(args),
       inputs: [":identifier.choices.$0.message.tool_calls.$0.function.arguments"],
     },
-    tool: {
+    result: {
       agent: "propertyFilterAgent",
       params: {
         inject: [{
           propId: 'language',
           from: 1,
         },{
-          topic: 'topic',
+          propId: 'text',
           from: 2,
         }]
       },
@@ -74,6 +74,7 @@ export const main = async () => {
     graph_data,
     {
       groqAgent,
+      nestedAgent,
       copyAgent,
       openAIAgent,
       propertyFilterAgent,
