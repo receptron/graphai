@@ -28,7 +28,7 @@ const tools = [
   },
 ];
 
-const translation_grap = {
+const translation_graph = {
   nodes: {
     identifier: {
       // This node sends those messages to Llama3 on groq to get the answer.
@@ -74,7 +74,7 @@ const graph_data = {
       agent: "nestedAgent",
       isResult: true,
       inputs: [":topic"],
-      graph: translation_grap,
+      graph: translation_graph,
     },
   },
 };
