@@ -418,7 +418,7 @@ Step 1. Install git, node and yarn
 Step 2. Clone the project and install necessary node modules
 
 ```
-git clone git@github.com:snakajima/graphai.git
+git clone git@github.com:receptron/graphai.git
 cd graphai
 yarn install
 ```
