@@ -53,3 +53,4 @@ nodes:
       value:
         outer5: output
     inputs: [:outer2.inner3, :outer4]
+    isResult: true

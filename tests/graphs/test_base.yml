@@ -33,3 +33,4 @@ nodes:
       value:
         node5: output
     inputs: [:node2, :node4]
+    isResult: true

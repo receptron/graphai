@@ -27,3 +27,4 @@ nodes:
   result:
     agent: "sleeperAgent"
     inputs: [":nestedNode.node2"]
+    isResult: true

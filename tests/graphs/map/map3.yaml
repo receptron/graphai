@@ -15,3 +15,4 @@ nodes:
   result:
     agent: "bypassAgent"
     inputs: [":nestedNode.node1"]
+    isResult: true
