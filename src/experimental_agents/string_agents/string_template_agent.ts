@@ -23,8 +23,9 @@ export const stringTemplateAgent: AgentFunction<
 
 const sampleInput = ["hello", "test"];
 const sampleParams = { template: "${0}: ${1}" };
-const sampleParamsArray = { template: ["${0}: ${1}"] };
+const sampleParamsArray = { template: ["${0}: ${1}", "${1}: ${0}"] };
 const sampleResult = "hello: test";
+const sampleResultReversed = "test: hello";
 
 // for test and document
 const stringTemplateAgentInfo = {
@@ -40,7 +41,7 @@ const stringTemplateAgentInfo = {
     {
       inputs: sampleInput,
       params: sampleParamsArray,
-      result: [sampleResult],
+      result: [sampleResult, sampleResultReversed],
     },
   ],
   description: "Template agent",
