@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent, openAIAgent, propertyFilterAgent } from "@/experimental_agents";
+import { groqAgent, shiftAgent, nestedAgent, openAIAgent, stringTemplateAgent, propertyFilterAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const system_interviewer =
@@ -86,8 +86,13 @@ const graph_data = {
           },
           output: {
             // This node displays the responce to the user.
-            agent: (answer: string, name: string) =>
-              console.log(`\x1b[31m${name}:\x1b[0m ${answer}\n`),
+            agent: "stringTemplateAgent",
+            params: {
+              template: "\x1b[32m${1}:\x1b[0m ${0}\n"
+            },
+            console: {
+              after: true,
+            },
             inputs: [":translate.choices.$0.message.content", ":context.person1.name"],
           },
           reducer: {
@@ -136,8 +141,13 @@ const graph_data = {
     },
     output: {
       // This node displays the responce to the user.
-      agent: (answer: string, name: string) =>
-        console.log(`\x1b[31m${name}:\x1b[0m ${answer}\n`),
+      agent: "stringTemplateAgent",
+      params: {
+        template: "\x1b[32m${1}:\x1b[0m ${0}\n"
+      },
+      console: {
+        after: true,
+      },
       inputs: [":translate.choices.$0.message.content", ":chat.swappedContext.person1.name"],
     },
   },
@@ -153,6 +163,7 @@ export const main = async () => {
       nestedAgent,
       openAIAgent,
       propertyFilterAgent,
+      stringTemplateAgent,
     },
     () => {},
     false,
