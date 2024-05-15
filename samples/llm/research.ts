@@ -119,28 +119,23 @@ const graph_data = {
       agent: "nestedAgent",
       inputs: [
         ":wikipedia.result", 
-        ":detector.result.isEnglish", 
-        ":detector.result.isNonEnglish", 
-        ":detector.result.language"
+        ":detector.result", 
       ],
-      params: {
-        namedInputs: ["text", "isEnglish", "isNonEnglish", "language"],
-      },
       isResult: true,
       graph: {
         nodes: {
           english: {
             agent: "copyAgent",
-            if: ":isEnglish",
-            inputs: [":text"],
+            if: ":$1.isEnglish",
+            inputs: [":$0"],
           },
           nonEnglish: {
             agent: "stringTemplateAgent",
             params: {
               template: "Translate the text below into ${0}"
             },
-            inputs: [":language"],
-            if: ":isNonEnglish",
+            inputs: [":$1.language"],
+            if: ":$1.isNonEnglish",
             isResult: true,
           },
           translate: {
@@ -149,7 +144,7 @@ const graph_data = {
               model: "gpt-4o",
               system: ":nonEnglish" ,
             },
-            inputs: [":text"],
+            inputs: [":$0"],
             isResult: true,
           },
           result: {
