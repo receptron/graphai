@@ -40,6 +40,7 @@ export type ComputedNodeData = {
     graph?: GraphData;
     isResult?: boolean;
     priority?: number;
+    console?: Record<string, string | boolean>;
 };
 export type NodeData = StaticNodeData | ComputedNodeData;
 export type LoopData = {
