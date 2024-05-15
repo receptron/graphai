@@ -115,35 +115,52 @@ const graph_data = {
       isResult: true,
       graph: wikipedia_graph,
     },
-    english: {
-      agent: "copyAgent",
-      if: ":detector.result.isEnglish",
-      inputs: [":wikipedia.result"],
-    },
-    nonEnglish: {
-      agent: "stringTemplateAgent",
-      params: {
-        template: "Translate the text below into ${0}"
-      },
-      inputs: [":detector.result.language"],
-      if: ":detector.result.isNonEnglish",
-      isResult: true,
-    },
     translate: {
-      agent: "openAIAgent",
+      agent: "nestedAgent",
+      inputs: [
+        ":wikipedia.result", 
+        ":detector.result.isEnglish", 
+        ":detector.result.isNonEnglish", 
+        ":detector.result.language"
+      ],
       params: {
-        model: "gpt-4o",
-        system: ":nonEnglish" ,
+        namedInputs: ["text", "isEnglish", "isNonEnglish", "language"],
       },
-      inputs: [":wikipedia.result"],
       isResult: true,
+      graph: {
+        nodes: {
+          english: {
+            agent: "copyAgent",
+            if: ":isEnglish",
+            inputs: [":text"],
+          },
+          nonEnglish: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "Translate the text below into ${0}"
+            },
+            inputs: [":language"],
+            if: ":isNonEnglish",
+            isResult: true,
+          },
+          translate: {
+            agent: "openAIAgent",
+            params: {
+              model: "gpt-4o",
+              system: ":nonEnglish" ,
+            },
+            inputs: [":text"],
+            isResult: true,
+          },
+          result: {
+            agent: "copyAgent",
+            anyInput: true,
+            inputs: [":english", ":translate.choices.$0.message.content"],
+            isResult: true
+          }
+        }
+      }
     },
-    result: {
-      agent: "copyAgent",
-      anyInput: true,
-      inputs: [":english", ":translate.choices.$0.message.content"],
-      isResult: true
-    }
   },
 };
 
@@ -162,7 +179,7 @@ export const main = async () => {
     () => {},
     false,
   );
-  console.log(result.result);
+  console.log(result.translate.result);
 };
 
 if (process.argv[1] === __filename) {
