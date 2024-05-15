@@ -76,6 +76,9 @@ const wikipedia_graph = {
   nodes: {
     wikipedia: {
       agent: "wikipediaAgent",
+      console: {
+        before: "Fetching data from Wikipedia...",
+      },
       params: {
         lang: "en",
       },
@@ -83,6 +86,9 @@ const wikipedia_graph = {
     },
     summary: {
       agent: "openAIAgent",
+      console: {
+        before: "Summarizing it...",
+      },
       params: {
         model: "gpt-4o",
         system: "Summarize the text below in 200 words" ,
@@ -115,6 +121,9 @@ const translator_graph = {
     },
     translate: {
       agent: "openAIAgent",
+      console: {
+        before: "Translating it...",
+      },
       params: {
         model: "gpt-4o",
         system: ":nonEnglish" ,
@@ -139,6 +148,9 @@ const graph_data = {
     },
     detector: {
       agent: "nestedAgent",
+      console: {
+        before: "Detecting language...",
+      },
       inputs: [":topic"],
       graph: language_detection_graph,
       isResult: true,
