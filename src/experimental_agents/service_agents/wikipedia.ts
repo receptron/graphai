@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import wiki from "wikipedia";
 
 export const wikipediaAgent: AgentFunction<{ lang?: string; summary?: boolean }, Record<string, any> | undefined, string> = async ({ inputs, params }) => {

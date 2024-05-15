@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async (context) => {
   const { inputs } = context;

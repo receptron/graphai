@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { fileTestRunner } from "~/utils/runner";
 import { agentInfoWrapper } from "@/utils/utils";
 

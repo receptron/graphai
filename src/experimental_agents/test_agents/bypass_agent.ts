@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { AgentFunctionInfo } from "@/type";
 
 export const bypassAgent: AgentFunction<{ flat?: number; firstElement?: boolean }> = async ({ params, inputs }) => {

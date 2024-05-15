@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import deepmerge from "deepmerge";
 
 export const dataObjectMergeTemplateAgent: AgentFunction = async ({ inputs }) => {

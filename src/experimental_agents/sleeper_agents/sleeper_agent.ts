@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { sleep } from "@/utils/utils";
 import deepmerge from "deepmerge";
 

@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { Groq } from "groq-sdk";
 import { assert } from "@/utils/utils";
 

@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 
 // This agent calculates the dot product of an array of vectors (A[]) and a vector (B),
 // typically used to calculate cosine similarity of embedding vectors.

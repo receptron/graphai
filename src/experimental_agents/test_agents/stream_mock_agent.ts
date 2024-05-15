@@ -1,5 +1,4 @@
-import { AgentFunction } from "@/graphai";
-import { AgentFunctionInfo } from "@/type";
+import { AgentFunction, AgentFunctionInfo } from "@/index";
 import { sleep } from "@/utils/utils";
 
 export const streamMockAgent: AgentFunction = async ({ params, filterParams }) => {

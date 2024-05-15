@@ -1,4 +1,4 @@
-import { AgentFunction } from "@/graphai";
+import { AgentFunction } from "@/index";
 import { AgentFunctionInfo } from "@/type";
 
 export const copy2ArrayAgent: AgentFunction<{ count: number }> = async ({ inputs, params }) => {

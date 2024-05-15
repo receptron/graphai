@@ -1,4 +1,4 @@
-import { GraphAI } from "@/graphai";
+import { GraphAI } from "@/index";
 import { StaticNode } from "@/node";
 import { NodeState } from "@/type";
 

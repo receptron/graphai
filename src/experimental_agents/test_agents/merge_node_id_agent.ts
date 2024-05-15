@@ -1,5 +1,4 @@
-import { AgentFunction } from "@/graphai";
-import { AgentFunctionInfo } from "@/type";
+import { AgentFunction, AgentFunctionInfo } from "@/index";
 
 export const mergeNodeIdAgent: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
   // console.log("executing", nodeId);

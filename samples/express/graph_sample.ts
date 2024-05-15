@@ -1,5 +1,5 @@
 import express from "express";
-import { GraphAI, AgentFunction } from "@/graphai";
+import { GraphAI, AgentFunction } from "@/index";
 import { agentInfoWrapper } from "@/utils/utils";
 
 export const graphAISample = async (req: express.Request, res: express.Response) => {
