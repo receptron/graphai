@@ -84,25 +84,34 @@ const graph_data = {
       graph: translation_graph,
     },
     wikipedia: {
-      agent: "wikipediaAgent",
-      params: {
-        lang: "en",
-      },
+      agent: "nestedAgent",
       inputs: [":translator.result.text"],
-    },
-    summary: {
-      agent: "openAIAgent",
-      params: {
-        model: "gpt-4o",
-        system: "Summarize the text below in 400 words" ,
-      },
-      inputs: [":wikipedia.content"],
-    },
-    result: {
-      agent: "copyAgent",
       isResult: true,
-      inputs: [":summary.choices.$0.message.content"]
-    }
+      graph: {
+        nodes: {
+          wikipedia: {
+            agent: "wikipediaAgent",
+            params: {
+              lang: "en",
+            },
+            inputs: ["$0"],
+          },
+          summary: {
+            agent: "openAIAgent",
+            params: {
+              model: "gpt-4o",
+              system: "Summarize the text below in 400 words" ,
+            },
+            inputs: [":wikipedia.content"],
+          },
+          result: {
+            agent: "copyAgent",
+            isResult: true,
+            inputs: [":summary.choices.$0.message.content"]
+          }
+        }
+      }
+    },
   },
 };
 
