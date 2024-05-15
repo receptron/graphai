@@ -51,10 +51,10 @@ const language_detection_graph = {
       agent: "propertyFilterAgent",
       params: {
         inject: [{
-          propId: 'language',
+          propId: "language",
           from: 1,
         },{
-          propId: 'text',
+          propId: "text",
           from: 2,
         }]
       },
