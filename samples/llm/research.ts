@@ -97,6 +97,40 @@ const wikipedia_graph = {
   }
 };
 
+const translator_graph = {
+  nodes: {
+    english: {
+      agent: "copyAgent",
+      if: ":$1.isEnglish",
+      inputs: [":$0"],
+    },
+    nonEnglish: {
+      agent: "stringTemplateAgent",
+      params: {
+        template: "Translate the text below into ${0}"
+      },
+      inputs: [":$1.language"],
+      if: ":$1.isNonEnglish",
+      isResult: true,
+    },
+    translate: {
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        system: ":nonEnglish" ,
+      },
+      inputs: [":$0"],
+      isResult: true,
+    },
+    result: {
+      agent: "copyAgent",
+      anyInput: true,
+      inputs: [":english", ":translate.choices.$0.message.content"],
+      isResult: true
+    }
+  }
+};
+
 const graph_data = {
   version: 0.3,
   nodes: {
@@ -122,39 +156,7 @@ const graph_data = {
         ":detector.result", 
       ],
       isResult: true,
-      graph: {
-        nodes: {
-          english: {
-            agent: "copyAgent",
-            if: ":$1.isEnglish",
-            inputs: [":$0"],
-          },
-          nonEnglish: {
-            agent: "stringTemplateAgent",
-            params: {
-              template: "Translate the text below into ${0}"
-            },
-            inputs: [":$1.language"],
-            if: ":$1.isNonEnglish",
-            isResult: true,
-          },
-          translate: {
-            agent: "openAIAgent",
-            params: {
-              model: "gpt-4o",
-              system: ":nonEnglish" ,
-            },
-            inputs: [":$0"],
-            isResult: true,
-          },
-          result: {
-            agent: "copyAgent",
-            anyInput: true,
-            inputs: [":english", ":translate.choices.$0.message.content"],
-            isResult: true
-          }
-        }
-      }
+      graph: translator_graph,
     },
   },
 };
