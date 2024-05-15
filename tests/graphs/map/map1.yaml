@@ -1,0 +1,22 @@
+version: 0.3
+nodes:
+  source:
+    value:
+      fruits: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"]
+  nestedNode:
+    agent: "mapAgent"
+    inputs: [":source.fruits"]
+    graph:
+      version: 0.3
+      nodes:
+        node2:
+          agent: "stringTemplateAgent"
+          params:
+            template: "I love ${0}."
+          inputs: [":$0"]
+          isResult: true
+  result:
+    agent: "sleeperAgent"
+    inputs: [":nestedNode.node2"]
+    isResult: true
+
