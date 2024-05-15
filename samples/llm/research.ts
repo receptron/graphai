@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, mapAgent, copyAgent } from "@/experimental_agents";
+import { groqAgent, mapAgent, copyAgent, propertyFilterAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -38,7 +38,7 @@ const graph_data = {
       // This node sends those messages to Llama3 on groq to get the answer.
       agent: "groqAgent",
       params: {
-        model: "Llama3-8b-8192", // "llama3-70b-8192", // "Llama3-8b-8192",
+        model: "Llama3-70b-8192", // "llama3-70b-8192", // "Llama3-8b-8192",
         system: "You are responsible in identifying the language of the input and translate it into English. " +
               "Call the 'translated' function with 'language' and 'englishTranslation'. " +
               "If the input is already in English, call the 'translated' function with 'englishTranslate=the input text', and 'langage=English'." ,
@@ -47,9 +47,18 @@ const graph_data = {
       },
       inputs: [":topic"],
     },
-    debugOut: {
-      agent: "copyAgent",
-      inputs: [":groq.choices.$0"],
+    tool: {
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [{
+          propId: 'language',
+          from: 1,
+        },{
+          topic: 'topic',
+          from: 1,
+        }]
+      },
+      inputs: [{}, ":groq.choices.$0"],
       isResult: true
     }
   },
@@ -63,6 +72,7 @@ export const main = async () => {
       groqAgent,
       copyAgent,
       mapAgent,
+      propertyFilterAgent,
     },
     () => {},
     false,
