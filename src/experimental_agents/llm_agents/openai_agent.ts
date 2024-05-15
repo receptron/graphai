@@ -8,6 +8,7 @@ export const openAIAgent: AgentFunction<
     query?: string;
     system?: string;
     tools?: any;
+    tool_choice?: any;
     verbose?: boolean;
     temperature?: number;
   },
@@ -38,6 +39,7 @@ export const openAIAgent: AgentFunction<
     model: params.model || "gpt-3.5-turbo",
     messages,
     tools: params.tools,
+    tool_choice: params.tool_choice,
     temperature: temperature ?? 0.7,
     stream: true,
   });
