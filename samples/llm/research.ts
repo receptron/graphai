@@ -107,6 +107,7 @@ const graph_data = {
       agent: "nestedAgent",
       inputs: [":topic"],
       graph: language_detection_graph,
+      isResult: true,
     },
     wikipedia: {
       agent: "nestedAgent",
@@ -114,6 +115,28 @@ const graph_data = {
       isResult: true,
       graph: wikipedia_graph,
     },
+    instruction: {
+      agent: "stringTemplateAgent",
+      params: {
+        template: "Translate the text below into ${0}"
+      },
+      inputs: [":translator.result.language"],
+      isResult: true,
+    },
+    translate: {
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        system: ":instruction" ,
+      },
+      inputs: [":wikipedia.result"],
+      isResult: true,
+    },
+    result: {
+      agent: "copyAgent",
+      inputs: [":translate.choices.$0.message.content"],
+      isResult: true
+    }
   },
 };
 
@@ -132,7 +155,8 @@ export const main = async () => {
     () => {},
     false,
   );
-  console.log(JSON.stringify(result, null, 2));
+  // console.log(JSON.stringify(result, null, 2));
+  console.log(result.result);
 };
 
 if (process.argv[1] === __filename) {
