@@ -72,6 +72,31 @@ const translation_graph = {
   }
 };
 
+const wikipedia_graph = {
+  nodes: {
+    wikipedia: {
+      agent: "wikipediaAgent",
+      params: {
+        lang: "en",
+      },
+      inputs: [":$0"],
+    },
+    summary: {
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        system: "Summarize the text below in 400 words" ,
+      },
+      inputs: [":wikipedia.content"],
+    },
+    result: {
+      agent: "copyAgent",
+      isResult: true,
+      inputs: [":summary.choices.$0.message.content"]
+    }
+  }
+};
+
 const graph_data = {
   version: 0.3,
   nodes: {
@@ -87,30 +112,7 @@ const graph_data = {
       agent: "nestedAgent",
       inputs: [":translator.result.text"],
       isResult: true,
-      graph: {
-        nodes: {
-          wikipedia: {
-            agent: "wikipediaAgent",
-            params: {
-              lang: "en",
-            },
-            inputs: ["$0"],
-          },
-          summary: {
-            agent: "openAIAgent",
-            params: {
-              model: "gpt-4o",
-              system: "Summarize the text below in 400 words" ,
-            },
-            inputs: [":wikipedia.content"],
-          },
-          result: {
-            agent: "copyAgent",
-            isResult: true,
-            inputs: [":summary.choices.$0.message.content"]
-          }
-        }
-      }
+      graph: wikipedia_graph,
     },
   },
 };
