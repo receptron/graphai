@@ -199,7 +199,7 @@ export class ComputedNode extends Node {
   // and attempt to retry (if specified).
   private executeTimeout(transactionId: number) {
     if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
-      console.log(`-- ${this.nodeId}: timeout ${this.timeout}`);
+      console.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
       this.retry(NodeState.TimedOut, Error("Timeout"));
     }
   }
@@ -306,7 +306,7 @@ export class ComputedNode extends Node {
       if (!this.isCurrentTransaction(transactionId)) {
         // This condition happens when the agent function returns
         // after the timeout (either retried or not).
-        console.log(`-- ${this.nodeId}: transactionId mismatch`);
+        console.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
         return;
       }
 
@@ -336,18 +336,18 @@ export class ComputedNode extends Node {
   private errorProcess(error: unknown, transactionId: number) {
     if (error instanceof Error && error.message !== strIntentionalError) {
       console.error(`<-- ${this.nodeId}, ${this.agentId}`);
-      console.log(error);
-      console.log("-->");
+      console.error(error);
+      console.error("-->");
     }
     if (!this.isCurrentTransaction(transactionId)) {
-      console.log(`-- ${this.nodeId}: transactionId mismatch(error)`);
+      console.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
       return;
     }
 
     if (error instanceof Error) {
       this.retry(NodeState.Failed, error);
     } else {
-      console.error(`-- ${this.nodeId}: Unexpecrted error was caught`);
+      console.error(`-- ${this.nodeId}: Unknown error was caught`);
       this.retry(NodeState.Failed, Error("Unknown"));
     }
   }
