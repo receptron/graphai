@@ -158,7 +158,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = (await graphDataTestRunner(
+  const result = (await graphDataTestRunner<{messages: {role: string, content: string}[]}>(
     __filename,
     graph_data,
     {
@@ -172,8 +172,10 @@ export const main = async () => {
     },
     () => {},
     false,
-  )) as any;
-  console.log("Complete", result.chat["messages"].length);
+  ));
+  if (result?.chat) {
+    console.log("Complete", result.chat["messages"].length);
+  }
 };
 
 if (process.argv[1] === __filename) {
