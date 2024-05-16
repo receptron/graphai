@@ -9,7 +9,6 @@ import path from "path";
 import * as fs from "fs";
 
 import assert from "node:assert";
-import { error } from "console";
 
 export const readGraphData = (file: string) => {
   const file_path = path.resolve(__dirname) + "/.." + file;
