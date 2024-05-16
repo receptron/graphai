@@ -34,7 +34,7 @@ export const anthropicAgent: AgentFunction<
   });
 
   return await anthropic.messages.create({
-    model: params.model || "claude-3-opus-20240229",
+    model: params.model || "claude-3-haiku-20240307", // "claude-3-opus-20240229",
     messages,
     temperature: temperature ?? 0.7,
     max_tokens: max_tokens ?? 1024,
@@ -47,10 +47,7 @@ const anthropicAgentInfo = {
   name: "anthropicAgent",
   agent: anthropicAgent,
   mock: anthropicAgent,
-  samples: [
-    {
-    },
-  ],
+  samples: [],
   skipTest: true,
   description: "Anthropic Agent",
   category: ["llm"],
