@@ -13,17 +13,20 @@ const graph_data = {
       agent: () => input({ message: "Name of a famous person you want to interview:" }),
     },
     context: {
-      agent: (name: string) => ({
-        person0: {
-          name: "Interviewer",
-          system: system_interviewer,
-        },
-        person1: {
-          name: `${name}`,
-          system: `You are ${name}.`,
-          greeting: `Hi, I'm ${name}`,
-        },
-      }),
+      agent: "stringTemplateAgent",
+      params: {
+        template: {
+          person0: {
+            name: "Interviewer",
+            system: system_interviewer,
+          },
+          person1: {
+            name: "${0}",
+            system: "You are ${0}.",
+            greeting: "Hi, I'm ${0}",
+          },
+        }
+      },
       inputs: [":name"],
     },
     messages: {
