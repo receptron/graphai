@@ -1,6 +1,5 @@
 import { AgentFunction } from "@/index";
 import { select } from "@inquirer/prompts";
-import input from "@inquirer/input";
 
 export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
   inputs,

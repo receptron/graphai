@@ -2,7 +2,6 @@ import "dotenv/config";
 
 import { mergeNodeIdAgent, textInputAgent, propertyFilterAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
-import { agentInfoWrapper } from "@/utils/utils";
 
 const graph_data = {
   version: 0.3,
