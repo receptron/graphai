@@ -3,6 +3,7 @@ import { NodeState } from "@/type";
 
 import { defaultTestAgents } from "@/utils/test_agents";
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
+import { ValidationError } from "@/validators/common";
 
 import path from "path";
 import * as fs from "fs";
@@ -52,14 +53,14 @@ export const graphDataTestRunner = async (
   return results;
 };
 
-export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}) => {
-  return await rejectTest(readGraphData(file), errorMessage, callbackDictonary);
+export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, validationError: boolean = true) => {
+  return await rejectTest(readGraphData(file), errorMessage, callbackDictonary, validationError);
 };
-export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}) => {
+export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, validationError: boolean = true) => {
   await assert.rejects(
     async () => {
       await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...callbackDictonary });
     },
-    { name: "Error", message: errorMessage },
+    { name: "Error", message: validationError ? (new ValidationError(errorMessage)).message : errorMessage },
   );
 };

@@ -28,7 +28,7 @@ const testAgent: AgentFunction<Record<never, never>, string> = async () => {
 };
 
 test("test source props test", async () => {
-  await rejectTest(graphData, "result is not object.", { testAgent: agentInfoWrapper(testAgent) });
+  await rejectTest(graphData, "result is not object.", { testAgent: agentInfoWrapper(testAgent) }, false);
 });
 
 const graphData_literal = {

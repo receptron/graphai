@@ -1,5 +1,6 @@
 import { GraphData } from "@/type";
 import { parseNodeName } from "@/utils/utils";
+import { ValidationError } from "@/validators/common";
 
 export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
   const nodeIds = new Set<string>(Object.keys(data.nodes));
@@ -16,7 +17,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
         const sourceNodeId = parseNodeName(inputNodeId, data.version ?? 0.02).nodeId;
         if (sourceNodeId) {
           if (!nodeIds.has(sourceNodeId)) {
-            throw new Error(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+            throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
           }
           waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
           pendings[computedNodeId].add(sourceNodeId);
@@ -33,10 +34,10 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
       const update = nodeData.update;
       const updateNodeId = parseNodeName(update, data.version ?? 0.02).nodeId;
       if (!updateNodeId) {
-        throw new Error("Update it a literal");
+        throw new ValidationError("Update it a literal");
       }
       if (!nodeIds.has(updateNodeId)) {
-        throw new Error(`Update not match: NodeId ${staticNodeId}, update: ${update}`);
+        throw new ValidationError(`Update not match: NodeId ${staticNodeId}, update: ${update}`);
       }
     }
   });
@@ -60,7 +61,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
 
   let runningQueue = cycle(staticNodeIds);
   if (runningQueue.length === 0) {
-    throw new Error("No Initial Runnning Node");
+    throw new ValidationError("No Initial Runnning Node");
   }
 
   do {
@@ -68,6 +69,6 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
   } while (runningQueue.length > 0);
 
   if (Object.keys(pendings).length > 0) {
-    throw new Error("Some nodes are not executed: " + Object.keys(pendings).join(", "));
+    throw new ValidationError("Some nodes are not executed: " + Object.keys(pendings).join(", "));
   }
 };
