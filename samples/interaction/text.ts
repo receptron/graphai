@@ -1,9 +1,7 @@
 import "dotenv/config";
 
-import { mergeNodeIdAgent } from "@/experimental_agents";
+import { mergeNodeIdAgent, textInputAgent, propertyFilterAgent } from "@/experimental_agents";
 import { graphDataTestRunner } from "~/utils/runner";
-import { interactiveInputTextAgent } from "../utils/agents/interactiveInputAgent";
-import { agentInfoWrapper } from "@/utils/utils";
 
 const graph_data = {
   version: 0.3,
@@ -16,11 +14,16 @@ const graph_data = {
       update: ":node3",
     },
     node2: {
-      agent: "interactiveInputTextAgent",
+      agent: "textInputAgent",
+    },
+    node2ToObj: {
+      agent: "propertyFilterAgent",
+      params: { inject: [ { propId: "answer", from: 0 } ], include:[] },
+      inputs: [":node2"],
     },
     node3: {
-      inputs: [":node1", ":node2"],
-      agent: "merge",
+      inputs: [":node1", ":node2ToObj"],
+      agent: "mergeNodeIdAgent",
     },
   },
 };
@@ -29,8 +32,9 @@ export const main = async () => {
   graph_data.nodes.node1.value = { injected: "test" };
 
   const result = await graphDataTestRunner(__filename, graph_data, {
-    merge: mergeNodeIdAgent,
-    interactiveInputTextAgent: agentInfoWrapper(interactiveInputTextAgent),
+    mergeNodeIdAgent,
+    textInputAgent,
+    propertyFilterAgent,
   });
   console.log(result);
 
