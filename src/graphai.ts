@@ -39,7 +39,7 @@ export class GraphAI {
       } else if ("agent" in nodeData) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       } else {
-        throw new Error("Unknown node: " + nodeId);
+        throw new Error("Unknown node type (neither value nor agent): " + nodeId);
       }
       return _nodes;
     }, {});
@@ -52,7 +52,7 @@ export class GraphAI {
           if (nodes[pending]) {
             nodes[pending].waitlist.add(nodeId); // previousNode
           } else {
-            console.error(`--- invalid input ${pending} for node, ${nodeId}`);
+            throw new Error(`createNode: invalid input ${pending} for node, ${nodeId}`);
           }
         });
       }
@@ -91,11 +91,11 @@ export class GraphAI {
     options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
   ) {
     if (!data.version && !options.taskManager) {
-      console.log("------------ missing version number");
+      console.warn("------------ missing version number");
     }
     this.version = data.version ?? latestVersion;
     if (this.version < latestVersion) {
-      console.log(`------------ upgrade to ${latestVersion}!`);
+      console.warn(`------------ upgrade to ${latestVersion}!`);
     }
     this.retryLimit = data.retry; // optional
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
@@ -106,7 +106,7 @@ export class GraphAI {
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
-      console.error("-- SOMETHING IS WRONG: onComplete is called without run()");
+      throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };
 
     validateGraphData(data, Object.keys(agentFunctionInfoDictionary));
@@ -119,6 +119,7 @@ export class GraphAI {
     if (agentId && this.agentFunctionInfoDictionary[agentId]) {
       return this.agentFunctionInfoDictionary[agentId];
     }
+    // We are not supposed to hit this error because the validator will catch it.
     throw new Error("No agent: " + agentId);
   }
 
@@ -189,7 +190,7 @@ export class GraphAI {
   // Public API
   public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictonary<T>> {
     if (this.isRunning()) {
-      console.error("-- Already Running");
+      throw new Error("This GraphUI instance is already running");
     }
 
     this.pushReadyNodesIntoQueue();
@@ -278,8 +279,7 @@ export class GraphAI {
     if (node && node.isStaticNode) {
       node.injectValue(value, injectFrom);
     } else {
-      console.error("-- Inject Error: Invalid nodeId", nodeId);
-      console.error("InjectionTo can only specify static nodes");
+      throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
     }
   }
 
