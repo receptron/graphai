@@ -30,9 +30,17 @@ jobs:
         git add lib/*
     - name: Commit 
       run: |
-        if [ $(git diff --name-only --cached | wc -l) != 0 ] || [$(git diff) != 0 ]; then
-          git commit -m "Update lib and format" .
+        if [ $(git diff --name-only --cached | wc -l) != 0 ]; then
+          git commit -m "Update lib" lib/
           git push origin main
         else
           echo "No change on lib"
+        fi
+    - name: Commit 
+      run: |
+        if [ [ $(git diff) != 0 ]; then
+          git commit -m "format" .
+          git push origin main
+        else
+          echo "No change format"
         fi
