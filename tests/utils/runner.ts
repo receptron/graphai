@@ -54,14 +54,14 @@ export const graphDataTestRunner = async (
   return results;
 };
 
-export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, layoutError: boolean = true) => {
-  return await rejectTest(readGraphData(file), errorMessage, callbackDictonary, layoutError);
+export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, validationError: boolean = true) => {
+  return await rejectTest(readGraphData(file), errorMessage, callbackDictonary, validationError);
 };
-export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, layoutError: boolean = true) => {
+export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, validationError: boolean = true) => {
   await assert.rejects(
     async () => {
       await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...callbackDictonary });
     },
-    { name: "Error", message: layoutError ? (new ValidationError(errorMessage)).message : errorMessage },
+    { name: "Error", message: validationError ? (new ValidationError(errorMessage)).message : errorMessage },
   );
 };
