@@ -6,10 +6,7 @@ export const textInputAgent: AgentFunction<{ resultKey?: string; isReturnString:
   }) => {
     const { resultKey, isReturnString } = params;
     const answer = await input({ message: "Enter message" });
-    if (isReturnString) {
-      return answer;
-    }
-    return { [resultKey ?? "answer"]: answer };
+    return answer;
   };
 
 const textInputAgentInfo = {
