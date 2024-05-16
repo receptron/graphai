@@ -10,7 +10,7 @@ const processTemplate: any = (template: any, match: string, input: string) => {
     tmp[key] = processTemplate(template[key], match, input);
     return tmp;
   }, {});
-}
+};
 
 export const stringTemplateAgent: AgentFunction<
   {
