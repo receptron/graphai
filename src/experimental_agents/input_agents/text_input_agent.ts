@@ -1,12 +1,10 @@
 import { AgentFunction } from "@/index";
 import input from "@inquirer/input";
 
-export const textInputAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
+export const textInputAgent: AgentFunction<{ message?: string }, string | { [x: string]: string }> = async ({
     params,
   }) => {
-    const { resultKey, isReturnString } = params;
-    const answer = await input({ message: "Enter message" });
-    return answer;
+    return await input({ message: params.message ?? "Enter" });
   };
 
 const textInputAgentInfo = {

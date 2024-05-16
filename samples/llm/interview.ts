@@ -16,6 +16,9 @@ const graph_data = {
     */
     name: {
       agent: "textInputAgent",
+      params: {
+        message: "Name of a famous person you want to interview:",
+      },
     },
     context: {
       agent: "stringTemplateAgent",
