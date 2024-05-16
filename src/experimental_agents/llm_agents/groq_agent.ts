@@ -1,5 +1,7 @@
 import { AgentFunction } from "@/index";
 import { Groq } from "groq-sdk";
+import { ChatCompletionCreateParams, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
+
 import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
@@ -28,16 +30,18 @@ export const groqAgent: AgentFunction<
     query?: string;
     system?: string;
     verbose?: boolean;
-    tools?: Record<string, Groq.Chat.CompletionCreateParams.Tool>;
+    tools?: Groq.Chat.CompletionCreateParams.Tool[];
     temperature?: number;
     max_tokens?: number;
-    tool_choice?: string | Record<string, Groq.Chat.CompletionCreateParams.ToolChoice>;
+    tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
+    isStreaming?: boolean;
   },
-  Groq.Chat.ChatCompletion,
+  // Groq.Chat.ChatCompletion,
+  any,
   string | Array<Groq.Chat.CompletionCreateParams.Message>
-> = async ({ params, inputs }) => {
+> = async ({ params, inputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { verbose, query, system, tools, tool_choice, max_tokens, temperature } = params;
+  const { verbose, query, system, tools, tool_choice, max_tokens, temperature, isStreaming } = params;
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
@@ -55,20 +59,48 @@ export const groqAgent: AgentFunction<
   if (verbose) {
     console.log(messages);
   }
-  const options: any = {
+  const streamOption: ChatCompletionCreateParamsStreaming  = {
+    messages,
+    model: params.model,
+    temperature: temperature ?? 0.7,
+    stream: true,
+  };
+  const nonStreamOption: ChatCompletionCreateParamsNonStreaming = {
     messages,
     model: params.model,
     temperature: temperature ?? 0.7,
   };
+  
+  const options: ChatCompletionCreateParams = isStreaming ? streamOption : nonStreamOption;
   if (max_tokens) {
     options.max_tokens = max_tokens;
   }
   if (tools) {
     options.tools = tools;
-    options.tool_choice = tool_choice ?? "auto";
+    options.tool_choice = tool_choice ?? ("auto" as Groq.Chat.CompletionCreateParams.ToolChoice);
   }
-  const result = await groq.chat.completions.create(options);
-  return result;
+  if (!options.stream) {
+    const result = await groq.chat.completions.create(options);
+    return result;
+  }
+  // streaming
+  const stream = await groq.chat.completions.create(options);
+  let lastMessage = null;
+  const contents = [];
+  for await (const message of stream) {
+    const token = message.choices[0].delta.content;
+    if (token) {
+      if (filterParams && filterParams.streamTokenCallback) {
+        filterParams.streamTokenCallback(token);
+      }
+      contents.push(token);
+    }
+    lastMessage = message as any;
+  }
+  if (lastMessage) {
+    lastMessage.choices[0]["message"] = [{ role: "assistant", content: contents.join("") }];
+  }
+  return lastMessage;
 };
 
 const groqAgentInfo = {
