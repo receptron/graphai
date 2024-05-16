@@ -1,6 +1,5 @@
-import Anthropic from '@anthropic-ai/sdk';
+import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction } from "@/index";
-import { sleep } from "@/utils/utils";
 
 export const anthropicAgent: AgentFunction<
   {
@@ -30,7 +29,7 @@ export const anthropicAgent: AgentFunction<
   }
 
   const anthropic = new Anthropic({
-    apiKey: process.env['ANTHROPIC_API_KEY'], // This is the default and can be omitted
+    apiKey: process.env["ANTHROPIC_API_KEY"], // This is the default and can be omitted
   });
 
   return await anthropic.messages.create({
