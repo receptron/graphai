@@ -2,10 +2,10 @@ import { AgentFunction } from "@/index";
 import input from "@inquirer/input";
 
 export const textInputAgent: AgentFunction<{ message?: string }, string | { [x: string]: string }> = async ({
-    params,
-  }) => {
-    return await input({ message: params.message ?? "Enter" });
-  };
+  params,
+}) => {
+  return await input({ message: params.message ?? "Enter" });
+};
 
 const textInputAgentInfo = {
   name: "textInputAgent",
