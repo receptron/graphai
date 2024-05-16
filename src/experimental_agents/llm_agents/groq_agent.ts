@@ -1,6 +1,7 @@
 import { AgentFunction } from "@/index";
 import { Groq } from "groq-sdk";
-import { ChatCompletionCreateParams } from "groq-sdk/resources/chat/completions";
+import { ChatCompletionCreateParams, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
+
 import { assert } from "@/utils/utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
@@ -58,18 +59,19 @@ export const groqAgent: AgentFunction<
   if (verbose) {
     console.log(messages);
   }
-  const options: ChatCompletionCreateParams = isStreaming
-    ? {
-        messages,
-        model: params.model,
-        temperature: temperature ?? 0.7,
-        stream: true,
-      }
-    : {
-        messages,
-        model: params.model,
-        temperature: temperature ?? 0.7,
-      };
+  const streamOption: ChatCompletionCreateParamsStreaming  = {
+    messages,
+    model: params.model,
+    temperature: temperature ?? 0.7,
+    stream: true,
+  };
+  const nonStreamOption: ChatCompletionCreateParamsNonStreaming = {
+    messages,
+    model: params.model,
+    temperature: temperature ?? 0.7,
+  };
+  
+  const options: ChatCompletionCreateParams = isStreaming ? streamOption : nonStreamOption;
   if (max_tokens) {
     options.max_tokens = max_tokens;
   }
