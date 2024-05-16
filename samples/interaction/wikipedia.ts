@@ -1,17 +1,16 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import { interactiveInputTextAgent } from "../utils/agents/interactiveInputAgent";
-import { wikipediaAgent } from "@/experimental_agents";
+import { wikipediaAgent, textInputAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.3,
   nodes: {
     interactiveInputAgent: {
-      agent: "interactiveInputTextAgent",
+      agent: "textInputAgent",
     },
     wikipedia: {
-      inputs: [":interactiveInputAgent.answer"],
+      inputs: [":interactiveInputAgent"],
       agent: "wikipediaAgent",
       params: {
         lang: "ja",
@@ -21,7 +20,7 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { interactiveInputTextAgent, wikipediaAgent });
+  const result = await graphDataTestRunner("sample_wiki.log", graph_data, { textInputAgent, wikipediaAgent });
   console.log(result.wikipedia);
   console.log("COMPLETE 1");
 };
