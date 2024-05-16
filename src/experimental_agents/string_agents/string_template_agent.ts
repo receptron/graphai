@@ -1,22 +1,17 @@
 import { AgentFunction } from "@/index";
 
-const foo: any = (template: any, match: string, input: string) => {
-  console.log("---", template, match, input);
+const processTemplate: any = (template: any, match: string, input: string) => {
   if (typeof template === "string") {
     return template.replace(match, input);
   } else if (Array.isArray(template)) {
-    return template.map((item: any) => foo(item, match, input));
+    return template.map((item: any) => processTemplate(item, match, input));
   }
   return Object.keys(template).reduce((tmp:any, key:any) => {
-    console.log("***", template, key);
-    const result = foo(template[key], match, input);
-    console.log("**-", result, tmp, key);
-    tmp[key] = result;
+    tmp[key] = processTemplate(template[key], match, input);
     return tmp;
   }, {});
 }
-// see example
-//  tests/agents/test_string_agent.ts
+
 export const stringTemplateAgent: AgentFunction<
   {
     template: any;
@@ -25,10 +20,7 @@ export const stringTemplateAgent: AgentFunction<
   string
 > = async ({ params, inputs }) => {
   return inputs.reduce((template, input, index) => {
-    console.log("~~~", index, input);
-    const result = foo(template, "${" + index + "}", input);
-    console.log("~~+", result);
-    return result;
+    return processTemplate(template, "${" + index + "}", input);
   }, params.template);
 };
 
