@@ -1,24 +1,30 @@
 import { AgentFunction } from "@/index";
 
-// see example
-//  tests/agents/test_string_agent.ts
+const processTemplate: any = (template: any, match: string, input: string) => {
+  if (typeof template === "string") {
+    return template.replace(match, input);
+  } else if (Array.isArray(template)) {
+    return template.map((item: any) => processTemplate(item, match, input));
+  }
+  return Object.keys(template).reduce((tmp:any, key:any) => {
+    tmp[key] = processTemplate(template[key], match, input);
+    return tmp;
+  }, {});
+};
+
 export const stringTemplateAgent: AgentFunction<
   {
-    template: string;
+    template: any;
   },
-  string,
+  any,
   string
 > = async ({ params, inputs }) => {
-  const content = inputs.reduce((template, input, index) => {
-    return template.replace("${" + index + "}", input);
+  return inputs.reduce((template, input, index) => {
+    return processTemplate(template, "${" + index + "}", input);
   }, params.template);
-
-  return content;
 };
 
 const sampleInput = ["hello", "test"];
-const sampleParams = { template: "${0}: ${1}" };
-const sampleResult = "hello: test";
 
 // for test and document
 const stringTemplateAgentInfo = {
@@ -28,8 +34,28 @@ const stringTemplateAgentInfo = {
   samples: [
     {
       inputs: sampleInput,
-      params: sampleParams,
-      result: sampleResult,
+      params: { template: "${0}: ${1}" },
+      result: "hello: test",
+    },
+    {
+      inputs: sampleInput,
+      params: { template: ["${0}: ${1}", "${1}: ${0}"] },
+      result: ["hello: test", "test: hello"],
+    },
+    {
+      inputs: sampleInput,
+      params: { template: { apple: "${0}", lemon: "${1}" } },
+      result: { apple: "hello", lemon: "test" },
+    },
+    {
+      inputs: sampleInput,
+      params: { template: [{ apple: "${0}", lemon: "${1}" }] },
+      result: [{ apple: "hello", lemon: "test" }],
+    },
+    {
+      inputs: sampleInput,
+      params: { template: { apple: "${0}", lemon: ["${1}"] } },
+      result: { apple: "hello", lemon: ["test"] },
     },
   ],
   description: "Template agent",

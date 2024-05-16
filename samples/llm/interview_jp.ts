@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent, openAIAgent, propertyFilterAgent } from "@/experimental_agents";
+import { groqAgent, shiftAgent, nestedAgent, openAIAgent, stringTemplateAgent, propertyFilterAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const system_interviewer =
@@ -12,19 +12,21 @@ const graph_data = {
     name: {
       agent: () => input({ message: "インタビューしたい人の名前を入力してください:" }),
     },
-
     context: {
-      agent: (name: string) => ({
-        person0: {
-          name: "司会",
-          system: system_interviewer,
-        },
-        person1: {
-          name: `${name}`,
-          system: `You are ${name}.`,
-          greeting: `Hi, I'm ${name}`,
-        },
-      }),
+      agent: "stringTemplateAgent",
+      params: {
+        template: {
+          person0: {
+            name: "Interviewer",
+            system: system_interviewer,
+          },
+          person1: {
+            name: "${0}",
+            system: "You are ${0}.",
+            greeting: "Hi, I'm ${0}",
+          },
+        }
+      },
       inputs: [":name"],
     },
     messages: {
@@ -86,8 +88,13 @@ const graph_data = {
           },
           output: {
             // This node displays the responce to the user.
-            agent: (answer: string, name: string) =>
-              console.log(`\x1b[31m${name}:\x1b[0m ${answer}\n`),
+            agent: "stringTemplateAgent",
+            params: {
+              template: "\x1b[32m${1}:\x1b[0m ${0}\n"
+            },
+            console: {
+              after: true,
+            },
             inputs: [":translate.choices.$0.message.content", ":context.person1.name"],
           },
           reducer: {
@@ -136,8 +143,13 @@ const graph_data = {
     },
     output: {
       // This node displays the responce to the user.
-      agent: (answer: string, name: string) =>
-        console.log(`\x1b[31m${name}:\x1b[0m ${answer}\n`),
+      agent: "stringTemplateAgent",
+      params: {
+        template: "\x1b[32m${1}:\x1b[0m ${0}\n"
+      },
+      console: {
+        after: true,
+      },
       inputs: [":translate.choices.$0.message.content", ":chat.swappedContext.person1.name"],
     },
   },
@@ -153,6 +165,7 @@ export const main = async () => {
       nestedAgent,
       openAIAgent,
       propertyFilterAgent,
+      stringTemplateAgent,
     },
     () => {},
     false,
