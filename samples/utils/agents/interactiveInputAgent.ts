@@ -24,13 +24,3 @@ export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; is
   return { [resultKey ?? "answer"]: answer };
 };
 
-export const interactiveInputTextAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
-  params,
-}) => {
-  const { resultKey, isReturnString } = params;
-  const answer = await input({ message: "Enter message" });
-  if (isReturnString) {
-    return answer;
-  }
-  return { [resultKey ?? "answer"]: answer };
-};
