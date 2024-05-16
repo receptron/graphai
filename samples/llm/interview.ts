@@ -9,7 +9,7 @@ const graph_data = {
   version: 0.3,
   nodes: {
     name: {
-      agent: "textInputAgent2",
+      agent: "textInputAgent",
       params: {
         message: "Name of a famous person you want to interview:",
       },
