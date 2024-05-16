@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent, openAIAgent, stringTemplateAgent, propertyFilterAgent } from "@/experimental_agents";
-import input from "@inquirer/input";
+import { groqAgent, shiftAgent, nestedAgent, openAIAgent, stringTemplateAgent, propertyFilterAgent, textInputAgent } from "@/experimental_agents";
 
 const system_interviewer =
   "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
@@ -10,7 +9,10 @@ const graph_data = {
   version: 0.3,
   nodes: {
     name: {
-      agent: () => input({ message: "インタビューしたい人の名前を入力してください:" }),
+      agent: "textInputAgent",
+      params: {
+        message: "インタビューしたい人の名前を入力してください:",
+      },
     },
     context: {
       agent: "stringTemplateAgent",
@@ -166,6 +168,7 @@ export const main = async () => {
       openAIAgent,
       propertyFilterAgent,
       stringTemplateAgent,
+      textInputAgent,
     },
     () => {},
     false,

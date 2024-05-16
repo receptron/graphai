@@ -9,6 +9,7 @@ export * from "./data_agents";
 export * from "./sleeper_agents";
 export * from "./llm_agents";
 export * from "./service_agents";
+export * from "./input_agents";
 
 //  TODO sub folder
 import functionAgent from "./function_agent";
