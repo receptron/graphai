@@ -1,15 +1,17 @@
 import { AgentFunction } from "../../index";
+type StringTemplate = string | Record<string, string>;
+type StringTemplateObject = StringTemplate | StringTemplate[] | Record<string, StringTemplate>;
 export declare const stringTemplateAgent: AgentFunction<{
-    template: any;
-}, any, string>;
+    template: StringTemplateObject;
+}, StringTemplateObject, string>;
 declare const stringTemplateAgentInfo: {
     name: string;
     agent: AgentFunction<{
-        template: any;
-    }, any, string>;
+        template: StringTemplateObject;
+    }, StringTemplateObject, string>;
     mock: AgentFunction<{
-        template: any;
-    }, any, string>;
+        template: StringTemplateObject;
+    }, StringTemplateObject, string>;
     samples: ({
         inputs: string[];
         params: {

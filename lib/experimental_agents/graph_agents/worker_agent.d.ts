@@ -1,9 +1,15 @@
 import { AgentFunction } from "../../index";
-export declare const workerAgent: AgentFunction<{}, any, any>;
+export declare const workerAgent: AgentFunction<{
+    namedInputs?: Array<string>;
+}, any, any>;
 declare const workerAgentInfo: {
     name: string;
-    agent: AgentFunction<{}, any, any>;
-    mock: AgentFunction<{}, any, any>;
+    agent: AgentFunction<{
+        namedInputs?: string[] | undefined;
+    }, any, any>;
+    mock: AgentFunction<{
+        namedInputs?: string[] | undefined;
+    }, any, any>;
     samples: {
         inputs: string[];
         params: {};
@@ -11,6 +17,7 @@ declare const workerAgentInfo: {
             message: string;
         };
         graph: {
+            version: number;
             nodes: {
                 source: {
                     value: string;

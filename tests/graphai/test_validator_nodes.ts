@@ -41,7 +41,7 @@ test("test validation invalid agent", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Invalid Agent : NonExistAgent is not in callbackDictonary.");
+  await rejectTest(graph_data, "Invalid Agent : NonExistAgent is not in AgentFunctionInfoDictonary.");
 });
 
 test("test validation invalid agent", async () => {
