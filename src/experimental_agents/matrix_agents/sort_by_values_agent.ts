@@ -57,7 +57,7 @@ const sortByValuesAgentInfo = {
     },
   ],
   description: "sortByValues Agent",
-  category: [],
+  category: ["matrix"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

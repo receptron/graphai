@@ -51,7 +51,7 @@ const bypassAgentInfo: AgentFunctionInfo = {
     },
   ],
   description: "bypass agent",
-  category: [],
+  category: ["test"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

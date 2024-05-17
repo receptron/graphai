@@ -30,7 +30,7 @@ const shiftAgentInfo = {
     },
   ],
   description: "shift Agent",
-  category: [],
+  category: ["array"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

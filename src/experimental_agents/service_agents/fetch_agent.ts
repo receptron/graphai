@@ -93,7 +93,7 @@ const fetchAgentInfo = {
     },
   ],
   description: "Retrieves JSON data from the specified URL",
-  category: ["data"],
+  category: ["service"],
   author: "Receptron",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

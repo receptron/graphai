@@ -26,7 +26,7 @@ const wikipediaAgentInfo = {
   agent: wikipediaAgent,
   mock: wikipediaAgent,
   description: "Retrieves data from wikipedia",
-  category: ["data"],
+  category: ["service"],
   samples: [],
   author: "Receptron",
   repository: "https://github.com/receptron/graphai",

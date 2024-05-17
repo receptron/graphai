@@ -21,7 +21,7 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   mock: streamMockAgent,
   samples: [],
   description: "Stream mock agent",
-  category: [],
+  category: ["test"],
   author: "Isamu Arimoto",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
