@@ -14,14 +14,13 @@ export const workerAgent: AgentFunction<
   any
 > = async ({ inputs, agents, log, graphData }) => {
   return new Promise((resolve, reject) => {
-    const myWorker = new Worker("./lib/experimental_agents/graph_agents/worker_agent.js");
-    myWorker.on("message", resolve);
-    myWorker.on('error', reject);
-    myWorker.on('exit', (code) => {
+    const worker = new Worker("./lib/experimental_agents/graph_agents/worker_agent.js");
+    worker.on("message", resolve);
+    worker.on('error', reject);
+    worker.on('exit', (code) => {
       if (code !== 0)
         reject(new Error(`Worker stopped with exit code ${code}`));
     });
-    // myWorker.postMessage(["hello"]);
   });
 };
 
