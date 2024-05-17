@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent, stringTemplateAgent, wikipediaAgent, jsonParserAgent } from "@/experimental_agents";
-import input from "@inquirer/input";
+import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent, stringTemplateAgent, textInputAgent, wikipediaAgent, jsonParserAgent } from "@/experimental_agents";
 
 const tools_translated = [
   {
@@ -59,12 +58,18 @@ const language_detection_graph = {
       inputs: [":parser.language", ":parser.englishTranslation"],
     },
     result: {
-      agent: (data: Record<string, any>) => ({
-        isEnglish: data.language === "English",
-        isNonEnglish: data.language !== "English",
-        ...data,
-      }),
-      inputs: [":extractor"],
+      agent: "propertyFilterAgent",
+      params: {
+        inspect: [{
+          propId: "isEnglish",
+          equal: "English",
+          // from: 1, // implied
+        },{
+          propId: "isNonEnglish",
+          notEqual: "English",
+        }]
+      },
+      inputs: [":extractor", ":extractor.language"],
       isResult: true,
     },
   },
@@ -142,7 +147,10 @@ const graph_data = {
   version: 0.3,
   nodes: {
     topic: {
-      agent: () => input({ message: "Type the topic you want to research:" }),
+      agent: "textInputAgent",
+      params: {
+        message: "Type the topic you want to research:",
+      },
     },
     detector: {
       agent: "nestedAgent",
@@ -177,6 +185,7 @@ export const main = async () => {
       nestedAgent,
       copyAgent,
       openAIAgent,
+      textInputAgent,
       propertyFilterAgent,
       wikipediaAgent,
       jsonParserAgent,
