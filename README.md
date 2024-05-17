@@ -6,7 +6,7 @@ GraphAI is an asynchronous data flow execution engine, which allows developers t
 
 As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.deeplearning.ai/the-batch/issue-242/)", better results can often be achieved by making multiple calls to a Large Language Model (LLM) and allowing it to incrementally build towards a higher-quality output. Dr. Ng refers to this approach as 'agentic workflows.' 
 
-Such *agentic applications* need to make multiple asynchronous API calls (such as OpenAI's chat-completion API, database query, web search, and etc.) and manage data dependencies among them, such as giving the answer from one LLM call to another -- which will become quite difficult to manage in a traditional programing style as the complexity of the application increases, because of the asynchronous nature of those APIs.
+Such *agentic applications* require making multiple asynchronous API calls (e.g., OpenAI's chat-completion API, database queries, web searches) and managing data dependencies among them. As the complexity of the application increases, managing these dependencies in a traditional programming style becomes challenging due to the asynchronous nature of the APIs.
 
 GraphAI allows developers to describe dependencies among those agents (asynchronous API calls) in a data flow graph in YAML or JSON, which is called *declarative data flow programming* . The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, task priority management, map-reduce processing, error handling, retries and logging. 
 
@@ -68,9 +68,9 @@ flowchart TD
  chunkEmbeddings --> similarities(similarities)
  topicEmbedding --> similarities
  similarities --> sortedChunks(sortedChunks)
- sortedChunks --> resourceText(resourceText)
+ sortedChunks --> referenceText(resourceText)
  source -- query --> prompt(prompt)
- resourceText --> prompt
+ referenceText --> prompt
  prompt --> query(query)
 ```
 
