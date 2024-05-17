@@ -2,18 +2,18 @@ import { AgentFunction } from "@/index";
 
 export const jsonParserAgent: AgentFunction<
   {
-    stringify: boolean
+    stringify: boolean;
   },
   any,
   any
 > = async ({ params, inputs }) => {
   if (params.stringify) {
     return JSON.stringify(inputs[0], null, 2);
-  }  
+  }
   return JSON.parse(inputs[0]);
 };
 
-const sample_object = { apple:"red", lemon: "yellow" };
+const sample_object = { apple: "red", lemon: "yellow" };
 // for test and document
 const jsonParserAgentInfo = {
   name: "jsonParserAgent",
