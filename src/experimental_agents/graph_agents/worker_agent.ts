@@ -9,7 +9,7 @@ export const workerAgent: AgentFunction<
   any,
   any
 > = async ({ inputs, agents, log, graphData }) => {
-  const worker = new Worker("./worker.js");
+  const worker = new Worker("./lib/experimental_agents/graph_agents/worker.js");
   worker.postMessage(["hello"]);
   console.log("sleeping...");
   await sleep(5000);
