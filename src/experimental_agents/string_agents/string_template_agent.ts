@@ -23,7 +23,7 @@ export const stringTemplateAgent: AgentFunction<
   string
 > = async ({ params, inputs }) => {
   if (params.template === undefined) {
-    console.log("warning: stringTemplateAgent no template")
+    console.warn("warning: stringTemplateAgent no template");
   }
   return inputs.reduce((template, input, index) => {
     return processTemplate(template, "${" + index + "}", input);
