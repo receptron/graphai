@@ -1,5 +1,4 @@
 import { AgentFunction } from "@/index";
-import { assert } from "console";
 
 const applyFilter = (
   input: any,

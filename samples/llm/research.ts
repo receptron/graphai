@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent, stringTemplateAgent, textInputAgent, wikipediaAgent, jsonParserAgent } from "@/experimental_agents";
-import input from "@inquirer/input";
 
 const tools_translated = [
   {
