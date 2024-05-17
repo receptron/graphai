@@ -8,7 +8,6 @@ export * from "./sleeper_agents";
 export * from "./llm_agents";
 export * from "./service_agents";
 export * from "./input_agents";
-import functionAgent from "./function_agent";
 import stringEmbeddingsAgent from "./embedding_agent";
 import tokenBoundStringsAgent from "./token_agent";
-export { functionAgent, stringEmbeddingsAgent, tokenBoundStringsAgent };
+export { stringEmbeddingsAgent, tokenBoundStringsAgent };
