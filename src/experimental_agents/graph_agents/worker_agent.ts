@@ -1,11 +1,39 @@
 import { GraphAI, AgentFunction } from "@/index";
 import { Worker, isMainThread, parentPort } from "worker_threads";
-import { totalAgent, dataSumTemplateAgent, propertyFilterAgent, copyAgent, pushAgent, popAgent, shiftAgent, nestedAgent, mapAgent, dotProductAgent, sortByValuesAgent, stringSplitterAgent, stringTemplateAgent, jsonParserAgent } from "@/experimental_agents";
+import {
+  totalAgent,
+  dataSumTemplateAgent,
+  propertyFilterAgent,
+  copyAgent,
+  pushAgent,
+  popAgent,
+  shiftAgent,
+  nestedAgent,
+  mapAgent,
+  dotProductAgent,
+  sortByValuesAgent,
+  stringSplitterAgent,
+  stringTemplateAgent,
+  jsonParserAgent,
+} from "@/experimental_agents";
 import { assert } from "@/utils/utils";
 import { StaticNodeData } from "@/type";
 
 const vanillaAgents = {
-  totalAgent, dataSumTemplateAgent, propertyFilterAgent, copyAgent, pushAgent, popAgent, shiftAgent, nestedAgent, mapAgent, dotProductAgent, sortByValuesAgent, stringSplitterAgent, stringTemplateAgent, jsonParserAgent
+  totalAgent,
+  dataSumTemplateAgent,
+  propertyFilterAgent,
+  copyAgent,
+  pushAgent,
+  popAgent,
+  shiftAgent,
+  nestedAgent,
+  mapAgent,
+  dotProductAgent,
+  sortByValuesAgent,
+  stringSplitterAgent,
+  stringTemplateAgent,
+  jsonParserAgent,
 };
 
 if (!isMainThread && parentPort) {
