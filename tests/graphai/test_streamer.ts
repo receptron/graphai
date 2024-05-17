@@ -1,6 +1,6 @@
 import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
-import { functionAgent, copyAgent } from "@/experimental_agents";
+import { copyAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -62,6 +62,6 @@ const graphdata_any = {
 };
 
 test("test streamer object", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_any, { functionAgent, copyAgent, ...defaultTestAgents }, () => {}, false);
+  const result = await graphDataTestRunner(__filename, graphdata_any, { copyAgent, ...defaultTestAgents }, () => {}, false);
   assert.deepStrictEqual(result, { destination: theMessage });
 });
