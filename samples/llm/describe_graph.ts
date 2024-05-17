@@ -11,7 +11,7 @@ const document = fs.readFileSync(filePath, "utf8");
 const graph_data_explain = {
   version: 0.3,
   nodes: {
-    reviewer: {
+    describer: {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
@@ -20,9 +20,9 @@ const graph_data_explain = {
       },
       inputs: [JSON.stringify(graph_data, null, 2)],
     },
-    review: {
+    description: {
       agent: "copyAgent",
-      inputs: [":reviewer.choices.$0.message.content"],
+      inputs: [":describer.choices.$0.message.content"],
       isResult: true,
     },
   },
@@ -30,7 +30,7 @@ const graph_data_explain = {
 
 export const main = async () => {
   const result = await graphDataTestRunner(__filename, graph_data_explain, { openAIAgent, copyAgent });
-  console.log(result.review);
+  console.log(result.description);
 };
 
 if (process.argv[1] === __filename) {
