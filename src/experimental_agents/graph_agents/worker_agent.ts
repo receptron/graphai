@@ -6,7 +6,8 @@ import { Worker, isMainThread, parentPort } from "worker_threads";
 if (!isMainThread && parentPort) {
   const port = parentPort;
   port.on("message", (data)=> {
-    port.postMessage(data);
+    const { graphData, agents } = data;
+    port.postMessage({ message: "foo" });
   });
 }
 
@@ -16,7 +17,8 @@ export const workerAgent: AgentFunction<
   any,
   any
 > = async ({ inputs, agents, log, graphData }) => {
-  console.log("***", graphData);
+  const nestedGraphData = getNestedGraphData(graphData, inputs);
+
   return new Promise((resolve, reject) => {
     const worker = new Worker("./lib/experimental_agents/graph_agents/worker_agent.js");
     worker.on("message", resolve);
@@ -25,7 +27,7 @@ export const workerAgent: AgentFunction<
       if (code !== 0)
         reject(new Error(`Worker stopped with exit code ${code}`));
     });
-    worker.postMessage({ message: "Hello World"});
+    worker.postMessage({ graphData: nestedGraphData, agents });
   });
 };
 

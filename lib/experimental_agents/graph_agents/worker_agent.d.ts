@@ -10,6 +10,18 @@ declare const workerAgentInfo: {
         result: {
             message: string;
         };
+        graph: {
+            nodes: {
+                source: {
+                    value: string;
+                };
+                message: {
+                    agent: string;
+                    inputs: string[];
+                    isResult: boolean;
+                };
+            };
+        };
     }[];
     description: string;
     category: string[];

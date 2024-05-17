@@ -88,6 +88,7 @@ export type AgentFunctionInfo = {
         inputs: any;
         params: DefaultParamsType;
         result: any;
+        graph?: GraphData;
     }[];
     skipTest?: boolean;
     description: string;
