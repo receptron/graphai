@@ -15,8 +15,10 @@ const graph_data_explain = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system: "You an expert in GraphAI programming. You are responsible in reading the graph data an explain how it works.\n"+
-                "Here is the documation of GraphAI.\n" + document,
+        system:
+          "You an expert in GraphAI programming. You are responsible in reading the graph data an explain how it works.\n" +
+          "Here is the documation of GraphAI.\n" +
+          document,
       },
       inputs: [JSON.stringify(graph_data, null, 2)],
     },
