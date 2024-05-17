@@ -14,7 +14,7 @@ const graph_data = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system: "You are a professional software engineer, and writer. You are responsible in reviewing a given document and give some feedbacks."
+        system: "You are a professional software engineer, and writer. You are responsible in reviewing a given document and give some feedbacks.",
       },
       inputs: ["Here is the document.\n" + document],
     },
@@ -27,7 +27,8 @@ const graph_data = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system: "You are a professional software evangelist. Read the document, and come up with 200 word phrases, which will explain the benefit of GraphUI, emphasizing the benefit of declarative data-flow programming and concurrent processing."
+        system:
+          "You are a professional software evangelist. Read the document, and come up with 200 word phrases, which will explain the benefit of GraphUI, emphasizing the benefit of declarative data-flow programming and concurrent processing.",
       },
       inputs: ["Here is the document.\n" + document],
     },
