@@ -5,8 +5,8 @@ import { assert } from "@/utils/utils";
 import { StaticNodeData } from "@/type";
 
 const vanillaAgents = {
-   totalAgent, dataSumTemplateAgent, propertyFilterAgent, copyAgent, pushAgent, popAgent, shiftAgent, nestedAgent, mapAgent, dotProductAgent, sortByValuesAgent, stringSplitterAgent, stringTemplateAgent, jsonParserAgent
-}
+  totalAgent, dataSumTemplateAgent, propertyFilterAgent, copyAgent, pushAgent, popAgent, shiftAgent, nestedAgent, mapAgent, dotProductAgent, sortByValuesAgent, stringSplitterAgent, stringTemplateAgent, jsonParserAgent
+};
 
 if (!isMainThread && parentPort) {
   const port = parentPort;
