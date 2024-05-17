@@ -58,12 +58,33 @@ const language_detection_graph = {
       },
       inputs: [":parser.language", ":parser.englishTranslation"],
     },
+    result2: {
+      agent: "propertyFilterAgent",
+      params: {
+        inspect: [{
+          propId: "isEnglish",
+          equal: "English",
+          // from: 1, // implied
+        },{
+          propId: "isNotEnglish",
+          notEqual: "English",
+        }]
+      },
+      console: {
+        after: true
+      },
+      inputs: [":extractor", ":extractor.language"],
+      isResult: true,
+    },
     result: {
       agent: (data: Record<string, any>) => ({
         isEnglish: data.language === "English",
         isNonEnglish: data.language !== "English",
         ...data,
       }),
+      console: {
+        after: true
+      },
       inputs: [":extractor"],
       isResult: true,
     },
