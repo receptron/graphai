@@ -12,8 +12,7 @@ export * from "./service_agents";
 export * from "./input_agents";
 
 //  TODO sub folder
-import functionAgent from "./function_agent";
 import stringEmbeddingsAgent from "./embedding_agent";
 import tokenBoundStringsAgent from "./token_agent";
 
-export { functionAgent, stringEmbeddingsAgent, tokenBoundStringsAgent };
+export { stringEmbeddingsAgent, tokenBoundStringsAgent };
