@@ -39,9 +39,9 @@ const workerAgentInfo = {
   agent: workerAgent,
   mock: workerAgent,
   samples: [{
-    inputs: ["foo"],
+    inputs: [],
     params: {},
-    result: { message: "May the force be with you"},
+    result: { message: "May the force be with you" },
     graph: {
       nodes: {
         source: {
