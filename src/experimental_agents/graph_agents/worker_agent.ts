@@ -4,10 +4,9 @@ import { copyAgent } from "@/experimental_agents";
 import { assert } from "@/utils/utils";
 import { StaticNodeData } from "@/type";
 
-
 if (!isMainThread && parentPort) {
   const port = parentPort;
-  port.on("message", async (data)=> {
+  port.on("message", async (data) => {
     const { graphData } = data;
     const graphAI = new GraphAI(graphData, { copyAgent });
     const result = await graphAI.run();
@@ -37,8 +36,7 @@ export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, an
     });
     worker.on("error", reject);
     worker.on("exit", (code) => {
-      if (code !== 0)
-        reject(new Error(`Worker stopped with exit code ${code}`));
+      if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`));
     });
     // copyAgent is required for test case
     worker.postMessage({ graphData });
@@ -49,41 +47,44 @@ const workerAgentInfo = {
   name: "workerAgent",
   agent: workerAgent,
   mock: workerAgent,
-  samples: [{
-    inputs: [],
-    params: {},
-    result: { message: "May the force be with you" },
-    graph: {
-      version: 0.3,
-      nodes: {
-        source: {
-          value: "May the force be with you"
+  samples: [
+    {
+      inputs: [],
+      params: {},
+      result: { message: "May the force be with you" },
+      graph: {
+        version: 0.3,
+        nodes: {
+          source: {
+            value: "May the force be with you",
+          },
+          message: {
+            agent: "copyAgent",
+            inputs: [":source"],
+            isResult: true,
+          },
         },
-        message: {
-          agent: "copyAgent",
-          inputs: [":source"],
-          isResult: true
-        }
-      }
-    }
-  },{
-    inputs: ["May the force be with you"],
-    params: {},
-    result: { message: "May the force be with you" },
-    graph: {
-      version: 0.3,
-      nodes: {
-        source: {
-          value: "TypeScript compiler fails without this node for some reason."
+      },
+    },
+    {
+      inputs: ["May the force be with you"],
+      params: {},
+      result: { message: "May the force be with you" },
+      graph: {
+        version: 0.3,
+        nodes: {
+          source: {
+            value: "TypeScript compiler fails without this node for some reason.",
+          },
+          message: {
+            agent: "copyAgent",
+            inputs: [":$0"],
+            isResult: true,
+          },
         },
-        message: {
-          agent: "copyAgent",
-          inputs: [":$0"],
-          isResult: true
-        }
-      }
-    }
-  }],
+      },
+    },
+  ],
   description: "Map Agent",
   category: ["graph"],
   author: "Receptron team",
