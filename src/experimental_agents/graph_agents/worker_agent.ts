@@ -1,24 +1,7 @@
 import { GraphAI, AgentFunction } from "@/index";
-import { assert } from "@/utils/utils";
+import { sleep } from "@/utils/utils";
 import { getNestedGraphData } from "./nested_agent";
 import { Worker } from "worker_threads";
-
-const workerFunction = () => {
-  //we perform every operation we want in this function right here
-  self.onmessage = (event: MessageEvent) => {
-    console.log(event.data);
-    postMessage('Message has been gotten!');
-  };
-};
-const workerCode = workerFunction.toString();
-const index = workerCode.indexOf('{');
-const codeBlock = workerCode.slice(index);
-let blob = new Blob([codeBlock], { type: 'application/javascript' });
-let worker_script = URL.createObjectURL(blob);
-console.log(worker_script);
-
-//assert(!!match, "foo");
-//console.log(match[1]);
 
 export const workerAgent: AgentFunction<
   {
@@ -27,9 +10,11 @@ export const workerAgent: AgentFunction<
   any
 > = async ({ inputs, agents, log, graphData }) => {
   const worker = new Worker("./worker.js");
-  console.log(worker);
-  
-
+  worker.postMessage(["hello"]);
+  console.log("sleeping...");
+  await sleep(5000);
+  console.log("terminating...");
+  worker.terminate();  
   return { message: "Hello World" };
 };
 
