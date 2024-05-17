@@ -31,7 +31,10 @@ export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, an
 
   return new Promise((resolve, reject) => {
     const worker = new Worker("./lib/experimental_agents/graph_agents/worker_agent.js");
-    worker.on("message", resolve);
+    worker.on("message", (result) => {
+      worker.terminate();
+      resolve(result);
+    });
     worker.on("error", reject);
     worker.on("exit", (code) => {
       if (code !== 0)
