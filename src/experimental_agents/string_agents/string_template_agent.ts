@@ -6,7 +6,7 @@ const processTemplate: any = (template: any, match: string, input: string) => {
   } else if (Array.isArray(template)) {
     return template.map((item: any) => processTemplate(item, match, input));
   }
-  return Object.keys(template).reduce((tmp:any, key:any) => {
+  return Object.keys(template).reduce((tmp: any, key: any) => {
     tmp[key] = processTemplate(template[key], match, input);
     return tmp;
   }, {});

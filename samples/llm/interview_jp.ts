@@ -27,24 +27,27 @@ const graph_data = {
             system: "You are ${0}.",
             greeting: "Hi, I'm ${0}",
           },
-        }
+        },
       },
       inputs: [":name"],
     },
     messages: {
       agent: "propertyFilterAgent",
       params: {
-        inject: [{
-          index: 0,
-          propId: "content",
-          from: 1,
-        },{
-          index: 1,
-          propId: "content",
-          from: 2,
-        }],
+        inject: [
+          {
+            index: 0,
+            propId: "content",
+            from: 1,
+          },
+          {
+            index: 1,
+            propId: "content",
+            from: 2,
+          },
+        ],
       },
-      inputs: [[{ role:"system" }, { role:"user" }], ":context.person0.system", ":context.person1.greeting"],
+      inputs: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"],
     },
 
     chat: {
@@ -92,7 +95,7 @@ const graph_data = {
             // This node displays the responce to the user.
             agent: "stringTemplateAgent",
             params: {
-              template: "\x1b[32m${1}:\x1b[0m ${0}\n"
+              template: "\x1b[32m${1}:\x1b[0m ${0}\n",
             },
             console: {
               after: true,
@@ -117,16 +120,18 @@ const graph_data = {
           swappedMessages: {
             agent: "propertyFilterAgent",
             params: {
-              inject: [{
-                propId: "content",
-                index: 0,
-                from: 1,
-              }],
+              inject: [
+                {
+                  propId: "content",
+                  index: 0,
+                  from: 1,
+                },
+              ],
               alter: {
                 role: {
                   assistant: "user",
                   user: "assistant",
-                }
+                },
               },
             },
             inputs: [":reducer", ":swappedContext.person0.system"],
@@ -147,7 +152,7 @@ const graph_data = {
       // This node displays the responce to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32m${1}:\x1b[0m ${0}\n"
+        template: "\x1b[32m${1}:\x1b[0m ${0}\n",
       },
       console: {
         after: true,
@@ -158,7 +163,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = (await graphDataTestRunner<{messages: {role: string, content: string}[]}>(
+  const result = await graphDataTestRunner<{ messages: { role: string; content: string }[] }>(
     __filename,
     graph_data,
     {
@@ -172,7 +177,7 @@ export const main = async () => {
     },
     () => {},
     false,
-  ));
+  );
   if (result?.chat) {
     console.log("Complete", result.chat["messages"].length);
   }

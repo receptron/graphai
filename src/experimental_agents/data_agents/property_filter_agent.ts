@@ -29,7 +29,7 @@ const applyFilter = (
       if (item.index === undefined || item.index === index) {
         result[item.propId] = inputs[item.from];
       }
-    });   
+    });
   }
   if (swap) {
     Object.keys(swap).forEach((key) => {
@@ -100,7 +100,7 @@ const propertyFilterAgentInfo = {
     },
     {
       inputs: testInputs,
-      params: { inject: [ { propId: "maker", from: 1 } ] },
+      params: { inject: [{ propId: "maker", from: 1 }] },
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla Motors", range: 400 },
@@ -108,7 +108,7 @@ const propertyFilterAgentInfo = {
     },
     {
       inputs: testInputs,
-      params: { inject: [ { propId: "maker", from: 1, index: 0 } ] },
+      params: { inject: [{ propId: "maker", from: 1, index: 0 }] },
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla Motors", range: 300 },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },

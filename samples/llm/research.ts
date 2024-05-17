@@ -35,9 +35,10 @@ const language_detection_graph = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system: "You are responsible in identifying the language of the input and translate it into English. " +
-              "Call the 'translated' function with 'language' and 'englishTranslation'. " +
-              "If the input is already in English, call the 'translated' function with 'englishTranslate=the input text', and 'langage=English'." ,
+        system:
+          "You are responsible in identifying the language of the input and translate it into English. " +
+          "Call the 'translated' function with 'language' and 'englishTranslation'. " +
+          "If the input is already in English, call the 'translated' function with 'englishTranslate=the input text', and 'langage=English'.",
         tools: tools_translated,
         tool_choice: { type: "function", function: { name: "translated" } },
       },
@@ -50,13 +51,16 @@ const language_detection_graph = {
     extractor: {
       agent: "propertyFilterAgent",
       params: {
-        inject: [{
-          propId: "language",
-          from: 1,
-        },{
-          propId: "text",
-          from: 2,
-        }]
+        inject: [
+          {
+            propId: "language",
+            from: 1,
+          },
+          {
+            propId: "text",
+            from: 2,
+          },
+        ],
       },
       inputs: [{}, ":parser.language", ":parser.englishTranslation"],
     },
@@ -64,12 +68,12 @@ const language_detection_graph = {
       agent: (data: Record<string, any>) => ({
         isEnglish: data.language === "English",
         isNonEnglish: data.language !== "English",
-        ...data
+        ...data,
       }),
       inputs: [":extractor"],
-      isResult: true
+      isResult: true,
     },
-  }
+  },
 };
 
 const wikipedia_graph = {
@@ -91,16 +95,16 @@ const wikipedia_graph = {
       },
       params: {
         model: "gpt-4o",
-        system: "Summarize the text below in 200 words" ,
+        system: "Summarize the text below in 200 words",
       },
       inputs: [":wikipedia.content"],
     },
     result: {
       agent: "copyAgent",
       isResult: true,
-      inputs: [":summary.choices.$0.message.content"]
-    }
-  }
+      inputs: [":summary.choices.$0.message.content"],
+    },
+  },
 };
 
 const translator_graph = {
@@ -113,7 +117,7 @@ const translator_graph = {
     nonEnglish: {
       agent: "stringTemplateAgent",
       params: {
-        template: "Translate the text below into ${0}"
+        template: "Translate the text below into ${0}",
       },
       inputs: [":$1.language"],
       if: ":$1.isNonEnglish",
@@ -126,7 +130,7 @@ const translator_graph = {
       },
       params: {
         model: "gpt-4o",
-        system: ":nonEnglish" ,
+        system: ":nonEnglish",
       },
       inputs: [":$0"],
       isResult: true,
@@ -135,9 +139,9 @@ const translator_graph = {
       agent: "copyAgent",
       anyInput: true,
       inputs: [":english", ":translate.choices.$0.message.content"],
-      isResult: true
-    }
-  }
+      isResult: true,
+    },
+  },
 };
 
 const graph_data = {
@@ -163,10 +167,7 @@ const graph_data = {
     },
     translate: {
       agent: "nestedAgent",
-      inputs: [
-        ":wikipedia.result", 
-        ":detector.result", 
-      ],
+      inputs: [":wikipedia.result", ":detector.result"],
       isResult: true,
       graph: translator_graph,
     },

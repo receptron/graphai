@@ -12,4 +12,4 @@ export * from "./data_agents/vanilla";
 import functionAgent from "./function_agent";
 import stringEmbeddingsAgent from "./embedding_agent";
 
-export { functionAgent, stringEmbeddingsAgent }; 
+export { functionAgent, stringEmbeddingsAgent };

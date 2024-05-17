@@ -19,7 +19,7 @@ export const fileTestRunner = async (file: string, callbackDictonary: AgentFunct
   return await graphDataTestRunner(file, readGraphData(file), callbackDictonary, callback);
 };
 
-export const graphDataTestRunner = async <T=DefaultResultData>(
+export const graphDataTestRunner = async <T = DefaultResultData>(
   logFileName: string,
   graph_data: GraphData,
   callbackDictonary: AgentFunctionInfoDictonary,
@@ -53,14 +53,24 @@ export const graphDataTestRunner = async <T=DefaultResultData>(
   return results;
 };
 
-export const rejectFileTest = async (file: string, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, validationError: boolean = true) => {
+export const rejectFileTest = async (
+  file: string,
+  errorMessage: string,
+  callbackDictonary: AgentFunctionInfoDictonary = {},
+  validationError: boolean = true,
+) => {
   return await rejectTest(readGraphData(file), errorMessage, callbackDictonary, validationError);
 };
-export const rejectTest = async (graphdata: GraphData, errorMessage: string, callbackDictonary: AgentFunctionInfoDictonary = {}, validationError: boolean = true) => {
+export const rejectTest = async (
+  graphdata: GraphData,
+  errorMessage: string,
+  callbackDictonary: AgentFunctionInfoDictonary = {},
+  validationError: boolean = true,
+) => {
   await assert.rejects(
     async () => {
       await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...callbackDictonary });
     },
-    { name: "Error", message: validationError ? (new ValidationError(errorMessage)).message : errorMessage },
+    { name: "Error", message: validationError ? new ValidationError(errorMessage).message : errorMessage },
   );
 };

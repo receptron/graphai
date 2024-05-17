@@ -22,4 +22,3 @@ export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; is
   }
   return { [resultKey ?? "answer"]: answer };
 };
-

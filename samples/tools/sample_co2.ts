@@ -90,7 +90,10 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { slashGPTAgent, slashGPTFuncitons2TextAgent: agentInfoWrapper(slashGPTFuncitons2TextAgent) });
+  const result = await graphDataTestRunner(__filename, graph_data, {
+    slashGPTAgent,
+    slashGPTFuncitons2TextAgent: agentInfoWrapper(slashGPTFuncitons2TextAgent),
+  });
   console.log(JSON.stringify(result, null, "  "));
   console.log("COMPLETE 1");
 };

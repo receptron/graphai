@@ -59,7 +59,7 @@ export const groqAgent: AgentFunction<
   if (verbose) {
     console.log(messages);
   }
-  const streamOption: ChatCompletionCreateParamsStreaming  = {
+  const streamOption: ChatCompletionCreateParamsStreaming = {
     messages,
     model: params.model,
     temperature: temperature ?? 0.7,
@@ -70,7 +70,7 @@ export const groqAgent: AgentFunction<
     model: params.model,
     temperature: temperature ?? 0.7,
   };
-  
+
   const options: ChatCompletionCreateParams = isStreaming ? streamOption : nonStreamOption;
   if (max_tokens) {
     options.max_tokens = max_tokens;

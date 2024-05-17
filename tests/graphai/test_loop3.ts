@@ -108,7 +108,7 @@ const graphdata_nested_injection = {
       agent: "nestedAgent",
       inputs: [":source"],
       params: {
-        namedInputs: ["inner_source"]
+        namedInputs: ["inner_source"],
       },
       isResult: true,
       graph: {
