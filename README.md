@@ -68,9 +68,9 @@ flowchart TD
  chunkEmbeddings --> similarities(similarities)
  topicEmbedding --> similarities
  similarities --> sortedChunks(sortedChunks)
- sortedChunks --> resourceText(resourceText)
+ sortedChunks --> referenceText(resourceText)
  source -- query --> prompt(prompt)
- resourceText --> prompt
+ referenceText --> prompt
  prompt --> query(query)
 ```
 
