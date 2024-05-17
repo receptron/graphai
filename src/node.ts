@@ -335,7 +335,7 @@ export class ComputedNode extends Node {
   // the retry if specified.
   private errorProcess(error: unknown, transactionId: number) {
     if (error instanceof Error && error.message !== strIntentionalError) {
-      console.error(`<-- ${this.nodeId}, ${this.agentId}`);
+      console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
       console.error(error);
       console.error("-->");
     }
@@ -347,7 +347,7 @@ export class ComputedNode extends Node {
     if (error instanceof Error) {
       this.retry(NodeState.Failed, error);
     } else {
-      console.error(`-- ${this.nodeId}: Unknown error was caught`);
+      console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
       this.retry(NodeState.Failed, Error("Unknown"));
     }
   }

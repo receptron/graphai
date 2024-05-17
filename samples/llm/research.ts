@@ -1,6 +1,16 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, openAIAgent, nestedAgent, copyAgent, propertyFilterAgent, stringTemplateAgent, textInputAgent, wikipediaAgent, jsonParserAgent } from "@/experimental_agents";
+import {
+  groqAgent,
+  openAIAgent,
+  nestedAgent,
+  copyAgent,
+  propertyFilterAgent,
+  stringTemplateAgent,
+  textInputAgent,
+  wikipediaAgent,
+  jsonParserAgent,
+} from "@/experimental_agents";
 
 const tools_translated = [
   {
@@ -60,14 +70,17 @@ const language_detection_graph = {
     result: {
       agent: "propertyFilterAgent",
       params: {
-        inspect: [{
-          propId: "isEnglish",
-          equal: "English",
-          // from: 1, // implied
-        },{
-          propId: "isNonEnglish",
-          notEqual: "English",
-        }]
+        inspect: [
+          {
+            propId: "isEnglish",
+            equal: "English",
+            // from: 1, // implied
+          },
+          {
+            propId: "isNonEnglish",
+            notEqual: "English",
+          },
+        ],
       },
       inputs: [":extractor", ":extractor.language"],
       isResult: true,
