@@ -26,7 +26,7 @@ const mergeNodeIdAgentInfo: AgentFunctionInfo = {
     },
   ],
   description: "merge node id agent",
-  category: [],
+  category: ["test"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

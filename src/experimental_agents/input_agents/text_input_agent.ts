@@ -11,7 +11,7 @@ const textInputAgentInfo = {
   mock: textInputAgent,
   samples: [],
   description: "Text Input Agent",
-  category: ["array"],
+  category: ["input"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

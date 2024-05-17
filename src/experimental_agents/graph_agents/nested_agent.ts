@@ -52,7 +52,7 @@ const nestedAgentInfo = {
   mock: nestedAgent,
   samples: [],
   description: "nested Agent",
-  category: [],
+  category: ["graph"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

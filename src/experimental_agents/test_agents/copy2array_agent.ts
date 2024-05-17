@@ -31,7 +31,7 @@ const copy2ArrayAgentInfo: AgentFunctionInfo = {
     },
   ],
   description: "Copy2Array agent",
-  category: [],
+  category: ["test"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

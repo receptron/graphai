@@ -14,7 +14,7 @@ const echoAgentInfo: AgentFunctionInfo = {
   mock: echoAgent,
   samples: [],
   description: "Echo agent",
-  category: [],
+  category: ["test"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
