@@ -4,13 +4,13 @@ import { copyAgent, openAIAgent } from "@/experimental_agents";
 import * as path from "path";
 import * as fs from "fs";
 
-const filePath = path.join(__dirname, "../../README.md")
-const document = fs.readFileSync(filePath, 'utf-8');
+const filePath = path.join(__dirname, "../../README.md");
+const document = fs.readFileSync(filePath, "utf8");
 
 const graph_data = {
   version: 0.3,
   nodes: {
-    query: {
+    reviewer: {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
@@ -18,9 +18,22 @@ const graph_data = {
       },
       inputs: ["Here is the document.\n" + document],
     },
-    answer: {
+    review: {
       agent: "copyAgent",
-      inputs: [":query.choices.$0.message.content"],
+      inputs: [":reviewer.choices.$0.message.content"],
+      isResult: true,
+    },
+    evangelist: {
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        system: "You are a professional software evangelist. Read the document, and come up with 200 word phrases, which will explain the benefit of GraphUI, emphasizing the benefit of declarative data-flow programming and concurrent processing."
+      },
+      inputs: ["Here is the document.\n" + document],
+    },
+    statement: {
+      agent: "copyAgent",
+      inputs: [":evangelist.choices.$0.message.content"],
       isResult: true,
     },
   },
@@ -28,7 +41,10 @@ const graph_data = {
 
 export const main = async () => {
   const result = await graphDataTestRunner(__filename, graph_data, { openAIAgent, copyAgent });
-  console.log(result.answer);
+  console.log("[REVIEW]");
+  console.log(result.review);
+  console.log("[PROMOTIONAL STATEMENT]");
+  console.log(result.statement);
 };
 
 if (process.argv[1] === __filename) {
