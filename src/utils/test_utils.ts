@@ -27,12 +27,13 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
   } else {
     for await (const sampleKey of samples.keys()) {
       test(`test ${agentInfo.name} ${sampleKey}`, async () => {
-        const { params, inputs, result } = samples[sampleKey];
+        const { params, inputs, result, graph } = samples[sampleKey];
 
         const actual = await agent({
           ...defaultTestContext,
           params,
           inputs,
+          graphData: graph,
         });
         assert.deepStrictEqual(actual, result);
       });
