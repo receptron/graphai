@@ -9,13 +9,20 @@ export const workerAgent: AgentFunction<
   any,
   any
 > = async ({ inputs, agents, log, graphData }) => {
-  const worker = new Worker("./lib/experimental_agents/graph_agents/worker.js");
-  worker.postMessage(["hello"]);
-  console.log("sleeping...");
-  await sleep(5000);
-  console.log("terminating...");
-  worker.terminate();  
-  return { message: "Hello World" };
+  return new Promise((resolve, reject) => {
+    const myWorker = new Worker("./lib/experimental_agents/graph_agents/worker.js");
+    myWorker.on("message", () => {
+      console.log("***************");
+      // myWorker.terminate();  
+      resolve({ message: "Hello World" });
+    });
+    myWorker.on('error', reject);
+    myWorker.on('exit', (code) => {
+      if (code !== 0)
+        reject(new Error(`Worker stopped with exit code ${code}`));
+    });
+    myWorker.postMessage(["hello"]);
+  });
 };
 
 const workerAgentInfo = {
