@@ -1,7 +1,9 @@
 import { GraphAI, AgentFunction } from "@/index";
-import { getNestedGraphData } from "./nested_agent";
 import { Worker, isMainThread, parentPort } from "worker_threads";
 import { copyAgent } from "@/experimental_agents";
+import { assert } from "@/utils/utils";
+import { StaticNodeData } from "@/type";
+
 
 if (!isMainThread && parentPort) {
   const port = parentPort;
@@ -13,13 +15,19 @@ if (!isMainThread && parentPort) {
   });
 }
 
-export const workerAgent: AgentFunction<
-  {
-  },
-  any,
-  any
-> = async ({ inputs, agents, log, graphData }) => {
-  const nestedGraphData = getNestedGraphData(graphData, inputs ?? []);
+export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, any> = async ({ inputs, params, agents, log, graphData }) => {
+  const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
+  assert(!!graphData, "required");
+  assert(typeof graphData === "object", "required");
+  namedInputs.forEach((nodeId, index) => {
+    if (graphData.nodes[nodeId] === undefined) {
+      // If the input node does not exist, automatically create a static node
+      graphData.nodes[nodeId] = { value: inputs[index] };
+    } else {
+      // Otherwise, inject the proper data here (instead of calling injectTo method later)
+      (graphData.nodes[nodeId] as StaticNodeData)["value"] = inputs[index];
+    }
+  });
 
   return new Promise((resolve, reject) => {
     const worker = new Worker("./lib/experimental_agents/graph_agents/worker_agent.js");
@@ -30,7 +38,7 @@ export const workerAgent: AgentFunction<
         reject(new Error(`Worker stopped with exit code ${code}`));
     });
     // copyAgent is required for test case
-    worker.postMessage({ graphData: nestedGraphData });
+    worker.postMessage({ graphData });
   });
 };
 
@@ -50,6 +58,22 @@ const workerAgentInfo = {
         message: {
           agent: "copyAgent",
           inputs: [":source"],
+          isResult: true
+        }
+      }
+    }
+  },{
+    inputs: ["May the force be with you"],
+    params: {},
+    result: { message: "May the force be with you" },
+    graph: {
+      nodes: {
+        source: {
+          value: "May the force be with you"
+        },
+        message: {
+          agent: "copyAgent",
+          inputs: [":$0"],
           isResult: true
         }
       }
