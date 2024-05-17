@@ -11,7 +11,7 @@ if (!isMainThread && parentPort) {
     const graphAI = new GraphAI(graphData, agents);
     const result = await graphAI.run();
     */
-    port.postMessage({hello: "foo"});
+    port.postMessage({message: "Hello World"});
   });
 }
 
@@ -32,7 +32,7 @@ export const workerAgent: AgentFunction<
         reject(new Error(`Worker stopped with exit code ${code}`));
     });
     // copyAgent is required for test case
-    worker.postMessage({ graphData: {} /* nestedGraphData */, agent: { /* copyAgent, ...agents */ } });
+    worker.postMessage({ graphData: nestedGraphData, agent: { /* copyAgent, ...agents */ } });
   });
 };
 
