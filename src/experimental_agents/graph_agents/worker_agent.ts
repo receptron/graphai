@@ -4,7 +4,10 @@ import { getNestedGraphData } from "./nested_agent";
 import { Worker, isMainThread, parentPort } from "worker_threads";
 
 if (!isMainThread && parentPort) {
-  parentPort.postMessage({ message: "Hello World"});
+  const port = parentPort;
+  port.on("message", (data)=> {
+    port.postMessage(data);
+  });
 }
 
 export const workerAgent: AgentFunction<
@@ -21,6 +24,7 @@ export const workerAgent: AgentFunction<
       if (code !== 0)
         reject(new Error(`Worker stopped with exit code ${code}`));
     });
+    worker.postMessage({ message: "Hello World"});
   });
 };
 
