@@ -36,9 +36,9 @@ const applyFilter = (
     inspect.forEach((item) => {
       const value = inputs[item.from ?? 1]; // default is inputs[1]
       if (item.equal) {
-        result[item.propId] = (item.equal === value);
+        result[item.propId] = item.equal === value;
       } else if (item.notEqual) {
-        result[item.propId] = (item.notEqual !== value);
+        result[item.propId] = item.notEqual !== value;
       }
     });
   }
@@ -136,10 +136,12 @@ const propertyFilterAgentInfo = {
     },
     {
       inputs: testInputs,
-      params: { inspect: [
-        { propId: "isTesla", equal: "Tesla Motors" }, // from: 1 is implied
-        { propId: "isGM", notEqual: "Tesla Motors", from: 1 }
-      ] },
+      params: {
+        inspect: [
+          { propId: "isTesla", equal: "Tesla Motors" }, // from: 1 is implied
+          { propId: "isGM", notEqual: "Tesla Motors", from: 1 },
+        ],
+      },
       result: [
         { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300, isTesla: true, isGM: false },
         { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400, isTesla: true, isGM: false },
