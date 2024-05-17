@@ -38,7 +38,7 @@ jobs:
         fi
     - name: Commit 
       run: |
-        if [ [ $(git diff) != 0 ]; then
+        if [ $(git diff | wc -l) != 0 ]; then
           git commit -m "format" .
           git push origin main
         else
