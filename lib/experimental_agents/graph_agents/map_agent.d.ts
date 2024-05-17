@@ -15,7 +15,7 @@ declare const mapAgentInfo: {
     }, Record<string, any[]>, any>;
     samples: never[];
     description: string;
-    category: never[];
+    category: string[];
     author: string;
     repository: string;
     license: string;

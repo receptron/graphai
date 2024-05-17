@@ -24,7 +24,7 @@ declare const sortByValuesAgentInfo: {
         result: string[];
     })[];
     description: string;
-    category: never[];
+    category: string[];
     author: string;
     repository: string;
     license: string;
