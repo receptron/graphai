@@ -23,7 +23,10 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { countingAgent, interactiveInputSelectAgent: agentInfoWrapper(interactiveInputSelectAgent) });
+  const result = await graphDataTestRunner(__filename, graph_data, {
+    countingAgent,
+    interactiveInputSelectAgent: agentInfoWrapper(interactiveInputSelectAgent),
+  });
   console.log(JSON.stringify(result, null, "  "));
   console.log("COMPLETE 1");
 };

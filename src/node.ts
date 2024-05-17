@@ -292,11 +292,11 @@ export class ComputedNode extends Node {
       }
 
       if (this.console.before) {
-        console.log((this.console.before === true) ? JSON.stringify(context.inputs, null, 2) : this.console.before);
+        console.log(this.console.before === true ? JSON.stringify(context.inputs, null, 2) : this.console.before);
       }
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);
       if (this.console.after) {
-        console.log((this.console.after === true) ? (typeof result === "string" ? result : JSON.stringify(result, null, 2)) : this.console.after);
+        console.log(this.console.after === true ? (typeof result === "string" ? result : JSON.stringify(result, null, 2)) : this.console.after);
       }
 
       if (this.nestedGraph) {
