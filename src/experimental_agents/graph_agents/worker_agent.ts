@@ -15,7 +15,7 @@ if (!isMainThread && parentPort) {
   });
 }
 
-export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, any> = async ({ inputs, params, agents, log, graphData }) => {
+export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, any> = async ({ inputs, params, /* agents, log, */ graphData }) => {
   const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
   assert(!!graphData, "required");
   assert(typeof graphData === "object", "required");
@@ -32,8 +32,8 @@ export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, an
   return new Promise((resolve, reject) => {
     const worker = new Worker("./lib/experimental_agents/graph_agents/worker_agent.js");
     worker.on("message", resolve);
-    worker.on('error', reject);
-    worker.on('exit', (code) => {
+    worker.on("error", reject);
+    worker.on("exit", (code) => {
       if (code !== 0)
         reject(new Error(`Worker stopped with exit code ${code}`));
     });
@@ -51,6 +51,7 @@ const workerAgentInfo = {
     params: {},
     result: { message: "May the force be with you" },
     graph: {
+      version: 0.3,
       nodes: {
         source: {
           value: "May the force be with you"
@@ -67,9 +68,10 @@ const workerAgentInfo = {
     params: {},
     result: { message: "May the force be with you" },
     graph: {
+      version: 0.3,
       nodes: {
         source: {
-          value: "May the force be with you"
+          value: "TypeScript compiler fails without this node for some reason."
         },
         message: {
           agent: "copyAgent",
