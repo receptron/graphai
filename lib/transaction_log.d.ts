@@ -14,6 +14,7 @@ export declare class TransactionLog {
     injectFrom?: string;
     errorMessage?: string;
     result?: ResultData;
+    resultKeys?: string[];
     mapIndex?: number;
     isLoop?: boolean;
     repeatCount?: number;
