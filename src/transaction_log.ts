@@ -1,6 +1,7 @@
 import { ResultData, NodeDataParams, NodeState } from "@/type";
 import type { GraphAI } from "@/graphai";
 import type { ComputedNode, StaticNode } from "@/node";
+import { debugResultKey } from "@/utils/utils";
 
 export class TransactionLog {
   public nodeId: string;
@@ -15,6 +16,7 @@ export class TransactionLog {
   public injectFrom?: string;
   public errorMessage?: string;
   public result?: ResultData;
+  public resultKeys?: string[];
   public mapIndex?: number;
   public isLoop?: boolean;
   public repeatCount?: number;
@@ -47,6 +49,7 @@ export class TransactionLog {
 
   public onComplete(node: ComputedNode, graph: GraphAI, localLog: TransactionLog[]) {
     this.result = node.result;
+    this.resultKeys = debugResultKey(this.agentId || "", node.result);
     this.state = node.state;
     this.endTime = Date.now();
     graph.setLoopLog(this);
