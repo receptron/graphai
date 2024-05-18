@@ -80,21 +80,21 @@ test("test llm object", async () => {
   };
   const res = debugResultKey(agentId, result);
   assert.deepStrictEqual(res, [
-    ':agentABC.id',
-    ':agentABC.object',
-    ':agentABC.created',
-    ':agentABC.model',
-    ':agentABC.choices.$0.index',
-    ':agentABC.choices.$0.message',
-    ':agentABC.choices.$0.logprobs',
-    ':agentABC.choices.$0.finish_reason',
-    ':agentABC.usage.prompt_tokens',
-    ':agentABC.usage.prompt_time',
-    ':agentABC.usage.completion_tokens',
-    ':agentABC.usage.completion_time',
-    ':agentABC.usage.total_tokens',
-    ':agentABC.usage.total_time',
-    ':agentABC.system_fingerprint',
-    ':agentABC.x_groq.id'
+    ":agentABC.id",
+    ":agentABC.object",
+    ":agentABC.created",
+    ":agentABC.model",
+    ":agentABC.choices.$0.index",
+    ":agentABC.choices.$0.message",
+    ":agentABC.choices.$0.logprobs",
+    ":agentABC.choices.$0.finish_reason",
+    ":agentABC.usage.prompt_tokens",
+    ":agentABC.usage.prompt_time",
+    ":agentABC.usage.completion_tokens",
+    ":agentABC.usage.completion_time",
+    ":agentABC.usage.total_tokens",
+    ":agentABC.usage.total_time",
+    ":agentABC.system_fingerprint",
+    ":agentABC.x_groq.id",
   ]);
 });
