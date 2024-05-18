@@ -15,7 +15,7 @@ import {
   DefaultParamsType,
   DefaultInputData,
 } from "@/type";
-import { parseNodeName, assert } from "@/utils/utils";
+import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
 
 export class Node {
@@ -70,6 +70,7 @@ export class ComputedNode extends Node {
   public dataSources: Array<DataSource>; // data sources, the order is significant.
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
+  private unlessSource?: DataSource; // conditional execution
   private console: Record<string, string | boolean>; // console output option (before and/or after)
 
   public readonly isStaticNode = false;
@@ -104,6 +105,11 @@ export class ComputedNode extends Node {
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
       this.pendings.add(this.ifSource.nodeId);
     }
+    if (data.unless) {
+      this.unlessSource = parseNodeName(data.unless, graph.version);
+      assert(!!this.unlessSource.nodeId, `Invalid data source ${data.unless}`);
+      this.pendings.add(this.unlessSource.nodeId);
+    }
     this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
       const dataSource = parseNodeName(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
       if (dataSource.nodeId) {
@@ -133,12 +139,19 @@ export class ComputedNode extends Node {
       if (!this.anyInput || counter > 0) {
         if (this.ifSource) {
           const [condition] = this.graph.resultsOf([this.ifSource]);
-          if (!condition) {
+          if (!isLogicallyTrue(condition)) {
             this.state = NodeState.Skipped;
             this.log.onSkipped(this, this.graph);
             return false;
           }
-          return true;
+        }
+        if (this.unlessSource) {
+          const [condition] = this.graph.resultsOf([this.unlessSource]);
+          if (isLogicallyTrue(condition)) {
+            this.state = NodeState.Skipped;
+            this.log.onSkipped(this, this.graph);
+            return false;
+          }
         }
         return true;
       }

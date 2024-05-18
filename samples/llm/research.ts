@@ -76,10 +76,6 @@ const language_detection_graph = {
             equal: "English",
             // from: 1, // implied
           },
-          {
-            propId: "isNonEnglish",
-            notEqual: "English",
-          },
         ],
       },
       inputs: [":extractor", ":extractor.language"],
@@ -132,7 +128,7 @@ const translator_graph = {
         template: "Translate the text below into ${0}",
       },
       inputs: [":$1.language"],
-      if: ":$1.isNonEnglish",
+      unless: ":$1.isEnglish",
       isResult: true,
     },
     translate: {
