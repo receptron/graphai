@@ -31,6 +31,7 @@ export declare class ComputedNode extends Node {
     dataSources: Array<DataSource>;
     pendings: Set<string>;
     private ifSource?;
+    private unlessSource?;
     private console;
     readonly isStaticNode = false;
     readonly isComputedNode = true;

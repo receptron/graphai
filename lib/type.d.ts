@@ -37,6 +37,7 @@ export type ComputedNodeData = {
     retry?: number;
     timeout?: number;
     if?: string;
+    unless?: string;
     graph?: GraphData;
     isResult?: boolean;
     priority?: number;

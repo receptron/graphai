@@ -34,3 +34,4 @@ export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any>) => 
     mock: AgentFunction<any, any, any>;
 };
 export declare const debugResultKey: (agentId: string, result: any) => string[];
+export declare const isLogicallyTrue: (value: any) => boolean;
