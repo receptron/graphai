@@ -24,7 +24,35 @@ test("test object", async () => {
   assert.deepStrictEqual(res, [":agentABC.data.$0", ":agentABC.data.$1", ":agentABC.data2.hoge", ":agentABC.data2.foo.bar.boo"]);
 });
 
-test("test object", async () => {
+test("test null", async () => {
+  const agentId = "agentABC";
+  const result = null;
+  const res = debugResultKey(agentId, result);
+  assert.deepStrictEqual(res, [":agentABC"]);
+});
+
+test("test undefined", async () => {
+  const agentId = "agentABC";
+  const result = undefined;
+  const res = debugResultKey(agentId, result);
+  assert.deepStrictEqual(res, [":agentABC"]);
+});
+
+test("test string", async () => {
+  const agentId = "agentABC";
+  const result = "123";
+  const res = debugResultKey(agentId, result);
+  assert.deepStrictEqual(res, [":agentABC"]);
+});
+
+test("test number", async () => {
+  const agentId = "agentABC";
+  const result = 123;
+  const res = debugResultKey(agentId, result);
+  assert.deepStrictEqual(res, [":agentABC"]);
+});
+
+test("test llm object", async () => {
   const agentId = "agentABC";
   const result = {
     id: "chatcmpl-3d74d4cd-3645-4953-a8c0-691024f3ce65",
