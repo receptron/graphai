@@ -59,7 +59,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = (await graphDataTestRunner("sample_wiki.log", graph_data, {
+  const result = (await graphDataTestRunner("sample_net.log", graph_data, {
     fetchAgent,
     propertyFilterAgent,
     groqAgent,
