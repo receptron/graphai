@@ -11,6 +11,7 @@ export const computedNodeAttributeKeys = [
   "isResult",
   "priority",
   "if",
+  "unless",
   "filterParams",
   "console",
 ];
