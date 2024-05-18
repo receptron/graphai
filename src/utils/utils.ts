@@ -134,7 +134,7 @@ export const debugResultKey = (agentId: string, result: any) => {
 };
 
 const debugResultKeyInner = (result: any) => {
-  if (result === null) {
+  if (result === null || result === undefined) {
     return {};
   }
   if (typeof result === "string") {
