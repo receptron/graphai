@@ -112,3 +112,39 @@ export const agentInfoWrapper = (agent: AgentFunction<any, any, any>) => {
     ...defaultAgentInfo,
   };
 };
+
+const objectToKeyArray = (innerData: any) => {
+  const ret: string[][] = [];
+  Object.keys(innerData).forEach((key: string) => {
+    if (Object.keys(innerData[key]).length === 0) {
+      ret.push([key]);
+    } else {
+      objectToKeyArray(innerData[key]).forEach((tmp: string[]) => {
+        ret.push([key, ...tmp]);
+      });
+    }
+  });
+  return ret;
+};
+
+export const debugResultKey = (agentId: string, result: any) => {
+  return objectToKeyArray({ [agentId]: debugResultKeyInner(result) }).map((objectKeys: string[]) => {
+    return ":" + objectKeys.join(".");
+  });
+};
+
+const debugResultKeyInner = (result: any) => {
+  if (typeof result === "string") {
+    return {};
+  }
+  if (Array.isArray(result)) {
+    return Array.from(result.keys()).reduce((tmp: Record<string, any>, index: number) => {
+      tmp["$" + String(index)] = debugResultKeyInner(result[index]);
+      return tmp;
+    }, {});
+  }
+  return Object.keys(result).reduce((tmp: Record<string, any>, key: string) => {
+    tmp[key] = debugResultKeyInner(result[key]);
+    return tmp;
+  }, {});
+};
