@@ -2,7 +2,7 @@ import { AgentFunctionInfoDictonary, AgentFilterInfo, GraphData, DataSource, Loo
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
-import { parseNodeName, assert, getDataFromSource } from "@/utils/utils";
+import { parseNodeName, assert, getDataFromSource, isLogicallyTrue } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
@@ -244,7 +244,7 @@ export class GraphAI {
         const source = parseNodeName(loop.while, this.version);
         const value = this.getValueFromResults(source, this.results(true));
         // NOTE: We treat an empty array as false.
-        if (Array.isArray(value) ? value.length === 0 : !value) {
+        if (!isLogicallyTrue(value)) {
           return false; // while condition is not met
         }
       }

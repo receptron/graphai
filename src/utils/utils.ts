@@ -150,3 +150,11 @@ const debugResultKeyInner = (result: any) => {
     return tmp;
   }, {});
 };
+
+export const isLogicallyTrue = (value: any) => {
+  // Notice that empty aray is not true under GraphAI
+  if (Array.isArray(value) ? value.length === 0 : !value) {
+    return false;
+  }
+  return true;
+}

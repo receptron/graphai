@@ -15,7 +15,7 @@ import {
   DefaultParamsType,
   DefaultInputData,
 } from "@/type";
-import { parseNodeName, assert } from "@/utils/utils";
+import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
 
 export class Node {
@@ -139,7 +139,7 @@ export class ComputedNode extends Node {
       if (!this.anyInput || counter > 0) {
         if (this.ifSource) {
           const [condition] = this.graph.resultsOf([this.ifSource]);
-          if (!condition) { // TODO: condition
+          if (!isLogicallyTrue(condition)) {
             this.state = NodeState.Skipped;
             this.log.onSkipped(this, this.graph);
             return false;
@@ -147,7 +147,7 @@ export class ComputedNode extends Node {
         }
         if (this.unlessSource) {
           const [condition] = this.graph.resultsOf([this.unlessSource]);
-          if (condition) { // TODO: condition
+          if (isLogicallyTrue(condition)) {
             this.state = NodeState.Skipped;
             this.log.onSkipped(this, this.graph);
             return false;
