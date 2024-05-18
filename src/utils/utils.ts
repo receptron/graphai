@@ -157,4 +157,4 @@ export const isLogicallyTrue = (value: any) => {
     return false;
   }
   return true;
-}
+};
