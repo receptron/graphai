@@ -116,9 +116,8 @@ export const agentInfoWrapper = (agent: AgentFunction<any, any, any>) => {
 const objectToKeyArray = (innerData: any) => {
   const ret: string[][] = [];
   Object.keys(innerData).forEach((key: string) => {
-    if (Object.keys(innerData[key]).length === 0) {
-      ret.push([key]);
-    } else {
+    ret.push([key]);
+    if (Object.keys(innerData[key]).length > 0) {
       objectToKeyArray(innerData[key]).forEach((tmp: string[]) => {
         ret.push([key, ...tmp]);
       });

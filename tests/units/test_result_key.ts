@@ -14,14 +14,24 @@ test("test object", async () => {
   const agentId = "agentABC";
   const result = { data: "123" };
   const res = debugResultKey(agentId, result);
-  assert.deepStrictEqual(res, [":agentABC.data"]);
+  assert.deepStrictEqual(res, [":agentABC", ":agentABC.data"]);
 });
 
 test("test object", async () => {
   const agentId = "agentABC";
   const result = { data: [1, 2], data2: { hoge: "aa", foo: { bar: { boo: "bb" } } } };
   const res = debugResultKey(agentId, result);
-  assert.deepStrictEqual(res, [":agentABC.data.$0", ":agentABC.data.$1", ":agentABC.data2.hoge", ":agentABC.data2.foo.bar.boo"]);
+  assert.deepStrictEqual(res, [
+    ":agentABC",
+    ":agentABC.data",
+    ":agentABC.data.$0",
+    ":agentABC.data.$1",
+    ":agentABC.data2",
+    ":agentABC.data2.hoge",
+    ":agentABC.data2.foo",
+    ":agentABC.data2.foo.bar",
+    ":agentABC.data2.foo.bar.boo",
+  ]);
 });
 
 test("test null", async () => {
@@ -80,14 +90,18 @@ test("test llm object", async () => {
   };
   const res = debugResultKey(agentId, result);
   assert.deepStrictEqual(res, [
+    ":agentABC",
     ":agentABC.id",
     ":agentABC.object",
     ":agentABC.created",
     ":agentABC.model",
+    ":agentABC.choices",
+    ":agentABC.choices.$0",
     ":agentABC.choices.$0.index",
     ":agentABC.choices.$0.message",
     ":agentABC.choices.$0.logprobs",
     ":agentABC.choices.$0.finish_reason",
+    ":agentABC.usage",
     ":agentABC.usage.prompt_tokens",
     ":agentABC.usage.prompt_time",
     ":agentABC.usage.completion_tokens",
@@ -95,6 +109,7 @@ test("test llm object", async () => {
     ":agentABC.usage.total_tokens",
     ":agentABC.usage.total_time",
     ":agentABC.system_fingerprint",
+    ":agentABC.x_groq",
     ":agentABC.x_groq.id",
   ]);
 });
