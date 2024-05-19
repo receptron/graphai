@@ -31,12 +31,12 @@ export type StaticNodeData = {
   update?: string; // nodeId (+.propId) to get value after a loop
   isResult?: boolean;
 };
-export type AgentNamelessFunction = (...param: any[]) => unknown;
+export type AgentAnonymousFunction = (...params: any[]) => unknown;
 
 export type AgentFilterParams = Record<string, any>;
 
 export type ComputedNodeData = {
-  agent: string | AgentNamelessFunction;
+  agent: string | AgentAnonymousFunction;
   inputs?: Array<any>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
