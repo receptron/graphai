@@ -11,11 +11,14 @@ export const openAIAgent: AgentFunction<
     tool_choice?: any;
     verbose?: boolean;
     temperature?: number;
+    baseURL?: string;
+    apiKey?: string;
+    stream?: boolean;
   },
   Record<string, any> | string,
   string | Array<any>
 > = async ({ filterParams, params, inputs }) => {
-  const { verbose, query, system, temperature } = params;
+  const { verbose, query, system, temperature, baseURL, apiKey, stream } = params;
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
@@ -33,8 +36,17 @@ export const openAIAgent: AgentFunction<
     console.log(messages);
   }
 
-  const openai = new OpenAI();
+  const openai = (apiKey && baseURL) ? new OpenAI({apiKey, baseURL}) : new OpenAI();
 
+  if (!stream) {
+    return await openai.chat.completions.create({
+      model: params.model || "gpt-3.5-turbo",
+      messages,
+      tools: params.tools,
+      tool_choice: params.tool_choice,
+      temperature: temperature ?? 0.7,
+    });
+  }
   const chatStream = await openai.beta.chat.completions.stream({
     model: params.model || "gpt-3.5-turbo",
     messages,
