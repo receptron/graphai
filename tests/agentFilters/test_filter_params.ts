@@ -9,8 +9,6 @@ const httpAgentFilter: AgentFilterFunction = async (context, next) => {
   return next(context);
 };
 
-const callbackDictonary = {};
-
 test("test filterParams on agent filter", async () => {
   const graph_data = {
     version: 0.3,
@@ -42,7 +40,7 @@ test("test filterParams on agent filter", async () => {
     },
   ];
 
-  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
+  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents }, { agentFilters });
 
   const result = await graph.run();
   // console.log(JSON.stringify(result));
@@ -79,7 +77,7 @@ test("test filterParams on node", async () => {
     },
   ];
 
-  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
+  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents }, { agentFilters });
 
   const result = await graph.run();
   // console.log(JSON.stringify(result));
@@ -122,7 +120,7 @@ test("test filterParams on agent filter and node. Then node.ts use filterParams 
     },
   ];
 
-  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
+  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents }, { agentFilters });
 
   const result = await graph.run();
   console.log(JSON.stringify(result));
@@ -170,7 +168,7 @@ test("test filterParams on each agent", async () => {
     },
   ];
 
-  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
+  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents }, { agentFilters });
 
   const result = await graph.run();
   // console.log(JSON.stringify(result));
@@ -221,7 +219,7 @@ test("test filterParams on agent filter", async () => {
     },
   ];
 
-  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents, ...callbackDictonary }, { agentFilters });
+  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents }, { agentFilters });
 
   const result = await graph.run();
   // console.log(JSON.stringify(result));

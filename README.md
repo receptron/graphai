@@ -120,7 +120,7 @@ An *agent function* is a TypeScript function, which implements a particular *age
 There are additional optional parameters for developers of nested agents and agent filters.
 
 - *graphData*: an optional GraphData (for nested agents)
-- *agents*: AgentFunctionInfoDictonary (for nested agents)
+- *agents*: AgentFunctionInfoDictionary (for nested agents)
 - *taskManager*: TaskManager (for nested agents)
 - *log*: TransactionLog[] (for nested agents)
 - *filterParams*: agent filter parameters (for agent filters)
