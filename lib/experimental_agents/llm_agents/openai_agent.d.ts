@@ -7,6 +7,9 @@ export declare const openAIAgent: AgentFunction<{
     tool_choice?: any;
     verbose?: boolean;
     temperature?: number;
+    baseURL?: string;
+    apiKey?: string;
+    stream?: boolean;
 }, Record<string, any> | string, string | Array<any>>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;
@@ -25,6 +28,9 @@ declare const openaiAgentInfo: {
         tool_choice?: any;
         verbose?: boolean | undefined;
         temperature?: number | undefined;
+        baseURL?: string | undefined;
+        apiKey?: string | undefined;
+        stream?: boolean | undefined;
     }, string | Record<string, any>, string | any[]>;
     mock: AgentFunction<{
         model?: string | undefined;
