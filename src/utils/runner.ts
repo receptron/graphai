@@ -1,4 +1,4 @@
-import { AgentFunctionInfo, AgentFunctionContext, AgentFunction, AgentFilterInfo, ResultData } from "@/type";
+import { AgentFunctionContext, AgentFunction, AgentFilterInfo, ResultData } from "@/type";
 
 // for test and server.
 export const agentFilterRunnerBuilder = (__agentFilters: AgentFilterInfo[]) => {
