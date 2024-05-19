@@ -15,7 +15,7 @@ const graph_data = {
       params: {
         model: "mixtral-8x7b-32768",
         query,
-        isStreaming: true,
+        stream: true,
       },
     },
     answer: {

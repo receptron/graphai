@@ -12,6 +12,9 @@ const graph_data = {
     },
     node2: {
       agent: "openAIAgent",
+      params: {
+        stream: true,
+      },
       inputs: [":node1"],
       isResult: true,
     },

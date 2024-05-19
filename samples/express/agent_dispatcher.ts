@@ -11,7 +11,7 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
   const { agentId } = params; // from url
   const { nodeId, retry, params: agentParams, inputs } = req.body; // post body
   const agentInfo = defaultTestAgents[agentId];
-  const isStreaming = agentParams?.isStreaming || false;
+  const stream = agentParams?.stream || false;
 
   if (agentInfo === undefined) {
     return res.status(404).send({ message: "Agent not found" });
@@ -28,7 +28,7 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
     filterParams: {},
     agents: defaultTestAgents,
   };
-  if (!isStreaming) {
+  if (!stream) {
     const result = await agentInfo.agent(context);
     return res.json(result);
   }
