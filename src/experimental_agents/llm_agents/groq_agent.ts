@@ -34,14 +34,14 @@ export const groqAgent: AgentFunction<
     temperature?: number;
     max_tokens?: number;
     tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
-    isStreaming?: boolean;
+    stream?: boolean;
   },
   // Groq.Chat.ChatCompletion,
   any,
   string | Array<Groq.Chat.CompletionCreateParams.Message>
 > = async ({ params, inputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { verbose, query, system, tools, tool_choice, max_tokens, temperature, isStreaming } = params;
+  const { verbose, query, system, tools, tool_choice, max_tokens, temperature, stream } = params;
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
@@ -71,7 +71,7 @@ export const groqAgent: AgentFunction<
     temperature: temperature ?? 0.7,
   };
 
-  const options: ChatCompletionCreateParams = isStreaming ? streamOption : nonStreamOption;
+  const options: ChatCompletionCreateParams = stream ? streamOption : nonStreamOption;
   if (max_tokens) {
     options.max_tokens = max_tokens;
   }
