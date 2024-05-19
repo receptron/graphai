@@ -379,5 +379,5 @@ Negative priority values are allowed, enabling you to fine-tune the execution or
 
 ## References
 
-- [Collaboration](./collaboration.md)
+- [Collaboration](./Collaboration.md)
 - [API Document](./APIDocument.md)
