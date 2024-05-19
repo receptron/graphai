@@ -75,8 +75,8 @@ export const graph_data = {
             // This node sends those messages to the llm to get the answer.
             agent: "openAIAgent",
             params: {
-              model: "phi3",
-              baseURL: "http://localhost:11434/v1",
+              model: "llama3",
+              baseURL: "http://127.0.0.1:11434/v1",
               apiKey: "ollama",
             },
             inputs: [undefined, ":messages"],
