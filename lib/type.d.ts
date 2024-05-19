@@ -13,7 +13,7 @@ export declare enum NodeState {
 export type DefaultResultData = Record<string, any> | string | number | boolean | Array<DefaultResultData>;
 export type DefaultInputData = Record<string, any>;
 export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
-export type ResultDataDictonary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
+export type ResultDataDictionary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
 export type DefaultParamsType = Record<string, any>;
 export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType;
 export type DataSource = {
@@ -66,7 +66,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
         agentId?: string;
     };
     graphData?: GraphData | string;
-    agents?: AgentFunctionInfoDictonary;
+    agents?: AgentFunctionInfoDictionary;
     taskManager?: TaskManager;
     filterParams: AgentFilterParams;
     agentFilters?: AgentFilterInfo[];
@@ -98,4 +98,4 @@ export type AgentFunctionInfo = {
     repository: string;
     license: string;
 };
-export type AgentFunctionInfoDictonary = Record<string, AgentFunctionInfo>;
+export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;

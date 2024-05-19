@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictonary, AgentFilterInfo, GraphData, DataSource, ResultDataDictonary, ResultData, DefaultResultData } from "./type";
+import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, StaticNode } from "./node";
 import { TaskManager } from "./task_manager";
@@ -9,7 +9,7 @@ export declare class GraphAI {
     private readonly data;
     private readonly loop?;
     private readonly logs;
-    readonly agentFunctionInfoDictionary: AgentFunctionInfoDictonary;
+    readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
     readonly taskManager: TaskManager;
     readonly agentFilters: AgentFilterInfo[];
     readonly retryLimit?: number;
@@ -21,19 +21,19 @@ export declare class GraphAI {
     private createNodes;
     private getValueFromResults;
     private initializeNodes;
-    constructor(data: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictonary, options?: {
+    constructor(data: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: {
         agentFilters?: AgentFilterInfo[] | undefined;
         taskManager?: TaskManager | undefined;
     });
     getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo;
     asString(): string;
-    results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T>;
+    results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T>;
     errors(): Record<string, Error>;
     private pushReadyNodesIntoQueue;
     private pushQueueIfReady;
     pushQueueIfReadyAndRunning(node: ComputedNode): void;
     pushQueue(node: ComputedNode): void;
-    run<T = DefaultResultData>(all?: boolean): Promise<ResultDataDictonary<T>>;
+    run<T = DefaultResultData>(all?: boolean): Promise<ResultDataDictionary<T>>;
     isRunning(): boolean;
     onExecutionComplete(node: ComputedNode): void;
     private processLoopIfNecessary;

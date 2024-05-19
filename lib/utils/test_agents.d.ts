@@ -1,2 +1,2 @@
-import { AgentFunctionInfoDictonary } from "../index";
-export declare const defaultTestAgents: AgentFunctionInfoDictonary;
+import { AgentFunctionInfoDictionary } from "../index";
+export declare const defaultTestAgents: AgentFunctionInfoDictionary;
