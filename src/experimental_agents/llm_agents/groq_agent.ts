@@ -84,10 +84,10 @@ export const groqAgent: AgentFunction<
     return result;
   }
   // streaming
-  const stream = await groq.chat.completions.create(options);
+  const pipe = await groq.chat.completions.create(options);
   let lastMessage = null;
   const contents = [];
-  for await (const message of stream) {
+  for await (const message of pipe) {
     const token = message.choices[0].delta.content;
     if (token) {
       if (filterParams && filterParams.streamTokenCallback) {
