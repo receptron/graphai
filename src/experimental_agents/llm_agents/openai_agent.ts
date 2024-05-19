@@ -36,7 +36,7 @@ export const openAIAgent: AgentFunction<
     console.log(messages);
   }
 
-  const openai = (apiKey && baseURL) ? new OpenAI({apiKey, baseURL}) : new OpenAI();
+  const openai = apiKey && baseURL ? new OpenAI({ apiKey, baseURL }) : new OpenAI();
 
   if (!stream) {
     return await openai.chat.completions.create({
