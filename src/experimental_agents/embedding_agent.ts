@@ -72,7 +72,7 @@ const stringEmbeddingsAgentInfo = {
   mock: stringEmbeddingsAgent,
   samples: [],
   description: "Embeddings Agent",
-  category: [],
+  category: ["embedding"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
