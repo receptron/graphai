@@ -3,9 +3,9 @@ export { GraphAI } from "./graphai";
 export {
   AgentFunction,
   AgentFunctionInfo,
-  AgentFunctionInfoDictonary,
+  AgentFunctionInfoDictionary,
   GraphData,
-  ResultDataDictonary,
+  ResultDataDictionary,
   ResultData,
   NodeState,
   AgentFilterFunction,

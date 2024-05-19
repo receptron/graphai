@@ -1,4 +1,4 @@
-import { GraphAI, GraphData, AgentFunctionInfoDictonary } from "@/index";
+import { GraphAI, GraphData, AgentFunctionInfoDictionary } from "@/index";
 import { NodeState, DefaultResultData } from "@/type";
 
 import { defaultTestAgents } from "@/utils/test_agents";
@@ -15,21 +15,21 @@ export const readGraphData = (file: string) => {
   return readGraphaiData(file_path);
 };
 
-export const fileTestRunner = async (file: string, callbackDictonary: AgentFunctionInfoDictonary, callback: (graph: GraphAI) => void = () => {}) => {
-  return await graphDataTestRunner(file, readGraphData(file), callbackDictonary, callback);
+export const fileTestRunner = async (file: string, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, callback: (graph: GraphAI) => void = () => {}) => {
+  return await graphDataTestRunner(file, readGraphData(file), agentFunctionInfoDictionary, callback);
 };
 
 export const graphDataTestRunner = async <T = DefaultResultData>(
   logFileName: string,
   graph_data: GraphData,
-  callbackDictonary: AgentFunctionInfoDictonary,
+  agentFunctionInfoDictionary: AgentFunctionInfoDictionary,
   callback: (graph: GraphAI) => void = () => {},
   all: boolean = true,
 ) => {
   mkdirLogDir();
 
   const log_path = path.resolve(__dirname) + "/../logs/" + fileBaseName(logFileName) + ".log";
-  const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...callbackDictonary });
+  const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
 
   if (process.argv[2] === "-v") {
     graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
@@ -56,20 +56,20 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
 export const rejectFileTest = async (
   file: string,
   errorMessage: string,
-  callbackDictonary: AgentFunctionInfoDictonary = {},
+  agentFunctionInfoDictionary: AgentFunctionInfoDictionary = {},
   validationError: boolean = true,
 ) => {
-  return await rejectTest(readGraphData(file), errorMessage, callbackDictonary, validationError);
+  return await rejectTest(readGraphData(file), errorMessage, agentFunctionInfoDictionary, validationError);
 };
 export const rejectTest = async (
   graphdata: GraphData,
   errorMessage: string,
-  callbackDictonary: AgentFunctionInfoDictonary = {},
+  agentFunctionInfoDictionary: AgentFunctionInfoDictionary = {},
   validationError: boolean = true,
 ) => {
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...callbackDictonary });
+      await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     },
     { name: "Error", message: validationError ? new ValidationError(errorMessage).message : errorMessage },
   );

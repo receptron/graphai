@@ -15,7 +15,7 @@ export enum NodeState {
 export type DefaultResultData = Record<string, any> | string | number | boolean | Array<DefaultResultData>;
 export type DefaultInputData = Record<string, any>;
 export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
-export type ResultDataDictonary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
+export type ResultDataDictionary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
 
 export type DefaultParamsType = Record<string, any>;
 export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType; // Agent-specific parameters
@@ -77,7 +77,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     agentId?: string;
   };
   graphData?: GraphData | string; // nested graph
-  agents?: AgentFunctionInfoDictonary; // for nested graph
+  agents?: AgentFunctionInfoDictionary; // for nested graph
   taskManager?: TaskManager; // for nested graph
   filterParams: AgentFilterParams; // agent filter
   agentFilters?: AgentFilterInfo[];
@@ -101,7 +101,7 @@ export type AgentFilterInfo = {
   filterParams?: AgentFilterParams;
 };
 
-// export type AgentFunctionDictonary = Record<string, AgentFunction<any, any, any>>;
+// export type AgentFunctionDictionary = Record<string, AgentFunction<any, any, any>>;
 
 export type AgentFunctionInfo = {
   name: string;
@@ -121,4 +121,4 @@ export type AgentFunctionInfo = {
   license: string;
 };
 
-export type AgentFunctionInfoDictonary = Record<string, AgentFunctionInfo>;
+export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;

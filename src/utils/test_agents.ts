@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictonary } from "@/index";
+import { AgentFunctionInfoDictionary } from "@/index";
 import {
   sleeperAgent,
   sleeperAgentDebug,
@@ -21,7 +21,7 @@ import {
 
 // import openAIMockAgent from "@/experimental_agents/llm_agents/openai_agent";
 
-export const defaultTestAgents: AgentFunctionInfoDictonary = {
+export const defaultTestAgents: AgentFunctionInfoDictionary = {
   bypassAgent,
   echoAgent,
   copyMessageAgent,

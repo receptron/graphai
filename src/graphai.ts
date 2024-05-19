@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictonary, AgentFilterInfo, GraphData, DataSource, LoopData, ResultDataDictonary, ResultData, DefaultResultData } from "@/type";
+import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, LoopData, ResultDataDictionary, ResultData, DefaultResultData } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -17,7 +17,7 @@ export class GraphAI {
   private readonly data: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
-  public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictonary;
+  public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
   public readonly retryLimit?: number;
@@ -60,12 +60,12 @@ export class GraphAI {
     return nodes;
   }
 
-  private getValueFromResults(source: DataSource, results: ResultDataDictonary<DefaultResultData>) {
+  private getValueFromResults(source: DataSource, results: ResultDataDictionary<DefaultResultData>) {
     return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source);
   }
 
   // for static
-  private initializeNodes(previousResults?: ResultDataDictonary<DefaultResultData>) {
+  private initializeNodes(previousResults?: ResultDataDictionary<DefaultResultData>) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
@@ -87,7 +87,7 @@ export class GraphAI {
 
   constructor(
     data: GraphData,
-    agentFunctionInfoDictionary: AgentFunctionInfoDictonary,
+    agentFunctionInfoDictionary: AgentFunctionInfoDictionary,
     options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
   ) {
     if (!data.version && !options.taskManager) {
@@ -130,10 +130,10 @@ export class GraphAI {
   }
 
   // Public API
-  public results<T = DefaultResultData>(all: boolean): ResultDataDictonary<T> {
+  public results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T> {
     return Object.keys(this.nodes)
       .filter((nodeId) => all || this.nodes[nodeId].isResult)
-      .reduce((results: ResultDataDictonary<T>, nodeId) => {
+      .reduce((results: ResultDataDictionary<T>, nodeId) => {
         const node = this.nodes[nodeId];
         if (node.result !== undefined) {
           results[nodeId] = node.result as T;
@@ -188,7 +188,7 @@ export class GraphAI {
   }
 
   // Public API
-  public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictonary<T>> {
+  public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictionary<T>> {
     if (this.isRunning()) {
       throw new Error("This GraphUI instance is already running");
     }
