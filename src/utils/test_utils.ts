@@ -41,7 +41,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
   }
 };
 
-// for agent and agent filter.
+// for test and server.
 export const agentFilterRunnerBuilder = (__agentFilters: AgentFilterInfo[]) => {
   const agentFilters = __agentFilters;
   const agentFilterRunner = (context: AgentFunctionContext, agent: AgentFunction) => {
