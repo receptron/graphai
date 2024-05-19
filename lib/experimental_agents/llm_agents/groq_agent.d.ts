@@ -9,7 +9,7 @@ export declare const groqAgent: AgentFunction<{
     temperature?: number;
     max_tokens?: number;
     tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
-    isStreaming?: boolean;
+    stream?: boolean;
 }, any, string | Array<Groq.Chat.CompletionCreateParams.Message>>;
 declare const groqAgentInfo: {
     name: string;
@@ -22,7 +22,7 @@ declare const groqAgentInfo: {
         temperature?: number | undefined;
         max_tokens?: number | undefined;
         tool_choice?: Groq.Chat.Completions.CompletionCreateParams.ToolChoice | undefined;
-        isStreaming?: boolean | undefined;
+        stream?: boolean | undefined;
     }, any, string | Groq.Chat.Completions.CompletionCreateParams.Message[]>;
     mock: AgentFunction<{
         model: string;
@@ -33,7 +33,7 @@ declare const groqAgentInfo: {
         temperature?: number | undefined;
         max_tokens?: number | undefined;
         tool_choice?: Groq.Chat.Completions.CompletionCreateParams.ToolChoice | undefined;
-        isStreaming?: boolean | undefined;
+        stream?: boolean | undefined;
     }, any, string | Groq.Chat.Completions.CompletionCreateParams.Message[]>;
     samples: never[];
     description: string;
