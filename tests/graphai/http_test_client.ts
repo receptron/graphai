@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/index";
 
 import { graphDataTestRunner } from "~/utils/runner";
-import { getAgentInfo } from "@/utils/test_utils";
+import { agentInfoWrapper } from "@/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -37,7 +37,7 @@ const graph_data = {
 };
 
 test("test http client", async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { httpClientAgent: getAgentInfo(httpClientAgent) });
+  const result = await graphDataTestRunner(__filename, graph_data, { httpClientAgent: agentInfoWrapper(httpClientAgent) });
   assert.deepStrictEqual(result, {
     node1: { result: true, messages: ["hello"] },
     node2: { result: true, messages: ["hello2"] },
