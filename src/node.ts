@@ -311,8 +311,7 @@ export class ComputedNode extends Node {
           context.graphData = this.nestedGraph;
         } else {
           const [graphData] = this.graph.resultsOf([this.nestedGraph])
-          console.log("***", graphData);
-          context.graphData = graphData as GraphData; // HACK
+          context.graphData = graphData as GraphData; // HACK: compiler work-around
         }
         context.agents = this.graph.agentFunctionInfoDictionary;
       }
