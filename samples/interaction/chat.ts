@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { groqAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "@/experimental_agents";
-import input from "@inquirer/input";
 
 const graph_data = {
   version: 0.3,
