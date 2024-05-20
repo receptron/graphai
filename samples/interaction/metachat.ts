@@ -8,6 +8,18 @@ import { graph_data } from "./reception";
 const filePath = path.join(__dirname, "../../README.md");
 const document = fs.readFileSync(filePath, "utf8");
 
+const messages = [{
+  role: "system",
+  content: "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
+    "[documation of GraphAI]\n" + document
+},{
+  role: "user",
+  content: "Name, Date of Birth and Gendar"
+},{
+  role: "assistant",
+  content: JSON.stringify(graph_data)  
+}]
+
 const graph_data_explain = {
   version: 0.3,
   nodes: {
@@ -15,17 +27,8 @@ const graph_data_explain = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system:
-          "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
-          "[documation of GraphAI]\n" +
-          document + "\n" +
-          "[Sample Question and Answer]\n" +
-          "[Question]\n" +
-          "Name, Date of Birth and Gendar\n" + 
-          "[Answer]\n" +
-          graph_data
       },
-      inputs: ["Name", "Address", "Phone Number"],
+      inputs: ["Name, Address and Phone Number", messages],
     },
     description: {
       agent: "copyAgent",
