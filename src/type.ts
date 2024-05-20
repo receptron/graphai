@@ -101,8 +101,6 @@ export type AgentFilterInfo = {
   filterParams?: AgentFilterParams;
 };
 
-// export type AgentFunctionDictionary = Record<string, AgentFunction<any, any, any>>;
-
 export type AgentFunctionInfo = {
   name: string;
   agent: AgentFunction<any, any, any>;
@@ -119,6 +117,10 @@ export type AgentFunctionInfo = {
   author: string;
   repository: string;
   license: string;
+
+  stream?: boolean;
+  apiKeys?: string[];
+  npms?: string[];
 };
 
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;

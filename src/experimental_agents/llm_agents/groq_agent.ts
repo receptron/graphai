@@ -113,6 +113,10 @@ const groqAgentInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
+
+  stream: true,
+  npms: ["groq-sdk"]
+
 };
 
 export default groqAgentInfo;

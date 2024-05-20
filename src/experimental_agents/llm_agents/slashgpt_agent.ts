@@ -43,5 +43,9 @@ const slashGPTAgentInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
+
+  stream: true,
+  npms: ["slashgpt"]
+
 };
 export default slashGPTAgentInfo;
