@@ -10,6 +10,7 @@ const document = fs.readFileSync(filePath, "utf8");
 
 const messages = [
   {
+    // System message, which gives the specification of GraphAI, and instruct to generate a graphAI graph dynamically. 
     role: "system",
     content:
       "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
@@ -17,10 +18,12 @@ const messages = [
       document,
   },
   {
+    // Sample question, which specifies which information we need to get from the user. 
     role: "user",
     content: "Name, Date of Birth and Gendar",
   },
   {
+    // Sample AI agent graph, which acquires those information from the user.
     role: "assistant",
     content: "```json\n" + JSON.stringify(graph_data) + "```\n",
   },
@@ -29,7 +32,8 @@ const messages = [
 const graph_data_explain = {
   version: 0.3,
   nodes: {
-    describer: {
+    graphGenerator: {
+      // Generates a graph for an AI agent to acquire specified information from the user.
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
@@ -37,10 +41,12 @@ const graph_data_explain = {
       inputs: ["Name, Address and Phone Number", messages],
     },
     parser: {
+      // Parses the JSON data in the returned message
       agent: "jsonParserAgent",
-      inputs: [":describer.choices.$0.message.content"],
+      inputs: [":graphGenerator.choices.$0.message.content"],
     },
-    nested: {
+    executer: {
+      // Execute that AI Agent
       agent: "nestedAgent",
       graph: ":parser",
       isResult: true,
