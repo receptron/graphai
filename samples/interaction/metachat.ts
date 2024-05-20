@@ -10,7 +10,7 @@ const document = fs.readFileSync(filePath, "utf8");
 
 const messages = [
   {
-    // System message, which gives the specification of GraphAI, and instruct to generate a graphAI graph dynamically. 
+    // System message, which gives the specification of GraphAI, and instruct to generate a graphAI graph dynamically.
     role: "system",
     content:
       "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
@@ -18,7 +18,7 @@ const messages = [
       document,
   },
   {
-    // Sample question, which specifies which information we need to get from the user. 
+    // Sample question, which specifies which information we need to get from the user.
     role: "user",
     content: "Name, Date of Birth and Gendar",
   },
