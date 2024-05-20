@@ -1,27 +1,52 @@
-import { nestedAgent, sleeperAgent } from "@/experimental_agents";
-import { defaultTestContext } from "@/utils/test_utils";
+import { graphDataTestRunner } from "~/utils/runner";
+import { defaultTestAgents } from "@/utils/test_agents";
+import { fileBaseName } from "~/utils/file_utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
-test("test dynamic agent", async () => {
-  const result = await nestedAgent.agent({
-    ...defaultTestContext,
-    agents: { sleeperAgent },
-    graphData: {
-      version: 0.3,
-      nodes: {
-        node1: {
-          agent: "sleeperAgent",
-          inputs: [":$0", ":$1", ":$2"],
-          isResult: true,
-        },
+const graphdata_child = {
+  version: 0.3,
+  loop: {
+    count: 5,
+  },
+  nodes: {
+    array: {
+      value: [],
+      update: ":reducer",
+    },
+    item: {
+      agent: "sleeperAgent",
+      params: {
+        duration: 10,
+        value: "hello",
       },
     },
-    inputs: [{ apple: "red" }, { lemon: "yellow" }, { orange: "orange" }],
-  });
+    reducer: {
+      isResult: true,
+      agent: "pushAgent",
+      inputs: [":array", ":item"],
+    },
+  },
+};
+
+const graphdata = {
+  version: 0.3,
+  nodes: {
+    nested: {
+      agent: "nestedAgent",
+      graph: graphdata_child,
+      isResult: true
+    }
+  }
+}
+
+test("test dynamic graph", async () => {
+  const result = await graphDataTestRunner(__filename, graphdata, defaultTestAgents, () => {}, false);
   assert.deepStrictEqual(result, {
-    node1: { apple: "red", lemon: "yellow", orange: "orange" },
+    nested: {
+      reducer: ["hello", "hello", "hello", "hello", "hello"],
+    }
   });
 });
 
