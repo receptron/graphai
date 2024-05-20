@@ -43,10 +43,12 @@ const graph_data = {
       // Generates an message object with the user input.
       agent: "propertyFilterAgent",
       params: {
-        inject: [{
-          propId: "content",
-          from: 1
-        }]        
+        inject: [
+          {
+            propId: "content",
+            from: 1,
+          },
+        ],
       },
       inputs: [{ role: "user" }, ":userInput"],
     },
@@ -68,7 +70,7 @@ const graph_data = {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLlama3\x1b[0m: ${0}"
+        template: "\x1b[32mLlama3\x1b[0m: ${0}",
       },
       console: {
         after: true,
