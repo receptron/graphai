@@ -9,23 +9,26 @@ const graph_data = {
     while: ":continue",
   },
   nodes: {
+    // Holds a boolean value, which specifies if we need to contine or not.
     continue: {
       value: true,
       update: ":checkInput.continue",
     },
     messages: {
-      // This node holds the conversation, array of messages.
+      // Holds the conversation, the array of messages.
       value: [],
       update: ":reducer",
       isResult: true,
     },
     userInput: {
+      // Receives an input from the user.
       agent: "textInputAgent",
       params: {
         message: "You:",
       },
     },
     checkInput: {
+      // Checks if the user is willing to terminate the chat or not.
       agent: "propertyFilterAgent",
       params: {
         inspect: [
@@ -38,6 +41,7 @@ const graph_data = {
       inputs: [{}, ":userInput"],
     },
     userMessage: {
+      // Generates an message object with the user input.
       agent: "propertyFilterAgent",
       params: {
         inject: [{
@@ -48,18 +52,13 @@ const graph_data = {
       inputs: [{ role: "user" }, ":userInput"],
     },
     appendedMessages: {
+      // Appends it to the conversation
       agent: "pushAgent",
       inputs: [":messages", ":userMessage"],
       if: ":checkInput.continue",
     },
-    appendedMessages2: {
-      // This node appends the user's input to the array of messages.
-      agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
-      inputs: [":userInput", ":messages"],
-      if: ":checkInput.continue",
-    },
     groq: {
-      // This node sends those messages to Llama3 on groq to get the answer.
+      // Sends those messages to LLM to get a response.
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
@@ -67,7 +66,7 @@ const graph_data = {
       inputs: [undefined, ":appendedMessages"],
     },
     output: {
-      // This node displays the responce to the user.
+      // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
         template: "\x1b[32mLlama3\x1b[0m: ${0}"
@@ -78,7 +77,7 @@ const graph_data = {
       inputs: [":groq.choices.$0.message.content"],
     },
     reducer: {
-      // This node append the responce to the messages.
+      // Appends the responce to the messages.
       agent: "pushAgent",
       inputs: [":appendedMessages", ":groq.choices.$0.message"],
     },
