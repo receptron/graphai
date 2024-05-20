@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent, textInputAgent } from "@/experimental_agents";
+import { groqAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const graph_data = {
@@ -11,7 +11,7 @@ const graph_data = {
   nodes: {
     continue: {
       value: true,
-      update: ":checkInput",
+      update: ":checkInput.continue",
     },
     messages: {
       // This node holds the conversation, array of messages.
@@ -26,8 +26,16 @@ const graph_data = {
       },
     },
     checkInput: {
-      agent: (query: string) => query !== "/bye",
-      inputs: [":userInput"],
+      agent: "propertyFilterAgent",
+      params: {
+        inspect: [
+          {
+            propId: "continue",
+            notEqual: "/bye",
+          },
+        ],
+      },
+      inputs: [{}, ":userInput"],
     },
     appendedMessages: {
       // This node appends the user's input to the array of messages.
@@ -65,6 +73,7 @@ export const main = async () => {
       shiftAgent,
       nestedAgent,
       textInputAgent,
+      propertyFilterAgent,
     },
     () => {},
     false,
