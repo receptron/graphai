@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent } from "@/experimental_agents";
+import { groqAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const graph_data = {
@@ -53,7 +53,14 @@ const graph_data = {
     },
     output: {
       // This node displays the responce to the user.
-      agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
+      agent: "stringTemplateAgent",
+      params: {
+        template: "Llama3: ${0}\n"
+      },
+      console: {
+        after: true,
+      },
+      // agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
       inputs: [":groq.choices.$0.message.content"],
     },
     reducer: {
@@ -74,6 +81,7 @@ export const main = async () => {
       nestedAgent,
       textInputAgent,
       propertyFilterAgent,
+      stringTemplateAgent,
     },
     () => {},
     false,
