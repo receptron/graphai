@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { copyAgent, openAIAgent } from "@/experimental_agents";
+import { copyAgent, openAIAgent, jsonParserAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "@/experimental_agents";
 import * as path from "path";
 import * as fs from "fs";
 import { graph_data } from "./reception";
@@ -36,17 +36,29 @@ const graph_data_explain = {
       },
       inputs: ["Name, Address and Phone Number", messages],
     },
-    description: {
-      agent: "copyAgent",
+    parser: {
+      agent: "jsonParserAgent",
       inputs: [":describer.choices.$0.message.content"],
-      isResult: true,
     },
+    nested: {
+      agent: "nestedAgent",
+      graph: ":parser",
+      isResult: true
+    }
   },
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data_explain, { openAIAgent, copyAgent });
-  console.log(result.description);
+  const result = await graphDataTestRunner(__filename, graph_data_explain, { 
+    openAIAgent, 
+    copyAgent,
+    jsonParserAgent,
+    nestedAgent,
+    textInputAgent,
+    propertyFilterAgent,
+    stringTemplateAgent,
+  }, ()=>{}, false);
+  console.log(result);
 };
 
 if (process.argv[1] === __filename) {
