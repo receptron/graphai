@@ -56,7 +56,6 @@ const graph_data = {
       // Appends it to the conversation
       agent: "pushAgent",
       inputs: [":messages", ":userMessage"],
-      if: ":checkInput.continue",
     },
     groq: {
       // Sends those messages to LLM to get a response.

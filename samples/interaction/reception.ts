@@ -40,6 +40,12 @@ const graph_data = {
       value: true,
       update: ":llm.choices.$0.message.content",
     },
+    information: {
+      // Holds the information acquired from the user at the end of this chat.
+      value: undefined,
+      update: ":argumentsParser",
+      isResult: true,
+    },
     messages: {
       // Holds the conversation, the array of messages.
       value: [{ role: "system", content: "You  are responsible in retrieving following information from the user.\n" +
@@ -48,7 +54,6 @@ const graph_data = {
       "sex: gender (NEVER guess from the name)\n" +
       "When you get all the information from the user, call the function 'report'.\n" }],
       update: ":reducer",
-      isResult: true,
     },
     userInput: {
       // Receives an input from the user.
@@ -82,12 +87,10 @@ const graph_data = {
       },
       inputs: [undefined, ":appendedMessages"],
     },
-    parser: {
+    argumentsParser: {
+      // Parses the function arguments
       agent: "jsonParserAgent",
       inputs: [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
-      console: {
-        after: true,
-      },
       if: ":llm.choices.$0.message.tool_calls",
     },
     output: {
