@@ -38,7 +38,7 @@ export type ComputedNodeData = {
     timeout?: number;
     if?: string;
     unless?: string;
-    graph?: GraphData;
+    graph?: GraphData | string;
     isResult?: boolean;
     priority?: number;
     console?: Record<string, string | boolean>;
