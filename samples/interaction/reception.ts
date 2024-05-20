@@ -2,32 +2,34 @@ import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { openAIAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent, jsonParserAgent } from "@/experimental_agents";
 
-const tools = [{
-  type: "function",
-  function: {
-    "name": "report",
-    "description": "Report the information acquired from the user",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "the name of the patient (first and last)"
+const tools = [
+  {
+    type: "function",
+    function: {
+      name: "report",
+      description: "Report the information acquired from the user",
+      parameters: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "the name of the patient (first and last)",
+          },
+          sex: {
+            type: "string",
+            description: "Gender of the patient.",
+            enum: ["male", "female"],
+          },
+          dob: {
+            type: "string",
+            description: "Patient's date of birth.",
+          },
         },
-        "sex": {
-          "type": "string",
-          "description": "Gender of the patient.",
-          "enum": ["male", "female"]
-        },
-        "dob": {
-          "type": "string",
-          "description": "Patient's date of birth."
-        }
+        required: ["name", "sex", "dob"],
       },
-      "required": ["name", "sex", "dob"]
-    }
-  }
-}];
+    },
+  },
+];
 
 const graph_data = {
   version: 0.3,
@@ -48,11 +50,17 @@ const graph_data = {
     },
     messages: {
       // Holds the conversation, the array of messages.
-      value: [{ role: "system", content: "You  are responsible in retrieving following information from the user.\n" +
-      "name: both first and last name\n" +
-      "dob: date of birth. It MUST include the year\n" +
-      "sex: gender (NEVER guess from the name)\n" +
-      "When you get all the information from the user, call the function 'report'.\n" }],
+      value: [
+        {
+          role: "system",
+          content:
+            "You  are responsible in retrieving following information from the user.\n" +
+            "name: both first and last name\n" +
+            "dob: date of birth. It MUST include the year\n" +
+            "sex: gender (NEVER guess from the name)\n" +
+            "When you get all the information from the user, call the function 'report'.\n",
+        },
+      ],
       update: ":reducer",
     },
     userInput: {
@@ -66,10 +74,12 @@ const graph_data = {
       // Generates an message object with the user input.
       agent: "propertyFilterAgent",
       params: {
-        inject: [{
-          propId: "content",
-          from: 1
-        }]        
+        inject: [
+          {
+            propId: "content",
+            from: 1,
+          },
+        ],
       },
       inputs: [{ role: "user" }, ":userInput"],
     },
@@ -83,7 +93,7 @@ const graph_data = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        tools
+        tools,
       },
       inputs: [undefined, ":appendedMessages"],
     },
@@ -97,13 +107,13 @@ const graph_data = {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLlama3\x1b[0m: ${0}"
+        template: "\x1b[32mLlama3\x1b[0m: ${0}",
       },
       console: {
         after: true,
       },
       inputs: [":llm.choices.$0.message.content"],
-      if: ":llm.choices.$0.message.content"
+      if: ":llm.choices.$0.message.content",
     },
     reducer: {
       // Appends the responce to the messages.
