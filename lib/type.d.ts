@@ -26,10 +26,10 @@ export type StaticNodeData = {
     update?: string;
     isResult?: boolean;
 };
-export type AgentNamelessFunction = (...param: any[]) => unknown;
+export type AgentAnonymousFunction = (...params: any[]) => unknown;
 export type AgentFilterParams = Record<string, any>;
 export type ComputedNodeData = {
-    agent: string | AgentNamelessFunction;
+    agent: string | AgentAnonymousFunction;
     inputs?: Array<any>;
     anyInput?: boolean;
     params?: NodeDataParams;

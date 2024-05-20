@@ -16,7 +16,14 @@ declare const textInputAgentInfo: {
     }, string | {
         [x: string]: string;
     }>;
-    samples: never[];
+    samples: {
+        inputs: never[];
+        params: {
+            message: string;
+        };
+        result: string;
+    }[];
+    skipTest: boolean;
     description: string;
     category: string[];
     author: string;

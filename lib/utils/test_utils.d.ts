@@ -1,5 +1,5 @@
-import { AgentFunctionInfo, AgentFunctionContext, AgentFunction, AgentFilterInfo, ResultData } from "../type";
-export declare const getAgentInfo: (agent: AgentFunction<any, any, any>) => {
+import { AgentFunctionInfo } from "../type";
+export declare const getAgentInfo: (agent: import("../type").AgentFunction<any, any, any>) => {
     name: string;
     samples: {
         inputs: never[];
@@ -11,8 +11,8 @@ export declare const getAgentInfo: (agent: AgentFunction<any, any, any>) => {
     author: string;
     repository: string;
     license: string;
-    agent: AgentFunction<any, any, any>;
-    mock: AgentFunction<any, any, any>;
+    agent: import("../type").AgentFunction<any, any, any>;
+    mock: import("../type").AgentFunction<any, any, any>;
 };
 export declare const defaultTestContext: {
     debugInfo: {
@@ -26,4 +26,3 @@ export declare const defaultTestContext: {
     log: never[];
 };
 export declare const agentTestRunner: (agentInfo: AgentFunctionInfo) => Promise<void>;
-export declare const agentFilterRunnerBuilder: (__agentFilters: AgentFilterInfo[]) => (context: AgentFunctionContext, agent: AgentFunction) => Promise<ResultData>;
