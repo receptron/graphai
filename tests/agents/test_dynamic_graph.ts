@@ -42,7 +42,7 @@ const graphdata = {
       isResult: true
     }
   }
-}
+};
 
 test("test dynamic graph", async () => {
   const result = await graphDataTestRunner(__filename, graphdata, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
@@ -69,7 +69,7 @@ const graphdata2 = {
       isResult: true
     }
   }
-}
+};
 
 test("test dynamic graph parser", async () => {
   const result = await graphDataTestRunner(__filename, graphdata2, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
