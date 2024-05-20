@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
-import input from "@inquirer/input";
+import { groqAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "@/experimental_agents";
 
 const graph_data = {
   version: 0.3,
@@ -9,32 +8,56 @@ const graph_data = {
     while: ":continue",
   },
   nodes: {
+    // Holds a boolean value, which specifies if we need to contine or not.
     continue: {
       value: true,
-      update: ":checkInput",
+      update: ":checkInput.continue",
     },
     messages: {
-      // This node holds the conversation, array of messages.
+      // Holds the conversation, the array of messages.
       value: [],
       update: ":reducer",
       isResult: true,
     },
     userInput: {
-      // This node receives an input from the user.
-      agent: () => input({ message: "You:" }),
+      // Receives an input from the user.
+      agent: "textInputAgent",
+      params: {
+        message: "You:",
+      },
     },
     checkInput: {
-      agent: (query: string) => query !== "/bye",
-      inputs: [":userInput"],
+      // Checks if the user is willing to terminate the chat or not.
+      agent: "propertyFilterAgent",
+      params: {
+        inspect: [
+          {
+            propId: "continue",
+            notEqual: "/bye",
+          },
+        ],
+      },
+      inputs: [{}, ":userInput"],
+    },
+    userMessage: {
+      // Generates an message object with the user input.
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [{
+          propId: "content",
+          from: 1
+        }]        
+      },
+      inputs: [{ role: "user" }, ":userInput"],
     },
     appendedMessages: {
-      // This node appends the user's input to the array of messages.
-      agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
-      inputs: [":userInput", ":messages"],
-      if: ":checkInput",
+      // Appends it to the conversation
+      agent: "pushAgent",
+      inputs: [":messages", ":userMessage"],
+      if: ":checkInput.continue",
     },
     groq: {
-      // This node sends those messages to Llama3 on groq to get the answer.
+      // Sends those messages to LLM to get a response.
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
@@ -42,12 +65,18 @@ const graph_data = {
       inputs: [undefined, ":appendedMessages"],
     },
     output: {
-      // This node displays the responce to the user.
-      agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
+      // Displays the response to the user.
+      agent: "stringTemplateAgent",
+      params: {
+        template: "\x1b[32mLlama3\x1b[0m: ${0}"
+      },
+      console: {
+        after: true,
+      },
       inputs: [":groq.choices.$0.message.content"],
     },
     reducer: {
-      // This node append the responce to the messages.
+      // Appends the responce to the messages.
       agent: "pushAgent",
       inputs: [":appendedMessages", ":groq.choices.$0.message"],
     },
@@ -62,6 +91,9 @@ export const main = async () => {
       groqAgent,
       shiftAgent,
       nestedAgent,
+      textInputAgent,
+      propertyFilterAgent,
+      stringTemplateAgent,
     },
     () => {},
     false,
