@@ -64,5 +64,7 @@ declare const openaiAgentInfo: {
     author: string;
     repository: string;
     license: string;
+    stream: boolean;
+    npms: string[];
 };
 export default openaiAgentInfo;

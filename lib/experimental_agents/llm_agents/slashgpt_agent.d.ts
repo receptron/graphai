@@ -23,5 +23,7 @@ declare const slashGPTAgentInfo: {
     author: string;
     repository: string;
     license: string;
+    stream: boolean;
+    npms: string[];
 };
 export default slashGPTAgentInfo;

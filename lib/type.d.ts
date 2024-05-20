@@ -97,5 +97,8 @@ export type AgentFunctionInfo = {
     author: string;
     repository: string;
     license: string;
+    stream?: boolean;
+    apiKeys?: string[];
+    npms?: string[];
 };
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;

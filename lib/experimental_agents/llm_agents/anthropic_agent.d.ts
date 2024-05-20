@@ -29,5 +29,6 @@ declare const anthropicAgentInfo: {
     author: string;
     repository: string;
     license: string;
+    npms: string[];
 };
 export default anthropicAgentInfo;
