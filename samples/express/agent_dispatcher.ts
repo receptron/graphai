@@ -2,7 +2,7 @@ import express from "express";
 import { defaultTestAgents } from "@/utils/test_agents";
 
 import { streamAgentFilterGenerator } from "@/experimental_agent_filters/stream";
-import { agentFilterRunnerBuilder } from "@/utils/test_utils";
+import { agentFilterRunnerBuilder } from "@/utils/runner";
 
 import { AgentFunctionContext } from "@/type";
 

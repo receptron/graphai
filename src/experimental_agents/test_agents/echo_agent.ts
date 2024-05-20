@@ -12,7 +12,18 @@ const echoAgentInfo: AgentFunctionInfo = {
   name: "echoAgent",
   agent: echoAgent,
   mock: echoAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [],
+      params: { message: "this is test" },
+      result: { message: "this is test" },
+    },
+    {
+      inputs: [],
+      params: { message: "If you add filterParams option, it will respond to filterParams", filterParams: true },
+      result: {},
+    },
+  ],
   description: "Echo agent",
   category: ["test"],
   author: "Satoshi Nakajima",

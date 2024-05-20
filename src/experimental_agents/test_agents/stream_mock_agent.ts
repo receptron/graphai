@@ -19,7 +19,13 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   name: "streamMockAgent",
   agent: streamMockAgent,
   mock: streamMockAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: [],
+      params: { message: "this is test" },
+      result: { message: "this is test" },
+    },
+  ],
   description: "Stream mock agent",
   category: ["test"],
   author: "Isamu Arimoto",
