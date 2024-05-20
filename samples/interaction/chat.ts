@@ -55,12 +55,11 @@ const graph_data = {
       // This node displays the responce to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "Llama3: ${0}\n"
+        template: "\x1b[32mLlama3\x1b[0m: ${0}"
       },
       console: {
         after: true,
       },
-      // agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
       inputs: [":groq.choices.$0.message.content"],
     },
     reducer: {
