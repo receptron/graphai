@@ -44,7 +44,7 @@ export const graph_data = {
     },
     information: {
       // Holds the information acquired from the user at the end of this chat.
-      value: undefined,
+      value: {},
       update: ":argumentsParser",
       isResult: true,
     },
