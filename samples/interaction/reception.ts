@@ -57,21 +57,6 @@ const graph_data = {
         message: "You:",
       },
     },
-    /*
-    checkInput: {
-      // Checks if the user is willing to terminate the chat or not.
-      agent: "propertyFilterAgent",
-      params: {
-        inspect: [
-          {
-            propId: "continue",
-            notEqual: "/bye",
-          },
-        ],
-      },
-      inputs: [{}, ":userInput"],
-    },
-    */
     userMessage: {
       // Generates an message object with the user input.
       agent: "propertyFilterAgent",
@@ -87,13 +72,9 @@ const graph_data = {
       // Appends it to the conversation
       agent: "pushAgent",
       inputs: [":messages", ":userMessage"],
-      // if: ":checkInput.continue",
     },
     llm: {
       // Sends those messages to LLM to get a response.
-      console: {
-        after: true,
-      },
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
