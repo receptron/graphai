@@ -43,21 +43,27 @@ const graph_data_explain = {
     nested: {
       agent: "nestedAgent",
       graph: ":parser",
-      isResult: true
-    }
+      isResult: true,
+    },
   },
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data_explain, { 
-    openAIAgent, 
-    copyAgent,
-    jsonParserAgent,
-    nestedAgent,
-    textInputAgent,
-    propertyFilterAgent,
-    stringTemplateAgent,
-  }, ()=>{}, false);
+  const result = await graphDataTestRunner(
+    __filename,
+    graph_data_explain,
+    {
+      openAIAgent,
+      copyAgent,
+      jsonParserAgent,
+      nestedAgent,
+      textInputAgent,
+      propertyFilterAgent,
+      stringTemplateAgent,
+    },
+    () => {},
+    false,
+  );
   console.log(result);
 };
 

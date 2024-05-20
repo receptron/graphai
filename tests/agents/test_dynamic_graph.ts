@@ -39,9 +39,9 @@ const graphdata = {
     nested: {
       agent: "nestedAgent",
       graph: ":source",
-      isResult: true
-    }
-  }
+      isResult: true,
+    },
+  },
 };
 
 test("test dynamic graph", async () => {
@@ -49,7 +49,7 @@ test("test dynamic graph", async () => {
   assert.deepStrictEqual(result, {
     nested: {
       reducer: ["hello", "hello", "hello", "hello", "hello"],
-    }
+    },
   });
 });
 
@@ -61,14 +61,14 @@ const graphdata2 = {
     },
     parser: {
       agent: "jsonParserAgent",
-      inputs: [":source"]
+      inputs: [":source"],
     },
     nested: {
       agent: "nestedAgent",
       graph: ":parser",
-      isResult: true
-    }
-  }
+      isResult: true,
+    },
+  },
 };
 
 test("test dynamic graph parser", async () => {
@@ -76,7 +76,7 @@ test("test dynamic graph parser", async () => {
   assert.deepStrictEqual(result, {
     nested: {
       reducer: ["hello", "hello", "hello", "hello", "hello"],
-    }
+    },
   });
 });
 
@@ -88,14 +88,14 @@ const graphdata3 = {
     },
     parser: {
       agent: "jsonParserAgent",
-      inputs: [":source"]
+      inputs: [":source"],
     },
     nested: {
       agent: "nestedAgent",
       graph: ":parser",
-      isResult: true
-    }
-  }
+      isResult: true,
+    },
+  },
 };
 
 test("test dynamic graph parser extra", async () => {
@@ -103,6 +103,6 @@ test("test dynamic graph parser extra", async () => {
   assert.deepStrictEqual(result, {
     nested: {
       reducer: ["hello", "hello", "hello", "hello", "hello"],
-    }
+    },
   });
 });
