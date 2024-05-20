@@ -79,3 +79,30 @@ test("test dynamic graph parser", async () => {
     }
   });
 });
+
+const graphdata3 = {
+  version: 0.3,
+  nodes: {
+    source: {
+      value: "```\n" + JSON.stringify(graphdata_child) + "\n```\n",
+    },
+    parser: {
+      agent: "jsonParserAgent",
+      inputs: [":source"]
+    },
+    nested: {
+      agent: "nestedAgent",
+      graph: ":parser",
+      isResult: true
+    }
+  }
+};
+
+test("test dynamic graph parser extra", async () => {
+  const result = await graphDataTestRunner(__filename, graphdata3, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
+  assert.deepStrictEqual(result, {
+    nested: {
+      reducer: ["hello", "hello", "hello", "hello", "hello"],
+    }
+  });
+});

@@ -10,6 +10,11 @@ export const jsonParserAgent: AgentFunction<
   if (params.stringify) {
     return JSON.stringify(inputs[0], null, 2);
   }
+  const match = ("\n" + inputs[0]).match(/\n```[a-zA-z]*([^.]*)\n```/);
+  if (match) {
+    console.log("***", match);
+    return JSON.parse(match[0]);
+  }
   return JSON.parse(inputs[0]);
 };
 
