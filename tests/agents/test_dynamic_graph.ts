@@ -1,6 +1,6 @@
 import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
-import { fileBaseName } from "~/utils/file_utils";
+import { jsonParserAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -45,7 +45,7 @@ const graphdata = {
 }
 
 test("test dynamic graph", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__filename, graphdata, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
       reducer: ["hello", "hello", "hello", "hello", "hello"],
@@ -53,3 +53,29 @@ test("test dynamic graph", async () => {
   });
 });
 
+const graphdata2 = {
+  version: 0.3,
+  nodes: {
+    source: {
+      value: JSON.stringify(graphdata_child),
+    },
+    parser: {
+      agent: "jsonParserAgent",
+      inputs: [":source"]
+    },
+    nested: {
+      agent: "nestedAgent",
+      graph: ":parser",
+      isResult: true
+    }
+  }
+}
+
+test("test dynamic graph parser", async () => {
+  const result = await graphDataTestRunner(__filename, graphdata2, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
+  assert.deepStrictEqual(result, {
+    nested: {
+      reducer: ["hello", "hello", "hello", "hello", "hello"],
+    }
+  });
+});
