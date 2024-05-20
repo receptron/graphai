@@ -37,11 +37,26 @@ const graph_data = {
       },
       inputs: [{}, ":userInput"],
     },
+    userMessage: {
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [{
+          propId: "content",
+          from: 1
+        }]        
+      },
+      inputs: [{ role: "user" }, ":userInput"],
+    },
     appendedMessages: {
+      agent: "pushAgent",
+      inputs: [":messages", ":userMessage"],
+      if: ":checkInput.continue",
+    },
+    appendedMessages2: {
       // This node appends the user's input to the array of messages.
       agent: (content: string, messages: Array<any>) => [...messages, { role: "user", content }],
       inputs: [":userInput", ":messages"],
-      if: ":checkInput",
+      if: ":checkInput.continue",
     },
     groq: {
       // This node sends those messages to Llama3 on groq to get the answer.
