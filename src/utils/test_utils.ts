@@ -1,11 +1,7 @@
 import { AgentFunctionInfo } from "@/type";
 
-import { agentInfoWrapper } from "@/utils/utils";
-
 import assert from "node:assert";
 import test from "node:test";
-
-export const getAgentInfo = agentInfoWrapper;
 
 export const defaultTestContext = {
   debugInfo: {
