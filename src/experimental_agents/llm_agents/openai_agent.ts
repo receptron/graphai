@@ -124,7 +124,7 @@ const openaiAgentInfo = {
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
   stream: true,
-  npms: ["openai"]
+  npms: ["openai"],
 };
 
 export default openaiAgentInfo;

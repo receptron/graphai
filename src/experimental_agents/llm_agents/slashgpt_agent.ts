@@ -45,7 +45,6 @@ const slashGPTAgentInfo = {
   license: "MIT",
 
   stream: true,
-  npms: ["slashgpt"]
-
+  npms: ["slashgpt"],
 };
 export default slashGPTAgentInfo;
