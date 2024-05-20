@@ -18,7 +18,7 @@ const messages = [{
 },{
   role: "assistant",
   content: "```json\n" + JSON.stringify(graph_data) + "```\n",  
-}]
+}];
 
 const graph_data_explain = {
   version: 0.3,
