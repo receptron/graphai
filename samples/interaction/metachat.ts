@@ -16,11 +16,16 @@ const graph_data_explain = {
       params: {
         model: "gpt-4o",
         system:
-          "You an expert in GraphAI programming. You are responsible in reading the graph data an explain how it works.\n" +
-          "Here is the documation of GraphAI.\n" +
-          document,
+          "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
+          "[documation of GraphAI]\n" +
+          document + "\n" +
+          "[Sample Question and Answer]\n" +
+          "[Question]\n" +
+          "Name, Date of Birth and Gendar\n" + 
+          "[Answer]\n" +
+          graph_data
       },
-      inputs: [JSON.stringify(graph_data, null, 2)],
+      inputs: ["Name", "Address", "Phone Number"],
     },
     description: {
       agent: "copyAgent",
