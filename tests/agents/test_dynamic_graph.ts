@@ -33,9 +33,12 @@ const graphdata_child = {
 const graphdata = {
   version: 0.3,
   nodes: {
+    source: {
+      value: graphdata_child,
+    },
     nested: {
       agent: "nestedAgent",
-      graph: graphdata_child,
+      graph: ":source",
       isResult: true
     }
   }
