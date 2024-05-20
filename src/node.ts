@@ -56,7 +56,7 @@ export class ComputedNode extends Node {
   public readonly params: NodeDataParams; // Agent-specific parameters
   private readonly filterParams: AgentFilterParams;
   private readonly dynamicParams: Record<string, DataSource>;
-  public readonly nestedGraph?: GraphData;
+  public readonly nestedGraph?: GraphData | DataSource;
   public readonly retryLimit: number;
   public retryCount: number = 0;
   private readonly agentId?: string;
@@ -82,7 +82,6 @@ export class ComputedNode extends Node {
     this.params = data.params ?? {};
     this.console = data.console ?? {};
     this.filterParams = data.filterParams ?? {};
-    this.nestedGraph = data.graph;
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
     } else {
@@ -100,6 +99,14 @@ export class ComputedNode extends Node {
     this.anyInput = data.anyInput ?? false;
     this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
+    if (typeof data.graph === "string") {
+      const source = parseNodeName(data.graph, graph.version);
+      assert(!!source.nodeId, `Invalid data source ${data.graph}`);
+      this.pendings.add(source.nodeId);
+      this.nestedGraph = source;
+    } else if (data.graph) {
+      this.nestedGraph = data.graph;
+    }
     if (data.if) {
       this.ifSource = parseNodeName(data.if, graph.version);
       assert(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
@@ -300,7 +307,13 @@ export class ComputedNode extends Node {
       if (this.nestedGraph) {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
-        context.graphData = this.nestedGraph;
+        if ("nodes" in this.nestedGraph) {
+          context.graphData = this.nestedGraph;
+        } else {
+          const [graphData] = this.graph.resultsOf([this.nestedGraph])
+          console.log("***", graphData);
+          context.graphData = graphData as GraphData; // HACK
+        }
         context.agents = this.graph.agentFunctionInfoDictionary;
       }
 
