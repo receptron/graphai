@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { openAIAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "@/experimental_agents";
+import { openAIAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent, jsonParserAgent } from "@/experimental_agents";
 
 const tools = [{
   type: "function",
@@ -38,7 +38,7 @@ const graph_data = {
     // Holds a boolean value, which specifies if we need to contine or not.
     continue: {
       value: true,
-      update: ":checkInput.continue",
+      update: ":llm.choices.$0.message.content",
     },
     messages: {
       // Holds the conversation, the array of messages.
@@ -57,6 +57,7 @@ const graph_data = {
         message: "You:",
       },
     },
+    /*
     checkInput: {
       // Checks if the user is willing to terminate the chat or not.
       agent: "propertyFilterAgent",
@@ -70,6 +71,7 @@ const graph_data = {
       },
       inputs: [{}, ":userInput"],
     },
+    */
     userMessage: {
       // Generates an message object with the user input.
       agent: "propertyFilterAgent",
@@ -85,7 +87,7 @@ const graph_data = {
       // Appends it to the conversation
       agent: "pushAgent",
       inputs: [":messages", ":userMessage"],
-      if: ":checkInput.continue",
+      // if: ":checkInput.continue",
     },
     llm: {
       // Sends those messages to LLM to get a response.
@@ -99,6 +101,14 @@ const graph_data = {
       },
       inputs: [undefined, ":appendedMessages"],
     },
+    parser: {
+      agent: "jsonParserAgent",
+      inputs: [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
+      console: {
+        after: true,
+      },
+      if: ":llm.choices.$0.message.tool_calls",
+    },
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
@@ -109,6 +119,7 @@ const graph_data = {
         after: true,
       },
       inputs: [":llm.choices.$0.message.content"],
+      if: ":llm.choices.$0.message.content"
     },
     reducer: {
       // Appends the responce to the messages.
@@ -129,6 +140,7 @@ export const main = async () => {
       textInputAgent,
       propertyFilterAgent,
       stringTemplateAgent,
+      jsonParserAgent,
     },
     () => {},
     false,
