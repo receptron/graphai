@@ -8,17 +8,23 @@ import { graph_data } from "./reception";
 const filePath = path.join(__dirname, "../../README.md");
 const document = fs.readFileSync(filePath, "utf8");
 
-const messages = [{
-  role: "system",
-  content: "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
-    "[documation of GraphAI]\n" + document
-},{
-  role: "user",
-  content: "Name, Date of Birth and Gendar"
-},{
-  role: "assistant",
-  content: "```json\n" + JSON.stringify(graph_data) + "```\n",  
-}];
+const messages = [
+  {
+    role: "system",
+    content:
+      "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
+      "[documation of GraphAI]\n" +
+      document,
+  },
+  {
+    role: "user",
+    content: "Name, Date of Birth and Gendar",
+  },
+  {
+    role: "assistant",
+    content: "```json\n" + JSON.stringify(graph_data) + "```\n",
+  },
+];
 
 const graph_data_explain = {
   version: 0.3,
