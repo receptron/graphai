@@ -31,7 +31,7 @@ const tools = [
   },
 ];
 
-const graph_data = {
+export const graph_data = {
   version: 0.3,
   loop: {
     while: ":continue",
