@@ -17,7 +17,7 @@ const messages = [{
   content: "Name, Date of Birth and Gendar"
 },{
   role: "assistant",
-  content: JSON.stringify(graph_data)  
+  content: "```json\n" + JSON.stringify(graph_data) + "```\n",  
 }]
 
 const graph_data_explain = {
