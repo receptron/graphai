@@ -53,6 +53,8 @@ const anthropicAgentInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
+  // stream: true,
+  npms: ["@anthropic-ai/sdk"]
 };
 
 export default anthropicAgentInfo;

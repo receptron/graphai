@@ -31,6 +31,7 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   author: "Isamu Arimoto",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
+  stream: true,
 };
 
 export default streamMockAgentInfo;
