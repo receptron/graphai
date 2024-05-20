@@ -84,7 +84,7 @@ const graphdata3 = {
   version: 0.3,
   nodes: {
     source: {
-      value: "```\n" + JSON.stringify(graphdata_child) + "\n```\n",
+      value: "```json\n" + JSON.stringify(graphdata_child) + "\n```\n",
     },
     parser: {
       agent: "jsonParserAgent",
