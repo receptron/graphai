@@ -160,6 +160,9 @@ A *computed node* has following properties.
 - *timeout*: An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded.
 - *isResult*: An optional boolean value, which indicates that the return value of this node, should be included as a property of the return value from the run() method of the GraphUI instance.
 - *priority*: An optional number, which specifies the priority of the execution of the associated agent (the task). Default is 0, which means "neutral". Negative numbers are allowed as well.
+- *if*: An optional data source property. The node will be activated only if the value from the data source is truthy. 
+- *unless*: An optional data source property. The node will be activated only if the value from the data source is falty (including empty array). 
+- *graph*: An optional property for nested agents, which specifies the inner graph. This value can be a graph itself or the data souce, whose value is a graph.
 
 ### Static Node
 
@@ -319,10 +322,11 @@ flowchart LR
 
 GraphAI provides mechanisms to control the flow of data based on certain conditions. This is achieved through the *if* and *anyInput* properties.
 
-#### If Property
+#### If/Unless Property
 
-The *if* property allows you to specify a condition that must be met for the data to flow into a particular node. The condition is defined by a data source. If the value obtained from the specified *data source* is truthy (i.e., not null, undefined, 0, false, NaN, or an empty array/string), the node will be executed; otherwise, it will be skipped.
-For example, the following node will only be executed if the *tool_calls* property of the message from the LLM contains a value:
+The *if* property allows you to specify a condition that must be met for the data to flow into a particular node. The condition is defined by a data source. If the value obtained from the specified *data source* is truthy (i.e., not null, undefined, 0, false, NaN, or an empty array/string), the node will be executed; otherwise, it will be skipped.The *unless* property is just the opporsite of the *if* property. 
+
+For example, the following node will be executed only if the *tool_calls* property of the message from the LLM contains a non-zero/non-empty value:
 
 ```typescript
     tool_calls: {
@@ -380,4 +384,5 @@ Negative priority values are allowed, enabling you to fine-tune the execution or
 ## References
 
 - [Collaboration](./Collaboration.md)
+- [Sample Graphs](./samples/README.md)
 - [API Document](./APIDocument.md)
