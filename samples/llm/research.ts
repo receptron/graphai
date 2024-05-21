@@ -40,7 +40,7 @@ const tools_translated = [
 const language_detection_graph = {
   nodes: {
     identifier: {
-      // This node sends those messages to Llama3 on groq to get the answer.
+      // Ask the LLM to identify the language of :$0 (the first input to this graph).
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
@@ -54,10 +54,12 @@ const language_detection_graph = {
       inputs: [":$0"],
     },
     parser: {
+      // Parses the arguments
       agent: "jsonParserAgent",
       inputs: [":identifier.choices.$0.message.tool_calls.$0.function.arguments"],
     },
     extractor: {
+      // Creates a language context
       agent: "stringTemplateAgent",
       params: {
         template: {
@@ -68,6 +70,7 @@ const language_detection_graph = {
       inputs: [":parser.language", ":parser.englishTranslation"],
     },
     result: {
+      // Sets the isEnglish flag to the context.
       agent: "propertyFilterAgent",
       params: {
         inspect: [
@@ -87,6 +90,7 @@ const language_detection_graph = {
 const wikipedia_graph = {
   nodes: {
     wikipedia: {
+      // Fetches the content of the specified topic in :$0 (first parameter)
       agent: "wikipediaAgent",
       console: {
         before: "Fetching data from Wikipedia...",
@@ -97,6 +101,7 @@ const wikipedia_graph = {
       inputs: [":$0"],
     },
     summary: {
+      // Asks the LLM to summarize it.
       agent: "openAIAgent",
       console: {
         before: "Summarizing it...",
@@ -108,6 +113,7 @@ const wikipedia_graph = {
       inputs: [":wikipedia.content"],
     },
     result: {
+      // Extracts the response from the generated message
       agent: "copyAgent",
       isResult: true,
       inputs: [":summary.choices.$0.message.content"],
@@ -118,11 +124,13 @@ const wikipedia_graph = {
 const translator_graph = {
   nodes: {
     english: {
+      // Copies the input data ($0) if the context language is English 
       agent: "copyAgent",
       if: ":$1.isEnglish",
       inputs: [":$0"],
     },
     nonEnglish: {
+      // Prepares the prompt if the context language is not English.
       agent: "stringTemplateAgent",
       params: {
         template: "Translate the text below into ${0}",
@@ -132,6 +140,7 @@ const translator_graph = {
       isResult: true,
     },
     translate: {
+      // Asks the LLM to translate the input data ($0)
       agent: "openAIAgent",
       console: {
         before: "Translating it...",
@@ -144,6 +153,7 @@ const translator_graph = {
       isResult: true,
     },
     result: {
+      // Makes the result of either pass available
       agent: "copyAgent",
       anyInput: true,
       inputs: [":english", ":translate.choices.$0.message.content"],
@@ -156,12 +166,14 @@ const graph_data = {
   version: 0.3,
   nodes: {
     topic: {
+      // Gets the research topic from the user.
       agent: "textInputAgent",
       params: {
         message: "Type the topic you want to research:",
       },
     },
     detector: {
+      // Detect the language and creates the language context.
       agent: "nestedAgent",
       console: {
         before: "Detecting language...",
@@ -171,12 +183,14 @@ const graph_data = {
       isResult: true,
     },
     wikipedia: {
+      // Retrieves the Wikipedia content for the spcified topic and summarize it in English.
       agent: "nestedAgent",
       inputs: [":detector.result.text"],
       isResult: true,
       graph: wikipedia_graph,
     },
     translate: {
+      // Tranalte it into the appropriate language if necessary.
       agent: "nestedAgent",
       inputs: [":wikipedia.result", ":detector.result"],
       isResult: true,
