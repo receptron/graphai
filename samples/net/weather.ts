@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, nestedAgent, copyAgent, fetchAgent } from "@/experimental_agents";
+import { groqAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -46,7 +46,10 @@ const graph_data = {
     },
     userInput: {
       // Receives an input from the user.
-      agent: () => input({ message: "You:" }),
+      agent: "textInputAgent",
+      params: {
+        message: "Location:",
+      },
     },
     checkInput: {
       // Checkes if the user wants to end the conversation.
@@ -199,6 +202,7 @@ export const main = async () => {
       copyAgent,
       nestedAgent,
       fetchAgent,
+      textInputAgent,
     },
     () => {},
     false,
