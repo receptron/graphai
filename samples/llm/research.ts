@@ -124,7 +124,7 @@ const wikipedia_graph = {
 const translator_graph = {
   nodes: {
     english: {
-      // Copies the input data ($0) if the context language is English 
+      // Copies the input data ($0) if the context language is English
       agent: "copyAgent",
       if: ":$1.isEnglish",
       inputs: [":$0"],
