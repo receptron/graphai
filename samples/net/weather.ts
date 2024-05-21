@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent, jsonParserAgent } from "@/experimental_agents";
+import { groqAgent, openAIAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent, jsonParserAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -65,9 +65,9 @@ const graph_data = {
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
-      agent: "groqAgent",
+      agent: "openAIAgent",
       params: {
-        model: "Llama3-8b-8192",
+        // model: "Llama3-8b-8192",
         tools,
       },
       inputs: [undefined, ":messagesWithUserInput"],
@@ -168,13 +168,12 @@ const graph_data = {
           },
           llmCall: {
             // Sends those messages to LLM to get the answer.
-            agent: "groqAgent",
+            agent: "openAIAgent",
             params: {
-              model: "Llama3-8b-8192",
+              // model: "Llama3-8b-8192",
             },
             inputs: [undefined, ":messagesWithToolRes"],
           },
-          // TODO: Use console
           output: {
             // Displays the response to the user.
             agent: "stringTemplateAgent",
@@ -195,11 +194,10 @@ const graph_data = {
         },
       },
     },
-    // TODO: Use unless
     no_tool_calls: {
       // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
-      if: ":llmCall.choices.$0.message.content",
+      unless: ":llmCall.choices.$0.message.tool_calls",
       inputs: [":messagesWithFirstRes"],
     },
 
@@ -218,6 +216,7 @@ export const main = async () => {
     graph_data,
     {
       groqAgent,
+      openAIAgent,
       copyAgent,
       nestedAgent,
       fetchAgent,
