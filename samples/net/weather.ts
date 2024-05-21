@@ -168,17 +168,22 @@ const graph_data = {
             anyInput: true,
             inputs: [":fetchForecast", ":outputError"],
           },
-          // TODO: Eliminate code
           toolMessage: {
             // Creates a tool message as the return value of the tool call.
-            agent: (id: any, name: any, res: any) => {
-              return {
-              tool_call_id: id,
-              role: "tool",
-              name: name,
-              content: res,
-            };},
-            inputs: [":$0.$0.id", ":$0.$0.function.name", ":responseText"],
+            agent: "propertyFilterAgent",
+            params: {
+              inject: [{
+                propId: "tool_call_id",
+                from: 1,
+              }, {
+                propId: "name",
+                from: 2,
+              }, {
+                propId: "content",
+                from: 3,
+              }]
+            },
+            inputs: [{ role: "tool" }, ":$0.$0.id", ":$0.$0.function.name", ":responseText"],
           },
           /*
           filteredMessages: {
