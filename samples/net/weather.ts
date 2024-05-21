@@ -150,6 +150,14 @@ const graph_data = {
             inputs: [":fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
             if: ":fetchPoints.properties.forecast",
           },
+          outputError: {
+            agent: "copyAgent",
+            console: {
+              after: true,
+            },
+            inputs: [":fetchPoints.error.title"],
+            if: ":fetchPoints.error",
+          },
           responseText: {
             // Extract the forecast and error
             agent: "copyAgent",
@@ -159,24 +167,27 @@ const graph_data = {
           // TODO: Eliminate code
           toolMessage: {
             // Creates a tool message as the return value of the tool call.
-            agent: (info: any, res: any) => ({
+            agent: (info: any, res: any) => {
+              return {
               tool_call_id: info.id,
               role: "tool",
               name: info.function.name,
               content: res,
-            }),
+            };},
             inputs: [":$0.$0", ":responseText"],
           },
+          /*
           // TODO: Eliminate code
           filteredMessages: {
             // Removes previous tool messages to create a room.
-            agent: (messages: any) => messages.filter((message: any) => message.role !== "tool"),
+            agent: (messages: any) => messages.filter((message: any) => message.role !== "tool" && !message.tool_calls),
             inputs: [":$1"],
           },
+          */
           messagesWithToolRes: {
             // Appends that message to the messages.
             agent: "pushAgent",
-            inputs: [":filteredMessages", ":toolMessage"],
+            inputs: [":$1", ":toolMessage"],
           },
           llmCall: {
             // Sends those messages to LLM to get the answer.
