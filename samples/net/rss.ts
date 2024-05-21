@@ -8,7 +8,7 @@ const graph_data = {
   nodes: {
     url: {
       // Holds the RSS feed URL
-      value: "https://www.theverge.com/apple/rss/index.xml",
+      value: "https://www.theverge.com/microsoft/rss/index.xml",
     },
     rssFeed: {
       // Fetchs the RSS feed from the specified feed
@@ -18,8 +18,7 @@ const graph_data = {
       },
       inputs: [":url"],
     },
-    // TODO: Rename it to entries
-    filter: {
+    entries: {
       // Extracts necessary information from the feed
       agent: "propertyFilterAgent",
       params: {
@@ -30,7 +29,7 @@ const graph_data = {
     map: {
       // Processes each entry concurrently.
       agent: "mapAgent",
-      inputs: [":filter"],
+      inputs: [":entries"],
       isResult: true,
       params: {
         limit: 4, // to avoid rate limit
@@ -38,6 +37,7 @@ const graph_data = {
       graph: {
         nodes: {
           template: {
+            // Extracts title and content, then generate a single text
             agent: "stringTemplateAgent",
             params: {
               template: "Title:${0}\n${1}",
@@ -45,6 +45,7 @@ const graph_data = {
             inputs: [":$0.title", ":$0.content._"],
           },
           query: {
+            // Asks the LLM to summarize it
             agent: "groqAgent",
             params: {
               model: "Llama3-8b-8192", // "mixtral-8x7b-32768",
@@ -53,6 +54,7 @@ const graph_data = {
             inputs: [":template"],
           },
           extractor: {
+            // Extract the content from the generated message
             agent: "copyAgent",
             isResult: true,
             inputs: [":query.choices.$0.message.content"],
