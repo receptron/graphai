@@ -100,7 +100,13 @@ const graph_data = {
         nodes: {
           // TODO: Eliminate code
           outputFetching: {
-            agent: (args: any) => console.log(`... fetching weather info ${args}`),
+            agent: "stringTemplateAgent",
+            params: {
+              template: "... fetching weather info: ${0}",
+            },
+            console: {
+              after: true,
+            },
             inputs: [":$0.$0.function.arguments"],
           },
           urlPoints: {
