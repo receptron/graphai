@@ -35,7 +35,7 @@ const graph_data_explain = {
           "Here is the documation of GraphAI.\n" +
           document +
           "\n[Sample Output]\n" +
-          sample_output
+          sample_output,
       },
       inputs: [JSON.stringify(graph_data, null, 2)],
     },
