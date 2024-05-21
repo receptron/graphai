@@ -53,12 +53,14 @@ const graph_data = {
       agent: (query: string) => query !== "/bye",
       inputs: [":userInput"],
     },
+    // TODO: eliminate code
     messagesWithUserInput: {
       // Appends the user's input to the messages.
       agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
       inputs: [":messages", ":userInput"],
       if: ":checkInput",
     },
+    // TODO: Rename it to 'callLLM'
     groq: {
       // Sends those messages to LLM to get the answer.
       agent: "groqAgent",
@@ -68,6 +70,7 @@ const graph_data = {
       },
       inputs: [undefined, ":messagesWithUserInput"],
     },
+    // TODO: Use console
     output: {
       // Displays the response to the user.
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
@@ -88,6 +91,7 @@ const graph_data = {
       graph: {
         // This graph is nested only for the readability.
         nodes: {
+          // TODO: Eliminate code
           outputFetching: {
             agent: (args: any) => console.log(`... fetching weather info ${args}`),
             inputs: [":$0.$0.function.arguments"],
@@ -118,10 +122,12 @@ const graph_data = {
             if: ":fetchPoints.properties.forecast",
           },
           responseText: {
+            // Extract the forecast and error
             agent: "copyAgent",
             anyInput: true,
             inputs: [":fetchForecast", ":fetchPoints.error"],
           },
+          // TODO: Eliminate code
           toolMessage: {
             // Creates a tool message as the return value of the tool call.
             agent: (info: any, res: any) => ({
@@ -132,6 +138,7 @@ const graph_data = {
             }),
             inputs: [":$0.$0", ":responseText"],
           },
+          // TODO: Eliminate code
           filteredMessages: {
             // Removes previous tool messages to create a room.
             agent: (messages: any) => messages.filter((message: any) => message.role !== "tool"),
@@ -142,6 +149,7 @@ const graph_data = {
             agent: "pushAgent",
             inputs: [":filteredMessages", ":toolMessage"],
           },
+          // TODO: Rename to 'passToolResult' or something
           groq: {
             // Sends those messages to LLM to get the answer.
             agent: "groqAgent",
@@ -150,6 +158,7 @@ const graph_data = {
             },
             inputs: [undefined, ":messagesWithToolRes"],
           },
+          // TODO: Use console
           output: {
             // Displays the response to the user.
             agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
@@ -164,6 +173,7 @@ const graph_data = {
         },
       },
     },
+    // TODO: Use unless
     no_tool_calls: {
       // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
