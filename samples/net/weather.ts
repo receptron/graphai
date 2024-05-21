@@ -34,11 +34,12 @@ const graph_data = {
   },
   nodes: {
     continue: {
+      // Holds a boolean data if we need to continue this chat or not.
       value: true,
       update: ":checkInput",
     },
     messages: {
-      // This node holds the conversation, array of messages.
+      // Holds the conversation, array of messages.
       value: [{ role: "system", content: "You are a meteorologist. Use getWeather API, only when the user ask for the weather information." }],
       update: ":reducer",
       isResult: true,
