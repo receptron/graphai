@@ -9,12 +9,14 @@ export const graph_data = {
   version: 0.3,
   nodes: {
     name: {
+      // Asks the user to enter the name of the person to interview.
       agent: "textInputAgent",
       params: {
         message: "Name of a famous person you want to interview:",
       },
     },
     context: {
+      // prepares the context for this interview.
       agent: "stringTemplateAgent",
       params: {
         template: {
@@ -32,6 +34,7 @@ export const graph_data = {
       inputs: [":name"],
     },
     messages: {
+      // Prepares the conversation with one system message and one user message
       agent: "propertyFilterAgent",
       params: {
         inject: [
@@ -50,6 +53,7 @@ export const graph_data = {
       inputs: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"],
     },
     chat: {
+      // performs the conversation using nested graph
       agent: "nestedAgent",
       inputs: [":messages", ":context"],
       params: {
@@ -62,17 +66,18 @@ export const graph_data = {
         },
         nodes: {
           messages: {
-            // This node holds the conversation, array of messages.
-            value: [], // to be filled with inputs[0]
+            // Holds the conversation, array of messages.
+            value: [], // filled with inputs[0]
             update: ":swappedMessages",
             isResult: true,
           },
           context: {
-            value: {}, // te be mfilled with inputs[1]
+            // Holds the context, which is swapped for each iteration.
+            value: {}, // filled with inputs[1]
             update: ":swappedContext",
           },
           groq: {
-            // This node sends those messages to Llama3 on groq to get the answer.
+            // Sends those messages to the LLM to get a response.
             agent: "groqAgent",
             params: {
               model: "Llama3-8b-8192",
@@ -80,7 +85,7 @@ export const graph_data = {
             inputs: [undefined, ":messages"],
           },
           output: {
-            // This node displays the responce to the user.
+            // Displays the response to the user.
             agent: "stringTemplateAgent",
             params: {
               template: "\x1b[32m${1}:\x1b[0m ${0}\n",
@@ -91,11 +96,12 @@ export const graph_data = {
             inputs: [":groq.choices.$0.message.content", ":context.person0.name"],
           },
           reducer: {
-            // This node append the responce to the messages.
+            // Appends the response to the messages.
             agent: "pushAgent",
             inputs: [":messages", ":groq.choices.$0.message"],
           },
           swappedContext: {
+            // Swaps the context
             agent: "propertyFilterAgent",
             params: {
               swap: {
@@ -105,6 +111,7 @@ export const graph_data = {
             inputs: [":context"],
           },
           swappedMessages: {
+            // Swaps the user and assistant of messages
             agent: "propertyFilterAgent",
             params: {
               inject: [

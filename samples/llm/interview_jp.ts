@@ -9,12 +9,14 @@ const graph_data = {
   version: 0.3,
   nodes: {
     name: {
+      // Asks the user to enter the name of the person to interview.
       agent: "textInputAgent",
       params: {
         message: "インタビューしたい人の名前を入力してください:",
       },
     },
     context: {
+      // prepares the context for this interview.
       agent: "stringTemplateAgent",
       params: {
         template: {
@@ -32,6 +34,7 @@ const graph_data = {
       inputs: [":name"],
     },
     messages: {
+      // Prepares the conversation with one system message and one user message
       agent: "propertyFilterAgent",
       params: {
         inject: [
@@ -51,6 +54,7 @@ const graph_data = {
     },
 
     chat: {
+      // performs the conversation using nested graph
       agent: "nestedAgent",
       inputs: [":messages", ":context"],
       params: {
@@ -63,27 +67,26 @@ const graph_data = {
         },
         nodes: {
           messages: {
-            // This node holds the conversation, array of messages.
+            // Holds the conversation, array of messages.
             value: [], // to be filled with inputs[2]
             update: ":swappedMessages",
             isResult: true,
           },
           context: {
+            // Holds the context, which is swapped for each iteration.
             value: {}, // te be mfilled with inputs[1]
             update: ":swappedContext",
           },
           groq: {
-            // This node sends those messages to Llama3 on groq to get the answer.
+            // Sends those messages to the LLM to get a response.
             agent: "openAIAgent",
-            //agent: "groqAgent",
             params: {
-              //model: "Llama3-8b-8192",
               model: "gpt-4o",
             },
             inputs: [undefined, ":messages"],
           },
           translate: {
-            // This node sends those messages to Llama3 on groq to get the answer.
+            // Asks the LLM to translate it into Japanese.
             agent: "openAIAgent",
             params: {
               system: "この文章を日本語に訳して。意訳でも良いので、出来るだけ自然に相手に敬意を払う言葉遣いで。余計なことは書かずに、翻訳の結果だけ返して。",
@@ -92,7 +95,7 @@ const graph_data = {
             inputs: [":messages.$last.content"],
           },
           output: {
-            // This node displays the responce to the user.
+            // Displays the response to the user.
             agent: "stringTemplateAgent",
             params: {
               template: "\x1b[32m${1}:\x1b[0m ${0}\n",
@@ -103,11 +106,12 @@ const graph_data = {
             inputs: [":translate.choices.$0.message.content", ":context.person1.name"],
           },
           reducer: {
-            // This node append the responce to the messages.
+            // Append the responce to the messages.
             agent: "pushAgent",
             inputs: [":messages", ":groq.choices.$0.message"],
           },
           swappedContext: {
+            // Swaps the context
             agent: "propertyFilterAgent",
             params: {
               swap: {
@@ -118,6 +122,7 @@ const graph_data = {
             isResult: true,
           },
           swappedMessages: {
+            // Swaps the user and assistant of messages
             agent: "propertyFilterAgent",
             params: {
               inject: [
