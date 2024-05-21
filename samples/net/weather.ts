@@ -36,7 +36,7 @@ const graph_data = {
     continue: {
       // Holds a boolean data if we need to continue this chat or not.
       value: true,
-      update: ":checkInput",
+      update: ":checkInput.continue",
     },
     messages: {
       // Holds the conversation, array of messages.
@@ -52,9 +52,17 @@ const graph_data = {
       },
     },
     checkInput: {
-      // Checkes if the user wants to end the conversation.
-      agent: (query: string) => query !== "/bye",
-      inputs: [":userInput"],
+      // Checks if the user wants to terminate the chat or not.
+      agent: "propertyFilterAgent",
+      params: {
+        inspect: [
+          {
+            propId: "continue",
+            notEqual: "/bye",
+          },
+        ],
+      },
+      inputs: [{}, ":userInput"],
     },
     userMessage: {
       // Generates an message object with the user input.
@@ -73,7 +81,7 @@ const graph_data = {
       // Appends it to the conversation
       agent: "pushAgent",
       inputs: [":messages", ":userMessage"],
-      if: ":checkInput",
+      if: ":checkInput.continue",
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
@@ -150,14 +158,11 @@ const graph_data = {
             inputs: [":fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
             if: ":fetchPoints.properties.forecast",
           },
-          outputError: {
+          extractError: {
             // Extract error title and detail
             agent: "stringTemplateAgent",
             params: {
               template: "${0}: ${1}",
-            },
-            console: {
-              after: true,
             },
             inputs: [":fetchPoints.error.title", ":fetchPoints.error.detail"],
             if: ":fetchPoints.error",
@@ -166,7 +171,7 @@ const graph_data = {
             // Extract the forecast and error
             agent: "copyAgent",
             anyInput: true,
-            inputs: [":fetchForecast", ":outputError"],
+            inputs: [":fetchForecast", ":extractError"],
           },
           toolMessage: {
             // Creates a tool message as the return value of the tool call.
