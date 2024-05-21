@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, nestedAgent, copyAgent, fetchAgent } from "@/experimental_agents";
-import input from "@inquirer/input";
+import { groqAgent, openAIAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent, jsonParserAgent, propertyFilterAgent } from "@/experimental_agents";
 
 const tools = [
   {
@@ -27,6 +26,115 @@ const tools = [
   },
 ];
 
+const graph_tool = {
+  nodes: {
+    outputFetching: {
+      // Displays the fetching message.
+      agent: "stringTemplateAgent",
+      params: {
+        template: "... fetching weather info: ${0}",
+      },
+      console: {
+        after: true,
+      },
+      inputs: [":$0.$0.function.arguments"],
+    },
+    parser: {
+      // Parse the arguments to the function
+      agent: "jsonParserAgent",
+      inputs: [":$0.$0.function.arguments"],
+    },
+    urlPoints: {
+      // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
+      agent: "stringTemplateAgent",
+      params: {
+        template: "https://api.weather.gov/points/${0},${1}",
+      },
+      inputs: [":parser.latitude", ":parser.longitude"],
+    },
+    fetchPoints: {
+      // Fetches the "grid location" from the URL.
+      agent: "fetchAgent",
+      params: {
+        returnErrorResult: true, // returns {status error} in case of error
+      },
+      inputs: [":urlPoints", undefined, { "User-Agent": "(receptron.org)" }],
+    },
+    fetchForecast: {
+      // Fetches the weather forecast for that location.
+      agent: "fetchAgent",
+      params: {
+        type: "text",
+      },
+      inputs: [":fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
+      if: ":fetchPoints.properties.forecast",
+    },
+    extractError: {
+      // Extract error title and detail
+      agent: "stringTemplateAgent",
+      params: {
+        template: "${0}: ${1}",
+      },
+      inputs: [":fetchPoints.error.title", ":fetchPoints.error.detail"],
+      if: ":fetchPoints.error",
+    },
+    responseText: {
+      // Extract the forecast and error
+      agent: "copyAgent",
+      anyInput: true,
+      inputs: [":fetchForecast", ":extractError"],
+    },
+    toolMessage: {
+      // Creates a tool message as the return value of the tool call.
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [
+          {
+            propId: "tool_call_id",
+            from: 1,
+          },
+          {
+            propId: "name",
+            from: 2,
+          },
+          {
+            propId: "content",
+            from: 3,
+          },
+        ],
+      },
+      inputs: [{ role: "tool" }, ":$0.$0.id", ":$0.$0.function.name", ":responseText"],
+    },
+    messagesWithToolRes: {
+      // Appends that message to the messages.
+      agent: "pushAgent",
+      inputs: [":$1", ":toolMessage"],
+    },
+    llmCall: {
+      // Sends those messages to LLM to get the answer.
+      agent: "openAIAgent",
+      inputs: [undefined, ":messagesWithToolRes"],
+    },
+    output: {
+      // Displays the response to the user.
+      agent: "stringTemplateAgent",
+      params: {
+        template: "Weather: ${0}",
+      },
+      console: {
+        after: true,
+      },
+      inputs: [":llmCall.choices.$0.message.content"],
+    },
+    messagesWithSecondRes: {
+      // Appends the response to the messages.
+      agent: "pushAgent",
+      inputs: [":messagesWithToolRes", ":llmCall.choices.$0.message"],
+      isResult: true,
+    },
+  },
+};
+
 const graph_data = {
   version: 0.3,
   loop: {
@@ -36,7 +144,7 @@ const graph_data = {
     continue: {
       // Holds a boolean data if we need to continue this chat or not.
       value: true,
-      update: ":checkInput",
+      update: ":checkInput.continue",
     },
     messages: {
       // Holds the conversation, array of messages.
@@ -46,141 +154,81 @@ const graph_data = {
     },
     userInput: {
       // Receives an input from the user.
-      agent: () => input({ message: "You:" }),
+      agent: "textInputAgent",
+      params: {
+        message: "Location:",
+      },
     },
     checkInput: {
-      // Checkes if the user wants to end the conversation.
-      agent: (query: string) => query !== "/bye",
-      inputs: [":userInput"],
-    },
-    // TODO: eliminate code
-    messagesWithUserInput: {
-      // Appends the user's input to the messages.
-      agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
-      inputs: [":messages", ":userInput"],
-      if: ":checkInput",
-    },
-    // TODO: Rename it to 'callLLM'
-    groq: {
-      // Sends those messages to LLM to get the answer.
-      agent: "groqAgent",
+      // Checks if the user wants to terminate the chat or not.
+      agent: "propertyFilterAgent",
       params: {
-        model: "Llama3-8b-8192",
+        inspect: [
+          {
+            propId: "continue",
+            notEqual: "/bye",
+          },
+        ],
+      },
+      inputs: [{}, ":userInput"],
+    },
+    userMessage: {
+      // Generates an message object with the user input.
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [
+          {
+            propId: "content",
+            from: 1,
+          },
+        ],
+      },
+      inputs: [{ role: "user" }, ":userInput"],
+    },
+    messagesWithUserInput: {
+      // Appends it to the conversation
+      agent: "pushAgent",
+      inputs: [":messages", ":userMessage"],
+      if: ":checkInput.continue",
+    },
+    llmCall: {
+      // Sends those messages to LLM to get the answer.
+      agent: "openAIAgent",
+      params: {
         tools,
       },
       inputs: [undefined, ":messagesWithUserInput"],
     },
-    // TODO: Use console
     output: {
       // Displays the response to the user.
-      agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
-      inputs: [":groq.choices.$0.message.content"],
-      if: ":groq.choices.$0.message.content",
+      agent: "stringTemplateAgent",
+      params: {
+        template: "Weather: ${0}",
+      },
+      console: {
+        after: true,
+      },
+      inputs: [":llmCall.choices.$0.message.content"],
+      if: ":llmCall.choices.$0.message.content",
     },
     messagesWithFirstRes: {
       // Appends the response to the messages.
       agent: "pushAgent",
-      inputs: [":messagesWithUserInput", ":groq.choices.$0.message"],
+      inputs: [":messagesWithUserInput", ":llmCall.choices.$0.message"],
     },
-
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: [":groq.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
-      if: ":groq.choices.$0.message.tool_calls",
-      graph: {
-        // This graph is nested only for the readability.
-        nodes: {
-          // TODO: Eliminate code
-          outputFetching: {
-            agent: (args: any) => console.log(`... fetching weather info ${args}`),
-            inputs: [":$0.$0.function.arguments"],
-          },
-          urlPoints: {
-            // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
-            agent: (args: any) => {
-              const { latitude, longitude } = JSON.parse(args);
-              return `https://api.weather.gov/points/${latitude},${longitude}`;
-            },
-            inputs: [":$0.$0.function.arguments"],
-          },
-          fetchPoints: {
-            // Fetches the "grid location" from the URL.
-            agent: "fetchAgent",
-            params: {
-              returnErrorResult: true, // returns {status error} in case of error
-            },
-            inputs: [":urlPoints", undefined, { "User-Agent": "(receptron.org)" }],
-          },
-          fetchForecast: {
-            // Fetches the weather forecast for that location.
-            agent: "fetchAgent",
-            params: {
-              type: "text",
-            },
-            inputs: [":fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
-            if: ":fetchPoints.properties.forecast",
-          },
-          responseText: {
-            // Extract the forecast and error
-            agent: "copyAgent",
-            anyInput: true,
-            inputs: [":fetchForecast", ":fetchPoints.error"],
-          },
-          // TODO: Eliminate code
-          toolMessage: {
-            // Creates a tool message as the return value of the tool call.
-            agent: (info: any, res: any) => ({
-              tool_call_id: info.id,
-              role: "tool",
-              name: info.function.name,
-              content: res,
-            }),
-            inputs: [":$0.$0", ":responseText"],
-          },
-          // TODO: Eliminate code
-          filteredMessages: {
-            // Removes previous tool messages to create a room.
-            agent: (messages: any) => messages.filter((message: any) => message.role !== "tool"),
-            inputs: [":$1"],
-          },
-          messagesWithToolRes: {
-            // Appends that message to the messages.
-            agent: "pushAgent",
-            inputs: [":filteredMessages", ":toolMessage"],
-          },
-          // TODO: Rename to 'passToolResult' or something
-          groq: {
-            // Sends those messages to LLM to get the answer.
-            agent: "groqAgent",
-            params: {
-              model: "Llama3-8b-8192",
-            },
-            inputs: [undefined, ":messagesWithToolRes"],
-          },
-          // TODO: Use console
-          output: {
-            // Displays the response to the user.
-            agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
-            inputs: [":groq.choices.$0.message.content"],
-          },
-          messagesWithSecondRes: {
-            // Appends the response to the messages.
-            agent: "pushAgent",
-            inputs: [":messagesWithToolRes", ":groq.choices.$0.message"],
-            isResult: true,
-          },
-        },
-      },
+      inputs: [":llmCall.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
+      if: ":llmCall.choices.$0.message.tool_calls",
+      graph: graph_tool,
     },
-    // TODO: Use unless
     no_tool_calls: {
       // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
-      if: ":groq.choices.$0.message.content",
+      unless: ":llmCall.choices.$0.message.tool_calls",
       inputs: [":messagesWithFirstRes"],
     },
-
     reducer: {
       // Receives messages from either case.
       agent: "copyAgent",
@@ -196,9 +244,13 @@ export const main = async () => {
     graph_data,
     {
       groqAgent,
+      openAIAgent,
       copyAgent,
       nestedAgent,
       fetchAgent,
+      textInputAgent,
+      jsonParserAgent,
+      propertyFilterAgent,
     },
     () => {},
     false,

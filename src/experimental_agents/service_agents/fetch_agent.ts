@@ -35,7 +35,8 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; returnE
 
   if (!response.ok) {
     const status = response.status;
-    const error = await response.text();
+    const type = params?.type ?? "json";
+    const error = type === "json" ? await response.json() : await response.text();
     if (params?.returnErrorResult) {
       return { status, error };
     }
