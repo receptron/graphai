@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, openAIAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent, jsonParserAgent } from "@/experimental_agents";
+import { groqAgent, openAIAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent, jsonParserAgent, propertyFilterAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -56,11 +56,23 @@ const graph_data = {
       agent: (query: string) => query !== "/bye",
       inputs: [":userInput"],
     },
-    // TODO: eliminate code
+    userMessage: {
+      // Generates an message object with the user input.
+      agent: "propertyFilterAgent",
+      params: {
+        inject: [
+          {
+            propId: "content",
+            from: 1,
+          },
+        ],
+      },
+      inputs: [{ role: "user" }, ":userInput"],
+    },
     messagesWithUserInput: {
-      // Appends the user's input to the messages.
-      agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
-      inputs: [":messages", ":userInput"],
+      // Appends it to the conversation
+      agent: "pushAgent",
+      inputs: [":messages", ":userMessage"],
       if: ":checkInput",
     },
     llmCall: {
@@ -222,6 +234,7 @@ export const main = async () => {
       fetchAgent,
       textInputAgent,
       jsonParserAgent,
+      propertyFilterAgent,
     },
     () => {},
     false,
