@@ -63,8 +63,7 @@ const graph_data = {
       inputs: [":messages", ":userInput"],
       if: ":checkInput",
     },
-    // TODO: Rename it to 'callLLM'
-    groq: {
+    llmCall: {
       // Sends those messages to LLM to get the answer.
       agent: "groqAgent",
       params: {
@@ -77,20 +76,20 @@ const graph_data = {
     output: {
       // Displays the response to the user.
       agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
-      inputs: [":groq.choices.$0.message.content"],
-      if: ":groq.choices.$0.message.content",
+      inputs: [":llmCall.choices.$0.message.content"],
+      if: ":llmCall.choices.$0.message.content",
     },
     messagesWithFirstRes: {
       // Appends the response to the messages.
       agent: "pushAgent",
-      inputs: [":messagesWithUserInput", ":groq.choices.$0.message"],
+      inputs: [":messagesWithUserInput", ":llmCall.choices.$0.message"],
     },
 
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: [":groq.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
-      if: ":groq.choices.$0.message.tool_calls",
+      inputs: [":llmCall.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
+      if: ":llmCall.choices.$0.message.tool_calls",
       graph: {
         // This graph is nested only for the readability.
         nodes: {
@@ -152,8 +151,7 @@ const graph_data = {
             agent: "pushAgent",
             inputs: [":filteredMessages", ":toolMessage"],
           },
-          // TODO: Rename to 'passToolResult' or something
-          groq: {
+          llmCall: {
             // Sends those messages to LLM to get the answer.
             agent: "groqAgent",
             params: {
@@ -165,12 +163,12 @@ const graph_data = {
           output: {
             // Displays the response to the user.
             agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
-            inputs: [":groq.choices.$0.message.content"],
+            inputs: [":llmCall.choices.$0.message.content"],
           },
           messagesWithSecondRes: {
             // Appends the response to the messages.
             agent: "pushAgent",
-            inputs: [":messagesWithToolRes", ":groq.choices.$0.message"],
+            inputs: [":messagesWithToolRes", ":llmCall.choices.$0.message"],
             isResult: true,
           },
         },
@@ -180,7 +178,7 @@ const graph_data = {
     no_tool_calls: {
       // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
-      if: ":groq.choices.$0.message.content",
+      if: ":llmCall.choices.$0.message.content",
       inputs: [":messagesWithFirstRes"],
     },
 
