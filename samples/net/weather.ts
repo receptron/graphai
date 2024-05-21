@@ -151,18 +151,22 @@ const graph_data = {
             if: ":fetchPoints.properties.forecast",
           },
           outputError: {
-            agent: "copyAgent",
+            // Extract error title and detail
+            agent: "stringTemplateAgent",
+            params: {
+              template: "${0}: ${1}",
+            },
             console: {
               after: true,
             },
-            inputs: [":fetchPoints.error.title"],
+            inputs: [":fetchPoints.error.title", ":fetchPoints.error.detail"],
             if: ":fetchPoints.error",
           },
           responseText: {
             // Extract the forecast and error
             agent: "copyAgent",
             anyInput: true,
-            inputs: [":fetchForecast", ":fetchPoints.error"],
+            inputs: [":fetchForecast", ":outputError"],
           },
           // TODO: Eliminate code
           toolMessage: {
