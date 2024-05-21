@@ -87,7 +87,6 @@ const graph_data = {
       // Sends those messages to LLM to get the answer.
       agent: "openAIAgent",
       params: {
-        // model: "Llama3-8b-8192",
         tools,
       },
       inputs: [undefined, ":messagesWithUserInput"],
@@ -130,6 +129,7 @@ const graph_data = {
             inputs: [":$0.$0.function.arguments"],
           },
           parser: {
+            // Parse the arguments to the function
             agent: "jsonParserAgent",
             inputs: [":$0.$0.function.arguments"]
           },
@@ -190,13 +190,6 @@ const graph_data = {
             },
             inputs: [{ role: "tool" }, ":$0.$0.id", ":$0.$0.function.name", ":responseText"],
           },
-          /*
-          filteredMessages: {
-            // Removes previous tool messages to create a room.
-            agent: (messages: any) => messages.filter((message: any) => message.role !== "tool" && !message.tool_calls),
-            inputs: [":$1"],
-          },
-          */
           messagesWithToolRes: {
             // Appends that message to the messages.
             agent: "pushAgent",
@@ -205,9 +198,6 @@ const graph_data = {
           llmCall: {
             // Sends those messages to LLM to get the answer.
             agent: "openAIAgent",
-            params: {
-              // model: "Llama3-8b-8192",
-            },
             inputs: [undefined, ":messagesWithToolRes"],
           },
           output: {
