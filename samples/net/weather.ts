@@ -42,7 +42,7 @@ const graph_tool = {
     parser: {
       // Parse the arguments to the function
       agent: "jsonParserAgent",
-      inputs: [":$0.$0.function.arguments"]
+      inputs: [":$0.$0.function.arguments"],
     },
     urlPoints: {
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
@@ -88,16 +88,20 @@ const graph_tool = {
       // Creates a tool message as the return value of the tool call.
       agent: "propertyFilterAgent",
       params: {
-        inject: [{
-          propId: "tool_call_id",
-          from: 1,
-        }, {
-          propId: "name",
-          from: 2,
-        }, {
-          propId: "content",
-          from: 3,
-        }]
+        inject: [
+          {
+            propId: "tool_call_id",
+            from: 1,
+          },
+          {
+            propId: "name",
+            from: 2,
+          },
+          {
+            propId: "content",
+            from: 3,
+          },
+        ],
       },
       inputs: [{ role: "tool" }, ":$0.$0.id", ":$0.$0.function.name", ":responseText"],
     },
