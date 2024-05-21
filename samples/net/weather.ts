@@ -171,17 +171,16 @@ const graph_data = {
           // TODO: Eliminate code
           toolMessage: {
             // Creates a tool message as the return value of the tool call.
-            agent: (info: any, res: any) => {
+            agent: (id: any, name: any, res: any) => {
               return {
-              tool_call_id: info.id,
+              tool_call_id: id,
               role: "tool",
-              name: info.function.name,
+              name: name,
               content: res,
             };},
-            inputs: [":$0.$0", ":responseText"],
+            inputs: [":$0.$0.id", ":$0.$0.function.name", ":responseText"],
           },
           /*
-          // TODO: Eliminate code
           filteredMessages: {
             // Removes previous tool messages to create a room.
             agent: (messages: any) => messages.filter((message: any) => message.role !== "tool" && !message.tool_calls),
