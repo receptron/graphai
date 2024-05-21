@@ -19,7 +19,22 @@ This sample graph was designed to simulate an interview with a famous person. Th
    - The `swappedMessages` node updates the messages for the next iteration.
 6. The cycle repeats for 6 iterations, simulating a back-and-forth interview.
 
-[Chat](./interaction/chat.ts)
+## Chat
+
+Source Code: [Chat](./interaction/chat.ts)
+
+This sample is an interactive chat loop, where the user can engage in a conversation with an AI model. The conversation continues in a loop until the user inputs "/bye".
+
+1. The loop starts with `continue` set to `true`.
+2. The `userInput` node prompts the user for input.
+3. The `checkInput` node checks if the user input is "/bye". If it is, `continue` is set to `false`, breaking the loop.
+4. The `userMessage` node formats the user input as a message.
+5. The `appendedMessages` node appends the user message to the conversation history.
+6. The `groq` node sends the updated conversation history to the AI model for a response.
+7. The `output` node formats and displays the AI's response.
+8. The `reducer` node appends the AI's response to the conversation history.
+9. The loop repeats until the user inputs "/bye".
+
 [Interview JP](./llm/interview_jp.ts)
 [Review](./llm/review.ts)
 [Research](./llm/research.ts)
