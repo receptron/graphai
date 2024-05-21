@@ -15,7 +15,7 @@ import {
   stringSplitterAgent,
   stringTemplateAgent,
   jsonParserAgent,
-} from "@/experimental_agents";
+} from "@/experimental_agents/vanilla";
 import { assert } from "@/utils/utils";
 import { StaticNodeData } from "@/type";
 
