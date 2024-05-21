@@ -162,7 +162,7 @@ const translator_graph = {
   },
 };
 
-const graph_data = {
+export const graph_data = {
   version: 0.3,
   nodes: {
     topic: {

@@ -2,7 +2,7 @@ import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { groqAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "@/experimental_agents";
 
-const graph_data = {
+export const graph_data = {
   version: 0.3,
   loop: {
     while: ":continue",
