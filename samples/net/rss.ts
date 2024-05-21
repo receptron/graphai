@@ -3,7 +3,7 @@ import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
 import { fetchAgent, propertyFilterAgent, groqAgent, stringTemplateAgent, copyAgent } from "@/experimental_agents";
 
-const graph_data = {
+export const graph_data = {
   version: 0.3,
   nodes: {
     url: {

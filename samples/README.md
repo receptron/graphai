@@ -109,3 +109,33 @@ Source code: [Describe Graph](./llm/describe_graph.ts)
 
 - The `describer` node asks the GPT-4 to generate the description of the specified graph.
 - The `description` node extract the description from the generated message.
+
+## RSS Reader
+
+Source code: [RSS Reader](./net/rss.ts)
+
+This sample fetches and processes RSS feed data from a given URL, specifically from "https://www.theverge.com/microsoft/rss/index.xml". The flow extracts relevant content from the RSS feed, processes it through a series of agents, and translates the content into Japanese.
+
+1. The `url` node provides the RSS feed URL.
+2. The `rssFeed` node fetches the RSS feed data from the URL.
+3. The `entries` node filters the fetched data to include only the required properties (`title`, `link`, `content`).
+4. The `map` node processes each filtered entry concurrently (up to 4 entries), executing the nested graph for each entry:
+   - The `template` node formats the entry's `title` and `content`.
+   - The `query` node translates the formatted string into Japanese.
+   - The `extractor` node outputs the translated content.
+
+## Weather app
+
+Source code: [Weather](./net/weather.ts)
+
+THis sample simulates a conversation with a meteorologist. The system is capable of handling user inputs, querying a weather API, and managing the conversation iteratively based on user requests.
+
+1. The loop starts with the `continue` node set to `true`.
+2. The user is prompted to input a location.
+3. The `checkInput` node determines if the user wants to continue or exit.
+4. If the user input is valid, it is added to the conversation messages.
+5. The `llmCall` node processes the messages and calls the LLM.
+6. The `output` node prints the LLM's response if available.
+7. If the LLM requests a tool call, the nested graph `tool_calls` handles the request.
+8. The `reducer` node updates the conversation messages.
+9. The loop continues until the user inputs "/bye".

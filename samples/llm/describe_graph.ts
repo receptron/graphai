@@ -3,7 +3,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { copyAgent, openAIAgent } from "@/experimental_agents";
 import * as path from "path";
 import * as fs from "fs";
-import { graph_data } from "../interaction/metachat";
+import { graph_data } from "../net/weather";
 
 const filePath = path.join(__dirname, "../../README.md");
 const document = fs.readFileSync(filePath, "utf8");
