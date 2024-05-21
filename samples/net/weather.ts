@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent } from "@/experimental_agents";
+import { groqAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent, jsonParserAgent } from "@/experimental_agents";
 import input from "@inquirer/input";
 
 const tools = [
@@ -98,8 +98,8 @@ const graph_data = {
       graph: {
         // This graph is nested only for the readability.
         nodes: {
-          // TODO: Eliminate code
           outputFetching: {
+            // Displays the fetching message.
             agent: "stringTemplateAgent",
             params: {
               template: "... fetching weather info: ${0}",
@@ -109,13 +109,17 @@ const graph_data = {
             },
             inputs: [":$0.$0.function.arguments"],
           },
+          parser: {
+            agent: "jsonParserAgent",
+            inputs: [":$0.$0.function.arguments"]
+          },
           urlPoints: {
             // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
-            agent: (args: any) => {
-              const { latitude, longitude } = JSON.parse(args);
-              return `https://api.weather.gov/points/${latitude},${longitude}`;
+            agent: "stringTemplateAgent",
+            params: {
+              template: "https://api.weather.gov/points/${0},${1}",
             },
-            inputs: [":$0.$0.function.arguments"],
+            inputs: [":parser.latitude", ":parser.longitude"],
           },
           fetchPoints: {
             // Fetches the "grid location" from the URL.
@@ -218,6 +222,7 @@ export const main = async () => {
       nestedAgent,
       fetchAgent,
       textInputAgent,
+      jsonParserAgent,
     },
     () => {},
     false,
