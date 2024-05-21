@@ -27,7 +27,7 @@ const graph_data = {
       },
     },
     checkInput: {
-      // Checks if the user is willing to terminate the chat or not.
+      // Checks if the user wants to terminate the chat or not.
       agent: "propertyFilterAgent",
       params: {
         inspect: [

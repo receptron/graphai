@@ -11,6 +11,7 @@ const graph_data = {
   version: 0.3,
   nodes: {
     reviewer: {
+      // Asks the LLM to review the document.
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
@@ -19,11 +20,13 @@ const graph_data = {
       inputs: ["Here is the document.\n" + document],
     },
     review: {
+      // Extracts the response from the generated message
       agent: "copyAgent",
       inputs: [":reviewer.choices.$0.message.content"],
       isResult: true,
     },
     evangelist: {
+      // Asks the LLM to come up with a promoitional phrases.
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
@@ -33,6 +36,7 @@ const graph_data = {
       inputs: ["Here is the document.\n" + document],
     },
     statement: {
+      // Extracts the response from the generated message
       agent: "copyAgent",
       inputs: [":evangelist.choices.$0.message.content"],
       isResult: true,

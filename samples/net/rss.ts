@@ -7,16 +7,20 @@ const graph_data = {
   version: 0.3,
   nodes: {
     url: {
+      // Holds the RSS feed URL
       value: "https://www.theverge.com/apple/rss/index.xml",
     },
     rssFeed: {
+      // Fetchs the RSS feed from the specified feed
       agent: "fetchAgent",
       params: {
         type: "xml",
       },
       inputs: [":url"],
     },
+    // TODO: Rename it to entries
     filter: {
+      // Extracts necessary information from the feed
       agent: "propertyFilterAgent",
       params: {
         include: ["title", "link", "content"],
@@ -24,6 +28,7 @@ const graph_data = {
       inputs: [":rssFeed.feed.entry"],
     },
     map: {
+      // Processes each entry concurrently.
       agent: "mapAgent",
       inputs: [":filter"],
       isResult: true,
