@@ -72,10 +72,15 @@ const graph_data = {
       },
       inputs: [undefined, ":messagesWithUserInput"],
     },
-    // TODO: Use console
     output: {
       // Displays the response to the user.
-      agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
+      agent: "stringTemplateAgent",
+      params: {
+        template: "Weather: ${0}",
+      },
+      console: {
+        after: true,
+      },
       inputs: [":llmCall.choices.$0.message.content"],
       if: ":llmCall.choices.$0.message.content",
     },
@@ -162,7 +167,13 @@ const graph_data = {
           // TODO: Use console
           output: {
             // Displays the response to the user.
-            agent: (answer: string) => console.log(`Llama3: ${answer}\n`),
+            agent: "stringTemplateAgent",
+            params: {
+              template: "Weather: ${0}",
+            },
+            console: {
+              after: true,
+            },
             inputs: [":llmCall.choices.$0.message.content"],
           },
           messagesWithSecondRes: {
