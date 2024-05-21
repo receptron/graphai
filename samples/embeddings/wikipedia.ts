@@ -12,7 +12,7 @@ import {
   wikipediaAgent,
 } from "@/experimental_agents";
 
-const graph_data = {
+export const graph_data = {
   version: 0.3,
   nodes: {
     source: {

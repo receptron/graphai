@@ -3,7 +3,7 @@ import { graphDataTestRunner } from "~/utils/runner";
 import { copyAgent, openAIAgent, jsonParserAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "@/experimental_agents";
 import * as path from "path";
 import * as fs from "fs";
-import { graph_data } from "./reception";
+import * as sample from "./reception";
 
 const filePath = path.join(__dirname, "../../README.md");
 const document = fs.readFileSync(filePath, "utf8");
@@ -25,11 +25,11 @@ const messages = [
   {
     // Sample AI agent graph, which acquires those information from the user.
     role: "assistant",
-    content: "```json\n" + JSON.stringify(graph_data) + "```\n",
+    content: "```json\n" + JSON.stringify(sample.graph_data) + "```\n",
   },
 ];
 
-const graph_data_explain = {
+export const graph_data = {
   version: 0.3,
   nodes: {
     graphGenerator: {
@@ -57,7 +57,7 @@ const graph_data_explain = {
 export const main = async () => {
   const result = await graphDataTestRunner(
     __filename,
-    graph_data_explain,
+    graph_data,
     {
       openAIAgent,
       copyAgent,
