@@ -63,8 +63,7 @@ const getNestedData = (result: ResultData, propId: string) => {
     if (propId === "$last") {
       return result[result.length - 1];
     }
-  }
-  if (isObject(result)) {
+  } else if (isObject(result)) {
     return (result as Record<string, any>)[propId];
   }
   return undefined;
