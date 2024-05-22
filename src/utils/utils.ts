@@ -64,8 +64,10 @@ const getNestedData = (result: ResultData, propId: string) => {
       return result[result.length - 1];
     }
   }
-  assert(isObject(result), "result is not object.");
-  return (result as Record<string, any>)[propId];
+  if (isObject(result)) {
+    return (result as Record<string, any>)[propId];
+  }
+  return undefined;
 };
 
 const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
