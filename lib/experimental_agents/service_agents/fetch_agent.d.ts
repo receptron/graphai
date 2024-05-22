@@ -2,19 +2,16 @@ import { AgentFunction } from "../../index";
 export declare const fetchAgent: AgentFunction<{
     debug?: boolean;
     type?: string;
-    returnErrorResult?: boolean;
 }, any, any>;
 declare const fetchAgentInfo: {
     name: string;
     agent: AgentFunction<{
         debug?: boolean | undefined;
         type?: string | undefined;
-        returnErrorResult?: boolean | undefined;
     }, any, any>;
     mock: AgentFunction<{
         debug?: boolean | undefined;
         type?: string | undefined;
-        returnErrorResult?: boolean | undefined;
     }, any, any>;
     samples: ({
         inputs: (string | {
