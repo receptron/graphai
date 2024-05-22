@@ -19,6 +19,7 @@ const graphData = {
     test2: {
       agent: "testAgent",
       inputs: [":test.hoge"],
+      isResult: true,
     },
   },
 };
@@ -28,7 +29,12 @@ const testAgent: AgentFunction<Record<never, never>, string> = async () => {
 };
 
 test("test source props test", async () => {
-  await rejectTest(graphData, "result is not object.", { testAgent: agentInfoWrapper(testAgent) }, false);
+  const result = await graphDataTestRunner(__filename, graphData, { testAgent: agentInfoWrapper(testAgent) }, () => {}, false);
+  console.log(result);
+  assert.deepStrictEqual(result, {
+    test2: "test"
+  });
+  // await rejectTest(graphData, "result is not object.", { testAgent: agentInfoWrapper(testAgent) }, false);
 });
 
 const graphData_literal = {
