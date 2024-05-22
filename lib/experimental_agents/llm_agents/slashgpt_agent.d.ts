@@ -17,7 +17,18 @@ declare const slashGPTAgentInfo: {
         query?: string | undefined;
         function_result?: boolean | undefined;
     }, ChatData[], string>;
-    samples: never[];
+    samples: {
+        inputs: never[];
+        params: {
+            query: string;
+        };
+        result: {
+            role: string;
+            content: string;
+            preset: boolean;
+        }[];
+    }[];
+    skipTest: boolean;
     description: string;
     category: string[];
     author: string;
