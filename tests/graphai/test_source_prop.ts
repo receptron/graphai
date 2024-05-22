@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/index";
-import { rejectTest, graphDataTestRunner } from "~/utils/runner";
+import { graphDataTestRunner } from "~/utils/runner";
 import { defaultTestAgents } from "@/utils/test_agents";
 import { agentInfoWrapper } from "@/utils/utils";
 

@@ -43,7 +43,7 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; }, any,
         status,
         error
       }
-    }
+    };
   }
 
   const result = await (async () => {

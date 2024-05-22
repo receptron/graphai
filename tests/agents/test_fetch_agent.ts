@@ -1,6 +1,5 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { fetchAgent, propertyFilterAgent, groqAgent, stringTemplateAgent, copyAgent } from "@/experimental_agents";
+import { fetchAgent, propertyFilterAgent, copyAgent } from "@/experimental_agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -34,7 +33,7 @@ const graph_data_fetch = {
 };
 
 test("test fetch", async () => {
-  const result = await graphDataTestRunner(__filename, graph_data_fetch, { fetchAgent, copyAgent, ...defaultTestAgents }, () => {}, false);
+  const result = await graphDataTestRunner(__filename, graph_data_fetch, { fetchAgent, copyAgent }, () => {}, false);
   assert.deepStrictEqual(result, {success:true});
 });
 
@@ -70,10 +69,10 @@ const graph_data_post = {
 };
 
 test("test fetch post", async () => {
-  const result = await graphDataTestRunner(__filename, graph_data_post, { fetchAgent, copyAgent, propertyFilterAgent, ...defaultTestAgents }, () => {}, false);
+  const result = await graphDataTestRunner(__filename, graph_data_post, { fetchAgent, copyAgent, propertyFilterAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     error: {
-      message: 'HTTP error: 405',
+      message: "HTTP error: 405",
       status: 405
     }
   });

@@ -68,7 +68,7 @@ const getNestedData = (result: ResultData, propId: string) => {
     return (result as Record<string, any>)[propId];
   }
   return undefined;
-}
+};
 
 const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
   if (result && propIds && propIds.length > 0) {
