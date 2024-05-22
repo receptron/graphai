@@ -15,7 +15,7 @@ const graph_data_fetch = {
       params: {
         type: "text",
       },
-      inputs: [":url"]
+      inputs: [":url"],
     },
     success: {
       agent: "copyAgent",
@@ -34,7 +34,7 @@ const graph_data_fetch = {
 
 test("test fetch", async () => {
   const result = await graphDataTestRunner(__filename, graph_data_fetch, { fetchAgent, copyAgent }, () => {}, false);
-  assert.deepStrictEqual(result, {success:true});
+  assert.deepStrictEqual(result, { success: true });
 });
 
 const graph_data_post = {
@@ -48,7 +48,7 @@ const graph_data_post = {
       params: {
         type: "text",
       },
-      inputs: [":url", undefined, undefined, "Posting data"]
+      inputs: [":url", undefined, undefined, "Posting data"],
     },
     success: {
       agent: "copyAgent",
@@ -73,7 +73,7 @@ test("test fetch post", async () => {
   assert.deepStrictEqual(result, {
     error: {
       message: "HTTP error: 405",
-      status: 405
-    }
+      status: 405,
+    },
   });
 });

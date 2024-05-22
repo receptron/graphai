@@ -1,7 +1,7 @@
 import { AgentFunction } from "@/index";
 import { parseStringPromise } from "xml2js";
 
-export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; }, any, any> = async ({ inputs, params }) => {
+export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, any> = async ({ inputs, params }) => {
   const [baseUrl, queryParams, baseHeaders, body] = inputs;
 
   const url = new URL(baseUrl);
@@ -41,8 +41,8 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string; }, any,
       onError: {
         message: `HTTP error: ${status}`,
         status,
-        error
-      }
+        error,
+      },
     };
   }
 
