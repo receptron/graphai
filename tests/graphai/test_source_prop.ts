@@ -30,7 +30,6 @@ const testAgent: AgentFunction<Record<never, never>, string> = async () => {
 
 test("test source props test", async () => {
   const result = await graphDataTestRunner(__filename, graphData, { testAgent: agentInfoWrapper(testAgent) }, () => {}, false);
-  console.log(result);
   assert.deepStrictEqual(result, {
     test2: "test"
   });
