@@ -55,9 +55,6 @@ const graph_tool = {
     fetchPoints: {
       // Fetches the "grid location" from the URL.
       agent: "fetchAgent",
-      params: {
-        returnErrorResult: true, // returns {status error} in case of error
-      },
       inputs: [":urlPoints", undefined, { "User-Agent": "(receptron.org)" }],
     },
     fetchForecast: {
@@ -67,7 +64,7 @@ const graph_tool = {
         type: "text",
       },
       inputs: [":fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
-      if: ":fetchPoints.properties.forecast",
+      unless: ":fetchPoints.onError",
     },
     extractError: {
       // Extract error title and detail
@@ -75,8 +72,8 @@ const graph_tool = {
       params: {
         template: "${0}: ${1}",
       },
-      inputs: [":fetchPoints.error.title", ":fetchPoints.error.detail"],
-      if: ":fetchPoints.error",
+      inputs: [":fetchPoints.onError.error.title", ":fetchPoints.onError.error.detail"],
+      if: ":fetchPoints.onError",
     },
     responseText: {
       // Extract the forecast and error
