@@ -24,10 +24,10 @@ const graph_data_fetch = {
       unless: ":fetch.onError",
       inputs: [true],
     },
-    failed: {
+    error: {
       agent: "copyAgent",
       isResult: true,
-      unless: ":fetch.onError",
+      if: ":fetch.onError",
       inputs: [":fetch.onError"],
     },
   },
@@ -35,6 +35,46 @@ const graph_data_fetch = {
 
 test("test fetch", async () => {
   const result = await graphDataTestRunner(__filename, graph_data_fetch, { fetchAgent, copyAgent, ...defaultTestAgents }, () => {}, false);
-  console.log(result);
   assert.deepStrictEqual(result, {success:true});
+});
+
+const graph_data_post = {
+  version: 0.3,
+  nodes: {
+    url: {
+      value: "https://www.google.com/search?q=hello",
+    },
+    fetch: {
+      agent: "fetchAgent",
+      params: {
+        type: "text",
+      },
+      inputs: [":url", undefined, undefined, "Posting data"]
+    },
+    success: {
+      agent: "copyAgent",
+      isResult: true,
+      unless: ":fetch.onError",
+      inputs: [true],
+    },
+    error: {
+      agent: "propertyFilterAgent",
+      params: {
+        include: ["message", "status"],
+      },
+      isResult: true,
+      if: ":fetch.onError",
+      inputs: [":fetch.onError"],
+    },
+  },
+};
+
+test("test fetch post", async () => {
+  const result = await graphDataTestRunner(__filename, graph_data_post, { fetchAgent, copyAgent, propertyFilterAgent, ...defaultTestAgents }, () => {}, false);
+  assert.deepStrictEqual(result, {
+    error: {
+      message: 'HTTP error: 405',
+      status: 405
+    }
+  });
 });
