@@ -132,7 +132,7 @@ export const graph_data = {
 };
 
 export const main = async () => {
-  const result = (await graphDataTestRunner<{ messages: { role: string; content: string }[] }>(
+  const result = await graphDataTestRunner<{ messages: { role: string; content: string }[] }>(
     __filename,
     graph_data,
     {
@@ -145,7 +145,7 @@ export const main = async () => {
     },
     () => {},
     false,
-  ));
+  );
   if (result?.chat) {
     console.log("Complete", result.chat.messages.length);
   }
