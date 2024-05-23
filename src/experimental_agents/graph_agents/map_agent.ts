@@ -7,7 +7,7 @@ export const mapAgent: AgentFunction<
     namedInputs?: Array<string>;
     limit?: number;
   },
-  Record<string, Array<any>>,
+  Record<string, any>,
   any
 > = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
   if (taskManager) {
@@ -33,38 +33,48 @@ export const mapAgent: AgentFunction<
     }
   });
 
-  const graphs: Array<GraphAI> = input.map((data: any) => {
-    const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters: agentFilters || [] });
-    // Only the first input will be mapped
-    namedInputs.forEach((injectToNodeId, index) => {
-      graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
-    });
-    return graphAI;
-  });
-
-  const runs = graphs.map((graph) => {
-    return graph.run(false);
-  });
-  const results = await Promise.all(runs);
-  const nodeIds = Object.keys(results[0]);
-  // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
-  const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
-    tmp[nodeId] = results.map((result) => {
-      return result[nodeId];
-    });
-    return tmp;
-  }, {});
-
-  if (log) {
-    const logs = graphs.map((graph, index) => {
-      return graph.transactionLogs().map((log) => {
-        log.mapIndex = index;
-        return log;
+  try {
+    const graphs: Array<GraphAI> = input.map((data: any) => {
+      const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters: agentFilters || [] });
+      // Only the first input will be mapped
+      namedInputs.forEach((injectToNodeId, index) => {
+        graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
       });
+      return graphAI;
     });
-    log.push(...logs.flat());
+
+    const runs = graphs.map((graph) => {
+      return graph.run(false);
+    });
+    const results = await Promise.all(runs);
+    const nodeIds = Object.keys(results[0]);
+    // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
+    const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
+      tmp[nodeId] = results.map((result) => {
+        return result[nodeId];
+      });
+      return tmp;
+    }, {});
+
+    if (log) {
+      const logs = graphs.map((graph, index) => {
+        return graph.transactionLogs().map((log) => {
+          log.mapIndex = index;
+          return log;
+        });
+      });
+      log.push(...logs.flat());
+    }
+    return compositeResult;
+  } catch(error) {
+    if (error instanceof Error) {
+      return { onError: {
+        message: error.message,
+        error
+      } };
+    }
+    throw error;
   }
-  return compositeResult;
 };
 
 const mapAgentInfo = {
