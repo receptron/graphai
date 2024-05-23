@@ -46,6 +46,10 @@ export const geminiAgent: AgentFunction<
   const chat = model.startChat({
     history: messages.map((message) => {
       const role = (message.role === "assistant") ? "model" : message.role;
+      if (role === "system") {
+        // Gemini does not have the concept of system message
+        return { role : "user", parts: [{ text: "System Message: " + message.content }] };
+      }
       return { role, parts: [{ text: message.content }] };
     }),
     generationConfig,
