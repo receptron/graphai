@@ -18,7 +18,8 @@ export const anthropicAgent: AgentFunction<
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
-  const messages: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messagesProvided: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messages = messagesProvided.map(m => m); // sharrow copy
 
   const content = (query ? [query] : []).concat(input_query ? [input_query as string] : []).join("\n");
   if (content) {

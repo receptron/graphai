@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/index";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
 import { assert } from "@/utils/utils";
 
 export const geminiAgent: AgentFunction<
@@ -9,17 +9,18 @@ export const geminiAgent: AgentFunction<
     system?: string;
     temperature?: number;
     max_tokens?: number;
-    // tools?: any;
+    tools?: Array<Record<string, any>>;
     // tool_choice?: any;
   },
   Record<string, any> | string,
   string | Array<any>
 > = async ({ params, inputs }) => {
-  const { query, system, temperature, max_tokens } = params;
+  const { query, system, temperature, max_tokens, tools } = params;
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
-  const messages: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messagesProvided: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messages = messagesProvided.map(m => m); // sharrow copy
 
   const content = (query ? [query] : []).concat(input_query ? [input_query as string] : []).join("\n");
   if (content) {
@@ -28,13 +29,27 @@ export const geminiAgent: AgentFunction<
       content,
     });
   }
+  const lastMessage = messages.pop();
 
   const key = process.env["GOOGLE_GENAI_API_KEY"];
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
-  const model = genAI.getGenerativeModel({
-    model: params.model ?? "gemini-pro",
-  });
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+    },
+  ];
+  const modelParams: ModelParams = {
+    model: params.model ?? "gemini-pro", safetySettings
+  };
+  if (tools) {
+    const functions = tools.map((tool:any) => {
+      return tool.function;
+    });
+    modelParams.tools = [{ functionDeclarations: functions }];
+  }
+  const model = genAI.getGenerativeModel(modelParams);
   const generationConfig = {
     maxOutputTokens: max_tokens,
     temperature,
@@ -42,14 +57,29 @@ export const geminiAgent: AgentFunction<
     // topK: 16,
   };
   const chat = model.startChat({
-    history: [],
+    history: messages.map((message) => {
+      const role = (message.role === "assistant") ? "model" : message.role;
+      if (role === "system") {
+        // Gemini does not have the concept of system message
+        return { role : "user", parts: [{ text: "System Message: " + message.content }] };
+      }
+      return { role, parts: [{ text: message.content }] };
+    }),
     generationConfig,
   });
 
-  const result = await chat.sendMessage(content);
-  const response = await result.response;
+  const result = await chat.sendMessage(lastMessage.content);
+  const response = result.response;
   const text = response.text();
-  return text;
+  const message:any = { role: "assistant", content: text};
+  // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
+  const calls = result.response.functionCalls();
+  if (calls) {
+    message.tool_calls = calls.map((call) => {
+      return { function: { name:call.name, arguments: JSON.stringify(call.args) } };
+    });
+  }
+  return { choices: [{ message }] };
 };
 
 const geminiAgentInfo = {
