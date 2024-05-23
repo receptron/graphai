@@ -45,12 +45,14 @@ export const nestedAgent: AgentFunction<{ namedInputs?: Array<string> }> = async
     const results = await graphAI.run(false);
     log?.push(...graphAI.transactionLogs());
     return results;
-  } catch(error) {
+  } catch (error) {
     if (error instanceof Error) {
-      return { onError: {
-        message: error.message,
-        error
-      } };
+      return {
+        onError: {
+          message: error.message,
+          error,
+        },
+      };
     }
     throw error;
   }

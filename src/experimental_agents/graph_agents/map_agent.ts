@@ -66,12 +66,14 @@ export const mapAgent: AgentFunction<
       log.push(...logs.flat());
     }
     return compositeResult;
-  } catch(error) {
+  } catch (error) {
     if (error instanceof Error) {
-      return { onError: {
-        message: error.message,
-        error
-      } };
+      return {
+        onError: {
+          message: error.message,
+          error,
+        },
+      };
     }
     throw error;
   }
