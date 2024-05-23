@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/index";
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams, FunctionDeclarationsTool } from "@google/generative-ai";
 import { assert } from "@/utils/utils";
 
 export const geminiAgent: AgentFunction<
@@ -9,13 +9,13 @@ export const geminiAgent: AgentFunction<
     system?: string;
     temperature?: number;
     max_tokens?: number;
-    // tools?: any;
+    tools?: Array<Record<string, any>>;
     // tool_choice?: any;
   },
   Record<string, any> | string,
   string | Array<any>
 > = async ({ params, inputs }) => {
-  const { query, system, temperature, max_tokens } = params;
+  const { query, system, temperature, max_tokens, tools } = params;
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
@@ -40,9 +40,16 @@ export const geminiAgent: AgentFunction<
       threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
     },
   ];
-  const model = genAI.getGenerativeModel({
+  const modelParams: ModelParams = {
     model: params.model ?? "gemini-pro", safetySettings
-  });
+  };
+  if (tools) {
+    const functions = tools.map((tool:any) => {
+      return tool.function;
+    });
+    modelParams.tools = [{ functionDeclarations: functions }];
+  }
+  const model = genAI.getGenerativeModel(modelParams);
   const generationConfig = {
     maxOutputTokens: max_tokens,
     temperature,
