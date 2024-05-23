@@ -59,7 +59,7 @@ const geminiAgentInfo = {
   mock: geminiAgent,
   samples: [],
   skipTest: true,
-  description: "Anthropic Agent",
+  description: "Gemini Agent",
   category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
