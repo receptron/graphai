@@ -19,7 +19,8 @@ export const geminiAgent: AgentFunction<
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
-  const messages: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messagesProvided: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messages = messagesProvided.map(m => m); // sharrow copy
 
   const content = (query ? [query] : []).concat(input_query ? [input_query as string] : []).join("\n");
   if (content) {
@@ -32,7 +33,6 @@ export const geminiAgent: AgentFunction<
   const lastMessage = messages.pop();
 
   const key = process.env["GOOGLE_GENAI_API_KEY"];
-  assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
   const model = genAI.getGenerativeModel({
     model: params.model ?? "gemini-pro",
