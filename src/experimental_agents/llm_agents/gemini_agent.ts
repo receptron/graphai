@@ -1,5 +1,6 @@
-import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction } from "@/index";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { assert } from "@/utils/utils";
 
 export const geminiAgent: AgentFunction<
   {
@@ -28,18 +29,28 @@ export const geminiAgent: AgentFunction<
     });
   }
 
-  const anthropic = new Anthropic({
-    apiKey: process.env["ANTHROPIC_API_KEY"], // This is the default and can be omitted
+  const key = process.env["GOOGLE_GENAI_API_KEY"];
+  assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
+  const genAI = new GoogleGenerativeAI(key);
+  const model = genAI.getGenerativeModel({ 
+    model: params.model ?? "gemini-pro"
   });
+  const generationConfig = {
+    maxOutputTokens: max_tokens,
+    temperature,
+    // topP: 0.1,
+    // topK: 16,
+  };
+  const chat = model.startChat({
+    history: [
+    ],
+    generationConfig,
+  });  
 
-  return await anthropic.messages.create({
-    model: params.model || "claude-3-haiku-20240307", // "claude-3-opus-20240229",
-    messages,
-    temperature: temperature ?? 0.7,
-    max_tokens: max_tokens ?? 1024,
-    // tools: params.tools,
-    // tool_choice: params.tool_choice,
-  });
+  const result = await chat.sendMessage(content);
+  const response = await result.response;
+  const text = response.text();
+  return text;
 };
 
 const geminiAgentInfo = {
