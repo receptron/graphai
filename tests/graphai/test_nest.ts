@@ -52,3 +52,26 @@ test("test nest valid", async () => {
     }
   });
 });
+
+const graphdata_nest_invalid = {
+  version: 0.3,
+  nodes: {
+    source: {
+      value: invalid_graph,
+    },
+    nested: {
+      agent: "nestedAgent",
+      graph: ":source",
+      isResult: true,
+    },
+  },
+};
+
+test("test nest valid", async () => {
+  const result = await graphDataTestRunner("test_nest_valid", graphdata_nest_invalid, { nestedAgent, copyAgent }, ()=>{}, false);
+  assert.deepStrictEqual(result, {
+    nested: {
+      result: 1
+    }
+  });
+});
