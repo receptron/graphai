@@ -13,9 +13,8 @@ const graph_data = {
       params: {
         query,
       },
-      isResult: true,
     },
-    answer: {
+    result: {
       agent: "copyAgent",
       inputs: [":query"],
       isResult: true,
@@ -25,7 +24,7 @@ const graph_data = {
 
 export const main = async () => {
   const result = await graphDataTestRunner(__filename, graph_data, { geminiAgent, copyAgent });
-  console.log(result);
+  console.log(result.result);
 };
 
 if (process.argv[1] === __filename) {
