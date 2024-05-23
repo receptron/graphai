@@ -24,8 +24,8 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        path: packages/graphai/node_modules
-        cache: 'npm'
+        cache-dependency-path: packages/graphai
+        cache: 'yarn'
     - run: yarn install
     - run: yarn b
     - run: |
