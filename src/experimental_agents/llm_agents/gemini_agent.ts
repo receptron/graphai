@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/index";
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams, FunctionDeclarationsTool } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
 import { assert } from "@/utils/utils";
 
 export const geminiAgent: AgentFunction<
@@ -71,8 +71,15 @@ export const geminiAgent: AgentFunction<
   const result = await chat.sendMessage(lastMessage.content);
   const response = result.response;
   const text = response.text();
-  // choices.$0.message
-  return { choices: [{ message: { role: "assistant", content: text} }] };
+  const message:any = { role: "assistant", content: text};
+  // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
+  const calls = result.response.functionCalls();
+  if (calls) {
+    message.tool_calls = calls.map((call) => {
+      return { function: { name:call.name, arguments: JSON.stringify(call.args) } };
+    });
+  }
+  return { choices: [{ message }] };
 };
 
 const geminiAgentInfo = {
