@@ -1,4 +1,14 @@
-import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, LoopData, ResultDataDictionary, ResultData, DefaultResultData } from "@/type";
+import {
+  AgentFunctionInfoDictionary,
+  AgentFilterInfo,
+  GraphData,
+  DataSource,
+  LoopData,
+  ResultDataDictionary,
+  ResultData,
+  DefaultResultData,
+  GraphOptions,
+} from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
@@ -17,6 +27,7 @@ export class GraphAI {
   private readonly data: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
+  private readonly bypassAgentIds: string[];
   public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
@@ -88,7 +99,11 @@ export class GraphAI {
   constructor(
     data: GraphData,
     agentFunctionInfoDictionary: AgentFunctionInfoDictionary,
-    options: { agentFilters?: AgentFilterInfo[] | undefined; taskManager?: TaskManager | undefined } = { taskManager: undefined, agentFilters: [] },
+    options: GraphOptions = {
+      taskManager: undefined,
+      agentFilters: [],
+      bypassAgentIds: [],
+    },
   ) {
     if (!data.version && !options.taskManager) {
       console.warn("------------ missing version number");
@@ -103,13 +118,14 @@ export class GraphAI {
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
+    this.bypassAgentIds = options.bypassAgentIds ?? [];
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
       throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };
 
-    validateGraphData(data, Object.keys(agentFunctionInfoDictionary));
+    validateGraphData(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
 
     this.nodes = this.createNodes(data);
     this.initializeNodes();
@@ -118,6 +134,13 @@ export class GraphAI {
   public getAgentFunctionInfo(agentId?: string) {
     if (agentId && this.agentFunctionInfoDictionary[agentId]) {
       return this.agentFunctionInfoDictionary[agentId];
+    }
+    if (agentId && this.bypassAgentIds.includes(agentId)) {
+      return {
+        agent: async () => {
+          return null;
+        },
+      };
     }
     // We are not supposed to hit this error because the validator will catch it.
     throw new Error("No agent: " + agentId);

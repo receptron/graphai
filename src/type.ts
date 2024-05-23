@@ -67,6 +67,12 @@ export type GraphData = {
   retry?: number;
 };
 
+export type GraphOptions = {
+  agentFilters?: AgentFilterInfo[] | undefined;
+  taskManager?: TaskManager | undefined;
+  bypassAgentIds?: string[] | undefined;
+};
+
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData> = {
   params: NodeDataParams<ParamsType>;
   inputs: Array<InputDataType>;
