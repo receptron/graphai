@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/index";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, Content } from "@google/generative-ai";
 import { assert } from "@/utils/utils";
 
 export const geminiAgent: AgentFunction<
@@ -42,7 +42,10 @@ export const geminiAgent: AgentFunction<
     // topK: 16,
   };
   const chat = model.startChat({
-    history: [],
+    history: messages.map((message) => {
+      const role = (message.role === "assistant") ? "model" : message.role;
+      return { role, parts: [{ text: message.content }] };
+    }),
     generationConfig,
   });
 
