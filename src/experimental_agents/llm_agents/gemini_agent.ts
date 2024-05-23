@@ -29,10 +29,10 @@ export const geminiAgent: AgentFunction<
       content,
     });
   }
-  console.log(messages);
   const lastMessage = messages.pop();
 
   const key = process.env["GOOGLE_GENAI_API_KEY"];
+  assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
   const model = genAI.getGenerativeModel({
     model: params.model ?? "gemini-pro",
