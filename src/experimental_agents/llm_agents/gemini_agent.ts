@@ -49,7 +49,8 @@ export const geminiAgent: AgentFunction<
   const result = await chat.sendMessage(content);
   const response = await result.response;
   const text = response.text();
-  return text;
+  // choices.$0.message
+  return { choices: [{ message: { role: "assistant", content: text} }] };
 };
 
 const geminiAgentInfo = {
