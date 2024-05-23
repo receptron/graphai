@@ -28,6 +28,8 @@ export const geminiAgent: AgentFunction<
       content,
     });
   }
+  console.log(messages);
+  const lastMessage = messages.pop();
 
   const key = process.env["GOOGLE_GENAI_API_KEY"];
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
@@ -49,8 +51,8 @@ export const geminiAgent: AgentFunction<
     generationConfig,
   });
 
-  const result = await chat.sendMessage(content);
-  const response = await result.response;
+  const result = await chat.sendMessage(lastMessage.content);
+  const response = result.response;
   const text = response.text();
   // choices.$0.message
   return { choices: [{ message: { role: "assistant", content: text} }] };
