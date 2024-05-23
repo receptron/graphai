@@ -32,8 +32,8 @@ export const geminiAgent: AgentFunction<
   const key = process.env["GOOGLE_GENAI_API_KEY"];
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
-  const model = genAI.getGenerativeModel({ 
-    model: params.model ?? "gemini-pro"
+  const model = genAI.getGenerativeModel({
+    model: params.model ?? "gemini-pro",
   });
   const generationConfig = {
     maxOutputTokens: max_tokens,
@@ -42,10 +42,9 @@ export const geminiAgent: AgentFunction<
     // topK: 16,
   };
   const chat = model.startChat({
-    history: [
-    ],
+    history: [],
     generationConfig,
-  });  
+  });
 
   const result = await chat.sendMessage(content);
   const response = await result.response;
