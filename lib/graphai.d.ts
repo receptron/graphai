@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData } from "./type";
+import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, StaticNode } from "./node";
 import { TaskManager } from "./task_manager";
@@ -9,6 +9,7 @@ export declare class GraphAI {
     private readonly data;
     private readonly loop?;
     private readonly logs;
+    private readonly bypassAgentIds;
     readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
     readonly taskManager: TaskManager;
     readonly agentFilters: AgentFilterInfo[];
@@ -21,11 +22,10 @@ export declare class GraphAI {
     private createNodes;
     private getValueFromResults;
     private initializeNodes;
-    constructor(data: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: {
-        agentFilters?: AgentFilterInfo[] | undefined;
-        taskManager?: TaskManager | undefined;
-    });
-    getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo;
+    constructor(data: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: GraphOptions);
+    getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo | {
+        agent: () => Promise<null>;
+    };
     asString(): string;
     results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T>;
     errors(): Record<string, Error>;
