@@ -1,5 +1,5 @@
 import { AgentFunction } from "@/index";
-import { GoogleGenerativeAI, Content } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { assert } from "@/utils/utils";
 
 export const geminiAgent: AgentFunction<
@@ -34,8 +34,14 @@ export const geminiAgent: AgentFunction<
   const key = process.env["GOOGLE_GENAI_API_KEY"];
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+    },
+  ];
   const model = genAI.getGenerativeModel({
-    model: params.model ?? "gemini-pro",
+    model: params.model ?? "gemini-pro", safetySettings
   });
   const generationConfig = {
     maxOutputTokens: max_tokens,
