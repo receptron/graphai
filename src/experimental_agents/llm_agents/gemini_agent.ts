@@ -19,8 +19,9 @@ export const geminiAgent: AgentFunction<
   const [input_query, previous_messages] = inputs;
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesProvided: Array<any> = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
-  const messages = messagesProvided.map(m => m); // sharrow copy
+  const messagesProvided: Array<any> =
+    previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
+  const messages = messagesProvided.map((m) => m); // sharrow copy
 
   const content = (query ? [query] : []).concat(input_query ? [input_query as string] : []).join("\n");
   if (content) {
@@ -41,10 +42,11 @@ export const geminiAgent: AgentFunction<
     },
   ];
   const modelParams: ModelParams = {
-    model: params.model ?? "gemini-pro", safetySettings
+    model: params.model ?? "gemini-pro",
+    safetySettings,
   };
   if (tools) {
-    const functions = tools.map((tool:any) => {
+    const functions = tools.map((tool: any) => {
       return tool.function;
     });
     modelParams.tools = [{ functionDeclarations: functions }];
@@ -58,10 +60,10 @@ export const geminiAgent: AgentFunction<
   };
   const chat = model.startChat({
     history: messages.map((message) => {
-      const role = (message.role === "assistant") ? "model" : message.role;
+      const role = message.role === "assistant" ? "model" : message.role;
       if (role === "system") {
         // Gemini does not have the concept of system message
-        return { role : "user", parts: [{ text: "System Message: " + message.content }] };
+        return { role: "user", parts: [{ text: "System Message: " + message.content }] };
       }
       return { role, parts: [{ text: message.content }] };
     }),
@@ -71,12 +73,12 @@ export const geminiAgent: AgentFunction<
   const result = await chat.sendMessage(lastMessage.content);
   const response = result.response;
   const text = response.text();
-  const message:any = { role: "assistant", content: text};
+  const message: any = { role: "assistant", content: text };
   // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
   const calls = result.response.functionCalls();
   if (calls) {
     message.tool_calls = calls.map((call) => {
-      return { function: { name:call.name, arguments: JSON.stringify(call.args) } };
+      return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
     });
   }
   return { choices: [{ message }] };
