@@ -39,11 +39,21 @@ export const nestedAgent: AgentFunction<{ namedInputs?: Array<string> }> = async
     }
   });
 
-  const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters });
+  try {
+    const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters });
 
-  const results = await graphAI.run(false);
-  log?.push(...graphAI.transactionLogs());
-  return results;
+    const results = await graphAI.run(false);
+    log?.push(...graphAI.transactionLogs());
+    return results;
+  } catch(error) {
+    if (error instanceof Error) {
+      return { onError: {
+        message: error.message,
+        error
+      } };
+    }
+    throw error;
+  }
 };
 
 const nestedAgentInfo = {
