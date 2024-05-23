@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test graph", async () => {
-  const agent: AgentFilterFunction = async (context, next) => {
+  const agent: AgentFilterFunction = async (__context, __next) => {
     return { message: "agentFilter" };
   };
   const graph = new GraphAI(
