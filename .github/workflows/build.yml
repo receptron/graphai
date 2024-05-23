@@ -11,6 +11,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/graphai
     if: github.repository_owner == 'receptron'
     strategy:
       matrix:
@@ -21,6 +24,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache-dependency-path: packages/graphai
         cache: 'npm'
     - run: yarn install
     - run: yarn b
