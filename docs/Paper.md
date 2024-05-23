@@ -68,46 +68,46 @@ Here is a graph that describes the necessary operaitions for in-memory RAG (Retr
 
 ```YAML
 nodes:
-  source: // (1)
+  source: # (1)
     value:
       name: Sam Bankman-Fried
       query: describe the final sentence by the court for Sam Bank-Fried
-  wikipedia: // (2)
+  wikipedia: # (2)
     agentId: wikipediaAgent
     inputs: [:source.name]
-  chunks: // (3) 
+  chunks: # (3) 
     agentId: stringSplitterAgent
     inputs: [:wikipedia]
-  chunkEmbeddings: // (4)
+  chunkEmbeddings: # (4)
     agentId: stringEmbeddingsAgent
     inputs: [:chunks]
-  topicEmbedding: // (5) 
+  topicEmbedding: # (5) 
     agentId: stringEmbeddingsAgent
     inputs: [:source.query]
-  similarities: // (6)
+  similarities: # (6)
     agentId: dotProductAgent
     inputs: [:chunkEmbeddings, :topicEmbedding.$0]
-  sortedChunks: // (7) 
+  sortedChunks: # (7) 
     agentId: sortByValuesAgent
     inputs: [:chunks, :similarities]
-  referenceText: // (8) 
+  referenceText: # (8) 
     agentId: tokenBoundStringsAgent
     inputs: [:sortedChunks]
     params:
       limit: 5000
-  prompt: // (9) 
+  prompt: # (9) 
     agentId: stringTemplateAgent
     inputs: [:source.query, :referenceText]
     params:
       template: |-
         Using the following document, ${0}
         ${1}
-  query: // (10)
+  query: # (10)
     agentId: slashGPTAgent
     params:
       manifest:
         model: gpt-3.5-turbo
-    isResult: true // indicating this is the final result
+    isResult: true # indicating this is the final result
     inputs: [:prompt]
 ```
 
