@@ -63,6 +63,16 @@ const invalid_graph = {
   }
 };
 
+test("test nest invalid", async () => {
+  const result = await graphDataTestRunner("test_nest_invalid", graphdata_nested, { nestedAgent, copyAgent, propertyFilterAgent },
+    (graph: GraphAI) => {
+      graph.injectValue("source", invalid_graph);
+    }, false);
+  assert.deepStrictEqual(result.catch, {
+    message: "\x1B[41mInputs not match: NodeId result, Inputs: badsource\x1B[0m"
+  });
+});
+
 const invalid_graph2 = {
   nodes: {
     source: {
@@ -76,12 +86,12 @@ const invalid_graph2 = {
   }
 };
 
-test("test nest invalid", async () => {
-  const result = await graphDataTestRunner("test_nest_valid", graphdata_nested, { nestedAgent, copyAgent, propertyFilterAgent },
+test("test nest invalid 2", async () => {
+  const result = await graphDataTestRunner("test_nest_invalid2", graphdata_nested, { nestedAgent, copyAgent, propertyFilterAgent },
     (graph: GraphAI) => {
-      graph.injectValue("source", invalid_graph);
+      graph.injectValue("source", invalid_graph2);
     }, false);
   assert.deepStrictEqual(result.catch, {
-    message: "\x1B[41mInputs not match: NodeId result, Inputs: badsource\x1B[0m"
+    message: "\x1B[41mInvalid Agent : invalidAgent is not in AgentFunctionInfoDictionary.\x1B[0m"
   });
 });
