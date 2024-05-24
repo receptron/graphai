@@ -11,6 +11,7 @@ export {
   NodeState,
   AgentFilterFunction,
   AgentFilterInfo,
+  StaticNodeData,
 } from "@/type";
 
 export type { TransactionLog } from "./transaction_log";
