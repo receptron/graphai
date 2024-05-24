@@ -27,7 +27,7 @@ jobs:
         cache-dependency-path: packages/graphai
         cache: 'npm'
     - run: yarn install
-    - run: npx ts-node -r tsconfig-paths/register test/express/server.ts &
+    - run: npx ts-node -r tsconfig-paths/register tests/express/server.ts &
     - run: cd tests/http-server/docs/ && npx http-server &
     - run: yarn test
     - run: yarn http_test
