@@ -1,6 +1,6 @@
 import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { jsonParserAgent } from "@/experimental_agents";
+import { defaultTestAgents } from "graphai/lib/utils/test_agents";
+import { jsonParserAgent } from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";
