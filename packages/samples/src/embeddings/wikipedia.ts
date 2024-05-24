@@ -89,7 +89,7 @@ const simplify = (result: Array<any>) => {
   return { content, usage };
 };
 
-const main = async () => {
+export const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
     tokenBoundStringsAgent,
     sortByValuesAgent,
