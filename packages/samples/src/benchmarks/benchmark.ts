@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "~/utils/runner";
-import { groqAgent, fetchAgent, shiftAgent, nestedAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "@/utils/test_runner";
+import { groqAgent, fetchAgent, shiftAgent, nestedAgent } from "graphai/lib/experimental_agents";
 
 const graph_data = {
   version: 0.3,
