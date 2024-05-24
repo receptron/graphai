@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "~/utils/runner";
-import { copyAgent, geminiAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "@/utils/test_runner";
+import { copyAgent, geminiAgent } from "graphai/lib/experimental_agents";
 
 const query = "hello";
 
