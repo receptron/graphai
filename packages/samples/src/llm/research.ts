@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "~/utils/runner";
+import { graphDataTestRunner } from "@/utils/test_runner";
 import {
   groqAgent,
   openAIAgent,
@@ -10,7 +10,7 @@ import {
   textInputAgent,
   wikipediaAgent,
   jsonParserAgent,
-} from "@/experimental_agents";
+} from "graphai/lib/experimental_agents";
 
 const tools_translated = [
   {

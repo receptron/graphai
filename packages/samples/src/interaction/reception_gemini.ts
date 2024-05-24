@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "~/utils/runner";
-import { geminiAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent, jsonParserAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "@/utils/test_runner";
+import { geminiAgent, shiftAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent, jsonParserAgent } from "graphai/lib/experimental_agents";
 
 const tools = [
   {

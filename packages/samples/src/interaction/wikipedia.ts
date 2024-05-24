@@ -1,7 +1,7 @@
 import "dotenv/config";
 
-import { graphDataTestRunner } from "~/utils/runner";
-import { wikipediaAgent, textInputAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "@/utils/test_runner";
+import { wikipediaAgent, textInputAgent } from "graphai/lib/experimental_agents";
 
 const graph_data = {
   version: 0.3,
