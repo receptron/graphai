@@ -1,4 +1,4 @@
-import { graphDataTestRunner } from "@graphai/samples/lib/utils/test_runner";
+import { graphDataTestRunner } from "@graphai/test_utils";
 import { fetchAgent, propertyFilterAgent, copyAgent } from "@/index";
 
 import test from "node:test";

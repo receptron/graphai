@@ -1,4 +1,4 @@
-import { graphDataTestRunner } from "~/utils/runner";
+import { graphDataTestRunner } from "@graphai/test_utils";
 import { defaultTestAgents } from "graphai/lib/utils/test_agents";
 import { jsonParserAgent } from "@/index";
 
