@@ -1,11 +1,11 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "~/utils/runner";
-import { copyAgent, openAIAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "@/utils/test_runner";
+import { copyAgent, openAIAgent } from "graphai/lib/experimental_agents";
 import * as path from "path";
 import * as fs from "fs";
 import { graph_data } from "../net/weather";
 
-const filePath = path.join(__dirname, "../../README.md");
+const filePath = path.join(__dirname, "../../../../README.md");
 const document = fs.readFileSync(filePath, "utf8");
 const sample_output = `
 This sample graph was designed to simulate an interview with a famous person. The flow involves multiple agents working together to process user input, generate conversational context, and manage an iterative chat process.

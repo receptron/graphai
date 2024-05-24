@@ -1,4 +1,4 @@
-import pushAgent from "../../experimental_agents/array_agents/push_agent";
-import popAgent from "../../experimental_agents/array_agents/pop_agent";
-import shiftAgent from "../../experimental_agents/array_agents/shift_agent";
+import pushAgent from "./push_agent";
+import popAgent from "./pop_agent";
+import shiftAgent from "./shift_agent";
 export { pushAgent, popAgent, shiftAgent };
