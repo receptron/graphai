@@ -4,7 +4,7 @@ import tseslint from "typescript-eslint";
 
 export default [
   {
-    files: ["{src,test,samles}/**/*.{js,ts,yaml,yml,json}"],
+    files: ["{src,test,samles}/**/*.{js,ts,json}"],
   },
   {
     ignores: ["lib/**/*", "*.ts", "apiDoc/**/*", "apiDoc/*"],
