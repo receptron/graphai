@@ -1,16 +1,16 @@
 import express from "express";
-import { defaultTestAgents } from "@/utils/test_agents";
+import * as agents from "@graphai/agents";
 
 import { streamAgentFilterGenerator } from "@/experimental_agent_filters/stream";
 import { agentFilterRunnerBuilder } from "@/utils/runner";
 
-import { AgentFunctionContext } from "@/type";
+import { AgentFunctionContext, AgentFunctionInfoDictionary } from "@/type";
 
 export const agentDispatcher = async (req: express.Request, res: express.Response) => {
   const { params } = req;
   const { agentId } = params; // from url
   const { nodeId, retry, params: agentParams, inputs } = req.body; // post body
-  const agentInfo = defaultTestAgents[agentId];
+  const agentInfo = (agents as any)[agentId];
   const stream = agentParams?.stream || false;
 
   if (agentInfo === undefined) {
@@ -26,7 +26,7 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
       verbose: false,
     },
     filterParams: {},
-    agents: defaultTestAgents,
+    agents: agents as AgentFunctionInfoDictionary,
   };
   if (!stream) {
     const result = await agentInfo.agent(context);

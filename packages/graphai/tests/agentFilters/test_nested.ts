@@ -1,6 +1,6 @@
 import { GraphAI, AgentFilterFunction } from "@/index";
 
-import { defaultTestAgents } from "@/utils/test_agents";
+import * as agents from "../test_agents";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -63,7 +63,7 @@ test("test nested agent filter", async () => {
     },
   };
 
-  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents }, { agentFilters });
+  const graph = new GraphAI({ ...graph_data }, { ...agents }, { agentFilters });
   const result = await graph.run();
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, { nested1: { bypassAgent: [{ simple: ["1", "2"] }] } });
@@ -101,7 +101,7 @@ test("test map agent filter", async () => {
     },
   };
 
-  const graph = new GraphAI({ ...graph_data }, { ...defaultTestAgents }, { agentFilters });
+  const graph = new GraphAI({ ...graph_data }, { ...agents }, { agentFilters });
   const result = await graph.run();
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, { nested1: { bypassAgent: [[{ simple: ["1", "2"] }], [{ simple: ["1", "2"] }]] } });

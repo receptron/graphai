@@ -1,5 +1,5 @@
 import { AgentFilterFunction } from "@/type";
-import { defaultTestAgents } from "@/utils/test_agents";
+import * as agents from "../test_agents";
 
 import { defaultTestContext } from "@/utils/test_utils";
 import { agentFilterRunnerBuilder } from "@/index";
@@ -34,7 +34,7 @@ test("test agent filter", async () => {
     },
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
-  const result = await agentFilterRunner({ ...defaultTestContext, inputs: [], params: { filterParams: true } }, defaultTestAgents.echoAgent.agent);
+  const result = await agentFilterRunner({ ...defaultTestContext, inputs: [], params: { filterParams: true } }, agents.echoAgent.agent);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, { httpHeaders: { Authorization: "Bearer xxxxxx", "Content-Type": "application/json" } });
 });

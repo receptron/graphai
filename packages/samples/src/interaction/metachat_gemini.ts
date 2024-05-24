@@ -1,6 +1,14 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { copyAgent, geminiAgent, jsonParserAgent, nestedAgent, textInputAgent, propertyFilterAgent, stringTemplateAgent } from "graphai/lib/experimental_agents";
+import {
+  copyAgent,
+  geminiAgent,
+  jsonParserAgent,
+  nestedAgent,
+  textInputAgent,
+  propertyFilterAgent,
+  stringTemplateAgent,
+} from "graphai/lib/experimental_agents";
 import * as path from "path";
 import * as fs from "fs";
 import * as sample from "./reception_gemini";

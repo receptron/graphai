@@ -1,0 +1,43 @@
+{
+  "name": "@graphai/test_utils",
+  "version": "0.0.1",
+  "description": "Asynchronous data flow execution engine for agentic AI apps.",
+  "main": "lib/index.js",
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "rm -r lib/* && tsc && tsc-alias",
+    "eslint": "eslint",
+    "test": "echo hello",
+    "format": "prettier --write 'src/**/*.ts'",
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "samples": "npx ts-node  -r tsconfig-paths/register src/sample_runner.ts",
+    "sample": "npx ts-node  -r tsconfig-paths/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "author": "Satoshi Nakajima, Isamu Arimoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai#readme",
+  "devDependencies": {
+    "@graphai/vanilla": "^0.0.1",
+    "@types/node": "^20.12.11",
+    "eslint": "^9.2.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0"
+  },
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  }
+}

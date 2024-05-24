@@ -1,4 +1,3 @@
-import { AgentFunctionInfo } from "../type";
 export declare const defaultTestContext: {
     debugInfo: {
         nodeId: string;
@@ -10,4 +9,3 @@ export declare const defaultTestContext: {
     agents: {};
     log: never[];
 };
-export declare const agentTestRunner: (agentInfo: AgentFunctionInfo) => Promise<void>;
