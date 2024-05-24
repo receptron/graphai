@@ -19,7 +19,7 @@ const graph_data = {
   },
 };
 
-const main = async () => {
+export const main = async () => {
   const result = await graphDataTestRunner("sample_wiki.log", graph_data, { textInputAgent, wikipediaAgent });
   console.log(result.wikipedia);
   console.log("COMPLETE 1");
