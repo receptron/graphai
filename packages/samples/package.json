@@ -1,19 +1,18 @@
 {
-  "name": "graphai",
-  "version": "0.4.4",
+  "name": "@graphai/samples",
+  "version": "0.0.1",
   "description": "Asynchronous data flow execution engine for agentic AI apps.",
-  "main": "lib/index.js",
+  "main": "src/sample_runner.ts",
   "files": [
-    "./lib"
+    "./src"
   ],
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
-    "apiDoc": " npx typedoc src/index.ts --out apiDoc",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
-    "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "format": "prettier --write 'src/**/*.ts'",
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "samples": "npx ts-node  -r tsconfig-paths/register src/sample_runner.ts",
+    "sample": "npx ts-node  -r tsconfig-paths/register"
   },
   "repository": {
     "type": "git",

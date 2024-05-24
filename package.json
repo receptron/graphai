@@ -1,0 +1,12 @@
+{
+  "name": "graphai-wrapper",
+  "version": "0.0.1",
+  "description": "Monorepo for the graphai ",
+  "private": true,
+  "devDependencies": {},
+  "workspaces": [
+    "packages/*"
+  ],
+  "author": "",
+  "license": "MIT"
+}
