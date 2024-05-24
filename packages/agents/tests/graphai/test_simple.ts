@@ -1,15 +1,52 @@
-import { GraphAI } from "@/index";
+import { GraphAI } from "graphai";
 
-import { defaultTestAgents } from "@/utils/test_agents";
-import { defaultAgentInfo } from "@/utils/utils";
-import { graph_data, graph_injection_data } from "~/units/graph_data";
-import { sleep } from "@/utils/utils";
+import * as agents from "@graphai/vanilla";
+import { defaultAgentInfo } from "graphai/lib/utils/utils";
+import { sleep } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
+const graph_data = {
+  version: 0.3,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    bypassAgent: {
+      agent: "bypassAgent",
+      inputs: [":echo"],
+    },
+    bypassAgent2: {
+      agent: "bypassAgent",
+      inputs: [":bypassAgent"],
+    },
+  },
+};
+
+const graph_injection_data = {
+  version: 0.3,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+    },
+    bypassAgent: {
+      agent: "injectAgent",
+      inputs: [":echo"],
+    },
+    bypassAgent2: {
+      agent: "bypassAgent",
+      inputs: [":bypassAgent"],
+    },
+  },
+};
+
+
 test("test graph", async () => {
-  const graph = new GraphAI(graph_data, defaultTestAgents);
+  const graph = new GraphAI(graph_data, agents);
   const asString = graph.asString();
   assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
 
@@ -60,7 +97,7 @@ const injectAgentGenerator = () => {
 test("test injection", async () => {
   const { injectAgent, injectAgentResolver } = injectAgentGenerator();
 
-  const graph = new GraphAI(graph_injection_data, { ...defaultTestAgents, injectAgent });
+  const graph = new GraphAI(graph_injection_data, { ...agents, injectAgent });
   const asString = graph.asString();
   assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
 
@@ -90,7 +127,7 @@ test("test injection", async () => {
 test("test running", async () => {
   const { injectAgent, injectAgentResolver } = injectAgentGenerator();
 
-  const graph = new GraphAI(graph_injection_data, { ...defaultTestAgents, injectAgent });
+  const graph = new GraphAI(graph_injection_data, { ...agents, injectAgent });
   assert.equal(false, graph.isRunning());
 
   (async () => {

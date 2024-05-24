@@ -1,4 +1,4 @@
-import { rejectTest, anonymization } from "@graphai/test_utils";
+import { rejectTest, anonymization } from "./utils";
 
 import test from "node:test";
 
