@@ -1,6 +1,5 @@
-import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { fileBaseName } from "~/utils/file_utils";
+import { graphDataTestRunner, fileBaseName } from "@graphai/test_utils";
+import * as agents from "@graphai/vanilla";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -43,7 +42,7 @@ const graphdata_nested = {
 };
 
 test("test nested loop & $0", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_nested, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_nested, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
       reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
@@ -90,7 +89,7 @@ const graphdata_pop = {
 };
 
 test("test loop, update $0", async () => {
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, fileBaseName(__filename) + "_2.log", graphdata_pop, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
       result: ["lemon", "banana", "orange"],
@@ -139,7 +138,7 @@ const graphdata_nested_injection = {
 };
 
 test("test nested loop & injection", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_nested_injection, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname,  __filename, graphdata_nested_injection, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
       reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],

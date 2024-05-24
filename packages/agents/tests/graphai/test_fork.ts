@@ -1,8 +1,8 @@
-import { AgentFunction } from "@/index";
+import { AgentFunction } from "graphai";
 
-import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { agentInfoWrapper } from "@/utils/utils";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as agents from "@graphai/vanilla";
+import { agentInfoWrapper } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -71,9 +71,9 @@ test("test fork 1", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, {
+  const result = await graphDataTestRunner(__dirname, __filename, forkGraph, {
     testAgent1a: agentInfoWrapper(testAgent1a),
-    ...defaultTestAgents,
+    ...agents,
   });
   // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
@@ -147,7 +147,7 @@ test("test fork 2", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, {
+  const result = await graphDataTestRunner(__dirname, __filename, forkGraph, {
     testAgent1: agentInfoWrapper(testAgent1),
   });
   // console.log(JSON.stringify(result, null, "  "));
@@ -210,7 +210,7 @@ test("test fork 3", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, forkGraph, defaultTestAgents);
+  const result = await graphDataTestRunner(__dirname, __filename, forkGraph, agents);
   // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },

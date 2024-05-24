@@ -1,14 +1,14 @@
-import { GraphAI } from "@/graphai";
+import { GraphAI } from "graphai";
 
-import { defaultTestAgents } from "@/utils/test_agents";
-import { fileTestRunner, rejectFileTest } from "~/utils/runner";
-import { strIntentionalError } from "@/utils/utils";
+import * as agents from "@/index";
+import { fileTestRunner, rejectFileTest } from "@graphai/test_utils";
+import { strIntentionalError } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
 
 test("test base", async () => {
-  const result = await fileTestRunner("/graphs/test_base.yml", defaultTestAgents);
+  const result = await fileTestRunner(__dirname,  "/graphs/test_base.yml", agents);
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
@@ -19,7 +19,7 @@ test("test base", async () => {
 });
 
 test("test retry", async () => {
-  const result = await fileTestRunner("/graphs/test_retry.yml", defaultTestAgents);
+  const result = await fileTestRunner(__dirname, "/graphs/test_retry.yml", agents);
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },
@@ -30,15 +30,15 @@ test("test retry", async () => {
 });
 
 test("test error", async () => {
-  await rejectFileTest("/graphs/test_error.yml", strIntentionalError, {}, false);
+  await rejectFileTest(__dirname, "/graphs/test_error.yml", strIntentionalError, {}, false);
 });
 
 test("test timeout", async () => {
-  await rejectFileTest("/graphs/test_timeout.yml", "Timeout", {}, false);
+  await rejectFileTest(__dirname, "/graphs/test_timeout.yml", "Timeout", {}, false);
 });
 
 test("test source", async () => {
-  const result = await fileTestRunner("/graphs/test_source.yml", defaultTestAgents, (graph: GraphAI) => {
+  const result = await fileTestRunner(__dirname, "/graphs/test_source.yml", agents, (graph: GraphAI) => {
     graph.injectValue("node2", { node2: "injected" });
   });
   assert.deepStrictEqual(result, {
@@ -51,7 +51,7 @@ test("test source", async () => {
 });
 
 test("test source2", async () => {
-  const result = await fileTestRunner("/graphs/test_source2.yml", defaultTestAgents, (graph: GraphAI) => {
+  const result = await fileTestRunner(__dirname, "/graphs/test_source2.yml", agents, (graph: GraphAI) => {
     graph.injectValue("node1", { node1: "injected" });
   });
   assert.deepStrictEqual(result, {
@@ -64,7 +64,7 @@ test("test source2", async () => {
 });
 
 test("test nested", async () => {
-  const result = await fileTestRunner("/graphs/test_nested.yml", defaultTestAgents);
+  const result = await fileTestRunner(__dirname, "/graphs/test_nested.yml", agents);
   assert.deepStrictEqual(result, {
     outer1: { outer1: "output" },
     outer2: { inner3: { inner1: "output", inner2: "output", inner3: "output", outer1: "output" } },

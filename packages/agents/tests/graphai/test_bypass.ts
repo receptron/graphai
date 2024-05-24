@@ -1,5 +1,5 @@
-import { defaultTestAgents } from "@/utils/test_agents";
-import { graphDataTestRunner } from "~/utils/runner";
+import * as agents from "@graphai/vanilla";
+import { graphDataTestRunner } from "@graphai/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -24,7 +24,7 @@ test("test bypass1", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data, agents);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
     bypassAgent2: [
@@ -77,7 +77,7 @@ test("test bypass2", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("test_bypass_2", graph_data, defaultTestAgents);
+  const result = await graphDataTestRunner(__dirname, "test_bypass_2", graph_data, agents);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
@@ -131,7 +131,7 @@ test("test bypass3", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("test_bypass_3", graph_data, defaultTestAgents);
+  const result = await graphDataTestRunner(__dirname, "test_bypass_3", graph_data, agents);
   // console.log( JSON.stringify(result));
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
@@ -178,7 +178,7 @@ test("test bypass4", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner("test_bypass_4", graph_data, defaultTestAgents);
+  const result = await graphDataTestRunner(__dirname, "test_bypass_4", graph_data, agents);
   // console.log( JSON.stringify(result));
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
@@ -223,7 +223,7 @@ test("test bypass 5", async () => {
       },
     },
   };
-  const result = await graphDataTestRunner(__filename, graph_data, defaultTestAgents);
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data, agents);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },

@@ -36,18 +36,19 @@ const common_1 = require("graphai/lib/validators/common");
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
 const node_assert_1 = __importDefault(require("node:assert"));
-const readGraphData = (file) => {
-    const file_path = path_1.default.resolve(__dirname) + "/.." + file;
+// __dirname
+const readGraphData = (base_dir, file) => {
+    const file_path = path_1.default.resolve(base_dir) + "/.." + file;
     return (0, file_utils_1.readGraphaiData)(file_path);
 };
 exports.readGraphData = readGraphData;
-const fileTestRunner = async (file, agentFunctionInfoDictionary, callback = () => { }) => {
-    return await (0, exports.graphDataTestRunner)(file, (0, exports.readGraphData)(file), agentFunctionInfoDictionary, callback);
+const fileTestRunner = async (base_dir, file, agentFunctionInfoDictionary, callback = () => { }) => {
+    return await (0, exports.graphDataTestRunner)(base_dir, file, (0, exports.readGraphData)(base_dir, file), agentFunctionInfoDictionary, callback);
 };
 exports.fileTestRunner = fileTestRunner;
-const graphDataTestRunner = async (logFileName, graph_data, agentFunctionInfoDictionary, callback = () => { }, all = true) => {
+const graphDataTestRunner = async (base_dir, logFileName, graph_data, agentFunctionInfoDictionary, callback = () => { }, all = true) => {
     (0, file_utils_1.mkdirLogDir)();
-    const log_path = path_1.default.resolve(__dirname) + "/../logs/" + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
+    const log_path = path_1.default.resolve(base_dir) + "/../logs/" + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
     const graph = new graphai_1.GraphAI(graph_data, { ...test_agents_1.defaultTestAgents, ...agentFunctionInfoDictionary });
     if (process.argv[2] === "-v") {
         graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
@@ -72,13 +73,13 @@ const graphDataTestRunner = async (logFileName, graph_data, agentFunctionInfoDic
     return results;
 };
 exports.graphDataTestRunner = graphDataTestRunner;
-const rejectFileTest = async (file, errorMessage, agentFunctionInfoDictionary = {}, validationError = true) => {
-    return await (0, exports.rejectTest)((0, exports.readGraphData)(file), errorMessage, agentFunctionInfoDictionary, validationError);
+const rejectFileTest = async (base_dir, file, errorMessage, agentFunctionInfoDictionary = {}, validationError = true) => {
+    return await (0, exports.rejectTest)(base_dir, (0, exports.readGraphData)(base_dir, file), errorMessage, agentFunctionInfoDictionary, validationError);
 };
 exports.rejectFileTest = rejectFileTest;
-const rejectTest = async (graphdata, errorMessage, agentFunctionInfoDictionary = {}, validationError = true) => {
+const rejectTest = async (base_dir, graphdata, errorMessage, agentFunctionInfoDictionary = {}, validationError = true) => {
     await node_assert_1.default.rejects(async () => {
-        await (0, exports.graphDataTestRunner)(__filename, graphdata, { ...test_agents_1.defaultTestAgents, ...agentFunctionInfoDictionary });
+        await (0, exports.graphDataTestRunner)(base_dir, __filename, graphdata, { ...test_agents_1.defaultTestAgents, ...agentFunctionInfoDictionary });
     }, { name: "Error", message: validationError ? new common_1.ValidationError(errorMessage).message : errorMessage });
 };
 exports.rejectTest = rejectTest;

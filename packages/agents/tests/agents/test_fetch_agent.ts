@@ -33,7 +33,7 @@ const graph_data_fetch = {
 };
 
 test("test fetch", async () => {
-  const result = await graphDataTestRunner(__filename, graph_data_fetch, { fetchAgent, copyAgent }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data_fetch, { fetchAgent, copyAgent }, () => {}, false);
   assert.deepStrictEqual(result, { success: true });
 });
 
@@ -69,7 +69,7 @@ const graph_data_post = {
 };
 
 test("test fetch post", async () => {
-  const result = await graphDataTestRunner(__filename, graph_data_post, { fetchAgent, copyAgent, propertyFilterAgent }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data_post, { fetchAgent, copyAgent, propertyFilterAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     error: {
       message: "HTTP error: 405",

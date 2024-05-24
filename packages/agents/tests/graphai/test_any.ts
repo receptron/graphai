@@ -1,6 +1,6 @@
-import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { GraphAI } from "@/graphai";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as agents from "@graphai/vanilla";
+import { GraphAI } from "graphai";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -27,15 +27,16 @@ const graphdata_any = {
 };
 
 test("test any 1", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_any, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_any, agents, () => {}, false);
   assert.deepStrictEqual(result, {});
 });
 
 test("test any yes", async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     __filename,
     graphdata_any,
-    defaultTestAgents,
+    agents,
     (graph: GraphAI) => {
       graph.injectValue("source", { yes: { apple: "red" } });
     },
@@ -48,9 +49,10 @@ test("test any yes", async () => {
 
 test("test any no", async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     __filename,
     graphdata_any,
-    defaultTestAgents,
+    agents,
     (graph: GraphAI) => {
       graph.injectValue("source", { no: { lemon: "yellow" } });
     },
@@ -96,7 +98,7 @@ const graphdata_any2 = {
 };
 
 test("test loop & push", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_any2, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_any2, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     router1: { apple: "red" },
     router2: { lemon: "yellow" },

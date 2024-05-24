@@ -1,6 +1,6 @@
-import { GraphAI } from "@/index";
-import { graphDataTestRunner } from "~/utils/runner";
-import { nestedAgent, copyAgent, propertyFilterAgent, mapAgent } from "@/experimental_agents";
+import { AgentFunction, GraphAI } from "graphai";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import { nestedAgent, copyAgent, propertyFilterAgent, mapAgent } from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -42,7 +42,7 @@ const graphdata_nested = {
 };
 
 test("test nest valid", async () => {
-  const result = await graphDataTestRunner("test_nest_valid", graphdata_nested, { nestedAgent, copyAgent, propertyFilterAgent }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, "test_nest_valid", graphdata_nested, { nestedAgent, copyAgent, propertyFilterAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
       result: 1,
@@ -65,6 +65,7 @@ const invalid_graph = {
 
 test("test nest invalid", async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     "test_nest_invalid",
     graphdata_nested,
     { nestedAgent, copyAgent, propertyFilterAgent },
@@ -93,6 +94,7 @@ const invalid_graph2 = {
 
 test("test nest invalid 2", async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     "test_nest_invalid2",
     graphdata_nested,
     { nestedAgent, copyAgent, propertyFilterAgent },
@@ -135,6 +137,7 @@ const graphdata_mapped = {
 
 test("test map invalid", async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     "test_map_invalid",
     graphdata_mapped,
     { mapAgent, copyAgent, propertyFilterAgent },

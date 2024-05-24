@@ -1,8 +1,8 @@
-import { AgentFunction } from "@/index";
-import { graphDataTestRunner } from "~/utils/runner";
+import { AgentFunction } from "graphai";
+import { graphDataTestRunner } from "@graphai/test_utils";
 
-import { defaultTestAgents } from "@/utils/test_agents";
-import { agentInfoWrapper } from "@/utils/utils";
+import * as agents from "@graphai/vanilla";
+import { agentInfoWrapper } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -30,7 +30,7 @@ const counterAgent: AgentFunction = async ({ inputs }) => {
 };
 
 test("test counter", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_counter, {
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_counter, {
     counterAgent: agentInfoWrapper(counterAgent),
   });
   assert.deepStrictEqual(result, { data: { v: 9 }, counter: { v: 10 } });
@@ -59,8 +59,8 @@ test("test counter2", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, nested_graphdata, {
-    ...defaultTestAgents,
+  const result = await graphDataTestRunner(__dirname, __filename, nested_graphdata, {
+    ...agents,
     counterAgent: agentInfoWrapper(counterAgent),
   });
   assert.deepStrictEqual(result, { workingMemory: { v: 90 }, nested1: { counter: { v: 100 } } });
@@ -98,8 +98,8 @@ test("test counter3", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__filename, nested_graphdata, {
-    ...defaultTestAgents,
+  const result = await graphDataTestRunner(__dirname, __filename, nested_graphdata, {
+    ...agents,
     counterAgent: agentInfoWrapper(counterAgent),
   });
   assert.deepStrictEqual(result, {

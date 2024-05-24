@@ -1,5 +1,5 @@
-import { graphDataTestRunner } from "~/utils/runner";
-import { sleeperAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import { sleeperAgent } from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -21,7 +21,7 @@ const graphdata_inputs = {
 };
 
 test("test loop & push", async () => {
-  const result = await graphDataTestRunner("test_inputs", graphdata_inputs, { sleeperAgent }, () => {}, true);
+  const result = await graphDataTestRunner(__dirname, "test_inputs", graphdata_inputs, { sleeperAgent }, () => {}, true);
   assert.deepStrictEqual(result, {
     apple: { fruits: { apple: "red" } },
     lemon: { fruits: { lemon: "yellow" } },

@@ -16,7 +16,7 @@ import {
   popAgent,
   shiftAgent,
   streamMockAgent,
-} from "@/experimental_agents";
+} from "@graphai/agents";
 
 export const defaultTestAgents: AgentFunctionInfoDictionary = {
   bypassAgent,

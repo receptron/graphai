@@ -1,6 +1,6 @@
-import { AgentFunction } from "@/index";
-import { fileTestRunner } from "~/utils/runner";
-import { agentInfoWrapper } from "@/utils/utils";
+import { AgentFunction } from "graphai";
+import { fileTestRunner } from "@graphai/test_utils";
+import { agentInfoWrapper } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -21,7 +21,7 @@ const numberTestAgent: AgentFunction<{ number: number }, { [key: string]: number
 };
 
 test("test multiple function", async () => {
-  const result = await fileTestRunner("/graphs/test_multiple_functions_1.yml", {
+  const result = await fileTestRunner(__dirname, "/graphs/test_multiple_functions_1.yml", {
     test1: agentInfoWrapper(testAgent1),
     test2: agentInfoWrapper(testAgent2),
     numberTestAgent: agentInfoWrapper(numberTestAgent),

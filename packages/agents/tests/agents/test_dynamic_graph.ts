@@ -1,6 +1,5 @@
 import { graphDataTestRunner } from "@graphai/test_utils";
-import { defaultTestAgents } from "graphai/lib/utils/test_agents";
-import { jsonParserAgent } from "@/index";
+import * as agents from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -45,7 +44,7 @@ const graphdata = {
 };
 
 test("test dynamic graph", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
       reducer: ["hello", "hello", "hello", "hello", "hello"],
@@ -72,7 +71,7 @@ const graphdata2 = {
 };
 
 test("test dynamic graph parser", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata2, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata2, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
       reducer: ["hello", "hello", "hello", "hello", "hello"],
@@ -99,7 +98,7 @@ const graphdata3 = {
 };
 
 test("test dynamic graph parser extra", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata3, { jsonParserAgent, ...defaultTestAgents }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata3, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
       reducer: ["hello", "hello", "hello", "hello", "hello"],

@@ -1,6 +1,5 @@
-import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { fileBaseName } from "~/utils/file_utils";
+import { graphDataTestRunner, fileBaseName } from "@graphai/test_utils";
+import * as agents from "@graphai/vanilla";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -31,7 +30,7 @@ const graphdata_push = {
 };
 
 test("test loop & push", async () => {
-  const result = await graphDataTestRunner(__filename, graphdata_push, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_push, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     // array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
     // item: "hello",
@@ -65,6 +64,6 @@ const graphdata_pop = {
 };
 
 test("test loop & pop", async () => {
-  const result = await graphDataTestRunner(fileBaseName(__filename) + "_2.log", graphdata_pop, defaultTestAgents);
+  const result = await graphDataTestRunner(__dirname, fileBaseName(__filename) + "_2.log", graphdata_pop, agents);
   assert.deepStrictEqual(result.result, ["lemon", "banana", "orange"]);
 });

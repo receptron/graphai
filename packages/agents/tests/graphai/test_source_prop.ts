@@ -1,7 +1,7 @@
-import { AgentFunction } from "@/index";
-import { graphDataTestRunner } from "~/utils/runner";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { agentInfoWrapper } from "@/utils/utils";
+import { AgentFunction } from "graphai";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as agents from "@/index";
+import { agentInfoWrapper } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -29,7 +29,7 @@ const testAgent: AgentFunction<Record<never, never>, string> = async () => {
 };
 
 test("test source props test", async () => {
-  const result = await graphDataTestRunner(__filename, graphData, { testAgent: agentInfoWrapper(testAgent) }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphData, { testAgent: agentInfoWrapper(testAgent) }, () => {}, false);
   assert.deepStrictEqual(result, {
     test2: "test",
   });
@@ -62,7 +62,7 @@ const graphData_literal = {
 };
 
 test("test retry", async () => {
-  const result = await graphDataTestRunner(__filename, graphData_literal, defaultTestAgents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphData_literal, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     step1: "apple, orange, undefined.",
     step2: { apple: "red", lemon: "yellow" },

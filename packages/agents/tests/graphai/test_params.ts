@@ -1,8 +1,8 @@
-import { AgentFunction } from "@/index";
-import { graphDataTestRunner } from "~/utils/runner";
+import { AgentFunction } from "graphai";
+import { graphDataTestRunner } from "@graphai/test_utils";
 
-import { defaultTestAgents } from "@/utils/test_agents";
-import { agentInfoWrapper } from "@/utils/utils";
+import * as agents from "@/index";
+import { agentInfoWrapper } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -51,7 +51,7 @@ const graphData_literal = {
 };
 
 test("test params", async () => {
-  const result = await graphDataTestRunner(__filename, graphData_literal, { testAgent: agentInfoWrapper(testAgent), ...defaultTestAgents }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphData_literal, { testAgent: agentInfoWrapper(testAgent), ...agents }, () => {}, false);
   assert.deepStrictEqual(result, {
     test1: { fruit: { apple: "red" }, color: "yellow" },
     test2: { fruit: { apple: "red" }, color: "yellow" },

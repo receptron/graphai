@@ -1,9 +1,9 @@
-import { AgentFunction } from "@/index";
+import { AgentFunction } from "graphai";
 
-import { fileTestRunner } from "~/utils/runner";
-import { sleep } from "@/utils/utils";
-import { defaultTestAgents } from "@/utils/test_agents";
-import { agentInfoWrapper } from "@/utils/utils";
+import * as agents from "@graphai/vanilla";
+import { fileTestRunner } from "@graphai/test_utils";
+import { sleep } from "graphai/lib/utils/utils";
+import { agentInfoWrapper } from "graphai/lib//utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -31,7 +31,7 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
 };
 
 test("test dispatch", async () => {
-  const result = await fileTestRunner("/graphs/test_dispatch.yml", { ...defaultTestAgents, dispatchAgent: agentInfoWrapper(dispatchAgent) });
+  const result = await fileTestRunner(__dirname, "/graphs/test_dispatch.yml", { ...agents, dispatchAgent: agentInfoWrapper(dispatchAgent) });
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { port1: { node2: "dispatch" } },
