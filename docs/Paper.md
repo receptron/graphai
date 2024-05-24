@@ -12,7 +12,7 @@ Artificial Intelligence (AI) applications increasingly demand robust frameworks 
 
 The landscape of large language models (LLMs) is undergoing a transformative change, significantly influenced by the advent of open-source platforms such as Llama3. These models have become more accessible, faster, and cheaper, heralding a new era in which both small and large-scale models are utilized across a variety of devices and applications. Smaller LLMs are increasingly capable of running directly on local devices such as PCs and smartphones, bringing powerful AI tools to the fingertips of users without the need for constant server-side interaction. Conversely, the more robust and computationally demanding LLMs continue to operate on servers, handling more complex queries and tasks. This dichotomy necessitates a strategic approach to utilize the strengths of each model type effectively.
 
-As the use of LLMs becomes more widespread, a novel approach known as the "agentic workflow" has gained popularity. This methodology leverages multiple calls to LLMs to refine results and enhance decision-making processes. Typically, these LLMs are accessed via asynchronous API calls or REST APIs, which are straightforward to implement for simpler applications. However, as applications grow in complexity and sophistication, the management of these API calls becomes a significant challenge.
+As the use of LLMs becomes more widespread, a novel approach known as the "agentic workflow" has gained popularity[6]. This methodology leverages multiple calls to LLMs to refine results and enhance decision-making processes. Typically, these LLMs are accessed via asynchronous API calls or REST APIs, which are straightforward to implement for simpler applications. However, as applications grow in complexity and sophistication, the management of these API calls becomes a significant challenge.
 
 The simplicity of asynchronous programming can often be deceptive, leading many developers, even those with considerable experience, to underestimate its complexity. Traditional programming methods such as multithreading, promises, and async/await patterns provide initial solutions but often fall short in scalability and efficiency when faced with complex, high-volume, and dynamic AI-driven applications. These traditional paradigms, while effective for basic tasks, struggle to keep up with the demands of advanced, real-time interactions and distributed computing environments necessary for modern AI applications.
 
@@ -34,11 +34,11 @@ As asynchronous programming became more prevalent, particularly in web developme
 
 ### Introduction of Async/Await
 
-To simplify the development of asynchronous code, the async/await pattern was introduced, building on the foundation laid by promises. This syntactic sugar allowed developers to write code that looks synchronous but operates asynchronously. Although async/await greatly improved code readability and error handling, it was not without limitations. Specifically, while suitable for sequential asynchronous operations, it did not inherently provide optimizations for concurrent execution of multiple asynchronous tasks, which is often required in high-performance computing environments.
+To simplify the development of asynchronous code, the async/await pattern was introduced, building on the foundation laid by promises[8]. This syntactic sugar allowed developers to write code that looks synchronous but operates asynchronously. Although async/await greatly improved code readability and error handling, it was not without limitations. Specifically, while suitable for sequential asynchronous operations, it did not inherently provide optimizations for concurrent execution of multiple asynchronous tasks, which is often required in high-performance computing environments.
 
 ### Scalable Distributed Computing with MapReduce
 
-Addressing the need for scalable and efficient processing of large data sets across clusters of machines, Google introduced MapReduce. This programming model simplified the processing of massive data sets over a distributed network by abstracting the complexity involved in parallelization, fault-tolerance, and data distribution. MapReduce became a cornerstone for various big data solutions, inspiring numerous distributed processing frameworks and systems designed to handle large-scale data under the principles of parallel processing and functional programming.
+Addressing the need for scalable and efficient processing of large data sets across clusters of machines, Google introduced MapReduce[1]. This programming model simplified the processing of massive data sets over a distributed network by abstracting the complexity involved in parallelization, fault-tolerance, and data distribution. MapReduce became a cornerstone for various big data solutions, inspiring numerous distributed processing frameworks and systems designed to handle large-scale data under the principles of parallel processing and functional programming.
 
 ## Data Flow Programming Principles
 
@@ -64,7 +64,7 @@ Moreover, this approach allows for scaling up or down based on the computational
 
 Since it became clear to us that we need to adapt this data flow programming for agentic applications, we have chosen to create a reference implementation in TypeScript. We chose TypeScript over Python, because it runs both on the server side and the client side, especially inside any web browers.
 
-The framework is called GraphAI and it serves as a practical embodiment of the principles discussed previously, specifically tailored for building scalable and efficient AI systems in distributed environments. GraphAI leverages the inherent modularity and concurrency of data flow programming to simplify the development and deployment of complex AI-driven applications.
+The framework is called GraphAI (https://github.com/receptron/graphai) and it serves as a practical embodiment of the principles discussed previously, specifically tailored for building scalable and efficient AI systems in distributed environments. GraphAI leverages the inherent modularity and concurrency of data flow programming to simplify the development and deployment of complex AI-driven applications.
 
 Here is a graph that describes the necessary operaitions for in-memory RAG (Retrieval-Augmented Generation).
 
@@ -105,10 +105,9 @@ nodes:
         Using the following document, ${0}
         ${1}
   query: # (10)
-    agentId: slashGPTAgent
+    agentId: openAIAgent
     params:
-      manifest:
-        model: gpt-3.5-turbo
+      model: gpt-3.5-turbo
     isResult: true # indicating this is the final result
     inputs: [:prompt]
 ```
@@ -125,7 +124,7 @@ This application consists of 10 nodes. Each node responsible in either holding a
 7. "sortedChunks" node: This node sorts chunks using the similarities as the sort key, putting more similar chunks to the top. 
 8. "referenceText" node: This node generate a reference text by concatenate sorted chunks up to the token limit (5000, which is specified in the "params" property).
 9. "prompt" node: This node generates a prompt using the specified template, using the data from "source" node and "referenceText" node.
-10. "query" node: This node sends the output from "prompt" node to OpenAI's "chatCompletion" API using "slashGPTAgent".
+10. "query" node: This node sends the output from "prompt" node to OpenAI's "chatCompletion" API using "openAIAgent".
 
 ```mermaid
 flowchart TD
@@ -238,7 +237,7 @@ nodes:
     if: ":decisionNode"
 ```
 
-n this example, conditionalTask will only be executed if decisionNode holds a truthy value. If decisionNode is false, the node will be skipped, allowing for dynamic and flexible workflow execution.
+In this example, conditionalTask will only be executed if decisionNode holds a truthy value. If decisionNode is false, the node will be skipped, allowing for dynamic and flexible workflow execution.
 
 By incorporating nested agents, MapReduce, and conditional flow mechanisms, GraphAI provides a robust and versatile framework for developing scalable and efficient AI applications. These features enable developers to manage complex workflows, optimize performance, and ensure reliable execution in distributed environments.
 
@@ -280,36 +279,9 @@ This graph performs the following operations:
 - posts: Fetches the user's posts.
 - combinedData: Combines the profile data and posts into a single output.
 
-The nested graph for each user runs concurrently, allowing multiple user profiles to be processed simultaneously. Here’s how each agent function might be implemented in TypeScript:
+The nested graph for each user runs concurrently, allowing multiple user profiles to be processed simultaneously. 
 
-```TypeScript
-// Agent function to fetch user profile
-async function fetchUserProfile(username: string): Promise<any> {
-  const response = await fetch(`https://api.example.com/user/${username}/profile`);
-  return response.json();
-}
-
-// Agent function to fetch user posts
-async function fetchUserPosts(username: string): Promise<any> {
-  const response = await fetch(`https://api.example.com/user/${username}/posts`);
-  return response.json();
-}
-
-// Agent function to combine profile and posts
-function combineData(profile: any, posts: any): any {
-  return { profile, posts };
-}
-```
 The mapAgent ensures that each user's profile and posts are fetched concurrently. The combineData function then merges the results, and the final output is collected as the result of the userProfiles node.
-
-#### Advantages of Concurrent Execution
-
-This concurrent execution model provides several key benefits:
-
-- Improved Performance: Tasks are executed as soon as their inputs are ready, minimizing idle time and making better use of computational resources.
-- Scalability: The framework can easily scale to handle more tasks by adding more nodes or redistributing tasks among existing nodes.
-- Fault Tolerance: If one node fails, others can continue executing independently, improving the overall resilience of the system.
-
 
 ## Challenges and Future Directions
 
