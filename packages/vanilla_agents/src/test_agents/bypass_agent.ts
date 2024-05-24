@@ -1,6 +1,9 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-export const bypassAgent: AgentFunction<{ flat?: number; firstElement?: boolean }> = async ({ params, inputs }) => {
+export const bypassAgent: AgentFunction<{
+  flat?: number;
+  firstElement?: boolean;
+}> = async ({ params, inputs }) => {
   if (params && params.firstElement) {
     return inputs[0];
   }

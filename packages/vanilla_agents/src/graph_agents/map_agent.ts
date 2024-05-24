@@ -9,14 +9,27 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
+> = async ({
+  params,
+  inputs,
+  agents,
+  log,
+  taskManager,
+  graphData,
+  agentFilters,
+}) => {
   if (taskManager) {
     const status = taskManager.getStatus();
-    assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
+    assert(
+      status.concurrency > status.running,
+      `mapAgent: Concurrency is too low: ${status.concurrency}`,
+    );
   }
 
   const nestedGraphData = getNestedGraphData(graphData, inputs);
-  const input = (Array.isArray(inputs[0]) ? inputs[0] : inputs).map((item) => item);
+  const input = (Array.isArray(inputs[0]) ? inputs[0] : inputs).map(
+    (item) => item,
+  );
   if (params.limit && params.limit < input.length) {
     input.length = params.limit; // trim
   }
@@ -35,10 +48,17 @@ export const mapAgent: AgentFunction<
 
   try {
     const graphs: Array<GraphAI> = input.map((data: any) => {
-      const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters: agentFilters || [] });
+      const graphAI = new GraphAI(nestedGraphData, agents || {}, {
+        taskManager,
+        agentFilters: agentFilters || [],
+      });
       // Only the first input will be mapped
       namedInputs.forEach((injectToNodeId, index) => {
-        graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
+        graphAI.injectValue(
+          injectToNodeId,
+          index === 0 ? data : inputs[index],
+          "__mapAgent_inputs__",
+        );
       });
       return graphAI;
     });
@@ -49,12 +69,15 @@ export const mapAgent: AgentFunction<
     const results = await Promise.all(runs);
     const nodeIds = Object.keys(results[0]);
     // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
-    const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
-      tmp[nodeId] = results.map((result) => {
-        return result[nodeId];
-      });
-      return tmp;
-    }, {});
+    const compositeResult = nodeIds.reduce(
+      (tmp: Record<string, Array<any>>, nodeId) => {
+        tmp[nodeId] = results.map((result) => {
+          return result[nodeId];
+        });
+        return tmp;
+      },
+      {},
+    );
 
     if (log) {
       const logs = graphs.map((graph, index) => {

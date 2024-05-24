@@ -1,6 +1,9 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-export const copyMessageAgent: AgentFunction<{ count: number; message: string }, { messages: string[] }> = async ({ params }) => {
+export const copyMessageAgent: AgentFunction<
+  { count: number; message: string },
+  { messages: string[] }
+> = async ({ params }) => {
   return {
     messages: new Array(params.count).fill(undefined).map(() => {
       return params.message;

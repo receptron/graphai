@@ -1,13 +1,22 @@
 import { AgentFunction } from "graphai";
 
 type StringTemplate = string | Record<string, string>;
-type StringTemplateObject = StringTemplate | StringTemplate[] | Record<string, StringTemplate>;
+type StringTemplateObject =
+  | StringTemplate
+  | StringTemplate[]
+  | Record<string, StringTemplate>;
 
-const processTemplate: any = (template: StringTemplateObject, match: string, input: string) => {
+const processTemplate: any = (
+  template: StringTemplateObject,
+  match: string,
+  input: string,
+) => {
   if (typeof template === "string") {
     return template.replace(match, input);
   } else if (Array.isArray(template)) {
-    return template.map((item: StringTemplate) => processTemplate(item, match, input));
+    return template.map((item: StringTemplate) =>
+      processTemplate(item, match, input),
+    );
   }
   return Object.keys(template).reduce((tmp: any, key: string) => {
     tmp[key] = processTemplate(template[key], match, input);

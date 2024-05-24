@@ -8,7 +8,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test base", async () => {
-  const result = await fileTestRunner(__dirname,  "/graphs/test_base.yml", agents);
+  const result = await fileTestRunner(__dirname, "/graphs/test_base.yml", agents);
   assert.deepStrictEqual(result, {
     node1: { node1: "output" },
     node2: { node2: "output" },

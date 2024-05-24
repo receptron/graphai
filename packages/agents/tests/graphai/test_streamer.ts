@@ -61,6 +61,6 @@ const graphdata_any = {
 };
 
 test("test streamer object", async () => {
-  const result = await graphDataTestRunner(__dirname,  __filename, graphdata_any, agents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_any, agents, () => {}, false);
   assert.deepStrictEqual(result, { destination: theMessage });
 });

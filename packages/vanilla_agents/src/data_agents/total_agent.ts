@@ -1,6 +1,9 @@
 import { AgentFunction } from "graphai";
 
-export const totalAgent: AgentFunction<Record<never, never>, Record<string, number>> = async ({ inputs }) => {
+export const totalAgent: AgentFunction<
+  Record<never, never>,
+  Record<string, number>
+> = async ({ inputs }) => {
   return inputs.reduce((result, input) => {
     const inputArray = Array.isArray(input) ? input : [input];
     inputArray.forEach((innerInput) => {
@@ -22,7 +25,11 @@ const sampleInputs = [{ a: 1 }, { a: 2 }, { a: 3 }];
 const sampleParams = {};
 const sampleResult = { a: 6 };
 
-const sample2Inputs = [[{ a: 1, b: -1 }, { c: 10 }], [{ a: 2, b: -1 }], [{ a: 3, b: -2 }, { d: -10 }]];
+const sample2Inputs = [
+  [{ a: 1, b: -1 }, { c: 10 }],
+  [{ a: 2, b: -1 }],
+  [{ a: 3, b: -2 }, { d: -10 }],
+];
 const sample2Params = {};
 const sample2Result = { a: 6, b: -4, c: 10, d: -10 };
 

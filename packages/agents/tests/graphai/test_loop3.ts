@@ -138,7 +138,7 @@ const graphdata_nested_injection = {
 };
 
 test("test nested loop & injection", async () => {
-  const result = await graphDataTestRunner(__dirname,  __filename, graphdata_nested_injection, agents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_nested_injection, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
       reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],

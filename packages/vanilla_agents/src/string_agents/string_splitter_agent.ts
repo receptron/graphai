@@ -68,7 +68,8 @@ const stringSplitterAgentInfo: AgentFunctionInfo = {
       result: sampleResult,
     },
   ],
-  description: "This agent strip one long string into chunks using following parameters",
+  description:
+    "This agent strip one long string into chunks using following parameters",
   category: ["string"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",

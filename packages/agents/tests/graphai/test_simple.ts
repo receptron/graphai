@@ -44,7 +44,6 @@ const graph_injection_data = {
   },
 };
 
-
 test("test graph", async () => {
   const graph = new GraphAI(graph_data, agents);
   const asString = graph.asString();

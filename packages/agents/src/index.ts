@@ -5,6 +5,6 @@ export * from "./service_agents";
 export * from "./sleeper_agents";
 
 import tokenBoundStringsAgent from "./token_agent";
-export { tokenBoundStringsAgent } ;
+export { tokenBoundStringsAgent };
 
 export * from "@graphai/vanilla";

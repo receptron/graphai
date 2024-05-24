@@ -17,7 +17,12 @@ export const readGraphData = (base_dir: string, file: string) => {
   return readGraphaiData(file_path);
 };
 
-export const fileTestRunner = async (base_dir: string, file: string, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, callback: (graph: GraphAI) => void = () => {}) => {
+export const fileTestRunner = async (
+  base_dir: string,
+  file: string,
+  agentFunctionInfoDictionary: AgentFunctionInfoDictionary,
+  callback: (graph: GraphAI) => void = () => {},
+) => {
   return await graphDataTestRunner(base_dir, file, readGraphData(base_dir, file), agentFunctionInfoDictionary, callback);
 };
 

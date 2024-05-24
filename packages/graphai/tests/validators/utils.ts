@@ -7,15 +7,10 @@ export const anonymization = (data: Record<string, any>) => {
   return JSON.parse(JSON.stringify(data));
 };
 
-export const rejectTest = async (
-  graphData: GraphData,
-  errorMessage: string,
-  bypassAgentIds: string[] = ["echoAgent"],
-  validationError: boolean = true,
-) => {
+export const rejectTest = async (graphData: GraphData, errorMessage: string, bypassAgentIds: string[] = ["echoAgent"], validationError: boolean = true) => {
   await assert.rejects(
     async () => {
-      const graph = new GraphAI(graphData, {}, {bypassAgentIds});
+      const graph = new GraphAI(graphData, {}, { bypassAgentIds });
       const results = await graph.run();
       console.log(results);
     },

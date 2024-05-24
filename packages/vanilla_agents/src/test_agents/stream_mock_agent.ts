@@ -1,7 +1,10 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { sleep } from "graphai/lib/utils/utils";
 
-export const streamMockAgent: AgentFunction = async ({ params, filterParams }) => {
+export const streamMockAgent: AgentFunction = async ({
+  params,
+  filterParams,
+}) => {
   const message = params.message || "";
 
   for await (const token of message.split("")) {
