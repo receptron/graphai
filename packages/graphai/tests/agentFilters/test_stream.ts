@@ -1,7 +1,7 @@
-import { GraphAI } from "@/graphai";
+import { GraphAI } from "@/index";
 import { AgentFunctionContext } from "@/type";
 
-import { defaultTestAgents } from "@/utils/test_agents";
+import * as agents from "../test_agents";
 import { streamAgentFilterGenerator } from "@/experimental_agent_filters/stream";
 
 import test from "node:test";
@@ -51,7 +51,7 @@ const graph_data = {
 };
 
 test("test agent filter", async () => {
-  const graph = new GraphAI(graph_data, { ...defaultTestAgents }, { agentFilters });
+  const graph = new GraphAI(graph_data, { ...agents }, { agentFilters });
   const result = await graph.run();
   console.log(JSON.stringify(result));
   // assert.deepStrictEqual(result, { bypassAgent: [{ message: "hello", filter: ["1", "2"] }] });
