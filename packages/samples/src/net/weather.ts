@@ -1,6 +1,15 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { groqAgent, openAIAgent, nestedAgent, copyAgent, fetchAgent, textInputAgent, jsonParserAgent, propertyFilterAgent } from "graphai/lib/experimental_agents";
+import {
+  groqAgent,
+  openAIAgent,
+  nestedAgent,
+  copyAgent,
+  fetchAgent,
+  textInputAgent,
+  jsonParserAgent,
+  propertyFilterAgent,
+} from "graphai/lib/experimental_agents";
 
 const tools = [
   {
