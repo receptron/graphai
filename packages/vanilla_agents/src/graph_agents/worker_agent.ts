@@ -61,7 +61,7 @@ export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, an
   });
 
   return new Promise((resolve, reject) => {
-    const worker = new Worker("./lib/experimental_agents/graph_agents/worker_agent.js");
+    const worker = new Worker(__dirname + "/worker_agent.js");
     worker.on("message", (result) => {
       worker.terminate();
       resolve(result);
