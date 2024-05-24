@@ -4,10 +4,10 @@ nodes:
   node1:
     agent: slashgpt
     params:
-      query: Come up with ten business ideas for AI startup
+      query: "Come up with ten business ideas for AI startup"
   node2:
     agent: stringTemplate
-    inputs: [:node1.$last.content]
+    inputs: [":node1.$last.content"]
     params:
       template: |
         Please evaluate following business ideas.

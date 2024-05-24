@@ -1,5 +1,4 @@
 import * as packages from "@/index";
-import { AgentFunctionInfo } from "graphai";
 import { agentTestRunner } from "graphai/lib/utils/test_utils";
 
 const main = async () => {

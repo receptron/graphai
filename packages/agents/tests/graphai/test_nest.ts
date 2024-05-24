@@ -1,4 +1,4 @@
-import { AgentFunction, GraphAI } from "graphai";
+import { GraphAI } from "graphai";
 import { graphDataTestRunner } from "@graphai/test_utils";
 import { nestedAgent, copyAgent, propertyFilterAgent, mapAgent } from "@/index";
 
