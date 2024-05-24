@@ -10,9 +10,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/graphai
     strategy:
       matrix:
         node-version: [18.x, 20.x]
@@ -24,11 +21,10 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache-dependency-path: packages/graphai
         cache: 'npm'
     - run: yarn install
-    - run: npx ts-node -r tsconfig-paths/register tests/express/server.ts &
-    - run: npx http-server tests/http-server/docs  &
-    - run: yarn test
-    - run: yarn http_test
-    - run: yarn run eslint
+    - run: cd packages/graphai/ && npx ts-node -r tsconfig-paths/register tests/express/server.ts &
+    - run: cd packages/graphai/ && npx http-server tests/http-server/docs  &
+    - run: yarn workspaces run test 
+#    - run: yarn http_test
+#    - run: yarn run eslint

@@ -2,6 +2,9 @@
   "name": "graphai-wrapper",
   "version": "0.0.1",
   "description": "Monorepo for the graphai ",
+  "scripts": {
+    "test": "yarn workspaces run test"
+  },
   "private": true,
   "devDependencies": {},
   "workspaces": [

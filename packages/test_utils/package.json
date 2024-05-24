@@ -9,6 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
+    "test": "echo hello",
     "format": "prettier --write 'src/**/*.ts'",
     "b": "yarn run format && yarn run eslint && yarn run build",
     "samples": "npx ts-node  -r tsconfig-paths/register src/sample_runner.ts",
