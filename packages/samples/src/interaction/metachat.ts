@@ -5,7 +5,7 @@ import * as path from "path";
 import * as fs from "fs";
 import * as sample from "./reception";
 
-const filePath = path.join(__dirname, "../../README.md");
+const filePath = path.join(__dirname, "../../../../README.md");
 const document = fs.readFileSync(filePath, "utf8");
 
 const messages = [
