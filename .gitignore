@@ -2,6 +2,7 @@
 *~
 /tests/logs
 /packages/graphai/tests/logs
+/packages/samples/src/logs
 node_modules
 .env
 .DS_Store
