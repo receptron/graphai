@@ -1,6 +1,7 @@
 # emacs
 *~
 /tests/logs
+/packages/graphai/tests/logs
 node_modules
 .env
 .DS_Store
