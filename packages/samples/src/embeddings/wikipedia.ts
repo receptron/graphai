@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { graphDataTestRunner } from "~/utils/runner";
+import { graphDataTestRunner } from "@/utils/test_runner";
 import {
   tokenBoundStringsAgent,
   sortByValuesAgent,
@@ -10,7 +10,7 @@ import {
   stringTemplateAgent,
   slashGPTAgent,
   wikipediaAgent,
-} from "@/experimental_agents";
+} from "graphai/lib/experimental_agents";
 
 export const graph_data = {
   version: 0.3,
