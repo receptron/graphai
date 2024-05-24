@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - run: yarn install
     - run: npx ts-node -r tsconfig-paths/register tests/express/server.ts &
-    - run: cd tests/http-server/docs/ && npx http-server &
+    - run: npx http-server tests/http-server/docs  &
     - run: yarn test
     - run: yarn http_test
     - run: yarn run eslint
