@@ -1,5 +1,5 @@
 import { graphDataTestRunner, fileTestRunner } from "@graphai/test_utils";
-import * as agents from "@graphai/vanilla";
+import * as agents from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";

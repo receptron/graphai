@@ -30,11 +30,11 @@ test("test retry", async () => {
 });
 
 test("test error", async () => {
-  await rejectFileTest(__dirname, "/graphs/test_error.yml", strIntentionalError, {}, false);
+  await rejectFileTest(__dirname, "/graphs/test_error.yml", strIntentionalError, agents, false);
 });
 
 test("test timeout", async () => {
-  await rejectFileTest(__dirname, "/graphs/test_timeout.yml", "Timeout", {}, false);
+  await rejectFileTest(__dirname, "/graphs/test_timeout.yml", "Timeout", agents, false);
 });
 
 test("test source", async () => {

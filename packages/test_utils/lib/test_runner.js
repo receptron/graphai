@@ -26,17 +26,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectTest = exports.rejectFileTest = exports.graphDataTestRunner = exports.fileTestRunner = exports.readGraphData = void 0;
+exports.agentTestRunner = exports.rejectTest = exports.rejectFileTest = exports.graphDataTestRunner = exports.fileTestRunner = exports.readGraphData = void 0;
 // this is copy from graphai. dont't update
 const graphai_1 = require("graphai");
 const type_1 = require("graphai/lib/type");
-const test_agents_1 = require("graphai/lib/utils/test_agents");
+const test_utils_1 = require("graphai/lib/utils/test_utils");
+const defaultTestAgents = __importStar(require("@graphai/vanilla"));
 const file_utils_1 = require("./file_utils");
 const common_1 = require("graphai/lib/validators/common");
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
 const node_assert_1 = __importDefault(require("node:assert"));
-// __dirname
+const node_test_1 = __importDefault(require("node:test"));
 const readGraphData = (base_dir, file) => {
     const file_path = path_1.default.resolve(base_dir) + "/.." + file;
     return (0, file_utils_1.readGraphaiData)(file_path);
@@ -49,7 +50,7 @@ exports.fileTestRunner = fileTestRunner;
 const graphDataTestRunner = async (base_dir, logFileName, graph_data, agentFunctionInfoDictionary, callback = () => { }, all = true) => {
     (0, file_utils_1.mkdirLogDir)();
     const log_path = path_1.default.resolve(base_dir) + "/../logs/" + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
-    const graph = new graphai_1.GraphAI(graph_data, { ...test_agents_1.defaultTestAgents, ...agentFunctionInfoDictionary });
+    const graph = new graphai_1.GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     if (process.argv[2] === "-v") {
         graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
             if (state === type_1.NodeState.Executing) {
@@ -79,7 +80,32 @@ const rejectFileTest = async (base_dir, file, errorMessage, agentFunctionInfoDic
 exports.rejectFileTest = rejectFileTest;
 const rejectTest = async (base_dir, graphdata, errorMessage, agentFunctionInfoDictionary = {}, validationError = true) => {
     await node_assert_1.default.rejects(async () => {
-        await (0, exports.graphDataTestRunner)(base_dir, __filename, graphdata, { ...test_agents_1.defaultTestAgents, ...agentFunctionInfoDictionary });
+        await (0, exports.graphDataTestRunner)(base_dir, __filename, graphdata, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     }, { name: "Error", message: validationError ? new common_1.ValidationError(errorMessage).message : errorMessage });
 };
 exports.rejectTest = rejectTest;
+// for agent
+const agentTestRunner = async (agentInfo) => {
+    const { agent, samples, skipTest } = agentInfo;
+    if (samples.length === 0) {
+        console.log(`test ${agentInfo.name}: No test`);
+    }
+    else if (skipTest) {
+        console.log(`test ${agentInfo.name}: skip`);
+    }
+    else {
+        for await (const sampleKey of samples.keys()) {
+            (0, node_test_1.default)(`test ${agentInfo.name} ${sampleKey}`, async () => {
+                const { params, inputs, result, graph } = samples[sampleKey];
+                const actual = await agent({
+                    ...test_utils_1.defaultTestContext,
+                    params,
+                    inputs,
+                    graphData: graph,
+                });
+                node_assert_1.default.deepStrictEqual(actual, result);
+            });
+        }
+    }
+};
+exports.agentTestRunner = agentTestRunner;

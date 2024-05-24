@@ -1,6 +1,6 @@
 import { AgentFunction } from "graphai";
 
-import * as agents from "@graphai/vanilla";
+import * as agents from "@/index";
 import { fileTestRunner } from "@graphai/test_utils";
 import { sleep } from "graphai/lib/utils/utils";
 import { agentInfoWrapper } from "graphai/lib//utils/utils";
