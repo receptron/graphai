@@ -1,5 +1,5 @@
-import { mapAgent, stringTemplateAgent } from "@/experimental_agents";
-import { defaultTestContext } from "@/utils/test_utils";
+import { mapAgent, stringTemplateAgent } from "@/index";
+import { defaultTestContext } from "graphai/lib/utils/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";

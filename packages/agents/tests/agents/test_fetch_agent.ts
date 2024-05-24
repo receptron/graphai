@@ -1,5 +1,5 @@
-import { graphDataTestRunner } from "~/utils/runner";
-import { fetchAgent, propertyFilterAgent, copyAgent } from "@/experimental_agents";
+import { graphDataTestRunner } from "@graphai/samples/lib/utils/test_runner";
+import { fetchAgent, propertyFilterAgent, copyAgent } from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";
