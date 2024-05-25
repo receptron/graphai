@@ -73,6 +73,7 @@ const IndexMd = (ret: Record<string, Record<string, string>>) => {
 };
 const main = () => {
   const ret: Record<string, Record<string, string>> = {};
+  const base_path = __dirname + "/../../../docs/agentDocs/"
   Object.values(packages).map((agent) => {
     const md = agentMd(agent);
     agent.category.map(async (cat) => {
@@ -80,14 +81,14 @@ const main = () => {
         ret[cat] = {};
       }
       ret[cat][agent.name] = agent.name;
-      const catDir = path.resolve(__dirname + "/../docs/" + cat);
+      const catDir = path.resolve(base_path + cat);
       await fs.promises.mkdir(catDir, { recursive: true });
       fs.writeFileSync(catDir + "/" + agent.name + ".md", md);
     });
   });
   // console.log(ret);
   const index = IndexMd(ret);
-  fs.writeFileSync(__dirname + "/../docs/README.md", index);
+  fs.writeFileSync(base_path + "/README.md", index);
 };
 
 main();
