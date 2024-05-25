@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { fetchAgent, propertyFilterAgent, groqAgent, stringTemplateAgent, copyAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 export const graph_data = {
   version: 0.3,
@@ -66,13 +66,7 @@ export const graph_data = {
 };
 
 export const main = async () => {
-  const result = (await graphDataTestRunner("sample_net.log", graph_data, {
-    fetchAgent,
-    propertyFilterAgent,
-    groqAgent,
-    stringTemplateAgent,
-    copyAgent,
-  })) as any;
+  const result = (await graphDataTestRunner(__dirname, "sample_net.log", graph_data, agents)) as any;
   console.log(result.map.extractor.join("\n\n"));
 };
 if (process.argv[1] === __filename) {
