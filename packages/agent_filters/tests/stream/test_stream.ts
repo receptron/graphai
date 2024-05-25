@@ -1,8 +1,6 @@
-import { GraphAI } from "@/index";
-import { AgentFunctionContext } from "@/type";
-
-import * as agents from "../test_agents";
-import { streamAgentFilterGenerator } from "@/experimental_agent_filters/stream";
+import { GraphAI, AgentFunctionContext } from "graphai";
+import * as agents from "@graphai/agents";
+import { streamAgentFilterGenerator } from "@/index";
 
 import test from "node:test";
 
