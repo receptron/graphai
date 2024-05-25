@@ -26,14 +26,7 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "devDependencies": {
-    "@types/node": "^20.12.11",
-    "ts-node": "^10.9.2",
-    "tsc-alias": "^1.8.8",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "^7.8.0"
-  },
+  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
