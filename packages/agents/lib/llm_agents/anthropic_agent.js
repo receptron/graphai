@@ -21,7 +21,7 @@ const anthropicAgent = async ({ params, inputs }) => {
     const anthropic = new sdk_1.default({
         apiKey: process.env["ANTHROPIC_API_KEY"], // This is the default and can be omitted
     });
-    return await anthropic.messages.create({
+    const message = await anthropic.messages.create({
         model: params.model || "claude-3-haiku-20240307", // "claude-3-opus-20240229",
         messages,
         temperature: temperature ?? 0.7,
@@ -29,6 +29,7 @@ const anthropicAgent = async ({ params, inputs }) => {
         // tools: params.tools,
         // tool_choice: params.tool_choice,
     });
+    return { choices: [{ message: { role: message.role, content: message.content[0].text } }] };
 };
 exports.anthropicAgent = anthropicAgent;
 const anthropicAgentInfo = {
