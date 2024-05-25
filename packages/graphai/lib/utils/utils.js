@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.getDataFromSource = exports.isObject = exports.assert = exports.parseNodeName = exports.sleep = void 0;
+exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.getDataFromSource = exports.isObject = exports.assert = exports.parseNodeName = exports.sleep = void 0;
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -155,3 +155,14 @@ const isLogicallyTrue = (value) => {
     return true;
 };
 exports.isLogicallyTrue = isLogicallyTrue;
+exports.defaultTestContext = {
+    debugInfo: {
+        nodeId: "test",
+        retry: 0,
+        verbose: true,
+    },
+    params: {},
+    filterParams: {},
+    agents: {},
+    log: [],
+};

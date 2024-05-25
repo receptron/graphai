@@ -1,7 +1,7 @@
 import { AgentFilterFunction } from "@/type";
 import * as agents from "../test_agents";
 
-import { defaultTestContext } from "@/utils/test_utils";
+import { defaultTestContext } from "@/utils/utils";
 import { agentFilterRunnerBuilder } from "@/index";
 
 import test from "node:test";
