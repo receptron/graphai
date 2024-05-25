@@ -11,9 +11,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/graphai
     if: github.repository_owner == 'receptron'
     strategy:
       matrix:
@@ -24,18 +21,18 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache-dependency-path: packages/graphai
         cache: 'npm'
     - run: yarn install
-    - run: yarn b
+    - run: yarn run build
+    - run: yarn run format
     - run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        git add lib/*
+        git add packages/*/lib/*
     - name: Commit 
       run: |
         if [ $(git diff --name-only --cached | wc -l) != 0 ]; then
-          git commit -m "Update lib" lib/
+          git commit -m "Update lib" packages/*/lib/
           git push origin main
         else
           echo "No change on lib"
