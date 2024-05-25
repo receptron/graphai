@@ -1,10 +1,11 @@
 import "dotenv/config";
 
-import { openAIAgent, openAIMockAgent } from "graphai/lib/experimental_agents/llm_agents/openai_agent";
+import { openAIAgent } from "@graphai/agents";
+import { openAIMockAgent } from "@graphai/agents/lib/llm_agents/openai_agent";
 import { defaultTestContext } from "graphai/lib/utils/test_utils";
 
 export const main = async () => {
-  const res = await openAIAgent({
+  const res = await openAIAgent.agent({
     ...defaultTestContext,
     inputs: ["日本の歴史について200文字でまとめてください"],
     ...{

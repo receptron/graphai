@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { fileTestRunner } from "../utils/runner";
 
-import { slashGPTAgent } from "graphai/lib/experimental_agents";
+import { slashGPTAgent } from "@graphai/agents";
 import { arxivAgent, arxiv2TextAgent } from "../utils/agents/arxiv_agent";
 
 import { agentInfoWrapper } from "graphai/lib/utils/utils";
