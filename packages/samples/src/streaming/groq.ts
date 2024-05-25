@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { GraphAI } from "graphai";
-import { groqAgent, sleeperAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 import { agentFilters } from "./streamAgentFilter";
 
 const query =
@@ -27,7 +27,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const graph = new GraphAI(graph_data, { groqAgent, sleeperAgent }, { agentFilters });
+  const graph = new GraphAI(graph_data, agents, { agentFilters });
   const result = await graph.run();
   console.log(result);
 };

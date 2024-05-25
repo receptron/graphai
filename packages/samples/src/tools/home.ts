@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { GraphData } from "graphai";
-import { slashGPTAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 import { graphDataTestRunner } from "@/utils/test_runner";
 import { home_functions } from "./home_functions";
 
@@ -43,7 +43,7 @@ const graph_data: GraphData = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { slashGPTAgent });
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data, agents);
   console.log(result);
   if (result["node3"]) {
     console.log(result["node3"]);

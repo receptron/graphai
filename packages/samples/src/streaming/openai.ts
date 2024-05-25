@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { GraphAI } from "graphai";
-import openAIAgent from "graphai/lib/experimental_agents/llm_agents/openai_agent";
+import * as agents from "@graphai/agents";
 import { agentFilters } from "./streamAgentFilter";
 
 const graph_data = {
@@ -23,7 +23,7 @@ const graph_data = {
 
 export const main = async () => {
   // const result = await graphDataTestRunner(__filename, graph_data, { openAIAgent }, { agentFilters });
-  const graph = new GraphAI(graph_data, { openAIAgent }, { agentFilters });
+  const graph = new GraphAI(graph_data, agents, { agentFilters });
   const result = await graph.run();
   console.log(JSON.stringify(result));
 
