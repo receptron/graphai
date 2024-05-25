@@ -1,6 +1,4 @@
-import eslint from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import eslintBase from "../../config/eslint.config.base.mjs";
 
 export default [
   {
@@ -9,30 +7,5 @@ export default [
   {
     ignores: ["lib/**/*", "*.ts", "apiDoc/**/*", "apiDoc/*"],
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    languageOptions: {
-      globals: {
-        ...globals.es2021,
-        ...globals.node,
-      },
-      ecmaVersion: "latest",
-      sourceType: "module",
-    },
-    rules: {
-      indent: ["error", 2],
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^__",
-          varsIgnorePattern: "^__",
-        },
-      ],
-      "linebreak-style": ["error", "unix"],
-      quotes: ["error", "double"],
-      semi: ["error", "always"],
-    },
-  },
+  ...eslintBase,
 ];
