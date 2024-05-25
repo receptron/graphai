@@ -10,7 +10,7 @@
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "echo hello",
+    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
     "samples": "npx ts-node  -r tsconfig-paths/register samples/sample_runner.ts",

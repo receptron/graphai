@@ -66,7 +66,7 @@ export const workerAgent: AgentFunction<
   });
 
   return new Promise((resolve, reject) => {
-    const worker = new Worker(__dirname + "/worker_agent.js");
+    const worker = new Worker(__dirname + "/worker_agent");
     worker.on("message", (result) => {
       worker.terminate();
       resolve(result);
