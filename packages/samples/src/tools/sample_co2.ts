@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { slashGPTFuncitons2TextAgent } from "../utils/agents/slashgpt_agent";
 import { slashGPTAgent } from "@graphai/agents";
-import { agentInfoWrapper } from "graphai/lib/utils/utils";
+import { agentInfoWrapper } from "graphai/utils";
 
 import { graphDataTestRunner } from "@/utils/test_runner";
 

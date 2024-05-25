@@ -2,7 +2,7 @@ import { AgentFunction } from "graphai";
 import { Groq } from "groq-sdk";
 import { ChatCompletionCreateParams, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
 
-import { assert } from "graphai/lib/utils/utils";
+import { assert } from "graphai/utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 
