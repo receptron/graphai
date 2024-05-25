@@ -2,7 +2,7 @@ import { GraphAI, GraphData, AgentFunctionInfoDictionary } from "@/index";
 import { NodeState, DefaultResultData } from "@/type";
 
 import { defaultTestAgents } from "@/utils/test_agents";
-import { readGraphaiData, mkdirLogDir, fileBaseName } from "~/utils/file_utils";
+import { readGraphaiData, mkdirLogDir, fileBaseName } from "@graphai/test_utils";
 import { ValidationError } from "@/validators/common";
 
 import path from "path";
@@ -53,24 +53,3 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
   return results;
 };
 
-export const rejectFileTest = async (
-  file: string,
-  errorMessage: string,
-  agentFunctionInfoDictionary: AgentFunctionInfoDictionary = {},
-  validationError: boolean = true,
-) => {
-  return await rejectTest(readGraphData(file), errorMessage, agentFunctionInfoDictionary, validationError);
-};
-export const rejectTest = async (
-  graphdata: GraphData,
-  errorMessage: string,
-  agentFunctionInfoDictionary: AgentFunctionInfoDictionary = {},
-  validationError: boolean = true,
-) => {
-  await assert.rejects(
-    async () => {
-      await graphDataTestRunner(__filename, graphdata, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
-    },
-    { name: "Error", message: validationError ? new ValidationError(errorMessage).message : errorMessage },
-  );
-};

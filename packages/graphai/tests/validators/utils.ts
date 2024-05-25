@@ -3,11 +3,10 @@ import { ValidationError } from "@/validators/common";
 
 import assert from "node:assert";
 
-export const anonymization = (data: Record<string, any>) => {
-  return JSON.parse(JSON.stringify(data));
-};
+export { anonymization } from "@graphai/test_utils";
 
-export const rejectTest = async (graphData: GraphData, errorMessage: string, bypassAgentIds: string[] = ["echoAgent"], validationError: boolean = true) => {
+export const rejectTest = async (
+  graphData: GraphData, errorMessage: string, bypassAgentIds: string[] = ["echoAgent"], validationError: boolean = true) => {
   await assert.rejects(
     async () => {
       const graph = new GraphAI(graphData, {}, { bypassAgentIds });
