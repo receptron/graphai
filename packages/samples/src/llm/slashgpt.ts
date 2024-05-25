@@ -1,11 +1,10 @@
 import "dotenv/config";
 
 import { fileTestRunner } from "../utils/runner";
-
-import { stringTemplateAgent, slashGPTAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 export const main = async () => {
-  const result = await fileTestRunner("/graphs/slash_gpt.yml", { slashgpt: slashGPTAgent, stringTemplate: stringTemplateAgent });
+  const result = await fileTestRunner("/graphs/slash_gpt.yml", agents);
   console.log(result.node3);
   console.log(result.node5);
 };

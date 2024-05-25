@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { countingAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 import { graphDataTestRunner } from "@/utils/test_runner";
 import { interactiveInputSelectAgent } from "../utils/agents/interactiveInputAgent";
 import { agentInfoWrapper } from "graphai/lib/utils/utils";
@@ -23,8 +23,8 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, {
-    countingAgent,
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data, {
+    ...agents,
     interactiveInputSelectAgent: agentInfoWrapper(interactiveInputSelectAgent),
   });
   console.log(JSON.stringify(result, null, "  "));

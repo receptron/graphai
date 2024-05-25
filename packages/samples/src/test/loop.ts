@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { pushAgent, shiftAgent, slashGPTAgent, totalAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 const graph_data = {
   version: 0.3,
@@ -54,7 +54,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { pushAgent, shiftAgent, slashGPTAgent, totalAgent });
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data, agents);
   console.log(result.result);
   console.log(result.usage);
   console.log("COMPLETE 1");

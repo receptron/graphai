@@ -1,16 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "@/utils/test_runner";
-import {
-  tokenBoundStringsAgent,
-  sortByValuesAgent,
-  dotProductAgent,
-  stringEmbeddingsAgent,
-  stringSplitterAgent,
-  stringTemplateAgent,
-  slashGPTAgent,
-  wikipediaAgent,
-} from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 export const graph_data = {
   version: 0.3,
@@ -90,16 +81,7 @@ const simplify = (result: Array<any>) => {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner("sample_wiki.log", graph_data, {
-    tokenBoundStringsAgent,
-    sortByValuesAgent,
-    dotProductAgent,
-    stringEmbeddingsAgent,
-    stringSplitterAgent,
-    stringTemplateAgent,
-    slashGPTAgent,
-    wikipediaAgent,
-  });
+  const result = await graphDataTestRunner(__dirname, "sample_wiki.log", graph_data, agents,);
   console.log(simplify(result.OneShotQuery as Array<any>));
   console.log(simplify(result.RagQuery as Array<any>));
 };

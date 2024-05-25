@@ -1,14 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import {
-  geminiAgent,
-  shiftAgent,
-  nestedAgent,
-  textInputAgent,
-  propertyFilterAgent,
-  stringTemplateAgent,
-  jsonParserAgent,
-} from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 const tools = [
   {
@@ -132,17 +124,10 @@ export const graph_data = {
 
 export const main = async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     __filename,
     graph_data,
-    {
-      geminiAgent,
-      shiftAgent,
-      nestedAgent,
-      textInputAgent,
-      propertyFilterAgent,
-      stringTemplateAgent,
-      jsonParserAgent,
-    },
+    agents,
     () => {},
     false,
   );

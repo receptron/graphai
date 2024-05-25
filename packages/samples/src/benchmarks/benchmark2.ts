@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { groqAgent, fetchAgent, mapAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 const graph_data = {
   version: 0.3,
@@ -56,13 +56,10 @@ const graph_data = {
 
 export const main = async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     __filename,
     graph_data,
-    {
-      groqAgent,
-      mapAgent,
-      fetchAgent,
-    },
+    agents,
     () => {},
     false,
   );

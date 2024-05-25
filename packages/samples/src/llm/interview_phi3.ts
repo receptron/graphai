@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { openAIAgent, shiftAgent, nestedAgent, propertyFilterAgent, stringTemplateAgent, textInputAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 const system_interviewer =
   "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
@@ -133,16 +133,10 @@ export const graph_data = {
 
 export const main = async () => {
   const result = await graphDataTestRunner<{ messages: { role: string; content: string }[] }>(
+    __dirname,
     __filename,
     graph_data,
-    {
-      openAIAgent,
-      shiftAgent,
-      nestedAgent,
-      propertyFilterAgent,
-      stringTemplateAgent,
-      textInputAgent,
-    },
+    agents,
     () => {},
     false,
   );
