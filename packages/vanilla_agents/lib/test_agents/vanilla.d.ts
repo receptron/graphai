@@ -5,4 +5,4 @@ import copyMessageAgent from "./copy_message_agent";
 import copy2ArrayAgent from "./copy2array_agent";
 import mergeNodeIdAgent from "./merge_node_id_agent";
 import streamMockAgent from "./stream_mock_agent";
-export { echoAgent, bypassAgent, countingAgent, copyMessageAgent, copy2ArrayAgent, mergeNodeIdAgent, streamMockAgent };
+export { echoAgent, bypassAgent, countingAgent, copyMessageAgent, copy2ArrayAgent, mergeNodeIdAgent, streamMockAgent, };

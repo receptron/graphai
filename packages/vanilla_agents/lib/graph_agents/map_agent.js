@@ -4,7 +4,7 @@ exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
 const utils_1 = require("graphai/lib/utils/utils");
 const nested_agent_1 = require("./nested_agent");
-const mapAgent = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
+const mapAgent = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters, }) => {
     if (taskManager) {
         const status = taskManager.getStatus();
         (0, utils_1.assert)(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -26,7 +26,10 @@ const mapAgent = async ({ params, inputs, agents, log, taskManager, graphData, a
     });
     try {
         const graphs = input.map((data) => {
-            const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters: agentFilters || [] });
+            const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, {
+                taskManager,
+                agentFilters: agentFilters || [],
+            });
             // Only the first input will be mapped
             namedInputs.forEach((injectToNodeId, index) => {
                 graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
