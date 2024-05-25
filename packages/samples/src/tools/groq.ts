@@ -68,14 +68,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result: any = await graphDataTestRunner(
-    __dirname,
-    __filename,
-    graph_data,
-    agents,
-    () => {},
-    false,
-  );
+  const result: any = await graphDataTestRunner(__dirname, __filename, graph_data, agents, () => {}, false);
   console.log(result.categorizer.parser);
 };
 

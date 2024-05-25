@@ -55,12 +55,11 @@ const main = async () => {
   await benchmark2();
 
   await wikipedia();
-  
+
   // test
   await test_fibonacci();
   await test_loop();
 
-  
   // llm
   await slashgpt();
   await groq();
@@ -74,7 +73,7 @@ const main = async () => {
   await rewrite();
   await describe_graph();
   await gemini();
-  
+
   // interaction
   await interaction_text();
   await interaction_select();
