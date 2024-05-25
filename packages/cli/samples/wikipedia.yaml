@@ -1,0 +1,59 @@
+version: 0.3
+nodes:
+  source:
+    value:
+      name: Sam Bankman-Fried
+      topic: sentence by the court
+      query: describe the final sentence by the court for Sam Bank-Fried
+  wikipedia:
+    agent: wikipediaAgent
+    inputs:
+      - :source.name
+    params:
+      lang: en
+  chunks:
+    agent: stringSplitterAgent
+    inputs:
+      - :wikipedia.content
+  embeddings:
+    agent: stringEmbeddingsAgent
+    inputs:
+      - :chunks.contents
+  topicEmbedding:
+    agent: stringEmbeddingsAgent
+    inputs:
+      - :source.topic
+  similarityCheck:
+    agent: dotProductAgent
+    inputs:
+      - :embeddings
+      - :topicEmbedding.$0
+  sortedChunks:
+    agent: sortByValuesAgent
+    inputs:
+      - :chunks.contents
+      - :similarityCheck
+  referenceText:
+    agent: tokenBoundStringsAgent
+    inputs:
+      - :sortedChunks
+    params:
+      limit: 5000
+  prompt:
+    agent: stringTemplateAgent
+    inputs:
+      - :source.query
+      - :referenceText.content
+    params:
+      template: |-
+        Using the following document, ${0}
+
+        ${1}
+  RagQuery:
+    agent: slashGPTAgent
+    inputs:
+      - :prompt
+  OneShotQuery:
+    agent: slashGPTAgent
+    inputs:
+      - :source.query

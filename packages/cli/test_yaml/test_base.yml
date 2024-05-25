@@ -1,0 +1,36 @@
+version: 0.3
+nodes:
+  node1:
+    agent: sleeperAgent
+    params:
+      duration: 500
+      value:
+        node1: output
+  node2:
+    agent: sleeperAgent
+    params:
+      duration: 100
+      value:
+        node2: output
+  node3:
+    agent: sleeperAgent
+    params:
+      duration: 500
+      value:
+        node3: output
+    inputs: [:node1, :node2]
+  node4:
+    agent: sleeperAgent
+    params:
+      duration: 100
+      value:
+        node4: output
+    inputs: [:node3]
+  node5:
+    agent: sleeperAgent
+    isResult: true
+    params:
+      duration: 500
+      value:
+        node5: output
+    inputs: [:node2, :node4]
