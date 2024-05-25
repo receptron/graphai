@@ -35,3 +35,14 @@ export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any>) => 
 };
 export declare const debugResultKey: (agentId: string, result: any) => string[];
 export declare const isLogicallyTrue: (value: any) => boolean;
+export declare const defaultTestContext: {
+    debugInfo: {
+        nodeId: string;
+        retry: number;
+        verbose: boolean;
+    };
+    params: {};
+    filterParams: {};
+    agents: {};
+    log: never[];
+};

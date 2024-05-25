@@ -30,7 +30,7 @@ exports.agentTestRunner = exports.rejectTest = exports.rejectFileTest = exports.
 // this is copy from graphai. dont't update
 const graphai_1 = require("graphai");
 const type_1 = require("graphai/lib/type");
-const test_utils_1 = require("graphai/lib/utils/test_utils");
+const utils_1 = require("graphai/lib/utils/utils");
 const defaultTestAgents = __importStar(require("@graphai/vanilla"));
 const file_utils_1 = require("./file_utils");
 const common_1 = require("graphai/lib/validators/common");
@@ -98,7 +98,7 @@ const agentTestRunner = async (agentInfo) => {
             (0, node_test_1.default)(`test ${agentInfo.name} ${sampleKey}`, async () => {
                 const { params, inputs, result, graph } = samples[sampleKey];
                 const actual = await agent({
-                    ...test_utils_1.defaultTestContext,
+                    ...utils_1.defaultTestContext,
                     params,
                     inputs,
                     graphData: graph,

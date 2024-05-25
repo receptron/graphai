@@ -1,5 +1,5 @@
 import { nestedAgent, sleeperAgent } from "@/index";
-import { defaultTestContext } from "graphai/lib/utils/test_utils";
+import { defaultTestContext } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

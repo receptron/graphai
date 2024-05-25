@@ -1,7 +1,7 @@
 // this is copy from graphai. dont't update
 import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo } from "graphai";
 import { NodeState, DefaultResultData } from "graphai/lib/type";
-import { defaultTestContext } from "graphai/lib/utils/test_utils";
+import { defaultTestContext } from "graphai/lib/utils/utils";
 
 import * as defaultTestAgents from "@graphai/vanilla";
 
