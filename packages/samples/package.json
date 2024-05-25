@@ -7,7 +7,7 @@
     "./src"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && tsc-alias",
+    "build": "echo nothing",
     "eslint": "eslint",
     "test": "echo hello",
     "format": "prettier --write 'src/**/*.ts'",
