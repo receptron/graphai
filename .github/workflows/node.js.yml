@@ -25,6 +25,6 @@ jobs:
     - run: yarn install
     - run: cd packages/graphai/ && npx ts-node -r tsconfig-paths/register tests/express/server.ts &
     - run: cd packages/graphai/ && npx http-server tests/http-server/docs  &
-    - run: yarn workspaces run test 
+    - run: yarn run test 
     - run: cd packages/agents/ && yarn http_test
-#    - run: yarn workspaces run eslint
+    - run: yarn run eslint
