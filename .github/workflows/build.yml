@@ -26,14 +26,15 @@ jobs:
     - run: yarn run build
     - run: yarn run format
     - run: cd packages/cli/ && yarn run doc
+    - run: cd packages/graphai/ && yarn run doc
     - run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        git add packages/*/lib/* docs/agentDocs/*
+        git add packages/*/lib/* docs/agentDocs/* docs/apiDoc/*
     - name: Commit 
       run: |
         if [ $(git diff --name-only --cached | wc -l) != 0 ]; then
-          git commit -m "Update lib or docs" packages/*/lib/ docs/agentDocs/*
+          git commit -m "Update lib or docs" packages/*/lib/ docs/agentDocs/* docs/apiDoc/*
           git push origin main
         else
           echo "No change on lib"
