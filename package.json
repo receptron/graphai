@@ -9,7 +9,16 @@
     "format": "yarn workspaces run format"
   },
   "private": true,
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "eslint": "^9.2.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0"
+  },
   "workspaces": [
     "packages/*"
   ],

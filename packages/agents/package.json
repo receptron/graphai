@@ -45,17 +45,9 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/node": "^20.12.11",
     "cors": "^2.8.5",
-    "eslint": "^9.2.0",
     "globals": "^15.2.0",
-    "prettier": "^3.2.5",
-    "ts-node": "^10.9.2",
-    "tsc-alias": "^1.8.8",
-    "tsconfig-paths": "^4.2.0",
-    "typedoc": "^0.25.13",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "^7.8.0"
+    "typedoc": "^0.25.13"
   },
   "types": "./lib/index.d.ts",
   "directories": {
