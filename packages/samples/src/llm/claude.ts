@@ -2,8 +2,7 @@ import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
 import * as agents from "@graphai/agents";
 
-const query =
-  "I'd like to write a paper about data flow programming for AI application, which involves multiple asynchronous calls, some of operations are done on other machines (distributed computing). Please come up with the title and an abstract for this paper.";
+const query = "Hello!";
 
 const graph_data = {
   version: 0.3,
@@ -17,7 +16,7 @@ const graph_data = {
     },
     answer: {
       agent: "sleeperAgent",
-      inputs: [":query.content"],
+      inputs: [":query.choices.$0.message"],
       isResult: true,
     },
   },
