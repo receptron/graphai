@@ -21,7 +21,7 @@ const getNestedGraphData = (graphData, inputs) => {
     return graphData;
 };
 exports.getNestedGraphData = getNestedGraphData;
-const nestedAgent = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters, }) => {
+const nestedAgent = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
     if (taskManager) {
         const status = taskManager.getStatus(false);
         (0, utils_1.assert)(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -35,8 +35,7 @@ const nestedAgent = async ({ params, inputs, agents, log, taskManager, graphData
         }
         else {
             // Otherwise, inject the proper data here (instead of calling injectTo method later)
-            nestedGraphData.nodes[nodeId]["value"] =
-                inputs[index];
+            nestedGraphData.nodes[nodeId]["value"] = inputs[index];
         }
     });
     try {

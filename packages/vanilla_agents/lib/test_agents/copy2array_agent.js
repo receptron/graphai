@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.copy2ArrayAgent = void 0;
-const copy2ArrayAgent = async ({ inputs, params, }) => {
+const copy2ArrayAgent = async ({ inputs, params }) => {
     return new Array(params.count).fill(undefined).map(() => {
         return inputs[0];
     });
