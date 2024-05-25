@@ -2,21 +2,21 @@ verbose: true
 version: 0.3
 nodes:
   node1:
-    agent: slashgpt
+    agent: slashGPTAgent
     params:
       query: "Come up with ten business ideas for AI startup"
   node2:
-    agent: stringTemplate
+    agent: stringTemplateAgent
     inputs: [":node1.$last.content"]
     params:
       template: |
         Please evaluate following business ideas.
         ${0}
   node3:
-    agent: slashgpt
+    agent: slashGPTAgent
     inputs: [:node2]
   node4:
-    agent: stringTemplate
+    agent: stringTemplateAgent
     inputs: [:node1.$last.content, :node3.$last.content]
     params:
       template: |
@@ -26,5 +26,5 @@ nodes:
         [evalutations]
         ${1}
   node5:
-    agent: slashgpt
+    agent: slashGPTAgent
     inputs: [:node4]
