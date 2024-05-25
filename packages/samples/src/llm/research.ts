@@ -1,16 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import {
-  groqAgent,
-  openAIAgent,
-  nestedAgent,
-  copyAgent,
-  propertyFilterAgent,
-  stringTemplateAgent,
-  textInputAgent,
-  wikipediaAgent,
-  jsonParserAgent,
-} from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 
 const tools_translated = [
   {
@@ -201,19 +191,10 @@ export const graph_data = {
 
 export const main = async () => {
   const result: any = await graphDataTestRunner(
+    __dirname,
     __filename,
     graph_data,
-    {
-      groqAgent,
-      nestedAgent,
-      copyAgent,
-      openAIAgent,
-      textInputAgent,
-      propertyFilterAgent,
-      wikipediaAgent,
-      jsonParserAgent,
-      stringTemplateAgent,
-    },
+    agents,
     () => {},
     false,
   );

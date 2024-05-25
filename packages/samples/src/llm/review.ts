@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { copyAgent, openAIAgent } from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -45,7 +45,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__filename, graph_data, { openAIAgent, copyAgent });
+  const result = await graphDataTestRunner(__dirname, __filename, graph_data, agents);
   console.log("[REVIEW]");
   console.log(result.review);
   console.log("[PROMOTIONAL STATEMENT]");
