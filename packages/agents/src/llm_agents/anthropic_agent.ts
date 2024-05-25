@@ -43,7 +43,7 @@ export const anthropicAgent: AgentFunction<
     // tool_choice: params.tool_choice,
   });
 
-  return { choices: [ { message: { role: message.role, content: message.content[0].text } } ] }
+  return { choices: [ { message: { role: message.role, content: message.content[0].text } } ] };
 };
 
 const anthropicAgentInfo = {
