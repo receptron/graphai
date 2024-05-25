@@ -1,14 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
-import {
-  copyAgent,
-  geminiAgent,
-  jsonParserAgent,
-  nestedAgent,
-  textInputAgent,
-  propertyFilterAgent,
-  stringTemplateAgent,
-} from "graphai/lib/experimental_agents";
+import * as agents from "@graphai/agents";
 import * as path from "path";
 import * as fs from "fs";
 import * as sample from "./reception_gemini";
@@ -61,17 +53,10 @@ export const graph_data = {
 
 export const main = async () => {
   const result = await graphDataTestRunner(
+    __dirname,
     __filename,
     graph_data,
-    {
-      geminiAgent,
-      copyAgent,
-      jsonParserAgent,
-      nestedAgent,
-      textInputAgent,
-      propertyFilterAgent,
-      stringTemplateAgent,
-    },
+    agents,
     () => {},
     false,
   );
