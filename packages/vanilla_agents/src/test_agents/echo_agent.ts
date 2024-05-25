@@ -21,8 +21,7 @@ const echoAgentInfo: AgentFunctionInfo = {
     {
       inputs: [],
       params: {
-        message:
-          "If you add filterParams option, it will respond to filterParams",
+        message: "If you add filterParams option, it will respond to filterParams",
         filterParams: true,
       },
       result: {},

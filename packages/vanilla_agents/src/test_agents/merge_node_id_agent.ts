@@ -1,9 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-export const mergeNodeIdAgent: AgentFunction = async ({
-  debugInfo: { nodeId },
-  inputs,
-}) => {
+export const mergeNodeIdAgent: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
   // console.log("executing", nodeId);
   return inputs.reduce(
     (tmp, input) => {

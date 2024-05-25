@@ -63,31 +63,9 @@ export const propertyFilterAgent: AgentFunction<{
   const [input] = inputs;
   const { include, exclude, alter, inject, swap, inspect } = params;
   if (Array.isArray(input)) {
-    return input.map((item, index) =>
-      applyFilter(
-        item,
-        index,
-        inputs,
-        include,
-        exclude,
-        alter,
-        inject,
-        swap,
-        inspect,
-      ),
-    );
+    return input.map((item, index) => applyFilter(item, index, inputs, include, exclude, alter, inject, swap, inspect));
   }
-  return applyFilter(
-    input,
-    0,
-    inputs,
-    include,
-    exclude,
-    alter,
-    inject,
-    swap,
-    inspect,
-  );
+  return applyFilter(input, 0, inputs, include, exclude, alter, inject, swap, inspect);
 };
 
 const testInputs = [
@@ -234,8 +212,7 @@ const propertyFilterAgentInfo = {
       ],
     },
   ],
-  description:
-    "Filter properties based on property name either with 'include' or 'exclude'",
+  description: "Filter properties based on property name either with 'include' or 'exclude'",
   category: ["data"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
