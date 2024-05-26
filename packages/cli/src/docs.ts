@@ -1,4 +1,4 @@
-import { AgentFunctionInfo } from "graphai/lib/type";
+import { AgentFunctionInfo } from "graphai";
 import { debugResultKey } from "graphai/lib/utils/utils";
 
 import jsonSchemaGenerator from "json-schema-generator";
