@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { openAIAgent } from "@graphai/agents";
 import { openAIMockAgent } from "@graphai/llm_agents/lib/openai_agent";
-import { defaultTestContext } from "graphai/lib/utils/utils";
+import { defaultTestContext } from "graphai";
 
 export const main = async () => {
   const res = await openAIAgent.agent({
