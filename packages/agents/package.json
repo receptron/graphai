@@ -25,24 +25,16 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
+    "@graphai/service_agents": "^0.0.1",
     "@graphai/sleeper_agents": "^0.0.1",
     "@graphai/vanilla": "^0.0.1",
     "@inquirer/prompts": "^5.0.0",
-    "@types/xml2js": "^0.4.14",
-    "arxiv-api-ts": "^1.0.3",
     "deepmerge": "^4.3.1",
     "dotenv": "^16.4.5",
     "tiktoken": "^1.0.14",
-    "wikipedia": "^2.1.2",
-    "xml2js": "^0.6.2",
     "yaml": "^2.4.1"
   },
-  "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "cors": "^2.8.5",
-    "globals": "^15.2.0",
-    "typedoc": "^0.25.13"
-  },
+  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

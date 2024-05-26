@@ -39,12 +39,10 @@
     "deepmerge": "^4.3.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "globals": "^15.2.0",
     "groq-sdk": "^0.3.3",
     "openai": "^4.47.1",
     "slashgpt": "^0.0.9",
     "tiktoken": "^1.0.14",
-    "typedoc": "^0.25.13",
     "wikipedia": "^2.1.2",
     "xml2js": "^0.6.2",
     "yaml": "^2.4.1"
