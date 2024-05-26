@@ -1,7 +1,7 @@
 {
   "name": "@graphai/test_utils",
   "version": "0.0.1",
-  "description": "Asynchronous data flow execution engine for agentic AI apps.",
+  "description": "Test utilities for GraphAI.",
   "main": "lib/index.js",
   "files": [
     "./lib"
