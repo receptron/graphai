@@ -74,27 +74,6 @@
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.11.4.tgz#ce38bcc451fe416f9244b005c359ee7aa08535c9"
   integrity sha512-hlw+E9Prv9aUIQISRnLSXi4rukFqKe5WhxPvzBccTvIvXjw2BHMFOJWSC/Gq7WE0W+L/qRHGmYxopmx9qjrB9w==
 
-"@graphai/agents@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/agents/-/agents-0.0.1.tgz#0aa33fc53a24a11e409da6a1961a4722a1adc3cb"
-  integrity sha512-9Fg2vQ8jp10YMGAoTIxKTAvNeRlNv3BzVH5sM/6HCESo1L+7ObshEWWqAZCPcyb7AOva93sY79hbT0lfYDY++g==
-  dependencies:
-    "@anthropic-ai/sdk" "^0.21.0"
-    "@google/generative-ai" "^0.11.4"
-    "@graphai/vanilla" "^0.0.1"
-    "@inquirer/prompts" "^5.0.0"
-    "@types/xml2js" "^0.4.14"
-    arxiv-api-ts "^1.0.3"
-    deepmerge "^4.3.1"
-    dotenv "^16.4.5"
-    groq-sdk "^0.3.3"
-    openai "^4.47.1"
-    slashgpt "^0.0.9"
-    tiktoken "^1.0.14"
-    wikipedia "^2.1.2"
-    xml2js "^0.6.2"
-    yaml "^2.4.1"
-
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
