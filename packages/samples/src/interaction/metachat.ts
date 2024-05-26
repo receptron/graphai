@@ -11,9 +11,9 @@ export const graph_data = {
         before: "...fetching document",
       },
       params: {
-        type: "text"
+        type: "text",
       },
-      inputs:["https://raw.githubusercontent.com/receptron/graphai/main/README.md"]
+      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/README.md"],
     },
     sampleGraph: {
       agent: "fetchAgent",
@@ -21,9 +21,9 @@ export const graph_data = {
         before: "...fetching sample graph",
       },
       params: {
-        type: "text"
+        type: "text",
       },
-      inputs:["https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception.json"]
+      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception.json"],
     },
     messages: {
       agent: "stringTemplateAgent",
@@ -46,9 +46,9 @@ export const graph_data = {
             role: "assistant",
             content: "```json\n${1}```\n",
           },
-        ]
+        ],
       },
-      inputs: [":document", ":sampleGraph"]
+      inputs: [":document", ":sampleGraph"],
     },
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.
