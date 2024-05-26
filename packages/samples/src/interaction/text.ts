@@ -31,7 +31,7 @@ const graph_data = {
 export const main = async () => {
   graph_data.nodes.node1.value = { injected: "test" };
 
-  const result = await graphDataTestRunner(__dirname, __filename, graph_data, {
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, {
     mergeNodeIdAgent,
     textInputAgent,
     propertyFilterAgent,

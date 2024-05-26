@@ -48,7 +48,7 @@ const graph_data_explain = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graph_data_explain, agents);
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data_explain, agents);
   console.log(result.description);
 };
 

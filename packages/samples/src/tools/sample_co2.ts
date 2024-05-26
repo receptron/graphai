@@ -90,7 +90,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graph_data, {
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, {
     slashGPTAgent,
     slashGPTFuncitons2TextAgent: agentInfoWrapper(slashGPTFuncitons2TextAgent),
   });

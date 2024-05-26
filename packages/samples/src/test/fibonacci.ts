@@ -28,7 +28,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname, "fibonacci", graph_data, { fibonacciAgent: agentInfoWrapper(fibonacciAgent) });
+  const result = await graphDataTestRunner(__dirname + "/../", "fibonacci", graph_data, { fibonacciAgent: agentInfoWrapper(fibonacciAgent) });
   console.log(result);
   console.log("COMPLETE 1");
 };

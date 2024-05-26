@@ -81,7 +81,7 @@ const simplify = (result: Array<any>) => {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname, "sample_wiki.log", graph_data, agents);
+  const result = await graphDataTestRunner(__dirname + "/../", "sample_wiki.log", graph_data, agents);
   console.log(simplify(result.OneShotQuery as Array<any>));
   console.log(simplify(result.RagQuery as Array<any>));
 };
