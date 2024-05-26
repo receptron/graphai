@@ -1,12 +1,8 @@
 // this is copy from graphai. dont't update
-import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo } from "graphai";
-import { NodeState, DefaultResultData } from "graphai/lib/type";
-import { defaultTestContext } from "graphai/lib/utils/utils";
-
+import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo, defaultTestContext, NodeState, DefaultResultData, ValidationError } from "graphai";
 import * as defaultTestAgents from "@graphai/vanilla";
 
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "./file_utils";
-import { ValidationError } from "graphai/lib/validators/common";
 
 import path from "path";
 import * as fs from "fs";
