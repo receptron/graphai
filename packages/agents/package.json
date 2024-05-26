@@ -25,28 +25,14 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.21.0",
-    "@google/generative-ai": "^0.11.4",
+    "@graphai/data_agents": "^0.0.1",
+    "@graphai/input_agents": "^0.0.1",
+    "@graphai/service_agents": "^0.0.1",
+    "@graphai/sleeper_agents": "^0.0.1",
     "@graphai/vanilla": "^0.0.1",
-    "@inquirer/prompts": "^5.0.0",
-    "@types/xml2js": "^0.4.14",
-    "arxiv-api-ts": "^1.0.3",
-    "deepmerge": "^4.3.1",
-    "dotenv": "^16.4.5",
-    "groq-sdk": "^0.3.3",
-    "openai": "^4.47.1",
-    "slashgpt": "^0.0.9",
-    "tiktoken": "^1.0.14",
-    "wikipedia": "^2.1.2",
-    "xml2js": "^0.6.2",
-    "yaml": "^2.4.1"
+    "tiktoken": "^1.0.14"
   },
-  "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "cors": "^2.8.5",
-    "globals": "^15.2.0",
-    "typedoc": "^0.25.13"
-  },
+  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

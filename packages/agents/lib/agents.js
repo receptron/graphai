@@ -18,10 +18,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.tokenBoundStringsAgent = void 0;
-__exportStar(require("./input_agents"), exports);
-__exportStar(require("./data_agents"), exports);
-__exportStar(require("./llm_agents"), exports);
-__exportStar(require("./service_agents"), exports);
-__exportStar(require("./sleeper_agents"), exports);
+__exportStar(require("@graphai/input_agents"), exports);
+__exportStar(require("@graphai/data_agents"), exports);
+__exportStar(require("@graphai/llm_agents"), exports);
+__exportStar(require("@graphai/service_agents"), exports);
+__exportStar(require("@graphai/sleeper_agents"), exports);
 const token_agent_1 = __importDefault(require("./token_agent"));
 exports.tokenBoundStringsAgent = token_agent_1.default;
