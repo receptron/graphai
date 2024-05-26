@@ -57,7 +57,7 @@ export const graph_data = {
       agent: "pushAgent",
       inputs: [":messages", ":userMessage"],
     },
-    groq: {
+    llm: {
       // Sends those messages to LLM to get a response.
       agent: "groqAgent",
       params: {
@@ -69,17 +69,17 @@ export const graph_data = {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLlama3\x1b[0m: ${0}",
+        template: "\x1b[32mLLM\x1b[0m: ${0}",
       },
       console: {
         after: true,
       },
-      inputs: [":groq.choices.$0.message.content"],
+      inputs: [":llm.choices.$0.message.content"],
     },
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: [":appendedMessages", ":groq.choices.$0.message"],
+      inputs: [":appendedMessages", ":llm.choices.$0.message"],
     },
   },
 };
