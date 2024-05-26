@@ -2,7 +2,6 @@
 
 ## Agents for GraphAI Test
 
-
 ### Install
 
 ```
