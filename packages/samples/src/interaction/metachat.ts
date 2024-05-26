@@ -1,16 +1,18 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
 import * as agents from "@graphai/agents";
-import * as path from "path";
-import * as fs from "fs";
 import * as sample from "./reception";
-
-const filePath = path.join(__dirname, "../../../../README.md");
-const document = fs.readFileSync(filePath, "utf8");
 
 export const graph_data = {
   version: 0.3,
   nodes: {
+    document: {
+      agent: "fetchAgent",
+      params: {
+        type: "text"
+      },
+      inputs:["https://raw.githubusercontent.com/receptron/graphai/main/README.md"]
+    },
     messages: {
       agent: "stringTemplateAgent",
       params: {
@@ -34,7 +36,7 @@ export const graph_data = {
             },
           ]
       },
-      inputs: [document, JSON.stringify(sample.graph_data)]
+      inputs: [":document", JSON.stringify(sample.graph_data)]
     },
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.
