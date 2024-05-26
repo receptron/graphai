@@ -1,5 +1,5 @@
 import { AgentFunctionContext } from "graphai";
-import { streamAgentFilterGenerator } from "graphai/lib/experimental_agent_filters/stream";
+import { streamAgentFilterGenerator } from "@graphai/agent_filters";
 
 const streamData: Record<string, string> = {};
 
