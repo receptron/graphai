@@ -2,7 +2,7 @@ import { GraphAI } from "graphai";
 
 import * as agents from "@/index";
 import { fileTestRunner, rejectFileTest } from "@graphai/test_utils";
-import { strIntentionalError } from "graphai/utils";
+import { strIntentionalError } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

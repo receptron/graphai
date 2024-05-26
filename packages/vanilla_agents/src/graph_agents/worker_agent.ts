@@ -16,8 +16,8 @@ import {
   stringTemplateAgent,
   jsonParserAgent,
 } from "../index";
-import { assert } from "graphai/utils";
-import { StaticNodeData } from "graphai/type";
+import { assert } from "graphai/lib/utils/utils";
+import { StaticNodeData } from "graphai/lib/type";
 
 const vanillaAgents = {
   totalAgent,

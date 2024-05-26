@@ -5,8 +5,7 @@ import assert from "node:assert";
 
 export { anonymization } from "@graphai/test_utils";
 
-export const rejectTest = async (
-  graphData: GraphData, errorMessage: string, bypassAgentIds: string[] = ["echoAgent"], validationError: boolean = true) => {
+export const rejectTest = async (graphData: GraphData, errorMessage: string, bypassAgentIds: string[] = ["echoAgent"], validationError: boolean = true) => {
   await assert.rejects(
     async () => {
       const graph = new GraphAI(graphData, {}, { bypassAgentIds });

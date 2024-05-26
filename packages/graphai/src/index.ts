@@ -17,5 +17,3 @@ export {
 export type { TransactionLog } from "./transaction_log";
 
 export { agentFilterRunnerBuilder } from "./utils/runner";
-
-export { ValidationError } from "./validators/common";
