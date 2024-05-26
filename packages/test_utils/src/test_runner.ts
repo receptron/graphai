@@ -1,4 +1,4 @@
-import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo, defaultTestContext, NodeState, DefaultResultData, ValidationError } from "graphai";
+import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo, defaultTestContext, DefaultResultData, ValidationError } from "graphai";
 import * as defaultTestAgents from "@graphai/vanilla";
 
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "./file_utils";
