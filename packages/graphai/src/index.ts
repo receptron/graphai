@@ -26,6 +26,7 @@ export {
   defaultAgentInfo,
   agentInfoWrapper,
   defaultTestContext,
+  strIntentionalError,
 } from "./utils/utils";
 
 export {

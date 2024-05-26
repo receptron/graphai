@@ -1,8 +1,7 @@
 import "dotenv/config";
 
 import { graphDataTestRunner } from "@/utils/test_runner";
-import { AgentFunction } from "graphai";
-import { agentInfoWrapper } from "graphai/lib/utils/utils";
+import { AgentFunction, agentInfoWrapper } from "graphai";
 
 const fibonacciAgent: AgentFunction = async ({ inputs }) => {
   const prev = inputs[0];
