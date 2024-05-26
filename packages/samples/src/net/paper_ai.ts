@@ -5,7 +5,7 @@ import { fileTestRunner } from "../utils/runner";
 import { slashGPTAgent } from "@graphai/agents";
 import { arxivAgent, arxiv2TextAgent } from "../utils/agents/arxiv_agent";
 
-import { agentInfoWrapper } from "graphai/utils";
+import { agentInfoWrapper } from "graphai/lib/utils/utils";
 
 export const main = async () => {
   const res = await fileTestRunner("/graphs/arxiv.yml", {
