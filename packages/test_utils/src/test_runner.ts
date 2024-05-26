@@ -1,5 +1,5 @@
 import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo } from "graphai";
-import { NodeState, DefaultResultData } from "graphai/lib/type";
+import { DefaultResultData } from "graphai/lib/type";
 import { defaultTestContext } from "graphai/lib/utils/utils";
 
 import * as defaultTestAgents from "@graphai/vanilla";
@@ -36,7 +36,7 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
   callback: (graph: GraphAI) => void = () => {},
   all: boolean = true,
 ) => {
-  const baseDir = path.resolve(base_dir) + "/../logs/"
+  const baseDir = path.resolve(base_dir) + "/../logs/";
   mkdirLogDir(baseDir);
 
   const log_path = baseDir + fileBaseName(logFileName) + ".log";
