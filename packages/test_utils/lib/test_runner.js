@@ -27,7 +27,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.agentTestRunner = exports.rejectTest = exports.rejectFileTest = exports.graphDataTestRunner = exports.fileTestRunner = exports.readGraphData = void 0;
-// this is copy from graphai. dont't update
 const graphai_1 = require("graphai");
 const utils_1 = require("graphai/lib/utils/utils");
 const defaultTestAgents = __importStar(require("@graphai/vanilla"));
