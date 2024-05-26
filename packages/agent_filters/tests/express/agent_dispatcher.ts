@@ -1,10 +1,10 @@
 import express from "express";
 import * as agents from "@graphai/agents";
 
-import { streamAgentFilterGenerator } from "@/experimental_agent_filters/stream";
-import { agentFilterRunnerBuilder } from "@/utils/runner";
+import { streamAgentFilterGenerator } from "@/index";
+import { agentFilterRunnerBuilder } from "graphai/lib/utils/runner";
 
-import { AgentFunctionContext, AgentFunctionInfoDictionary } from "@/type";
+import { AgentFunctionContext, AgentFunctionInfoDictionary } from "graphai";
 
 export const agentDispatcher = async (req: express.Request, res: express.Response) => {
   const { params } = req;
