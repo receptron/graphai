@@ -23,7 +23,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graph_data, {
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, {
     ...agents,
     interactiveInputSelectAgent: agentInfoWrapper(interactiveInputSelectAgent),
   });
