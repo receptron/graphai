@@ -27,6 +27,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.21.0",
     "@google/generative-ai": "^0.11.4",
+    "@graphai/sleeper_agents": "^0.0.1",
     "@graphai/vanilla": "^0.0.1",
     "@inquirer/prompts": "^5.0.0",
     "@types/xml2js": "^0.4.14",

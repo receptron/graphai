@@ -21,7 +21,8 @@
     "typescript-eslint": "^7.8.0"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "agents/*"
   ],
   "author": "",
   "license": "MIT"

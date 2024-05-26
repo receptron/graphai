@@ -22,6 +22,6 @@ __exportStar(require("./input_agents"), exports);
 __exportStar(require("./data_agents"), exports);
 __exportStar(require("./llm_agents"), exports);
 __exportStar(require("./service_agents"), exports);
-__exportStar(require("./sleeper_agents"), exports);
+__exportStar(require("@graphai/sleeper_agents"), exports);
 const token_agent_1 = __importDefault(require("./token_agent"));
 exports.tokenBoundStringsAgent = token_agent_1.default;
