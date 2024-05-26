@@ -8,10 +8,23 @@ export const graph_data = {
   nodes: {
     document: {
       agent: "fetchAgent",
+      console: {
+        before: "...fetching document",
+      },
       params: {
         type: "text"
       },
       inputs:["https://raw.githubusercontent.com/receptron/graphai/main/README.md"]
+    },
+    sampleGraph: {
+      agent: "fetchAgent",
+      console: {
+        before: "...fetching sample graph",
+      },
+      params: {
+        type: "text"
+      },
+      inputs:["https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception.json"]
     },
     messages: {
       agent: "stringTemplateAgent",
@@ -36,11 +49,14 @@ export const graph_data = {
             },
           ]
       },
-      inputs: [":document", JSON.stringify(sample.graph_data)]
+      inputs: [":document", ":sampleGraph"]
     },
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.
       agent: "openAIAgent",
+      console: {
+        before: "...generating a new graph",
+      },
       params: {
         model: "gpt-4o",
       },
