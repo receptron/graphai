@@ -1,11 +1,11 @@
-// this is copy from graphai. dont't update
 import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo } from "graphai";
-import { NodeState, DefaultResultData } from "graphai/lib/type";
+import { DefaultResultData } from "graphai/lib/type";
 import { defaultTestContext } from "graphai/lib/utils/utils";
 
 import * as defaultTestAgents from "@graphai/vanilla";
 
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "./file_utils";
+import { callbackLog } from "./utils";
 import { ValidationError } from "graphai/lib/validators/common";
 
 import path from "path";
@@ -36,24 +36,14 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
   callback: (graph: GraphAI) => void = () => {},
   all: boolean = true,
 ) => {
-  mkdirLogDir();
+  const baseDir = path.resolve(base_dir) + "/../logs/";
+  mkdirLogDir(baseDir);
 
-  const log_path = path.resolve(base_dir) + "/../logs/" + fileBaseName(logFileName) + ".log";
+  const log_path = baseDir + fileBaseName(logFileName) + ".log";
   const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
 
   if (process.argv[2] === "-v") {
-    graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
-      if (state === NodeState.Executing) {
-        console.log(`${nodeId.padEnd(10)} =>( ${(JSON.stringify(inputs) ?? "").slice(0, 60)}`);
-      } else if (state === NodeState.Injected || state == NodeState.Completed) {
-        const shortName = state === NodeState.Injected ? "=  " : "{} ";
-        console.log(`${nodeId.padEnd(10)} ${shortName} ${(JSON.stringify(result) ?? "").slice(0, 60)}`);
-      } else if (state == NodeState.Failed) {
-        console.log(`${nodeId.padEnd(10)} ERR ${(errorMessage ?? "").slice(0, 60)}`);
-      } else {
-        console.log(`${nodeId.padEnd(10)} ${state}`);
-      }
-    };
+    graph.onLogCallback = callbackLog;
   }
 
   callback(graph);

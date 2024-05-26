@@ -7,8 +7,7 @@ exports.fileBaseName = exports.readGraphaiData = exports.mkdirLogDir = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const yaml_1 = __importDefault(require("yaml"));
-const mkdirLogDir = () => {
-    const logsDir = path_1.default.join(__dirname, "../logs");
+const mkdirLogDir = (logsDir) => {
     if (!fs_1.default.existsSync(logsDir)) {
         fs_1.default.mkdirSync(logsDir, { recursive: true });
     }
