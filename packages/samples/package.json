@@ -44,8 +44,7 @@
     "slashgpt": "^0.0.9",
     "tiktoken": "^1.0.14",
     "wikipedia": "^2.1.2",
-    "xml2js": "^0.6.2",
-    "yaml": "^2.4.1"
+    "xml2js": "^0.6.2"
   },
   "types": "./lib/index.d.ts",
   "directories": {

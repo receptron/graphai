@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
-    "@graphai/vanilla": "^0.0.1"
+    "@graphai/vanilla": "^0.0.1",
+    "yaml": "^2.4.1"
   },
   "types": "./lib/index.d.ts",
   "directories": {
