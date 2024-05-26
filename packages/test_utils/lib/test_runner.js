@@ -48,8 +48,9 @@ const fileTestRunner = async (base_dir, file, agentFunctionInfoDictionary, callb
 };
 exports.fileTestRunner = fileTestRunner;
 const graphDataTestRunner = async (base_dir, logFileName, graph_data, agentFunctionInfoDictionary, callback = () => { }, all = true) => {
-    (0, file_utils_1.mkdirLogDir)();
-    const log_path = path_1.default.resolve(base_dir) + "/../logs/" + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
+    const baseDir = path_1.default.resolve(base_dir) + "/../logs/";
+    (0, file_utils_1.mkdirLogDir)(baseDir);
+    const log_path = baseDir + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
     const graph = new graphai_1.GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     if (process.argv[2] === "-v") {
         graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {

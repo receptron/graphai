@@ -10,7 +10,7 @@ import yaml from "yaml";
 
 import { hasOption, args } from "./args";
 import { callbackLog } from "./utils";
-import { readGraphaiData, mkdirLogDir } from "./file_utils";
+import { readGraphaiData, mkdirLogDir } from "@graphai/test_utils";
 import { option } from "./options";
 import { mermaid } from "./mermaid";
 

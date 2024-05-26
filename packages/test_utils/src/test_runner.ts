@@ -36,9 +36,10 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
   callback: (graph: GraphAI) => void = () => {},
   all: boolean = true,
 ) => {
-  mkdirLogDir();
+  const baseDir = path.resolve(base_dir) + "/../logs/"
+  mkdirLogDir(baseDir);
 
-  const log_path = path.resolve(base_dir) + "/../logs/" + fileBaseName(logFileName) + ".log";
+  const log_path = baseDir + fileBaseName(logFileName) + ".log";
   const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
 
   if (process.argv[2] === "-v") {
