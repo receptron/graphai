@@ -25,8 +25,6 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.21.0",
-    "@google/generative-ai": "^0.11.4",
     "@graphai/sleeper_agents": "^0.0.1",
     "@graphai/vanilla": "^0.0.1",
     "@inquirer/prompts": "^5.0.0",
@@ -34,9 +32,6 @@
     "arxiv-api-ts": "^1.0.3",
     "deepmerge": "^4.3.1",
     "dotenv": "^16.4.5",
-    "groq-sdk": "^0.3.3",
-    "openai": "^4.47.1",
-    "slashgpt": "^0.0.9",
     "tiktoken": "^1.0.14",
     "wikipedia": "^2.1.2",
     "xml2js": "^0.6.2",
