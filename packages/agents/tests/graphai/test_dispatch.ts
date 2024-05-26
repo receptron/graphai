@@ -2,7 +2,8 @@ import { AgentFunction } from "graphai";
 
 import * as agents from "@/index";
 import { fileTestRunner } from "@graphai/test_utils";
-import { sleep, agentInfoWrapper } from "graphai/utils";
+import { sleep } from "graphai/lib/utils/utils";
+import { agentInfoWrapper } from "graphai/lib//utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

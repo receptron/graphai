@@ -3,12 +3,6 @@
   "version": "0.4.5",
   "description": "Asynchronous data flow execution engine for agentic AI apps.",
   "main": "lib/index.js",
-  "exports": {
-    ".": "./lib/index.js",
-    "./type": "./lib/type.js",
-    "./utils": "./lib/utils/utils.js",
-    "./lib/*": "./lib/*.js"
-  },
   "files": [
     "./lib"
   ],
