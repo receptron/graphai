@@ -25,13 +25,12 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
+    "@graphai/data_agents": "^0.0.1",
+    "@graphai/input_agents": "^0.0.1",
     "@graphai/service_agents": "^0.0.1",
     "@graphai/sleeper_agents": "^0.0.1",
     "@graphai/vanilla": "^0.0.1",
-    "deepmerge": "^4.3.1",
-    "dotenv": "^16.4.5",
-    "tiktoken": "^1.0.14",
-    "yaml": "^2.4.1"
+    "tiktoken": "^1.0.14"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
