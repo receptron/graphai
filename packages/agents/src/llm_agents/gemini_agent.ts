@@ -1,6 +1,6 @@
 import { AgentFunction } from "graphai";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
-import { assert } from "graphai/lib/utils/utils";
+import { assert } from "graphai/utils";
 
 export const geminiAgent: AgentFunction<
   {
