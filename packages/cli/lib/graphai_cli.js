@@ -34,8 +34,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const yaml_1 = __importDefault(require("yaml"));
 const args_1 = require("./args");
-const utils_1 = require("./utils");
-const file_utils_1 = require("./file_utils");
+const test_utils_1 = require("@graphai/test_utils");
 const options_1 = require("./options");
 const mermaid_1 = require("./mermaid");
 const fileFullPath = (file) => {
@@ -53,10 +52,10 @@ const main = async () => {
     }
     if (args_1.args.log) {
         const logfile = fileFullPath(args_1.args.log);
-        (0, file_utils_1.mkdirLogDir)(path_1.default.dirname(logfile));
+        (0, test_utils_1.mkdirLogDir)(path_1.default.dirname(logfile));
     }
     try {
-        const graph_data = (0, file_utils_1.readGraphaiData)(file_path);
+        const graph_data = (0, test_utils_1.readGraphaiData)(file_path);
         if (args_1.args.mermaid) {
             (0, mermaid_1.mermaid)(graph_data);
             return;
@@ -71,7 +70,7 @@ const main = async () => {
         }
         const graph = new graphai_1.GraphAI(graph_data, packages);
         if (args_1.args.verbose) {
-            graph.onLogCallback = utils_1.callbackLog;
+            graph.onLogCallback = test_utils_1.callbackLog;
         }
         try {
             const results = await graph.run();

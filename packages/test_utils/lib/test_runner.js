@@ -27,10 +27,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.agentTestRunner = exports.rejectTest = exports.rejectFileTest = exports.graphDataTestRunner = exports.fileTestRunner = exports.readGraphData = void 0;
-// this is copy from graphai. dont't update
 const graphai_1 = require("graphai");
+<<<<<<< HEAD
 const defaultTestAgents = __importStar(require("@graphai/vanilla"));
 const file_utils_1 = require("./file_utils");
+=======
+const utils_1 = require("graphai/lib/utils/utils");
+const defaultTestAgents = __importStar(require("@graphai/vanilla"));
+const file_utils_1 = require("./file_utils");
+const utils_2 = require("./utils");
+const common_1 = require("graphai/lib/validators/common");
+>>>>>>> d4232ce21d3946195680e8f99cb52c9fdaf08b33
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
 const node_assert_1 = __importDefault(require("node:assert"));
@@ -45,10 +52,12 @@ const fileTestRunner = async (base_dir, file, agentFunctionInfoDictionary, callb
 };
 exports.fileTestRunner = fileTestRunner;
 const graphDataTestRunner = async (base_dir, logFileName, graph_data, agentFunctionInfoDictionary, callback = () => { }, all = true) => {
-    (0, file_utils_1.mkdirLogDir)();
-    const log_path = path_1.default.resolve(base_dir) + "/../logs/" + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
+    const baseDir = path_1.default.resolve(base_dir) + "/../logs/";
+    (0, file_utils_1.mkdirLogDir)(baseDir);
+    const log_path = baseDir + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
     const graph = new graphai_1.GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     if (process.argv[2] === "-v") {
+<<<<<<< HEAD
         graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
             if (state === graphai_1.NodeState.Executing) {
                 console.log(`${nodeId.padEnd(10)} =>( ${(JSON.stringify(inputs) ?? "").slice(0, 60)}`);
@@ -64,6 +73,9 @@ const graphDataTestRunner = async (base_dir, logFileName, graph_data, agentFunct
                 console.log(`${nodeId.padEnd(10)} ${state}`);
             }
         };
+=======
+        graph.onLogCallback = utils_2.callbackLog;
+>>>>>>> d4232ce21d3946195680e8f99cb52c9fdaf08b33
     }
     callback(graph);
     const results = await graph.run(all);
