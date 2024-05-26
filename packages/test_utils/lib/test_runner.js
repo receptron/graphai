@@ -29,10 +29,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.agentTestRunner = exports.rejectTest = exports.rejectFileTest = exports.graphDataTestRunner = exports.fileTestRunner = exports.readGraphData = void 0;
 // this is copy from graphai. dont't update
 const graphai_1 = require("graphai");
-const type_1 = require("graphai/lib/type");
 const utils_1 = require("graphai/lib/utils/utils");
 const defaultTestAgents = __importStar(require("@graphai/vanilla"));
 const file_utils_1 = require("./file_utils");
+const utils_2 = require("./utils");
 const common_1 = require("graphai/lib/validators/common");
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
@@ -53,21 +53,7 @@ const graphDataTestRunner = async (base_dir, logFileName, graph_data, agentFunct
     const log_path = baseDir + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
     const graph = new graphai_1.GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     if (process.argv[2] === "-v") {
-        graph.onLogCallback = ({ nodeId, state, inputs, result, errorMessage }) => {
-            if (state === type_1.NodeState.Executing) {
-                console.log(`${nodeId.padEnd(10)} =>( ${(JSON.stringify(inputs) ?? "").slice(0, 60)}`);
-            }
-            else if (state === type_1.NodeState.Injected || state == type_1.NodeState.Completed) {
-                const shortName = state === type_1.NodeState.Injected ? "=  " : "{} ";
-                console.log(`${nodeId.padEnd(10)} ${shortName} ${(JSON.stringify(result) ?? "").slice(0, 60)}`);
-            }
-            else if (state == type_1.NodeState.Failed) {
-                console.log(`${nodeId.padEnd(10)} ERR ${(errorMessage ?? "").slice(0, 60)}`);
-            }
-            else {
-                console.log(`${nodeId.padEnd(10)} ${state}`);
-            }
-        };
+        graph.onLogCallback = utils_2.callbackLog;
     }
     callback(graph);
     const results = await graph.run(all);
