@@ -66,7 +66,7 @@ export const graph_data = {
 };
 
 export const main = async () => {
-  const result = (await graphDataTestRunner(__dirname, "sample_net.log", graph_data, agents)) as any;
+  const result = (await graphDataTestRunner(__dirname + "/../", "sample_net.log", graph_data, agents)) as any;
   console.log(result.map.extractor.join("\n\n"));
 };
 if (process.argv[1] === __filename) {

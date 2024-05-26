@@ -107,7 +107,7 @@ export const graph_data = {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLlama3\x1b[0m: ${0}",
+        template: "\x1b[32mAgent\x1b[0m: ${0}",
       },
       console: {
         after: true,
@@ -124,7 +124,7 @@ export const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graph_data, agents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents, () => {}, false);
   console.log("Complete", result);
 };
 
