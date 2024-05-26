@@ -73,7 +73,7 @@ const IndexMd = (ret: Record<string, Record<string, string>>) => {
 };
 const main = () => {
   const ret: Record<string, Record<string, string>> = {};
-  const base_path = __dirname + "/../../../docs/agentDocs/"
+  const base_path = __dirname + "/../../../docs/agentDocs/";
   Object.values(packages).map((agent) => {
     const md = agentMd(agent);
     agent.category.map(async (cat) => {
