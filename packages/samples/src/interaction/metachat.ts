@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@/utils/test_runner";
 import * as agents from "@graphai/agents";
-import * as sample from "./reception";
 
 export const graph_data = {
   version: 0.3,
@@ -29,25 +28,25 @@ export const graph_data = {
     messages: {
       agent: "stringTemplateAgent",
       params: {
-          template: [
-            {
-              // System message, which gives the specification of GraphAI, and instruct to generate a graphAI graph dynamically.
-              role: "system",
-              content:
-                "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
-                "[documation of GraphAI]\n${0}",
-            },
-            {
-              // Sample question, which specifies which information we need to get from the user.
-              role: "user",
-              content: "Name, Date of Birth and Gendar",
-            },
-            {
-              // Sample AI agent graph, which acquires those information from the user.
-              role: "assistant",
-              content: "```json\n${1}```\n",
-            },
-          ]
+        template: [
+          {
+            // System message, which gives the specification of GraphAI, and instruct to generate a graphAI graph dynamically.
+            role: "system",
+            content:
+              "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
+              "[documation of GraphAI]\n${0}",
+          },
+          {
+            // Sample question, which specifies which information we need to get from the user.
+            role: "user",
+            content: "Name, Date of Birth and Gendar",
+          },
+          {
+            // Sample AI agent graph, which acquires those information from the user.
+            role: "assistant",
+            content: "```json\n${1}```\n",
+          },
+        ]
       },
       inputs: [":document", ":sampleGraph"]
     },
