@@ -380,9 +380,3 @@ Since the task executing the nested graph will be in "running" state while tasks
 By default, tasks are executed in a first-in, first-out (FIFO) order with a neutral priority (0). However, you can assign custom priorities to nodes using the *priority* property. Tasks associated with nodes that have a higher priority value will be executed before those with lower priorities.
 
 Negative priority values are allowed, enabling you to fine-tune the execution order based on your application's requirements.
-
-## References
-
-- [Collaboration](./Collaboration.md)
-- [Sample Graphs](./samples/README.md)
-- [API Document](./APIDocument.md)
