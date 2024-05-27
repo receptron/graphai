@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.wikipediaAgent = void 0;
-const wikipedia_1 = __importDefault(require("./wikipedia"));
+const wikipedia_1 = __importDefault(require("wikipedia"));
 const wikipediaAgent = async ({ inputs, params }) => {
     const { lang, summary } = params;
     const query = inputs[0];
