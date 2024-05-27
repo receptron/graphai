@@ -79,26 +79,30 @@ export const graph_data = {
       console: {
         before: "...performing the RAG query"
       },
-      agent: "slashGPTAgent",
+      agent: "openAIAgent",
       inputs: [":prompt"],
     },
     OneShotQuery: {
       // Get the answer from LLM without the reference text
-      agent: "slashGPTAgent",
+      agent: "openAIAgent",
       inputs: [":source.query"],
     },
+    RagResult: {
+      agent: "copyAgent",
+      inputs: [":RagQuery.choices.$0.message.content"],
+      isResult: true,
+    },
+    OneShotResult: {
+      agent: "copyAgent",
+      inputs: [":OneShotQuery.choices.$0.message.content"],
+      isResult: true,
+    }
   },
 };
 
-const simplify = (result: Array<any>) => {
-  const { content, usage } = result[result.length - 1];
-  return { content, usage };
-};
-
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", "sample_wiki.log", graph_data, agents);
-  console.log(simplify(result.OneShotQuery as Array<any>));
-  console.log(simplify(result.RagQuery as Array<any>));
+  const result = await graphDataTestRunner(__dirname + "/../", "sample_wiki.log", graph_data, agents, ()=>{}, false);
+  console.log(result);
 };
 if (process.argv[1] === __filename) {
   main();
