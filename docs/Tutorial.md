@@ -320,4 +320,90 @@ Here is an example (I'm not able to paste the code here, because thd markdown pa
 
 [https://github.com/receptron/graphai_samples/blob/main/samples/openai/metachat.yaml](https://github.com/receptron/graphai_samples/blob/main/samples/openai/metachat.yaml)
 
-This application generates a new GraphAI graph based on a sample GraphAI graph ([reception.yaml](https://github.com/receptron/graphai/blob/main/packages/samples/data/reception.json), which retrieves the name, date of birth and gender from the user), and run it. The generated app retrieves the name, address and phone number instead.
+This sample application generates a new GraphAI graph based on a sample GraphAI graph ([reception.yaml](https://github.com/receptron/graphai/blob/main/packages/samples/data/reception.json), which retrieves the name, date of birth and gender from the user), and run it. The generated app retrieves the name, address and phone number instead.
+
+## In-memory RAG
+
+This sample application performs an in-memory RAG by deviding a Wikipedi article into chunks, get embedding vectors for those chunks and create an appropriate prompt based on the cosine similarities. 
+
+```YAML
+version: 0.3
+nodes:
+  source:
+    value:
+      name: Sam Bankman-Fried
+      topic: sentence by the court
+      query: describe the final sentence by the court for Sam Bank-Fried
+  wikipedia:
+    console:
+      before: ...fetching data from wikkpedia
+    agent: wikipediaAgent
+    inputs:
+      - :source.name
+    params:
+      lang: en
+  chunks:
+    console:
+      before: ...splitting the article into chunks
+    agent: stringSplitterAgent
+    inputs:
+      - :wikipedia.content
+  embeddings:
+    console:
+      before: ...fetching embeddings for chunks
+    agent: stringEmbeddingsAgent
+    inputs:
+      - :chunks.contents
+  topicEmbedding:
+    console:
+      before: ...fetching embedding for the topic
+    agent: stringEmbeddingsAgent
+    inputs:
+      - :source.topic
+  similarityCheck:
+    agent: dotProductAgent
+    inputs:
+      - :embeddings
+      - :topicEmbedding.$0
+  sortedChunks:
+    agent: sortByValuesAgent
+    inputs:
+      - :chunks.contents
+      - :similarityCheck
+  referenceText:
+    agent: tokenBoundStringsAgent
+    inputs:
+      - :sortedChunks
+    params:
+      limit: 5000
+  prompt:
+    agent: stringTemplateAgent
+    inputs:
+      - :source.query
+      - :referenceText.content
+    params:
+      template: |-
+        Using the following document, ${0}
+
+        ${1}
+  RagQuery:
+    console:
+      before: ...performing the RAG query
+    agent: openAIAgent
+    inputs:
+      - :prompt
+  OneShotQuery:
+    agent: openAIAgent
+    inputs:
+      - :source.query
+  RagResult:
+    agent: copyAgent
+    inputs:
+      - :RagQuery.choices.$0.message.content
+    isResult: true
+  OneShotResult:
+    agent: copyAgent
+    inputs:
+      - :OneShotQuery.choices.$0.message.content
+    isResult: true
+```
