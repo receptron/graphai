@@ -13,7 +13,7 @@ export const graph_data = {
       params: {
         type: "text",
       },
-      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/README.md"],
+      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/packages/graphai/README.md"],
     },
     sampleGraph: {
       agent: "fetchAgent",
