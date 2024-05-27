@@ -15,6 +15,9 @@ export const graph_data = {
     },
     wikipedia: {
       // Fetch an article from Wikipedia
+      console: {
+        before: "...fetching data from wikkpedia"
+      },
       agent: "wikipediaAgent",
       inputs: [":source.name"],
       params: {
@@ -23,16 +26,25 @@ export const graph_data = {
     },
     chunks: {
       // Break that article into chunks
+      console: {
+        before: "...splitting the article into chunks"
+      },
       agent: "stringSplitterAgent",
       inputs: [":wikipedia.content"],
     },
     embeddings: {
       // Get embedding vectors of those chunks
+      console: {
+        before: "...fetching embeddings for chunks"
+      },
       agent: "stringEmbeddingsAgent",
       inputs: [":chunks.contents"],
     },
     topicEmbedding: {
       // Get embedding vector of the topic
+      console: {
+        before: "...fetching embedding for the topic"
+      },
       agent: "stringEmbeddingsAgent",
       inputs: [":source.topic"],
     },
@@ -64,6 +76,9 @@ export const graph_data = {
     },
     RagQuery: {
       // Get the answer from LLM with that prompt
+      console: {
+        before: "...performing the RAG query"
+      },
       agent: "slashGPTAgent",
       inputs: [":prompt"],
     },
