@@ -28,11 +28,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.agentTestRunner = exports.rejectTest = exports.rejectFileTest = exports.graphDataTestRunner = exports.fileTestRunner = exports.readGraphData = void 0;
 const graphai_1 = require("graphai");
-const utils_1 = require("graphai/lib/utils/utils");
 const defaultTestAgents = __importStar(require("@graphai/vanilla"));
 const file_utils_1 = require("./file_utils");
-const utils_2 = require("./utils");
-const common_1 = require("graphai/lib/validators/common");
+const utils_1 = require("./utils");
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
 const node_assert_1 = __importDefault(require("node:assert"));
@@ -52,7 +50,7 @@ const graphDataTestRunner = async (base_dir, logFileName, graph_data, agentFunct
     const log_path = baseDir + (0, file_utils_1.fileBaseName)(logFileName) + ".log";
     const graph = new graphai_1.GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     if (process.argv[2] === "-v") {
-        graph.onLogCallback = utils_2.callbackLog;
+        graph.onLogCallback = utils_1.callbackLog;
     }
     callback(graph);
     const results = await graph.run(all);
@@ -67,7 +65,7 @@ exports.rejectFileTest = rejectFileTest;
 const rejectTest = async (base_dir, graphdata, errorMessage, agentFunctionInfoDictionary = {}, validationError = true) => {
     await node_assert_1.default.rejects(async () => {
         await (0, exports.graphDataTestRunner)(base_dir, __filename, graphdata, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
-    }, { name: "Error", message: validationError ? new common_1.ValidationError(errorMessage).message : errorMessage });
+    }, { name: "Error", message: validationError ? new graphai_1.ValidationError(errorMessage).message : errorMessage });
 };
 exports.rejectTest = rejectTest;
 // for agent
@@ -84,7 +82,7 @@ const agentTestRunner = async (agentInfo) => {
             (0, node_test_1.default)(`test ${agentInfo.name} ${sampleKey}`, async () => {
                 const { params, inputs, result, graph } = samples[sampleKey];
                 const actual = await agent({
-                    ...utils_1.defaultTestContext,
+                    ...graphai_1.defaultTestContext,
                     params,
                     inputs,
                     graphData: graph,

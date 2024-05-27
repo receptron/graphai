@@ -1,5 +1,5 @@
 import { Arguments } from "yargs";
-import { AgentFunctionInfo } from "graphai/lib/type";
+import { AgentFunctionInfo } from "graphai";
 
 export const option = (args: Arguments, packages: Record<string, AgentFunctionInfo>) => {
   const list = () => {

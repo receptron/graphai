@@ -1,8 +1,7 @@
-import { GraphAI } from "graphai";
+import { GraphAI, defaultAgentInfo } from "graphai";
+import { sleep } from "graphai/lib/utils/utils";
 
 import * as agents from "@graphai/vanilla";
-import { defaultAgentInfo } from "graphai/lib/utils/utils";
-import { sleep } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

@@ -1,6 +1,6 @@
+import { GraphAI } from "graphai";
 import { graphDataTestRunner } from "@graphai/test_utils";
 import * as agents from "@/index";
-import { GraphAI } from "graphai";
 
 import test from "node:test";
 import assert from "node:assert";
