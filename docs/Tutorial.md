@@ -2,7 +2,7 @@
 
 ## Hello World
 
-GraphAI (https://github.com/receptron/graphai) is an open source project, which allows non-programers to build AI applications by describing data flows in a declarative language, GraphAI. 
+GraphAI (https://github.com/receptron/graphai) is an open source project, which allows non-programmers to build AI applications by describing data flows in a declarative language, GraphAI. 
 
 Here is the "Hello World" of GraphAI. 
 
@@ -25,10 +25,10 @@ nodes:
 
 It has two nodes:
 
-1. **llm**: This node is is associated with "openAIAgent", which calls OpenAI's chat completion API. It takes "Explain ML's transformer in 100 words." as an input (the user prompt) and outputs the result from the chat completion API. 
+1. **llm**: This node is associated with "openAIAgent", which calls OpenAI's chat completion API. It takes "Explain ML's transformer in 100 words." as an input (the user prompt) and outputs the result from the chat completion API. 
 2. **output**: This node receives the output of the **llm** node, as an input, and print it out to the console.
 
-Notice that **llm** node will be executed immediately because all the inputs are available at the beggining, while **output** will be executed when the data from **llm** node became available.
+Notice that **llm** node will be executed immediately because all the inputs are available at the beginning, while **output** will be executed when the data from **llm** node becomes available.
 
 ## Installation
 
@@ -119,19 +119,19 @@ nodes:
 3. **shift**: This node takes the first item from the value from **fruits** node, and output the remaining array and item as properties.
 4. **prompt**: This node creates a prompt by filling the `${0}` of the template string with the item property of the output of **shift** node.
 5. **llm**: This computed node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
-6. **reducer**: This node pushs the content from the output of **llm** node to the value of **result** node.
+6. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
 
 Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below. 
 
 ## Mapping
 
-Here is a simple application, whihc uses **map**.
+Here is a simple application, which uses **map**.
 
 ```YAML
 version: 0.3
 nodes:
   fruits:
-    value: [apple, lemomn, banana]
+    value: [apple, lemon, banana]
   map:
     agent: mapAgent
     inputs: [:fruits]
@@ -288,7 +288,7 @@ nodes:
         - type: function
           function:
             name: getWeather
-            description: get wether information of the specified location
+            description: get weather information of the specified location
             parameters:
               type: object
               properties:
@@ -446,7 +446,7 @@ This sample application generates a new GraphAI graph based on a sample GraphAI 
 
 ## In-memory RAG
 
-This sample application performs an in-memory RAG by deviding a Wikipedi article into chunks, get embedding vectors for those chunks and create an appropriate prompt based on the cosine similarities. 
+This sample application performs an in-memory RAG by dividing a Wikipedi article into chunks, get embedding vectors for those chunks and create an appropriate prompt based on the cosine similarities. 
 
 ```YAML
 version: 0.3
@@ -455,10 +455,10 @@ nodes:
     value:
       name: Sam Bankman-Fried
       topic: sentence by the court
-      query: describe the final sentence by the court for Sam Bank-Fried
+      query: describe the final sentence by the court for Sam Bankman-Fried
   wikipedia:
     console:
-      before: ...fetching data from wikkpedia
+      before: ...fetching data from wikipedia
     agent: wikipediaAgent
     inputs:
       - :source.name
