@@ -45,6 +45,8 @@ After that you prepare the yaml file (such as "hello.yaml"), and type
 graphai hello.yaml
 ```
 
+Many sample GraphAI YAML files are available under [Graphai Samples](https://github.com/receptron/graphai_samples).
+
 ## Computed Node and Static Node
 
 There are two types of nodes in GraphAI, *computed nodes* and *static nodes*.
