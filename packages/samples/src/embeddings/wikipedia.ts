@@ -15,6 +15,9 @@ export const graph_data = {
     },
     wikipedia: {
       // Fetch an article from Wikipedia
+      console: {
+        before: "...fetching data from wikkpedia",
+      },
       agent: "wikipediaAgent",
       inputs: [":source.name"],
       params: {
@@ -23,16 +26,25 @@ export const graph_data = {
     },
     chunks: {
       // Break that article into chunks
+      console: {
+        before: "...splitting the article into chunks",
+      },
       agent: "stringSplitterAgent",
       inputs: [":wikipedia.content"],
     },
     embeddings: {
       // Get embedding vectors of those chunks
+      console: {
+        before: "...fetching embeddings for chunks",
+      },
       agent: "stringEmbeddingsAgent",
       inputs: [":chunks.contents"],
     },
     topicEmbedding: {
       // Get embedding vector of the topic
+      console: {
+        before: "...fetching embedding for the topic",
+      },
       agent: "stringEmbeddingsAgent",
       inputs: [":source.topic"],
     },
@@ -64,26 +76,33 @@ export const graph_data = {
     },
     RagQuery: {
       // Get the answer from LLM with that prompt
-      agent: "slashGPTAgent",
+      console: {
+        before: "...performing the RAG query",
+      },
+      agent: "openAIAgent",
       inputs: [":prompt"],
     },
     OneShotQuery: {
       // Get the answer from LLM without the reference text
-      agent: "slashGPTAgent",
+      agent: "openAIAgent",
       inputs: [":source.query"],
+    },
+    RagResult: {
+      agent: "copyAgent",
+      inputs: [":RagQuery.choices.$0.message.content"],
+      isResult: true,
+    },
+    OneShotResult: {
+      agent: "copyAgent",
+      inputs: [":OneShotQuery.choices.$0.message.content"],
+      isResult: true,
     },
   },
 };
 
-const simplify = (result: Array<any>) => {
-  const { content, usage } = result[result.length - 1];
-  return { content, usage };
-};
-
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", "sample_wiki.log", graph_data, agents);
-  console.log(simplify(result.OneShotQuery as Array<any>));
-  console.log(simplify(result.RagQuery as Array<any>));
+  const result = await graphDataTestRunner(__dirname + "/../", "sample_wiki.log", graph_data, agents, () => {}, false);
+  console.log(result);
 };
 if (process.argv[1] === __filename) {
   main();
