@@ -6,7 +6,6 @@ Step 2. Clone the project and install necessary node modules
 
 ```
 git clone git@github.com:receptron/graphai.git
-cd graphai
 yarn install
 ```
 
@@ -25,7 +24,8 @@ npm run test
 Step 5. Run one of sample scripts
 
 ```
-npm run sample ./samples/home.ts
+cd packages/samples/
+npm run sample ./src/tools/home.ts 
 ```
 
 Step 6. Write some code and send pull requests
