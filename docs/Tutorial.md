@@ -2,7 +2,9 @@
 
 ## Hello World
 
-GraphAI (https://github.com/receptron/graphai) is an open source project, which allows non-programers to build AI applications by describing data flows in declarative language, GraphAI. Here is the "Hello World" of GraphAI. 
+GraphAI (https://github.com/receptron/graphai) is an open source project, which allows non-programers to build AI applications by describing data flows in a declarative language, GraphAI. 
+
+Here is the "Hello World" of GraphAI. 
 
 ```YAML
 version: 0.3
@@ -21,7 +23,12 @@ nodes:
       - :llm.choices.$0.message.content
 ```
 
-It has two nodes, "llm" and "output", The "llm" node is associated with "openAIAgent", which calls OpenAI's chat completion API, and takes "Explain ML's transformer in 100 words." as an input, which acts as a user prompt. The "output" node receives the input from the "llm" node, and print it out to the console.
+It has two nodes:
+
+1. **llm**: This node is is associated with "openAIAgent", which calls OpenAI's chat completion API. It takes "Explain ML's transformer in 100 words." as an input (the user prompt) and outputs the result from the chat completion API. 
+2. **output**: This node receives the output of the **llm** node, as an input, and print it out to the console.
+
+Notice that **llm** node will be executed immediately because all the inputs are available at the beggining, while **output** will be executed when the data from **llm** node became available.
 
 ## Installation
 
@@ -29,7 +36,7 @@ You can try it on your own machine by installing "GraphAI client" with following
 ```
 npm i -g  @receptron/graphai_cli
 ```
-Then, you need to create a .env file containing your OPENAI_API_KEY in our current directory.
+Then, you need to create a .env file containing your OPENAI_API_KEY in your current directory.
 ```
 OPENAI_API_KEY=sk-...
 ```
@@ -38,9 +45,118 @@ After that you prepare the yaml file (such as "hello.yaml"), and type
 graphai hello.yaml
 ```
 
-## ChatBot: Loop
+## Computed Node and Static Node
 
-The dataflow graph needs to be acyclic, but we added a few control flow mechanism, such as loop, nesting, if/unless and map-reduce. 
+There are two types of nodes in GraphAI, *computed nodes* and *static nodes*.
+
+A computed node is associated with an *agent*, which performs a certain computation. Both nodes in the previous examples are *computed nodes*.
+
+A *static nodes* is a place holder of a value, just like a *variable* in computer languages.
+
+The example below performs the exact same operation, but uses one *static node*, **prompt*, which holds the value "Explain ML's transformer in 100 words".
+
+```YAML
+version: 0.3
+nodes:
+  prompt:
+    value: Explain ML's transformer in 100 words.
+  llm:
+    agent: openAIAgent
+    params:
+      model: gpt-4o
+    inputs:
+      - :prompt
+  output:
+    agent: copyAgent
+    console:
+      after: true
+    inputs:
+      - :llm.choices.$0.message.content
+```
+
+## Loop
+
+The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and mapping (of map-reduce). 
+
+Here is a simple application, which uses **loop**.
+
+```YAML
+version: 0.3
+loop:
+  while: :fruits
+nodes:
+  fruits:
+    value: [apple, lemomn, banana]
+    update: :shift.array
+  result:
+    value: []
+    update: :reducer
+    isResult: true
+  shift:
+    agent: shiftAgent
+    inputs: [:fruits]
+  prompt:
+    agent: stringTemplateAgent
+    params:
+      template: What is the typical color of ${0}? Just answer the color.
+    inputs: [:shift.item]
+  llm:
+    agent: openAIAgent
+    params:
+      model: gpt-4o
+    inputs: [:prompt]
+  reducer:
+    agent: pushAgent
+    inputs:
+      - :result
+      - :llm.choices.$0.message.content
+```
+
+1. **fruits**: This static node holds the list of fruits at the begining but updated with the array property of **shift** node after each iteration.
+2. **result**: This static node starts with an empty array, but updated with the value of **reducer** node after each iteration.
+3. **shift**: This node takes the first item from the value from **fruits** node, and output the remaining array and item as properties.
+4. **prompt**: This node creates a prompt by filling the `${0}` of the template string with the item property of the output of **shift** node.
+5. **llm**: This computed node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
+6. **reducer**: This node pushs the content from the output of **llm** node to the value of **result** node.
+
+## Mapping
+
+Here is a simple application, whihc uses **map**.
+
+```YAML
+version: 0.3
+nodes:
+  fruits:
+    value: [apple, lemomn, banana]
+  map:
+    agent: mapAgent
+    inputs: [:fruits]
+    isResult: true
+    graph:
+      nodes:
+        prompt:
+          agent: stringTemplateAgent
+          params:
+            template: What is the typical color of ${0}? Just answer the color.
+          inputs: [:$0]
+        llm:
+          agent: openAIAgent
+          params:
+            model: gpt-4o
+          inputs: [:prompt]
+        result:
+          agent: copyAgent
+          inputs: [:llm.choices.$0.message.content]
+          isResult: true
+```
+
+1. **fruits**: This static node holds the list of fruits.
+2. **map**: This node is associated with **mapAgent**, which performs the mapping, by executing the nested graph for each item for the value of **fruits** node, and outputs the combined results.
+3. **prompt**: This node creates a prompt by filling the `${0}` of the template string with each item of the value of **fruits** node.
+4. **llm**: This node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
+5. **result**: This node retrieves the content property from the output of **llm** node.
+
+## ChatBot
 
 Here is a chatbot application using the loop, which allows the user to talk to the LLM until she/he types "/bye".
 
@@ -90,7 +206,7 @@ nodes:
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mLlama3\e[0m: ${0}"
+      template: "\e[32mLLM\e[0m: ${0}"
     console:
       after: true
     inputs:
