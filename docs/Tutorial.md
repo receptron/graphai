@@ -53,7 +53,7 @@ A computed node is associated with an *agent*, which performs a certain computat
 
 A *static nodes* is a place holder of a value, just like a *variable* in computer languages.
 
-The example below performs the exact same operation, but uses one *static node*, **prompt*, which holds the value "Explain ML's transformer in 100 words".
+The example below performs the same operation, but uses one *static node*, **prompt**, which holds the value "Explain ML's transformer in 100 words".
 
 ```YAML
 version: 0.3
@@ -119,6 +119,8 @@ nodes:
 5. **llm**: This computed node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
 6. **reducer**: This node pushs the content from the output of **llm** node to the value of **result** node.
 
+Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below. 
+
 ## Mapping
 
 Here is a simple application, whihc uses **map**.
@@ -155,6 +157,8 @@ nodes:
 3. **prompt**: This node creates a prompt by filling the `${0}` of the template string with each item of the value of **fruits** node.
 4. **llm**: This node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
 5. **result**: This node retrieves the content property from the output of **llm** node.
+
+Please notice that each item in the array will be processed concurrently.
 
 ## ChatBot
 
