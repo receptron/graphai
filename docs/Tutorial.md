@@ -45,9 +45,105 @@ After that you prepare the yaml file (such as "hello.yaml"), and type
 graphai hello.yaml
 ```
 
-## ChatBot: Loop
+## Computed Node and Static Node
+
+There are two types of nodes in GraphAI, *computed nodes* and *static nodes*.
+
+A computed node is associated with an *agent*, which performs a certain computation. Both nodes in the previous examples are *computed nodes*.
+
+A *static nodes* is a place holder of a value, just like a *variable* in computer languages.
+
+The example below performs the exact same operation, but uses one *static node*, **prompt*, which holds the value "Explain ML's transformer in 100 words".
+
+```YAML
+version: 0.3
+nodes:
+  prompt:
+    value: Explain ML's transformer in 100 words.
+  llm:
+    agent: openAIAgent
+    params:
+      model: gpt-4o
+    inputs:
+      - :prompt
+  output:
+    agent: copyAgent
+    console:
+      after: true
+    inputs:
+      - :llm.choices.$0.message.content
+```
+
+## Loop
 
 The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and map-reduce. 
+
+Here is a simple application, which uses **loop**.
+
+```YAML
+version: 0.3
+loop:
+  while: :fruits
+nodes:
+  fruits:
+    value: [apple, lemomn, banana]
+    update: :shift.array
+  result:
+    value: []
+    update: :reducer
+    isResult: true
+  shift:
+    agent: shiftAgent
+    inputs: [:fruits]
+  prompt:
+    agent: stringTemplateAgent
+    params:
+      template: What is the typical color of ${0}? Just answer the color.
+    inputs: [:shift.item]
+  llm:
+    agent: openAIAgent
+    params:
+      model: gpt-4o
+    inputs: [:prompt]
+  reducer:
+    agent: pushAgent
+    inputs:
+      - :result
+      - :llm.choices.$0.message.content
+```
+
+## Map-Reduce
+
+Here is a simple application, whihc uses **map-reduce**.
+
+```YAML
+version: 0.3
+nodes:
+  fruits:
+    value: [apple, lemomn, banana]
+  map:
+    agent: mapAgent
+    inputs: [:fruits]
+    isResult: true
+    graph:
+      nodes:
+        prompt:
+          agent: stringTemplateAgent
+          params:
+            template: What is the typical color of ${0}? Just answer the color.
+          inputs: [:$0]
+        llm:
+          agent: openAIAgent
+          params:
+            model: gpt-4o
+          inputs: [:prompt]
+        result:
+          agent: copyAgent
+          inputs: [:llm.choices.$0.message.content]
+          isResult: true
+```
+
+## ChatBot
 
 Here is a chatbot application using the loop, which allows the user to talk to the LLM until she/he types "/bye".
 
