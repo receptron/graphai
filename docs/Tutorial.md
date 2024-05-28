@@ -76,7 +76,7 @@ nodes:
 
 ## Loop
 
-The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and map-reduce. 
+The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and mapping (of map-reduce). 
 
 Here is a simple application, which uses **loop**.
 
@@ -112,9 +112,16 @@ nodes:
       - :llm.choices.$0.message.content
 ```
 
-## Map-Reduce
+1. **fruits**: This static node holds the list of fruits at the begining but updated with the array property of **shift** node after each iteration.
+2. **result**: This static node starts with an empty array, but updated with the value of **reducer** node after each iteration.
+3. **shift**: This node takes the first item from the value from **fruits** node, and output the remaining array and item as properties.
+4. **prompt**: This node creates a prompt by filling the `${0}` of the template string with the item property of the output of **shift** node.
+5. **llm**: This computed node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
+6. **reducer**: This node pushs the content from the output of **llm** node to the value of **result** node.
 
-Here is a simple application, whihc uses **map-reduce**.
+## Mapping
+
+Here is a simple application, whihc uses **map**.
 
 ```YAML
 version: 0.3
@@ -142,6 +149,12 @@ nodes:
           inputs: [:llm.choices.$0.message.content]
           isResult: true
 ```
+
+1. **fruits**: This static node holds the list of fruits.
+2. **map**: This node is associated with **mapAgent**, which performs the mapping, by executing the nested graph for each item for the value of **fruits** node, and outputs the combined results.
+3. **prompt**: This node creates a prompt by filling the `${0}` of the template string with each item of the value of **fruits** node.
+4. **llm**: This node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
+5. **result**: This node retrieves the content property from the output of **llm** node.
 
 ## ChatBot
 
