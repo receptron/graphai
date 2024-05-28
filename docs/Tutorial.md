@@ -2,7 +2,9 @@
 
 ## Hello World
 
-GraphAI (https://github.com/receptron/graphai) is an open source project, which allows non-programers to build AI applications by describing data flows in declarative language, GraphAI. Here is the "Hello World" of GraphAI. 
+GraphAI (https://github.com/receptron/graphai) is an open source project, which allows non-programers to build AI applications by describing data flows in a declarative language, GraphAI. 
+
+Here is the "Hello World" of GraphAI. 
 
 ```YAML
 version: 0.3
@@ -21,7 +23,12 @@ nodes:
       - :llm.choices.$0.message.content
 ```
 
-It has two nodes, "llm" and "output", The "llm" node is associated with "openAIAgent", which calls OpenAI's chat completion API, and takes "Explain ML's transformer in 100 words." as an input, which acts as a user prompt. The "output" node receives the input from the "llm" node, and print it out to the console.
+It has two nodes:
+
+1. **llm**: This node is is associated with "openAIAgent", which calls OpenAI's chat completion API. It takes "Explain ML's transformer in 100 words." as an input (the user prompt) and outputs the result from the chat completion API. 
+2. **output**: This node receives the output of the **llm** node, as an input, and print it out to the console.
+
+Notice that **llm** node will be executed immediately because all the inputs are available at the beggining, while **output** will be executed when the data from **llm** node became available.
 
 ## Installation
 
@@ -29,7 +36,7 @@ You can try it on your own machine by installing "GraphAI client" with following
 ```
 npm i -g  @receptron/graphai_cli
 ```
-Then, you need to create a .env file containing your OPENAI_API_KEY in our current directory.
+Then, you need to create a .env file containing your OPENAI_API_KEY in your current directory.
 ```
 OPENAI_API_KEY=sk-...
 ```
@@ -40,7 +47,7 @@ graphai hello.yaml
 
 ## ChatBot: Loop
 
-The dataflow graph needs to be acyclic, but we added a few control flow mechanism, such as loop, nesting, if/unless and map-reduce. 
+The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and map-reduce. 
 
 Here is a chatbot application using the loop, which allows the user to talk to the LLM until she/he types "/bye".
 
@@ -90,7 +97,7 @@ nodes:
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mLlama3\e[0m: ${0}"
+      template: "\e[32mLLM\e[0m: ${0}"
     console:
       after: true
     inputs:
