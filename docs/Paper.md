@@ -66,14 +66,14 @@ Since it became clear to us that we need to adapt this data flow programming for
 
 The framework is called GraphAI (https://github.com/receptron/graphai) and it serves as a practical embodiment of the principles discussed previously, specifically tailored for building scalable and efficient AI systems in distributed environments. GraphAI leverages the inherent modularity and concurrency of data flow programming to simplify the development and deployment of complex AI-driven applications.
 
-Here is a graph that describes the necessary operaitions for in-memory RAG (Retrieval-Augmented Generation).
+Here is a graph that describes the necessary operations for in-memory RAG (Retrieval-Augmented Generation).
 
 ```YAML
 nodes:
   source: # (1)
     value:
       name: Sam Bankman-Fried
-      query: describe the final sentence by the court for Sam Bank-Fried
+      query: describe the final sentence by the court for Sam Bankman-Fried
   wikipedia: # (2)
     agentId: wikipediaAgent
     inputs: [:source.name]
@@ -115,12 +115,11 @@ nodes:
 This application consists of 10 nodes. Each node responsible in either holding a data (*static data*) or performing some computations (*computed data*). A *computation node* is associated with a piece of code (*agent function*), which is specified by its *agentId* property. The *inputs* property of a *computation node* specifies the data sources for this node. 
 
 1. "source" node: This is the input data to this RAG application. In the real application, this data will come from the outside of the application, such as the user.
-2. "wikipedia" node: This node retrieves data from Wikipedia. The data source is the "name" property of the "source" property ("Sam Bankman-Fried"). The agent function associated with this node, "wikipadiaAgent" passes the value from this data source to Wikipedia API and retrieves the content of the article of that topic.
+2. "wikipedia" node: This node retrieves data from Wikipedia. The data source is the "name" property of the "source" property ("Sam Bankman-Fried"). The agent function associated with this node, "wikipediaAgent" passes the value from this data source to Wikipedia API and retrieves the content of the article of that topic.
 3. "chunks" node: This node receives the text data from the "wikipedia" node, and breaks it into overlapping text chunks, using the agent function, "stringSplitterAgent". The default size is 2048 character each and 512 character overlap, but can be altered by setting the params property.
 4. "chunkEmbeddings" node: This node converts text chunks from the "chunks" node into embedding vectors. The associated "stringEmbeddingsAgent" calls OpenAI's "embeddings" API to perform this operation.
 5. "topicEmbedding" node: This node converts the "query" property of the "source" node ("describe the final sentence by the court for Sam Bank-Frie") into an embedding vectors, also using "stringEmbeddingsAgent".
 6. "similarities" node: This node calculate the cosine similarities of each embedding vector of chunks and the embedding vector of the query, performing the dot product of each. 
- Calculate the cosine similarity of each chunk
 7. "sortedChunks" node: This node sorts chunks using the similarities as the sort key, putting more similar chunks to the top. 
 8. "referenceText" node: This node generate a reference text by concatenate sorted chunks up to the token limit (5000, which is specified in the "params" property).
 9. "prompt" node: This node generates a prompt using the specified template, using the data from "source" node and "referenceText" node.
