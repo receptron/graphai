@@ -11,7 +11,7 @@
     "eslint": "eslint",
     "rollup": "npx rollup -c",
     "doc": " npx typedoc src/index.ts --out ../../docs/apiDoc",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },

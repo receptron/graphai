@@ -5,7 +5,7 @@ export default [
     files: ["{src,test,samles}/**/*.{js,ts,yaml,yml,json}"],
   },
   {
-    ignores: ["lib/**/*", "*.ts", "apiDoc/**/*", "apiDoc/*"],
+    ignores: ["lib/**/*", "*.ts", "apiDoc/**/*", "apiDoc/*", "dist/*"],
   },
   ...eslintBase,
 ];
