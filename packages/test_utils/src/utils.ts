@@ -1,5 +1,4 @@
-import { NodeState } from "graphai/lib/type";
-import { TransactionLog } from "graphai/lib/transaction_log";
+import { NodeState, TransactionLog } from "graphai";
 
 export const anonymization = (data: Record<string, any>) => {
   return JSON.parse(JSON.stringify(data));
