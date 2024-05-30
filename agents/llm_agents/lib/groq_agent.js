@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.groqAgent = void 0;
+const graphai_1 = require("graphai");
 const groq_sdk_1 = require("groq-sdk");
-const utils_1 = require("graphai/lib/utils/utils");
 const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 //
 // This agent takes two optional inputs, and following parameters.
@@ -23,7 +23,7 @@ const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.en
 // https://console.groq.com/docs/quickstart
 //
 const groqAgent = async ({ params, inputs, filterParams }) => {
-    (0, utils_1.assert)(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
+    (0, graphai_1.assert)(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
     const { verbose, query, system, tools, tool_choice, max_tokens, temperature, stream } = params;
     const [input_query, previous_messages] = inputs;
     // Notice that we ignore params.system if previous_message exists.

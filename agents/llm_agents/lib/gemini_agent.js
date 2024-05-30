@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.geminiAgent = void 0;
+const graphai_1 = require("graphai");
 const generative_ai_1 = require("@google/generative-ai");
-const utils_1 = require("graphai/lib/utils/utils");
 const geminiAgent = async ({ params, inputs }) => {
     const { query, system, temperature, max_tokens, tools } = params;
     const [input_query, previous_messages] = inputs;
@@ -18,7 +18,7 @@ const geminiAgent = async ({ params, inputs }) => {
     }
     const lastMessage = messages.pop();
     const key = process.env["GOOGLE_GENAI_API_KEY"];
-    (0, utils_1.assert)(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
+    (0, graphai_1.assert)(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
     const genAI = new generative_ai_1.GoogleGenerativeAI(key);
     const safetySettings = [
         {

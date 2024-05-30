@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openAIMockAgent = exports.openAIAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
-const utils_1 = require("graphai/lib/utils/utils");
+const graphai_1 = require("graphai");
 const openAIAgent = async ({ filterParams, params, inputs }) => {
     const { verbose, query, system, temperature, baseURL, apiKey, stream } = params;
     const [input_query, previous_messages] = inputs;
@@ -71,7 +71,7 @@ const result_sample = {
 const openAIMockAgent = async ({ filterParams }) => {
     for await (const token of input_sample.split("")) {
         if (filterParams && filterParams.streamTokenCallback && token) {
-            await (0, utils_1.sleep)(100);
+            await (0, graphai_1.sleep)(100);
             filterParams.streamTokenCallback(token);
         }
     }
