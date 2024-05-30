@@ -1,20 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.callbackLog = exports.anonymization = void 0;
-const type_1 = require("graphai/lib/type");
+const graphai_1 = require("graphai");
 const anonymization = (data) => {
     return JSON.parse(JSON.stringify(data));
 };
 exports.anonymization = anonymization;
 const callbackLog = ({ nodeId, state, inputs, result, errorMessage }) => {
-    if (state === type_1.NodeState.Executing) {
+    if (state === graphai_1.NodeState.Executing) {
         console.log(`${nodeId.padEnd(10)} =>( ${(JSON.stringify(inputs) ?? "").slice(0, 60)}`);
     }
-    else if (state === type_1.NodeState.Injected || state == type_1.NodeState.Completed) {
-        const shortName = state === type_1.NodeState.Injected ? "=  " : "{} ";
+    else if (state === graphai_1.NodeState.Injected || state == graphai_1.NodeState.Completed) {
+        const shortName = state === graphai_1.NodeState.Injected ? "=  " : "{} ";
         console.log(`${nodeId.padEnd(10)} ${shortName} ${(JSON.stringify(result) ?? "").slice(0, 60)}`);
     }
-    else if (state == type_1.NodeState.Failed) {
+    else if (state == graphai_1.NodeState.Failed) {
         console.log(`${nodeId.padEnd(10)} ERR ${(errorMessage ?? "").slice(0, 60)}`);
     }
     else {
