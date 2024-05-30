@@ -1,6 +1,5 @@
 import OpenAI from "openai";
-import { AgentFunction } from "graphai";
-import { sleep } from "graphai/lib/utils/utils";
+import { AgentFunction, sleep } from "graphai";
 
 export const openAIAgent: AgentFunction<
   {
