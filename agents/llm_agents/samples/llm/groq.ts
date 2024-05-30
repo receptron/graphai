@@ -1,6 +1,7 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "@/utils/test_runner";
-import * as agents from "@graphai/agents";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import { sleeperAgent } from "@graphai/agents";
+import * as agents from "@/index";
 
 const query =
   "I'd like to write a paper about data flow programming for AI application, which involves multiple asynchronous calls, some of operations are done on other machines (distributed computing). Please come up with the title and an abstract for this paper.";
@@ -24,7 +25,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents);
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { sleeperAgent, ...agents });
   console.log(result);
 };
 
