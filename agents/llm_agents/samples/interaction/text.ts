@@ -1,7 +1,7 @@
 import "dotenv/config";
-
-import { mergeNodeIdAgent, textInputAgent, propertyFilterAgent } from "@graphai/agents";
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as llm_agents from "@/index";
+import * as agents from "@graphai/agents";
 
 const graph_data = {
   version: 0.3,
@@ -31,11 +31,7 @@ const graph_data = {
 export const main = async () => {
   graph_data.nodes.node1.value = { injected: "test" };
 
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, {
-    mergeNodeIdAgent,
-    textInputAgent,
-    propertyFilterAgent,
-  });
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents, ...llm_agents });
   console.log(result);
 
   console.log("COMPLETE 1");
