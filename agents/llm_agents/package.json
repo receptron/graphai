@@ -12,7 +12,8 @@
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",
     "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "sample": "npx ts-node  -r tsconfig-paths/register"
   },
   "repository": {
     "type": "git",

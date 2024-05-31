@@ -1,5 +1,6 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
 export const graph_data = {
@@ -85,7 +86,7 @@ export const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents, ...llm_agents }, () => {}, false);
   console.log("Complete", result);
 };
 

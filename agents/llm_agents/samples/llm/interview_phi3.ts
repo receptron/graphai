@@ -1,5 +1,6 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
 const system_interviewer =
@@ -136,7 +137,7 @@ export const main = async () => {
     __dirname + "/../",
     __filename,
     graph_data,
-    agents,
+    { ...agents, ...llm_agents },
     () => {},
     false,
   );

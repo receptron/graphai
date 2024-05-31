@@ -1,5 +1,6 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
 const system_interviewer =
@@ -9,12 +10,14 @@ export const graph_data = {
   version: 0.3,
   nodes: {
     name: {
+      // Asks the user to enter the name of the person to interview.
       agent: "textInputAgent",
       params: {
-        message: "Name of a famous person you want to interview:",
+        message: "インタビューしたい人の名前を入力してください:",
       },
     },
     context: {
+      // prepares the context for this interview.
       agent: "stringTemplateAgent",
       params: {
         template: {
@@ -32,6 +35,7 @@ export const graph_data = {
       inputs: [":name"],
     },
     messages: {
+      // Prepares the conversation with one system message and one user message
       agent: "propertyFilterAgent",
       params: {
         inject: [
@@ -49,7 +53,9 @@ export const graph_data = {
       },
       inputs: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"],
     },
+
     chat: {
+      // performs the conversation using nested graph
       agent: "nestedAgent",
       inputs: [":messages", ":context"],
       params: {
@@ -62,27 +68,35 @@ export const graph_data = {
         },
         nodes: {
           messages: {
-            // This node holds the conversation, array of messages.
-            value: [], // to be filled with inputs[0]
+            // Holds the conversation, array of messages.
+            value: [], // to be filled with inputs[2]
             update: ":swappedMessages",
             isResult: true,
           },
           context: {
+            // Holds the context, which is swapped for each iteration.
             value: {}, // te be mfilled with inputs[1]
             update: ":swappedContext",
           },
-          llm: {
-            // This node sends those messages to the llm to get the answer.
+          groq: {
+            // Sends those messages to the LLM to get a response.
             agent: "openAIAgent",
             params: {
-              model: "llama3",
-              baseURL: "http://127.0.0.1:11434/v1",
-              apiKey: "ollama",
+              model: "gpt-4o",
             },
             inputs: [undefined, ":messages"],
           },
+          translate: {
+            // Asks the LLM to translate it into Japanese.
+            agent: "openAIAgent",
+            params: {
+              system: "この文章を日本語に訳して。意訳でも良いので、出来るだけ自然に相手に敬意を払う言葉遣いで。余計なことは書かずに、翻訳の結果だけ返して。",
+              model: "gpt-4o",
+            },
+            inputs: [":messages.$last.content"],
+          },
           output: {
-            // This node displays the responce to the user.
+            // Displays the response to the user.
             agent: "stringTemplateAgent",
             params: {
               template: "\x1b[32m${1}:\x1b[0m ${0}\n",
@@ -90,14 +104,15 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: [":llm.choices.$0.message.content", ":context.person0.name"],
+            inputs: [":translate.choices.$0.message.content", ":context.person1.name"],
           },
           reducer: {
-            // This node append the responce to the messages.
+            // Append the responce to the messages.
             agent: "pushAgent",
-            inputs: [":messages", ":llm.choices.$0.message"],
+            inputs: [":messages", ":groq.choices.$0.message"],
           },
           swappedContext: {
+            // Swaps the context
             agent: "propertyFilterAgent",
             params: {
               swap: {
@@ -105,8 +120,10 @@ export const graph_data = {
               },
             },
             inputs: [":context"],
+            isResult: true,
           },
           swappedMessages: {
+            // Swaps the user and assistant of messages
             agent: "propertyFilterAgent",
             params: {
               inject: [
@@ -124,9 +141,29 @@ export const graph_data = {
               },
             },
             inputs: [":reducer", ":swappedContext.person0.system"],
+            isResult: true,
           },
         },
       },
+    },
+    translate: {
+      // This node sends those messages to Llama3 on groq to get the answer.
+      agent: "openAIAgent",
+      params: {
+        system: "この文章を日本語に訳して。出来るだけ自然な口語に。余計なことは書かずに、翻訳の結果だけ返して。",
+      },
+      inputs: [":chat.swappedMessages.$last.content"],
+    },
+    output: {
+      // This node displays the responce to the user.
+      agent: "stringTemplateAgent",
+      params: {
+        template: "\x1b[32m${1}:\x1b[0m ${0}\n",
+      },
+      console: {
+        after: true,
+      },
+      inputs: [":translate.choices.$0.message.content", ":chat.swappedContext.person1.name"],
     },
   },
 };
@@ -136,12 +173,12 @@ export const main = async () => {
     __dirname + "/../",
     __filename,
     graph_data,
-    agents,
+    { ...agents, ...llm_agents },
     () => {},
     false,
   );
   if (result?.chat) {
-    console.log("Complete", result.chat.messages.length);
+    console.log("Complete", result.chat["messages"].length);
   }
 };
 
