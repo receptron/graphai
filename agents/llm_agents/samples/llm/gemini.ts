@@ -1,6 +1,7 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "@/utils/test_runner";
-import * as agents from "@graphai/agents";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as agents from "@/index";
+import { copyAgent } from "@graphai/agents";
 
 const query = "hello";
 
@@ -22,7 +23,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents);
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { copyAgent, ...agents });
   console.log(result.result);
 };
 
