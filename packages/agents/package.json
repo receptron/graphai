@@ -30,8 +30,7 @@
     "@graphai/llm_agents": "^0.0.1",
     "@graphai/service_agents": "^0.0.2",
     "@graphai/sleeper_agents": "^0.0.1",
-    "@graphai/vanilla": "^0.0.1",
-    "tiktoken": "^1.0.14"
+    "@graphai/vanilla": "^0.0.1"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
