@@ -13,15 +13,9 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tokenBoundStringsAgent = void 0;
 __exportStar(require("@graphai/input_agents"), exports);
 __exportStar(require("@graphai/data_agents"), exports);
 __exportStar(require("@graphai/llm_agents"), exports);
 __exportStar(require("@graphai/service_agents"), exports);
 __exportStar(require("@graphai/sleeper_agents"), exports);
-const token_agent_1 = __importDefault(require("./token_agent"));
-exports.tokenBoundStringsAgent = token_agent_1.default;
