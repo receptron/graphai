@@ -1,7 +1,8 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@graphai/test_utils";
 import * as llm_agents from "@/index";
-import * as agents from "@graphai/agents";
+import * as service_agents from "@graphai/service_agents";
+import * as vanilla from "@graphai/vanilla";
 
 export const graph_data = {
   version: 0.3,
@@ -101,7 +102,7 @@ export const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", "sample_wiki.log", graph_data, { ...agents, ...llm_agents }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname + "/../", "sample_wiki.log", graph_data, { ...service_agents, ...vanilla, ...llm_agents }, () => {}, false);
   console.log(result);
 };
 if (process.argv[1] === __filename) {
