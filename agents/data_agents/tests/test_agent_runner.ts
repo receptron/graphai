@@ -1,4 +1,4 @@
-import * as packages from "@/agents";
+import * as packages from "@/index";
 import { agentTestRunner } from "@graphai/test_utils";
 
 const main = async () => {
