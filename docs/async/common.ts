@@ -8,22 +8,22 @@ export const FuncA = async () => {
 };
 
 export const FuncB = async () => {
-  await sleep(150);
+  await sleep(100);
   return { B: true };
 };
 
 export const FuncC = async () => {
-  await sleep(100);
+  await sleep(150);
   return { C: true };
 };
 
 export const FuncD = async (a: any, b: any) => {
-  await sleep(50);
+  await sleep(100);
   return { D: true, ...a, ...b };
 }
 
 export const FuncE = async (b: any, c: any) => {
-  await sleep(100);
+  await sleep(50);
   return { E: true, ...b, ...c };
 }
 

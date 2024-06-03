@@ -22,6 +22,17 @@ const Answer3 = async () => {
   return await FuncF(d, e);
 }
 
+const Answer4 = async () => {
+  const promiseA = FuncA();
+  const promiseC = FuncC();
+  const b = await FuncB();
+  const [d, e] = await Promise.all([
+    promiseA.then(a => FuncD(a, b)), 
+    promiseC.then(c => FuncE(b, c))
+  ]);
+  return FuncF(d, e);
+}
+
 const timer = async (p: Promise<any>) => {
   const now = Date.now();
   const result = await p;
@@ -32,6 +43,7 @@ const main = async () => {
   console.log(await timer(Answer1()));
   console.log(await timer(Answer2()));
   console.log(await timer(Answer3()));
+  console.log(await timer(Answer4()));
 };
 
 if (process.argv[1] === __filename) {
