@@ -1,0 +1,73 @@
+import "dotenv/config";
+import { graphDataTestRunner } from "@graphai/test_utils";
+import * as llm_agents from "@/index";
+import * as agents from "@graphai/agents";
+
+const system_interviewer =
+  "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
+
+export const graph_data = {
+  version: 0.3,
+  nodes: {
+    word: {
+      agent: "textInputAgent",
+      params: {
+        message: "勉強したい英語の単語を入力してください:",
+      },
+    },
+    meaning_llm: {
+      agent: "openAIAgent",
+      params: {
+        system: "You are a dictionary writer. Write the meaning of the given word."
+      },
+      inputs: [":word"]
+    },
+    meaning: {
+      agent: "copyAgent",
+      isResult: true,
+      inputs: [":meaning_llm.choices.$0.message.content"]
+    },
+    meaning_jp_llm: {
+      agent: "openAIAgent",
+      params: {
+        system: "あなたは英語の教師です。与えられた単語の意味を日本語で説明してください。"
+      },
+      inputs: [":word"]
+    },
+    meaning_jp: {
+      agent: "copyAgent",
+      isResult: true,
+      inputs: [":meaning_jp_llm.choices.$0.message.content"]
+    },
+    samples_llm: {
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        system: "与えられた単語を含む、英語の文章を10個作って、日本語に訳して。あまり難しい単語は使わずに。フォーマットはJSONで、以下のフォーマットで。\n"
+          + "```json\n[{en:'Hello.', jp:'こんにちは。']\n```"
+      },
+      inputs: [":word"]
+    },
+    samples: {
+      agent: "copyAgent",
+      isResult: true,
+      inputs: [":samples_llm.choices.$0.message.content"]
+    },
+  },
+};
+
+export const main = async () => {
+  const result = await graphDataTestRunner<{ messages: { role: string; content: string }[] }>(
+    __dirname + "/../",
+    __filename,
+    graph_data,
+    { ...agents, ...llm_agents },
+    () => {},
+    false,
+  );
+  console.log(result);
+};
+
+if (process.argv[1] === __filename) {
+  main();
+}
