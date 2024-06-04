@@ -72,7 +72,7 @@ export const graph_data = {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
-        system: "あなたは英語の教師です。与えられた単語の語源を解説して。",
+        system: "あなたは英語の教師です。与えられた単語の語源を日本語で解説して。",
       },
       inputs: [":word"],
     },
