@@ -3,9 +3,6 @@ import { graphDataTestRunner } from "@graphai/test_utils";
 import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
-const system_interviewer =
-  "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
-
 export const graph_data = {
   version: 0.3,
   nodes: {
