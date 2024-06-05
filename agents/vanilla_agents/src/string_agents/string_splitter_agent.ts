@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { AgentFunction /*, AgentFunctionInfo */ } from "graphai";
 
 import assert from "node:assert";
 
