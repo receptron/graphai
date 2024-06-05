@@ -68,6 +68,7 @@ export class ComputedNode extends Node {
 
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: Array<DataSource>; // data sources, the order is significant.
+  public inputNames?: Array<string>; // names of named inputs
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
@@ -104,6 +105,7 @@ export class ComputedNode extends Node {
     } else {
       const inputs = data.inputs as Record<string, any>;
       const keys = Object.keys(inputs);
+      this.inputNames = keys;
       this.dataSources = keys.map((key) => parseNodeName(inputs[key], graph.version));
     }
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
@@ -309,6 +311,12 @@ export class ComputedNode extends Node {
         agentFilters: this.graph.agentFilters,
         log: localLog,
       };
+      if (this.inputNames) {
+        context.namedInputs = this.inputNames.reduce((tmp: Record<string, any>, name, index) => {
+          tmp[name] = previousResults[index];
+          return tmp;
+        }, {});
+      }
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
