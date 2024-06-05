@@ -7,6 +7,11 @@ const graph_data = {
       value: "Hello World",
     },
     result: {
+      agent: (input: string) => input,
+      inputs: [":message"],
+      isResult: true,
+    },
+    namedResult: {
       agent: (object: any) => object.input,
       inputs: { input: ":message" },
       isResult: true,
@@ -20,5 +25,5 @@ import assert from "node:assert";
 test("test named inputs", async () => {
   const graph = new GraphAI(graph_data, {},  {});
   const result = await graph.run();
-  assert.deepStrictEqual(result, { result: "Hello World" });
+  assert.deepStrictEqual(result, { result: "Hello World", namedResult: "Hello World" });
 });

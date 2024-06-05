@@ -322,6 +322,7 @@ export class ComputedNode extends Node {
           tmp[name] = previousResults[index];
           return tmp;
         }, {});
+        context.inputs = [];
       }
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
