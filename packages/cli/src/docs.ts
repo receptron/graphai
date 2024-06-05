@@ -76,7 +76,7 @@ const main = () => {
   const base_path = __dirname + "/../../../docs/agentDocs/";
   Object.values(packages).map((agent) => {
     const md = agentMd(agent);
-    agent.category.map(async (cat) => {
+    agent.category.map(async (cat: string) => {
       if (!ret[cat]) {
         ret[cat] = {};
       }
