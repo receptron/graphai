@@ -8,7 +8,7 @@ const graph_data = {
     },
     result: {
       agent: (input: any) => input,
-      inputs: [":message"],
+      inputs: { input: ":message" },
       isResult: true,
     }
   },

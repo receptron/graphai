@@ -97,7 +97,15 @@ export class ComputedNode extends Node {
     this.priority = data.priority ?? 0;
 
     this.anyInput = data.anyInput ?? false;
-    this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
+    if (!data.inputs) {
+      this.dataSources = [];
+    } else if (Array.isArray(data.inputs)) {
+      this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
+    } else {
+      const inputs = data.inputs as Record<string, any>;
+      const keys = Object.keys(inputs);
+      this.dataSources = keys.map((key) => parseNodeName(inputs[key], graph.version));
+    }
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
     if (typeof data.graph === "string") {
       const source = parseNodeName(data.graph, graph.version);
