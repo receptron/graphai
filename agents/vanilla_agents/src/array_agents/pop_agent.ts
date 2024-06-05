@@ -25,6 +25,7 @@ const popAgentInfo = {
     required: ["array"],
   },
   output: {
+    type: "object",
     properties: {
       item: {
         type: "any",

@@ -1,12 +1,12 @@
 import { AgentFunction } from "graphai";
 
-export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ inputs }) => {
-  const array = inputs[0].map((item) => item); // shallow copy
-  inputs.forEach((input, index) => {
-    if (index > 0) {
-      array.push(input);
-    }
-  });
+import assert from "node:assert";
+
+export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ namedInputs }) => {
+  assert(namedInputs, "namedInputs is UNDEFINED!");
+  const { item } = namedInputs;  
+  const array = namedInputs.array.map((item:any) => item); // shallow copy
+  array.push(item);
   return array;
 };
 
@@ -14,19 +14,30 @@ const pushAgentInfo = {
   name: "pushAgent",
   agent: pushAgent,
   mock: pushAgent,
+  inputs: {
+    properties: {
+      array: {
+        type: "array",
+        description: "the array to push an item to",
+      },
+      item: {
+        type: "any",
+        description: "the item push into the array",
+      },
+    },
+    required: ["array", "item"],
+  },
+  output: {
+    type: "array"
+  },
   samples: [
     {
-      inputs: [[1, 2], 3],
+      inputs: { array:[1, 2], item:3 },
       params: {},
       result: [1, 2, 3],
     },
     {
-      inputs: [[1, 2], 3, 4, 5],
-      params: {},
-      result: [1, 2, 3, 4, 5],
-    },
-    {
-      inputs: [[{ apple: 1 }], { lemon: 2 }],
+      inputs: { array:[{ apple: 1 }], item:{ lemon: 2 }},
       params: {},
       result: [{ apple: 1 }, { lemon: 2 }],
     },

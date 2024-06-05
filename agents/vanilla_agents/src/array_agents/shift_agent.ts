@@ -25,6 +25,7 @@ const shiftAgentInfo = {
     required: ["array"],
   },
   output: {
+    type: "object",
     properties: {
       item: {
         type: "any",
