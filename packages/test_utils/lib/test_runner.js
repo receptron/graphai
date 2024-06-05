@@ -86,11 +86,7 @@ const agentTestRunner = async (agentInfo) => {
                 const actual = await agent({
                     ...graphai_1.defaultTestContext,
                     params,
-<<<<<<< HEAD
-                    inputs: arrayInputs,
-=======
                     inputs: flatInputs,
->>>>>>> main
                     namedInputs,
                     graphData: graph,
                 });
