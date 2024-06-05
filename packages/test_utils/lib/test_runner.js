@@ -81,12 +81,16 @@ const agentTestRunner = async (agentInfo) => {
         for await (const sampleKey of samples.keys()) {
             (0, node_test_1.default)(`test ${agentInfo.name} ${sampleKey}`, async () => {
                 const { params, inputs, result, graph } = samples[sampleKey];
-                const arrayInputs = Array.isArray(inputs) ? inputs: [];
+                const flatInputs = Array.isArray(inputs) ? inputs : [];
                 const namedInputs = Array.isArray(inputs) ? {} : inputs;
                 const actual = await agent({
                     ...graphai_1.defaultTestContext,
                     params,
+<<<<<<< HEAD
                     inputs: arrayInputs,
+=======
+                    inputs: flatInputs,
+>>>>>>> main
                     namedInputs,
                     graphData: graph,
                 });

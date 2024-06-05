@@ -250,6 +250,7 @@ class ComputedNode extends Node {
             const context = {
                 params: params,
                 inputs: previousResults,
+                namedInputs: {},
                 debugInfo: {
                     nodeId: this.nodeId,
                     agentId: this.agentId,
