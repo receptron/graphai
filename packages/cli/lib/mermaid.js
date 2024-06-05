@@ -9,15 +9,31 @@ const mermaid = (graphData) => {
         // label / name
         if ("agent" in node) {
             if (node.inputs) {
-                node.inputs.forEach((input) => {
-                    const source = (0, utils_1.parseNodeName)(input, graphData.version ?? 0.2);
-                    if (source.propIds) {
-                        console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
-                    }
-                    else {
-                        console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
-                    }
-                });
+                if (Array.isArray(node.inputs)) {
+                    node.inputs.forEach((input) => {
+                        const source = (0, utils_1.parseNodeName)(input, graphData.version ?? 0.2);
+                        if (source.propIds) {
+                            console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
+                        }
+                        else {
+                            console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
+                        }
+                    });
+                }
+                else {
+                    // LATER: Display the inputName as well.
+                    const inputNames = Object.keys(node.inputs);
+                    inputNames.forEach((inputName) => {
+                        const input = node.inputs[inputName];
+                        const source = (0, utils_1.parseNodeName)(input, graphData.version ?? 0.2);
+                        if (source.propIds) {
+                            console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
+                        }
+                        else {
+                            console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
+                        }
+                    });
+                }
             }
         }
         if ("value" in node) {
