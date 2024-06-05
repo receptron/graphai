@@ -1,10 +1,14 @@
 import { AgentFunction } from "graphai";
 
+import assert from "node:assert";
+
 export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async (context) => {
-  const { inputs } = context;
-  const array = inputs[0].map((item) => item); // shallow copy
-  const item = array.pop();
-  return { array, item };
+  const { namedInputs } = context;
+  assert(namedInputs, "namedInputs is UNDEFINED!");
+  const { array } = namedInputs;
+  const arrayCopy = array.map((item: any) => item); // shallow copy
+  const item = arrayCopy.pop();
+  return { array: arrayCopy, item };
 };
 
 const popAgentInfo = {
@@ -13,7 +17,7 @@ const popAgentInfo = {
   mock: popAgent,
   samples: [
     {
-      inputs: [[1, 2, 3]],
+      inputs: { array: [1, 2, 3] },
       params: {},
       result: {
         array: [1, 2],
@@ -21,7 +25,7 @@ const popAgentInfo = {
       },
     },
     {
-      inputs: [["a", "b", "c"]],
+      inputs: { array: ["a", "b", "c"] },
       params: {},
       result: {
         array: ["a", "b"],
@@ -29,10 +33,10 @@ const popAgentInfo = {
       },
     },
     {
-      inputs: [
-        [1, 2, 3],
-        ["a", "b", "c"],
-      ],
+      inputs: {
+        array: [1, 2, 3],
+        array2: ["a", "b", "c"],
+      },
       params: {},
       result: {
         array: [1, 2],
