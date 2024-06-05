@@ -32,7 +32,7 @@ const graphdata_nested = {
           },
           reducer: {
             agent: "pushAgent",
-            inputs: [":array", ":item"],
+            inputs: { array:":array", item:":item" },
             isResult: true,
           },
         },
@@ -75,12 +75,12 @@ const graphdata_pop = {
             isResult: true,
           },
           popper: {
-            inputs: [":$0"],
+            inputs: { array:":$0" },
             agent: "popAgent", // returns { array, item }
           },
           reducer: {
             agent: "pushAgent",
-            inputs: [":result", ":popper.item"],
+            inputs: { array:":result", item:":popper.item"},
           },
         },
       },
@@ -128,7 +128,7 @@ const graphdata_nested_injection = {
           },
           reducer: {
             agent: "pushAgent",
-            inputs: [":array", ":item"],
+            inputs: { array:":array", item:":item" },
             isResult: true,
           },
         },

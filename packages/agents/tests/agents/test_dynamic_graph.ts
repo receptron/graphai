@@ -24,7 +24,7 @@ const graphdata_child = {
     reducer: {
       isResult: true,
       agent: "pushAgent",
-      inputs: [":array", ":item"],
+      inputs: { array:":array", item: ":item"},
     },
   },
 };

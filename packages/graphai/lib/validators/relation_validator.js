@@ -29,7 +29,7 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
                 const keys = Object.keys(nodeData.inputs);
                 keys.forEach((key) => {
                     const inputNodeId = nodeData.inputs[key];
-                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId, data.version ?? 0.2).nodeId;
+                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId, data.version ?? 0.3).nodeId;
                     if (sourceNodeId) {
                         if (!nodeIds.has(sourceNodeId)) {
                             throw new common_1.ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);

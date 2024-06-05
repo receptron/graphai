@@ -24,7 +24,7 @@ const graphdata_push = {
     reducer: {
       isResult: true,
       agent: "pushAgent",
-      inputs: [":array", ":item"],
+      inputs: { array:":array", item: ":item"},
     },
   },
 };
@@ -53,12 +53,12 @@ const graphdata_pop = {
       update: ":reducer",
     },
     popper: {
-      inputs: [":source"],
+      inputs: { array:":source" },
       agent: "popAgent", // returns { array, item }
     },
     reducer: {
       agent: "pushAgent",
-      inputs: [":result", ":popper.item"],
+      inputs: { array:":result", item:":popper.item" },
     },
   },
 };

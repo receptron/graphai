@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.popAgent = void 0;
-const popAgent = async (context) => {
-    const { inputs } = context;
-    const array = inputs[0].map((item) => item); // shallow copy
+const node_assert_1 = __importDefault(require("node:assert"));
+const popAgent = async ({ namedInputs }) => {
+    (0, node_assert_1.default)(namedInputs, "popAgent: namedInputs is UNDEFINED!");
+    const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };
 };
@@ -12,9 +16,32 @@ const popAgentInfo = {
     name: "popAgent",
     agent: exports.popAgent,
     mock: exports.popAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "the array to pop an item from",
+            },
+        },
+        required: ["array"],
+    },
+    output: {
+        type: "object",
+        properties: {
+            item: {
+                type: "any",
+                description: "the item popped from the array",
+            },
+            array: {
+                type: "array",
+                description: "the remaining array",
+            },
+        },
+    },
     samples: [
         {
-            inputs: [[1, 2, 3]],
+            inputs: { array: [1, 2, 3] },
             params: {},
             result: {
                 array: [1, 2],
@@ -22,7 +49,7 @@ const popAgentInfo = {
             },
         },
         {
-            inputs: [["a", "b", "c"]],
+            inputs: { array: ["a", "b", "c"] },
             params: {},
             result: {
                 array: ["a", "b"],
@@ -30,10 +57,10 @@ const popAgentInfo = {
             },
         },
         {
-            inputs: [
-                [1, 2, 3],
-                ["a", "b", "c"],
-            ],
+            inputs: {
+                array: [1, 2, 3],
+                array2: ["a", "b", "c"],
+            },
             params: {},
             result: {
                 array: [1, 2],

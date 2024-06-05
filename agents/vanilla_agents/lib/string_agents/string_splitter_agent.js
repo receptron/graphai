@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringSplitterAgent = void 0;
+const node_assert_1 = __importDefault(require("node:assert"));
 // This agent strip one long string into chunks using following parameters
 //
 //  chunkSize: number; // default is 2048
@@ -10,8 +14,9 @@ exports.stringSplitterAgent = void 0;
 //  tests/agents/test_string_agent.ts
 //
 const defaultChunkSize = 2048;
-const stringSplitterAgent = async ({ params, inputs }) => {
-    const source = inputs[0];
+const stringSplitterAgent = async ({ params, namedInputs }) => {
+    (0, node_assert_1.default)(namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+    const source = namedInputs.text;
     const chunkSize = params.chunkSize ?? defaultChunkSize;
     const overlap = params.overlap ?? Math.floor(chunkSize / 8);
     const count = Math.floor(source.length / (chunkSize - overlap)) + 1;
@@ -23,9 +28,9 @@ const stringSplitterAgent = async ({ params, inputs }) => {
 };
 exports.stringSplitterAgent = stringSplitterAgent;
 // for test and document
-const sampleInput = [
-    "Here's to the crazy ones, the misfits, the rebels, the troublemakers, the round pegs in the square holes ... the ones who see things differently -- they're not fond of rules, and they have no respect for the status quo. ... You can quote them, disagree with them, glorify or vilify them, but the only thing you can't do is ignore them because they change things. ... They push the human race forward, and while some may see them as the crazy ones, we see genius, because the people who are crazy enough to think that they can change the world, are the ones who do.",
-];
+const sampleInput = {
+    text: "Here's to the crazy ones, the misfits, the rebels, the troublemakers, the round pegs in the square holes ... the ones who see things differently -- they're not fond of rules, and they have no respect for the status quo. ... You can quote them, disagree with them, glorify or vilify them, but the only thing you can't do is ignore them because they change things. ... They push the human race forward, and while some may see them as the crazy ones, we see genius, because the people who are crazy enough to think that they can change the world, are the ones who do.",
+};
 const sampleParams = { chunkSize: 64 };
 const sampleResult = {
     contents: [
@@ -45,10 +50,41 @@ const sampleResult = {
     chunkSize: 64,
     overlap: 8,
 };
-const stringSplitterAgentInfo = {
+const stringSplitterAgentInfo /*: AgentFunctionInfo */ = {
     name: "stringSplitterAgent",
     agent: exports.stringSplitterAgent,
     mock: exports.stringSplitterAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "text to be chuncked",
+            },
+        },
+        required: ["text"],
+    },
+    output: {
+        type: "object",
+        properties: {
+            contents: {
+                type: "array",
+                description: "the array of text chunks",
+            },
+            count: {
+                type: "number",
+                description: "the number of chunks",
+            },
+            chunkSize: {
+                type: "number",
+                description: "the chunk size",
+            },
+            overlap: {
+                type: "number",
+                description: "the overlap size",
+            },
+        },
+    },
     samples: [
         {
             inputs: sampleInput,
