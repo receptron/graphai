@@ -25,7 +25,21 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
             waitlist[sourceNodeId].add(computedNodeId);
           }
         });
-      } // LATER: validate object case
+      } else {
+        const keys = Object.keys(nodeData.inputs);
+        keys.forEach((key) => {
+          const inputNodeId = (nodeData.inputs as Record<string, any>)[key];
+          const sourceNodeId = parseNodeName(inputNodeId, data.version ?? 0.02).nodeId;
+          if (sourceNodeId) {
+            if (!nodeIds.has(sourceNodeId)) {
+              throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+            }
+            waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
+            pendings[computedNodeId].add(sourceNodeId);
+            waitlist[sourceNodeId].add(computedNodeId);
+          }
+        });
+      }
     }
   });
 
