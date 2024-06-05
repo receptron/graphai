@@ -3,7 +3,7 @@ import { AgentFunction } from "graphai";
 import assert from "node:assert";
 
 export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ namedInputs }) => {
-  assert(namedInputs, "namedInputs is UNDEFINED!");
+  assert(namedInputs, "pushAgent: namedInputs is UNDEFINED!");
   const { item } = namedInputs;  
   const array = namedInputs.array.map((item:any) => item); // shallow copy
   array.push(item);
