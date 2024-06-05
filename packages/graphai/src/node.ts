@@ -68,6 +68,7 @@ export class ComputedNode extends Node {
 
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: Array<DataSource>; // data sources, the order is significant.
+  public inputNames?: Array<string>; // names of named inputs
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
@@ -82,23 +83,38 @@ export class ComputedNode extends Node {
     this.params = data.params ?? {};
     this.console = data.console ?? {};
     this.filterParams = data.filterParams ?? {};
-    if (typeof data.agent === "string") {
-      this.agentId = data.agent;
-    } else {
-      assert(typeof data.agent === "function", "agent must be either string or function");
-      const agent = data.agent;
-      this.agentFunction = async ({ inputs }) => {
-        return agent(...inputs);
-      };
-    }
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
     this.priority = data.priority ?? 0;
 
     this.anyInput = data.anyInput ?? false;
-    this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
+    if (!data.inputs) {
+      this.dataSources = [];
+    } else if (Array.isArray(data.inputs)) {
+      this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
+    } else {
+      const inputs = data.inputs as Record<string, any>;
+      const keys = Object.keys(inputs);
+      this.inputNames = keys;
+      this.dataSources = keys.map((key) => parseNodeName(inputs[key], graph.version));
+    }
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
+    if (typeof data.agent === "string") {
+      this.agentId = data.agent;
+    } else {
+      assert(typeof data.agent === "function", "agent must be either string or function");
+      const agent = data.agent;
+      if (this.inputNames) {
+        this.agentFunction = async ({ namedInputs }) => {
+          return agent(namedInputs);
+        };
+      } else {
+        this.agentFunction = async ({ inputs }) => {
+          return agent(...inputs);
+        };
+      }
+    }
     if (typeof data.graph === "string") {
       const source = parseNodeName(data.graph, graph.version);
       assert(!!source.nodeId, `Invalid data source ${data.graph}`);
@@ -301,6 +317,13 @@ export class ComputedNode extends Node {
         agentFilters: this.graph.agentFilters,
         log: localLog,
       };
+      if (this.inputNames) {
+        context.namedInputs = this.inputNames.reduce((tmp: Record<string, any>, name, index) => {
+          tmp[name] = previousResults[index];
+          return tmp;
+        }, {});
+        context.inputs = [];
+      }
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.

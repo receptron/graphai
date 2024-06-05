@@ -37,7 +37,7 @@ export type AgentFilterParams = Record<string, any>;
 
 export type ComputedNodeData = {
   agent: string | AgentAnonymousFunction;
-  inputs?: Array<any>;
+  inputs?: Array<any> | Record<string, any>;
   anyInput?: boolean; // any input makes this node ready
   params?: NodeDataParams;
   filterParams?: AgentFilterParams; // agent filter
@@ -76,6 +76,7 @@ export type GraphOptions = {
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData> = {
   params: NodeDataParams<ParamsType>;
   inputs: Array<InputDataType>;
+  namedInputs?: Record<string, any>;
   debugInfo: {
     verbose: boolean;
     nodeId: string;

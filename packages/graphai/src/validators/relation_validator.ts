@@ -13,17 +13,33 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     const nodeData = data.nodes[computedNodeId];
     pendings[computedNodeId] = new Set<string>();
     if ("inputs" in nodeData && nodeData && nodeData.inputs) {
-      nodeData.inputs.forEach((inputNodeId) => {
-        const sourceNodeId = parseNodeName(inputNodeId, data.version ?? 0.02).nodeId;
-        if (sourceNodeId) {
-          if (!nodeIds.has(sourceNodeId)) {
-            throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+      if (Array.isArray(nodeData.inputs)) {
+        nodeData.inputs.forEach((inputNodeId) => {
+          const sourceNodeId = parseNodeName(inputNodeId, data.version ?? 0.02).nodeId;
+          if (sourceNodeId) {
+            if (!nodeIds.has(sourceNodeId)) {
+              throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+            }
+            waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
+            pendings[computedNodeId].add(sourceNodeId);
+            waitlist[sourceNodeId].add(computedNodeId);
           }
-          waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
-          pendings[computedNodeId].add(sourceNodeId);
-          waitlist[sourceNodeId].add(computedNodeId);
-        }
-      });
+        });
+      } else {
+        const keys = Object.keys(nodeData.inputs);
+        keys.forEach((key) => {
+          const inputNodeId = (nodeData.inputs as Record<string, any>)[key];
+          const sourceNodeId = parseNodeName(inputNodeId, data.version ?? 0.2).nodeId;
+          if (sourceNodeId) {
+            if (!nodeIds.has(sourceNodeId)) {
+              throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+            }
+            waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
+            pendings[computedNodeId].add(sourceNodeId);
+            waitlist[sourceNodeId].add(computedNodeId);
+          }
+        });
+      }
     }
   });
 
