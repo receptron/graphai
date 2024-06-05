@@ -84,7 +84,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
     for await (const sampleKey of samples.keys()) {
       test(`test ${agentInfo.name} ${sampleKey}`, async () => {
         const { params, inputs, result, graph } = samples[sampleKey];
-        const flatInputs = Array.isArray(inputs)? inputs : [];
+        const flatInputs = Array.isArray(inputs) ? inputs : [];
         const namedInputs = Array.isArray(inputs) ? {} : inputs;
 
         const actual = await agent({
