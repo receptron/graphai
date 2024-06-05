@@ -19,6 +19,7 @@ test("test nest agent", async () => {
       },
     },
     inputs: [{ apple: "red" }, { lemon: "yellow" }, { orange: "orange" }],
+    namedInputs: {},
   });
   assert.deepStrictEqual(result, {
     node1: { apple: "red", lemon: "yellow", orange: "orange" },
@@ -42,6 +43,7 @@ test("test nest agent, eval", async () => {
     agents: { sleeperAgent },
     graphData: "$0",
     inputs: [dynamic_graph, { apple: "red" }, { lemon: "yellow" }, { orange: "orange" }],
+    namedInputs: {},
   });
   assert.deepStrictEqual(result, {
     node1: { apple: "red", lemon: "yellow", orange: "orange" },
