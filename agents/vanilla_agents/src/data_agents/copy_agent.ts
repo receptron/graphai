@@ -13,7 +13,7 @@ const copyAgentInfo = {
     type: "array",
   },
   output: {
-    type: "any"
+    type: "any",
   },
   samples: [
     {

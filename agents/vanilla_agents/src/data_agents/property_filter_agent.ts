@@ -84,7 +84,7 @@ const propertyFilterAgentInfo = {
     type: "array",
   },
   output: {
-    type: "any"
+    type: "any",
   },
   samples: [
     {

@@ -26,7 +26,7 @@ const totalAgentInfo = {
     type: "array",
   },
   output: {
-    type: "any"
+    type: "any",
   },
   samples: [
     {

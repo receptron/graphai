@@ -6,7 +6,6 @@ export const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, nu
   }, 0);
 };
 
-
 const dataSumTemplateAgentInfo = {
   name: "dataSumTemplateAgent",
   agent: dataSumTemplateAgent,
@@ -15,7 +14,7 @@ const dataSumTemplateAgentInfo = {
     type: "array",
   },
   output: {
-    type: "number"
+    type: "number",
   },
   samples: [
     {

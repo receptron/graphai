@@ -4,8 +4,8 @@ import assert from "node:assert";
 
 export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ namedInputs }) => {
   assert(namedInputs, "pushAgent: namedInputs is UNDEFINED!");
-  const { item } = namedInputs;  
-  const array = namedInputs.array.map((item:any) => item); // shallow copy
+  const { item } = namedInputs;
+  const array = namedInputs.array.map((item: any) => item); // shallow copy
   array.push(item);
   return array;
 };
@@ -29,16 +29,16 @@ const pushAgentInfo = {
     required: ["array", "item"],
   },
   output: {
-    type: "array"
+    type: "array",
   },
   samples: [
     {
-      inputs: { array:[1, 2], item:3 },
+      inputs: { array: [1, 2], item: 3 },
       params: {},
       result: [1, 2, 3],
     },
     {
-      inputs: { array:[{ apple: 1 }], item:{ lemon: 2 }},
+      inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
       params: {},
       result: [{ apple: 1 }, { lemon: 2 }],
     },

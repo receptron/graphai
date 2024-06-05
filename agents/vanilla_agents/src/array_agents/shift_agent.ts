@@ -46,7 +46,7 @@ const shiftAgentInfo = {
       },
     },
     {
-      inputs: { array:["a", "b", "c"] },
+      inputs: { array: ["a", "b", "c"] },
       params: {},
       result: {
         array: ["b", "c"],
