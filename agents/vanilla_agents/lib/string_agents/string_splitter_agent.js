@@ -50,7 +50,7 @@ const sampleResult = {
     chunkSize: 64,
     overlap: 8,
 };
-const stringSplitterAgentInfo /*: AgentFunctionInfo */ = {
+const stringSplitterAgentInfo = {
     name: "stringSplitterAgent",
     agent: exports.stringSplitterAgent,
     mock: exports.stringSplitterAgent,

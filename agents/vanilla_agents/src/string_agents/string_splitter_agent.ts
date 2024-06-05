@@ -1,4 +1,4 @@
-import { AgentFunction /*, AgentFunctionInfo */ } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import assert from "node:assert";
 
@@ -60,7 +60,7 @@ const sampleResult = {
   overlap: 8,
 };
 
-const stringSplitterAgentInfo /*: AgentFunctionInfo */ = {
+const stringSplitterAgentInfo : AgentFunctionInfo = {
   name: "stringSplitterAgent",
   agent: stringSplitterAgent,
   mock: stringSplitterAgent,
