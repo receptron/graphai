@@ -6,21 +6,18 @@ export const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, nu
   }, 0);
 };
 
-// for test and document
-const sampleInputs = [1, 2, 3];
-const sampleParams = {};
-const sampleResult = 6;
 
 const dataSumTemplateAgentInfo = {
   name: "dataSumTemplateAgent",
   agent: dataSumTemplateAgent,
   mock: dataSumTemplateAgent,
+  inputs: {
+    type: "array",
+  },
+  output: {
+    type: "number"
+  },
   samples: [
-    {
-      inputs: sampleInputs,
-      params: sampleParams,
-      result: sampleResult,
-    },
     {
       inputs: [1],
       params: {},

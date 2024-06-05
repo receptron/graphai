@@ -80,6 +80,12 @@ const propertyFilterAgentInfo = {
   name: "propertyFilterAgent",
   agent: propertyFilterAgent,
   mock: propertyFilterAgent,
+  inputs: {
+    type: "array",
+  },
+  output: {
+    type: "any"
+  },
   samples: [
     {
       inputs: [testInputs[0][0]],
