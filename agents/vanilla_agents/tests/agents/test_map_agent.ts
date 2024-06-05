@@ -22,7 +22,7 @@ test("test map_agent", async () => {
       },
     },
     inputs: [[{ fruit: "apple" }, { fruit: "orange" }]],
-    namedInputs: {}
+    namedInputs: {},
   });
   assert.deepStrictEqual(result, {
     node2: ["I love apple.", "I love orange."],
