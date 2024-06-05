@@ -15,6 +15,27 @@ const popAgentInfo = {
   name: "popAgent",
   agent: popAgent,
   mock: popAgent,
+  inputs: {
+    properties: {
+      array: {
+        type: "array",
+        description: "the array to pop an item from",
+      },
+    },
+    required: ["array"],
+  },
+  output: {
+    properties: {
+      item: {
+        type: "any",
+        description: "the item popped from the array",
+      },
+      array: {
+        type: "array",
+        description: "the remaining array",
+      },
+    },
+  },
   samples: [
     {
       inputs: { array: [1, 2, 3] },
