@@ -18,6 +18,7 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
   const context = {
     params: agentParams || {},
     inputs,
+    namedInputs: {},
     debugInfo: {
       nodeId,
       retry,
