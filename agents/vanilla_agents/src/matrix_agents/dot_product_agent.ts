@@ -40,7 +40,7 @@ const dotProductAgentInfo = {
         description: "the vector",
       },
     },
-    required: ["array", "item"],
+    required: ["array", "vector"],
   },
   output: {
     type: "array"

@@ -39,6 +39,23 @@ const sortByValuesAgentInfo = {
   name: "sortByValuesAgent",
   agent: sortByValuesAgent,
   mock: sortByValuesAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      array: {
+        type: "array",
+        description: "the array to sort",
+      },
+      values: {
+        type: "array",
+        description: "values associated with items in the array",
+      },
+    },
+    required: ["array", "values"],
+  },
+  output: {
+    type: "array"
+  },
   samples: [
     {
       inputs: {
