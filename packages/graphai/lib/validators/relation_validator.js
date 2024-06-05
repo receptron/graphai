@@ -12,17 +12,34 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
         const nodeData = data.nodes[computedNodeId];
         pendings[computedNodeId] = new Set();
         if ("inputs" in nodeData && nodeData && nodeData.inputs) {
-            nodeData.inputs.forEach((inputNodeId) => {
-                const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId, data.version ?? 0.02).nodeId;
-                if (sourceNodeId) {
-                    if (!nodeIds.has(sourceNodeId)) {
-                        throw new common_1.ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+            if (Array.isArray(nodeData.inputs)) {
+                nodeData.inputs.forEach((inputNodeId) => {
+                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId, data.version ?? 0.02).nodeId;
+                    if (sourceNodeId) {
+                        if (!nodeIds.has(sourceNodeId)) {
+                            throw new common_1.ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+                        }
+                        waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set());
+                        pendings[computedNodeId].add(sourceNodeId);
+                        waitlist[sourceNodeId].add(computedNodeId);
                     }
-                    waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set());
-                    pendings[computedNodeId].add(sourceNodeId);
-                    waitlist[sourceNodeId].add(computedNodeId);
-                }
-            });
+                });
+            }
+            else {
+                const keys = Object.keys(nodeData.inputs);
+                keys.forEach((key) => {
+                    const inputNodeId = nodeData.inputs[key];
+                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId, data.version ?? 0.2).nodeId;
+                    if (sourceNodeId) {
+                        if (!nodeIds.has(sourceNodeId)) {
+                            throw new common_1.ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+                        }
+                        waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set());
+                        pendings[computedNodeId].add(sourceNodeId);
+                        waitlist[sourceNodeId].add(computedNodeId);
+                    }
+                });
+            }
         }
     });
     // TODO. validate update

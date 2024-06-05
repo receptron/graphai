@@ -29,6 +29,7 @@ export declare class ComputedNode extends Node {
     transactionId: undefined | number;
     readonly anyInput: boolean;
     dataSources: Array<DataSource>;
+    inputNames?: Array<string>;
     pendings: Set<string>;
     private ifSource?;
     private unlessSource?;
