@@ -42,7 +42,8 @@ Returns inputs[0]
 ```json
 
 [
-  "Hello World"
+  "Hello World",
+  "Discarded"
 ]
 
 ````

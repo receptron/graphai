@@ -11,33 +11,6 @@ Returns the sum of input values
 ```json
 
 [
-  1,
-  2,
-  3
-]
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-6
-
-````
-#### inputs
-
-```json
-
-[
   1
 ]
 
@@ -168,34 +141,9 @@ Returns the sum of input values
 }
 
 ````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
-}
-
-````
 
 ### Input Format
 
-```json
-
-[
-  ":agentId"
-]
-
-````
 ```json
 
 [

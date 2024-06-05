@@ -10,13 +10,13 @@ Pop Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     1,
     2,
     3
   ]
-]
+}
 
 ````
 
@@ -45,13 +45,13 @@ Pop Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     "a",
     "b",
     "c"
   ]
-]
+}
 
 ````
 
@@ -80,18 +80,18 @@ Pop Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     1,
     2,
     3
   ],
-  [
+  "array2": [
     "a",
     "b",
     "c"
   ]
-]
+}
 
 ````
 
@@ -124,27 +124,21 @@ Pop Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "array"
+  ]
 }
 
 ````
@@ -153,27 +147,21 @@ Pop Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "array"
+  ]
 }
 
 ````
@@ -182,36 +170,29 @@ Pop Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0",
-      "1"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
-      },
-      "1": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "array2": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "array",
+    "array2"
+  ]
 }
 
 ````

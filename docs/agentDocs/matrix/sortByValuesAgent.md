@@ -10,20 +10,20 @@ sortByValues Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     "banana",
     "orange",
     "lemon",
     "apple"
   ],
-  [
+  "values": [
     2,
     5,
     6,
     4
   ]
-]
+}
 
 ````
 
@@ -51,20 +51,20 @@ sortByValues Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     "banana",
     "orange",
     "lemon",
     "apple"
   ],
-  [
+  "values": [
     2,
     5,
     6,
     4
   ]
-]
+}
 
 ````
 
@@ -96,36 +96,29 @@ sortByValues Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0",
-      "1"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
-      },
-      "1": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "values": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "array",
+    "values"
+  ]
 }
 
 ````
@@ -134,36 +127,29 @@ sortByValues Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0",
-      "1"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
-      },
-      "1": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "values": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "array",
+    "values"
+  ]
 }
 
 ````

@@ -10,13 +10,13 @@ push Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     1,
     2
   ],
-  3
-]
+  "item": 3
+}
 
 ````
 
@@ -43,53 +43,16 @@ push Agent
 
 ```json
 
-[
-  [
-    1,
-    2
-  ],
-  3,
-  4,
-  5
-]
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-[
-  1,
-  2,
-  3,
-  4,
-  5
-]
-
-````
-#### inputs
-
-```json
-
-[
-  [
+{
+  "array": [
     {
       "apple": 1
     }
   ],
-  {
+  "item": {
     "lemon": 2
   }
-]
+}
 
 ````
 
@@ -123,27 +86,25 @@ push Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
+    },
+    "item": {
+      "type": "number"
     }
-  }
+  },
+  "required": [
+    "array",
+    "item"
+  ]
 }
 
 ````
@@ -152,75 +113,41 @@ push Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
-      }
-    }
-  }
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0",
-      "1"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "minItems": 1,
-        "items": {
-          "required": [
-            "apple"
-          ],
-          "properties": {
-            "apple": {
-              "type": "number"
-            }
-          }
-        }
-      },
-      "1": {
-        "type": "object",
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "apple"
+        ],
         "properties": {
-          "lemon": {
+          "apple": {
             "type": "number"
           }
-        },
-        "required": [
-          "lemon"
-        ]
+        }
       }
+    },
+    "item": {
+      "type": "object",
+      "properties": {
+        "lemon": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "lemon"
+      ]
     }
-  }
+  },
+  "required": [
+    "array",
+    "item"
+  ]
 }
 
 ````
@@ -234,18 +161,6 @@ push Agent
   ":agentId.$0",
   ":agentId.$1",
   ":agentId.$2"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2",
-  ":agentId.$3",
-  ":agentId.$4"
 ]
 
 ````

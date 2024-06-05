@@ -10,8 +10,8 @@ dotProduct Agent
 
 ```json
 
-[
-  [
+{
+  "matrix": [
     [
       1,
       2
@@ -25,11 +25,11 @@ dotProduct Agent
       6
     ]
   ],
-  [
+  "vector": [
     3,
     2
   ]
-]
+}
 
 ````
 
@@ -56,8 +56,8 @@ dotProduct Agent
 
 ```json
 
-[
-  [
+{
+  "matrix": [
     [
       1,
       2
@@ -67,11 +67,11 @@ dotProduct Agent
       3
     ]
   ],
-  [
+  "vector": [
     1,
     2
   ]
-]
+}
 
 ````
 
@@ -101,61 +101,54 @@ dotProduct Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0",
-      "1"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {
-            "0": {
-              "type": "array",
-              "uniqueItems": true,
-              "items": {
-                "required": [],
-                "properties": {}
-              }
-            },
-            "1": {
-              "type": "array",
-              "uniqueItems": true,
-              "items": {
-                "required": [],
-                "properties": {}
-              }
-            },
-            "2": {
-              "type": "array",
-              "uniqueItems": true,
-              "items": {
-                "required": [],
-                "properties": {}
-              }
+  "type": "object",
+  "properties": {
+    "matrix": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {
+          "0": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "required": [],
+              "properties": {}
+            }
+          },
+          "1": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "required": [],
+              "properties": {}
+            }
+          },
+          "2": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "required": [],
+              "properties": {}
             }
           }
         }
-      },
-      "1": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+      }
+    },
+    "vector": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "matrix",
+    "vector"
+  ]
 }
 
 ````
@@ -164,53 +157,46 @@ dotProduct Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0",
-      "1"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {
-            "0": {
-              "type": "array",
-              "uniqueItems": true,
-              "items": {
-                "required": [],
-                "properties": {}
-              }
-            },
-            "1": {
-              "type": "array",
-              "uniqueItems": true,
-              "items": {
-                "required": [],
-                "properties": {}
-              }
+  "type": "object",
+  "properties": {
+    "matrix": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {
+          "0": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "required": [],
+              "properties": {}
+            }
+          },
+          "1": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "required": [],
+              "properties": {}
             }
           }
         }
-      },
-      "1": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+      }
+    },
+    "vector": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "matrix",
+    "vector"
+  ]
 }
 
 ````

@@ -10,13 +10,13 @@ shift Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     1,
     2,
     3
   ]
-]
+}
 
 ````
 
@@ -45,13 +45,13 @@ shift Agent
 
 ```json
 
-[
-  [
+{
+  "array": [
     "a",
     "b",
     "c"
   ]
-]
+}
 
 ````
 
@@ -84,27 +84,21 @@ shift Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "array"
+  ]
 }
 
 ````
@@ -113,27 +107,21 @@ shift Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "0"
-    ],
-    "properties": {
-      "0": {
-        "type": "array",
-        "uniqueItems": true,
-        "items": {
-          "required": [],
-          "properties": {}
-        }
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
       }
     }
-  }
+  },
+  "required": [
+    "array"
+  ]
 }
 
 ````
