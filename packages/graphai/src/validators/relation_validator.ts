@@ -15,7 +15,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
     if ("inputs" in nodeData && nodeData && nodeData.inputs) {
       if (Array.isArray(nodeData.inputs)) {
         nodeData.inputs.forEach((inputNodeId) => {
-          const sourceNodeId = parseNodeName(inputNodeId, data.version ?? 0.2).nodeId;
+          const sourceNodeId = parseNodeName(inputNodeId, data.version ?? 0.02).nodeId;
           if (sourceNodeId) {
             if (!nodeIds.has(sourceNodeId)) {
               throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
