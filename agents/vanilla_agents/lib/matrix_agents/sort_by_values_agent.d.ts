@@ -10,14 +10,37 @@ declare const sortByValuesAgentInfo: {
     mock: AgentFunction<{
         assendant?: boolean | undefined;
     }, any[], any[]>;
+    inputs: {
+        type: string;
+        properties: {
+            array: {
+                type: string;
+                description: string;
+            };
+            values: {
+                type: string;
+                description: string;
+            };
+        };
+        required: string[];
+    };
+    output: {
+        type: string;
+    };
     samples: ({
-        inputs: (number[] | string[])[];
+        inputs: {
+            array: string[];
+            values: number[];
+        };
         params: {
             assendant?: undefined;
         };
         result: string[];
     } | {
-        inputs: (number[] | string[])[];
+        inputs: {
+            array: string[];
+            values: number[];
+        };
         params: {
             assendant: boolean;
         };

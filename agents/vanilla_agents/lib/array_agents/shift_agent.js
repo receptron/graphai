@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shiftAgent = void 0;
-const shiftAgent = async (context) => {
-    const { inputs } = context;
-    const array = inputs[0].map((item) => item); // shallow copy
+const node_assert_1 = __importDefault(require("node:assert"));
+const shiftAgent = async ({ namedInputs }) => {
+    (0, node_assert_1.default)(namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
+    const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.shift();
     return { array, item };
 };
@@ -12,9 +16,32 @@ const shiftAgentInfo = {
     name: "shiftAgent",
     agent: exports.shiftAgent,
     mock: exports.shiftAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "the array to shift an item from",
+            },
+        },
+        required: ["array"],
+    },
+    output: {
+        type: "object",
+        properties: {
+            item: {
+                type: "any",
+                description: "the item shifted from the array",
+            },
+            array: {
+                type: "array",
+                description: "the remaining array",
+            },
+        },
+    },
     samples: [
         {
-            inputs: [[1, 2, 3]],
+            inputs: { array: [1, 2, 3] },
             params: {},
             result: {
                 array: [2, 3],
@@ -22,7 +49,7 @@ const shiftAgentInfo = {
             },
         },
         {
-            inputs: [["a", "b", "c"]],
+            inputs: { array: ["a", "b", "c"] },
             params: {},
             result: {
                 array: ["b", "c"],

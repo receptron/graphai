@@ -4,6 +4,12 @@ declare const dataSumTemplateAgentInfo: {
     name: string;
     agent: AgentFunction<Record<string, any>, number, number>;
     mock: AgentFunction<Record<string, any>, number, number>;
+    inputs: {
+        type: string;
+    };
+    output: {
+        type: string;
+    };
     samples: {
         inputs: number[];
         params: {};

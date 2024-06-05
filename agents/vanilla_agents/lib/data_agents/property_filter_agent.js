@@ -63,6 +63,12 @@ const propertyFilterAgentInfo = {
     name: "propertyFilterAgent",
     agent: exports.propertyFilterAgent,
     mock: exports.propertyFilterAgent,
+    inputs: {
+        type: "array",
+    },
+    output: {
+        type: "any"
+    },
     samples: [
         {
             inputs: [testInputs[0][0]],

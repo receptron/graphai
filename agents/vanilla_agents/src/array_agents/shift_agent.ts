@@ -1,8 +1,10 @@
 import { AgentFunction } from "graphai";
 
-export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async (context) => {
-  const { inputs } = context;
-  const array = inputs[0].map((item) => item); // shallow copy
+import assert from "node:assert";
+
+export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ namedInputs }) => {
+  assert(namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
+  const array = namedInputs.array.map((item: any) => item); // shallow copy
   const item = array.shift();
   return { array, item };
 };
@@ -11,9 +13,32 @@ const shiftAgentInfo = {
   name: "shiftAgent",
   agent: shiftAgent,
   mock: shiftAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      array: {
+        type: "array",
+        description: "the array to shift an item from",
+      },
+    },
+    required: ["array"],
+  },
+  output: {
+    type: "object",
+    properties: {
+      item: {
+        type: "any",
+        description: "the item shifted from the array",
+      },
+      array: {
+        type: "array",
+        description: "the remaining array",
+      },
+    },
+  },
   samples: [
     {
-      inputs: [[1, 2, 3]],
+      inputs: { array: [1, 2, 3] },
       params: {},
       result: {
         array: [2, 3],
@@ -21,7 +46,7 @@ const shiftAgentInfo = {
       },
     },
     {
-      inputs: [["a", "b", "c"]],
+      inputs: { array:["a", "b", "c"] },
       params: {},
       result: {
         array: ["b", "c"],

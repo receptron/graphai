@@ -1,5 +1,7 @@
 import { AgentFunction } from "graphai";
 
+import assert from "node:assert";
+
 // This agent returned a sorted array of one array (A) based on another array (B).
 // The default sorting order is "decendant".
 //
@@ -15,11 +17,12 @@ export const sortByValuesAgent: AgentFunction<
   },
   Array<any>,
   Array<any>
-> = async ({ params, inputs }) => {
+> = async ({ params, namedInputs }) => {
+  assert(namedInputs, "sortByValue: namedInputs is UNDEFINED!");
   const direction = params?.assendant ?? false ? -1 : 1;
-  const sources: Array<any> = inputs[0];
-  const values: Array<any> = inputs[1];
-  const joined = sources.map((item, index) => {
+  const array: Array<any> = namedInputs.array;
+  const values: Array<any> = namedInputs.values;
+  const joined = array.map((item, index) => {
     return { item, value: values[index] };
   });
   const contents = joined
@@ -36,20 +39,37 @@ const sortByValuesAgentInfo = {
   name: "sortByValuesAgent",
   agent: sortByValuesAgent,
   mock: sortByValuesAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      array: {
+        type: "array",
+        description: "the array to sort",
+      },
+      values: {
+        type: "array",
+        description: "values associated with items in the array",
+      },
+    },
+    required: ["array", "values"],
+  },
+  output: {
+    type: "array"
+  },
   samples: [
     {
-      inputs: [
-        ["banana", "orange", "lemon", "apple"],
-        [2, 5, 6, 4],
-      ],
+      inputs: {
+        array: ["banana", "orange", "lemon", "apple"],
+        values: [2, 5, 6, 4],
+      },
       params: {},
       result: ["lemon", "orange", "apple", "banana"],
     },
     {
-      inputs: [
-        ["banana", "orange", "lemon", "apple"],
-        [2, 5, 6, 4],
-      ],
+      inputs: {
+        array: ["banana", "orange", "lemon", "apple"],
+        values: [2, 5, 6, 4],
+      },
       params: {
         assendant: true,
       },

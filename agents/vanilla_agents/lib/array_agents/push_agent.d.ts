@@ -4,16 +4,39 @@ declare const pushAgentInfo: {
     name: string;
     agent: AgentFunction<Record<string, any>, Record<string, any>, any[]>;
     mock: AgentFunction<Record<string, any>, Record<string, any>, any[]>;
+    inputs: {
+        type: string;
+        properties: {
+            array: {
+                type: string;
+                description: string;
+            };
+            item: {
+                type: string;
+                description: string;
+            };
+        };
+        required: string[];
+    };
+    output: {
+        type: string;
+    };
     samples: ({
-        inputs: (number | number[])[];
+        inputs: {
+            array: number[];
+            item: number;
+        };
         params: {};
         result: number[];
     } | {
-        inputs: ({
-            apple: number;
-        }[] | {
-            lemon: number;
-        })[];
+        inputs: {
+            array: {
+                apple: number;
+            }[];
+            item: {
+                lemon: number;
+            };
+        };
         params: {};
         result: ({
             apple: number;

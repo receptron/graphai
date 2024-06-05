@@ -1,13 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pushAgent = void 0;
-const pushAgent = async ({ inputs }) => {
-    const array = inputs[0].map((item) => item); // shallow copy
-    inputs.forEach((input, index) => {
-        if (index > 0) {
-            array.push(input);
-        }
-    });
+const node_assert_1 = __importDefault(require("node:assert"));
+const pushAgent = async ({ namedInputs }) => {
+    (0, node_assert_1.default)(namedInputs, "pushAgent: namedInputs is UNDEFINED!");
+    const { item } = namedInputs;
+    const array = namedInputs.array.map((item) => item); // shallow copy
+    array.push(item);
     return array;
 };
 exports.pushAgent = pushAgent;
@@ -15,19 +17,31 @@ const pushAgentInfo = {
     name: "pushAgent",
     agent: exports.pushAgent,
     mock: exports.pushAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "the array to push an item to",
+            },
+            item: {
+                type: "any",
+                description: "the item push into the array",
+            },
+        },
+        required: ["array", "item"],
+    },
+    output: {
+        type: "array"
+    },
     samples: [
         {
-            inputs: [[1, 2], 3],
+            inputs: { array: [1, 2], item: 3 },
             params: {},
             result: [1, 2, 3],
         },
         {
-            inputs: [[1, 2], 3, 4, 5],
-            params: {},
-            result: [1, 2, 3, 4, 5],
-        },
-        {
-            inputs: [[{ apple: 1 }], { lemon: 2 }],
+            inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
             params: {},
             result: [{ apple: 1 }, { lemon: 2 }],
         },

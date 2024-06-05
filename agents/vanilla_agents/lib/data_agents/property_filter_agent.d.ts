@@ -25,6 +25,12 @@ declare const propertyFilterAgentInfo: {
         inspect?: Record<string, any>[] | undefined;
         swap?: Record<string, string> | undefined;
     }>;
+    inputs: {
+        type: string;
+    };
+    output: {
+        type: string;
+    };
     samples: ({
         inputs: (string | {
             color: string;

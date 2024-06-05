@@ -23,6 +23,12 @@ const jsonParserAgentInfo = {
   name: "jsonParserAgent",
   agent: jsonParserAgent,
   mock: jsonParserAgent,
+  inputs: {
+    type: "any",
+  },
+  output: {
+    type: "any"
+  },
   samples: [
     {
       inputs: [sample_object],

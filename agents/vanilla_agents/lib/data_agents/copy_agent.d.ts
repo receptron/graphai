@@ -4,6 +4,12 @@ declare const copyAgentInfo: {
     name: string;
     agent: AgentFunction;
     mock: AgentFunction;
+    inputs: {
+        type: string;
+    };
+    output: {
+        type: string;
+    };
     samples: ({
         inputs: {
             color: string;

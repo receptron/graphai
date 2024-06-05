@@ -4,6 +4,12 @@ declare const totalAgentInfo: {
     name: string;
     agent: AgentFunction<Record<never, never>, Record<string, number>>;
     mock: AgentFunction<Record<never, never>, Record<string, number>>;
+    inputs: {
+        type: string;
+    };
+    output: {
+        type: string;
+    };
     samples: ({
         inputs: {
             a: number;
@@ -11,6 +17,9 @@ declare const totalAgentInfo: {
         params: {};
         result: {
             a: number;
+            b?: undefined;
+            c?: undefined;
+            d?: undefined;
         };
     } | {
         inputs: (({
@@ -49,6 +58,8 @@ declare const totalAgentInfo: {
         result: {
             a: number;
             b: number;
+            c?: undefined;
+            d?: undefined;
         };
     })[];
     description: string;

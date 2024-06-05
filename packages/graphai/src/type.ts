@@ -112,6 +112,8 @@ export type AgentFunctionInfo = {
   name: string;
   agent: AgentFunction<any, any, any>;
   mock: AgentFunction<any, any, any>;
+  inputs?: any;
+  output?: any;
   samples: {
     inputs: any;
     params: DefaultParamsType;

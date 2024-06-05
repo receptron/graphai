@@ -10,6 +10,12 @@ declare const jsonParserAgentInfo: {
     mock: AgentFunction<{
         stringify: boolean;
     }, any, any>;
+    inputs: {
+        type: string;
+    };
+    output: {
+        type: string;
+    };
     samples: ({
         inputs: {
             apple: string;
