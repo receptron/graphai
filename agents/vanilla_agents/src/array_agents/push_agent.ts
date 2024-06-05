@@ -15,6 +15,7 @@ const pushAgentInfo = {
   agent: pushAgent,
   mock: pushAgent,
   inputs: {
+    type: "object",
     properties: {
       array: {
         type: "array",

@@ -14,6 +14,7 @@ const popAgentInfo = {
   agent: popAgent,
   mock: popAgent,
   inputs: {
+    type: "object",
     properties: {
       array: {
         type: "array",

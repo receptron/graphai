@@ -14,6 +14,7 @@ const shiftAgentInfo = {
   agent: shiftAgent,
   mock: shiftAgent,
   inputs: {
+    type: "object",
     properties: {
       array: {
         type: "array",
