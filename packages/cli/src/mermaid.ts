@@ -8,14 +8,28 @@ export const mermaid = (graphData: GraphData) => {
     // label / name
     if ("agent" in node) {
       if (node.inputs) {
-        node.inputs.forEach((input) => {
-          const source = parseNodeName(input, graphData.version ?? 0.2);
-          if (source.propIds) {
-            console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
-          } else {
-            console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
-          }
-        });
+        if (Array.isArray(node.inputs)) {
+          node.inputs.forEach((input) => {
+            const source = parseNodeName(input, graphData.version ?? 0.2);
+            if (source.propIds) {
+              console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
+            } else {
+              console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
+            }
+          });
+        } else {
+          // LATER: Display the inputName as well.
+          const inputNames = Object.keys(node.inputs);
+          inputNames.forEach((inputName) => {
+            const input = (node.inputs as Record<string, any>)[inputName];
+            const source = parseNodeName(input, graphData.version ?? 0.2);
+            if (source.propIds) {
+              console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
+            } else {
+              console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
+            }
+          });
+        }
       }
     }
     if ("value" in node) {
