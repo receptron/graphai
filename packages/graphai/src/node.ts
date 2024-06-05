@@ -83,15 +83,6 @@ export class ComputedNode extends Node {
     this.params = data.params ?? {};
     this.console = data.console ?? {};
     this.filterParams = data.filterParams ?? {};
-    if (typeof data.agent === "string") {
-      this.agentId = data.agent;
-    } else {
-      assert(typeof data.agent === "function", "agent must be either string or function");
-      const agent = data.agent;
-      this.agentFunction = async ({ inputs }) => {
-        return agent(...inputs);
-      };
-    }
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
@@ -109,6 +100,21 @@ export class ComputedNode extends Node {
       this.dataSources = keys.map((key) => parseNodeName(inputs[key], graph.version));
     }
     this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId!));
+    if (typeof data.agent === "string") {
+      this.agentId = data.agent;
+    } else {
+      assert(typeof data.agent === "function", "agent must be either string or function");
+      const agent = data.agent;
+      if (this.inputNames) {
+        this.agentFunction = async ({ namedInputs }) => {
+          return agent(namedInputs);
+        };
+      } else {
+        this.agentFunction = async ({ inputs }) => {
+          return agent(...inputs);
+        };
+      }
+    }
     if (typeof data.graph === "string") {
       const source = parseNodeName(data.graph, graph.version);
       assert(!!source.nodeId, `Invalid data source ${data.graph}`);

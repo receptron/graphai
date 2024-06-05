@@ -7,7 +7,7 @@ const graph_data = {
       value: "Hello World",
     },
     result: {
-      agent: (input: any) => input,
+      agent: (object: any) => object.input,
       inputs: { input: ":message" },
       isResult: true,
     }
