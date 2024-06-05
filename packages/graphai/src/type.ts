@@ -76,7 +76,7 @@ export type GraphOptions = {
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData> = {
   params: NodeDataParams<ParamsType>;
   inputs: Array<InputDataType>;
-  namedInputs?: Record<string, any>;
+  namedInputs: Record<string, any>;
   debugInfo: {
     verbose: boolean;
     nodeId: string;
