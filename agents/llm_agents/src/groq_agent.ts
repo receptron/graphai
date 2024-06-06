@@ -107,7 +107,7 @@ const groqAgentInfo = {
   inputs: {
     type: "object",
     properties: {
-      mode: { type: "string" },
+      model: { type: "string" },
       system: { type: "string" },
       tools: { type: "object" },
       tool_choice: { type: "any" },
