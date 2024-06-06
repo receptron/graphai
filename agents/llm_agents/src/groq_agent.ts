@@ -25,7 +25,6 @@ const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_
 export const groqAgent: AgentFunction<
   {
     model: string;
-    query?: string;
     system?: string;
     verbose?: boolean;
     tools?: Groq.Chat.CompletionCreateParams.Tool[];
@@ -33,40 +32,38 @@ export const groqAgent: AgentFunction<
     max_tokens?: number;
     tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
     stream?: boolean;
+    prompt?: string;
+    messages?: Array<Record<string, any>>;
   },
   // Groq.Chat.ChatCompletion,
   any,
   string | Array<Groq.Chat.CompletionCreateParams.Message>
 > = async ({ params, namedInputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { verbose, system, tools, tool_choice, max_tokens, temperature, stream } = params;
-  const input_query = namedInputs.prompt;
-  const previous_messages = namedInputs.messages;
+  const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesProvided: Array<Groq.Chat.CompletionCreateParams.Message> =
-    previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
-  const messages = messagesProvided.map((m) => m); // sharrow copy
+  const messagesCopy: Array<any> =
+    messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
 
-  const content = (input_query && typeof input_query === "string" ? [input_query] : []).join("\n");
-  if (content) {
-    messages.push({
+  if (prompt) {
+    messagesCopy.push({
       role: "user",
-      content,
+      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
     });
   }
 
   if (verbose) {
-    console.log(messages);
+    console.log(messagesCopy);
   }
   const streamOption: ChatCompletionCreateParamsStreaming = {
-    messages,
+    messages: messagesCopy,
     model: params.model,
     temperature: temperature ?? 0.7,
     stream: true,
   };
   const nonStreamOption: ChatCompletionCreateParamsNonStreaming = {
-    messages,
+    messages: messagesCopy,
     model: params.model,
     temperature: temperature ?? 0.7,
   };
@@ -110,6 +107,14 @@ const groqAgentInfo = {
   inputs: {
     type: "object",
     properties: {
+      model: { type: "string" },
+      system: { type: "string" },
+      tools: { type: "object" },
+      tool_choice: { type: "any" },
+      max_tokens: { type: "number" },
+      verbose:  { type: "boolean" },
+      temperature: { type: "number" },
+      stream: { type: "boolean" },
       prompt: {
         type: "string",
         description: "query string",

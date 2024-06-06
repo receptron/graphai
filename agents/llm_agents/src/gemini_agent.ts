@@ -4,33 +4,31 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } fro
 export const geminiAgent: AgentFunction<
   {
     model?: string;
-    query?: string;
     system?: string;
     temperature?: number;
     max_tokens?: number;
     tools?: Array<Record<string, any>>;
     // tool_choice?: any;
+    prompt?: string;
+    messages?: Array<Record<string, any>>;
   },
   Record<string, any> | string,
   string | Array<any>
 > = async ({ params, namedInputs }) => {
-  const { system, temperature, max_tokens, tools } = params;
-  const input_query = namedInputs.prompt;
-  const previous_messages = namedInputs.messages;
+  const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs};
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesProvided: Array<any> =
-    previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
-  const messages = messagesProvided.map((m) => m); // sharrow copy
+  const messagesCopy: Array<any> =
+    messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
 
-  const content = (input_query ? [input_query as string] : []).join("\n");
-  if (content) {
-    messages.push({
+  if (prompt) {
+    messagesCopy.push({
       role: "user",
-      content,
+      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
     });
   }
-  const lastMessage = messages.pop();
+
+  const lastMessage = messagesCopy.pop();
 
   const key = process.env["GOOGLE_GENAI_API_KEY"];
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
@@ -42,7 +40,7 @@ export const geminiAgent: AgentFunction<
     },
   ];
   const modelParams: ModelParams = {
-    model: params.model ?? "gemini-pro",
+    model: model ?? "gemini-pro",
     safetySettings,
   };
   if (tools) {
@@ -51,15 +49,15 @@ export const geminiAgent: AgentFunction<
     });
     modelParams.tools = [{ functionDeclarations: functions }];
   }
-  const model = genAI.getGenerativeModel(modelParams);
+  const genModel = genAI.getGenerativeModel(modelParams);
   const generationConfig = {
     maxOutputTokens: max_tokens,
     temperature,
     // topP: 0.1,
     // topK: 16,
   };
-  const chat = model.startChat({
-    history: messages.map((message) => {
+  const chat = genModel.startChat({
+    history: messagesCopy.map((message) => {
       const role = message.role === "assistant" ? "model" : message.role;
       if (role === "system") {
         // Gemini does not have the concept of system message
@@ -91,6 +89,11 @@ const geminiAgentInfo = {
   inputs: {
     type: "object",
     properties: {
+      model: { type: "string" },
+      system: { type: "string" },
+      tools: { type: "object" },
+      max_tokens: { type: "number" },
+      temperature: { type: "number" },
       prompt: {
         type: "string",
         description: "query string",

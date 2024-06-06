@@ -7,35 +7,32 @@ exports.openAIMockAgent = exports.openAIAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
 const openAIAgent = async ({ filterParams, params, namedInputs }) => {
-    const { verbose, system, temperature, baseURL, apiKey, stream } = params;
-    const input_query = namedInputs.prompt;
-    const previous_messages = namedInputs.messages;
+    const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages } = { ...params, ...namedInputs };
     // Notice that we ignore params.system if previous_message exists.
-    const messagesProvided = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
-    const messages = messagesProvided.map((m) => m); // sharrow copy
-    const content = (input_query ? [input_query] : []).join("\n");
-    if (content) {
-        messages.push({
+    const messagesCopy = messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+    if (prompt) {
+        messagesCopy.push({
             role: "user",
-            content,
+            content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
         });
     }
     if (verbose) {
-        console.log(messages);
+        console.log(messagesCopy);
     }
     const openai = apiKey && baseURL ? new openai_1.default({ apiKey, baseURL }) : new openai_1.default();
     if (!stream) {
         return await openai.chat.completions.create({
             model: params.model || "gpt-3.5-turbo",
-            messages,
-            tools: params.tools,
-            tool_choice: params.tool_choice,
+            messages: messagesCopy,
+            tools,
+            tool_choice,
+            max_tokens,
             temperature: temperature ?? 0.7,
         });
     }
     const chatStream = await openai.beta.chat.completions.stream({
         model: params.model || "gpt-3.5-turbo",
-        messages,
+        messages: messagesCopy,
         tools: params.tools,
         tool_choice: params.tool_choice,
         temperature: temperature ?? 0.7,
@@ -86,6 +83,16 @@ const openaiAgentInfo = {
     inputs: {
         type: "object",
         properties: {
+            model: { type: "string" },
+            system: { type: "string" },
+            tools: { type: "object" },
+            tool_choice: { type: "any" },
+            max_tokens: { type: "number" },
+            verbose: { type: "boolean" },
+            temperature: { type: "number" },
+            baseURL: { type: "string" },
+            apiKey: { type: "any" },
+            stream: { type: "boolean" },
             prompt: {
                 type: "string",
                 description: "query string",

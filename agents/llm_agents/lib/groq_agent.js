@@ -24,30 +24,26 @@ const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.en
 //
 const groqAgent = async ({ params, namedInputs, filterParams }) => {
     (0, graphai_1.assert)(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-    const { verbose, system, tools, tool_choice, max_tokens, temperature, stream } = params;
-    const input_query = namedInputs.prompt;
-    const previous_messages = namedInputs.messages;
+    const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
     // Notice that we ignore params.system if previous_message exists.
-    const messagesProvided = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
-    const messages = messagesProvided.map((m) => m); // sharrow copy
-    const content = (input_query && typeof input_query === "string" ? [input_query] : []).join("\n");
-    if (content) {
-        messages.push({
+    const messagesCopy = messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+    if (prompt) {
+        messagesCopy.push({
             role: "user",
-            content,
+            content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
         });
     }
     if (verbose) {
-        console.log(messages);
+        console.log(messagesCopy);
     }
     const streamOption = {
-        messages,
+        messages: messagesCopy,
         model: params.model,
         temperature: temperature ?? 0.7,
         stream: true,
     };
     const nonStreamOption = {
-        messages,
+        messages: messagesCopy,
         model: params.model,
         temperature: temperature ?? 0.7,
     };
@@ -90,6 +86,14 @@ const groqAgentInfo = {
     inputs: {
         type: "object",
         properties: {
+            model: { type: "string" },
+            system: { type: "string" },
+            tools: { type: "object" },
+            tool_choice: { type: "any" },
+            max_tokens: { type: "number" },
+            verbose: { type: "boolean" },
+            temperature: { type: "number" },
+            stream: { type: "boolean" },
             prompt: {
                 type: "string",
                 description: "query string",

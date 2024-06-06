@@ -26,7 +26,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
     "@graphai/data_agents": "^0.0.1",
-    "@graphai/input_agents": "^0.0.1",
+    "@graphai/input_agents": "^0.0.2",
     "@graphai/llm_agents": "^0.0.3",
     "@graphai/service_agents": "^0.0.2",
     "@graphai/sleeper_agents": "^0.0.1",
