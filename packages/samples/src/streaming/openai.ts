@@ -15,7 +15,7 @@ const graph_data = {
       params: {
         stream: true,
       },
-      inputs: [":node1"],
+      inputs: { prompt:":node1" },
       isResult: true,
     },
   },
