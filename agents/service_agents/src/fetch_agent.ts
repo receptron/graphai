@@ -2,7 +2,7 @@ import { AgentFunction } from "graphai";
 import { parseStringPromise } from "xml2js";
 
 export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, any> = async ({ namedInputs, params }) => {
-  const { url, queryParams, headers, body } = namedInputs;
+  const { url, method, queryParams, headers, body } = namedInputs;
 
   const url0 = new URL(url);
   const headers0 = headers ? { ...headers } : {};
@@ -17,7 +17,7 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, 
   }
 
   const fetchOptions: RequestInit = {
-    method: body ? "POST" : "GET",
+    method: method ?? body ? "POST" : "GET",
     headers: new Headers(headers0),
     body: body ? JSON.stringify(body) : undefined,
   };
@@ -66,6 +66,35 @@ const fetchAgentInfo = {
   name: "fetchAgent",
   agent: fetchAgent,
   mock: fetchAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      url: {
+        type: "string",
+        description: "baseurl",
+      },
+      method: {
+        type: "string",
+        description: "HTTP method",
+      },
+      headers: {
+        type: "object",
+        description: "HTTP headers",
+      },
+      quaryParams: {
+        type: "object",
+        description: "Query parameters",
+      },
+      body: {
+        type: "object",
+        description: "body",
+      },
+    },
+    required: ["url"],
+  },
+  output: {
+    type: "array",
+  },
   samples: [
     {
       inputs: { url:"https://www.google.com", queryParams: { foo: "bar" }, headers:{ "x-myHeader": "secret" } },
