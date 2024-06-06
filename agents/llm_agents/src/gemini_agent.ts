@@ -4,7 +4,6 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } fro
 export const geminiAgent: AgentFunction<
   {
     model?: string;
-    query?: string;
     system?: string;
     temperature?: number;
     max_tokens?: number;
@@ -90,7 +89,7 @@ const geminiAgentInfo = {
   inputs: {
     type: "object",
     properties: {
-      mode: { type: "string" },
+      model: { type: "string" },
       system: { type: "string" },
       tools: { type: "object" },
       max_tokens: { type: "number" },

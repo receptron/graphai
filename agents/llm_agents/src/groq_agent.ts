@@ -25,7 +25,6 @@ const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_
 export const groqAgent: AgentFunction<
   {
     model: string;
-    query?: string;
     system?: string;
     verbose?: boolean;
     tools?: Groq.Chat.CompletionCreateParams.Tool[];
