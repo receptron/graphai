@@ -56,7 +56,7 @@ const graph_tool = {
     fetchPoints: {
       // Fetches the "grid location" from the URL.
       agent: "fetchAgent",
-      inputs: [":urlPoints", undefined, { "User-Agent": "(receptron.org)" }],
+      inputs: { url:":urlPoints", headers:{ "User-Agent": "(receptron.org)" } },
     },
     fetchForecast: {
       // Fetches the weather forecast for that location.
@@ -64,7 +64,7 @@ const graph_tool = {
       params: {
         type: "text",
       },
-      inputs: [":fetchPoints.properties.forecast", undefined, { "User-Agent": "(receptron.org)" }],
+      inputs: { url:":fetchPoints.properties.forecast", headers:{ "User-Agent": "(receptron.org)" } },
       unless: ":fetchPoints.onError",
     },
     extractError: {
