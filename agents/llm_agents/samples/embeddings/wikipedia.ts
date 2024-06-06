@@ -62,7 +62,7 @@ export const graph_data = {
     referenceText: {
       // Generate reference text from those chunks (token limited)
       agent: "tokenBoundStringsAgent",
-      inputs: [":sortedChunks"],
+      inputs: { chunks:":sortedChunks" },
       params: {
         limit: 5000,
       },
