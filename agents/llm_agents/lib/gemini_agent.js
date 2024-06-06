@@ -4,20 +4,16 @@ exports.geminiAgent = void 0;
 const graphai_1 = require("graphai");
 const generative_ai_1 = require("@google/generative-ai");
 const geminiAgent = async ({ params, namedInputs }) => {
-    const { system, temperature, max_tokens, tools } = params;
-    const input_query = namedInputs.prompt;
-    const previous_messages = namedInputs.messages;
+    const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
     // Notice that we ignore params.system if previous_message exists.
-    const messagesProvided = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
-    const messages = messagesProvided.map((m) => m); // sharrow copy
-    const content = (input_query ? [input_query] : []).join("\n");
-    if (content) {
-        messages.push({
+    const messagesCopy = messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+    if (prompt) {
+        messagesCopy.push({
             role: "user",
-            content,
+            content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
         });
     }
-    const lastMessage = messages.pop();
+    const lastMessage = messagesCopy.pop();
     const key = process.env["GOOGLE_GENAI_API_KEY"];
     (0, graphai_1.assert)(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
     const genAI = new generative_ai_1.GoogleGenerativeAI(key);
@@ -28,7 +24,7 @@ const geminiAgent = async ({ params, namedInputs }) => {
         },
     ];
     const modelParams = {
-        model: params.model ?? "gemini-pro",
+        model: model ?? "gemini-pro",
         safetySettings,
     };
     if (tools) {
@@ -37,15 +33,15 @@ const geminiAgent = async ({ params, namedInputs }) => {
         });
         modelParams.tools = [{ functionDeclarations: functions }];
     }
-    const model = genAI.getGenerativeModel(modelParams);
+    const genModel = genAI.getGenerativeModel(modelParams);
     const generationConfig = {
         maxOutputTokens: max_tokens,
         temperature,
         // topP: 0.1,
         // topK: 16,
     };
-    const chat = model.startChat({
-        history: messages.map((message) => {
+    const chat = genModel.startChat({
+        history: messagesCopy.map((message) => {
             const role = message.role === "assistant" ? "model" : message.role;
             if (role === "system") {
                 // Gemini does not have the concept of system message
@@ -76,6 +72,11 @@ const geminiAgentInfo = {
     inputs: {
         type: "object",
         properties: {
+            model: { type: "string" },
+            system: { type: "string" },
+            tools: { type: "object" },
+            max_tokens: { type: "number" },
+            temperature: { type: "number" },
             prompt: {
                 type: "string",
                 description: "query string",

@@ -1,15 +1,17 @@
 import { AgentFunction } from "graphai";
 export declare const openAIAgent: AgentFunction<{
     model?: string;
-    query?: string;
     system?: string;
     tools?: any;
     tool_choice?: any;
+    max_tokens?: number;
     verbose?: boolean;
     temperature?: number;
     baseURL?: string;
     apiKey?: string;
     stream?: boolean;
+    prompt?: string;
+    messages?: Array<Record<string, any>>;
 }, Record<string, any> | string, string | Array<any>>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;
@@ -22,15 +24,17 @@ declare const openaiAgentInfo: {
     name: string;
     agent: AgentFunction<{
         model?: string | undefined;
-        query?: string | undefined;
         system?: string | undefined;
         tools?: any;
         tool_choice?: any;
+        max_tokens?: number | undefined;
         verbose?: boolean | undefined;
         temperature?: number | undefined;
         baseURL?: string | undefined;
         apiKey?: string | undefined;
         stream?: boolean | undefined;
+        prompt?: string | undefined;
+        messages?: Record<string, any>[] | undefined;
     }, string | Record<string, any>, string | any[]>;
     mock: AgentFunction<{
         model?: string | undefined;
@@ -42,6 +46,36 @@ declare const openaiAgentInfo: {
     inputs: {
         type: string;
         properties: {
+            model: {
+                type: string;
+            };
+            system: {
+                type: string;
+            };
+            tools: {
+                type: string;
+            };
+            tool_choice: {
+                type: string;
+            };
+            max_tokens: {
+                type: string;
+            };
+            verbose: {
+                type: string;
+            };
+            temperature: {
+                type: string;
+            };
+            baseURL: {
+                type: string;
+            };
+            apiKey: {
+                type: string;
+            };
+            stream: {
+                type: string;
+            };
             prompt: {
                 type: string;
                 description: string;
