@@ -16,7 +16,7 @@ export const graph_data = {
       params: {
         type: "xml",
       },
-      inputs: { url:":url" },
+      inputs: { url: ":url" },
     },
     entries: {
       // Extracts necessary information from the feed

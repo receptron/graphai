@@ -21,7 +21,7 @@ const graph_data = {
     fetch: {
       // This node fetches the dataset over HTTP.
       agent: "fetchAgent",
-      inputs: { url:":GSM8.url", queryParams:":GSM8.query" },
+      inputs: { url: ":GSM8.url", queryParams: ":GSM8.query" },
     },
     rows: {
       // This node extract the "row" property from each item in the dataset.

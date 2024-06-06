@@ -97,7 +97,7 @@ const fetchAgentInfo = {
   },
   samples: [
     {
-      inputs: { url:"https://www.google.com", queryParams: { foo: "bar" }, headers:{ "x-myHeader": "secret" } },
+      inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" } },
       params: {
         debug: true,
       },
@@ -111,7 +111,7 @@ const fetchAgentInfo = {
       },
     },
     {
-      inputs: { url:"https://www.google.com", body:{ foo: "bar" } },
+      inputs: { url: "https://www.google.com", body: { foo: "bar" } },
       params: {
         debug: true,
       },
