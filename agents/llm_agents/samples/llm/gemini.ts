@@ -3,7 +3,7 @@ import { graphDataTestRunner } from "@graphai/test_utils";
 import * as agents from "@/index";
 import { copyAgent } from "@graphai/agents";
 
-const query = "hello";
+const query = "What is bitcoin?";
 
 const graph_data = {
   version: 0.3,
