@@ -14,7 +14,7 @@ export const graph_data = {
       params: {
         type: "text",
       },
-      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/packages/graphai/README.md"],
+      inputs: { url:"https://raw.githubusercontent.com/receptron/graphai/main/packages/graphai/README.md" },
     },
     sampleGraph: {
       agent: "fetchAgent",
@@ -24,7 +24,7 @@ export const graph_data = {
       params: {
         type: "text",
       },
-      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception2.json"],
+      inputs: { url:"https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception2.json" },
     },
     messages: {
       agent: "stringTemplateAgent",

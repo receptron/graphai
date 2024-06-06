@@ -1,37 +1,37 @@
 import { AgentFunction } from "graphai";
 import { parseStringPromise } from "xml2js";
 
-export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, any> = async ({ inputs, params }) => {
-  const [baseUrl, queryParams, baseHeaders, body] = inputs;
+export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, any> = async ({ namedInputs, params }) => {
+  const { url, method, queryParams, headers, body } = namedInputs;
 
-  const url = new URL(baseUrl);
-  const headers = baseHeaders ? { ...baseHeaders } : {};
+  const url0 = new URL(url);
+  const headers0 = headers ? { ...headers } : {};
 
   if (queryParams) {
     const params = new URLSearchParams(queryParams);
-    url.search = params.toString();
+    url0.search = params.toString();
   }
 
   if (body) {
-    headers["Content-Type"] = "application/json";
+    headers0["Content-Type"] = "application/json";
   }
 
   const fetchOptions: RequestInit = {
-    method: body ? "POST" : "GET",
-    headers: new Headers(headers),
+    method: method ?? body ? "POST" : "GET",
+    headers: new Headers(headers0),
     body: body ? JSON.stringify(body) : undefined,
   };
 
   if (params?.debug) {
     return {
-      url: url.toString(),
+      url: url0.toString(),
       method: fetchOptions.method,
-      headers,
+      headers: headers0,
       body: fetchOptions.body,
     };
   }
 
-  const response = await fetch(url.toString(), fetchOptions);
+  const response = await fetch(url0.toString(), fetchOptions);
 
   if (!response.ok) {
     const status = response.status;
@@ -66,9 +66,38 @@ const fetchAgentInfo = {
   name: "fetchAgent",
   agent: fetchAgent,
   mock: fetchAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      url: {
+        type: "string",
+        description: "baseurl",
+      },
+      method: {
+        type: "string",
+        description: "HTTP method",
+      },
+      headers: {
+        type: "object",
+        description: "HTTP headers",
+      },
+      quaryParams: {
+        type: "object",
+        description: "Query parameters",
+      },
+      body: {
+        type: "object",
+        description: "body",
+      },
+    },
+    required: ["url"],
+  },
+  output: {
+    type: "array",
+  },
   samples: [
     {
-      inputs: ["https://www.google.com", { foo: "bar" }, { "x-myHeader": "secret" }],
+      inputs: { url:"https://www.google.com", queryParams: { foo: "bar" }, headers:{ "x-myHeader": "secret" } },
       params: {
         debug: true,
       },
@@ -82,7 +111,7 @@ const fetchAgentInfo = {
       },
     },
     {
-      inputs: ["https://www.google.com", undefined, undefined, { foo: "bar" }],
+      inputs: { url:"https://www.google.com", body:{ foo: "bar" } },
       params: {
         debug: true,
       },

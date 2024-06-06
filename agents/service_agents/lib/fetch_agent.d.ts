@@ -13,14 +13,46 @@ declare const fetchAgentInfo: {
         debug?: boolean | undefined;
         type?: string | undefined;
     }, any, any>;
+    inputs: {
+        type: string;
+        properties: {
+            url: {
+                type: string;
+                description: string;
+            };
+            method: {
+                type: string;
+                description: string;
+            };
+            headers: {
+                type: string;
+                description: string;
+            };
+            quaryParams: {
+                type: string;
+                description: string;
+            };
+            body: {
+                type: string;
+                description: string;
+            };
+        };
+        required: string[];
+    };
+    output: {
+        type: string;
+    };
     samples: ({
-        inputs: (string | {
-            foo: string;
-            "x-myHeader"?: undefined;
-        } | {
-            "x-myHeader": string;
-            foo?: undefined;
-        })[];
+        inputs: {
+            url: string;
+            queryParams: {
+                foo: string;
+            };
+            headers: {
+                "x-myHeader": string;
+            };
+            body?: undefined;
+        };
         params: {
             debug: boolean;
         };
@@ -34,9 +66,14 @@ declare const fetchAgentInfo: {
             body: undefined;
         };
     } | {
-        inputs: (string | {
-            foo: string;
-        } | undefined)[];
+        inputs: {
+            url: string;
+            body: {
+                foo: string;
+            };
+            queryParams?: undefined;
+            headers?: undefined;
+        };
         params: {
             debug: boolean;
         };

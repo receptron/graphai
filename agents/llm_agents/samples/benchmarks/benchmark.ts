@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@graphai/test_utils";
 import * as agents from "@graphai/agents";
 
 const graph_data = {
@@ -21,7 +21,7 @@ const graph_data = {
     fetch: {
       // This node fetches the dataset over HTTP.
       agent: "fetchAgent",
-      inputs: [":GSM8.url", ":GSM8.query"],
+      inputs: { url:":GSM8.url", queryParams:":GSM8.query" },
     },
     rows: {
       // This node extract the "row" property from each item in the dataset.
@@ -75,7 +75,7 @@ const graph_data = {
           reducer: {
             // This node pushs the answer from Llama3 into the answer array.
             agent: "pushAgent",
-            inputs: [":answers", ":groq.choices.$0.message.content"],
+            inputs: { array:":answers", item:":groq.choices.$0.message.content" },
           },
           debugOutputA: {
             agent: (answer: string) => console.log(`A: ${answer}\n`),

@@ -15,7 +15,7 @@ const graph_data_fetch = {
       params: {
         type: "text",
       },
-      inputs: [":url"],
+      inputs: { url:":url" },
     },
     success: {
       agent: "copyAgent",
@@ -48,7 +48,7 @@ const graph_data_post = {
       params: {
         type: "text",
       },
-      inputs: [":url", undefined, undefined, "Posting data"],
+      inputs: { url:":url", body: "Posting data" },
     },
     success: {
       agent: "copyAgent",
