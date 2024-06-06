@@ -22,8 +22,7 @@ export const openAIAgent: AgentFunction<
   const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages } = { ...params, ...namedInputs };
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> =
-    messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
 
   if (prompt) {
     messagesCopy.push({
@@ -119,7 +118,7 @@ const openaiAgentInfo = {
       tools: { type: "object" },
       tool_choice: { type: "any" },
       max_tokens: { type: "number" },
-      verbose:  { type: "boolean" },
+      verbose: { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },
       apiKey: { type: "any" },

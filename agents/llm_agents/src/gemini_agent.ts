@@ -15,11 +15,10 @@ export const geminiAgent: AgentFunction<
   Record<string, any> | string,
   string | Array<any>
 > = async ({ params, namedInputs }) => {
-  const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs};
+  const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> =
-    messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
 
   if (prompt) {
     messagesCopy.push({

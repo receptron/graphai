@@ -43,8 +43,7 @@ export const groqAgent: AgentFunction<
   const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> =
-    messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
 
   if (prompt) {
     messagesCopy.push({
@@ -112,7 +111,7 @@ const groqAgentInfo = {
       tools: { type: "object" },
       tool_choice: { type: "any" },
       max_tokens: { type: "number" },
-      verbose:  { type: "boolean" },
+      verbose: { type: "boolean" },
       temperature: { type: "number" },
       stream: { type: "boolean" },
       prompt: {

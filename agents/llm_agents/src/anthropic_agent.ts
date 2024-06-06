@@ -18,8 +18,7 @@ export const anthropicAgent: AgentFunction<
   const { model, system, temperature, max_tokens, prompt, messages } = { ...params, ...namedInputs };
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> =
-    messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
 
   if (prompt) {
     messagesCopy.push({
