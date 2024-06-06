@@ -31,7 +31,7 @@ export const graph_data = {
         before: "...splitting the article into chunks",
       },
       agent: "stringSplitterAgent",
-      inputs: [":wikipedia.content"],
+      inputs: { text: ":wikipedia.content" },
     },
     embeddings: {
       // Get embedding vectors of those chunks
@@ -52,12 +52,12 @@ export const graph_data = {
     similarityCheck: {
       // Get the cosine similarities of those vectors
       agent: "dotProductAgent",
-      inputs: [":embeddings", ":topicEmbedding.$0"],
+      inputs: { matrix:":embeddings", vector:":topicEmbedding.$0" },
     },
     sortedChunks: {
       // Sort chunks based on those similarities
       agent: "sortByValuesAgent",
-      inputs: [":chunks.contents", ":similarityCheck"],
+      inputs: { array: ":chunks.contents", values: ":similarityCheck" },
     },
     referenceText: {
       // Generate reference text from those chunks (token limited)
