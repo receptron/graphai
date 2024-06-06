@@ -46,7 +46,7 @@ const dotProductAgentInfo = {
         required: ["array", "vector"],
     },
     output: {
-        type: "array"
+        type: "array",
     },
     samples: [
         {

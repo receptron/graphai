@@ -51,7 +51,7 @@ const sortByValuesAgentInfo = {
         required: ["array", "values"],
     },
     output: {
-        type: "array"
+        type: "array",
     },
     samples: [
         {

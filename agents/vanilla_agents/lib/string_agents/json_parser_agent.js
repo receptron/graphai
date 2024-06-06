@@ -22,7 +22,7 @@ const jsonParserAgentInfo = {
         type: "any",
     },
     output: {
-        type: "any"
+        type: "any",
     },
     samples: [
         {

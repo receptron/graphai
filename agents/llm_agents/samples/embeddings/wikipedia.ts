@@ -52,7 +52,7 @@ export const graph_data = {
     similarityCheck: {
       // Get the cosine similarities of those vectors
       agent: "dotProductAgent",
-      inputs: { matrix:":embeddings", vector:":topicEmbedding.$0" },
+      inputs: { matrix: ":embeddings", vector: ":topicEmbedding.$0" },
     },
     sortedChunks: {
       // Sort chunks based on those similarities

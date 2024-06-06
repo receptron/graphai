@@ -15,7 +15,7 @@ const dataSumTemplateAgentInfo = {
         type: "array",
     },
     output: {
-        type: "number"
+        type: "number",
     },
     samples: [
         {

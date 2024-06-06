@@ -32,7 +32,7 @@ const pushAgentInfo = {
         required: ["array", "item"],
     },
     output: {
-        type: "array"
+        type: "array",
     },
     samples: [
         {
