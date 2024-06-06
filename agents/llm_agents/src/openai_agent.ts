@@ -7,6 +7,7 @@ export const openAIAgent: AgentFunction<
     system?: string;
     tools?: any;
     tool_choice?: any;
+    max_tokens?: number;
     verbose?: boolean;
     temperature?: number;
     baseURL?: string;
@@ -18,7 +19,7 @@ export const openAIAgent: AgentFunction<
   Record<string, any> | string,
   string | Array<any>
 > = async ({ filterParams, params, namedInputs }) => {
-  const { verbose, system, temperature, baseURL, apiKey, stream, prompt, messages } = { ...params, ...namedInputs };
+  const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages } = { ...params, ...namedInputs };
 
   // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> =
@@ -41,8 +42,9 @@ export const openAIAgent: AgentFunction<
     return await openai.chat.completions.create({
       model: params.model || "gpt-3.5-turbo",
       messages: messagesCopy,
-      tools: params.tools,
-      tool_choice: params.tool_choice,
+      tools,
+      tool_choice,
+      max_tokens,
       temperature: temperature ?? 0.7,
     });
   }
@@ -116,6 +118,7 @@ const openaiAgentInfo = {
       system: { type: "string" },
       tools: { type: "object" },
       tool_choice: { type: "any" },
+      max_tokens: { type: "number" },
       verbose:  { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },
