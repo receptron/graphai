@@ -92,10 +92,9 @@
           }
         ]
       },
-      "inputs": [
-        null,
-        ":appendedMessages"
-      ]
+      "inputs": {
+        "messages": ":appendedMessages"
+      }
     },
     "argumentsParser": {
       "agent": "jsonParserAgent",
