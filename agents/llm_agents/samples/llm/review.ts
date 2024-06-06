@@ -18,7 +18,7 @@ const graph_data = {
         model: "gpt-4o",
         system: "You are a professional software engineer, and writer. You are responsible in reviewing a given document and give some feedbacks.",
       },
-      inputs: ["Here is the document.\n" + document],
+      inputs: { prompt:"Here is the document.\n" + document },
     },
     review: {
       // Extracts the response from the generated message
@@ -34,7 +34,7 @@ const graph_data = {
         system:
           "You are a professional software evangelist. Read the document, and come up with 200 word phrases, which will explain the benefit of GraphUI, emphasizing the benefit of declarative data-flow programming and concurrent processing.",
       },
-      inputs: ["Here is the document.\n" + document],
+      inputs: { prompt:"Here is the document.\n" + document },
     },
     statement: {
       // Extracts the response from the generated message

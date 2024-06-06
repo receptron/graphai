@@ -17,8 +17,8 @@ export const openAIAgent: AgentFunction<
   Record<string, any> | string,
   string | Array<any>
 > = async ({ filterParams, params, namedInputs }) => {
-  const { verbose, query, system, temperature, baseURL, apiKey, stream } = params;
-  const input_query = namedInputs.query;
+  const { verbose, system, temperature, baseURL, apiKey, stream } = params;
+  const input_query = namedInputs.prompt;
   const previous_messages = namedInputs.messages;
 
   // Notice that we ignore params.system if previous_message exists.
@@ -26,7 +26,7 @@ export const openAIAgent: AgentFunction<
     previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
   const messages = messagesProvided.map((m) => m); // sharrow copy
 
-  const content = (query ? [query] : []).concat(input_query ? [input_query as string] : []).join("\n");
+  const content = (input_query ? [input_query as string] : []).join("\n");
   if (content) {
     messages.push({
       role: "user",
@@ -115,7 +115,7 @@ const openaiAgentInfo = {
   inputs: {
     type: "object",
     properties: {
-      query: {
+      prompt: {
         type: "string",
         description: "query string",
       },
