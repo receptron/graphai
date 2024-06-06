@@ -70,7 +70,7 @@ const graph_data = {
             params: {
               model: "Llama3-8b-8192",
             },
-            inputs: [":retriever.item.question"],
+            inputs: { prompt:":retriever.item.question" },
           },
           reducer: {
             // This node pushs the answer from Llama3 into the answer array.
