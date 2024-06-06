@@ -99,7 +99,7 @@ export const graph_data = {
           reducer: {
             // Appends the response to the messages.
             agent: "pushAgent",
-            inputs: { array:":messages", item:":groq.choices.$0.message" },
+            inputs: { array: ":messages", item: ":groq.choices.$0.message" },
           },
           swappedContext: {
             // Swaps the context
