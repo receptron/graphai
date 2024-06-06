@@ -96,7 +96,7 @@ export const graph_data = {
           reducer: {
             // This node append the responce to the messages.
             agent: "pushAgent",
-            inputs: [":messages", ":llm.choices.$0.message"],
+            inputs: { array:":messages", item:":llm.choices.$0.message" },
           },
           swappedContext: {
             agent: "propertyFilterAgent",

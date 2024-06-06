@@ -106,7 +106,7 @@ const graph_tool = {
     messagesWithToolRes: {
       // Appends that message to the messages.
       agent: "pushAgent",
-      inputs: [":$1", ":toolMessage"],
+      inputs: { array:":$1", item:":toolMessage" },
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
@@ -127,7 +127,7 @@ const graph_tool = {
     messagesWithSecondRes: {
       // Appends the response to the messages.
       agent: "pushAgent",
-      inputs: [":messagesWithToolRes", ":llmCall.choices.$0.message"],
+      inputs: { array:":messagesWithToolRes", item:":llmCall.choices.$0.message" },
       isResult: true,
     },
   },
@@ -186,7 +186,7 @@ export const graph_data = {
     messagesWithUserInput: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: [":messages", ":userMessage"],
+      inputs: { array:":messages", item:":userMessage" },
       if: ":checkInput.continue",
     },
     llmCall: {
@@ -212,7 +212,7 @@ export const graph_data = {
     messagesWithFirstRes: {
       // Appends the response to the messages.
       agent: "pushAgent",
-      inputs: [":messagesWithUserInput", ":llmCall.choices.$0.message"],
+      inputs: { array:":messagesWithUserInput", item:":llmCall.choices.$0.message" },
     },
     tool_calls: {
       // This node is activated if the LLM requests a tool call.

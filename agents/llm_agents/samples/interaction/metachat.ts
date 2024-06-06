@@ -24,7 +24,7 @@ export const graph_data = {
       params: {
         type: "text",
       },
-      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception.json"],
+      inputs: ["https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception2.json"],
     },
     messages: {
       agent: "stringTemplateAgent",
@@ -45,7 +45,7 @@ export const graph_data = {
           {
             // Sample AI agent graph, which acquires those information from the user.
             role: "assistant",
-            content: "```json\n${1}```\n",
+            content: "```json\n${1}\n```\n",
           },
         ],
       },

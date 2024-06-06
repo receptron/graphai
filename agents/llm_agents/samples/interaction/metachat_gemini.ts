@@ -26,7 +26,7 @@ const messages = [
   {
     // Sample AI agent graph, which acquires those information from the user.
     role: "assistant",
-    content: "```json\n" + JSON.stringify(sample.graph_data) + "```\n",
+    content: "```json\n" + JSON.stringify(sample.graph_data) + "\n```\n",
   },
 ];
 
