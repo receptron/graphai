@@ -14,8 +14,10 @@ const graph_data = {
       agent: "groqAgent",
       params: {
         model: "mixtral-8x7b-32768",
-        query,
         stream: true,
+      },
+      inputs: {
+        prompt: query,
       },
     },
     answer: {
