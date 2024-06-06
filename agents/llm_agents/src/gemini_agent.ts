@@ -16,7 +16,7 @@ export const geminiAgent: AgentFunction<
   Record<string, any> | string,
   string | Array<any>
 > = async ({ params, namedInputs }) => {
-  const { system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs};
+  const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs};
 
   // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> =
@@ -28,7 +28,7 @@ export const geminiAgent: AgentFunction<
       content: Array.isArray(prompt) ? prompt.join('\n') : prompt,
     });
   }
-  
+
   const lastMessage = messagesCopy.pop();
 
   const key = process.env["GOOGLE_GENAI_API_KEY"];
@@ -41,7 +41,7 @@ export const geminiAgent: AgentFunction<
     },
   ];
   const modelParams: ModelParams = {
-    model: params.model ?? "gemini-pro",
+    model: model ?? "gemini-pro",
     safetySettings,
   };
   if (tools) {
@@ -50,14 +50,14 @@ export const geminiAgent: AgentFunction<
     });
     modelParams.tools = [{ functionDeclarations: functions }];
   }
-  const model = genAI.getGenerativeModel(modelParams);
+  const genModel = genAI.getGenerativeModel(modelParams);
   const generationConfig = {
     maxOutputTokens: max_tokens,
     temperature,
     // topP: 0.1,
     // topK: 16,
   };
-  const chat = model.startChat({
+  const chat = genModel.startChat({
     history: messagesCopy.map((message) => {
       const role = message.role === "assistant" ? "model" : message.role;
       if (role === "system") {
@@ -90,6 +90,11 @@ const geminiAgentInfo = {
   inputs: {
     type: "object",
     properties: {
+      mode: { type: "string" },
+      system: { type: "string" },
+      tools: { type: "object" },
+      max_tokens: { type: "number" },
+      temperature: { type: "number" },
       prompt: {
         type: "string",
         description: "query string",
