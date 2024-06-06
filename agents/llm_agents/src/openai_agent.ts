@@ -16,9 +16,10 @@ export const openAIAgent: AgentFunction<
   },
   Record<string, any> | string,
   string | Array<any>
-> = async ({ filterParams, params, inputs }) => {
+> = async ({ filterParams, params, namedInputs }) => {
   const { verbose, query, system, temperature, baseURL, apiKey, stream } = params;
-  const [input_query, previous_messages] = inputs;
+  const input_query = namedInputs.query;
+  const previous_messages = namedInputs.messages;
 
   // Notice that we ignore params.system if previous_message exists.
   const messagesProvided: Array<any> =
@@ -111,6 +112,22 @@ const openaiAgentInfo = {
   name: "openAIAgent",
   agent: openAIAgent,
   mock: openAIMockAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      query: {
+        type: "string",
+        description: "query string",
+      },
+      messages: {
+        type: "any",
+        description: "chat messages",
+      },
+    },
+  },
+  output: {
+    type: "object",
+  },
   samples: [
     {
       inputs: [input_sample],

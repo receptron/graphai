@@ -38,7 +38,7 @@ const graph_data_explain = {
           "\n[Sample Output]\n" +
           sample_output,
       },
-      inputs: [JSON.stringify(graph_data, null, 2)],
+      inputs: { query:JSON.stringify(graph_data, null, 2) },
     },
     description: {
       agent: "copyAgent",
