@@ -10,8 +10,8 @@ const graph_data = {
   nodes: {
     query: {
       agent: "anthropicAgent",
-      params: {
-        query,
+      inputs: {
+        prompt: query
       },
       isResult: true,
     },
