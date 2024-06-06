@@ -56,7 +56,7 @@ export const graph_data = {
     appendedMessages: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: [":messages", ":userMessage"],
+      inputs: { array:":messages", item:":userMessage" },
     },
     llm: {
       // Sends those messages to LLM to get a response.
@@ -77,7 +77,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: [":appendedMessages", ":llm.choices.$0.message"],
+      inputs: { array:":appendedMessages", item:":llm.choices.$0.message" },
     },
   },
 };
