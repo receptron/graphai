@@ -84,7 +84,7 @@ export const graph_data = {
             params: {
               model: "gpt-4o",
             },
-            inputs: [undefined, ":messages"],
+            inputs: { messages:":messages" },
           },
           translate: {
             // Asks the LLM to translate it into Japanese.
@@ -93,7 +93,7 @@ export const graph_data = {
               system: "この文章を日本語に訳して。意訳でも良いので、出来るだけ自然に相手に敬意を払う言葉遣いで。余計なことは書かずに、翻訳の結果だけ返して。",
               model: "gpt-4o",
             },
-            inputs: [":messages.$last.content"],
+            inputs: { prompt:":messages.$last.content" },
           },
           output: {
             // Displays the response to the user.
@@ -152,7 +152,7 @@ export const graph_data = {
       params: {
         system: "この文章を日本語に訳して。出来るだけ自然な口語に。余計なことは書かずに、翻訳の結果だけ返して。",
       },
-      inputs: [":chat.swappedMessages.$last.content"],
+      inputs: { prompt:":chat.swappedMessages.$last.content" },
     },
     output: {
       // This node displays the responce to the user.

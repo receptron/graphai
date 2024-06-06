@@ -20,8 +20,8 @@ export const tokenBoundStringsAgent: AgentFunction<
     content: string;
   },
   Array<string>
-> = async ({ params, inputs }) => {
-  const contents: Array<string> = inputs[0];
+> = async ({ params, namedInputs }) => {
+  const contents: Array<string> = namedInputs.chunks;
   const limit = params?.limit ?? defaultMaxToken;
   const addNext = (total: number, index: number): Record<string, number> => {
     const length = encoder.encode(contents[index] + "\n").length;
@@ -43,10 +43,36 @@ const tokenBoundStringsAgentInfo = {
   name: "tokenBoundStringsAgent",
   agent: tokenBoundStringsAgent,
   mock: tokenBoundStringsAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      chunks: {
+        type: "array",
+        description: "an array of strings",
+      },
+    },
+  },
+  output: {
+    type: "object",
+    properties: {
+      content: {
+        type: "string",
+        description: "token bound string",
+      },
+      tokenCount: {
+        type: "number",
+        description: "token count",
+      },
+      endIndex: {
+        type: "number",
+        description: "number of chunks",
+      },
+    },
+  },
   samples: [
     {
-      inputs: [
-        [
+      inputs: {
+        chunks: [
           "Here's to the crazy ones. The misfits. The rebels. The troublemakers.",
           "The round pegs in the square holes. The ones who see things differently.",
           "They're not fond of rules. And they have no respect for the status quo.",
@@ -57,7 +83,7 @@ const tokenBoundStringsAgentInfo = {
           "And while some may see them as the crazy ones, we see genius.",
           "Because the people who are crazy enough to think they can change the world, are the ones who do.",
         ],
-      ],
+      },
       params: {
         limit: 80,
       },

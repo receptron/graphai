@@ -62,7 +62,7 @@ export const graph_data = {
     referenceText: {
       // Generate reference text from those chunks (token limited)
       agent: "tokenBoundStringsAgent",
-      inputs: [":sortedChunks"],
+      inputs: { chunks:":sortedChunks" },
       params: {
         limit: 5000,
       },
@@ -81,12 +81,12 @@ export const graph_data = {
         before: "...performing the RAG query",
       },
       agent: "openAIAgent",
-      inputs: [":prompt"],
+      inputs: { prompt:":prompt" },
     },
     OneShotQuery: {
       // Get the answer from LLM without the reference text
       agent: "openAIAgent",
-      inputs: [":source.query"],
+      inputs: { prompt:":source.query" },
     },
     RagResult: {
       agent: "copyAgent",

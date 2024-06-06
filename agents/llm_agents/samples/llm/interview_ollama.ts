@@ -80,7 +80,7 @@ export const graph_data = {
               baseURL: "http://127.0.0.1:11434/v1",
               apiKey: "ollama",
             },
-            inputs: [undefined, ":messages"],
+            inputs: { messages:":messages" },
           },
           output: {
             // This node displays the responce to the user.

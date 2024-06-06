@@ -61,7 +61,7 @@ export const graph_data = {
     groq: {
       // Sends those messages to LLM to get a response.
       agent: "geminiAgent",
-      inputs: [undefined, ":appendedMessages"],
+      inputs: { messages:":appendedMessages" },
     },
     output: {
       // Displays the response to the user.

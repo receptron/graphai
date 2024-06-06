@@ -111,7 +111,7 @@ const graph_tool = {
     llmCall: {
       // Sends those messages to LLM to get the answer.
       agent: "openAIAgent",
-      inputs: [undefined, ":messagesWithToolRes"],
+      inputs: { messages:":messagesWithToolRes" },
     },
     output: {
       // Displays the response to the user.
@@ -195,7 +195,7 @@ export const graph_data = {
       params: {
         tools,
       },
-      inputs: [undefined, ":messagesWithUserInput"],
+      inputs: { messages:":messagesWithUserInput" },
     },
     output: {
       // Displays the response to the user.

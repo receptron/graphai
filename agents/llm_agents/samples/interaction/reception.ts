@@ -96,7 +96,7 @@ export const graph_data = {
         model: "gpt-4o",
         tools,
       },
-      inputs: [undefined, ":appendedMessages"],
+      inputs: { messages:":appendedMessages" },
     },
     argumentsParser: {
       // Parses the function arguments

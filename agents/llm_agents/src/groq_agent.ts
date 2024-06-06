@@ -37,17 +37,18 @@ export const groqAgent: AgentFunction<
   // Groq.Chat.ChatCompletion,
   any,
   string | Array<Groq.Chat.CompletionCreateParams.Message>
-> = async ({ params, inputs, filterParams }) => {
+> = async ({ params, namedInputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { verbose, query, system, tools, tool_choice, max_tokens, temperature, stream } = params;
-  const [input_query, previous_messages] = inputs;
+  const { verbose, system, tools, tool_choice, max_tokens, temperature, stream } = params;
+  const input_query = namedInputs.prompt;
+  const previous_messages = namedInputs.messages;
 
   // Notice that we ignore params.system if previous_message exists.
   const messagesProvided: Array<Groq.Chat.CompletionCreateParams.Message> =
     previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
   const messages = messagesProvided.map((m) => m); // sharrow copy
 
-  const content = (query ? [query] : []).concat(input_query && typeof input_query === "string" ? [input_query] : []).join("\n");
+  const content = (input_query && typeof input_query === "string" ? [input_query] : []).join("\n");
   if (content) {
     messages.push({
       role: "user",
@@ -106,6 +107,22 @@ const groqAgentInfo = {
   name: "groqAgent",
   agent: groqAgent,
   mock: groqAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      prompt: {
+        type: "string",
+        description: "query string",
+      },
+      messages: {
+        type: "any",
+        description: "chat messages",
+      },
+    },
+  },
+  output: {
+    type: "object",
+  },
   samples: [],
   description: "Groq Agent",
   category: ["llm"],
