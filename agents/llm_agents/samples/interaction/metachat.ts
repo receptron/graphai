@@ -60,7 +60,7 @@ export const graph_data = {
       params: {
         model: "gpt-4o",
       },
-      inputs: { prompt:"Name, Address and Phone Number", messages:":messages" },
+      inputs: { prompt: "Name, Address and Phone Number", messages: ":messages" },
     },
     parser: {
       // Parses the JSON data in the returned message

@@ -11,7 +11,7 @@ const graph_data = {
     query: {
       agent: "anthropicAgent",
       inputs: {
-        prompt: query
+        prompt: query,
       },
       isResult: true,
     },

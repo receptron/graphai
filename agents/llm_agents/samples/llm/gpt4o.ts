@@ -52,7 +52,7 @@ const graph_data = {
         model: "gpt-4o",
       },
       isResult: true,
-      inputs: { messages:":messages" },
+      inputs: { messages: ":messages" },
     },
     answer: {
       agent: "sleeperAgent",

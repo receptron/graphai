@@ -41,7 +41,7 @@ const graph_data = {
             params: {
               model: "Llama3-8b-8192",
             },
-            inputs: { prompt:":$0.question" },
+            inputs: { prompt: ":$0.question" },
           },
           answer: {
             agent: (item: string) => item,

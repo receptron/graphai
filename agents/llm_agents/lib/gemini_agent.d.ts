@@ -25,6 +25,22 @@ declare const geminiAgentInfo: {
         max_tokens?: number | undefined;
         tools?: Record<string, any>[] | undefined;
     }, string | Record<string, any>, string | any[]>;
+    inputs: {
+        type: string;
+        properties: {
+            prompt: {
+                type: string;
+                description: string;
+            };
+            messages: {
+                type: string;
+                description: string;
+            };
+        };
+    };
+    output: {
+        type: string;
+    };
     samples: never[];
     skipTest: boolean;
     description: string;

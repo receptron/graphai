@@ -11,8 +11,8 @@ const graph_data = {
     query: {
       agent: "geminiAgent",
       inputs: {
-        prompt: query
-      }
+        prompt: query,
+      },
     },
     result: {
       agent: "copyAgent",

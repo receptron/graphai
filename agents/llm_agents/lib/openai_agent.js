@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.openAIMockAgent = exports.openAIAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
-const openAIAgent = async ({ filterParams, params, inputs }) => {
-    const { verbose, query, system, temperature, baseURL, apiKey, stream } = params;
-    const [input_query, previous_messages] = inputs;
+const openAIAgent = async ({ filterParams, params, namedInputs }) => {
+    const { verbose, system, temperature, baseURL, apiKey, stream } = params;
+    const input_query = namedInputs.prompt;
+    const previous_messages = namedInputs.messages;
     // Notice that we ignore params.system if previous_message exists.
     const messagesProvided = previous_messages && Array.isArray(previous_messages) ? previous_messages : system ? [{ role: "system", content: system }] : [];
     const messages = messagesProvided.map((m) => m); // sharrow copy
-    const content = (query ? [query] : []).concat(input_query ? [input_query] : []).join("\n");
+    const content = (input_query ? [input_query] : []).join("\n");
     if (content) {
         messages.push({
             role: "user",
@@ -82,6 +83,22 @@ const openaiAgentInfo = {
     name: "openAIAgent",
     agent: exports.openAIAgent,
     mock: exports.openAIMockAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            prompt: {
+                type: "string",
+                description: "query string",
+            },
+            messages: {
+                type: "any",
+                description: "chat messages",
+            },
+        },
+    },
+    output: {
+        type: "object",
+    },
     samples: [
         {
             inputs: [input_sample],

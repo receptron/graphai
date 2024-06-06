@@ -42,7 +42,7 @@ const language_detection_graph = {
         tools: tools_translated,
         tool_choice: { type: "function", function: { name: "translated" } },
       },
-      inputs: { prompt:":$0" },
+      inputs: { prompt: ":$0" },
     },
     parser: {
       // Parses the arguments
@@ -101,7 +101,7 @@ const wikipedia_graph = {
         model: "gpt-4o",
         system: "Summarize the text below in 200 words",
       },
-      inputs: { prompt:":wikipedia.content" },
+      inputs: { prompt: ":wikipedia.content" },
     },
     result: {
       // Extracts the response from the generated message
@@ -140,7 +140,7 @@ const translator_graph = {
         model: "gpt-4o",
         system: ":nonEnglish",
       },
-      inputs: { prompt:":$0" },
+      inputs: { prompt: ":$0" },
       isResult: true,
     },
     result: {

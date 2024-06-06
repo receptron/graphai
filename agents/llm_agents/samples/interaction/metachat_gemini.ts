@@ -36,7 +36,7 @@ export const graph_data = {
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.
       agent: "geminiAgent",
-      inputs: { prompt:"Name, Address and Phone Number", messages },
+      inputs: { prompt: "Name, Address and Phone Number", messages },
     },
     parser: {
       // Parses the JSON data in the returned message

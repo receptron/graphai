@@ -12,8 +12,8 @@ const encoder = (0, tiktoken_1.get_encoding)("cl100k_base");
 //  inputs[0]: Array<string>; // array of string sorted by relevance.
 // Returns:
 //  { content: string } // reference text
-const tokenBoundStringsAgent = async ({ params, inputs }) => {
-    const contents = inputs[0];
+const tokenBoundStringsAgent = async ({ params, namedInputs }) => {
+    const contents = namedInputs.chunks;
     const limit = params?.limit ?? defaultMaxToken;
     const addNext = (total, index) => {
         const length = encoder.encode(contents[index] + "\n").length;
@@ -35,10 +35,36 @@ const tokenBoundStringsAgentInfo = {
     name: "tokenBoundStringsAgent",
     agent: exports.tokenBoundStringsAgent,
     mock: exports.tokenBoundStringsAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            chunks: {
+                type: "array",
+                description: "an array of strings",
+            },
+        },
+    },
+    output: {
+        type: "object",
+        properties: {
+            content: {
+                type: "string",
+                description: "token bound string",
+            },
+            tokenCount: {
+                type: "number",
+                description: "token count",
+            },
+            endIndex: {
+                type: "number",
+                description: "number of chunks",
+            },
+        },
+    },
     samples: [
         {
-            inputs: [
-                [
+            inputs: {
+                chunks: [
                     "Here's to the crazy ones. The misfits. The rebels. The troublemakers.",
                     "The round pegs in the square holes. The ones who see things differently.",
                     "They're not fond of rules. And they have no respect for the status quo.",
@@ -49,7 +75,7 @@ const tokenBoundStringsAgentInfo = {
                     "And while some may see them as the crazy ones, we see genius.",
                     "Because the people who are crazy enough to think they can change the world, are the ones who do.",
                 ],
-            ],
+            },
             params: {
                 limit: 80,
             },

@@ -61,7 +61,7 @@ export const graph_data = {
     llm: {
       // Sends those messages to LLM to get a response.
       agent: "anthropicAgent",
-      inputs: { messages:":appendedMessages" },
+      inputs: { messages: ":appendedMessages" },
     },
     output: {
       // Displays the response to the user.

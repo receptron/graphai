@@ -64,7 +64,7 @@ export const graph_data = {
       params: {
         model: "Llama3-8b-8192",
       },
-      inputs: { messages:":appendedMessages" },
+      inputs: { messages: ":appendedMessages" },
     },
     output: {
       // Displays the response to the user.

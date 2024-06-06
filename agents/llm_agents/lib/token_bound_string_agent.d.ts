@@ -16,8 +16,36 @@ declare const tokenBoundStringsAgentInfo: {
     }, {
         content: string;
     }, string[]>;
+    inputs: {
+        type: string;
+        properties: {
+            chunks: {
+                type: string;
+                description: string;
+            };
+        };
+    };
+    output: {
+        type: string;
+        properties: {
+            content: {
+                type: string;
+                description: string;
+            };
+            tokenCount: {
+                type: string;
+                description: string;
+            };
+            endIndex: {
+                type: string;
+                description: string;
+            };
+        };
+    };
     samples: {
-        inputs: string[][];
+        inputs: {
+            chunks: string[];
+        };
         params: {
             limit: number;
         };

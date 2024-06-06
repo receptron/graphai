@@ -39,6 +39,22 @@ declare const openaiAgentInfo: {
         verbose?: boolean | undefined;
         temperature?: number | undefined;
     }, string | Record<string, any>, string | any[]>;
+    inputs: {
+        type: string;
+        properties: {
+            prompt: {
+                type: string;
+                description: string;
+            };
+            messages: {
+                type: string;
+                description: string;
+            };
+        };
+    };
+    output: {
+        type: string;
+    };
     samples: {
         inputs: string[];
         params: {};

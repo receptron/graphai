@@ -35,6 +35,22 @@ declare const groqAgentInfo: {
         tool_choice?: Groq.Chat.Completions.CompletionCreateParams.ToolChoice | undefined;
         stream?: boolean | undefined;
     }, any, string | Groq.Chat.Completions.CompletionCreateParams.Message[]>;
+    inputs: {
+        type: string;
+        properties: {
+            prompt: {
+                type: string;
+                description: string;
+            };
+            messages: {
+                type: string;
+                description: string;
+            };
+        };
+    };
+    output: {
+        type: string;
+    };
     samples: never[];
     description: string;
     category: string[];
