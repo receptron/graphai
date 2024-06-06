@@ -49,7 +49,7 @@ export const groqAgent: AgentFunction<
   if (prompt) {
     messagesCopy.push({
       role: "user",
-      content: Array.isArray(prompt) ? prompt.join('\n') : prompt,
+      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
     });
   }
 
