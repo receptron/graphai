@@ -10,15 +10,15 @@ Retrieves JSON data from the specified URL
 
 ```json
 
-[
-  "https://www.google.com",
-  {
+{
+  "url": "https://www.google.com",
+  "queryParams": {
     "foo": "bar"
   },
-  {
+  "headers": {
     "x-myHeader": "secret"
   }
-]
+}
 
 ````
 
@@ -47,14 +47,12 @@ Retrieves JSON data from the specified URL
 
 ```json
 
-[
-  "https://www.google.com",
-  null,
-  null,
-  {
+{
+  "url": "https://www.google.com",
+  "body": {
     "foo": "bar"
   }
-]
+}
 
 ````
 
@@ -88,44 +86,44 @@ Retrieves JSON data from the specified URL
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "1",
-      "2"
-    ],
-    "properties": {
-      "1": {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "minLength": 1
-          }
-        },
-        "required": [
-          "foo"
-        ]
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "queryParams": {
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "string",
+          "minLength": 1
+        }
       },
-      "2": {
-        "type": "object",
-        "properties": {
-          "x-myHeader": {
-            "type": "string",
-            "minLength": 1
-          }
-        },
-        "required": [
-          "x-myHeader"
-        ]
-      }
+      "required": [
+        "foo"
+      ]
+    },
+    "headers": {
+      "type": "object",
+      "properties": {
+        "x-myHeader": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "x-myHeader"
+      ]
     }
-  }
+  },
+  "required": [
+    "url",
+    "queryParams",
+    "headers"
+  ]
 }
 
 ````
@@ -134,31 +132,31 @@ Retrieves JSON data from the specified URL
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "3"
-    ],
-    "properties": {
-      "3": {
-        "type": "object",
-        "properties": {
-          "foo": {
-            "type": "string",
-            "minLength": 1
-          }
-        },
-        "required": [
-          "foo"
-        ]
-      }
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "foo"
+      ]
     }
-  }
+  },
+  "required": [
+    "url",
+    "body"
+  ]
 }
 
 ````
