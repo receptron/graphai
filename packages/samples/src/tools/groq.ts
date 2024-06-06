@@ -51,7 +51,7 @@ const graph_data = {
               tool_choice: { type: "function", function: { name: "categorize" } },
             },
             retry: 1,
-            inputs: { prompt:":$0" },
+            inputs: { prompt: ":$0" },
           },
           parser: {
             agent: (food: string, args: string) => {
