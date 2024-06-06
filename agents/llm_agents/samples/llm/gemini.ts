@@ -10,9 +10,9 @@ const graph_data = {
   nodes: {
     query: {
       agent: "geminiAgent",
-      params: {
-        query,
-      },
+      inputs: {
+        prompt: query
+      }
     },
     result: {
       agent: "copyAgent",

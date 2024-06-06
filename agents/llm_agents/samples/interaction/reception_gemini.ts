@@ -95,7 +95,7 @@ export const graph_data = {
       params: {
         tools,
       },
-      inputs: [undefined, ":appendedMessages"],
+      inputs: { messages:":appendedMessages" },
     },
     argumentsParser: {
       // Parses the function arguments
