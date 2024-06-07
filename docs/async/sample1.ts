@@ -77,6 +77,21 @@ const Answer7 = async () => {
   return promiseF;
 }
 
+const computed = async (nodes:any, func:any) => {
+  const results = await Promise.all(nodes);
+  return func(...results);
+};
+
+const Answer8 = async () => {
+  const nodeA = FuncA();
+  const nodeB = FuncB();
+  const nodeC = FuncC();
+  const nodeD = computed([nodeA, nodeB], FuncD);
+  const nodeE = computed([nodeB, nodeC], FuncE);
+  const nodeF = computed([nodeD, nodeE], FuncF);
+  return nodeF;
+}
+
 const timer = async (p: Promise<any>) => {
   const now = Date.now();
   const result = await p;
@@ -91,6 +106,7 @@ const main = async () => {
   console.log(await timer(Answer5()));
   console.log(await timer(Answer6()));
   console.log(await timer(Answer7()));
+  console.log(await timer(Answer8()));
 };
 
 if (process.argv[1] === __filename) {
