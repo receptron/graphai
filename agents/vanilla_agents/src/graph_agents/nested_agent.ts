@@ -21,7 +21,7 @@ export const getNestedGraphData = (graphData: GraphData | string | undefined, in
 
 export const nestedAgent: AgentFunction<{
   namedInputs?: Array<string>;
-}> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
+}> = async ({ params, inputs, namedInputs, agents, log, taskManager, graphData, agentFilters }) => {
   if (taskManager) {
     const status = taskManager.getStatus(false);
     assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -29,16 +29,33 @@ export const nestedAgent: AgentFunction<{
 
   const nestedGraphData = getNestedGraphData(graphData, inputs);
 
-  const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
-  namedInputs.forEach((nodeId, index) => {
-    if (nestedGraphData.nodes[nodeId] === undefined) {
-      // If the input node does not exist, automatically create a static node
-      nestedGraphData.nodes[nodeId] = { value: inputs[index] };
-    } else {
-      // Otherwise, inject the proper data here (instead of calling injectTo method later)
-      (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = inputs[index];
+  if (inputs.length > 0) {
+    // LATER: Remove this old way
+    console.log("-------------------- inputs for nestedGraph");
+    const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
+    namedInputs.forEach((nodeId, index) => {
+      if (nestedGraphData.nodes[nodeId] === undefined) {
+        // If the input node does not exist, automatically create a static node
+        nestedGraphData.nodes[nodeId] = { value: inputs[index] };
+      } else {
+        // Otherwise, inject the proper data here (instead of calling injectTo method later)
+        (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = inputs[index];
+      }
+    });
+  } else {
+    const nodeIds = Object.keys(namedInputs);
+    if (nodeIds.length > 0) {
+      nodeIds.forEach((nodeId) => {
+        if (nestedGraphData.nodes[nodeId] === undefined) {
+          // If the input node does not exist, automatically create a static node
+          nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
+        } else {
+          // Otherwise, inject the proper data here (instead of calling injectTo method later)
+          (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+        }
+      });
     }
-  });
+  }
 
   try {
     const graphAI = new GraphAI(nestedGraphData, agents || {}, {
