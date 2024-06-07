@@ -8,7 +8,8 @@ nodes:
         outer1: output
   outer2:
     agent: nestedAgent
-    inputs: [:outer1]
+    inputs:
+      inner0: :outer1
     graph:
       version: 0.3
       nodes:
@@ -31,7 +32,7 @@ nodes:
             duration: 500
             value:
               inner3: output
-          inputs: [:$0, :inner1, :inner2]
+          inputs: [:inner0, :inner1, :inner2]
   outer3:
     agent: sleeperAgent
     params:

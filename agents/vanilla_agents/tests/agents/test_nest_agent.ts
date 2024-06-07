@@ -12,13 +12,13 @@ const graph_data = {
     },
     nestedNode: {
       agent: "nestedAgent",
-      inputs: [":source"],
+      inputs: { inner0: ":source" },
       isResult: true,
       graph: {
         nodes: {
           result: {
             agent: "copyAgent",
-            inputs: [":$0"],
+            inputs: [":inner0"],
             isResult: true
           }
         }

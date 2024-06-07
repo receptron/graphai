@@ -6,14 +6,18 @@ import { assert } from "graphai/lib/utils/utils";
 export const getNestedGraphData = (graphData: GraphData | string | undefined, inputs: Array<any>): GraphData => {
   assert(graphData !== undefined, "nestedAgent: graphData is required");
   if (typeof graphData === "string") {
+    // We no longer need this feature bacause graph can have a data source
+    /*
     const regex = /^\$(\d+)$/;
     const match = graphData.match(regex);
     if (match) {
+      
       const index = parseInt(match[1], 10);
       if (index < inputs.length) {
         return inputs[index] as GraphData;
       }
     }
+    */
     assert(false, `getNestedGraphData: Invalid graphData string: ${graphData}`);
   }
   return graphData;
