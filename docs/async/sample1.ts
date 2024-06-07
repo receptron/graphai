@@ -54,7 +54,6 @@ const Answer6 = async () => {
     const c = await promiseC;
     return FuncE(b, c);
   }
-
   const [d, e] = await Promise.all([AthenD(), CthenE()]);
   return FuncF(d, e);
 }
