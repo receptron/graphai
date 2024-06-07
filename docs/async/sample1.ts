@@ -70,8 +70,11 @@ const Answer7 = async () => {
     const [b, c] = await Promise.all([promiseB, promiseC]);
     return FuncE(b, c);
   })();
-  const [d, e] = await Promise.all([promiseD, promiseE]);
-  return FuncF(d, e);
+  const promiseF = (async () => {
+    const [d, e] = await Promise.all([promiseD, promiseE]);
+    return FuncF(d, e);
+  })();
+  return promiseF;
 }
 
 const timer = async (p: Promise<any>) => {
