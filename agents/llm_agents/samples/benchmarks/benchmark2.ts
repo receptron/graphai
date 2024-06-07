@@ -10,7 +10,7 @@ const graph_data = {
       value: {
         url: "https://datasets-server.huggingface.co/rows",
         query: {
-          dataset: "gsm8k",
+          dataset: "openai/gsm8k",
           config: "main",
           split: "train",
           offset: 0,

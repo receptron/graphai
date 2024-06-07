@@ -10,7 +10,7 @@ const graph_data = {
       value: {
         url: "https://datasets-server.huggingface.co/rows",
         query: {
-          dataset: "gsm8k",
+          dataset: "openai/gsm8k",
           config: "main",
           split: "train",
           offset: 0,
@@ -58,7 +58,7 @@ const graph_data = {
           // This node takes the first item from the array from node "$0".
           retriever: {
             agent: "shiftAgent",
-            inputs: [":rows"],
+            inputs: { array:":rows" },
           },
           debugOutputQA: {
             agent: (item: Record<string, string>) => console.log(`Q: ${item.question}\nA0: ${item.answer}`),
