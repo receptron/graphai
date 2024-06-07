@@ -42,7 +42,7 @@ const language_detection_graph = {
         tools: tools_translated,
         tool_choice: { type: "function", function: { name: "translated" } },
       },
-      inputs: { prompt: ":$0" },
+      inputs: { prompt: ":topic" },
     },
     parser: {
       // Parses the arguments
@@ -89,7 +89,7 @@ const wikipedia_graph = {
       params: {
         lang: "en",
       },
-      inputs: [":$0"],
+      inputs: [":topic"],
     },
     summary: {
       // Asks the LLM to summarize it.
@@ -117,8 +117,8 @@ const translator_graph = {
     english: {
       // Copies the input data ($0) if the context language is English
       agent: "copyAgent",
-      if: ":$1.isEnglish",
-      inputs: [":$0"],
+      if: ":lang_info.isEnglish",
+      inputs: [":content"],
     },
     nonEnglish: {
       // Prepares the prompt if the context language is not English.
@@ -126,8 +126,8 @@ const translator_graph = {
       params: {
         template: "Translate the text below into ${0}",
       },
-      inputs: [":$1.language"],
-      unless: ":$1.isEnglish",
+      inputs: [":lang_info.language"],
+      unless: ":lang_info.isEnglish",
       isResult: true,
     },
     translate: {
@@ -140,7 +140,7 @@ const translator_graph = {
         model: "gpt-4o",
         system: ":nonEnglish",
       },
-      inputs: { prompt: ":$0" },
+      inputs: { prompt: ":content" },
       isResult: true,
     },
     result: {
@@ -169,21 +169,21 @@ export const graph_data = {
       console: {
         before: "Detecting language...",
       },
-      inputs: [":topic"],
+      inputs: { topic:":topic" },
       graph: language_detection_graph,
       isResult: true,
     },
     wikipedia: {
       // Retrieves the Wikipedia content for the spcified topic and summarize it in English.
       agent: "nestedAgent",
-      inputs: [":detector.result.text"],
+      inputs: { topic:":detector.result.text" },
       isResult: true,
       graph: wikipedia_graph,
     },
     translate: {
       // Tranalte it into the appropriate language if necessary.
       agent: "nestedAgent",
-      inputs: [":wikipedia.result", ":detector.result"],
+      inputs: { content:":wikipedia.result", lang_info:":detector.result" },
       isResult: true,
       graph: translator_graph,
     },
