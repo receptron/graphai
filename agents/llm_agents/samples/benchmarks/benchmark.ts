@@ -35,17 +35,17 @@ const graph_data = {
     loop: {
       // This node interate all the items in the dataset using the nested graph
       agent: "nestedAgent",
-      inputs: [":rows"],
+      inputs: { rows: ":rows" },
       isResult: true,
       graph: {
         // This graph continues until the array on node ":$0" becomes empty
         loop: {
-          while: ":$0",
+          while: ":rows",
         },
         nodes: {
           // This node receives the inputs[0] (data from "rows" node on outer graph) initially
           // then, updated with the data from "retriever" node after each iteration.
-          $0: {
+          rows: {
             value: undefined,
             update: ":retriever.array",
           },
@@ -58,7 +58,7 @@ const graph_data = {
           // This node takes the first item from the array from node "$0".
           retriever: {
             agent: "shiftAgent",
-            inputs: [":$0"],
+            inputs: [":rows"],
           },
           debugOutputQA: {
             agent: (item: Record<string, string>) => console.log(`Q: ${item.question}\nA0: ${item.answer}`),
