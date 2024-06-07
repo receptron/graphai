@@ -10,6 +10,8 @@ export type PromiseResult = {
   E?: boolean;
 };
 
+export type NodePromise = Promise<PromiseResult>;
+
 export const FuncA = async () => {
   await sleep(50);  
   return { A: true };

@@ -1,4 +1,4 @@
-import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult } from './common';
+import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult, NodePromise } from './common';
 
 const Answer1 = async () => {  
   const a = await FuncA();
@@ -77,7 +77,7 @@ const Answer7 = async () => {
   return promiseF;
 }
 
-const computed = async (nodes:any, func:any) => {
+const computed = async (nodes: NodePromise[], func: (...arg: PromiseResult[]) => NodePromise) => {
   const results = await Promise.all(nodes);
   return func(...results);
 };
@@ -92,7 +92,7 @@ const Answer8 = async () => {
   return nodeF;
 }
 
-const timer = async (p: Promise<PromiseResult>) => {
+const timer = async (p: NodePromise) => {
   const now = Date.now();
   const result = await p;
   return { time: Date.now() - now, ...result };
