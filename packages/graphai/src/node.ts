@@ -313,6 +313,7 @@ export class ComputedNode extends Node {
           agentId: this.agentId,
           retry: this.retryCount,
           verbose: this.graph.verbose,
+          version: this.graph.version,
         },
         filterParams: this.filterParams,
         agentFilters: this.graph.agentFilters,

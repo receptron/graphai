@@ -9,13 +9,16 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
+> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
   const nestedGraphData = getNestedGraphData(graphData, inputs);
+  if (nestedGraphData.version === undefined && debugInfo.version) {
+    nestedGraphData.version = debugInfo.version;
+  }
   const input = (Array.isArray(inputs[0]) ? inputs[0] : inputs).map((item) => item);
   if (params.limit && params.limit < input.length) {
     input.length = params.limit; // trim
