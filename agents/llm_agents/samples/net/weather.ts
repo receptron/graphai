@@ -38,12 +38,12 @@ const graph_tool = {
       console: {
         after: true,
       },
-      inputs: [":$0.$0.function.arguments"],
+      inputs: [":tool_calls.$0.function.arguments"],
     },
     parser: {
       // Parse the arguments to the function
       agent: "jsonParserAgent",
-      inputs: [":$0.$0.function.arguments"],
+      inputs: [":tool_calls.$0.function.arguments"],
     },
     urlPoints: {
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
@@ -101,12 +101,12 @@ const graph_tool = {
           },
         ],
       },
-      inputs: [{ role: "tool" }, ":$0.$0.id", ":$0.$0.function.name", ":responseText"],
+      inputs: [{ role: "tool" }, ":tool_calls.$0.id", ":tool_calls.$0.function.name", ":responseText"],
     },
     messagesWithToolRes: {
       // Appends that message to the messages.
       agent: "pushAgent",
-      inputs: { array: ":$1", item: ":toolMessage" },
+      inputs: { array: ":messages", item: ":toolMessage" },
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
@@ -217,7 +217,7 @@ export const graph_data = {
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: [":llmCall.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
+      inputs: { tool_calls:":llmCall.choices.$0.message.tool_calls", messages:":messagesWithFirstRes" },
       if: ":llmCall.choices.$0.message.tool_calls",
       graph: graph_tool,
     },
