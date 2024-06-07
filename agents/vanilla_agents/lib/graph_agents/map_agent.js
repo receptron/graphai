@@ -4,7 +4,7 @@ exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
 const utils_1 = require("graphai/lib/utils/utils");
 const nested_agent_1 = require("./nested_agent");
-const mapAgent = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters }) => {
+const mapAgent = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
     if (taskManager) {
         const status = taskManager.getStatus();
         (0, utils_1.assert)(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -25,6 +25,9 @@ const mapAgent = async ({ params, inputs, agents, log, taskManager, graphData, a
         }
     });
     try {
+        if (nestedGraphData.version === undefined && debugInfo.version) {
+            nestedGraphData.version = debugInfo.version;
+        }
         const graphs = input.map((data) => {
             const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, {
                 taskManager,
