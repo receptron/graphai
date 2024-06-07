@@ -1,5 +1,4 @@
 import { graphDataTestRunner } from "@graphai/test_utils";
-import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
 import test from "node:test";
@@ -26,7 +25,7 @@ const graph_data = {
       }
     },
   }
-}
+};
 
 test("test nested agent", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graph_data, agents, () => {}, false);
@@ -58,7 +57,7 @@ const graph_data2 = {
       }
     },
   }
-}
+};
 
 test("test nested agent 2", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graph_data2, agents, () => {}, false);
