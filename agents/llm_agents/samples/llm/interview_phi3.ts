@@ -52,7 +52,7 @@ export const graph_data = {
     },
     chat: {
       agent: "nestedAgent",
-      inputs: { messages:":messages", context:":context" },
+      inputs: { messages: ":messages", context: ":context" },
       isResult: true,
       graph: {
         loop: {

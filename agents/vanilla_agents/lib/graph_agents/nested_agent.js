@@ -5,7 +5,7 @@ const graphai_1 = require("graphai");
 const utils_1 = require("graphai/lib/utils/utils");
 // This function allows us to use one of inputs as the graph data for this nested agent,
 // which is equivalent to "eval" of JavaScript.
-const getNestedGraphData = (graphData, inputs) => {
+const getNestedGraphData = (graphData, __inputs) => {
     (0, utils_1.assert)(graphData !== undefined, "nestedAgent: graphData is required");
     if (typeof graphData === "string") {
         // We no longer need this feature bacause graph can have a data source
@@ -13,7 +13,7 @@ const getNestedGraphData = (graphData, inputs) => {
         const regex = /^\$(\d+)$/;
         const match = graphData.match(regex);
         if (match) {
-          
+    
           const index = parseInt(match[1], 10);
           if (index < inputs.length) {
             return inputs[index] as GraphData;

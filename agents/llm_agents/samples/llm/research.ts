@@ -169,21 +169,21 @@ export const graph_data = {
       console: {
         before: "Detecting language...",
       },
-      inputs: { topic:":topic" },
+      inputs: { topic: ":topic" },
       graph: language_detection_graph,
       isResult: true,
     },
     wikipedia: {
       // Retrieves the Wikipedia content for the spcified topic and summarize it in English.
       agent: "nestedAgent",
-      inputs: { topic:":detector.result.text" },
+      inputs: { topic: ":detector.result.text" },
       isResult: true,
       graph: wikipedia_graph,
     },
     translate: {
       // Tranalte it into the appropriate language if necessary.
       agent: "nestedAgent",
-      inputs: { content:":wikipedia.result", lang_info:":detector.result" },
+      inputs: { content: ":wikipedia.result", lang_info: ":detector.result" },
       isResult: true,
       graph: translator_graph,
     },

@@ -6,7 +6,7 @@ const generative_ai_1 = require("@google/generative-ai");
 const geminiAgent = async ({ params, namedInputs }) => {
     const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
     // Notice that we ignore params.system if previous_message exists.
-    const messagesCopy = messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+    const messagesCopy = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
     if (prompt) {
         messagesCopy.push({
             role: "user",

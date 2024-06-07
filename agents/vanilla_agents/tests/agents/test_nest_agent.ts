@@ -19,12 +19,12 @@ const graph_data = {
           result: {
             agent: "copyAgent",
             inputs: [":inner0"],
-            isResult: true
-          }
-        }
-      }
+            isResult: true,
+          },
+        },
+      },
     },
-  }
+  },
 };
 
 test("test nested agent", async () => {
@@ -44,19 +44,19 @@ const graph_data2 = {
     },
     nestedNode: {
       agent: "nestedAgent",
-      inputs: { source:":source" },
+      inputs: { source: ":source" },
       isResult: true,
       graph: {
         nodes: {
           result: {
             agent: "copyAgent",
             inputs: [":source"],
-            isResult: true
-          }
-        }
-      }
+            isResult: true,
+          },
+        },
+      },
     },
-  }
+  },
 };
 
 test("test nested agent 2", async () => {

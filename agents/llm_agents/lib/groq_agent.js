@@ -26,7 +26,7 @@ const groqAgent = async ({ params, namedInputs, filterParams }) => {
     (0, graphai_1.assert)(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
     const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
     // Notice that we ignore params.system if previous_message exists.
-    const messagesCopy = messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+    const messagesCopy = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
     if (prompt) {
         messagesCopy.push({
             role: "user",

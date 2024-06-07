@@ -12,7 +12,7 @@ const graphdata_nested = {
     },
     parent: {
       agent: "nestedAgent",
-      inputs: { source:":source" },
+      inputs: { source: ":source" },
       isResult: true,
       graph: {
         loop: {
@@ -59,7 +59,7 @@ const graphdata_pop = {
     parent: {
       agent: "nestedAgent",
       isResult: true,
-      inputs: { fruits:":fruits" },
+      inputs: { fruits: ":fruits" },
       graph: {
         loop: {
           while: ":fruits",
@@ -105,7 +105,7 @@ const graphdata_nested_injection = {
     },
     parent: {
       agent: "nestedAgent",
-      inputs: { inner_source:":source" },
+      inputs: { inner_source: ":source" },
       isResult: true,
       graph: {
         loop: {

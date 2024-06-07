@@ -217,7 +217,7 @@ export const graph_data = {
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: { tool_calls:":llmCall.choices.$0.message.tool_calls", messages:":messagesWithFirstRes" },
+      inputs: { tool_calls: ":llmCall.choices.$0.message.tool_calls", messages: ":messagesWithFirstRes" },
       if: ":llmCall.choices.$0.message.tool_calls",
       graph: graph_tool,
     },

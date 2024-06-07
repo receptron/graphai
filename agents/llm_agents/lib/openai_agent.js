@@ -9,7 +9,7 @@ const graphai_1 = require("graphai");
 const openAIAgent = async ({ filterParams, params, namedInputs }) => {
     const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages } = { ...params, ...namedInputs };
     // Notice that we ignore params.system if previous_message exists.
-    const messagesCopy = messages ? messages.map(m => m) : system ? [{ role: "system", content: system }] : [];
+    const messagesCopy = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
     if (prompt) {
         messagesCopy.push({
             role: "user",

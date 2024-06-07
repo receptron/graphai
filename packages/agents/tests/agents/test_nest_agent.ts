@@ -18,7 +18,7 @@ test("test nest agent", async () => {
         },
       },
     },
-    namedInputs: { prop1:{ apple: "red" }, prop2:{ lemon: "yellow" }, prop3:{ orange: "orange" }},
+    namedInputs: { prop1: { apple: "red" }, prop2: { lemon: "yellow" }, prop3: { orange: "orange" } },
     inputs: [],
   });
   assert.deepStrictEqual(result, {

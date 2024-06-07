@@ -56,7 +56,7 @@ export const graph_data = {
     chat: {
       // performs the conversation using nested graph
       agent: "nestedAgent",
-      inputs: { messages:":messages", context:":context" },
+      inputs: { messages: ":messages", context: ":context" },
       isResult: true,
       graph: {
         loop: {
