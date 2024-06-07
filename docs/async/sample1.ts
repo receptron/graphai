@@ -58,6 +58,22 @@ const Answer6 = async () => {
   return FuncF(d, e);
 }
 
+const Answer7 = async () => {
+  const promiseA = FuncA();
+  const promiseC = FuncC();
+  const promiseB = FuncB();
+  const promiseD = async () => {
+    const [a, b] = await Promise.all([promiseA, promiseB]);
+    return FuncD(a, b);
+  }
+  const promiseE = async () => {
+    const [b, c] = await Promise.all([promiseB, promiseC]);
+    return FuncE(b, c);
+  }
+  const [d, e] = await Promise.all([promiseD(), promiseE()]);
+  return FuncF(d, e);
+}
+
 const timer = async (p: Promise<any>) => {
   const now = Date.now();
   const result = await p;
@@ -71,6 +87,7 @@ const main = async () => {
   console.log(await timer(Answer4()));
   console.log(await timer(Answer5()));
   console.log(await timer(Answer6()));
+  console.log(await timer(Answer7()));
 };
 
 if (process.argv[1] === __filename) {
