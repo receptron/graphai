@@ -70,6 +70,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
         nodeId: string;
         retry: number;
         agentId?: string;
+        version?: number;
     };
     graphData?: GraphData | string;
     agents?: AgentFunctionInfoDictionary;
