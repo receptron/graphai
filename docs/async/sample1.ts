@@ -6,20 +6,20 @@ const Answer1 = async () => {
   const c = await FuncC();
   const d = await FuncD(a, b);
   const e = await FuncE(b, c);
-  return await FuncF(d, e);
+  return FuncF(d, e);
 }
 
 const Answer2 = async () => {
   const [a, b, c] = await Promise.all([FuncA(), FuncB(), FuncC()]); 
   const d = await FuncD(a, b);
   const e = await FuncE(b, c);
-  return await FuncF(d, e);
+  return FuncF(d, e);
 }
 
 const Answer3 = async () => {
   const [a, b, c] = await Promise.all([FuncA(), FuncB(), FuncC()]); 
   const [d, e] = await Promise.all([FuncD(a,b), FuncE(b,c)]);
-  return await FuncF(d, e);
+  return FuncF(d, e);
 }
 
 const Answer4 = async () => {
@@ -58,6 +58,40 @@ const Answer6 = async () => {
   return FuncF(d, e);
 }
 
+const Answer7 = async () => {
+  const promiseA = FuncA();
+  const promiseC = FuncC();
+  const promiseB = FuncB();
+  const promiseD = (async () => {
+    const [a, b] = await Promise.all([promiseA, promiseB]);
+    return FuncD(a, b);
+  })();
+  const promiseE = (async () => {
+    const [b, c] = await Promise.all([promiseB, promiseC]);
+    return FuncE(b, c);
+  })();
+  const promiseF = (async () => {
+    const [d, e] = await Promise.all([promiseD, promiseE]);
+    return FuncF(d, e);
+  })();
+  return promiseF;
+}
+
+const computed = async (nodes:any, func:any) => {
+  const results = await Promise.all(nodes);
+  return func(...results);
+};
+
+const Answer8 = async () => {
+  const nodeA = FuncA();
+  const nodeB = FuncB();
+  const nodeC = FuncC();
+  const nodeD = computed([nodeA, nodeB], FuncD);
+  const nodeE = computed([nodeB, nodeC], FuncE);
+  const nodeF = computed([nodeD, nodeE], FuncF);
+  return nodeF;
+}
+
 const timer = async (p: Promise<PromiseResult>) => {
   const now = Date.now();
   const result = await p;
@@ -71,6 +105,8 @@ const main = async () => {
   console.log(await timer(Answer4()));
   console.log(await timer(Answer5()));
   console.log(await timer(Answer6()));
+  console.log(await timer(Answer7()));
+  console.log(await timer(Answer8()));
 };
 
 if (process.argv[1] === __filename) {
