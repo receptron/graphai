@@ -6,20 +6,20 @@ const Answer1 = async () => {
   const c = await FuncC();
   const d = await FuncD(a, b);
   const e = await FuncE(b, c);
-  return await FuncF(d, e);
+  return FuncF(d, e);
 }
 
 const Answer2 = async () => {
   const [a, b, c] = await Promise.all([FuncA(), FuncB(), FuncC()]); 
   const d = await FuncD(a, b);
   const e = await FuncE(b, c);
-  return await FuncF(d, e);
+  return FuncF(d, e);
 }
 
 const Answer3 = async () => {
   const [a, b, c] = await Promise.all([FuncA(), FuncB(), FuncC()]); 
   const [d, e] = await Promise.all([FuncD(a,b), FuncE(b,c)]);
-  return await FuncF(d, e);
+  return FuncF(d, e);
 }
 
 const Answer4 = async () => {
