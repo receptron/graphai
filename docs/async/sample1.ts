@@ -62,15 +62,15 @@ const Answer7 = async () => {
   const promiseA = FuncA();
   const promiseC = FuncC();
   const promiseB = FuncB();
-  const promiseD = async () => {
+  const promiseD = (async () => {
     const [a, b] = await Promise.all([promiseA, promiseB]);
     return FuncD(a, b);
-  }
-  const promiseE = async () => {
+  })();
+  const promiseE = (async () => {
     const [b, c] = await Promise.all([promiseB, promiseC]);
     return FuncE(b, c);
-  }
-  const [d, e] = await Promise.all([promiseD(), promiseE()]);
+  })();
+  const [d, e] = await Promise.all([promiseD, promiseE]);
   return FuncF(d, e);
 }
 
