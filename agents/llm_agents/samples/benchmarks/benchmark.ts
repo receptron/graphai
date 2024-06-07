@@ -58,7 +58,7 @@ const graph_data = {
           // This node takes the first item from the array from node "$0".
           retriever: {
             agent: "shiftAgent",
-            inputs: { array:":rows" },
+            inputs: { array: ":rows" },
           },
           debugOutputQA: {
             agent: (item: Record<string, string>) => console.log(`Q: ${item.question}\nA0: ${item.answer}`),
