@@ -1,4 +1,4 @@
-import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF } from './common';
+import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult } from './common';
 
 const Answer1 = async () => {  
   const a = await FuncA();
@@ -58,7 +58,7 @@ const Answer6 = async () => {
   return FuncF(d, e);
 }
 
-const timer = async (p: Promise<any>) => {
+const timer = async (p: Promise<PromiseResult>) => {
   const now = Date.now();
   const result = await p;
   return { time: Date.now() - now, ...result };
