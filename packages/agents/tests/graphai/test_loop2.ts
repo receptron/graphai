@@ -49,10 +49,7 @@ test("test counter2", async () => {
         agent: "nestedAgent",
         isResult: true,
         graph: graphdata_counter,
-        params: {
-          namedInputs: ["data"], // inject workingMemory data to data node in graphdata_counter
-        },
-        inputs: [":workingMemory"],
+        inputs: { data: ":workingMemory" },
       },
     },
   };
