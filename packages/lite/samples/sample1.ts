@@ -1,4 +1,5 @@
 import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult } from './common';
+import { computed } from '../src/index';
 
 const Answer1 = async () => {  
   const a = await FuncA();
@@ -76,11 +77,6 @@ const Answer7 = async () => {
   })();
   return promiseF;
 }
-
-const computed = async (nodes:any, func:any) => {
-  const results = await Promise.all(nodes);
-  return func(...results);
-};
 
 const Answer8 = async () => {
   const nodeA = FuncA();
