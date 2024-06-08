@@ -38,7 +38,7 @@ export class Logger {
       console.log(`starting: ${logStart.name} at ${logStart.time - this.startTime}`);
     }
     const output = await func(...inputs);
-    const logEnd:any = {
+    const logEnd: any = {
       name: options.name,
       time: Date.now(),
       state: "completed",
@@ -49,7 +49,7 @@ export class Logger {
     }
     this.logs.push(logEnd);
     if (verbose) {
-      console.log(`complted: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${ logEnd.duration }ms`);
+      console.log(`complted: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
     }
     return output;
   }
