@@ -58,3 +58,28 @@ flowchart LR
  nodeD --> nodeF
  nodeE --> nodeF
 ```
+
+## Logger
+
+The ```computed``` class of GraphAI Lite allows developers to log the executions of those asynchronous tasks.
+
+```Typescript
+import { computed, Logger } from '@receptron/graphai_lite';
+
+const ExecuteAtoF = async (logger: Logger) => {
+  const nodeA = logger.computed([], FuncA, { name: "nodeA" });
+  const nodeB = logger.computed([], FuncB, { name: "nodeB" });
+  const nodeC = logger.computed([], FuncC, { name: "nodeC" });
+  const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
+  const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
+  const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
+  logger.result = {
+    f: await nodeF
+  };
+};
+
+const logger = new Logger({ verbose:true });
+await ExecuteAtoF(logger);
+console.log(logger.logs);
+console.log(logger.result);
+```
