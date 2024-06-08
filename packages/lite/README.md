@@ -1,6 +1,6 @@
 # GraphAI Lite
 
-GraphAI Lite is a light-weight version of GraphAI, the declarative data-flow programming framework, which makes it easy to develop complex applications that utilize multiple asynchronous calls and concurrent executions of them.
+GraphAI Lite is a light-weight version of [GraphAI](https://github.com/receptron/graphai#readme), the declarative data-flow programming framework, which makes it easy to develop complex applications that utilize multiple asynchronous calls and concurrent executions of them.
 
 GraphAI Lite consists of a set of small TypeScript libraries, which allows devleopers to take advantage of data-flow programming, eliminating the need to manage complex states involving asynchronous calls and cuncurrent executions. 
 
@@ -19,7 +19,7 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-In order to execute independent tasks concurrently, you need to use Promise.all, but it's hard to fully optimize it and it often leads to hard-to-maintain code. 
+In order to execute independent asynchronous tasks concurrently, you need to use Promise.all, but it's hard to fully optimize it and it often leads to hard-to-maintain code. 
 
 For example, the code below is slightly optimized, but this is not fully optimized (FuncD needs to wait until FuncC is done even thought there is no dependencies, so as FundE needs to wait FuncA).
 
@@ -31,12 +31,11 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-The ```computed``` of GraphAI Lite is a lightweight function, which allows data-flow style programming. You just need to specify dependencies of various tasks (nodes), and let the system figure out the appropriate execution orders.
+The ```computed``` of GraphAI Lite is a thin wrapper of Promise.all, which enables data-flow style programming. You just need to specify dependencies of various tasks (nodes), and let the system figure out the appropriate execution orders.
 
 ```Typescript
 import { computed } from '@receptron/graphai_lite';
 
-// FuncA/B/C/D/E/F are all async functions
 const ExecuteAtoF = async () => {
   const nodeA = FuncA();
   const nodeB = FuncB();
@@ -48,7 +47,7 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-Below is the data-flow diagram, the code above represents.
+Below is the data-flow diagram, the code above represents (the graph is visible only on [Github](https://github.com/receptron/graphai/tree/main/packages/lite#readme)).
 
 ```mermaid
 flowchart LR
