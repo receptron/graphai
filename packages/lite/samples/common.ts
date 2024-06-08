@@ -11,7 +11,7 @@ export type PromiseResult = {
 };
 
 export const FuncA = async () => {
-  await sleep(50);  
+  await sleep(50);
   return { A: true };
 };
 
