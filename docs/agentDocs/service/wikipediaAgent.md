@@ -1,10 +1,10 @@
-## wikipediaAgent
+# wikipediaAgent
 
-### Description
+## Description
 
 Retrieves data from wikipedia
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -25,7 +25,7 @@ Retrieves data from wikipedia
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -39,7 +39,9 @@ Retrieves data from wikipedia
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -72,16 +74,15 @@ Retrieves data from wikipedia
 
 ````
 
-### Author
+## Author
 
 Receptron
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

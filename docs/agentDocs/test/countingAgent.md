@@ -1,10 +1,10 @@
-## countingAgent
+# countingAgent
 
-### Description
+## Description
 
 Counting agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -25,7 +25,7 @@ Counting agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -40,7 +40,9 @@ Counting agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -73,16 +75,15 @@ Counting agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

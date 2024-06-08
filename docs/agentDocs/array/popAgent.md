@@ -1,10 +1,10 @@
-## popAgent
+# popAgent
 
-### Description
+## Description
 
 Pop Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -45,7 +45,7 @@ Pop Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -81,7 +81,9 @@ Pop Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -118,6 +120,8 @@ Pop Agent
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -153,6 +157,8 @@ Pop Agent
 }
 
 ````
+### Sample2
+
 #### inputs
 
 ```json
@@ -194,16 +200,15 @@ Pop Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

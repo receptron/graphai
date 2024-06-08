@@ -1,10 +1,10 @@
-## dataSumTemplateAgent
+# dataSumTemplateAgent
 
-### Description
+## Description
 
 Returns the sum of input values
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -26,7 +26,7 @@ Returns the sum of input values
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -50,7 +50,9 @@ Returns the sum of input values
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -77,6 +79,8 @@ Returns the sum of input values
 1
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -103,6 +107,8 @@ Returns the sum of input values
 3
 
 ````
+### Sample2
+
 #### inputs
 
 ```json
@@ -131,16 +137,15 @@ Returns the sum of input values
 
 ````
 
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

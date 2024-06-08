@@ -1,10 +1,10 @@
-## groqAgent
+# groqAgent
 
-### Description
+## Description
 
 Groq Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -60,24 +60,23 @@ Groq Agent
 
 ````
 
-### Input Format
+## Input Format
 
 
 
-### Samples
+## Samples
 
 
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

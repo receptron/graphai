@@ -1,10 +1,10 @@
-## copyMessageAgent
+# copyMessageAgent
 
-### Description
+## Description
 
 CopyMessage agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -25,7 +25,7 @@ CopyMessage agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -40,7 +40,9 @@ CopyMessage agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -73,16 +75,15 @@ CopyMessage agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

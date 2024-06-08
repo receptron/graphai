@@ -1,10 +1,10 @@
-## streamMockAgent
+# streamMockAgent
 
-### Description
+## Description
 
 Stream mock agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -25,7 +25,7 @@ Stream mock agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -36,7 +36,9 @@ Stream mock agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -64,16 +66,15 @@ Stream mock agent
 
 ````
 
-### Author
+## Author
 
 Isamu Arimoto
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

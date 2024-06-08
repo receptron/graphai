@@ -1,10 +1,10 @@
-## textInputAgent
+# textInputAgent
 
-### Description
+## Description
 
 Text Input Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -25,7 +25,7 @@ Text Input Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -35,7 +35,9 @@ Text Input Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -61,16 +63,15 @@ Text Input Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

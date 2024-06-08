@@ -1,10 +1,10 @@
-## stringSplitterAgent
+# stringSplitterAgent
 
-### Description
+## Description
 
 This agent strip one long string into chunks using following parameters
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -53,7 +53,7 @@ This agent strip one long string into chunks using following parameters
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -78,7 +78,9 @@ This agent strip one long string into chunks using following parameters
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -123,16 +125,15 @@ This agent strip one long string into chunks using following parameters
 
 ````
 
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

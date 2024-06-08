@@ -1,10 +1,10 @@
-## sortByValuesAgent
+# sortByValuesAgent
 
-### Description
+## Description
 
 sortByValues Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -40,7 +40,7 @@ sortByValues Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -65,7 +65,9 @@ sortByValues Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -108,6 +110,8 @@ sortByValues Agent
 ]
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -150,16 +154,15 @@ sortByValues Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

@@ -1,10 +1,10 @@
-## echoAgent
+# echoAgent
 
-### Description
+## Description
 
 Echo agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -43,7 +43,7 @@ Echo agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -61,7 +61,9 @@ Echo agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -88,6 +90,8 @@ Echo agent
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -112,16 +116,15 @@ Echo agent
 
 ````
 
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

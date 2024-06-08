@@ -1,10 +1,10 @@
-## mergeNodeIdAgent
+# mergeNodeIdAgent
 
-### Description
+## Description
 
 merge node id agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -32,7 +32,7 @@ merge node id agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -44,7 +44,9 @@ merge node id agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -77,16 +79,15 @@ merge node id agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

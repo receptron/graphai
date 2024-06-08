@@ -1,10 +1,10 @@
-## jsonParserAgent
+# jsonParserAgent
 
-### Description
+## Description
 
 Template agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -26,7 +26,7 @@ Template agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -45,7 +45,9 @@ Template agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -75,6 +77,8 @@ Template agent
 "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -104,16 +108,15 @@ Template agent
 
 ````
 
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

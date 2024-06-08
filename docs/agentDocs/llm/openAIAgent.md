@@ -1,10 +1,10 @@
-## openAIAgent
+# openAIAgent
 
-### Description
+## Description
 
 Openai Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -66,7 +66,7 @@ Openai Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -88,7 +88,9 @@ Openai Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -132,16 +134,15 @@ Openai Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

@@ -1,10 +1,10 @@
-## dotProductAgent
+# dotProductAgent
 
-### Description
+## Description
 
 dotProduct Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -40,7 +40,7 @@ dotProduct Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -62,7 +62,9 @@ dotProduct Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -110,6 +112,8 @@ dotProduct Agent
 ]
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -152,16 +156,15 @@ dotProduct Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

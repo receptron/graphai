@@ -1,10 +1,10 @@
-## slashGPTAgent
+# slashGPTAgent
 
-### Description
+## Description
 
 Slash GPT Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -25,7 +25,7 @@ Slash GPT Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -43,7 +43,9 @@ Slash GPT Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -80,16 +82,15 @@ Slash GPT Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

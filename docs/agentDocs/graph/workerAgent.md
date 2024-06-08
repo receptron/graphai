@@ -1,10 +1,10 @@
-## workerAgent
+# workerAgent
 
-### Description
+## Description
 
 Map Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -43,7 +43,7 @@ Map Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -62,7 +62,9 @@ Map Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -89,6 +91,8 @@ Map Agent
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -117,16 +121,15 @@ Map Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

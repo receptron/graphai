@@ -1,10 +1,10 @@
-## shiftAgent
+# shiftAgent
 
-### Description
+## Description
 
 shift Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -45,7 +45,7 @@ shift Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -70,7 +70,9 @@ shift Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -107,6 +109,8 @@ shift Agent
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -143,16 +147,15 @@ shift Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

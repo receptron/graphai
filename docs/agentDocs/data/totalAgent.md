@@ -1,10 +1,10 @@
-## totalAgent
+# totalAgent
 
-### Description
+## Description
 
 Returns the sum of input values
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -26,7 +26,7 @@ Returns the sum of input values
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -90,7 +90,9 @@ Returns the sum of input values
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -127,6 +129,8 @@ Returns the sum of input values
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -180,6 +184,8 @@ Returns the sum of input values
 }
 
 ````
+### Sample2
+
 #### inputs
 
 ```json
@@ -209,6 +215,8 @@ Returns the sum of input values
 }
 
 ````
+### Sample3
+
 #### inputs
 
 ```json
@@ -241,6 +249,8 @@ Returns the sum of input values
 }
 
 ````
+### Sample4
+
 #### inputs
 
 ```json
@@ -276,6 +286,8 @@ Returns the sum of input values
 }
 
 ````
+### Sample5
+
 #### inputs
 
 ```json
@@ -315,6 +327,8 @@ Returns the sum of input values
 }
 
 ````
+### Sample6
+
 #### inputs
 
 ```json
@@ -354,16 +368,15 @@ Returns the sum of input values
 
 ````
 
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/snakajima/graphai
 
-
-### License
+## License
 
 MIT
 

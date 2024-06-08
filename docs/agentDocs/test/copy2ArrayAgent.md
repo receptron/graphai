@@ -1,10 +1,10 @@
-## copy2ArrayAgent
+# copy2ArrayAgent
 
-### Description
+## Description
 
 Copy2Array agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -32,7 +32,7 @@ Copy2Array agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -62,7 +62,9 @@ Copy2Array agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -123,16 +125,15 @@ Copy2Array agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

@@ -1,10 +1,10 @@
-## geminiAgent
+# geminiAgent
 
-### Description
+## Description
 
 Gemini Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -51,24 +51,23 @@ Gemini Agent
 
 ````
 
-### Input Format
+## Input Format
 
 
 
-### Samples
+## Samples
 
 
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

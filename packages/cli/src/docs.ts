@@ -10,9 +10,10 @@ import path from "path";
 
 const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   if (key === "samples") {
-    return agentInfo.samples
-      .map((sample) => {
-        return [
+    return Array.from(agentInfo.samples.keys()).map((key) => {
+      const sample = agentInfo.samples[key];
+      return [
+          `### Sample${key}`,
           "#### inputs",
           "```json",
           JSON.stringify(sample.inputs, null, 2),
@@ -32,7 +33,6 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   }
   if (key === "schemas") {
     if (agentInfo.inputs && agentInfo.output) {
-      console.log("AA");
       return [
         "#### inputs",
         "```json",

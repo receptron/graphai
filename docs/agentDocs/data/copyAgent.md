@@ -1,10 +1,10 @@
-## copyAgent
+# copyAgent
 
-### Description
+## Description
 
 Returns inputs[0]
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -26,7 +26,7 @@ Returns inputs[0]
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -45,7 +45,9 @@ Returns inputs[0]
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -78,6 +80,8 @@ Returns inputs[0]
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -105,16 +109,15 @@ Returns inputs[0]
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

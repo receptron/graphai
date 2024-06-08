@@ -1,10 +1,10 @@
-## propertyFilterAgent
+# propertyFilterAgent
 
-### Description
+## Description
 
 Filter properties based on property name either with 'include' or 'exclude'
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -26,7 +26,7 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -165,7 +165,9 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -201,6 +203,8 @@ Filter properties based on property name either with 'include' or 'exclude'
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -251,6 +255,8 @@ Filter properties based on property name either with 'include' or 'exclude'
 ]
 
 ````
+### Sample2
+
 #### inputs
 
 ```json
@@ -303,6 +309,8 @@ Filter properties based on property name either with 'include' or 'exclude'
 ]
 
 ````
+### Sample3
+
 #### inputs
 
 ```json
@@ -359,6 +367,8 @@ Filter properties based on property name either with 'include' or 'exclude'
 ]
 
 ````
+### Sample4
+
 #### inputs
 
 ```json
@@ -415,6 +425,8 @@ Filter properties based on property name either with 'include' or 'exclude'
 ]
 
 ````
+### Sample5
+
 #### inputs
 
 ```json
@@ -471,6 +483,8 @@ Filter properties based on property name either with 'include' or 'exclude'
 ]
 
 ````
+### Sample6
+
 #### inputs
 
 ```json
@@ -527,6 +541,8 @@ Filter properties based on property name either with 'include' or 'exclude'
 ]
 
 ````
+### Sample7
+
 #### inputs
 
 ```json
@@ -588,16 +604,15 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

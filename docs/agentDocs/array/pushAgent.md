@@ -1,10 +1,10 @@
-## pushAgent
+# pushAgent
 
-### Description
+## Description
 
 push Agent
 
-### Schema
+## Schema
 
 #### inputs
 
@@ -40,7 +40,7 @@ push Agent
 
 ````
 
-### Input Format
+## Input Format
 
 ```json
 
@@ -64,7 +64,9 @@ push Agent
 
 ````
 
-### Samples
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -99,6 +101,8 @@ push Agent
 ]
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -139,16 +143,15 @@ push Agent
 
 ````
 
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 
