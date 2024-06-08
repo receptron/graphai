@@ -1,6 +1,6 @@
 {
   "name": "@receptron/graphai_lite",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "GraphAI Lite",
   "main": "lib/index.js",
   "files": [
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai/packages/lite#readme",
+  "homepage": "https://github.com/receptron/graphai/tree/main/packages/lite#readme",
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

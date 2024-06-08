@@ -1,12 +1,12 @@
 # GraphAI Lite
 
-GraphAI Lite is a light-weight version of GraphAI, the declarative data-flow programming framework, which makes it easy to develop complex applications that utilize multiple asynchronous calls and concurrent executions of them.
+GraphAI Lite is a light-weight version of [GraphAI](https://github.com/receptron/graphai#readme), the declarative data-flow programming framework that makes it easy to develop complex applications utilizing multiple asynchronous calls and their concurrent executions.
 
-GraphAI Lite consists of a set of small TypeScript libraries, which allows devleopers to take advantage of data-flow programming, eliminating the need to manage complex states involving asynchronous calls and cuncurrent executions. 
+GraphAI Lite consists of a set of small TypeScript libraries, allowing developers to leverage data-flow programming and eliminate the need to manage complex states involving asynchronous calls and concurrent executions.
 
 ## Usage
 
-While async/await made it simple to call asynchronous functions, everything will be executed sequentially even though they are independent.
+While async/await has simplified calling asynchronous functions, everything is executed sequentially, even when the tasks are independent.
 
 ```Typescript
 const ExecuteAtoF = async () => {
@@ -19,9 +19,9 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-In order to execute independent tasks concurrently, you need to use Promise.all, but it's hard to fully optimize it and it often leads to hard-to-maintain code. 
+To execute independent asynchronous tasks concurrently, you need to use Promise.all. However, fully optimizing this can lead to hard-to-maintain code.
 
-For example, the code below is slightly optimized, but this is not fully optimized (FuncD needs to wait until FuncC is done even thought there is no dependencies, so as FundE needs to wait FuncA).
+For example, the code below is slightly optimized but not fully optimized (FuncD needs to wait until FuncC is done even though there is no dependency, and FuncE needs to wait for FuncA).
 
 ```Typescript
 const ExecuteAtoF = async () => {
@@ -31,12 +31,11 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-The ```computed``` of GraphAI Lite is a lightweight function, which allows data-flow style programming. You just need to specify dependencies of various tasks (nodes), and let the system figure out the appropriate execution orders.
+The ```computed``` function of GraphAI Lite is a thin wrapper around Promise.all, enabling data-flow style programming. You just need to specify the dependencies of various tasks (nodes) and let the system figure out the appropriate execution order.
 
 ```Typescript
 import { computed } from '@receptron/graphai_lite';
 
-// FuncA/B/C/D/E/F are all async functions
 const ExecuteAtoF = async () => {
   const nodeA = FuncA();
   const nodeB = FuncB();
@@ -48,7 +47,7 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-Below is the data-flow diagram, the code above represents.
+Below is the data-flow diagram represented by the code above (the graph is visible only on [Github](https://github.com/receptron/graphai/tree/main/packages/lite#readme)).
 
 ```mermaid
 flowchart LR
