@@ -44,12 +44,11 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
         "````",
       ].join("\n\n");
     }
-    return agentInfo.samples
-      .map((sample) => {
-        return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "````"].join("\n\n");
-        // return JSON.stringify(agentInfo.samples, null, 2);
-      })
-      .join("\n");
+    if (agentInfo.samples && agentInfo.samples[0]) {
+      const sample = agentInfo.samples[0];
+      return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "````"].join("\n\n");
+    }
+    return "";
   }
   if (key === "resultKey") {
     return agentInfo.samples
