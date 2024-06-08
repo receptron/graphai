@@ -1,10 +1,86 @@
-## stringSplitterAgent
+# stringSplitterAgent
 
-### Description
+## Description
 
 This agent strip one long string into chunks using following parameters
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "text to be chuncked"
+    }
+  },
+  "required": [
+    "text"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "contents": {
+      "type": "array",
+      "description": "the array of text chunks"
+    },
+    "count": {
+      "type": "number",
+      "description": "the number of chunks"
+    },
+    "chunkSize": {
+      "type": "number",
+      "description": "the chunk size"
+    },
+    "overlap": {
+      "type": "number",
+      "description": "the overlap size"
+    }
+  }
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.contents",
+  ":agentId.contents.$0",
+  ":agentId.contents.$1",
+  ":agentId.contents.$2",
+  ":agentId.contents.$3",
+  ":agentId.contents.$4",
+  ":agentId.contents.$5",
+  ":agentId.contents.$6",
+  ":agentId.contents.$7",
+  ":agentId.contents.$8",
+  ":agentId.contents.$9",
+  ":agentId.contents.$10",
+  ":agentId.count",
+  ":agentId.chunkSize",
+  ":agentId.overlap"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -49,64 +125,15 @@ This agent strip one long string into chunks using following parameters
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "text": {
-      "type": "string",
-      "minLength": 1
-    }
-  },
-  "required": [
-    "text"
-  ]
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.contents",
-  ":agentId.contents.$0",
-  ":agentId.contents.$1",
-  ":agentId.contents.$2",
-  ":agentId.contents.$3",
-  ":agentId.contents.$4",
-  ":agentId.contents.$5",
-  ":agentId.contents.$6",
-  ":agentId.contents.$7",
-  ":agentId.contents.$8",
-  ":agentId.contents.$9",
-  ":agentId.contents.$10",
-  ":agentId.count",
-  ":agentId.chunkSize",
-  ":agentId.overlap"
-]
-
-````
-
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

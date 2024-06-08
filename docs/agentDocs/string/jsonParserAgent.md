@@ -1,10 +1,53 @@
-## jsonParserAgent
+# jsonParserAgent
 
-### Description
+## Description
 
 Template agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "any"
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "any"
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.apple",
+  ":agentId.lemon"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -34,6 +77,8 @@ Template agent
 "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -63,86 +108,15 @@ Template agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "apple",
-      "lemon"
-    ],
-    "properties": {
-      "apple": {
-        "type": "string",
-        "minLength": 1
-      },
-      "lemon": {
-        "type": "string",
-        "minLength": 1
-      }
-    }
-  }
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
-]
-
-````
-
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

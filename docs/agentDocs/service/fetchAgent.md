@@ -1,10 +1,86 @@
-## fetchAgent
+# fetchAgent
 
-### Description
+## Description
 
 Retrieves JSON data from the specified URL
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "baseurl"
+    },
+    "method": {
+      "type": "string",
+      "description": "HTTP method"
+    },
+    "headers": {
+      "type": "object",
+      "description": "HTTP headers"
+    },
+    "quaryParams": {
+      "type": "object",
+      "description": "Query parameters"
+    },
+    "body": {
+      "type": "object",
+      "description": "body"
+    }
+  },
+  "required": [
+    "url"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
+  ":agentId.headers.x-myHeader",
+  ":agentId.body"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
+  ":agentId.headers.Content-Type",
+  ":agentId.body"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -43,6 +119,8 @@ Retrieves JSON data from the specified URL
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -79,125 +157,15 @@ Retrieves JSON data from the specified URL
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "url": {
-      "type": "string",
-      "minLength": 1
-    },
-    "queryParams": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "foo"
-      ]
-    },
-    "headers": {
-      "type": "object",
-      "properties": {
-        "x-myHeader": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "x-myHeader"
-      ]
-    }
-  },
-  "required": [
-    "url",
-    "queryParams",
-    "headers"
-  ]
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "url": {
-      "type": "string",
-      "minLength": 1
-    },
-    "body": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "foo"
-      ]
-    }
-  },
-  "required": [
-    "url",
-    "body"
-  ]
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.method",
-  ":agentId.url",
-  ":agentId.headers",
-  ":agentId.headers.x-myHeader",
-  ":agentId.body"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.method",
-  ":agentId.url",
-  ":agentId.headers",
-  ":agentId.headers.Content-Type",
-  ":agentId.body"
-]
-
-````
-
-### Author
+## Author
 
 Receptron
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

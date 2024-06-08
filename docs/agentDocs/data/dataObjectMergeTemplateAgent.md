@@ -1,10 +1,96 @@
-## dataObjectMergeTemplateAgent
+# dataObjectMergeTemplateAgent
 
-### Description
+## Description
 
 Merge object
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "array",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "",
+  "minItems": 1,
+  "uniqueItems": true,
+  "items": {
+    "type": "object",
+    "required": [
+      "content1"
+    ],
+    "properties": {
+      "content1": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.content1",
+  ":agentId.content2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.content1"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.content"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a",
+  ":agentId.b",
+  ":agentId.c"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a",
+  ":agentId.a.b",
+  ":agentId.a.b.c",
+  ":agentId.a.b.c.d",
+  ":agentId.b",
+  ":agentId.b.c",
+  ":agentId.b.c.d",
+  ":agentId.b.c.d.e",
+  ":agentId.b.d",
+  ":agentId.b.d.e",
+  ":agentId.b.d.e.f"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -39,6 +125,8 @@ Merge object
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -68,6 +156,8 @@ Merge object
 }
 
 ````
+### Sample2
+
 #### inputs
 
 ```json
@@ -100,6 +190,8 @@ Merge object
 }
 
 ````
+### Sample3
+
 #### inputs
 
 ```json
@@ -141,6 +233,8 @@ Merge object
 }
 
 ````
+### Sample4
+
 #### inputs
 
 ```json
@@ -213,231 +307,15 @@ Merge object
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "content1"
-    ],
-    "properties": {
-      "content1": {
-        "type": "string",
-        "minLength": 1
-      }
-    }
-  }
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "content1"
-    ],
-    "properties": {
-      "content1": {
-        "type": "string",
-        "minLength": 1
-      }
-    }
-  }
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "content"
-    ],
-    "properties": {
-      "content": {
-        "type": "string",
-        "minLength": 1
-      }
-    }
-  }
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "a",
-      "b",
-      "c"
-    ],
-    "properties": {
-      "a": {
-        "type": "number"
-      },
-      "b": {
-        "type": "number"
-      },
-      "c": {
-        "type": "number"
-      }
-    }
-  }
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "a"
-    ],
-    "properties": {
-      "a": {
-        "type": "object",
-        "properties": {
-          "b": {
-            "type": "object",
-            "properties": {
-              "c": {
-                "type": "object",
-                "properties": {
-                  "d": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "required": [
-                  "d"
-                ]
-              }
-            },
-            "required": [
-              "c"
-            ]
-          }
-        },
-        "required": [
-          "b"
-        ]
-      }
-    }
-  }
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.content1",
-  ":agentId.content2"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.content1"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.content"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a",
-  ":agentId.b",
-  ":agentId.c"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a",
-  ":agentId.a.b",
-  ":agentId.a.b.c",
-  ":agentId.a.b.c.d",
-  ":agentId.b",
-  ":agentId.b.c",
-  ":agentId.b.c.d",
-  ":agentId.b.c.d.e",
-  ":agentId.b.d",
-  ":agentId.b.d.e",
-  ":agentId.b.d.e.f"
-]
-
-````
-
-### Author
+## Author
 
 Satoshi Nakajima
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

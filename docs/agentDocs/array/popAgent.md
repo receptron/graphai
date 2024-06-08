@@ -1,10 +1,89 @@
-## popAgent
+# popAgent
 
-### Description
+## Description
 
 Pop Agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to pop an item from"
+    }
+  },
+  "required": [
+    "array"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "item": {
+      "type": "any",
+      "description": "the item popped from the array"
+    },
+    "array": {
+      "type": "array",
+      "description": "the remaining array"
+    }
+  }
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.item"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.item"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.item"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -41,6 +120,8 @@ Pop Agent
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -76,6 +157,8 @@ Pop Agent
 }
 
 ````
+### Sample2
+
 #### inputs
 
 ```json
@@ -117,132 +200,15 @@ Pop Agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "array"
-  ]
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "array"
-  ]
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    },
-    "array2": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "array",
-    "array2"
-  ]
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$1",
-  ":agentId.item"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$1",
-  ":agentId.item"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$1",
-  ":agentId.item"
-]
-
-````
-
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

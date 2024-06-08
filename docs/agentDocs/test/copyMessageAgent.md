@@ -1,10 +1,48 @@
-## copyMessageAgent
+# copyMessageAgent
 
-### Description
+## Description
 
 CopyMessage agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "array",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "",
+  "minItems": 1,
+  "uniqueItems": true,
+  "items": {
+    "type": "object",
+    "required": [],
+    "properties": {}
+  }
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.messages",
+  ":agentId.messages.$0",
+  ":agentId.messages.$1",
+  ":agentId.messages.$2",
+  ":agentId.messages.$3"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -37,52 +75,15 @@ CopyMessage agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.messages",
-  ":agentId.messages.$0",
-  ":agentId.messages.$1",
-  ":agentId.messages.$2",
-  ":agentId.messages.$3"
-]
-
-````
-
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

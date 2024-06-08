@@ -10,9 +10,10 @@ import path from "path";
 
 const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   if (key === "samples") {
-    return agentInfo.samples
-      .map((sample) => {
-        return [
+    return Array.from(agentInfo.samples.keys()).map((key) => {
+      const sample = agentInfo.samples[key];
+      return [
+          `### Sample${key}`,
           "#### inputs",
           "```json",
           JSON.stringify(sample.inputs, null, 2),
@@ -31,12 +32,23 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
       .join("\n");
   }
   if (key === "schemas") {
-    return agentInfo.samples
-      .map((sample) => {
-        return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "````"].join("\n\n");
-        // return JSON.stringify(agentInfo.samples, null, 2);
-      })
-      .join("\n");
+    if (agentInfo.inputs && agentInfo.output) {
+      return [
+        "#### inputs",
+        "```json",
+        JSON.stringify(agentInfo.inputs, null, 2),
+        "````",
+        "#### output",
+        "```json",
+        JSON.stringify(agentInfo.output, null, 2),
+        "````",
+      ].join("\n\n");
+    }
+    if (agentInfo.samples && agentInfo.samples[0]) {
+      const sample = agentInfo.samples[0];
+      return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "````"].join("\n\n");
+    }
+    return "";
   }
   if (key === "resultKey") {
     return agentInfo.samples

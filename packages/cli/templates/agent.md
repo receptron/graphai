@@ -1,31 +1,30 @@
-## {name}
+# {name}
 
-### Description
+## Description
 
 {description}
 
-### Samples
-
-{samples}
-
-### Schema
+## Schema
 
 {schemas}
 
-### Input Format
+## Input Format
 
 {resultKey}
 
-### Author
+## Samples
+
+{samples}
+
+## Author
 
 {author}
 
-### Repository
+## Repository
 
 {repository}
 
-
-### License
+## License
 
 {license}
 

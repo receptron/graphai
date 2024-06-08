@@ -1,10 +1,53 @@
-## copyAgent
+# copyAgent
 
-### Description
+## Description
 
 Returns inputs[0]
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "any"
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.color",
+  ":agentId.model"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -37,6 +80,8 @@ Returns inputs[0]
 }
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -64,86 +109,15 @@ Returns inputs[0]
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "color",
-      "model"
-    ],
-    "properties": {
-      "color": {
-        "type": "string",
-        "minLength": 1
-      },
-      "model": {
-        "type": "string",
-        "minLength": 1
-      }
-    }
-  }
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.color",
-  ":agentId.model"
-]
-
-````
-```json
-
-[
-  ":agentId"
-]
-
-````
-
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

@@ -1,10 +1,70 @@
-## dotProductAgent
+# dotProductAgent
 
-### Description
+## Description
 
 dotProduct Agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "matrix": {
+      "type": "array",
+      "description": "two dimentional matrix"
+    },
+    "vector": {
+      "type": "array",
+      "description": "the vector"
+    }
+  },
+  "required": [
+    "array",
+    "vector"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -52,6 +112,8 @@ dotProduct Agent
 ]
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -94,145 +156,15 @@ dotProduct Agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "matrix": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {
-          "0": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          },
-          "1": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          },
-          "2": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          }
-        }
-      }
-    },
-    "vector": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "matrix",
-    "vector"
-  ]
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "matrix": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {
-          "0": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          },
-          "1": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          }
-        }
-      }
-    },
-    "vector": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "matrix",
-    "vector"
-  ]
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1"
-]
-
-````
-
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

@@ -1,10 +1,96 @@
-## openAIAgent
+# openAIAgent
 
-### Description
+## Description
 
 Openai Agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "model": {
+      "type": "string"
+    },
+    "system": {
+      "type": "string"
+    },
+    "tools": {
+      "type": "object"
+    },
+    "tool_choice": {
+      "type": "any"
+    },
+    "max_tokens": {
+      "type": "number"
+    },
+    "verbose": {
+      "type": "boolean"
+    },
+    "temperature": {
+      "type": "number"
+    },
+    "baseURL": {
+      "type": "string"
+    },
+    "apiKey": {
+      "type": "any"
+    },
+    "stream": {
+      "type": "boolean"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "query string"
+    },
+    "messages": {
+      "type": "any",
+      "description": "chat messages"
+    }
+  }
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "object"
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.object",
+  ":agentId.id",
+  ":agentId.choices",
+  ":agentId.choices.$0",
+  ":agentId.choices.$0.message",
+  ":agentId.choices.$0.message.role",
+  ":agentId.choices.$0.message.content",
+  ":agentId.choices.$0.finish_reason",
+  ":agentId.choices.$0.index",
+  ":agentId.choices.$0.logprobs",
+  ":agentId.created",
+  ":agentId.model"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -48,59 +134,15 @@ Openai Agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.object",
-  ":agentId.id",
-  ":agentId.choices",
-  ":agentId.choices.$0",
-  ":agentId.choices.$0.message",
-  ":agentId.choices.$0.message.role",
-  ":agentId.choices.$0.message.content",
-  ":agentId.choices.$0.finish_reason",
-  ":agentId.choices.$0.index",
-  ":agentId.choices.$0.logprobs",
-  ":agentId.created",
-  ":agentId.model"
-]
-
-````
-
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

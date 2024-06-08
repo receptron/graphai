@@ -1,10 +1,44 @@
-## streamMockAgent
+# streamMockAgent
 
-### Description
+## Description
 
 Stream mock agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "array",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "",
+  "minItems": 1,
+  "uniqueItems": true,
+  "items": {
+    "type": "object",
+    "required": [],
+    "properties": {}
+  }
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.message"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -32,48 +66,15 @@ Stream mock agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.message"
-]
-
-````
-
-### Author
+## Author
 
 Isamu Arimoto
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

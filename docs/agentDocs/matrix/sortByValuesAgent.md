@@ -1,10 +1,73 @@
-## sortByValuesAgent
+# sortByValuesAgent
 
-### Description
+## Description
 
 sortByValues Agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to sort"
+    },
+    "values": {
+      "type": "array",
+      "description": "values associated with items in the array"
+    }
+  },
+  "required": [
+    "array",
+    "values"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2",
+  ":agentId.$3"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2",
+  ":agentId.$3"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -47,6 +110,8 @@ sortByValues Agent
 ]
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -89,106 +154,15 @@ sortByValues Agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    },
-    "values": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "array",
-    "values"
-  ]
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    },
-    "values": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "array",
-    "values"
-  ]
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2",
-  ":agentId.$3"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2",
-  ":agentId.$3"
-]
-
-````
-
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 

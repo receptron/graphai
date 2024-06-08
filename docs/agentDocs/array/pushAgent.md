@@ -1,10 +1,72 @@
-## pushAgent
+# pushAgent
 
-### Description
+## Description
 
 push Agent
 
-### Samples
+## Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to push an item to"
+    },
+    "item": {
+      "type": "any",
+      "description": "the item push into the array"
+    }
+  },
+  "required": [
+    "array",
+    "item"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+## Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.apple",
+  ":agentId.$1",
+  ":agentId.$1.lemon"
+]
+
+````
+
+## Samples
+
+### Sample0
 
 #### inputs
 
@@ -39,6 +101,8 @@ push Agent
 ]
 
 ````
+### Sample1
+
 #### inputs
 
 ```json
@@ -79,113 +143,15 @@ push Agent
 
 ````
 
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    },
-    "item": {
-      "type": "number"
-    }
-  },
-  "required": [
-    "array",
-    "item"
-  ]
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "uniqueItems": true,
-      "minItems": 1,
-      "items": {
-        "required": [
-          "apple"
-        ],
-        "properties": {
-          "apple": {
-            "type": "number"
-          }
-        }
-      }
-    },
-    "item": {
-      "type": "object",
-      "properties": {
-        "lemon": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "lemon"
-      ]
-    }
-  },
-  "required": [
-    "array",
-    "item"
-  ]
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$0.apple",
-  ":agentId.$1",
-  ":agentId.$1.lemon"
-]
-
-````
-
-### Author
+## Author
 
 Receptron team
 
-### Repository
+## Repository
 
 https://github.com/receptron/graphai
 
-
-### License
+## License
 
 MIT
 
