@@ -1,5 +1,4 @@
-import { GraphAI, AgentFunction } from "graphai";
-import { assert } from "graphai/lib/utils/utils";
+import { GraphAI, AgentFunction, assert } from "graphai";
 import { getNestedGraphData } from "./nested_agent";
 
 export const mapAgent: AgentFunction<
