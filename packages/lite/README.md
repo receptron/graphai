@@ -61,7 +61,7 @@ flowchart LR
 
 ## Logger
 
-The ```computed``` class of GraphAI Lite allows developers to log the executions of those asynchronous tasks.
+The ```Logger``` class of GraphAI Lite allows developers to log the executions of those asynchronous tasks.
 
 ```Typescript
 import { computed, Logger } from '@receptron/graphai_lite';
@@ -78,8 +78,10 @@ const ExecuteAtoF = async (logger: Logger) => {
   };
 };
 
-const logger = new Logger({ verbose:true });
-await ExecuteAtoF(logger);
-console.log(logger.logs);
-console.log(logger.result);
+const main = async () => {
+  const logger = new Logger({ verbose:true });
+  await ExecuteAtoF(logger);
+  console.log(logger.logs);
+  console.log(logger.result);
+}
 ```
