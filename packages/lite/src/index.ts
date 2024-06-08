@@ -13,10 +13,19 @@ export type LoggerOptions = {
   name?: string;
 };
 
+type LogData<T> = {
+  name?: string;
+  time: number;
+  state: string;
+  duration?: number;
+  inputs?: T[];
+  output?: T;
+};
+
 export class Logger<T> {
   public options: LoggerOptions;
   public startTime: number;
-  public logs: Array<Record<string, any>> = [];
+  public logs: Array<LogData<T>> = [];
   public result: Record<string, T> = {};
 
   constructor(options: LoggerOptions) {
@@ -27,7 +36,7 @@ export class Logger<T> {
   public async computed(nodes:  NodePromise<T>[], func: (...arg: PromiseResult<T>[]) => NodePromise<T>, options: LoggerOptions = { name: "no name" }) {
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
-    const logStart: any = {
+    const logStart: LogData<T> = {
       name: options.name,
       time: Date.now(),
       state: "started",
@@ -42,7 +51,7 @@ export class Logger<T> {
       console.log(`starting: ${logStart.name} at ${logStart.time - this.startTime}`);
     }
     const output = await func(...inputs);
-    const logEnd: any = {
+    const logEnd: LogData<T> = {
       name: options.name,
       time: Date.now(),
       state: "completed",
