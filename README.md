@@ -20,3 +20,12 @@ https://www.npmjs.com/org/graphai
 
 ### GraphAI Utilities
 https://www.npmjs.com/org/receptron
+
+# Sample Server client
+
+### GraphAI for firebase
+https://github.com/receptron/graphai-demo-web
+
+### GraphAI web stream example
+https://github.com/isamu/graphai-stream-web
+
