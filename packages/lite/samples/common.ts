@@ -28,14 +28,14 @@ export const FuncC = async () => {
 export const FuncD = async (a: PromiseResult, b: PromiseResult) => {
   await sleep(100);
   return { D: true, ...a, ...b };
-}
+};
 
 export const FuncE = async (b: PromiseResult, c: PromiseResult) => {
   await sleep(50);
   return { E: true, ...b, ...c };
-}
+};
 
 export const FuncF = async (d: PromiseResult, e: PromiseResult) => {
   await sleep(100);
   return { F: true, ...d, ...e };
-}
+};

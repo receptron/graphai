@@ -1,5 +1,5 @@
-import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult } from './common';
-import { computed } from '../src/index';
+import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult } from "./common";
+import { computed } from "../src/index";
 
 const Answer1 = async () => {  
   const a = await FuncA();
@@ -8,20 +8,20 @@ const Answer1 = async () => {
   const d = await FuncD(a, b);
   const e = await FuncE(b, c);
   return FuncF(d, e);
-}
+};
 
 const Answer2 = async () => {
   const [a, b, c] = await Promise.all([FuncA(), FuncB(), FuncC()]); 
   const d = await FuncD(a, b);
   const e = await FuncE(b, c);
   return FuncF(d, e);
-}
+};
 
 const Answer3 = async () => {
   const [a, b, c] = await Promise.all([FuncA(), FuncB(), FuncC()]); 
   const [d, e] = await Promise.all([FuncD(a,b), FuncE(b,c)]);
   return FuncF(d, e);
-}
+};
 
 const Answer4 = async () => {
   const b = await FuncB();
@@ -30,7 +30,7 @@ const Answer4 = async () => {
     FuncC().then(c => FuncE(b, c))
   ]);
   return FuncF(d, e);
-}
+};
 
 const Answer5 = async () => {
   const promiseA = FuncA();
@@ -41,7 +41,7 @@ const Answer5 = async () => {
     promiseC.then(c => FuncE(b, c))
   ]);
   return FuncF(d, e);
-}
+};
 
 const Answer6 = async () => {
   const promiseA = FuncA();
@@ -50,14 +50,14 @@ const Answer6 = async () => {
   const AthenD = async () => {
     const a = await promiseA;
     return FuncD(a, b);
-  }
+  };
   const CthenE = async () => {
     const c = await promiseC;
     return FuncE(b, c);
-  }
+  };
   const [d, e] = await Promise.all([AthenD(), CthenE()]);
   return FuncF(d, e);
-}
+};
 
 const Answer7 = async () => {
   const promiseA = FuncA();
@@ -76,7 +76,7 @@ const Answer7 = async () => {
     return FuncF(d, e);
   })();
   return promiseF;
-}
+};
 
 const Answer8 = async () => {
   const nodeA = FuncA();
@@ -86,13 +86,13 @@ const Answer8 = async () => {
   const nodeE = computed([nodeB, nodeC], FuncE);
   const nodeF = computed([nodeD, nodeE], FuncF);
   return nodeF;
-}
+};
 
 const timer = async (p: Promise<PromiseResult>) => {
   const now = Date.now();
   const result = await p;
   return { time: Date.now() - now, ...result };
-}
+};
 
 const main = async () => {
   console.log(await timer(Answer1()));
