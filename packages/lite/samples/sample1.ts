@@ -36,9 +36,9 @@ const Answer8 = async () => {
   const nodeA = FuncA();
   const nodeB = FuncB();
   const nodeC = FuncC();
-  const nodeD = computed([nodeA, nodeB], FuncD);
-  const nodeE = computed([nodeB, nodeC], FuncE);
-  const nodeF = computed([nodeD, nodeE], FuncF);
+  const nodeD = computed<PromiseResult>([nodeA, nodeB], FuncD);
+  const nodeE = computed<PromiseResult>([nodeB, nodeC], FuncE);
+  const nodeF = computed<PromiseResult>([nodeD, nodeE], FuncF);
   return nodeF;
 };
 
@@ -50,7 +50,7 @@ const Answer9 = async (logger: Logger) => {
   const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
   const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
   logger.result = {
-    f: await nodeF
+    f: await nodeF,
   };
 };
 
@@ -65,7 +65,7 @@ const main = async () => {
   console.log(await timer(Answer3()));
   console.log(await timer(Answer6()));
   console.log(await timer(Answer8()));
-  const logger = new Logger({ verbose:true, recordInputs: true, recordOutput: true });
+  const logger = new Logger({ verbose: true, recordInputs: true, recordOutput: true });
   await Answer9(logger);
   console.log("%o", logger.logs);
   console.log(logger.result);
