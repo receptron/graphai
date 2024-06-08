@@ -13,7 +13,7 @@ export class Logger {
     this.startTime = Date.now();
   }
 
-  public async computed(nodes: any, func: any, options: Record<string, any> = { name: 'no name' }) {
+  public async computed(nodes: any, func: any, options: Record<string, any> = { name: "no name" }) {
     const results = await Promise.all(nodes);
     const startTime = Date.now();
     const logStart = {
@@ -23,7 +23,7 @@ export class Logger {
     };
     this.logs.push(logStart);
     if (this.verbose) {
-      console.log(`starting: ${logStart.name} at ${logStart.time - this.startTime}`)
+      console.log(`starting: ${logStart.name} at ${logStart.time - this.startTime}`);
     }
     const result = await func(...results);
     const logEnd:any = {
@@ -34,7 +34,7 @@ export class Logger {
     logEnd.duration = logEnd.time - startTime,
     this.logs.push(logEnd);
     if (this.verbose) {
-      console.log(`complted: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${ logEnd.duration }ms`)
+      console.log(`complted: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${ logEnd.duration }ms`);
     }
     return result;
   }
