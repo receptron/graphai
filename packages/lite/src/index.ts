@@ -13,17 +13,18 @@ export type LoggerOptions = {
   name?: string;
 };
 
-export class Logger {
+export class Logger<T> {
   public options: LoggerOptions;
   public startTime: number;
   public logs: Array<Record<string, any>> = [];
-  public result: Record<string, any> = {};
+  public result: Record<string, T> = {};
+
   constructor(options: LoggerOptions) {
     this.options = options;
     this.startTime = Date.now();
   }
 
-  public async computed(nodes: any, func: any, options: LoggerOptions = { name: "no name" }) {
+  public async computed(nodes:  NodePromise<T>[], func: (...arg: PromiseResult<T>[]) => NodePromise<T>, options: LoggerOptions = { name: "no name" }) {
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
     const logStart: any = {
