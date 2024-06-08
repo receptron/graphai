@@ -14,9 +14,11 @@ export class Logger {
     if (this.verbose) {
       console.log(`starting: ${options.name}`)
     }
+    const startTime = Date.now();
     const result = await func(...results);
+    const endTime = Date.now();
     if (this.verbose) {
-      console.log(`complted: ${options.name}`)
+      console.log(`complted: ${options.name}, ${endTime - startTime}ms`)
     }
     return result;
   }
