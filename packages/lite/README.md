@@ -6,7 +6,7 @@ GraphAI Lite consists of a set of small TypeScript libraries, which allows devle
 
 ## Usage
 
-While async/await made it simple to call asynchronous functions, everything will be executed sequentially.
+While async/await made it simple to call asynchronous functions, everything will be executed sequentially even though they are independent.
 
 ```Typescript
 const ExecuteAtoF = async () => {
@@ -19,7 +19,9 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-We can slightly improve it by using Promise.all(), but this is not optimal yet (FuncD needs to wait until FuncC is done even thought it does not needs its result).
+In order to execute independent tasks concurrently, you need to use Promise.all, but it's hard to fully optimize it and it often leads to hard-to-maintain code. 
+
+For example, the code below is slightly optimized, but this is not fully optimized (FuncD needs to wait until FuncC is done even thought there is no dependencies, so as FundE needs to wait FuncA).
 
 ```Typescript
 const ExecuteAtoF = async () => {
@@ -29,7 +31,7 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-The ```computed``` is a lightweight function, which allows data-flow programming.
+The ```computed``` of GraphAI Lite is a lightweight function, which allows data-flow style programming. You just need to specify dependencies of various tasks (nodes), and let the system figure out the appropriate execution orders.
 
 ```Typescript
 import { computed } from '@receptron/graphai_lite';
@@ -44,4 +46,16 @@ const ExecuteAtoF = async () => {
   const nodeF = computed([nodeD, nodeE], FuncF);
   return nodeF;
 };
+```
+
+Below is the data-flow diagram, the code above represents.
+
+```mermaid
+flowchart LR
+ nodeA --> nodeD
+ nodeB --> nodeD
+ nodeB --> nodeE
+ nodeC --> nodeE
+ nodeD --> nodeF
+ nodeE --> nodeF
 ```
