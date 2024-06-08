@@ -1,5 +1,5 @@
 import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult } from "./common";
-import { computed } from "../src/index";
+import { computed, Logger } from "../src/index";
 
 const Answer1 = async () => {
   const a = await FuncA();
@@ -42,6 +42,17 @@ const Answer8 = async () => {
   return nodeF;
 };
 
+const Answer9 = async () => {
+  const logger = new Logger({ verbose:true });
+  const nodeA = FuncA();
+  const nodeB = FuncB();
+  const nodeC = FuncC();
+  const nodeD = logger.computed([nodeA, nodeB], FuncD);
+  const nodeE = logger.computed([nodeB, nodeC], FuncE);
+  const nodeF = logger.computed([nodeD, nodeE], FuncF);
+  return nodeF;
+};
+
 const timer = async (p: Promise<PromiseResult>) => {
   const now = Date.now();
   const result = await p;
@@ -53,6 +64,7 @@ const main = async () => {
   console.log(await timer(Answer3()));
   console.log(await timer(Answer6()));
   console.log(await timer(Answer8()));
+  console.log(await timer(Answer9()));
 };
 
 if (process.argv[1] === __filename) {
