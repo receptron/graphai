@@ -49,7 +49,7 @@ const Answer9 = async (logger: Logger) => {
   const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
   const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
   const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
-  logger.results = {
+  logger.result = {
     f: await nodeF
   };
 };
@@ -68,7 +68,7 @@ const main = async () => {
   const logger = new Logger({ verbose:true });
   await Answer9(logger);
   console.log(logger.logs);
-  console.log(logger.results);
+  console.log(logger.result);
 };
 
 if (process.argv[1] === __filename) {

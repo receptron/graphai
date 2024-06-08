@@ -7,7 +7,7 @@ export class Logger {
   public verbose: boolean;
   public startTime: number;
   public logs: Array<Record<string, any>> = [];
-  public results: Record<string, any> = {};
+  public result: Record<string, any> = {};
   constructor(options: Record<string, any>) {
     this.verbose = options.verbose ?? false;
     this.startTime = Date.now();
