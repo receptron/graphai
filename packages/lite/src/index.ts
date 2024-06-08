@@ -45,7 +45,7 @@ export class Logger {
     };
     logEnd.duration = logEnd.time - startTime;
     if (recordOutput) {
-      logStart.outputs = output;
+      logStart.output = output;
     }
     this.logs.push(logEnd);
     if (verbose) {
