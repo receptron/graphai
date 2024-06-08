@@ -42,15 +42,16 @@ const Answer8 = async () => {
   return nodeF;
 };
 
-const Answer9 = async () => {
-  const logger = new Logger({ verbose:true });
+const Answer9 = async (logger: Logger) => {
   const nodeA = logger.computed([], FuncA, { name: "nodeA" });
   const nodeB = logger.computed([], FuncB, { name: "nodeB" });
   const nodeC = logger.computed([], FuncC, { name: "nodeC" });
   const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
   const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
   const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
-  return nodeF;
+  logger.results = {
+    f: await nodeF
+  };
 };
 
 const timer = async (p: Promise<PromiseResult>) => {
@@ -64,7 +65,10 @@ const main = async () => {
   console.log(await timer(Answer3()));
   console.log(await timer(Answer6()));
   console.log(await timer(Answer8()));
-  console.log(await timer(Answer9()));
+  const logger = new Logger({ verbose:true });
+  await Answer9(logger);
+  console.log(logger.logs);
+  console.log(logger.results);
 };
 
 if (process.argv[1] === __filename) {
