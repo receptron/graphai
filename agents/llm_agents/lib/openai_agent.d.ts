@@ -88,6 +88,63 @@ declare const openaiAgentInfo: {
     };
     output: {
         type: string;
+        properties: {
+            id: {
+                type: string;
+            };
+            object: {
+                type: string;
+            };
+            created: {
+                type: string;
+            };
+            model: {
+                type: string;
+            };
+            choices: {
+                type: string;
+                items: {
+                    type: string;
+                    properties: {
+                        index: {
+                            type: string;
+                        };
+                        message: {
+                            type: string;
+                            items: {
+                                type: string;
+                                properties: {
+                                    content: {
+                                        type: string;
+                                    };
+                                    role: {
+                                        type: string;
+                                    };
+                                };
+                                required: string[];
+                            }[];
+                        };
+                    };
+                    required: string[];
+                }[];
+            };
+            usage: {
+                type: string;
+                properties: {
+                    prompt_tokens: {
+                        type: string;
+                    };
+                    completion_tokens: {
+                        type: string;
+                    };
+                    total_tokens: {
+                        type: string;
+                    };
+                };
+                required: string[];
+            };
+        };
+        required: string[];
     };
     samples: {
         inputs: string[];

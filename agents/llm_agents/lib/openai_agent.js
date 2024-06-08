@@ -105,6 +105,67 @@ const openaiAgentInfo = {
     },
     output: {
         type: "object",
+        properties: {
+            id: {
+                type: "string",
+            },
+            object: {
+                type: "string",
+            },
+            created: {
+                type: "integer",
+            },
+            model: {
+                type: "string",
+            },
+            choices: {
+                type: "array",
+                items: [
+                    {
+                        type: "object",
+                        properties: {
+                            index: {
+                                type: "integer",
+                            },
+                            message: {
+                                type: "array",
+                                items: [
+                                    {
+                                        type: "object",
+                                        properties: {
+                                            content: {
+                                                type: "string",
+                                            },
+                                            role: {
+                                                type: "string",
+                                            },
+                                        },
+                                        required: ["content", "role"],
+                                    },
+                                ],
+                            },
+                        },
+                        required: ["index", "message", "logprobs", "finish_reason"],
+                    },
+                ],
+            },
+            usage: {
+                type: "object",
+                properties: {
+                    prompt_tokens: {
+                        type: "integer",
+                    },
+                    completion_tokens: {
+                        type: "integer",
+                    },
+                    total_tokens: {
+                        type: "integer",
+                    },
+                },
+                required: ["prompt_tokens", "completion_tokens", "total_tokens"],
+            },
+        },
+        required: ["id", "object", "created", "model", "choices", "usage"],
     },
     samples: [
         {
