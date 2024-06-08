@@ -10,9 +10,10 @@ import path from "path";
 
 const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   if (key === "samples") {
-    return Array.from(agentInfo.samples.keys()).map((key) => {
-      const sample = agentInfo.samples[key];
-      return [
+    return Array.from(agentInfo.samples.keys())
+      .map((key) => {
+        const sample = agentInfo.samples[key];
+        return [
           `### Sample${key}`,
           "#### inputs",
           "```json",
