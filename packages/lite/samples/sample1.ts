@@ -44,9 +44,9 @@ const Answer8 = async () => {
 
 const Answer9 = async () => {
   const logger = new Logger({ verbose:true });
-  const nodeA = FuncA();
-  const nodeB = FuncB();
-  const nodeC = FuncC();
+  const nodeA = logger.computed([], FuncA, { name: "nodeA" });
+  const nodeB = logger.computed([], FuncB, { name: "nodeB" });
+  const nodeC = logger.computed([], FuncC, { name: "nodeC" });
   const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
   const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
   const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
