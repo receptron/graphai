@@ -1,0 +1,24 @@
+{
+  "name": "@receptron/graphai_lite",
+  "version": "0.0.1",
+  "description": "GraphAI Lite",
+  "main": "lib/index.js",
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "rm -r lib/* && tsc && tsc-alias",
+    "eslint": "eslint",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai.git"
+  },
+  "author": "receptron team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai/packages/lite#readme"
+}
