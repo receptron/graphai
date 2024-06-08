@@ -33,9 +33,10 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const agentAttribute = (agentInfo, key) => {
     if (key === "samples") {
-        return agentInfo.samples
-            .map((sample) => {
+        return Array.from(agentInfo.samples.keys()).map((key) => {
+            const sample = agentInfo.samples[key];
             return [
+                `### Sample${key}`,
                 "#### inputs",
                 "```json",
                 JSON.stringify(sample.inputs, null, 2),
@@ -54,12 +55,23 @@ const agentAttribute = (agentInfo, key) => {
             .join("\n");
     }
     if (key === "schemas") {
-        return agentInfo.samples
-            .map((sample) => {
+        if (agentInfo.inputs && agentInfo.output) {
+            return [
+                "#### inputs",
+                "```json",
+                JSON.stringify(agentInfo.inputs, null, 2),
+                "````",
+                "#### output",
+                "```json",
+                JSON.stringify(agentInfo.output, null, 2),
+                "````",
+            ].join("\n\n");
+        }
+        if (agentInfo.samples && agentInfo.samples[0]) {
+            const sample = agentInfo.samples[0];
             return ["#### inputs", "```json", JSON.stringify((0, json_schema_generator_1.default)(sample.inputs), null, 2), "````"].join("\n\n");
-            // return JSON.stringify(agentInfo.samples, null, 2);
-        })
-            .join("\n");
+        }
+        return "";
     }
     if (key === "resultKey") {
         return agentInfo.samples
