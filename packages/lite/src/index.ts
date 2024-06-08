@@ -33,7 +33,7 @@ export class Logger<T> {
     this.startTime = Date.now();
   }
 
-  public async computed(nodes:  NodePromise<T>[], func: (...arg: PromiseResult<T>[]) => NodePromise<T>, options: LoggerOptions = { name: "no name" }) {
+  public async computed(nodes: NodePromise<T>[], func: (...arg: PromiseResult<T>[]) => NodePromise<T>, options: LoggerOptions = { name: "no name" }) {
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
     const logStart: LogData<T> = {
