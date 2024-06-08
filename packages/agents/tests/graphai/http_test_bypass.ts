@@ -1,7 +1,6 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, agentInfoWrapper } from "graphai";
 
 import { graphDataTestRunner } from "@graphai/test_utils";
-import { agentInfoWrapper } from "graphai/lib/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

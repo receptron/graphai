@@ -1,5 +1,4 @@
-import { GraphAI, defaultAgentInfo } from "graphai";
-import { sleep } from "graphai/lib/utils/utils";
+import { GraphAI, defaultAgentInfo, sleep } from "graphai";
 
 import * as agents from "@graphai/vanilla";
 
