@@ -4,6 +4,47 @@
 
 Template agent
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "any"
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "any"
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.apple",
+  ":agentId.lemon"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -60,47 +101,6 @@ Template agent
   "apple": "red",
   "lemon": "yellow"
 }
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "any"
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "any"
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
-]
 
 ````
 

@@ -4,39 +4,6 @@
 
 merge node id agent
 
-### Samples
-
-#### inputs
-
-```json
-
-[
-  {
-    "message": "hello"
-  }
-]
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-{
-  "message": "hello",
-  "test": "hello"
-}
-
-````
-
 ### Schema
 
 #### inputs
@@ -74,6 +41,39 @@ merge node id agent
   ":agentId.message",
   ":agentId.test"
 ]
+
+````
+
+### Samples
+
+#### inputs
+
+```json
+
+[
+  {
+    "message": "hello"
+  }
+]
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "message": "hello",
+  "test": "hello"
+}
 
 ````
 

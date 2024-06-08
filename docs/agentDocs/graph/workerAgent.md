@@ -4,61 +4,6 @@
 
 Map Agent
 
-### Samples
-
-#### inputs
-
-```json
-
-[]
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-{
-  "message": "May the force be with you"
-}
-
-````
-#### inputs
-
-```json
-
-[
-  "May the force be with you"
-]
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-{
-  "message": "May the force be with you"
-}
-
-````
-
 ### Schema
 
 #### inputs
@@ -114,6 +59,61 @@ Map Agent
   ":agentId",
   ":agentId.message"
 ]
+
+````
+
+### Samples
+
+#### inputs
+
+```json
+
+[]
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "message": "May the force be with you"
+}
+
+````
+#### inputs
+
+```json
+
+[
+  "May the force be with you"
+]
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "message": "May the force be with you"
+}
 
 ````
 

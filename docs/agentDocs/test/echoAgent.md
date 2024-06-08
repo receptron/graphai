@@ -4,57 +4,6 @@
 
 Echo agent
 
-### Samples
-
-#### inputs
-
-```json
-
-[]
-
-````
-
-#### params
-
-```json
-
-{"message":"this is test"}
-
-````
-
-#### result
-
-```json
-
-{
-  "message": "this is test"
-}
-
-````
-#### inputs
-
-```json
-
-[]
-
-````
-
-#### params
-
-```json
-
-{"message":"If you add filterParams option, it will respond to filterParams","filterParams":true}
-
-````
-
-#### result
-
-```json
-
-{}
-
-````
-
 ### Schema
 
 #### inputs
@@ -109,6 +58,57 @@ Echo agent
 [
   ":agentId"
 ]
+
+````
+
+### Samples
+
+#### inputs
+
+```json
+
+[]
+
+````
+
+#### params
+
+```json
+
+{"message":"this is test"}
+
+````
+
+#### result
+
+```json
+
+{
+  "message": "this is test"
+}
+
+````
+#### inputs
+
+```json
+
+[]
+
+````
+
+#### params
+
+```json
+
+{"message":"If you add filterParams option, it will respond to filterParams","filterParams":true}
+
+````
+
+#### result
+
+```json
+
+{}
 
 ````
 

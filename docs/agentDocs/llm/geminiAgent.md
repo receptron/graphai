@@ -4,10 +4,6 @@
 
 Gemini Agent
 
-### Samples
-
-
-
 ### Schema
 
 #### inputs
@@ -56,6 +52,10 @@ Gemini Agent
 ````
 
 ### Input Format
+
+
+
+### Samples
 
 
 

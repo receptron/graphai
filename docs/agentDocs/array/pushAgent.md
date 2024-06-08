@@ -4,6 +4,66 @@
 
 push Agent
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to push an item to"
+    },
+    "item": {
+      "type": "any",
+      "description": "the item push into the array"
+    }
+  },
+  "required": [
+    "array",
+    "item"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.apple",
+  ":agentId.$1",
+  ":agentId.$1.lemon"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -75,66 +135,6 @@ push Agent
   {
     "lemon": 2
   }
-]
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "description": "the array to push an item to"
-    },
-    "item": {
-      "type": "any",
-      "description": "the item push into the array"
-    }
-  },
-  "required": [
-    "array",
-    "item"
-  ]
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "array"
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$0.apple",
-  ":agentId.$1",
-  ":agentId.$1.lemon"
 ]
 
 ````

@@ -4,6 +4,52 @@
 
 Returns the sum of input values
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "number"
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -82,52 +128,6 @@ Returns the sum of input values
 ```json
 
 6
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array"
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "number"
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId"
-]
-
-````
-```json
-
-[
-  ":agentId"
-]
-
-````
-```json
-
-[
-  ":agentId"
-]
 
 ````
 

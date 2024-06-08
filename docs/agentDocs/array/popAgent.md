@@ -4,6 +4,83 @@
 
 Pop Agent
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to pop an item from"
+    }
+  },
+  "required": [
+    "array"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "item": {
+      "type": "any",
+      "description": "the item popped from the array"
+    },
+    "array": {
+      "type": "array",
+      "description": "the remaining array"
+    }
+  }
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.item"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.item"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.item"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -114,83 +191,6 @@ Pop Agent
   ],
   "item": 3
 }
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "description": "the array to pop an item from"
-    }
-  },
-  "required": [
-    "array"
-  ]
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "object",
-  "properties": {
-    "item": {
-      "type": "any",
-      "description": "the item popped from the array"
-    },
-    "array": {
-      "type": "array",
-      "description": "the remaining array"
-    }
-  }
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$1",
-  ":agentId.item"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$1",
-  ":agentId.item"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$1",
-  ":agentId.item"
-]
 
 ````
 

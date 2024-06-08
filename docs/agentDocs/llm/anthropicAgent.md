@@ -4,10 +4,6 @@
 
 Anthropic Agent
 
-### Samples
-
-
-
 ### Schema
 
 #### inputs
@@ -53,6 +49,10 @@ Anthropic Agent
 ````
 
 ### Input Format
+
+
+
+### Samples
 
 
 

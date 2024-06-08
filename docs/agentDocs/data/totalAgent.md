@@ -4,6 +4,92 @@
 
 Returns the sum of input values
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "any"
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a",
+  ":agentId.b",
+  ":agentId.c",
+  ":agentId.d"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a",
+  ":agentId.b"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a",
+  ":agentId.b"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -265,92 +351,6 @@ Returns the sum of input values
   "a": 6,
   "b": 2
 }
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array"
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "any"
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.a"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a",
-  ":agentId.b",
-  ":agentId.c",
-  ":agentId.d"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a",
-  ":agentId.b"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.a",
-  ":agentId.b"
-]
 
 ````
 

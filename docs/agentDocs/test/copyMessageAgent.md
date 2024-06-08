@@ -4,39 +4,6 @@
 
 CopyMessage agent
 
-### Samples
-
-#### inputs
-
-```json
-
-[]
-
-````
-
-#### params
-
-```json
-
-{"count":4,"message":"hello"}
-
-````
-
-#### result
-
-```json
-
-{
-  "messages": [
-    "hello",
-    "hello",
-    "hello",
-    "hello"
-  ]
-}
-
-````
-
 ### Schema
 
 #### inputs
@@ -70,6 +37,39 @@ CopyMessage agent
   ":agentId.messages.$2",
   ":agentId.messages.$3"
 ]
+
+````
+
+### Samples
+
+#### inputs
+
+```json
+
+[]
+
+````
+
+#### params
+
+```json
+
+{"count":4,"message":"hello"}
+
+````
+
+#### result
+
+```json
+
+{
+  "messages": [
+    "hello",
+    "hello",
+    "hello",
+    "hello"
+  ]
+}
 
 ````
 

@@ -4,6 +4,67 @@
 
 sortByValues Agent
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to sort"
+    },
+    "values": {
+      "type": "array",
+      "description": "values associated with items in the array"
+    }
+  },
+  "required": [
+    "array",
+    "values"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2",
+  ":agentId.$3"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2",
+  ":agentId.$3"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -85,67 +146,6 @@ sortByValues Agent
   "apple",
   "orange",
   "lemon"
-]
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "description": "the array to sort"
-    },
-    "values": {
-      "type": "array",
-      "description": "values associated with items in the array"
-    }
-  },
-  "required": [
-    "array",
-    "values"
-  ]
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "array"
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2",
-  ":agentId.$3"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2",
-  ":agentId.$3"
 ]
 
 ````

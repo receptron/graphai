@@ -4,6 +4,47 @@
 
 Returns inputs[0]
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "any"
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.color",
+  ":agentId.model"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -61,47 +102,6 @@ Returns inputs[0]
 ```json
 
 "Hello World"
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "array"
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "any"
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.color",
-  ":agentId.model"
-]
-
-````
-```json
-
-[
-  ":agentId"
-]
 
 ````
 

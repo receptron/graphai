@@ -4,32 +4,6 @@
 
 Text Input Agent
 
-### Samples
-
-#### inputs
-
-```json
-
-[]
-
-````
-
-#### params
-
-```json
-
-{"message":"Enter your message to AI."}
-
-````
-
-#### result
-
-```json
-
-"message from the user"
-
-````
-
 ### Schema
 
 #### inputs
@@ -58,6 +32,32 @@ Text Input Agent
 [
   ":agentId"
 ]
+
+````
+
+### Samples
+
+#### inputs
+
+```json
+
+[]
+
+````
+
+#### params
+
+```json
+
+{"message":"Enter your message to AI."}
+
+````
+
+#### result
+
+```json
+
+"message from the user"
 
 ````
 

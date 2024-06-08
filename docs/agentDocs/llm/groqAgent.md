@@ -4,10 +4,6 @@
 
 Groq Agent
 
-### Samples
-
-
-
 ### Schema
 
 #### inputs
@@ -65,6 +61,10 @@ Groq Agent
 ````
 
 ### Input Format
+
+
+
+### Samples
 
 
 

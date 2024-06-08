@@ -32,6 +32,7 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   }
   if (key === "schemas") {
     if (agentInfo.inputs && agentInfo.output) {
+      console.log("AA");
       return [
         "#### inputs",
         "```json",

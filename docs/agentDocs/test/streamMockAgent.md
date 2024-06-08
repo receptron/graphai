@@ -4,34 +4,6 @@
 
 Stream mock agent
 
-### Samples
-
-#### inputs
-
-```json
-
-[]
-
-````
-
-#### params
-
-```json
-
-{"message":"this is test"}
-
-````
-
-#### result
-
-```json
-
-{
-  "message": "this is test"
-}
-
-````
-
 ### Schema
 
 #### inputs
@@ -61,6 +33,34 @@ Stream mock agent
   ":agentId",
   ":agentId.message"
 ]
+
+````
+
+### Samples
+
+#### inputs
+
+```json
+
+[]
+
+````
+
+#### params
+
+```json
+
+{"message":"this is test"}
+
+````
+
+#### result
+
+```json
+
+{
+  "message": "this is test"
+}
 
 ````
 

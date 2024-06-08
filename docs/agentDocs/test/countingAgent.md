@@ -4,39 +4,6 @@
 
 Counting agent
 
-### Samples
-
-#### inputs
-
-```json
-
-[]
-
-````
-
-#### params
-
-```json
-
-{"count":4}
-
-````
-
-#### result
-
-```json
-
-{
-  "list": [
-    0,
-    1,
-    2,
-    3
-  ]
-}
-
-````
-
 ### Schema
 
 #### inputs
@@ -70,6 +37,39 @@ Counting agent
   ":agentId.list.$2",
   ":agentId.list.$3"
 ]
+
+````
+
+### Samples
+
+#### inputs
+
+```json
+
+[]
+
+````
+
+#### params
+
+```json
+
+{"count":4}
+
+````
+
+#### result
+
+```json
+
+{
+  "list": [
+    0,
+    1,
+    2,
+    3
+  ]
+}
 
 ````
 

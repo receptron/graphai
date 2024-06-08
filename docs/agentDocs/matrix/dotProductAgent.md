@@ -4,6 +4,64 @@
 
 dotProduct Agent
 
+### Schema
+
+#### inputs
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "matrix": {
+      "type": "array",
+      "description": "two dimentional matrix"
+    },
+    "vector": {
+      "type": "array",
+      "description": "the vector"
+    }
+  },
+  "required": [
+    "array",
+    "vector"
+  ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "array"
+}
+
+````
+
+### Input Format
+
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1"
+]
+
+````
+
 ### Samples
 
 #### inputs
@@ -90,64 +148,6 @@ dotProduct Agent
 [
   5,
   8
-]
-
-````
-
-### Schema
-
-#### inputs
-
-```json
-
-{
-  "type": "object",
-  "properties": {
-    "matrix": {
-      "type": "array",
-      "description": "two dimentional matrix"
-    },
-    "vector": {
-      "type": "array",
-      "description": "the vector"
-    }
-  },
-  "required": [
-    "array",
-    "vector"
-  ]
-}
-
-````
-
-#### output
-
-```json
-
-{
-  "type": "array"
-}
-
-````
-
-### Input Format
-
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1",
-  ":agentId.$2"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1"
 ]
 
 ````
