@@ -65,7 +65,7 @@ const main = async () => {
   console.log(await timer(Answer3()));
   console.log(await timer(Answer6()));
   console.log(await timer(Answer8()));
-  const logger = new Logger({ verbose:true });
+  const logger = new Logger({ verbose:true, recordInputs: true, recordOutput: true });
   await Answer9(logger);
   console.log(logger.logs);
   console.log(logger.result);
