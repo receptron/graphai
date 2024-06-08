@@ -79,7 +79,7 @@ const ExecuteAtoF = async (logger: Logger) => {
 };
 
 const main = async () => {
-  const logger = new Logger({ verbose:true });
+  const logger = new Logger({ verbose:true, recordInputs: true, recordOutput: true });
   await ExecuteAtoF(logger);
   console.log(logger.logs);
   console.log(logger.result);
