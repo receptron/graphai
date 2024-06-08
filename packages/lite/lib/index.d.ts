@@ -1,6 +1,8 @@
 export declare const computed: (nodes: any, func: any) => Promise<any>;
 export declare class Logger {
     verbose: boolean;
+    recordInputs: boolean;
+    recordOutput: boolean;
     startTime: number;
     logs: Array<Record<string, any>>;
     result: Record<string, any>;
