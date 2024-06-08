@@ -9,3 +9,14 @@ GraphAI is an asynchronous data flow execution engine, which allows developers t
 - [API Document](./APIDocument.md)
 - [Tutorial](./docs/Tutorial.md)
 - [Scientific Paper](./docs/Paper.md)
+
+# npm links
+
+### GraphAI
+https://www.npmjs.com/package/graphai
+
+### GraphAI Agents
+https://www.npmjs.com/org/graphai
+
+### GraphAI Utilities
+https://www.npmjs.com/org/receptron
