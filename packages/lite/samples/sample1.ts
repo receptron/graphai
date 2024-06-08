@@ -47,9 +47,9 @@ const Answer9 = async () => {
   const nodeA = FuncA();
   const nodeB = FuncB();
   const nodeC = FuncC();
-  const nodeD = logger.computed([nodeA, nodeB], FuncD);
-  const nodeE = logger.computed([nodeB, nodeC], FuncE);
-  const nodeF = logger.computed([nodeD, nodeE], FuncF);
+  const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
+  const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
+  const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
   return nodeF;
 };
 
