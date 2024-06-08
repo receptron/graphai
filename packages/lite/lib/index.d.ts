@@ -1,11 +1,15 @@
 export declare const computed: (nodes: any, func: any) => Promise<any>;
+export type LoggerOptions = {
+    verbose?: boolean;
+    recordInputs?: boolean;
+    recordOutput?: boolean;
+    name?: string;
+};
 export declare class Logger {
-    verbose: boolean;
-    recordInputs: boolean;
-    recordOutput: boolean;
+    options: LoggerOptions;
     startTime: number;
     logs: Array<Record<string, any>>;
     result: Record<string, any>;
-    constructor(options: Record<string, any>);
-    computed(nodes: any, func: any, options?: Record<string, any>): Promise<any>;
+    constructor(options: LoggerOptions);
+    computed(nodes: any, func: any, options?: LoggerOptions): Promise<any>;
 }

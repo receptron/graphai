@@ -10,9 +10,7 @@ class Logger {
     constructor(options) {
         this.logs = [];
         this.result = {};
-        this.verbose = options.verbose ?? false;
-        this.recordInputs = options.recordInputs ?? false;
-        this.recordOutput = options.recordOutput ?? false;
+        this.options = options;
         this.startTime = Date.now();
     }
     async computed(nodes, func, options = { name: "no name" }) {
@@ -23,11 +21,12 @@ class Logger {
             time: Date.now(),
             state: "started",
         };
-        if (this.recordInputs) {
+        const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
+        if (recordInputs) {
             logStart.inputs = inputs;
         }
         this.logs.push(logStart);
-        if (this.verbose) {
+        if (verbose) {
             console.log(`starting: ${logStart.name} at ${logStart.time - this.startTime}`);
         }
         const output = await func(...inputs);
@@ -37,11 +36,11 @@ class Logger {
             state: "completed",
         };
         logEnd.duration = logEnd.time - startTime;
-        if (this.recordOutput) {
+        if (recordOutput) {
             logStart.outputs = output;
         }
         this.logs.push(logEnd);
-        if (this.verbose) {
+        if (verbose) {
             console.log(`complted: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
         }
         return output;
