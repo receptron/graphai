@@ -33,7 +33,8 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const agentAttribute = (agentInfo, key) => {
     if (key === "samples") {
-        return Array.from(agentInfo.samples.keys()).map((key) => {
+        return Array.from(agentInfo.samples.keys())
+            .map((key) => {
             const sample = agentInfo.samples[key];
             return [
                 `### Sample${key}`,
