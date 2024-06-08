@@ -4,10 +4,6 @@
 
 {description}
 
-### Samples
-
-{samples}
-
 ### Schema
 
 {schemas}
@@ -15,6 +11,10 @@
 ### Input Format
 
 {resultKey}
+
+### Samples
+
+{samples}
 
 ### Author
 

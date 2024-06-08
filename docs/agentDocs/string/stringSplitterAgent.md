@@ -56,18 +56,44 @@ This agent strip one long string into chunks using following parameters
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "text": {
       "type": "string",
-      "minLength": 1
+      "description": "text to be chuncked"
     }
   },
   "required": [
     "text"
   ]
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "contents": {
+      "type": "array",
+      "description": "the array of text chunks"
+    },
+    "count": {
+      "type": "number",
+      "description": "the number of chunks"
+    },
+    "chunkSize": {
+      "type": "number",
+      "description": "the chunk size"
+    },
+    "overlap": {
+      "type": "number",
+      "description": "the overlap size"
+    }
+  }
 }
 
 ````

@@ -96,23 +96,15 @@ sortByValues Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "array": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "the array to sort"
     },
     "values": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "values associated with items in the array"
     }
   },
   "required": [
@@ -122,34 +114,13 @@ sortByValues Agent
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    },
-    "values": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "array",
-    "values"
-  ]
+  "type": "array"
 }
 
 ````

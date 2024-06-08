@@ -124,16 +124,11 @@ Pop Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "array": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "the array to pop an item from"
     }
   },
   "required": [
@@ -142,57 +137,23 @@ Pop Agent
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "array"
-  ]
-}
-
-````
-#### inputs
-
-```json
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+    "item": {
+      "type": "any",
+      "description": "the item popped from the array"
     },
-    "array2": {
+    "array": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "the remaining array"
     }
-  },
-  "required": [
-    "array",
-    "array2"
-  ]
+  }
 }
 
 ````

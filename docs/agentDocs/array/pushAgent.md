@@ -86,19 +86,15 @@ push Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "array": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "the array to push an item to"
     },
     "item": {
-      "type": "number"
+      "type": "any",
+      "description": "the item push into the array"
     }
   },
   "required": [
@@ -108,46 +104,13 @@ push Agent
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "uniqueItems": true,
-      "minItems": 1,
-      "items": {
-        "required": [
-          "apple"
-        ],
-        "properties": {
-          "apple": {
-            "type": "number"
-          }
-        }
-      }
-    },
-    "item": {
-      "type": "object",
-      "properties": {
-        "lemon": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "lemon"
-      ]
-    }
-  },
-  "required": [
-    "array",
-    "item"
-  ]
+  "type": "array"
 }
 
 ````

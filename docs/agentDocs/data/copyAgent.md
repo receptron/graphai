@@ -71,46 +71,17 @@ Returns inputs[0]
 ```json
 
 {
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "color",
-      "model"
-    ],
-    "properties": {
-      "color": {
-        "type": "string",
-        "minLength": 1
-      },
-      "model": {
-        "type": "string",
-        "minLength": 1
-      }
-    }
-  }
+  "type": "array"
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
+  "type": "any"
 }
 
 ````

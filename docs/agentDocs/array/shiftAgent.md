@@ -84,16 +84,11 @@ shift Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "array": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "the array to shift an item from"
     }
   },
   "required": [
@@ -102,26 +97,23 @@ shift Agent
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
+    "item": {
+      "type": "any",
+      "description": "the item shifted from the array"
+    },
     "array": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "the remaining array"
     }
-  },
-  "required": [
-    "array"
-  ]
+  }
 }
 
 ````

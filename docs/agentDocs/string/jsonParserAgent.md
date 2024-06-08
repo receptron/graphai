@@ -70,46 +70,17 @@ Template agent
 ```json
 
 {
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "apple",
-      "lemon"
-    ],
-    "properties": {
-      "apple": {
-        "type": "string",
-        "minLength": 1
-      },
-      "lemon": {
-        "type": "string",
-        "minLength": 1
-      }
-    }
-  }
+  "type": "any"
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
+  "type": "any"
 }
 
 ````

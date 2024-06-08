@@ -101,102 +101,31 @@ dotProduct Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "matrix": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {
-          "0": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          },
-          "1": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          },
-          "2": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          }
-        }
-      }
+      "description": "two dimentional matrix"
     },
     "vector": {
       "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
+      "description": "the vector"
     }
   },
   "required": [
-    "matrix",
+    "array",
     "vector"
   ]
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "matrix": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {
-          "0": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          },
-          "1": {
-            "type": "array",
-            "uniqueItems": true,
-            "items": {
-              "required": [],
-              "properties": {}
-            }
-          }
-        }
-      }
-    },
-    "vector": {
-      "type": "array",
-      "items": {
-        "required": [],
-        "properties": {}
-      }
-    }
-  },
-  "required": [
-    "matrix",
-    "vector"
-  ]
+  "type": "array"
 }
 
 ````

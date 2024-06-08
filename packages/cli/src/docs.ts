@@ -31,6 +31,18 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
       .join("\n");
   }
   if (key === "schemas") {
+    if (agentInfo.inputs && agentInfo.output) {
+      return [
+        "#### inputs",
+        "```json",
+        JSON.stringify(agentInfo.inputs, null, 2),
+        "````",
+        "#### output",
+        "```json",
+        JSON.stringify(agentInfo.output, null, 2),
+        "````",
+      ].join("\n\n");
+    }
     return agentInfo.samples
       .map((sample) => {
         return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "````"].join("\n\n");

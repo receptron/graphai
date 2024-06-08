@@ -55,16 +55,57 @@ Openai Agent
 ```json
 
 {
-  "type": "array",
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
+  "type": "object",
+  "properties": {
+    "model": {
+      "type": "string"
+    },
+    "system": {
+      "type": "string"
+    },
+    "tools": {
+      "type": "object"
+    },
+    "tool_choice": {
+      "type": "any"
+    },
+    "max_tokens": {
+      "type": "number"
+    },
+    "verbose": {
+      "type": "boolean"
+    },
+    "temperature": {
+      "type": "number"
+    },
+    "baseURL": {
+      "type": "string"
+    },
+    "apiKey": {
+      "type": "any"
+    },
+    "stream": {
+      "type": "boolean"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "query string"
+    },
+    "messages": {
+      "type": "any",
+      "description": "chat messages"
+    }
   }
+}
+
+````
+
+#### output
+
+```json
+
+{
+  "type": "object"
 }
 
 ````

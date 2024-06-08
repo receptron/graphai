@@ -86,77 +86,42 @@ Retrieves JSON data from the specified URL
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "url": {
       "type": "string",
-      "minLength": 1
+      "description": "baseurl"
     },
-    "queryParams": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "foo"
-      ]
+    "method": {
+      "type": "string",
+      "description": "HTTP method"
     },
     "headers": {
       "type": "object",
-      "properties": {
-        "x-myHeader": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "x-myHeader"
-      ]
+      "description": "HTTP headers"
+    },
+    "quaryParams": {
+      "type": "object",
+      "description": "Query parameters"
+    },
+    "body": {
+      "type": "object",
+      "description": "body"
     }
   },
   "required": [
-    "url",
-    "queryParams",
-    "headers"
+    "url"
   ]
 }
 
 ````
-#### inputs
+
+#### output
 
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
-  "type": "object",
-  "properties": {
-    "url": {
-      "type": "string",
-      "minLength": 1
-    },
-    "body": {
-      "type": "object",
-      "properties": {
-        "foo": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "foo"
-      ]
-    }
-  },
-  "required": [
-    "url",
-    "body"
-  ]
+  "type": "array"
 }
 
 ````
