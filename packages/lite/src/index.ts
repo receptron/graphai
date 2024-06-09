@@ -8,7 +8,7 @@ export enum NodeState {
   Completed = "completed",
 }
 
-export type LogData = {
+export interface LogData {
   name?: string;
   time: number;
   state: NodeState;
@@ -56,10 +56,8 @@ export class Conductor {
       name: options.name,
       time: Date.now(),
       state: NodeState.Executing,
+      inputs: recordInputs? inputs : undefined,
     };
-    if (recordInputs) {
-      logStart.inputs = inputs;
-    }
     this.log(logStart, verbose);
 
     const output = await func(...inputs);
@@ -70,10 +68,8 @@ export class Conductor {
       time,
       state: NodeState.Completed,
       duration: time - startTime,
+      output: recordOutput ? output : undefined,
     };
-    if (recordOutput) {
-      logStart.output = output;
-    }
     this.log(logEnd, verbose);
 
     return output;
