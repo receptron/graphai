@@ -1,5 +1,6 @@
 import { graphDataTestRunner } from "@graphai/test_utils";
-import { fetchAgent, propertyFilterAgent, copyAgent } from "@/index";
+import { fetchAgent } from "@/index";
+import { propertyFilterAgent, copyAgent } from "@graphai/vanilla";
 
 import test from "node:test";
 import assert from "node:assert";
