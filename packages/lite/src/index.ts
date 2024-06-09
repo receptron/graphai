@@ -1,4 +1,4 @@
-export const computed = async (nodes: any, func: any) => {
+export const computed = async (nodes: Array<any>, func: any) => {
   const inputs = await Promise.all(nodes);
   return func(...inputs);
 };
@@ -34,7 +34,7 @@ export class Logger {
     this.startTime = Date.now();
   }
 
-  public async computed(nodes: any, func: any, options: LoggerOptions = { name: "no name" }) {
+  public async computed(nodes: Array<any>, func: any, options: LoggerOptions = { name: "no name" }) {
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
     const logStart: any = {
