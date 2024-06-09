@@ -1,5 +1,4 @@
-import { AgentFunction } from "graphai";
-import { sleep } from "graphai/lib/utils/utils";
+import { AgentFunction, sleep } from "graphai";
 import deepmerge from "deepmerge";
 
 export const sleeperAgent: AgentFunction<{ duration?: number; value?: Record<string, any> }> = async (context) => {
