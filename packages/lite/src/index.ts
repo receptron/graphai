@@ -12,6 +12,7 @@ export interface LogData {
   name?: string;
   time: number;
   state: NodeState;
+  waited?: number;
   duration?: number;
   inputs?: Array<any>;
   output?: any;
@@ -32,7 +33,7 @@ export class Conductor {
   public startTime: number;
   public logs: Array<LogData> = [];
   public result: Record<string, any> = {};
-  
+
   constructor(options: ConductorOptions) {
     this.options = options;
     this.startTime = Date.now();
@@ -41,10 +42,10 @@ export class Conductor {
   public log(log: LogData, verbose: boolean | undefined) {
     this.logs.push(log);
     if (verbose) {
-      if (log.duration) {
-        console.log(`${log.state}: ${log.name} at ${log.time - this.startTime}, duration:${log.duration}ms`);
-      } else {
-        console.log(`${log.state}: ${log.name} at ${log.time - this.startTime}`);
+      if (log.state == NodeState.Executing) {
+        console.log(`${log.state}: ${log.name} waited:${log.waited}ms`);
+      } else if (log.state == NodeState.Completed) {
+        console.log(`${log.state}: ${log.name} duration:${log.duration}ms`);
       }
     }
   }
@@ -57,8 +58,9 @@ export class Conductor {
     const startTime = Date.now();
     this.log({
       name: options.name,
-      time: Date.now(),
+      time: startTime,
       state: NodeState.Executing,
+      waited: startTime - this.startTime,
       inputs: recordInputs? inputs : undefined,
     }, verbose);
 
