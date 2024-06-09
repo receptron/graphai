@@ -8,63 +8,74 @@ export enum NodeState {
   Completed = "completed",
 }
 
-export type LogData = {
-  name?: string;
+export interface LogData {
+  name: string;
   time: number;
   state: NodeState;
+  waited?: number;
   duration?: number;
   inputs?: Array<any>;
   output?: any;
 };
 
-export type ConductorOptions = {
+export interface ConductorOptions {
   verbose?: boolean;
   recordInputs?: boolean;
   recordOutput?: boolean;
-  name?: string;
 };
+
+export interface LogOptions extends ConductorOptions {
+  name: string;
+}
 
 export class Conductor {
   public options: ConductorOptions;
   public startTime: number;
   public logs: Array<LogData> = [];
   public result: Record<string, any> = {};
+
   constructor(options: ConductorOptions) {
     this.options = options;
     this.startTime = Date.now();
   }
 
-  public async computed(nodes: Array<any>, func: any, options: ConductorOptions = { name: "no name" }) {
-    const inputs = await Promise.all(nodes);
-    const startTime = Date.now();
-    const logStart: any = {
-      name: options.name,
-      time: Date.now(),
-      state: NodeState.Executing,
-    };
-    const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
+  public log(log: LogData, verbose: boolean | undefined) {
+    this.logs.push(log);
+    if (verbose) {
+      if (log.state == NodeState.Executing) {
+        console.log(`${log.state}: ${log.name} waited:${log.waited}ms`);
+      } else if (log.state == NodeState.Completed) {
+        console.log(`${log.state}: ${log.name} duration:${log.duration}ms`);
+      }
+    }
+  }
 
-    if (recordInputs) {
-      logStart.inputs = inputs;
-    }
-    this.logs.push(logStart);
-    if (verbose) {
-      console.log(`${logStart.state}: ${logStart.name} at ${logStart.time - this.startTime}`);
-    }
-    const output = await func(...inputs);
-    const logEnd: any = {
+  public async computed(nodes: Array<any>, func: any, options: LogOptions) {
+    // Wait until all the inputs became available
+    const inputs = await Promise.all(nodes);
+
+    const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
+    const startTime = Date.now();
+    this.log({
       name: options.name,
-      time: Date.now(),
+      time: startTime,
+      state: NodeState.Executing,
+      waited: startTime - this.startTime,
+      inputs: recordInputs? inputs : undefined,
+    }, verbose);
+
+    // Execute the asynchronous task.
+    const output = await func(...inputs);
+
+    const time = Date.now();
+    this.log({
+      name: options.name,
+      time,
       state: NodeState.Completed,
-    };
-    logEnd.duration = logEnd.time - startTime;
-    if (recordOutput) {
-      logStart.output = output;
-    }
-    this.logs.push(logEnd);
-    if (verbose) {
-      console.log(`${logEnd.state}: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
-    }
+      duration: time - startTime,
+      output: recordOutput ? output : undefined,
+    }, verbose);
+
     return output;
   }
 }
