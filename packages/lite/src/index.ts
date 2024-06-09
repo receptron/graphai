@@ -21,7 +21,13 @@ export type ConductorOptions = {
   verbose?: boolean;
   recordInputs?: boolean;
   recordOutput?: boolean;
-  name?: string;
+};
+
+export type LogOptions = {
+  name: string;
+  verbose?: boolean;
+  recordInputs?: boolean;
+  recordOutput?: boolean;
 };
 
 export class Conductor {
@@ -34,7 +40,7 @@ export class Conductor {
     this.startTime = Date.now();
   }
 
-  public async computed(nodes: Array<any>, func: any, options: ConductorOptions = { name: "no name" }) {
+  public async computed(nodes: Array<any>, func: any, options: LogOptions) {
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
     const logStart: any = {
