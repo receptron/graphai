@@ -1,4 +1,4 @@
-import { computed, Logger } from "../src/index";
+import { computed, Conductor } from "../src/index";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -61,37 +61,37 @@ test("test computed", async () => {
   assert.deepStrictEqual(result, { F: true, D: true, A: true, B: true, E: true, C: true });
 });
 
-const Answer9 = async (logger: Logger) => {
-  const nodeA = logger.computed([], FuncA, { name: "nodeA" });
-  const nodeB = logger.computed([], FuncB, { name: "nodeB" });
-  const nodeC = logger.computed([], FuncC, { name: "nodeC" });
-  const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
-  const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
-  const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
-  logger.result = {
+const Answer9 = async (conductor: Conductor) => {
+  const nodeA = conductor.computed([], FuncA, { name: "nodeA" });
+  const nodeB = conductor.computed([], FuncB, { name: "nodeB" });
+  const nodeC = conductor.computed([], FuncC, { name: "nodeC" });
+  const nodeD = conductor.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
+  const nodeE = conductor.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
+  const nodeF = conductor.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
+  conductor.result = {
     f: await nodeF,
   };
 };
 
-test("test Logger.computed", async () => {
-  const logger = new Logger({});
-  await Answer9(logger);
-  assert.deepStrictEqual(logger.result, { f: { F: true, D: true, A: true, B: true, E: true, C: true } });
+test("test Conductor.computed", async () => {
+  const conductor = new Conductor({});
+  await Answer9(conductor);
+  assert.deepStrictEqual(conductor.result, { f: { F: true, D: true, A: true, B: true, E: true, C: true } });
 });
 
-const Answer10 = async (logger: Logger) => {
-  const nodeY = logger.computed(["Y", false], FuncY, { name: "nodeY" });
-  const nodeC = logger.computed([23, 33], FuncX, { name: "nodeC" });
-  const nodeD = logger.computed([{ Z: true }, nodeY], FuncD, { name: "nodeD" });
-  const nodeE = logger.computed([nodeY, nodeC], FuncE, { name: "nodeE" });
-  const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
-  logger.result = {
+const Answer10 = async (conductor: Conductor) => {
+  const nodeY = conductor.computed(["Y", false], FuncY, { name: "nodeY" });
+  const nodeC = conductor.computed([23, 33], FuncX, { name: "nodeC" });
+  const nodeD = conductor.computed([{ Z: true }, nodeY], FuncD, { name: "nodeD" });
+  const nodeE = conductor.computed([nodeY, nodeC], FuncE, { name: "nodeE" });
+  const nodeF = conductor.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
+  conductor.result = {
     f: await nodeF,
   };
 };
 
-test("test Logger.computed with literal value", async () => {
-  const logger = new Logger({});
-  await Answer10(logger);
-  assert.deepStrictEqual(logger.result, { f: { F: true, D: true, Z: true, Y: false, E: true, X: true } });
+test("test Conductor.computed with literal value", async () => {
+  const conductor = new Conductor({});
+  await Answer10(conductor);
+  assert.deepStrictEqual(conductor.result, { f: { F: true, D: true, Z: true, Y: false, E: true, X: true } });
 });

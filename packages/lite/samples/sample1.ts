@@ -1,5 +1,5 @@
 import { FuncA, FuncB, FuncC, FuncD, FuncE, FuncF, PromiseResult } from "./common";
-import { computed, Logger } from "../src/index";
+import { computed, Conductor } from "../src/index";
 
 const Answer1 = async () => {
   const a = await FuncA();
@@ -42,14 +42,14 @@ const Answer8 = async () => {
   return nodeF;
 };
 
-const Answer9 = async (logger: Logger) => {
-  const nodeA = logger.computed([], FuncA, { name: "nodeA" });
-  const nodeB = logger.computed([], FuncB, { name: "nodeB" });
-  const nodeC = logger.computed([], FuncC, { name: "nodeC" });
-  const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
-  const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
-  const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
-  logger.result = {
+const Answer9 = async (conductor: Conductor) => {
+  const nodeA = conductor.computed([], FuncA, { name: "nodeA" });
+  const nodeB = conductor.computed([], FuncB, { name: "nodeB" });
+  const nodeC = conductor.computed([], FuncC, { name: "nodeC" });
+  const nodeD = conductor.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
+  const nodeE = conductor.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
+  const nodeF = conductor.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
+  conductor.result = {
     f: await nodeF,
   };
 };
@@ -65,10 +65,10 @@ const main = async () => {
   console.log(await timer(Answer3()));
   console.log(await timer(Answer6()));
   console.log(await timer(Answer8()));
-  const logger = new Logger({ verbose: true, recordInputs: true, recordOutput: true });
-  await Answer9(logger);
-  console.log("%o", logger.logs);
-  console.log(logger.result);
+  const conductor = new Conductor({ verbose: true, recordInputs: true, recordOutput: true });
+  await Answer9(conductor);
+  console.log("%o", conductor.logs);
+  console.log(conductor.result);
 };
 
 if (process.argv[1] === __filename) {

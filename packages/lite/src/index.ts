@@ -17,24 +17,24 @@ export type LogData = {
   output?: any;
 };
 
-export type LoggerOptions = {
+export type ConductorOptions = {
   verbose?: boolean;
   recordInputs?: boolean;
   recordOutput?: boolean;
   name?: string;
 };
 
-export class Logger {
-  public options: LoggerOptions;
+export class Conductor {
+  public options: ConductorOptions;
   public startTime: number;
   public logs: Array<LogData> = [];
   public result: Record<string, any> = {};
-  constructor(options: LoggerOptions) {
+  constructor(options: ConductorOptions) {
     this.options = options;
     this.startTime = Date.now();
   }
 
-  public async computed(nodes: Array<any>, func: any, options: LoggerOptions = { name: "no name" }) {
+  public async computed(nodes: Array<any>, func: any, options: ConductorOptions = { name: "no name" }) {
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
     const logStart: any = {
