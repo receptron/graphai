@@ -3,10 +3,15 @@ export const computed = async (nodes: any, func: any) => {
   return func(...inputs);
 };
 
+export enum NodeState {
+  Executing = "executing",
+  Completed = "completed",
+}
+
 export type LogData = {
   name?: string;
   time: number;
-  state: string;
+  state: NodeState;
   duration?: number;
   inputs?: Array<any>;
   output?: any;
@@ -35,7 +40,7 @@ export class Logger {
     const logStart: any = {
       name: options.name,
       time: Date.now(),
-      state: "started",
+      state: NodeState.Executing,
     };
     const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
 
@@ -50,7 +55,7 @@ export class Logger {
     const logEnd: any = {
       name: options.name,
       time: Date.now(),
-      state: "completed",
+      state: NodeState.Completed,
     };
     logEnd.duration = logEnd.time - startTime;
     if (recordOutput) {
