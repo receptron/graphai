@@ -37,6 +37,10 @@ export class Conductor {
     this.startTime = Date.now();
   }
 
+  public log(log: LogData) {
+    this.logs.push(log);
+  }
+
   public async computed(nodes: Array<any>, func: any, options: LogOptions) {
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
@@ -50,7 +54,7 @@ export class Conductor {
     if (recordInputs) {
       logStart.inputs = inputs;
     }
-    this.logs.push(logStart);
+    this.log(logStart);
     if (verbose) {
       console.log(`${logStart.state}: ${logStart.name} at ${logStart.time - this.startTime}`);
     }
@@ -64,7 +68,7 @@ export class Conductor {
     if (recordOutput) {
       logStart.output = output;
     }
-    this.logs.push(logEnd);
+    this.log(logEnd);
     if (verbose) {
       console.log(`${logEnd.state}: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
     }
