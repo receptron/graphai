@@ -1,12 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Logger = exports.computed = void 0;
+exports.Conductor = exports.NodeState = exports.computed = void 0;
 const computed = async (nodes, func) => {
     const inputs = await Promise.all(nodes);
     return func(...inputs);
 };
 exports.computed = computed;
-class Logger {
+var NodeState;
+(function (NodeState) {
+    NodeState["Executing"] = "executing";
+    NodeState["Completed"] = "completed";
+})(NodeState || (exports.NodeState = NodeState = {}));
+class Conductor {
     constructor(options) {
         this.logs = [];
         this.result = {};
@@ -19,7 +24,7 @@ class Logger {
         const logStart = {
             name: options.name,
             time: Date.now(),
-            state: "started",
+            state: NodeState.Executing,
         };
         const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
         if (recordInputs) {
@@ -27,13 +32,13 @@ class Logger {
         }
         this.logs.push(logStart);
         if (verbose) {
-            console.log(`starting: ${logStart.name} at ${logStart.time - this.startTime}`);
+            console.log(`${logStart.state}: ${logStart.name} at ${logStart.time - this.startTime}`);
         }
         const output = await func(...inputs);
         const logEnd = {
             name: options.name,
             time: Date.now(),
-            state: "completed",
+            state: NodeState.Completed,
         };
         logEnd.duration = logEnd.time - startTime;
         if (recordOutput) {
@@ -41,9 +46,9 @@ class Logger {
         }
         this.logs.push(logEnd);
         if (verbose) {
-            console.log(`complted: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
+            console.log(`${logEnd.state}: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
         }
         return output;
     }
 }
-exports.Logger = Logger;
+exports.Conductor = Conductor;
