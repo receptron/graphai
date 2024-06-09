@@ -17,18 +17,15 @@ export type LogData = {
   output?: any;
 };
 
-export type ConductorOptions = {
+export interface ConductorOptions {
   verbose?: boolean;
   recordInputs?: boolean;
   recordOutput?: boolean;
 };
 
-export type LogOptions = {
+export interface LogOptions extends ConductorOptions {
   name: string;
-  verbose?: boolean;
-  recordInputs?: boolean;
-  recordOutput?: boolean;
-};
+}
 
 export class Conductor {
   public options: ConductorOptions;
