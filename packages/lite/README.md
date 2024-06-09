@@ -59,29 +59,29 @@ flowchart LR
  nodeE --> nodeF
 ```
 
-## Logger
+## Conductor
 
-The ```Logger``` class of GraphAI Lite allows developers to log the executions of those asynchronous tasks.
+The ```Conductor``` class of GraphAI Lite allows developers to log the executions of those asynchronous tasks.
 
 ```Typescript
-import { computed, Logger } from '@receptron/graphai_lite';
+import { computed, Conductor } from '@receptron/graphai_lite';
 
-const ExecuteAtoF = async (logger: Logger) => {
-  const nodeA = logger.computed([], FuncA, { name: "nodeA" });
-  const nodeB = logger.computed([], FuncB, { name: "nodeB" });
-  const nodeC = logger.computed([], FuncC, { name: "nodeC" });
-  const nodeD = logger.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
-  const nodeE = logger.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
-  const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
-  logger.result = {
+const ExecuteAtoF = async (conductor: Conductor) => {
+  const nodeA = conductor.computed([], FuncA, { name: "nodeA" });
+  const nodeB = conductor.computed([], FuncB, { name: "nodeB" });
+  const nodeC = conductor.computed([], FuncC, { name: "nodeC" });
+  const nodeD = conductor.computed([nodeA, nodeB], FuncD, { name: "nodeD" });
+  const nodeE = conductor.computed([nodeB, nodeC], FuncE, { name: "nodeE" });
+  const nodeF = conductor.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
+  conductor.result = {
     f: await nodeF
   };
 };
 
 const main = async () => {
-  const logger = new Logger({ verbose:true, recordInputs: true, recordOutput: true });
-  await ExecuteAtoF(logger);
-  console.log(logger.logs);
-  console.log(logger.result);
+  const conductor = new Conductor({ verbose:true, recordInputs: true, recordOutput: true });
+  await ExecuteAtoF(conductor);
+  console.log(conductor.logs);
+  console.log(conductor.result);
 }
 ```
