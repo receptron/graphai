@@ -37,11 +37,19 @@ export class Conductor {
     this.startTime = Date.now();
   }
 
-  public log(log: LogData) {
+  public log(log: LogData, verbose: boolean | undefined) {
     this.logs.push(log);
+    if (verbose) {
+      if (log.duration) {
+        console.log(`${log.state}: ${log.name} at ${log.time - this.startTime}, duration:${log.duration}ms`);
+      } else {
+        console.log(`${log.state}: ${log.name} at ${log.time - this.startTime}`);
+      }
+    }
   }
 
   public async computed(nodes: Array<any>, func: any, options: LogOptions) {
+    const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
     const logStart: any = {
@@ -49,29 +57,25 @@ export class Conductor {
       time: Date.now(),
       state: NodeState.Executing,
     };
-    const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
-
     if (recordInputs) {
       logStart.inputs = inputs;
     }
-    this.log(logStart);
-    if (verbose) {
-      console.log(`${logStart.state}: ${logStart.name} at ${logStart.time - this.startTime}`);
-    }
+    this.log(logStart, verbose);
+
     const output = await func(...inputs);
+
+    const time = Date.now();
     const logEnd: any = {
       name: options.name,
-      time: Date.now(),
+      time,
       state: NodeState.Completed,
+      duration: time - startTime,
     };
-    logEnd.duration = logEnd.time - startTime;
     if (recordOutput) {
       logStart.output = output;
     }
-    this.log(logEnd);
-    if (verbose) {
-      console.log(`${logEnd.state}: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
-    }
+    this.log(logEnd, verbose);
+
     return output;
   }
 }
