@@ -49,7 +49,7 @@ export class Conductor {
     }
     this.logs.push(logStart);
     if (verbose) {
-      console.log(`starting: ${logStart.name} at ${logStart.time - this.startTime}`);
+      console.log(`${logStart.state}: ${logStart.name} at ${logStart.time - this.startTime}`);
     }
     const output = await func(...inputs);
     const logEnd: any = {
@@ -63,7 +63,7 @@ export class Conductor {
     }
     this.logs.push(logEnd);
     if (verbose) {
-      console.log(`completed: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
+      console.log(`${logEnd.state}: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
     }
     return output;
   }
