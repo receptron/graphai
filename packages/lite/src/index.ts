@@ -9,7 +9,7 @@ export enum NodeState {
 }
 
 export interface LogData {
-  name?: string;
+  name: string;
   time: number;
   state: NodeState;
   waited?: number;
