@@ -73,7 +73,7 @@ export type GraphOptions = {
   bypassAgentIds?: string[] | undefined;
 };
 
-export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType=DefaultInputData> = {
+export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
   params: NodeDataParams<ParamsType>;
   inputs: Array<InputDataType>;
   namedInputs: NamedInputDataType;
@@ -92,14 +92,19 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
   log?: TransactionLog[];
 };
 
-export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData, NamedInputDataType=DefaultInputData> = (
-  context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>,
-) => Promise<ResultData<ResultType>>;
+export type AgentFunction<
+  ParamsType = DefaultParamsType,
+  ResultType = DefaultResultData,
+  InputDataType = DefaultInputData,
+  NamedInputDataType = DefaultInputData,
+> = (context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>) => Promise<ResultData<ResultType>>;
 
-export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData, NamedInputDataType=DefaultInputData> = (
-  context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>,
-  agent: AgentFunction,
-) => Promise<ResultData<ResultType>>;
+export type AgentFilterFunction<
+  ParamsType = DefaultParamsType,
+  ResultType = DefaultResultData,
+  InputDataType = DefaultInputData,
+  NamedInputDataType = DefaultInputData,
+> = (context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
 
 export type AgentFilterInfo = {
   name: string;

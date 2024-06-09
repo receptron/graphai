@@ -21,7 +21,7 @@ const popAgent = async ({ namedInputs }) => {
     const ajv = new ajv_1.default();
     const validateSchema = ajv.compile(inputSchema);
     if (!validateSchema(namedInputs)) {
-        throw new Error('schema not matched');
+        throw new Error("schema not matched");
     }
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
