@@ -4,7 +4,6 @@ exports.workerAgent = void 0;
 const graphai_1 = require("graphai");
 const worker_threads_1 = require("worker_threads");
 const index_1 = require("../index");
-const utils_1 = require("graphai/lib/utils/utils");
 const vanillaAgents = {
     totalAgent: index_1.totalAgent,
     dataSumTemplateAgent: index_1.dataSumTemplateAgent,
@@ -32,8 +31,8 @@ if (!worker_threads_1.isMainThread && worker_threads_1.parentPort) {
 }
 const workerAgent = async ({ inputs, params, /* agents, log, */ graphData }) => {
     const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
-    (0, utils_1.assert)(!!graphData, "required");
-    (0, utils_1.assert)(typeof graphData === "object", "required");
+    (0, graphai_1.assert)(!!graphData, "required");
+    (0, graphai_1.assert)(typeof graphData === "object", "required");
     namedInputs.forEach((nodeId, index) => {
         if (graphData.nodes[nodeId] === undefined) {
             // If the input node does not exist, automatically create a static node

@@ -31,5 +31,8 @@
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "dependencies": {
+    "ajv": "^8.16.0"
   }
 }

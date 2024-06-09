@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, StaticNodeData } from "graphai";
+import { GraphAI, AgentFunction, StaticNodeData, assert } from "graphai";
 import { Worker, isMainThread, parentPort } from "worker_threads";
 import {
   totalAgent,
@@ -16,7 +16,6 @@ import {
   stringTemplateAgent,
   jsonParserAgent,
 } from "../index";
-import { assert } from "graphai/lib/utils/utils";
 
 const vanillaAgents = {
   totalAgent,

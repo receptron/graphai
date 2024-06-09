@@ -1,9 +1,27 @@
 import { AgentFunction } from "graphai";
+import Ajv from "ajv";
 
 import assert from "node:assert";
 
-export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ namedInputs }) => {
+const inputSchema = {
+  type: "object",
+  properties: {
+    array: {
+      type: "array",
+      description: "the array to pop an item from",
+    },
+  },
+  required: ["array"],
+};
+
+export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, { array: Array<any> }> = async ({ namedInputs }) => {
   assert(namedInputs, "popAgent: namedInputs is UNDEFINED!");
+  const ajv = new Ajv();
+  const validateSchema = ajv.compile(inputSchema);
+  if (!validateSchema(namedInputs)) {
+    throw new Error("schema not matched");
+  }
+
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   const item = array.pop();
   return { array, item };
@@ -13,16 +31,7 @@ const popAgentInfo = {
   name: "popAgent",
   agent: popAgent,
   mock: popAgent,
-  inputs: {
-    type: "object",
-    properties: {
-      array: {
-        type: "array",
-        description: "the array to pop an item from",
-      },
-    },
-    required: ["array"],
-  },
+  inputs: inputSchema,
   output: {
     type: "object",
     properties: {
