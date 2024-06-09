@@ -32,6 +32,7 @@ export class Conductor {
   public startTime: number;
   public logs: Array<LogData> = [];
   public result: Record<string, any> = {};
+  
   constructor(options: ConductorOptions) {
     this.options = options;
     this.startTime = Date.now();
@@ -49,8 +50,10 @@ export class Conductor {
   }
 
   public async computed(nodes: Array<any>, func: any, options: LogOptions) {
-    const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
+    // Wait until all the inputs became available
     const inputs = await Promise.all(nodes);
+
+    const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
     const startTime = Date.now();
     this.log({
       name: options.name,
@@ -59,6 +62,7 @@ export class Conductor {
       inputs: recordInputs? inputs : undefined,
     }, verbose);
 
+    // Execute the asynchronous task.
     const output = await func(...inputs);
 
     const time = Date.now();
