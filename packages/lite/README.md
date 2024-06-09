@@ -64,7 +64,7 @@ flowchart LR
 The ```Conductor``` class of GraphAI Lite allows developers to log the executions of those asynchronous tasks.
 
 ```Typescript
-import { computed, Conductor } from '@receptron/graphai_lite';
+import { Conductor } from '@receptron/graphai_lite';
 
 const ExecuteAtoF = async (conductor: Conductor) => {
   const nodeA = conductor.computed([], FuncA, { name: "nodeA" });
