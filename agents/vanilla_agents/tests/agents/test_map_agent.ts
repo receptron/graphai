@@ -23,6 +23,7 @@ test("test map_agent", async () => {
     },
     inputs: [[{ fruit: "apple" }, { fruit: "orange" }]],
     namedInputs: {},
+    inputSchema: undefined,
   });
   assert.deepStrictEqual(result, {
     node2: ["I love apple.", "I love orange."],
@@ -48,6 +49,7 @@ test("test map_agent 2", async () => {
     },
     inputs: [["apple", "orange", "banana", "lemon"]],
     namedInputs: {},
+    inputSchema: undefined,
   });
   assert.deepStrictEqual(result, {
     node2: ["I love apple.", "I love orange.", "I love banana.", "I love lemon."],
@@ -73,6 +75,7 @@ test("test map_agent 3", async () => {
     },
     inputs: [["apple", "orange", "banana", "lemon"], "You", "like"],
     namedInputs: {},
+    inputSchema: undefined,
   });
   assert.deepStrictEqual(result, {
     node2: ["You like apple.", "You like orange.", "You like banana.", "You like lemon."],

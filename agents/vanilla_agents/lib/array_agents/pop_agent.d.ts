@@ -1,15 +1,12 @@
 import { AgentFunction } from "graphai";
-export declare const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, {
-    array: Array<any>;
-}>;
+type NamedInputType = {
+    array: Array<unknown>;
+};
+export declare const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, NamedInputType>;
 declare const popAgentInfo: {
     name: string;
-    agent: AgentFunction<Record<string, any>, Record<string, any>, any[], {
-        array: Array<any>;
-    }>;
-    mock: AgentFunction<Record<string, any>, Record<string, any>, any[], {
-        array: Array<any>;
-    }>;
+    agent: AgentFunction<Record<string, any>, Record<string, any>, any[], NamedInputType>;
+    mock: AgentFunction<Record<string, any>, Record<string, any>, any[], NamedInputType>;
     inputs: {
         type: string;
         properties: {

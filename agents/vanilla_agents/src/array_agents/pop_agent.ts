@@ -3,17 +3,6 @@ import Ajv from "ajv";
 
 import assert from "node:assert";
 
-const inputSchema = {
-  type: "object",
-  properties: {
-    array: {
-      type: "array",
-      description: "the array to pop an item from",
-    },
-  },
-  required: ["array"],
-};
-
 const agentInputValidator = <T>(inputSchema: any, namedInputs: T) => {
   const ajv = new Ajv();
   const validateSchema = ajv.compile(inputSchema);
@@ -26,7 +15,7 @@ type NamedInputType = {
   array: Array<unknown>;
 };
 
-export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, NamedInputType> = async ({ namedInputs }) => {
+export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, NamedInputType> = async ({ namedInputs, inputSchema }) => {
   assert(namedInputs, "popAgent: namedInputs is UNDEFINED!");
   agentInputValidator<NamedInputType>(inputSchema, namedInputs);
   
@@ -39,7 +28,16 @@ const popAgentInfo = {
   name: "popAgent",
   agent: popAgent,
   mock: popAgent,
-  inputs: inputSchema,
+  inputs: {
+    type: "object",
+    properties: {
+      array: {
+        type: "array",
+        description: "the array to pop an item from",
+      },
+    },
+    required: ["array"],
+  },
   output: {
     type: "object",
     properties: {
