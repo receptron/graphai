@@ -73,10 +73,10 @@ export type GraphOptions = {
   bypassAgentIds?: string[] | undefined;
 };
 
-export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData> = {
+export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType=DefaultInputData> = {
   params: NodeDataParams<ParamsType>;
   inputs: Array<InputDataType>;
-  namedInputs: Record<string, any>;
+  namedInputs: NamedInputDataType;
   debugInfo: {
     verbose: boolean;
     nodeId: string;
@@ -92,12 +92,12 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
   log?: TransactionLog[];
 };
 
-export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (
-  context: AgentFunctionContext<ParamsType, InputDataType>,
+export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData, NamedInputDataType=DefaultInputData> = (
+  context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>,
 ) => Promise<ResultData<ResultType>>;
 
-export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData> = (
-  context: AgentFunctionContext<ParamsType, InputDataType>,
+export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData, NamedInputDataType=DefaultInputData> = (
+  context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>,
   agent: AgentFunction,
 ) => Promise<ResultData<ResultType>>;
 
@@ -111,8 +111,8 @@ export type AgentFilterInfo = {
 
 export type AgentFunctionInfo = {
   name: string;
-  agent: AgentFunction<any, any, any>;
-  mock: AgentFunction<any, any, any>;
+  agent: AgentFunction<any, any, any, any>;
+  mock: AgentFunction<any, any, any, any>;
   inputs?: any;
   output?: any;
   samples: {
