@@ -16,13 +16,13 @@ export interface LogData {
   duration?: number;
   inputs?: Array<any>;
   output?: any;
-};
+}
 
 export interface ConductorOptions {
   verbose?: boolean;
   recordInputs?: boolean;
   recordOutput?: boolean;
-};
+}
 
 export interface LogOptions extends ConductorOptions {
   name: string;
@@ -56,25 +56,31 @@ export class Conductor {
 
     const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
     const startTime = Date.now();
-    this.log({
-      name: options.name,
-      time: startTime,
-      state: NodeState.Executing,
-      waited: startTime - this.startTime,
-      inputs: recordInputs? inputs : undefined,
-    }, verbose);
+    this.log(
+      {
+        name: options.name,
+        time: startTime,
+        state: NodeState.Executing,
+        waited: startTime - this.startTime,
+        inputs: recordInputs ? inputs : undefined,
+      },
+      verbose,
+    );
 
     // Execute the asynchronous task.
     const output = await func(...inputs);
 
     const time = Date.now();
-    this.log({
-      name: options.name,
-      time,
-      state: NodeState.Completed,
-      duration: time - startTime,
-      output: recordOutput ? output : undefined,
-    }, verbose);
+    this.log(
+      {
+        name: options.name,
+        time,
+        state: NodeState.Completed,
+        duration: time - startTime,
+        output: recordOutput ? output : undefined,
+      },
+      verbose,
+    );
 
     return output;
   }
