@@ -74,15 +74,15 @@ const Answer9 = async (logger: Logger) => {
 };
 
 test("test Logger.computed", async () => {
-  const logger = new Logger({ });
+  const logger = new Logger({});
   await Answer9(logger);
-  assert.deepStrictEqual(logger.result, { f: { F: true, D: true, A: true, B: true, E: true, C: true }});
+  assert.deepStrictEqual(logger.result, { f: { F: true, D: true, A: true, B: true, E: true, C: true } });
 });
 
 const Answer10 = async (logger: Logger) => {
   const nodeY = logger.computed(["Y", false], FuncY, { name: "nodeY" });
   const nodeC = logger.computed([23, 33], FuncX, { name: "nodeC" });
-  const nodeD = logger.computed([{ Z:true }, nodeY], FuncD, { name: "nodeD" });
+  const nodeD = logger.computed([{ Z: true }, nodeY], FuncD, { name: "nodeD" });
   const nodeE = logger.computed([nodeY, nodeC], FuncE, { name: "nodeE" });
   const nodeF = logger.computed([nodeD, nodeE], FuncF, { name: "nodeF" });
   logger.result = {
@@ -91,7 +91,7 @@ const Answer10 = async (logger: Logger) => {
 };
 
 test("test Logger.computed with literal value", async () => {
-  const logger = new Logger({ });
+  const logger = new Logger({});
   await Answer10(logger);
-  assert.deepStrictEqual(logger.result, { f: { F: true, D: true, Z: true, Y: false, E: true, X: true }});
+  assert.deepStrictEqual(logger.result, { f: { F: true, D: true, Z: true, Y: false, E: true, X: true } });
 });
