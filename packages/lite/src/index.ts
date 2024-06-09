@@ -52,25 +52,23 @@ export class Conductor {
     const { verbose, recordInputs, recordOutput } = { ...this.options, ...options };
     const inputs = await Promise.all(nodes);
     const startTime = Date.now();
-    const logStart: any = {
+    this.log({
       name: options.name,
       time: Date.now(),
       state: NodeState.Executing,
       inputs: recordInputs? inputs : undefined,
-    };
-    this.log(logStart, verbose);
+    }, verbose);
 
     const output = await func(...inputs);
 
     const time = Date.now();
-    const logEnd: any = {
+    this.log({
       name: options.name,
       time,
       state: NodeState.Completed,
       duration: time - startTime,
       output: recordOutput ? output : undefined,
-    };
-    this.log(logEnd, verbose);
+    }, verbose);
 
     return output;
   }
