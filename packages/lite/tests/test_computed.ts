@@ -42,8 +42,7 @@ export const FuncY = async (key: string, value: any) => {
   return { [key]: value };
 };
 
-export const FuncX = async (value0: number, value1: number) => {
-  await sleep(10);
+export const FuncX = (value0: number, value1: number) => {
   return { X: value0 < value1 };
 };
 
