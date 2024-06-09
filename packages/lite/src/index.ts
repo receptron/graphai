@@ -3,6 +3,15 @@ export const computed = async (nodes: any, func: any) => {
   return func(...inputs);
 };
 
+export type LogData = {
+  name?: string;
+  time: number;
+  state: string;
+  duration?: number;
+  inputs?: Array<any>;
+  output?: any;
+};
+
 export type LoggerOptions = {
   verbose?: boolean;
   recordInputs?: boolean;
@@ -13,7 +22,7 @@ export type LoggerOptions = {
 export class Logger {
   public options: LoggerOptions;
   public startTime: number;
-  public logs: Array<Record<string, any>> = [];
+  public logs: Array<LogData> = [];
   public result: Record<string, any> = {};
   constructor(options: LoggerOptions) {
     this.options = options;
@@ -49,7 +58,7 @@ export class Logger {
     }
     this.logs.push(logEnd);
     if (verbose) {
-      console.log(`complted: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
+      console.log(`completed: ${logEnd.name} at ${logEnd.time - this.startTime}, duration:${logEnd.duration}ms`);
     }
     return output;
   }
