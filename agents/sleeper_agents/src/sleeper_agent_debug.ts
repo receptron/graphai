@@ -1,5 +1,4 @@
-import { AgentFunction, strIntentionalError } from "graphai";
-import { sleep } from "graphai/lib/utils/utils";
+import { AgentFunction, strIntentionalError, sleep } from "graphai";
 import deepmerge from "deepmerge";
 
 export const sleeperAgentDebug: AgentFunction<{ duration: number; value?: Record<string, any>; fail?: boolean }> = async ({

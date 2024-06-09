@@ -1,5 +1,4 @@
-import { GraphAI, AgentFunction, GraphData, StaticNodeData } from "graphai";
-import { assert } from "graphai/lib/utils/utils";
+import { GraphAI, AgentFunction, GraphData, StaticNodeData, assert } from "graphai";
 
 // This function allows us to use one of inputs as the graph data for this nested agent,
 // which is equivalent to "eval" of JavaScript.

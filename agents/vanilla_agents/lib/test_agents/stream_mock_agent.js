@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.streamMockAgent = void 0;
-const utils_1 = require("graphai/lib/utils/utils");
+const graphai_1 = require("graphai");
 const streamMockAgent = async ({ params, filterParams }) => {
     const message = params.message || "";
     for await (const token of message.split("")) {
         if (filterParams.streamTokenCallback) {
             filterParams.streamTokenCallback(token);
         }
-        await (0, utils_1.sleep)(params.sleep || 100);
+        await (0, graphai_1.sleep)(params.sleep || 100);
     }
     return params;
 };
