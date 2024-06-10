@@ -46,7 +46,7 @@ const TaskRunner = async () => {
 };
 ```
 
-While it performs much better than the original code, this is not optimal. TaskD needs to wait for TaskC even though it does not have to, and TaskE needs to wait for TaskE even though it does not have to.
+While it performs much better than the original code, this is not optimal. TaskD needs to wait for TaskC even though it does not have to, and TaskE needs to wait for TaskA even though it does not have to.
 
 When I pointed out this issue, one developer came up with the following answer, noticing the fact that both TaskD and TaskE need to wait for TaskB to be completed.
 
