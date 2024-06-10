@@ -9,6 +9,7 @@ export const agentInputValidator = (inputSchema: any, namedInputs: any) => {
     // console.log(validateSchema.errors);
     throw new Error("schema not matched");
   }
+  return true;
 };
 
 export const namedInputValidatorFilter: AgentFilterFunction = async (context, next) => {

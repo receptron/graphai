@@ -4,16 +4,11 @@ import { agentInputValidator } from "@/index";
 import test from "node:test";
 // import assert from "node:assert";
 
-test("test validate", async () => {
+test("test agentInputValidator validate", async () => {
   for (const agentInfo of Object.values(agents)) {
-    if (agentInfo?.inputs && agentInfo?.samples && agentInfo?.inputs.type !== "any") {
+    if (agentInfo?.inputs && agentInfo?.samples) {
       for (const sample of agentInfo.samples) {
-        try {
-          agentInputValidator(agentInfo?.inputs, sample.inputs);
-        } catch (e) {
-          console.log(agentInfo);
-          // console.log(e);
-        }
+        agentInputValidator(agentInfo?.inputs, sample.inputs);
       }
     }
   }
