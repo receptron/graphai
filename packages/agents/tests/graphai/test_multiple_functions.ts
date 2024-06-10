@@ -1,5 +1,5 @@
 import { AgentFunction, agentInfoWrapper } from "graphai";
-import { fileTestRunner } from "@graphai/test_utils";
+import { fileTestRunner } from "@receptron/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";

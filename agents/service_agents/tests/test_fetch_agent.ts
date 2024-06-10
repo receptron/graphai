@@ -1,4 +1,4 @@
-import { graphDataTestRunner } from "@graphai/test_utils";
+import { graphDataTestRunner } from "@receptron/test_utils";
 import { fetchAgent } from "@/index";
 import { propertyFilterAgent, copyAgent } from "@graphai/vanilla";
 

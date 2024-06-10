@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { graphDataTestRunner } from "@graphai/test_utils";
+import { graphDataTestRunner } from "@receptron/test_utils";
 import { sleeperAgent } from "@graphai/agents";
 import * as agents from "@/index";
 

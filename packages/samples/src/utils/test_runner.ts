@@ -1,3 +1,3 @@
-import { graphDataTestRunner } from "@graphai/test_utils";
+import { graphDataTestRunner } from "@receptron/test_utils";
 
 export { graphDataTestRunner };

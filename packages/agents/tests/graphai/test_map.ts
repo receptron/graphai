@@ -1,4 +1,4 @@
-import { graphDataTestRunner, fileTestRunner } from "@graphai/test_utils";
+import { graphDataTestRunner, fileTestRunner } from "@receptron/test_utils";
 import * as agents from "@/index";
 
 import test from "node:test";
