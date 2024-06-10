@@ -1,6 +1,6 @@
 {
   "name": "@receptron/graphai_lite",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "GraphAI Lite",
   "main": "lib/index.js",
   "files": [
