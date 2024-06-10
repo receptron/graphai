@@ -4,19 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.popAgent = void 0;
-const ajv_1 = __importDefault(require("ajv"));
 const node_assert_1 = __importDefault(require("node:assert"));
-const agentInputValidator = (inputSchema, namedInputs) => {
-    const ajv = new ajv_1.default();
-    const validateSchema = ajv.compile(inputSchema);
-    if (!validateSchema(namedInputs)) {
-        throw new Error("schema not matched");
-    }
-};
-const popAgent = async ({ namedInputs, inputSchema }) => {
+const popAgent = async ({ namedInputs }) => {
     (0, node_assert_1.default)(namedInputs, "popAgent: namedInputs is UNDEFINED!");
-    console.log(inputSchema);
-    agentInputValidator(inputSchema, namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };

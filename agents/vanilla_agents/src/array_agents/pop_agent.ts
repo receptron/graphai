@@ -1,23 +1,9 @@
 import { AgentFunction } from "graphai";
-import Ajv from "ajv";
 
 import assert from "node:assert";
 
-const agentInputValidator = <T>(inputSchema: any, namedInputs: T) => {
-  const ajv = new Ajv();
-  const validateSchema = ajv.compile(inputSchema);
-  if (!validateSchema(namedInputs)) {
-    throw new Error("schema not matched");
-  }
-};
-
-type NamedInputType = {
-  array: Array<unknown>;
-};
-
-export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, NamedInputType> = async ({ namedInputs, inputSchema }) => {
+export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, { array: Array<unknown> }> = async ({ namedInputs }) => {
   assert(namedInputs, "popAgent: namedInputs is UNDEFINED!");
-  agentInputValidator<NamedInputType>(inputSchema, namedInputs);
   
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   const item = array.pop();
