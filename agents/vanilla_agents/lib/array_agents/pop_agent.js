@@ -30,7 +30,7 @@ const popAgentInfo = {
         type: "object",
         properties: {
             item: {
-                type: "any",
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
                 description: "the item popped from the array",
             },
             array: {

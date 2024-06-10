@@ -19,10 +19,10 @@ const jsonParserAgentInfo = {
     agent: exports.jsonParserAgent,
     mock: exports.jsonParserAgent,
     inputs: {
-        type: "any",
+        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
     },
     output: {
-        type: "any",
+        type: "string",
     },
     samples: [
         {
