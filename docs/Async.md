@@ -68,9 +68,9 @@ const TaskRunner = async () => {
 }
 ```
 
-While it is fully optimized, this style of code is very hard to read, and it does not scale. 
+While it is fully optimized, this style of code is very hard to read, and it does not scale. It is impossible to write the optimal code with tens of asynchronous tasks.
 
-To solve this problem, I propose "data-flow programming style", treating tasks as nodes of acyclic data-flow graph and paying attention to dependencies among them.
+To solve this problem, I propose "data-flow programming", treating tasks as nodes of an acyclic data-flow graph and describing dependencies among them.
 
 ![](./nodes.png)
 
@@ -80,9 +80,9 @@ With data-flow programming style, the code will look like this:
 import { computed } from '@receptron/graphai_lite';
 
 const ExecuteAtoF = async () => {
-  const nodeA = computed([], TaskA());
-  const nodeB = computed([], TaskB());
-  const nodeC = computed([], TaskC());
+  const nodeA = computed([], TaskA);
+  const nodeB = computed([], TaskB);
+  const nodeC = computed([], TaskC);
   const nodeD = computed([nodeA, nodeB], TaskD);
   const nodeE = computed([nodeB, nodeC], TaskE);
   const nodeF = computed([nodeD, nodeE], TaskF);
@@ -90,6 +90,9 @@ const ExecuteAtoF = async () => {
 };
 ```
 
+```computed()``` is a thin wrapper of Promise.all (defined in @receptron/graphai_lite), which creates a "computed node" from an array of input nodes and an asynchronous function.
+
 ```cost nodeD = computed([nodeA, nodeB], TaskD);``` indicates ```nodeD``` is the node representing ```taskD``` and it requires data from ```nodeA``` and ```nodeB```. 
 
-```computed()``` is a function in node package, @receptron/graphai_lite, which creates a "computed node" from an array of input nodes and an asynchronous function.
+With this style, you don't need to specify the execution order. You just need to specified the dependencies among nodes, and the system will automatically figure out the right order, concurrently executing independent tasks.
+
