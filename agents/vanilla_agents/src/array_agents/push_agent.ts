@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import assert from "node:assert";
 
@@ -10,7 +10,7 @@ export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, 
   return array;
 };
 
-const pushAgentInfo = {
+const pushAgentInfo: AgentFunctionInfo = {
   name: "pushAgent",
   agent: pushAgent,
   mock: pushAgent,

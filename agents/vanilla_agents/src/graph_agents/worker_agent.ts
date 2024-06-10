@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, StaticNodeData, assert } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert } from "graphai";
 import { Worker, isMainThread, parentPort } from "worker_threads";
 import {
   totalAgent,
@@ -73,7 +73,7 @@ export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, an
   });
 };
 
-const workerAgentInfo = {
+const workerAgentInfo: AgentFunctionInfo = {
   name: "workerAgent",
   agent: workerAgent,
   mock: workerAgent,

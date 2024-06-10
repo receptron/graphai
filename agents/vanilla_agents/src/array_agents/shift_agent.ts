@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import assert from "node:assert";
 
@@ -9,7 +9,7 @@ export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>,
   return { array, item };
 };
 
-const shiftAgentInfo = {
+const shiftAgentInfo: AgentFunctionInfo = {
   name: "shiftAgent",
   agent: shiftAgent,
   mock: shiftAgent,

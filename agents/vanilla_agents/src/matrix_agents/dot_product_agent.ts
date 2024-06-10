@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import assert from "node:assert";
 
@@ -24,7 +24,7 @@ export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>,
   return contents;
 };
 
-const dotProductAgentInfo = {
+const dotProductAgentInfo: AgentFunctionInfo = {
   name: "dotProductAgent",
   agent: dotProductAgent,
   mock: dotProductAgent,
