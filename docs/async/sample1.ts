@@ -92,6 +92,16 @@ const Answer8 = async () => {
   return nodeF;
 }
 
+const Answer9 = async () => {
+  const nodeA = FuncA();
+  const nodeB = FuncB();
+  const nodeC = FuncC();
+  const nodeD = FuncD(await nodeA, await nodeB);
+  const nodeE = FuncE(await nodeB, await nodeC);
+  const nodeF = FuncF(await nodeD, await nodeE);
+  return nodeF;
+}
+
 const timer = async (p: NodePromise) => {
   const now = Date.now();
   const result = await p;
@@ -107,6 +117,7 @@ const main = async () => {
   console.log(await timer(Answer6()));
   console.log(await timer(Answer7()));
   console.log(await timer(Answer8()));
+  console.log(await timer(Answer9()));
 };
 
 if (process.argv[1] === __filename) {
