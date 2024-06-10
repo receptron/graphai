@@ -36,7 +36,7 @@ const TaskRunner = async () => {
 };
 ```
 
-I tested this quiz with devleopers on X and a few other developer forums, and many developers, even experienced ones, came up with this answer:
+I tested this quiz with developers on X and a few other developer forums, and many developers, even experienced ones, came up with this answer:
 
 ```typescript
 const TaskRunner = async () => {
@@ -74,7 +74,7 @@ To solve this problem, I propose "data-flow programming", treating tasks as node
 
 ![](./nodes.png)
 
-With data-flow programming style, the code will look like this:
+With a data-flow programming style, the code will look like this:
 
 ```typescript
 import { computed } from '@receptron/graphai_lite';
@@ -95,4 +95,3 @@ const ExecuteAtoF = async () => {
 ```const nodeD = computed([nodeA, nodeB], TaskD);``` indicates ```nodeD``` is the node representing ```taskD``` and it requires data from ```nodeA``` and ```nodeB```. 
 
 With this style, you don't need to specify the execution order. You just need to specify the data dependencies among nodes, and the system will automatically figure out the right order, concurrently executing independent tasks.
-
