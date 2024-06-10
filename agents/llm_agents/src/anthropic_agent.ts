@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 export const anthropicAgent: AgentFunction<
   {
@@ -43,7 +43,7 @@ export const anthropicAgent: AgentFunction<
   return { choices: [{ message: { role: message.role, content: message.content[0].text } }] };
 };
 
-const anthropicAgentInfo = {
+const anthropicAgentInfo: AgentFunctionInfo = {
   name: "anthropicAgent",
   agent: anthropicAgent,
   mock: anthropicAgent,

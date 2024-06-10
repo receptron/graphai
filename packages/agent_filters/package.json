@@ -24,7 +24,9 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "dependencies": {},
+  "dependencies": {
+    "ajv": "^8.16.0"
+  },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {

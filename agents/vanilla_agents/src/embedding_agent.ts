@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 // Type for OpenAI's Embedding API
 interface EmbeddingResponse {
@@ -66,7 +66,7 @@ export const stringEmbeddingsAgent: AgentFunction<
   return embeddings;
 };
 
-const stringEmbeddingsAgentInfo = {
+const stringEmbeddingsAgentInfo: AgentFunctionInfo = {
   name: "stringEmbeddingsAgent",
   agent: stringEmbeddingsAgent,
   mock: stringEmbeddingsAgent,

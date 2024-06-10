@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { get_encoding } from "tiktoken";
 
 const defaultMaxToken = 5000;
@@ -39,7 +39,7 @@ export const tokenBoundStringsAgent: AgentFunction<
   return { content, tokenCount, endIndex };
 };
 
-const tokenBoundStringsAgentInfo = {
+const tokenBoundStringsAgentInfo: AgentFunctionInfo = {
   name: "tokenBoundStringsAgent",
   agent: tokenBoundStringsAgent,
   mock: tokenBoundStringsAgent,

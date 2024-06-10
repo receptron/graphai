@@ -1,11 +1,11 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 export const copyAgent: AgentFunction = async ({ inputs }) => {
   const [input] = inputs;
   return input;
 };
 
-const copyAgentInfo = {
+const copyAgentInfo: AgentFunctionInfo = {
   name: "copyAgent",
   agent: copyAgent,
   mock: copyAgent,

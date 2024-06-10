@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 type StringTemplate = string | Record<string, string>;
 type StringTemplateObject = StringTemplate | StringTemplate[] | Record<string, StringTemplate>;
@@ -33,7 +33,7 @@ export const stringTemplateAgent: AgentFunction<
 const sampleInput = ["hello", "test"];
 
 // for test and document
-const stringTemplateAgentInfo = {
+const stringTemplateAgentInfo: AgentFunctionInfo = {
   name: "stringTemplateAgent",
   agent: stringTemplateAgent,
   mock: stringTemplateAgent,

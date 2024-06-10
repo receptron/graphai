@@ -250,6 +250,7 @@ class ComputedNode extends Node {
             const context = {
                 params: params,
                 inputs: previousResults,
+                inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
                 namedInputs: {},
                 debugInfo: {
                     nodeId: this.nodeId,

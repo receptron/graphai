@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 const applyFilter = (
   input: any,
@@ -76,7 +76,7 @@ const testInputs = [
   "Tesla Motors",
 ];
 
-const propertyFilterAgentInfo = {
+const propertyFilterAgentInfo: AgentFunctionInfo = {
   name: "propertyFilterAgent",
   agent: propertyFilterAgent,
   mock: propertyFilterAgent,

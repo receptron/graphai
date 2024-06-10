@@ -1,4 +1,4 @@
-import { AgentFunction, assert } from "graphai";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
 
 export const geminiAgent: AgentFunction<
@@ -81,7 +81,7 @@ export const geminiAgent: AgentFunction<
   return { choices: [{ message }] };
 };
 
-const geminiAgentInfo = {
+const geminiAgentInfo: AgentFunctionInfo = {
   name: "geminiAgent",
   agent: geminiAgent,
   mock: geminiAgent,

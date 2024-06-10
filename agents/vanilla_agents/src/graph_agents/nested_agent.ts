@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, GraphData, StaticNodeData, assert } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, GraphData, StaticNodeData, assert } from "graphai";
 
 // This function allows us to use one of inputs as the graph data for this nested agent,
 // which is equivalent to "eval" of JavaScript.
@@ -85,7 +85,7 @@ export const nestedAgent: AgentFunction<{
   }
 };
 
-const nestedAgentInfo = {
+const nestedAgentInfo: AgentFunctionInfo = {
   name: "nestedAgent",
   agent: nestedAgent,
   mock: nestedAgent,
