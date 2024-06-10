@@ -54,13 +54,12 @@ test("test validate filter int input error", async () => {
   );
 });
 
-
 test("test validate filter array input error", async () => {
   const graph_data = {
     version: 0.5,
     nodes: {
       inputs: {
-        value: [1,2,3],
+        value: [1, 2, 3],
       },
       pop: {
         agent: "popAgent",
@@ -83,7 +82,7 @@ test("test validate filter array input error", async () => {
     version: 0.5,
     nodes: {
       inputs: {
-        value: [1,2,3],
+        value: [1, 2, 3],
       },
       pop: {
         agent: "popAgent",
@@ -95,6 +94,5 @@ test("test validate filter array input error", async () => {
 
   const graph = new GraphAI(graph_data, { ...agents }, { agentFilters });
   const result = await graph.run();
-  assert.deepStrictEqual(result, { pop: { array: [ 1, 2 ], item: 3 } });
+  assert.deepStrictEqual(result, { pop: { array: [1, 2], item: 3 } });
 });
-

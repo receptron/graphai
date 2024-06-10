@@ -14,7 +14,7 @@ const agentInputValidator = (inputSchema, namedInputs) => {
 };
 const namedInputValidatorFilter = async (context, next) => {
     const { inputSchema, namedInputs } = context;
-    if (context.inputSchema) {
+    if (inputSchema) {
         agentInputValidator(inputSchema, namedInputs || {});
     }
     return next(context);
