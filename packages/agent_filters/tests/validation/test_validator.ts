@@ -16,5 +16,5 @@ test("test validate", async () => {
         }
       }
     }
-  };
+  }
 });
