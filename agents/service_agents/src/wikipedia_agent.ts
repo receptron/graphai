@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 import wiki from "wikipedia";
 
 export const wikipediaAgent: AgentFunction<{ lang?: string; summary?: boolean }, Record<string, any> | undefined, string> = async ({ inputs, params }) => {
@@ -21,7 +21,7 @@ export const wikipediaAgent: AgentFunction<{ lang?: string; summary?: boolean },
   return;
 };
 
-const wikipediaAgentInfo = {
+const wikipediaAgentInfo: AgentFunctionInfo = {
   name: "wikipediaAgent",
   agent: wikipediaAgent,
   mock: wikipediaAgent,

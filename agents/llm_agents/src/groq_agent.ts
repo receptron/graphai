@@ -1,4 +1,4 @@
-import { AgentFunction, assert } from "graphai";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { Groq } from "groq-sdk";
 import { ChatCompletionCreateParams, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
 
@@ -99,7 +99,7 @@ export const groqAgent: AgentFunction<
   return lastMessage;
 };
 
-const groqAgentInfo = {
+const groqAgentInfo: AgentFunctionInfo = {
   name: "groqAgent",
   agent: groqAgent,
   mock: groqAgent,
