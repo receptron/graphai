@@ -11,8 +11,6 @@ var NodeState;
     NodeState["Executing"] = "executing";
     NodeState["Completed"] = "completed";
 })(NodeState || (exports.NodeState = NodeState = {}));
-;
-;
 class Conductor {
     constructor(options) {
         this.logs = [];
