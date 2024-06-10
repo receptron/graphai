@@ -40,7 +40,7 @@ const dotProductAgentInfo: AgentFunctionInfo = {
         description: "the vector",
       },
     },
-    required: ["array", "vector"],
+    required: ["matrix", "vector"],
   },
   output: {
     type: "array",
