@@ -13,6 +13,7 @@ const agentInputValidator = (inputSchema, namedInputs) => {
         // console.log(validateSchema.errors);
         throw new Error("schema not matched");
     }
+    return true;
 };
 exports.agentInputValidator = agentInputValidator;
 const namedInputValidatorFilter = async (context, next) => {
