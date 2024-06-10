@@ -1,7 +1,8 @@
 import { AgentFilterFunction } from "graphai";
 import Ajv from "ajv";
 
-const agentInputValidator = (inputSchema: any, namedInputs: any) => {
+// export for test
+export const agentInputValidator = (inputSchema: any, namedInputs: any) => {
   const ajv = new Ajv();
   const validateSchema = ajv.compile(inputSchema);
   if (!validateSchema(namedInputs)) {
