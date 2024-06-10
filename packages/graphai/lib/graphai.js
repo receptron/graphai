@@ -103,6 +103,7 @@ class GraphAI {
                 agent: async () => {
                     return null;
                 },
+                inputs: null,
             };
         }
         // We are not supposed to hit this error because the validator will catch it.

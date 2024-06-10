@@ -75,7 +75,7 @@ export const rejectTest = async (
 
 // for agent
 export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
-  const { agent, samples, skipTest } = agentInfo;
+  const { agent, samples, skipTest, inputs: inputSchema } = agentInfo;
   if (samples.length === 0) {
     console.log(`test ${agentInfo.name}: No test`);
   } else if (skipTest) {
@@ -91,6 +91,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
           ...defaultTestContext,
           params,
           inputs: flatInputs,
+          inputSchema,
           namedInputs,
           graphData: graph,
         });
