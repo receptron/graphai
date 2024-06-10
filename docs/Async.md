@@ -7,7 +7,7 @@ While it is quite convenient, it is not suitable to perform multiple asynchronou
 For example, following TypeScript code will execute TaskA and TaskB sequentially even though they are independent.
 
 ```typescript
-const TaskRunnder = async () => {
+const TaskRunner = async () => {
   const a = await TaskA();
   const b = await TaskB();
   const c = await TaskC(a, b);
@@ -36,7 +36,7 @@ const TaskRunner = async () => {
 };
 ```
 
-I tested this quiz with devleopers on X and a few other developer forums, and many developers, even experienced developers came up with this answer:
+I tested this quiz with devleopers on X and a few other developer forums, and many developers, even experienced ones, came up with this answer:
 
 ```typescript
 const TaskRunner = async () => {
@@ -90,9 +90,9 @@ const ExecuteAtoF = async () => {
 };
 ```
 
-```computed()``` is a thin wrapper of Promise.all (defined in @receptron/graphai_lite), which creates a "computed node" from an array of input nodes and an asynchronous function.
+```computed()``` is a thin wrapper of Promise.all (defined in [@receptron/graphai_lite](https://github.com/receptron/graphai/tree/main/packages/lite#readme)), which creates a "computed node" from an array of input nodes and an asynchronous function.
 
-```cost nodeD = computed([nodeA, nodeB], TaskD);``` indicates ```nodeD``` is the node representing ```taskD``` and it requires data from ```nodeA``` and ```nodeB```. 
+```const nodeD = computed([nodeA, nodeB], TaskD);``` indicates ```nodeD``` is the node representing ```taskD``` and it requires data from ```nodeA``` and ```nodeB```. 
 
-With this style, you don't need to specify the execution order. You just need to specified the dependencies among nodes, and the system will automatically figure out the right order, concurrently executing independent tasks.
+With this style, you don't need to specify the execution order. You just need to specify the data dependencies among nodes, and the system will automatically figure out the right order, concurrently executing independent tasks.
 
