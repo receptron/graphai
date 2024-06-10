@@ -86,19 +86,33 @@ const openaiAgentInfo = {
             model: { type: "string" },
             system: { type: "string" },
             tools: { type: "object" },
-            tool_choice: { type: "any" },
+            tool_choice: {
+                anyOf: [
+                    { type: "array" },
+                    { type: "object" },
+                ]
+            },
             max_tokens: { type: "number" },
             verbose: { type: "boolean" },
             temperature: { type: "number" },
             baseURL: { type: "string" },
-            apiKey: { type: "any" },
+            apiKey: {
+                anyOf: [
+                    { type: "string" },
+                    { type: "object" },
+                ]
+            },
             stream: { type: "boolean" },
             prompt: {
                 type: "string",
                 description: "query string",
             },
             messages: {
-                type: "any",
+                anyOf: [
+                    { type: "string" },
+                    { type: "object" },
+                    { type: "array" },
+                ],
                 description: "chat messages",
             },
         },
@@ -169,7 +183,7 @@ const openaiAgentInfo = {
     },
     samples: [
         {
-            inputs: [input_sample],
+            inputs: { prompt: input_sample },
             params: {},
             result: result_sample,
         },

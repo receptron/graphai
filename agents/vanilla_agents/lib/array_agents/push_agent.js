@@ -25,7 +25,7 @@ const pushAgentInfo = {
                 description: "the array to push an item to",
             },
             item: {
-                type: "any",
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
                 description: "the item push into the array",
             },
         },

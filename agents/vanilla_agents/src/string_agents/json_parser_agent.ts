@@ -24,10 +24,10 @@ const jsonParserAgentInfo: AgentFunctionInfo = {
   agent: jsonParserAgent,
   mock: jsonParserAgent,
   inputs: {
-    type: "any",
+    anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
   },
   output: {
-    type: "any",
+    type: "string",
   },
   samples: [
     {

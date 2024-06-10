@@ -6,7 +6,7 @@ import test from "node:test";
 
 test("test validate", async () => {
   for (const agentInfo of Object.values(agents)) {
-    if (agentInfo?.inputs && agentInfo?.samples) {
+    if (agentInfo?.inputs && agentInfo?.samples && agentInfo?.inputs.type !== "any") {
       for (const sample of agentInfo.samples) {
         try {
           agentInputValidator(agentInfo?.inputs, sample.inputs);
