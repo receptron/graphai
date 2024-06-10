@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 import deepmerge from "deepmerge";
 
 export const dataObjectMergeTemplateAgent: AgentFunction = async ({ inputs }) => {
@@ -16,7 +16,7 @@ const sampleInputs = [
 const sampleParams = {};
 const sampleResult = { a: 3, b: 0, c: 5 };
 
-const dataObjectMergeTemplateAgentInfo = {
+const dataObjectMergeTemplateAgentInfo: AgentFunctionInfo = {
   name: "dataObjectMergeTemplateAgent",
   agent: dataObjectMergeTemplateAgent,
   mock: dataObjectMergeTemplateAgent,

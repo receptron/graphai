@@ -1,34 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 export declare const copyAgent: AgentFunction;
-declare const copyAgentInfo: {
-    name: string;
-    agent: AgentFunction;
-    mock: AgentFunction;
-    inputs: {
-        type: string;
-    };
-    output: {
-        type: string;
-    };
-    samples: ({
-        inputs: {
-            color: string;
-            model: string;
-        }[];
-        params: {};
-        result: {
-            color: string;
-            model: string;
-        };
-    } | {
-        inputs: string[];
-        params: {};
-        result: string;
-    })[];
-    description: string;
-    category: string[];
-    author: string;
-    repository: string;
-    license: string;
-};
+declare const copyAgentInfo: AgentFunctionInfo;
 export default copyAgentInfo;

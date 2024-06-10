@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 export const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, number> = async ({ inputs }) => {
   return inputs.reduce((tmp, input) => {
@@ -6,7 +6,7 @@ export const dataSumTemplateAgent: AgentFunction<Record<string, any>, number, nu
   }, 0);
 };
 
-const dataSumTemplateAgentInfo = {
+const dataSumTemplateAgentInfo: AgentFunctionInfo = {
   name: "dataSumTemplateAgent",
   agent: dataSumTemplateAgent,
   mock: dataSumTemplateAgent,

@@ -1,5 +1,5 @@
 import path from "path";
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { ChatSession, ChatConfig, ManifestData, ChatData } from "slashgpt";
 
 const config = new ChatConfig(path.resolve(__dirname));
@@ -33,7 +33,7 @@ export const slashGPTAgent: AgentFunction<
   return session.history.messages();
 };
 
-const slashGPTAgentInfo = {
+const slashGPTAgentInfo: AgentFunctionInfo = {
   name: "slashGPTAgent",
   agent: slashGPTAgent,
   mock: slashGPTAgent,

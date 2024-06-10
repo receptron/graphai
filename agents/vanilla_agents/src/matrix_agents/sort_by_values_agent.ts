@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import assert from "node:assert";
 
@@ -35,7 +35,7 @@ export const sortByValuesAgent: AgentFunction<
   return contents;
 };
 
-const sortByValuesAgentInfo = {
+const sortByValuesAgentInfo: AgentFunctionInfo = {
   name: "sortByValuesAgent",
   agent: sortByValuesAgent,
   mock: sortByValuesAgent,

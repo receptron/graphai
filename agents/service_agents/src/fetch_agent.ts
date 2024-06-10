@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { parseStringPromise } from "xml2js";
 
 export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, any> = async ({ namedInputs, params }) => {
@@ -62,7 +62,7 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, 
   return result;
 };
 
-const fetchAgentInfo = {
+const fetchAgentInfo: AgentFunctionInfo = {
   name: "fetchAgent",
   agent: fetchAgent,
   mock: fetchAgent,

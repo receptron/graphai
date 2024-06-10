@@ -1,4 +1,4 @@
-import { AgentFunction, sleep } from "graphai";
+import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 import deepmerge from "deepmerge";
 
 export const sleeperAgent: AgentFunction<{ duration?: number; value?: Record<string, any> }> = async (context) => {
@@ -9,7 +9,7 @@ export const sleeperAgent: AgentFunction<{ duration?: number; value?: Record<str
   }, params.value ?? {});
 };
 
-const sleeperAgentInfo = {
+const sleeperAgentInfo: AgentFunctionInfo = {
   name: "sleeperAgent",
   agent: sleeperAgent,
   mock: sleeperAgent,

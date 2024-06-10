@@ -1,11 +1,11 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 import input from "@inquirer/input";
 
 export const textInputAgent: AgentFunction<{ message?: string }, string | { [x: string]: string }> = async ({ params }) => {
   return await input({ message: params.message ?? "Enter" });
 };
 
-const textInputAgentInfo = {
+const textInputAgentInfo: AgentFunctionInfo = {
   name: "textInputAgent",
   agent: textInputAgent,
   mock: textInputAgent,

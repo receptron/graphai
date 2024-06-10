@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 export const jsonParserAgent: AgentFunction<
   {
@@ -19,7 +19,7 @@ export const jsonParserAgent: AgentFunction<
 
 const sample_object = { apple: "red", lemon: "yellow" };
 // for test and document
-const jsonParserAgentInfo = {
+const jsonParserAgentInfo: AgentFunctionInfo = {
   name: "jsonParserAgent",
   agent: jsonParserAgent,
   mock: jsonParserAgent,

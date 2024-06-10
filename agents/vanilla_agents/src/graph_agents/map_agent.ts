@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, assert } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { getNestedGraphData } from "./nested_agent";
 
 export const mapAgent: AgentFunction<
@@ -84,7 +84,7 @@ export const mapAgent: AgentFunction<
   }
 };
 
-const mapAgentInfo = {
+const mapAgentInfo: AgentFunctionInfo = {
   name: "mapAgent",
   agent: mapAgent,
   mock: mapAgent,

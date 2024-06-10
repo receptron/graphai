@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 export const totalAgent: AgentFunction<Record<never, never>, Record<string, number>> = async ({ inputs }) => {
   return inputs.reduce((result, input) => {
@@ -18,7 +18,7 @@ export const totalAgent: AgentFunction<Record<never, never>, Record<string, numb
 };
 
 //
-const totalAgentInfo = {
+const totalAgentInfo: AgentFunctionInfo = {
   name: "totalAgent",
   agent: totalAgent,
   mock: totalAgent,

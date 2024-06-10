@@ -1,4 +1,4 @@
-import { AgentFunction } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import assert from "node:assert";
 
@@ -10,7 +10,7 @@ export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, A
   return { array, item };
 };
 
-const popAgentInfo = {
+const popAgentInfo: AgentFunctionInfo = {
   name: "popAgent",
   agent: popAgent,
   mock: popAgent,

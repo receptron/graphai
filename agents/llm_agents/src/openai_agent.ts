@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { AgentFunction, sleep } from "graphai";
+import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 
 export const openAIAgent: AgentFunction<
   {
@@ -106,7 +106,7 @@ export const openAIMockAgent: AgentFunction<
 
   return result_sample;
 };
-const openaiAgentInfo = {
+const openaiAgentInfo: AgentFunctionInfo = {
   name: "openAIAgent",
   agent: openAIAgent,
   mock: openAIMockAgent,
