@@ -11,7 +11,20 @@ Template agent
 ```json
 
 {
-  "type": "any"
+  "anyOf": [
+    {
+      "type": "string"
+    },
+    {
+      "type": "integer"
+    },
+    {
+      "type": "object"
+    },
+    {
+      "type": "array"
+    }
+  ]
 }
 
 ````
@@ -21,7 +34,7 @@ Template agent
 ```json
 
 {
-  "type": "any"
+  "type": "string"
 }
 
 ````

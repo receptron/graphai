@@ -10,6 +10,7 @@ const agentInputValidator = (inputSchema, namedInputs) => {
     const ajv = new ajv_1.default();
     const validateSchema = ajv.compile(inputSchema);
     if (!validateSchema(namedInputs)) {
+        // console.log(validateSchema.errors);
         throw new Error("schema not matched");
     }
 };

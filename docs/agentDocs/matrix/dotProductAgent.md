@@ -23,7 +23,7 @@ dotProduct Agent
     }
   },
   "required": [
-    "array",
+    "matrix",
     "vector"
   ]
 }

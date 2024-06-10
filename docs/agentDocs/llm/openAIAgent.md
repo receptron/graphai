@@ -23,7 +23,14 @@ Openai Agent
       "type": "object"
     },
     "tool_choice": {
-      "type": "any"
+      "anyOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "object"
+        }
+      ]
     },
     "max_tokens": {
       "type": "number"
@@ -38,7 +45,14 @@ Openai Agent
       "type": "string"
     },
     "apiKey": {
-      "type": "any"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object"
+        }
+      ]
     },
     "stream": {
       "type": "boolean"
@@ -48,7 +62,17 @@ Openai Agent
       "description": "query string"
     },
     "messages": {
-      "type": "any",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ],
       "description": "chat messages"
     }
   }
@@ -176,9 +200,9 @@ Openai Agent
 
 ```json
 
-[
-  "this is response result"
-]
+{
+  "prompt": "this is response result"
+}
 
 ````
 
