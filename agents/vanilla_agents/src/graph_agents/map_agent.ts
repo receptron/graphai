@@ -35,7 +35,7 @@ export const mapAgent: AgentFunction<
       // Otherwise, inject the proper data here (instead of calling injectTo method later)
       (nestedGraphData.nodes[mappedNodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
     }
-});
+  });
 
   try {
     if (nestedGraphData.version === undefined && debugInfo.version) {

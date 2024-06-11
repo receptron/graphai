@@ -2,40 +2,42 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
-const nested_agent_1 = require("./nested_agent");
-const mapAgent = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
+const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
     if (taskManager) {
         const status = taskManager.getStatus();
         (0, graphai_1.assert)(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
     }
-    const nestedGraphData = (0, nested_agent_1.getNestedGraphData)(graphData, inputs);
-    const input = (Array.isArray(inputs[0]) ? inputs[0] : inputs).map((item) => item);
-    if (params.limit && params.limit < input.length) {
-        input.length = params.limit; // trim
+    (0, graphai_1.assert)(!!namedInputs.rows, "mapeAgent: rows property is required in namedInput");
+    (0, graphai_1.assert)(!!graphData, "mapAgent: graph is required");
+    (0, graphai_1.assert)(typeof graphData !== "string", "mapAgent: graph is required");
+    const rows = namedInputs.rows.map((item) => item);
+    if (params.limit && params.limit < rows.length) {
+        rows.length = params.limit; // trim
     }
-    const namedInputs = params.namedInputs ??
-        inputs.map((__input, index) => {
-            return `$${index}`;
-        });
-    namedInputs.forEach((nodeId) => {
-        if (nestedGraphData.nodes[nodeId] === undefined) {
+    const { nodes } = graphData;
+    const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
+    const nodeIds = Object.keys(namedInputs);
+    nodeIds.forEach((nodeId) => {
+        const mappedNodeId = (nodeId === "rows") ? "row" : nodeId;
+        if (nestedGraphData.nodes[mappedNodeId] === undefined) {
             // If the input node does not exist, automatically create a static node
-            nestedGraphData.nodes[nodeId] = { value: {} };
+            nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };
+        }
+        else {
+            // Otherwise, inject the proper data here (instead of calling injectTo method later)
+            nestedGraphData.nodes[mappedNodeId]["value"] = namedInputs[nodeId];
         }
     });
     try {
         if (nestedGraphData.version === undefined && debugInfo.version) {
             nestedGraphData.version = debugInfo.version;
         }
-        const graphs = input.map((data) => {
+        const graphs = rows.map((row) => {
             const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, {
                 taskManager,
                 agentFilters: agentFilters || [],
             });
-            // Only the first input will be mapped
-            namedInputs.forEach((injectToNodeId, index) => {
-                graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
-            });
+            graphAI.injectValue("row", row, "__mapAgent_inputs__");
             return graphAI;
         });
         const runs = graphs.map((graph) => {
