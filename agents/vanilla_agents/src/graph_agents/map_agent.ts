@@ -16,18 +16,18 @@ export const mapAgent: AgentFunction<
   assert(!!namedInputs.rows, "mapeAgent: rows property is required in namedInput");
   assert(!!graphData, "mapAgent: graph is required");
   assert(typeof graphData !== "string", "mapAgent: graph is required");
-  
-  const rows = namedInputs.rows.map((item:any) => item);
+
+  const rows = namedInputs.rows.map((item: any) => item);
   if (params.limit && params.limit < rows.length) {
     rows.length = params.limit; // trim
   }
-  
+
   const { nodes } = graphData;
   const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
 
   const nodeIds = Object.keys(namedInputs);
   nodeIds.forEach((nodeId) => {
-    const mappedNodeId = (nodeId === "rows") ? "row" : nodeId;
+    const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
     if (nestedGraphData.nodes[mappedNodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
       nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };

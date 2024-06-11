@@ -31,7 +31,7 @@ const graph_data = {
     map: {
       // This node executes the nested graph concurrently
       agent: "mapAgent",
-      inputs: { rows:":rows" },
+      inputs: { rows: ":rows" },
       isResult: true,
       graph: {
         nodes: {

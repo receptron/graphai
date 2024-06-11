@@ -29,7 +29,7 @@ export const graph_data = {
     map: {
       // Processes each entry concurrently.
       agent: "mapAgent",
-      inputs: { rows:":entries" },
+      inputs: { rows: ":entries" },
       isResult: true,
       params: {
         limit: 4, // to avoid rate limit
