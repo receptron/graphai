@@ -70,12 +70,9 @@ const rejectTest = async (base_dir, graphdata, errorMessage, agentFunctionInfoDi
 exports.rejectTest = rejectTest;
 // for agent
 const agentTestRunner = async (agentInfo) => {
-    const { agent, samples, skipTest, inputs: inputSchema } = agentInfo;
+    const { agent, samples, inputs: inputSchema } = agentInfo;
     if (samples.length === 0) {
         console.log(`test ${agentInfo.name}: No test`);
-    }
-    else if (skipTest) {
-        console.log(`test ${agentInfo.name}: skip`);
     }
     else {
         for await (const sampleKey of samples.keys()) {

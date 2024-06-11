@@ -43,7 +43,6 @@ const wikipediaAgentInfo = {
             },
         },
     ],
-    skipTest: true,
     author: "Receptron",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",

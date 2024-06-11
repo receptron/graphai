@@ -127,7 +127,6 @@ export type AgentFunctionInfo = {
     result: any;
     graph?: GraphData;
   }[];
-  skipTest?: boolean;
   description: string;
   category: string[];
   author: string;

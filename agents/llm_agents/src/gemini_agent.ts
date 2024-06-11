@@ -107,7 +107,6 @@ const geminiAgentInfo: AgentFunctionInfo = {
     type: "object",
   },
   samples: [],
-  skipTest: true,
   description: "Gemini Agent",
   category: ["llm"],
   author: "Receptron team",

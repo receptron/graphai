@@ -54,7 +54,6 @@ const anthropicAgentInfo = {
         type: "object",
     },
     samples: [],
-    skipTest: true,
     description: "Anthropic Agent",
     category: ["llm"],
     author: "Receptron team",
