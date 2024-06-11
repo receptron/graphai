@@ -34,7 +34,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const yaml_1 = __importDefault(require("yaml"));
 const args_1 = require("./args");
-const test_utils_1 = require("@graphai/test_utils");
+const test_utils_1 = require("@receptron/test_utils");
 const options_1 = require("./options");
 const mermaid_1 = require("./mermaid");
 const fileFullPath = (file) => {

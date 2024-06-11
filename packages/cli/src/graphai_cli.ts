@@ -9,7 +9,7 @@ import path from "path";
 import yaml from "yaml";
 
 import { hasOption, args } from "./args";
-import { readGraphaiData, mkdirLogDir, callbackLog } from "@graphai/test_utils";
+import { readGraphaiData, mkdirLogDir, callbackLog } from "@receptron/test_utils";
 import { option } from "./options";
 import { mermaid } from "./mermaid";
 

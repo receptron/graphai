@@ -1,5 +1,5 @@
 import * as agents from "@graphai/vanilla";
-import { graphDataTestRunner } from "@graphai/test_utils";
+import { graphDataTestRunner } from "@receptron/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";

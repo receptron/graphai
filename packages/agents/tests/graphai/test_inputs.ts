@@ -1,4 +1,4 @@
-import { graphDataTestRunner } from "@graphai/test_utils";
+import { graphDataTestRunner } from "@receptron/test_utils";
 import { sleeperAgent } from "@/index";
 
 import test from "node:test";

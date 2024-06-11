@@ -1,5 +1,5 @@
 import { GraphAI, strIntentionalError } from "graphai";
-import { fileTestRunner, rejectFileTest } from "@graphai/test_utils";
+import { fileTestRunner, rejectFileTest } from "@receptron/test_utils";
 
 import * as agents from "@/index";
 
