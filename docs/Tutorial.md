@@ -134,7 +134,8 @@ nodes:
     value: [apple, lemon, banana]
   map:
     agent: mapAgent
-    inputs: [:fruits]
+    inputs:
+      rows: :fruits
     isResult: true
     graph:
       nodes:
@@ -142,7 +143,7 @@ nodes:
           agent: stringTemplateAgent
           params:
             template: What is the typical color of ${0}? Just answer the color.
-          inputs: [:$0]
+          inputs: [:row]
         llm:
           agent: openAIAgent
           params:

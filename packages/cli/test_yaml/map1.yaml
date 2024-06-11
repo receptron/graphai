@@ -15,10 +15,11 @@ nodes:
   nestedNode:
     agent: mapAgent
     inputs:
-      - :source1.fruit
-      - :source2.fruit
-      - :source3.fruit
-      - :source4.fruit
+      rows:
+        - :source1.fruit
+        - :source2.fruit
+        - :source3.fruit
+        - :source4.fruit
     graph:
       version: 0.3
       nodes:
@@ -27,7 +28,7 @@ nodes:
           params:
             template: "I love ${0}."
           inputs:
-            - :$0
+            - :row
           isResult: true
   result:
     agent: sleeperAgent

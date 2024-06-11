@@ -1,5 +1,4 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { getNestedGraphData } from "./nested_agent";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert } from "graphai";
 
 export const mapAgent: AgentFunction<
   {
@@ -8,27 +7,33 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
+> = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
-  const nestedGraphData = getNestedGraphData(graphData, inputs);
-  const input = (Array.isArray(inputs[0]) ? inputs[0] : inputs).map((item) => item);
-  if (params.limit && params.limit < input.length) {
-    input.length = params.limit; // trim
+  assert(!!namedInputs.rows, "mapeAgent: rows property is required in namedInput");
+  assert(!!graphData, "mapAgent: graph is required");
+  assert(typeof graphData !== "string", "mapAgent: graph is required");
+  
+  const rows = namedInputs.rows.map((item:any) => item);
+  if (params.limit && params.limit < rows.length) {
+    rows.length = params.limit; // trim
   }
+  
+  const { nodes } = graphData;
+  const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
 
-  const namedInputs =
-    params.namedInputs ??
-    inputs.map((__input, index) => {
-      return `$${index}`;
-    });
-  namedInputs.forEach((nodeId) => {
-    if (nestedGraphData.nodes[nodeId] === undefined) {
+  const nodeIds = Object.keys(namedInputs);
+  nodeIds.forEach((nodeId) => {
+    const mappedNodeId = (nodeId === "rows") ? "row" : nodeId;
+    if (nestedGraphData.nodes[mappedNodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
-      nestedGraphData.nodes[nodeId] = { value: {} };
+      nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };
+    } else {
+      // Otherwise, inject the proper data here (instead of calling injectTo method later)
+      (nestedGraphData.nodes[mappedNodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
     }
   });
 
@@ -36,15 +41,13 @@ export const mapAgent: AgentFunction<
     if (nestedGraphData.version === undefined && debugInfo.version) {
       nestedGraphData.version = debugInfo.version;
     }
-    const graphs: Array<GraphAI> = input.map((data: any) => {
+    const graphs: Array<GraphAI> = rows.map((row: any) => {
       const graphAI = new GraphAI(nestedGraphData, agents || {}, {
         taskManager,
         agentFilters: agentFilters || [],
       });
-      // Only the first input will be mapped
-      namedInputs.forEach((injectToNodeId, index) => {
-        graphAI.injectValue(injectToNodeId, index === 0 ? data : inputs[index], "__mapAgent_inputs__");
-      });
+
+      graphAI.injectValue("row", row, "__mapAgent_inputs__");
       return graphAI;
     });
 

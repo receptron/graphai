@@ -56,13 +56,13 @@ test("test bypass2", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":echo.message"],
+        inputs: { rows: ":echo.message" },
         graph: {
           version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: [":$0"],
+              inputs: [":row"],
               isResult: true,
               params: {
                 firstElement: true,
@@ -99,13 +99,13 @@ test("test bypass3", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":echo.message"],
+        inputs: { rows: ":echo.message" },
         graph: {
           version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: [":$0"],
+              inputs: [":row"],
             },
             bypassAgent2: {
               agent: "bypassAgent",
@@ -153,17 +153,17 @@ test("test bypass4", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":echo.message"],
+        inputs: { rows: ":echo.message" },
         graph: {
           version: 0.3,
           nodes: {
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: [":$0"],
+              inputs: [":row"],
             },
             bypassAgent2: {
               agent: "bypassAgent",
-              inputs: [":bypassAgent.$0", ":$0"],
+              inputs: [":bypassAgent.$0", ":row"],
               isResult: true,
             },
           },

@@ -31,7 +31,7 @@ const graph_data = {
     map: {
       // This node executes the nested graph concurrently
       agent: "mapAgent",
-      inputs: [":rows"],
+      inputs: { rows:":rows" },
       isResult: true,
       graph: {
         nodes: {
@@ -41,7 +41,7 @@ const graph_data = {
             params: {
               model: "Llama3-8b-8192",
             },
-            inputs: { prompt: ":$0.question" },
+            inputs: { prompt: ":row.question" },
           },
           answer: {
             agent: (item: string) => item,

@@ -29,7 +29,7 @@ export const graph_data = {
     map: {
       // Processes each entry concurrently.
       agent: "mapAgent",
-      inputs: [":entries"],
+      inputs: { rows:":entries" },
       isResult: true,
       params: {
         limit: 4, // to avoid rate limit
@@ -42,7 +42,7 @@ export const graph_data = {
             params: {
               template: "Title:${0}\n${1}",
             },
-            inputs: [":$0.title", ":$0.content._"],
+            inputs: [":row.title", ":row.content._"],
           },
           query: {
             // Asks the LLM to summarize it

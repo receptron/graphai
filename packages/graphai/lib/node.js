@@ -285,7 +285,7 @@ class ComputedNode extends Node {
                 context.agents = this.graph.agentFunctionInfoDictionary;
             }
             if (this.console.before) {
-                console.log(this.console.before === true ? JSON.stringify(context.inputs, null, 2) : this.console.before);
+                console.log(this.console.before === true ? JSON.stringify(this.inputNames ? context.namedInputs : context.inputs, null, 2) : this.console.before);
             }
             const result = await this.agentFilterHandler(context, agentFunction);
             if (this.console.after) {

@@ -172,12 +172,12 @@ Nested agents in GraphAI allow for complex workflows to be broken down into mana
 nodes:
   parentNode:
     agent: "nestedAgent"
-    inputs: [":inputData"]
+    inputs: { param1: ":inputData" }
     graph:
       nodes:
         subTask1:
           agent: "subTaskAgent1"
-          inputs: [":$0"]
+          inputs: [":param1"]
         subTask2:
           agent: "subTaskAgent2"
           inputs: [":subTask1"]
@@ -205,12 +205,13 @@ nodes:
     value: [data1, data2, data3]
   mapper:
     agent: "mapAgent"
-    inputs: [":dataList"]
+    inputs: 
+      rows: ":dataList"
     graph:
       nodes:
         mapTask:
           agent: "processDataAgent"
-          inputs: [":$0"]
+          inputs: [":row"]
           isResult: true
 ```
 
@@ -254,15 +255,16 @@ nodes:
     value: ["Alice", "Bob", "Charlie"]
   userProfiles: 
     agent: "mapAgent"
-    inputs: [":users"]
+    inputs: 
+      rows: ":users"
     graph:
       nodes:
         profile: 
           agent: fetchUserProfile
-          inputs: [":$0"]
+          inputs: [":row"]
         posts: 
           agent: fetchUserPosts
-          inputs: [":$0"]
+          inputs: [":row"]
         combinedData: 
           agent: combineData
           inputs: [":profile", ":posts"]

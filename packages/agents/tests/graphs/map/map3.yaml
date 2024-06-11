@@ -4,13 +4,14 @@ nodes:
     value: ["hello", "hello2"]
   nestedNode:
     agent: "mapAgent"
-    inputs: [":source1"]
+    inputs: 
+      rows: ":source1"
     graph:
       version: 0.3
       nodes:
         node1:
           agent: "bypassAgent"
-          inputs: [":$0"]
+          inputs: [":row"]
           isResult: true
   result:
     agent: "bypassAgent"

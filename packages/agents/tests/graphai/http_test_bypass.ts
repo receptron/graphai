@@ -85,7 +85,7 @@ test("test bypass2", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":echo.message"],
+        inputs: { rows: ":echo.message" },
         graph: {
           version: 0.3,
           nodes: {
@@ -97,7 +97,7 @@ test("test bypass2", async () => {
                   firstElement: true,
                 },
               },
-              inputs: [":$0"],
+              inputs: [":row"],
               isResult: true,
             },
           },
@@ -137,7 +137,7 @@ test("test bypass3", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":echo.message"],
+        inputs: { rows: ":echo.message" },
         graph: {
           version: 0.3,
           nodes: {
@@ -146,7 +146,7 @@ test("test bypass3", async () => {
               params: {
                 agent: "bypassAgent",
               },
-              inputs: [":$0"],
+              inputs: [":row"],
             },
             bypassAgent2: {
               agent: "httpAgent",
@@ -206,10 +206,7 @@ test("test bypass4", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":echo.message"],
-        params: {
-          namedInputs: ["memory"],
-        },
+        inputs: { rows: ":echo.message" },
         graph: {
           version: 0.3,
           nodes: {
@@ -221,14 +218,14 @@ test("test bypass4", async () => {
               params: {
                 agent: "bypassAgent",
               },
-              inputs: [":memory"],
+              inputs: [":row"],
             },
             bypassAgent2: {
               agent: "httpAgent",
               params: {
                 agent: "bypassAgent",
               },
-              inputs: [":bypassAgent.$0", ":memory"],
+              inputs: [":bypassAgent.$0", ":row"],
               isResult: true,
             },
           },

@@ -44,10 +44,7 @@ test("test fork 1", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":node2"],
-        params: {
-          namedInputs: ["buffer"],
-        },
+        inputs: { rows: ":node2" },
         graph: {
           version: 0.3,
           nodes: {
@@ -56,7 +53,7 @@ test("test fork 1", async () => {
             },
             node2: {
               agent: "testAgent1a",
-              inputs: [":buffer"],
+              inputs: [":row"],
             },
             node3: {
               agent: "testAgent1a",
@@ -120,7 +117,7 @@ test("test fork 2", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":echo.messages"],
+        inputs: { rows: ":echo.messages" },
         graph: {
           version: 0.3,
           nodes: {
@@ -179,10 +176,7 @@ test("test fork 3", async () => {
       },
       mapNode: {
         agent: "mapAgent",
-        inputs: [":source.content"],
-        params: {
-          namedInputs: ["workingMemory"],
-        },
+        inputs: { rows: ":source.content" },
         graph: {
           version: 0.3,
           nodes: {
@@ -191,7 +185,7 @@ test("test fork 3", async () => {
             },
             forked: {
               agent: "sleeperAgent",
-              inputs: [":workingMemory.level1"],
+              inputs: [":row.level1"],
             },
             forked2: {
               agent: "sleeperAgent",

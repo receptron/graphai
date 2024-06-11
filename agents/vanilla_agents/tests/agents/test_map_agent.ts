@@ -16,13 +16,13 @@ test("test map_agent", async () => {
           params: {
             template: "I love ${0}.",
           },
-          inputs: [":$0.fruit"],
+          inputs: [":row.fruit"],
           isResult: true,
         },
       },
     },
-    inputs: [[{ fruit: "apple" }, { fruit: "orange" }]],
-    namedInputs: {},
+    inputs: [],
+    namedInputs: { rows: [{ fruit: "apple" }, { fruit: "orange" }] },
   });
   assert.deepStrictEqual(result, {
     node2: ["I love apple.", "I love orange."],
@@ -41,13 +41,13 @@ test("test map_agent 2", async () => {
           params: {
             template: "I love ${0}.",
           },
-          inputs: [":$0"],
+          inputs: [":row"],
           isResult: true,
         },
       },
     },
-    inputs: [["apple", "orange", "banana", "lemon"]],
-    namedInputs: {},
+    inputs: [],
+    namedInputs: { rows: ["apple", "orange", "banana", "lemon"] },
   });
   assert.deepStrictEqual(result, {
     node2: ["I love apple.", "I love orange.", "I love banana.", "I love lemon."],
@@ -66,13 +66,13 @@ test("test map_agent 3", async () => {
           params: {
             template: "${1} ${2} ${0}.",
           },
-          inputs: [":$0", ":$1", ":$2"],
+          inputs: [":row", ":name", ":verb"],
           isResult: true,
         },
       },
     },
-    inputs: [["apple", "orange", "banana", "lemon"], "You", "like"],
-    namedInputs: {},
+    inputs: [],
+    namedInputs: { rows: ["apple", "orange", "banana", "lemon"], name: "You", verb: "like" },
   });
   assert.deepStrictEqual(result, {
     node2: ["You like apple.", "You like orange.", "You like banana.", "You like lemon."],
