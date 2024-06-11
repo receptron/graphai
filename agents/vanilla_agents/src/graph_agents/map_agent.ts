@@ -8,27 +8,26 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, inputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
+> = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
-  const nestedGraphData = getNestedGraphData(graphData, inputs);
-  const input = (Array.isArray(inputs[0]) ? inputs[0] : inputs).map((item) => item);
+  assert(!!namedInputs.rows, "mapeAgent: rows property is required in namedInput");
+  assert(!!graphData, "mapAgent: graph is required");
+  
+  const input = namedInputs.rows.map((item:any) => item);
   if (params.limit && params.limit < input.length) {
     input.length = params.limit; // trim
   }
 
-  const namedInputs =
-    params.namedInputs ??
-    inputs.map((__input, index) => {
-      return `$${index}`;
-    });
-  namedInputs.forEach((nodeId) => {
-    if (nestedGraphData.nodes[nodeId] === undefined) {
+  const nodeIds = Object.keys(namedInputs);
+
+  nodeIds.forEach((nodeId) => {
+    if (graphData.nodes[nodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
-      nestedGraphData.nodes[nodeId] = { value: {} };
+      graphData.nodes[nodeId] = { value: {} };
     }
   });
 
