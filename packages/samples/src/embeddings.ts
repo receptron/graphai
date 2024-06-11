@@ -32,13 +32,7 @@ const graph_data = {
 };
 
 const main = async () => {
-  const result = await graphDataTestRunner(
-    __dirname + "/../", __filename,
-    graph_data,
-    agents,
-    undefined,
-    false,
-  );
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents, undefined, false);
   console.log(result.similarities);
 };
 if (process.argv[1] === __filename) {
