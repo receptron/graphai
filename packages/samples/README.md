@@ -3,7 +3,7 @@
 
 ## Interview
 
-Source code: [Interview](./src/llm/interview.ts)
+Source code: [Interview](../../agents/llm_agents/samples/llm/interview.ts)
 
 This sample graph was designed to simulate an interview with a famous person. The flow involves multiple agents working together to process user input, generate conversational context, and manage an iterative chat process.
 
@@ -21,7 +21,7 @@ This sample graph was designed to simulate an interview with a famous person. Th
 
 ## Interview in Japanese
 
-Source code: [Interview JP](./src/llm/interview_jp.ts)
+Source code: [Interview JP](../../agents/llm_agents/samples/llm/interview_jp.ts)
 
 1. The user inputs the name of the person to interview.
 2. The context for the interview is generated.
@@ -37,7 +37,7 @@ Source code: [Interview JP](./src/llm/interview_jp.ts)
 
 ## Chat
 
-Source code: [Chat](./src/interaction/chat.ts)
+Source code: [Chat](../../agents/llm_agents/samples/interaction/chat.ts)
 
 This sample is an interactive chat loop, where the user can engage in a conversation with an AI model. The conversation continues in a loop until the user inputs "/bye".
 
@@ -53,7 +53,7 @@ This sample is an interactive chat loop, where the user can engage in a conversa
 
 ## In-memory RAG
 
-Souce Code: [Wikipedia](./src/embeddings/wikipedia.ts)
+Souce Code: [Wikipedia](../../agents/llm_agents/samples/interaction/wikipedia.ts)
 
 This sample is a Retrieval-Augmented Generation (RAG) application using GraphAI. This graph is designed to query information about Sam Bankman-Fried's final court sentence, retrieve relevant data from Wikipedia, process it, and finally generate a response using a Large Language Model (LLM) such as GPT-3.5.
 
@@ -67,7 +67,7 @@ This sample is a Retrieval-Augmented Generation (RAG) application using GraphAI.
 
 ## Research
 
-Source code: [Research](./src/llm/research.ts)
+Source code: [Research](../../agents/llm_agents/samples/llm/research.ts)
 
 In this sample, a user inputs a topic, the system detects the language of the input, retrieves relevant information from Wikipedia, summarizes it, and then translates it if necessary.
 
@@ -79,7 +79,7 @@ In this sample, a user inputs a topic, the system detects the language of the in
 
 ## Reception
 
-Source code: [Reception](./src/interaction/reception.ts)
+Source code: [Reception](../../agents/llm_agents/samples/interaction/reception.ts)
 
 The goal of this application is to interactively gather specific information (name, date of birth, and gender) from a user through iterative conversations with a language model (LLM).
 
@@ -95,7 +95,7 @@ The goal of this application is to interactively gather specific information (na
 
 ## Generated Graph Example
 
-Source code: [Meta Chat](./src/interaction/metachat.ts)
+Source code: [Meta Chat](../../agents/llm_agents/samples/interaction/metachat.ts)
 
 This sample aims to generate another GraphAI graph that collects user information (Name, Date of Birth, and Gender) using an LLM (GPT-4) and then executes the generated graph.
 
@@ -105,14 +105,14 @@ This sample aims to generate another GraphAI graph that collects user informatio
 
 ## Graph Description
 
-Source code: [Describe Graph](./src/llm/describe_graph.ts)
+Source code: [Describe Graph](../../agents/llm_agents/samples/llm/describe_graph.ts)
 
 1. The `describer` node asks the GPT-4 to generate the description of the specified graph.
 2. The `description` node extract the description from the generated message.
 
 ## RSS Reader
 
-Source code: [RSS Reader](./src/net/rss.ts)
+Source code: [RSS Reader](../../agents/llm_agents/samples/net/rss.ts)
 
 This sample fetches and processes RSS feed data from a given URL, specifically from "https://www.theverge.com/microsoft/rss/index.xml". The flow extracts relevant content from the RSS feed, processes it through a series of agents, and translates the content into Japanese.
 
@@ -126,7 +126,7 @@ This sample fetches and processes RSS feed data from a given URL, specifically f
 
 ## Weather app
 
-Source code: [Weather](./src/net/weather.ts)
+Source code: [Weather](../../agents/llm_agents/samples/net/weather.ts)
 
 THis sample simulates a conversation with a meteorologist. The system is capable of handling user inputs, querying a weather API, and managing the conversation iteratively based on user requests.
 
