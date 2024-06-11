@@ -9,6 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
+    "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build"

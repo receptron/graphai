@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
+    "doc": "npx agentdoc",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",

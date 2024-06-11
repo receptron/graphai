@@ -9,6 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
+    "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
@@ -29,7 +30,9 @@
     "wikipedia": "^2.1.2",
     "xml2js": "^0.6.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@receptron/graphai_cli": "*"
+  },
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
