@@ -18,7 +18,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
     const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
     nodeIds.forEach((nodeId) => {
-        const mappedNodeId = (nodeId === "rows") ? "row" : nodeId;
+        const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
         if (nestedGraphData.nodes[mappedNodeId] === undefined) {
             // If the input node does not exist, automatically create a static node
             nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };

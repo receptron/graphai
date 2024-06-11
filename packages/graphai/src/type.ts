@@ -85,7 +85,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     agentId?: string;
     version?: number;
   };
-  graphData?: GraphData | string; // nested graph
+  graphData?: GraphData; // nested graph
   agents?: AgentFunctionInfoDictionary; // for nested graph
   taskManager?: TaskManager; // for nested graph
   filterParams: AgentFilterParams; // agent filter
