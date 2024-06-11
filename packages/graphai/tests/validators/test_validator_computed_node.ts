@@ -1,4 +1,5 @@
-import { rejectTest, anonymization } from "./utils";
+import { anonymization } from "@receptron/test_utils";
+import { rejectTest } from "./utils";
 
 import test from "node:test";
 
