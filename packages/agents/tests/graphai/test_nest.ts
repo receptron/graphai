@@ -121,7 +121,7 @@ const graphdata_mapped = {
       agent: "mapAgent",
       graph: ":source",
       isResult: true,
-      inputs: [":array"],
+      inputs: { rows: ":array" },
     },
     catch: {
       agent: "propertyFilterAgent",

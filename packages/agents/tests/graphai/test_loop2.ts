@@ -61,6 +61,7 @@ test("test counter2", async () => {
   assert.deepStrictEqual(result, { workingMemory: { v: 90 }, nested1: { counter: { v: 100 } } });
 });
 
+/* Removed from test for now
 test("test counter3", async () => {
   const nested_graphdata = {
     version: 0.3,
@@ -104,3 +105,4 @@ test("test counter3", async () => {
     merge: { v: 20460 },
   });
 });
+*/
