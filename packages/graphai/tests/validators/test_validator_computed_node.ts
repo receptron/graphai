@@ -1,5 +1,4 @@
-import { anonymization } from "@receptron/test_utils";
-import { rejectTest } from "./utils";
+import { anonymization, rejectTest } from "@receptron/test_utils";
 
 import test from "node:test";
 
@@ -13,7 +12,7 @@ test("test computed node validation value", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Cannot set both agent and value");
+  await rejectTest(__dirname, graph_data, "Cannot set both agent and value");
 });
 
 test("test static node validation value", async () => {
@@ -26,5 +25,5 @@ test("test static node validation value", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Computed node does not allow update");
+  await rejectTest(__dirname, graph_data, "Computed node does not allow update");
 });

@@ -1,11 +1,10 @@
-import { anonymization } from "@receptron/test_utils";
-import { rejectTest } from "./utils";
+import { anonymization, rejectTest } from "@receptron/test_utils";
 
 import test from "node:test";
 
 test("test validation no data", async () => {
   const graph_data = anonymization({});
-  await rejectTest(graph_data, "Invalid Graph Data: no nodes");
+  await rejectTest(__dirname, graph_data, "Invalid Graph Data: no nodes");
 });
 
 test("test validation nodes is array", async () => {
@@ -13,7 +12,7 @@ test("test validation nodes is array", async () => {
     version: 0.3,
     nodes: [],
   });
-  await rejectTest(graph_data, "Invalid Graph Data: nodes must be object");
+  await rejectTest(__dirname, graph_data, "Invalid Graph Data: nodes must be object");
 });
 
 test("test validation nodes is empty", async () => {
@@ -21,7 +20,7 @@ test("test validation nodes is empty", async () => {
     version: 0.3,
     nodes: {},
   });
-  await rejectTest(graph_data, "Invalid Graph Data: nodes is empty");
+  await rejectTest(__dirname, graph_data, "Invalid Graph Data: nodes is empty");
 });
 
 test("test validation nodes is not object", async () => {
@@ -29,7 +28,7 @@ test("test validation nodes is not object", async () => {
     version: 0.3,
     nodes: "123",
   });
-  await rejectTest(graph_data, "Invalid Graph Data: invalid nodes");
+  await rejectTest(__dirname, graph_data, "Invalid Graph Data: invalid nodes");
 });
 
 test("test validation invalid agent", async () => {
@@ -41,7 +40,7 @@ test("test validation invalid agent", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Invalid Agent : NonExistAgent is not in AgentFunctionInfoDictionary.");
+  await rejectTest(__dirname, graph_data, "Invalid Agent : NonExistAgent is not in AgentFunctionInfoDictionary.");
 });
 
 test("test validation invalid agent", async () => {
@@ -51,7 +50,7 @@ test("test validation invalid agent", async () => {
       nodeTest: {},
     },
   });
-  await rejectTest(graph_data, "Either agent or value is required");
+  await rejectTest(__dirname, graph_data, "Either agent or value is required");
 });
 
 test("test validation invalid agent", async () => {
@@ -64,5 +63,5 @@ test("test validation invalid agent", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Cannot set both agent and value");
+  await rejectTest(__dirname, graph_data, "Cannot set both agent and value");
 });

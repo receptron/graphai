@@ -1,5 +1,4 @@
-import { anonymization } from "@receptron/test_utils";
-import { rejectTest } from "./utils";
+import { anonymization, rejectTest } from "@receptron/test_utils";
 
 import test from "node:test";
 
@@ -20,7 +19,7 @@ test("test loop error", async () => {
     nodes,
   };
 
-  await rejectTest(graphdata, "Loop: Either count or while is required in loop");
+  await rejectTest(__dirname, graphdata, "Loop: Either count or while is required in loop");
 });
 
 test("test loop error 1", async () => {
@@ -32,7 +31,7 @@ test("test loop error 1", async () => {
     },
     nodes,
   };
-  await rejectTest(graphdata, "Loop: Both count and while cannot be set");
+  await rejectTest(__dirname, graphdata, "Loop: Both count and while cannot be set");
 });
 
 // concurrency test
@@ -42,7 +41,7 @@ test("test concurrency error zero", async () => {
     concurrency: 0,
     nodes,
   };
-  await rejectTest(graphdata, "Concurrency must be a positive integer");
+  await rejectTest(__dirname, graphdata, "Concurrency must be a positive integer");
 });
 
 test("test concurrency error nagative", async () => {
@@ -51,7 +50,7 @@ test("test concurrency error nagative", async () => {
     concurrency: -1,
     nodes,
   };
-  await rejectTest(graphdata, "Concurrency must be a positive integer");
+  await rejectTest(__dirname, graphdata, "Concurrency must be a positive integer");
 });
 
 test("test concurrency error float", async () => {
@@ -60,7 +59,7 @@ test("test concurrency error float", async () => {
     concurrency: 0.1,
     nodes,
   };
-  await rejectTest(graphdata, "Concurrency must be an integer");
+  await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
 });
 
 test("test concurrency error string", async () => {
@@ -69,5 +68,5 @@ test("test concurrency error string", async () => {
     concurrency: "1",
     nodes,
   });
-  await rejectTest(graphdata, "Concurrency must be an integer");
+  await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
 });
