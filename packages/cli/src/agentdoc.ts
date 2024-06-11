@@ -4,7 +4,7 @@ import { readTemplate } from "./docs";
 
 const main = async () => {
   const path = process.cwd();
-  const packageJson = JSON.parse(fs.readFileSync(path  + "/package.json", "utf8"));
+  const packageJson = JSON.parse(fs.readFileSync(path + "/package.json", "utf8"));
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const agents = require(path + "/lib/index");
 
@@ -24,7 +24,7 @@ const main = async () => {
     tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
     return tmp;
   }, temp);
-  
+
   fs.writeFileSync(path + "/README.md", md);
 };
 
