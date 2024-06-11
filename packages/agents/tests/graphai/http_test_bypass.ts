@@ -207,9 +207,6 @@ test("test bypass4", async () => {
       mapNode: {
         agent: "mapAgent",
         inputs: { rows: ":echo.message" },
-        params: {
-          namedInputs: ["memory"],
-        },
         graph: {
           version: 0.3,
           nodes: {
@@ -221,14 +218,14 @@ test("test bypass4", async () => {
               params: {
                 agent: "bypassAgent",
               },
-              inputs: [":memory"],
+              inputs: [":row"],
             },
             bypassAgent2: {
               agent: "httpAgent",
               params: {
                 agent: "bypassAgent",
               },
-              inputs: [":bypassAgent.$0", ":memory"],
+              inputs: [":bypassAgent.$0", ":row"],
               isResult: true,
             },
           },
