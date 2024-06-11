@@ -5,13 +5,13 @@ Input agents for GraphAI.
 
 ### Install
 
-```
+```sh
 yarn add @graphai/input_agents
 ```
 
 ### Usage
 
-```
+```typescript
 import { GraphAI } from "graphai";
 import { textInputAgent } from "@graphai/input_agents";
 

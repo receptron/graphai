@@ -5,13 +5,13 @@ Sleeper agents for GraphAI.
 
 ### Install
 
-```
+```sh
 yarn add @graphai/sleeper_agents
 ```
 
 ### Usage
 
-```
+```typescript
 import { GraphAI } from "graphai";
 import { sleeperAgent, sleeperAgentDebug } from "@graphai/sleeper_agents";
 

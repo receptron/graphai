@@ -5,13 +5,13 @@ Data agents for GraphAI.
 
 ### Install
 
-```
+```sh
 yarn add @graphai/data_agents
 ```
 
 ### Usage
 
-```
+```typescript
 import { GraphAI } from "graphai";
 import { dataObjectMergeTemplateAgent } from "@graphai/data_agents";
 

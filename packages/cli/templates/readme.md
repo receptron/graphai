@@ -5,13 +5,13 @@
 
 ### Install
 
-```
+```sh
 yarn add {packageName}
 ```
 
 ### Usage
 
-```
+```typescript
 import { GraphAI } from "graphai";
 import { {agents} } from "{packageName}";
 

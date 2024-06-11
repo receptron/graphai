@@ -5,13 +5,13 @@ Service agents for GraphAI.
 
 ### Install
 
-```
+```sh
 yarn add @graphai/service_agents
 ```
 
 ### Usage
 
-```
+```typescript
 import { GraphAI } from "graphai";
 import { fetchAgent, wikipediaAgent } from "@graphai/service_agents";
 
