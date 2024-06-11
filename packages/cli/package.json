@@ -1,6 +1,6 @@
 {
   "name": "@receptron/graphai_cli",
-  "version": "0.4.8",
+  "version": "0.5.0",
   "description": "GraphAI command line tools.",
   "main": "lib/graphai_cli.js",
   "bin": {
@@ -36,10 +36,10 @@
     "@types/yargs": "^17.0.32"
   },
   "dependencies": {
-    "@graphai/agents": "^0.0.5",
-    "@receptron/test_utils": "^0.0.1",
+    "@graphai/agents": "^0.0.6",
+    "@receptron/test_utils": "^0.0.2",
     "dotenv": "^16.4.5",
-    "graphai": "^0.5.0",
+    "graphai": "^0.5.1",
     "json-schema-generator": "^2.0.6",
     "yargs": "^17.7.2"
   },
