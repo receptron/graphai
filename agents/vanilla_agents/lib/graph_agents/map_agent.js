@@ -9,7 +9,6 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
     }
     (0, graphai_1.assert)(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
     (0, graphai_1.assert)(!!graphData, "mapAgent: graph is required");
-    (0, graphai_1.assert)(typeof graphData !== "string", "mapAgent: graph is required");
     const rows = namedInputs.rows.map((item) => item);
     if (params.limit && params.limit < rows.length) {
         rows.length = params.limit; // trim

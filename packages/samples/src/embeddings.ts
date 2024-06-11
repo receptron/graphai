@@ -1,16 +1,7 @@
 import "dotenv/config";
 
-import { graphDataTestRunner } from "~/utils/runner";
-import {
-  tokenBoundStringsAgent,
-  sortByValuesAgent,
-  dotProductAgent,
-  stringEmbeddingsAgent,
-  stringSplitterAgent,
-  stringTemplateAgent,
-  slashGPTAgent,
-  wikipediaAgent,
-} from "@/experimental_agents";
+import { graphDataTestRunner } from "@/utils/test_runner";
+import * as agents from "@graphai/agents";
 
 const graph_data = {
   version: 0.3,
@@ -25,12 +16,12 @@ const graph_data = {
     },
     similarities: {
       agent: "mapAgent",
-      inputs: [":embeddings", ":embeddings"],
+      inputs: { rows: ":embeddings", embeddings: ":embeddings" },
       graph: {
         nodes: {
           result: {
             agent: "dotProductAgent",
-            inputs: [":$1", ":$0"],
+            inputs: { matrix: ":embeddings", vector: ":row" },
             isResult: true,
           },
         },
@@ -42,18 +33,9 @@ const graph_data = {
 
 const main = async () => {
   const result = await graphDataTestRunner(
-    "sample_wiki.log",
+    __dirname + "/../", __filename,
     graph_data,
-    {
-      tokenBoundStringsAgent,
-      sortByValuesAgent,
-      dotProductAgent,
-      stringEmbeddingsAgent,
-      stringSplitterAgent,
-      stringTemplateAgent,
-      slashGPTAgent,
-      wikipediaAgent,
-    },
+    agents,
     undefined,
     false,
   );

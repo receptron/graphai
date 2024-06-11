@@ -15,7 +15,6 @@ export const mapAgent: AgentFunction<
 
   assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
   assert(!!graphData, "mapAgent: graph is required");
-  assert(typeof graphData !== "string", "mapAgent: graph is required");
 
   const rows = namedInputs.rows.map((item: any) => item);
   if (params.limit && params.limit < rows.length) {
