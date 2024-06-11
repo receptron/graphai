@@ -1,4 +1,4 @@
-import { rejectTest, anonymization } from "./utils";
+import { anonymization, rejectTest } from "@receptron/test_utils";
 
 import test from "node:test";
 
@@ -15,7 +15,7 @@ test("test computed node validation value", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Inputs not match: NodeId computed2, Inputs: dummy");
+  await rejectTest(__dirname, graph_data, "Inputs not match: NodeId computed2, Inputs: dummy");
 });
 
 test("test computed node validation value", async () => {
@@ -32,7 +32,7 @@ test("test computed node validation value", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "No Initial Runnning Node");
+  await rejectTest(__dirname, graph_data, "No Initial Runnning Node");
 });
 
 test("test no initial running node", async () => {
@@ -49,7 +49,7 @@ test("test no initial running node", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "No Initial Runnning Node");
+  await rejectTest(__dirname, graph_data, "No Initial Runnning Node");
 });
 
 test("test closed loop validation", async () => {
@@ -69,5 +69,5 @@ test("test closed loop validation", async () => {
       },
     },
   });
-  await rejectTest(graph_data, "Some nodes are not executed: computed3");
+  await rejectTest(__dirname, graph_data, "Some nodes are not executed: computed3");
 });
