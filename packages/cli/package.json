@@ -4,7 +4,8 @@
   "description": "GraphAI command line tools.",
   "main": "lib/graphai_cli.js",
   "bin": {
-    "graphai": "lib/graphai_cli.js"
+    "graphai": "lib/graphai_cli.js",
+    "agentdoc": "lib/agentdoc.js"
   },
   "files": [
     "./lib"
@@ -44,6 +45,7 @@
   },
   "types": "./lib/graphai_cli.d.ts",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "template": "template"
   }
 }

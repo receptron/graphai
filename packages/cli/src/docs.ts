@@ -61,7 +61,7 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   return agentInfo[key as keyof AgentFunctionInfo] as string;
 };
 
-const readTemplate = (file: string) => {
+export const readTemplate = (file: string) => {
   return fs.readFileSync(path.resolve(__dirname) + "/../templates/" + file, "utf8");
 };
 

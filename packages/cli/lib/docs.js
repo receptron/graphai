@@ -26,6 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.readTemplate = void 0;
 const utils_1 = require("graphai/lib/utils/utils");
 const json_schema_generator_1 = __importDefault(require("json-schema-generator"));
 const packages = __importStar(require("@graphai/agents"));
@@ -86,8 +87,9 @@ const agentAttribute = (agentInfo, key) => {
 const readTemplate = (file) => {
     return fs_1.default.readFileSync(path_1.default.resolve(__dirname) + "/../templates/" + file, "utf8");
 };
+exports.readTemplate = readTemplate;
 const agentMd = (agentInfo) => {
-    const template = readTemplate("agent.md");
+    const template = (0, exports.readTemplate)("agent.md");
     const md = ["name", "description", "author", "repository", "license", "samples", "schemas", "resultKey"].reduce((tmp, key) => {
         tmp = tmp.replace("{" + key + "}", agentAttribute(agentInfo, key));
         return tmp;
