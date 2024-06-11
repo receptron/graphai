@@ -9,6 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
+    "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
     "rollup": "npx rollup -c",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
@@ -27,7 +28,6 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

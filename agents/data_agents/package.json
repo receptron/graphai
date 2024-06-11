@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
+    "doc": "npx agentdoc",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
