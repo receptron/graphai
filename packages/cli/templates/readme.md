@@ -12,6 +12,6 @@ yarn add {packageName}
 ### Usage
 
 ```
-import { groqAgent, slashGPTAgent, openAIAgent, anthropicAgent, geminiAgent } from "{packageName}";
+import { {agents} } from "{packageName}";
 ```
 
