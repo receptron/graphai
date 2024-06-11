@@ -73,7 +73,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
         agentId?: string;
         version?: number;
     };
-    graphData?: GraphData | string;
+    graphData?: GraphData;
     agents?: AgentFunctionInfoDictionary;
     taskManager?: TaskManager;
     filterParams: AgentFilterParams;
