@@ -9,6 +9,7 @@ const docs_1 = require("./docs");
 const main = async () => {
     const path = process.cwd();
     const packageJson = JSON.parse(fs_1.default.readFileSync(path + "/package.json", "utf8"));
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const agents = require(path + "/lib/index");
     const agentAttribute = (key) => {
         if (key === "packageName") {
