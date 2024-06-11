@@ -343,7 +343,7 @@ export class ComputedNode extends Node {
       }
 
       if (this.console.before) {
-        console.log(this.console.before === true ? JSON.stringify(context.inputs, null, 2) : this.console.before);
+        console.log(this.console.before === true ? JSON.stringify(this.inputNames ? context.namedInputs : context.inputs, null, 2) : this.console.before);
       }
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);
       if (this.console.after) {
