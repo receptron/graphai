@@ -38,7 +38,7 @@ const graphdata_map4 = {
     },
     nestedNode: {
       agent: "mapAgent",
-      inputs:{
+      inputs: {
         rows: ":source1",
       },
       graph: {
