@@ -13,7 +13,7 @@ export const mapAgent: AgentFunction<
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
   }
 
-  assert(!!namedInputs.rows, "mapeAgent: rows property is required in namedInput");
+  assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
   assert(!!graphData, "mapAgent: graph is required");
   assert(typeof graphData !== "string", "mapAgent: graph is required");
 
