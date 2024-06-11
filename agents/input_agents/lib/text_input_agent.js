@@ -20,7 +20,6 @@ const textInputAgentInfo = {
             result: "message from the user",
         },
     ],
-    skipTest: true,
     description: "Text Input Agent",
     category: ["input"],
     author: "Receptron team",

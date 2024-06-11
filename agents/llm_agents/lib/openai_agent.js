@@ -178,7 +178,6 @@ const openaiAgentInfo = {
             result: result_sample,
         },
     ],
-    skipTest: true,
     description: "Openai Agent",
     category: ["llm"],
     author: "Receptron team",

@@ -47,7 +47,6 @@ const slashGPTAgentInfo = {
             ],
         },
     ],
-    skipTest: true,
     description: "Slash GPT Agent",
     category: ["llm"],
     author: "Receptron team",
