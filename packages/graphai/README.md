@@ -190,12 +190,14 @@ nodes:
     inputs: [":source"] // == "sourceNode.query"
   database:
     agent: "nestedAgent"
-    inputs: [":question", ":projectId"]
+    inputs:
+      prompt: ":question"
+      projectId: ":projectId"
     graph:
       nodes:
         schema: // retrieves the database schema for the apecified projectId
           agent: "schemaAgent"
-          inputs: [":$1"]
+          inputs: [":projectId"]
         ... // issue query to the database and build an appropriate prompt with it.
         query: // send the generated prompt to the LLM
           agent: "llama3Agent"
@@ -296,7 +298,7 @@ nodes:
     value: [Steve Jobs, Elon Musk, Nikola Tesla]
   retriever:
     agent: "mapAgent"
-    inputs: [":people"]
+    inputs: { rows: ":people" }
     graph:
       nodes:
         query:
@@ -304,7 +306,7 @@ nodes:
           params:
             manifest:
               prompt: Describe about the person in less than 100 words
-          inputs: [":$0"]
+          inputs: [":row"]
 ```
 
 Here is the conceptual representation of this operation.
