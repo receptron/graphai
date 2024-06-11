@@ -37,8 +37,8 @@ nodes:
   messagesWithUserInput:
     agent: pushAgent
     inputs:
-      - :messages
-      - :userMessage
+      array: :messages
+      item: :userMessage
     if: :checkInput.continue
   llmCall:
     agent: openAIAgent
@@ -75,13 +75,13 @@ nodes:
   messagesWithFirstRes:
     agent: pushAgent
     inputs:
-      - :messagesWithUserInput
-      - :llmCall.choices.$0.message
+      array: :messagesWithUserInput
+      item: :llmCall.choices.$0.message
   tool_calls:
     agent: nestedAgent
     inputs:
-      - :llmCall.choices.$0.message.tool_calls
-      - :messagesWithFirstRes
+      tool_calls: :llmCall.choices.$0.message.tool_calls
+      messagesWithFirstRes: :messagesWithFirstRes
     if: :llmCall.choices.$0.message.tool_calls
     graph:
       nodes:
@@ -92,11 +92,11 @@ nodes:
           console:
             after: true
           inputs:
-            - :$0.$0.function.arguments
+            - :tool_calls.$0.function.arguments
         parser:
           agent: jsonParserAgent
           inputs:
-            - :$0.$0.function.arguments
+            - :tool_calls.$0.function.arguments
         urlPoints:
           agent: stringTemplateAgent
           params:
@@ -107,17 +107,17 @@ nodes:
         fetchPoints:
           agent: fetchAgent
           inputs:
-            - :urlPoints
-            - null
-            - User-Agent: (receptron.org)
+            url: :urlPoints
+            headers:
+              User-Agent: (receptron.org)
         fetchForecast:
           agent: fetchAgent
           params:
             type: text
           inputs:
-            - :fetchPoints.properties.forecast
-            - null
-            - User-Agent: (receptron.org)
+            url: :fetchPoints.properties.forecast
+            headers:
+              User-Agent: (receptron.org)
           unless: :fetchPoints.onError
         extractError:
           agent: stringTemplateAgent
@@ -145,19 +145,18 @@ nodes:
                 from: 3
           inputs:
             - role: tool
-            - :$0.$0.id
-            - :$0.$0.function.name
+            - :tool_calls.$0.id
+            - :tool_calls.$0.function.name
             - :responseText
         messagesWithToolRes:
           agent: pushAgent
           inputs:
-            - :$1
-            - :toolMessage
+            array: :messagesWithFirstRes
+            item: :toolMessage
         llmCall:
           agent: openAIAgent
           inputs:
-            - null
-            - :messagesWithToolRes
+            messages: :messagesWithToolRes
         output:
           agent: stringTemplateAgent
           params:
@@ -169,8 +168,8 @@ nodes:
         messagesWithSecondRes:
           agent: pushAgent
           inputs:
-            - :messagesWithToolRes
-            - :llmCall.choices.$0.message
+            array: :messagesWithToolRes
+            item: :llmCall.choices.$0.message
           isResult: true
   no_tool_calls:
     agent: copyAgent

@@ -31,7 +31,7 @@ const tools_translated = [
 const language_detection_graph = {
   nodes: {
     identifier: {
-      // Ask the LLM to identify the language of :$0 (the first input to this graph).
+      // Ask the LLM to identify the language of :topic (the first input to this graph).
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
@@ -81,7 +81,7 @@ const language_detection_graph = {
 const wikipedia_graph = {
   nodes: {
     wikipedia: {
-      // Fetches the content of the specified topic in :$0 (first parameter)
+      // Fetches the content of the specified topic in :topic (first parameter)
       agent: "wikipediaAgent",
       console: {
         before: "Fetching data from Wikipedia...",

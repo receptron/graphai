@@ -14,7 +14,7 @@ nodes:
     params:
       model: gpt-4o
     inputs:
-      - Explain ML's transformer in 100 words.
+      prompt: Explain ML's transformer in 100 words.
   output:
     agent: copyAgent
     console:
@@ -110,8 +110,8 @@ nodes:
   reducer:
     agent: pushAgent
     inputs:
-      - :result
-      - :llm.choices.$0.message.content
+      array: :result
+      item: :llm.choices.$0.message.content
 ```
 
 1. **fruits**: This static node holds the list of fruits at the begining but updated with the array property of **shift** node after each iteration.
@@ -203,8 +203,8 @@ nodes:
   appendedMessages:
     agent: pushAgent
     inputs:
-      - :messages
-      - :userMessage
+      array: :messages
+      item: :userMessage
   llm:
     agent: openAIAgent
     inputs:
@@ -221,8 +221,8 @@ nodes:
   reducer:
     agent: pushAgent
     inputs:
-      - :appendedMessages
-      - :llm.choices.$0.message
+      array: :appendedMessages
+      item: :llm.choices.$0.message
 ```
 
 1. The user is prompted to input a message with "You:".
@@ -279,8 +279,8 @@ nodes:
   messagesWithUserInput:
     agent: pushAgent
     inputs:
-      - :messages
-      - :userMessage
+      array: :messages
+      item: :userMessage
     if: :checkInput.continue
   llmCall:
     agent: openAIAgent
@@ -317,13 +317,13 @@ nodes:
   messagesWithFirstRes:
     agent: pushAgent
     inputs:
-      - :messagesWithUserInput
-      - :llmCall.choices.$0.message
+      array: :messagesWithUserInput
+      item: :llmCall.choices.$0.message
   tool_calls:
     agent: nestedAgent
     inputs:
-      - :llmCall.choices.$0.message.tool_calls
-      - :messagesWithFirstRes
+      tool_calls: :llmCall.choices.$0.message.tool_calls
+      messagesWithFirstRes: :messagesWithFirstRes
     if: :llmCall.choices.$0.message.tool_calls
     graph:
       nodes:
@@ -334,11 +334,11 @@ nodes:
           console:
             after: true
           inputs:
-            - :$0.$0.function.arguments
+            - :tool_calls.$0.function.arguments
         parser:
           agent: jsonParserAgent
           inputs:
-            - :$0.$0.function.arguments
+            - :tool_calls.$0.function.arguments
         urlPoints:
           agent: stringTemplateAgent
           params:
@@ -349,17 +349,17 @@ nodes:
         fetchPoints:
           agent: fetchAgent
           inputs:
-            - :urlPoints
-            - null
-            - User-Agent: (receptron.org)
+            url: :urlPoints
+            headers:
+              User-Agent: (receptron.org)
         fetchForecast:
           agent: fetchAgent
           params:
             type: text
           inputs:
-            - :fetchPoints.properties.forecast
-            - null
-            - User-Agent: (receptron.org)
+            url: :fetchPoints.properties.forecast
+            headers:
+              User-Agent: (receptron.org)
           unless: :fetchPoints.onError
         extractError:
           agent: stringTemplateAgent
@@ -387,19 +387,18 @@ nodes:
                 from: 3
           inputs:
             - role: tool
-            - :$0.$0.id
-            - :$0.$0.function.name
+            - :tool_calls.$0.id
+            - :tool_calls.$0.function.name
             - :responseText
         messagesWithToolRes:
           agent: pushAgent
           inputs:
-            - :$1
-            - :toolMessage
+            array: :messagesWithFirstRes
+            item: :toolMessage
         llmCall:
           agent: openAIAgent
           inputs:
-            - null
-            - :messagesWithToolRes
+            messages: :messagesWithToolRes
         output:
           agent: stringTemplateAgent
           params:
@@ -411,8 +410,8 @@ nodes:
         messagesWithSecondRes:
           agent: pushAgent
           inputs:
-            - :messagesWithToolRes
-            - :llmCall.choices.$0.message
+            array: :messagesWithToolRes
+            item: :llmCall.choices.$0.message
           isResult: true
   no_tool_calls:
     agent: copyAgent
@@ -514,11 +513,11 @@ nodes:
       before: ...performing the RAG query
     agent: openAIAgent
     inputs:
-      - :prompt
+      prompt: :prompt
   OneShotQuery:
     agent: openAIAgent
     inputs:
-      - :source.query
+      prompt: :source.query
   RagResult:
     agent: copyAgent
     inputs:
