@@ -7,7 +7,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
         const status = taskManager.getStatus();
         (0, graphai_1.assert)(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
     }
-    (0, graphai_1.assert)(!!namedInputs.rows, "mapeAgent: rows property is required in namedInput");
+    (0, graphai_1.assert)(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
     (0, graphai_1.assert)(!!graphData, "mapAgent: graph is required");
     (0, graphai_1.assert)(typeof graphData !== "string", "mapAgent: graph is required");
     const rows = namedInputs.rows.map((item) => item);
