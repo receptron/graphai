@@ -9,7 +9,7 @@
     },
     "mapNode": {
       "agent": "mapAgent",
-      "inputs": {"rows": ":echo.message"},
+      "inputs": { "rows": ":echo.message" },
       "graph": {
         "version": 0.3,
         "nodes": {
