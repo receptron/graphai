@@ -205,12 +205,13 @@ nodes:
     value: [data1, data2, data3]
   mapper:
     agent: "mapAgent"
-    inputs: [":dataList"]
+    inputs: 
+      rows: ":dataList"
     graph:
       nodes:
         mapTask:
           agent: "processDataAgent"
-          inputs: [":$0"]
+          inputs: [":row"]
           isResult: true
 ```
 
@@ -254,15 +255,16 @@ nodes:
     value: ["Alice", "Bob", "Charlie"]
   userProfiles: 
     agent: "mapAgent"
-    inputs: [":users"]
+    inputs: 
+      rows: ":users"
     graph:
       nodes:
         profile: 
           agent: fetchUserProfile
-          inputs: [":$0"]
+          inputs: [":row"]
         posts: 
           agent: fetchUserPosts
-          inputs: [":$0"]
+          inputs: [":row"]
         combinedData: 
           agent: combineData
           inputs: [":profile", ":posts"]
