@@ -19,7 +19,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs }) => {
     if (verbose) {
         console.log(messagesCopy);
     }
-    const openai = apiKey && baseURL ? new openai_1.default({ apiKey, baseURL }) : new openai_1.default();
+    const openai = new openai_1.default({ apiKey, baseURL });
     if (!stream) {
         return await openai.chat.completions.create({
             model: params.model || "gpt-3.5-turbo",
