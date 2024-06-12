@@ -60,7 +60,7 @@ const main = async () => {
   await benchmark();
   await benchmark2();
 
-//  await wikipedia();
+  //  await wikipedia();
 
   // test
   await test_fibonacci();
@@ -68,7 +68,7 @@ const main = async () => {
 
   // llm
   await slashgpt();
-/*
+  /*
   await groq();
   await claude();
   await gpt4o();
@@ -83,7 +83,7 @@ const main = async () => {
 */
   // interaction
   await interaction_select();
-/*  
+  /*  
   await interaction_text();
   await interaction_chat();
   await interaction_chat_gemini();
@@ -93,7 +93,7 @@ const main = async () => {
   await interaction_reception_gemini();
   await interaction_wikipedia();
 */
-  
+
   // net
   await net_paper_ai();
   //  await net_rss();

@@ -4,7 +4,7 @@ import { slashGPTFuncitons2TextAgent } from "../utils/agents/slashgpt_agent";
 import { slashGPTAgent } from "@graphai/agents";
 import { agentInfoWrapper } from "graphai";
 
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@receptron/test_utils";
 
 const graph_data = {
   verbose: true,
