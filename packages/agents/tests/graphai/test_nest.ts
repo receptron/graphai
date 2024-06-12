@@ -63,7 +63,7 @@ const invalid_graph = {
   },
 };
 
-test("test nest invalid", async () => {
+test("test nest invalid 1", async () => {
   const result = await graphDataTestRunner(
     __dirname,
     "test_nest_invalid",
@@ -135,7 +135,7 @@ const graphdata_mapped = {
   },
 };
 
-test("test map invalid", async () => {
+test("test map invalid 3", async () => {
   const result = await graphDataTestRunner(
     __dirname,
     "test_map_invalid",
