@@ -2,7 +2,6 @@ import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo, def
 import * as defaultTestAgents from "@graphai/vanilla";
 import { namedInputValidatorFilter } from "@graphai/agent_filters";
 
-
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "./file_utils";
 import { callbackLog } from "./utils";
 

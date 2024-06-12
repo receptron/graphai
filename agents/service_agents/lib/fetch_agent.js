@@ -80,7 +80,7 @@ const fetchAgentInfo = {
                 description: "Query parameters",
             },
             body: {
-                type: "object",
+                anyOf: [{ type: "string" }, { type: "object" }],
                 description: "body",
             },
         },
