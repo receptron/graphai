@@ -8,6 +8,7 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 
 const graph_data = {
   verbose: true,
+  version: 0.5,
   nodes: {
     slashGPTAgent: {
       agent: "slashGPTAgent",
@@ -64,15 +65,9 @@ const graph_data = {
     },
     mapNode: {
       agent: "mapAgent",
-      inputs: [":function2prompt0"],
-      params: {
-        namedInputs: ["memory"],
-      },
+      inputs: {rows: ":function2prompt0"},
       graph: {
         nodes: {
-          memory: {
-            value: {},
-          },
           slashGPTAgent0: {
             agent: "slashGPTAgent",
             params: {
@@ -81,7 +76,7 @@ const graph_data = {
               },
             },
             isResult: true,
-            inputs: [":memory"],
+            inputs: [":row"],
           },
         },
       },
