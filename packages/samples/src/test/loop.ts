@@ -23,7 +23,7 @@ const graph_data = {
     },
     retriever: {
       agent: "shiftAgent",
-      inputs: [":people"],
+      inputs: {array: ":people"},
     },
     query: {
       agent: "slashGPTAgent",
@@ -36,15 +36,15 @@ const graph_data = {
     },
     reducer1: {
       agent: "popAgent",
-      inputs: [":query"],
+      inputs: {array: ":query"},
     },
     reducer2: {
       agent: "pushAgent",
-      inputs: [":result", ":reducer1.item"],
+      inputs: {array: ":result", item: ":reducer1.item"},
     },
     usageData: {
       agent: "totalAgent",
-      inputs: [":reducer2.$0"],
+      inputs: [":reducer2"],
     },
     acountant: {
       agent: "totalAgent",
