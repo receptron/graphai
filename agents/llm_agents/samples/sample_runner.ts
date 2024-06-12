@@ -49,6 +49,11 @@ const main = async () => {
   await interaction_reception();
   await interaction_reception_gemini();
   await interaction_wikipedia();
+
+  await wikipedia();
+  await net_rss();
+  await weather();
+
 };
 
 main();

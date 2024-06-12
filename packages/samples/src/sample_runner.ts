@@ -31,8 +31,6 @@ const main = async () => {
   await benchmark();
   await benchmark2();
 
-  //  await wikipedia();
-
   // test
   await test_fibonacci();
   await test_loop();
@@ -45,8 +43,6 @@ const main = async () => {
 
   // net
   await net_paper_ai();
-  //  await net_rss();
-  //  await weather();
 
   // tools
   await sample_co2();
