@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import * as agents from "@graphai/agents";
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@receptron/test_utils";
 import { interactiveInputSelectAgent } from "../utils/agents/interactiveInputAgent";
 import { agentInfoWrapper } from "graphai";
 

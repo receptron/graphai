@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { graphDataTestRunner } from "@/utils/test_runner";
+import { graphDataTestRunner } from "@receptron/test_utils";
 import { AgentFunction, agentInfoWrapper } from "graphai";
 
 const fibonacciAgent: AgentFunction = async ({ inputs }) => {
