@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 
 // This agent strip one long string into chunks using following parameters
 //
