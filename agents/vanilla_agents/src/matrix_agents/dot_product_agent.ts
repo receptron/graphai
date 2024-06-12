@@ -1,6 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
-
-import assert from "node:assert";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 
 // This agent calculates the dot product of an array of vectors (A[]) and a vector (B),
 // typically used to calculate cosine similarity of embedding vectors.
@@ -10,7 +8,7 @@ import assert from "node:assert";
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
 export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, Array<Array<number>> | Array<number>> = async ({ namedInputs }) => {
-  assert(namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+  assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
   const matrix = namedInputs.matrix as Array<Array<number>>;
   const vector = namedInputs.vector as Array<number>;
   if (matrix[0].length != vector.length) {
