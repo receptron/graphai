@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graph_data_fetch = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     url: {
       value: "https://www.google.com/search?q=hello",
