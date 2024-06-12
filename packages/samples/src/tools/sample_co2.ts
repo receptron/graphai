@@ -65,7 +65,7 @@ const graph_data = {
     },
     mapNode: {
       agent: "mapAgent",
-      inputs: {rows: ":function2prompt0"},
+      inputs: { rows: ":function2prompt0" },
       graph: {
         nodes: {
           slashGPTAgent0: {
