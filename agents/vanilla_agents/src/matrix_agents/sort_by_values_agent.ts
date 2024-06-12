@@ -1,6 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
-
-import assert from "node:assert";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 
 // This agent returned a sorted array of one array (A) based on another array (B).
 // The default sorting order is "decendant".
@@ -18,7 +16,7 @@ export const sortByValuesAgent: AgentFunction<
   Array<any>,
   Array<any>
 > = async ({ params, namedInputs }) => {
-  assert(namedInputs, "sortByValue: namedInputs is UNDEFINED!");
+  assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
   const direction = params?.assendant ?? false ? -1 : 1;
   const array: Array<any> = namedInputs.array;
   const values: Array<any> = namedInputs.values;

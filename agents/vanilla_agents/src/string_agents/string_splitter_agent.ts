@@ -1,6 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
-
-import assert from "node:assert";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -22,7 +20,7 @@ export const stringSplitterAgent: AgentFunction<
   },
   string
 > = async ({ params, namedInputs }) => {
-  assert(namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+  assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
   const source: string = namedInputs.text;
   const chunkSize = params.chunkSize ?? defaultChunkSize;
   const overlap = params.overlap ?? Math.floor(chunkSize / 8);
