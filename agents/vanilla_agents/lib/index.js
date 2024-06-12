@@ -20,11 +20,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringEmbeddingsAgent = void 0;
 // Please refrain from adding agents that require npm. Those should be added to the index.ts.
-__exportStar(require("./string_agents/vanilla"), exports);
-__exportStar(require("./array_agents/vanilla"), exports);
-__exportStar(require("./matrix_agents/vanilla"), exports);
-__exportStar(require("./test_agents/vanilla"), exports);
-__exportStar(require("./graph_agents/vanilla"), exports);
-__exportStar(require("./data_agents/vanilla"), exports);
+__exportStar(require("./string_agents"), exports);
+__exportStar(require("./array_agents"), exports);
+__exportStar(require("./matrix_agents"), exports);
+__exportStar(require("./test_agents"), exports);
+__exportStar(require("./graph_agents"), exports);
+__exportStar(require("./data_agents"), exports);
 const embedding_agent_1 = __importDefault(require("./embedding_agent"));
 exports.stringEmbeddingsAgent = embedding_agent_1.default;
