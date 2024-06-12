@@ -1,6 +1,6 @@
 {
   "name": "@receptron/graphai_cli",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "GraphAI command line tools.",
   "main": "lib/graphai_cli.js",
   "bin": {
