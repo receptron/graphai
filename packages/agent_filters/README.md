@@ -13,7 +13,7 @@ yarn add @graphai/agent_filters
 ```typescript
 import { GraphAI } from "graphai";
 import * as agents from "@graphai/agents";
-import { agentInputValidator } from "@graphai/agent_filters";
+import { namedInputValidatorFilter } from "@graphai/agent_filters";
 
 const agentFilters = [
   {

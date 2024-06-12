@@ -14,8 +14,11 @@ export const agentInputValidator = (inputSchema: any, namedInputs: any) => {
 
 export const namedInputValidatorFilter: AgentFilterFunction = async (context, next) => {
   const { inputSchema, namedInputs } = context;
+  
   if (inputSchema) {
-    agentInputValidator(inputSchema, namedInputs || {});
+    if (inputSchema.type !== "array") {
+      agentInputValidator(inputSchema, namedInputs || {});
+    }
   }
 
   return next(context);
