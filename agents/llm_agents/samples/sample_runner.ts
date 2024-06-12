@@ -53,7 +53,6 @@ const main = async () => {
   await wikipedia();
   await net_rss();
   await weather();
-
 };
 
 main();
