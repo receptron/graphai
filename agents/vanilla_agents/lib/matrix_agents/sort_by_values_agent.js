@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sortByValuesAgent = void 0;
-const node_assert_1 = __importDefault(require("node:assert"));
+const graphai_1 = require("graphai");
 // This agent returned a sorted array of one array (A) based on another array (B).
 // The default sorting order is "decendant".
 //
@@ -15,7 +12,7 @@ const node_assert_1 = __importDefault(require("node:assert"));
 //  inputs[1]: Array<number>; // array of numbers for sorting
 //
 const sortByValuesAgent = async ({ params, namedInputs }) => {
-    (0, node_assert_1.default)(namedInputs, "sortByValue: namedInputs is UNDEFINED!");
+    (0, graphai_1.assert)(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
     const direction = params?.assendant ?? false ? -1 : 1;
     const array = namedInputs.array;
     const values = namedInputs.values;

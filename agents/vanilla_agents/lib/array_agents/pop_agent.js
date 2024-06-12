@@ -1,12 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.popAgent = void 0;
-const node_assert_1 = __importDefault(require("node:assert"));
+const graphai_1 = require("graphai");
 const popAgent = async ({ namedInputs }) => {
-    (0, node_assert_1.default)(namedInputs, "popAgent: namedInputs is UNDEFINED!");
+    (0, graphai_1.assert)(!!namedInputs, "popAgent: namedInputs is UNDEFINED!");
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };

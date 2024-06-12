@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dotProductAgent = void 0;
-const node_assert_1 = __importDefault(require("node:assert"));
+const graphai_1 = require("graphai");
 // This agent calculates the dot product of an array of vectors (A[]) and a vector (B),
 // typically used to calculate cosine similarity of embedding vectors.
 // Inputs:
@@ -13,7 +10,7 @@ const node_assert_1 = __importDefault(require("node:assert"));
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
 const dotProductAgent = async ({ namedInputs }) => {
-    (0, node_assert_1.default)(namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+    (0, graphai_1.assert)(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
     const matrix = namedInputs.matrix;
     const vector = namedInputs.vector;
     if (matrix[0].length != vector.length) {

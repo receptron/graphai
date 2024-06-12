@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringSplitterAgent = void 0;
-const node_assert_1 = __importDefault(require("node:assert"));
+const graphai_1 = require("graphai");
 // This agent strip one long string into chunks using following parameters
 //
 //  chunkSize: number; // default is 2048
@@ -15,7 +12,7 @@ const node_assert_1 = __importDefault(require("node:assert"));
 //
 const defaultChunkSize = 2048;
 const stringSplitterAgent = async ({ params, namedInputs }) => {
-    (0, node_assert_1.default)(namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+    (0, graphai_1.assert)(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
     const source = namedInputs.text;
     const chunkSize = params.chunkSize ?? defaultChunkSize;
     const overlap = params.overlap ?? Math.floor(chunkSize / 8);
