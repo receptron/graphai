@@ -1,5 +1,7 @@
 import { GraphAI, GraphData, AgentFunctionInfoDictionary, AgentFunctionInfo, defaultTestContext, DefaultResultData, ValidationError } from "graphai";
 import * as defaultTestAgents from "@graphai/vanilla";
+import { namedInputValidatorFilter } from "@graphai/agent_filters";
+
 
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "./file_utils";
 import { callbackLog } from "./utils";
@@ -32,11 +34,17 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
   callback: (graph: GraphAI) => void = () => {},
   all: boolean = true,
 ) => {
+  const agentFilters = [
+    {
+      name: "namedInputValidatorFilter",
+      agent: namedInputValidatorFilter,
+    },
+  ];
+
   const baseDir = path.resolve(base_dir) + "/../logs/";
   mkdirLogDir(baseDir);
-
   const log_path = baseDir + fileBaseName(logFileName) + ".log";
-  const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
+  const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary }, { agentFilters });
 
   if (process.argv[2] === "-v") {
     graph.onLogCallback = callbackLog;
