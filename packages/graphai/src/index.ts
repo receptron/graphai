@@ -20,8 +20,6 @@ export {
 
 export type { TransactionLog } from "./transaction_log";
 
-export { agentFilterRunnerBuilder } from "./utils/runner";
-
 export { defaultAgentInfo, agentInfoWrapper, defaultTestContext, strIntentionalError, assert, sleep } from "./utils/utils";
 
 export { ValidationError } from "./validators/common";
