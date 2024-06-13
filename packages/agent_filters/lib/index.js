@@ -16,3 +16,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./stream"), exports);
 __exportStar(require("./namedinput_validator"), exports);
+__exportStar(require("./http_client"), exports);
