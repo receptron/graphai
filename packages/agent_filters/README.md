@@ -15,6 +15,8 @@ yarn add @graphai/agent_filters
 
 Validate values of namedInputs based on the input schema of agentFunctionInfo
 
+https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/validation/test_agent_namedinput_validator.ts
+
 ```typescript
 import { GraphAI } from "graphai";
 import * as agents from "@graphai/agents";
@@ -116,3 +118,12 @@ https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
 
 Execute agent filter and agent in test for agent filter usage
 It also run agent filter and agent outside of GraphAI. This is useful in Express web server.
+
+
+see express sample and test code.
+
+express
+https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
+
+test
+https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/filters/test_filter_runner.ts
