@@ -15,11 +15,12 @@ export const openAIAgent: AgentFunction<
     stream?: boolean;
     prompt?: string;
     messages?: Array<Record<string, any>>;
+    forWeb?: boolean;
   },
   Record<string, any> | string,
   string | Array<any>
 > = async ({ filterParams, params, namedInputs }) => {
-  const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages } = { ...params, ...namedInputs };
+  const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
 
   // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
@@ -35,7 +36,7 @@ export const openAIAgent: AgentFunction<
     console.log(messagesCopy);
   }
 
-  const openai = new OpenAI({ apiKey, baseURL });
+  const openai = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
 
   if (!stream) {
     return await openai.chat.completions.create({
