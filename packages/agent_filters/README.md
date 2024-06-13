@@ -43,7 +43,7 @@ Available for both server and client. See express code.
 https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
 
 express server
-```
+```typescript
     return async (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
       res.setHeader("Cache-Control", "no-cache, no-transform");
@@ -74,7 +74,7 @@ express server
 
 https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
 
-```
+```typescript
 const useAgentFilter = (callback: (context: AgentFunctionContext, data: T) => void) => {
   const streamAgentFilter = streamAgentFilterGenerator(callback);
 
