@@ -35,10 +35,21 @@ const results = await graph.run();
 
 ### streamAgentFilterGenerator
 
+Receive stream data externally through streamTokenCallback of filterParams.
+Available for both server and client. See express code.
 
+https://github.com/receptron/graphai_utils/blob/main/packages/express/src/express.ts
 
 ### httpAgentFilter
 
 In graph flow, bypass the agent execution and run it on the server via http.
 
+Refer to the web sample.
 
+https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
+
+
+### agentFilterRunnerBuilder
+
+Execute agent filter and agent in test for agent filter usage
+It also run agent filter and agent outside of GraphAI. This is useful in Express web server.
