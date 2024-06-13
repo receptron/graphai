@@ -1,7 +1,6 @@
-import { AgentFilterFunction } from "@/type";
-import * as agents from "../test_agents";
+import { AgentFilterFunction, defaultTestContext } from "graphai";
+import * as agents from "@graphai/agents";
 
-import { defaultTestContext } from "@/utils/utils";
 import { agentFilterRunnerBuilder } from "@/index";
 
 import test from "node:test";
