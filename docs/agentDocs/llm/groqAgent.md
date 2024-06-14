@@ -23,7 +23,20 @@ Groq Agent
       "type": "object"
     },
     "tool_choice": {
-      "type": "any"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ]
     },
     "max_tokens": {
       "type": "number"
@@ -42,7 +55,20 @@ Groq Agent
       "description": "query string"
     },
     "messages": {
-      "type": "any",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ],
       "description": "chat messages"
     }
   }
