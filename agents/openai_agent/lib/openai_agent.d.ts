@@ -12,6 +12,7 @@ export declare const openAIAgent: AgentFunction<{
     stream?: boolean;
     prompt?: string;
     messages?: Array<Record<string, any>>;
+    forWeb?: boolean;
 }, Record<string, any> | string, string | Array<any>>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;
