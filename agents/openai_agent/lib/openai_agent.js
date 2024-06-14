@@ -7,7 +7,7 @@ exports.openAIMockAgent = exports.openAIAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
 const openAIAgent = async ({ filterParams, params, namedInputs }) => {
-    const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages } = { ...params, ...namedInputs };
+    const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
     // Notice that we ignore params.system if previous_message exists.
     const messagesCopy = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
     if (prompt) {
@@ -19,7 +19,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs }) => {
     if (verbose) {
         console.log(messagesCopy);
     }
-    const openai = new openai_1.default({ apiKey, baseURL });
+    const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
     if (!stream) {
         return await openai.chat.completions.create({
             model: params.model || "gpt-3.5-turbo",
