@@ -82,7 +82,7 @@ const geminiAgentInfo = {
                 description: "query string",
             },
             messages: {
-                type: "any",
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
                 description: "chat messages",
             },
         },

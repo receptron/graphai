@@ -89,7 +89,9 @@ const groqAgentInfo = {
             model: { type: "string" },
             system: { type: "string" },
             tools: { type: "object" },
-            tool_choice: { type: "any" },
+            tool_choice: {
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+            },
             max_tokens: { type: "number" },
             verbose: { type: "boolean" },
             temperature: { type: "number" },
@@ -99,7 +101,7 @@ const groqAgentInfo = {
                 description: "query string",
             },
             messages: {
-                type: "any",
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
                 description: "chat messages",
             },
         },
