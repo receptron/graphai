@@ -35,6 +35,14 @@ Stream mock agent
 ]
 
 ````
+```json
+
+[
+  ":agentId",
+  ":agentId.message"
+]
+
+````
 
 ## Samples
 
@@ -52,7 +60,7 @@ Stream mock agent
 
 ```json
 
-{"message":"this is test"}
+{"message":"this is params test"}
 
 ````
 
@@ -61,7 +69,36 @@ Stream mock agent
 ```json
 
 {
-  "message": "this is test"
+  "message": "this is params test"
+}
+
+````
+### Sample1
+
+#### inputs
+
+```json
+
+{
+  "message": "this is named inputs test"
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "message": "this is named inputs test"
 }
 
 ````
