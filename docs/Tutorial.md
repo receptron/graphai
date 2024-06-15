@@ -67,7 +67,7 @@ nodes:
     params:
       model: gpt-4o
     inputs:
-      - :prompt
+      prompt: :prompt
   output:
     agent: copyAgent
     console:
@@ -88,7 +88,7 @@ loop:
   while: :fruits
 nodes:
   fruits:
-    value: [apple, lemomn, banana]
+    value: [apple, lemon, banana]
     update: :shift.array
   result:
     value: []
@@ -96,7 +96,8 @@ nodes:
     isResult: true
   shift:
     agent: shiftAgent
-    inputs: [:fruits]
+    inputs: 
+      array: [:fruits]
   prompt:
     agent: stringTemplateAgent
     params:
@@ -106,7 +107,8 @@ nodes:
     agent: openAIAgent
     params:
       model: gpt-4o
-    inputs: [:prompt]
+    inputs: 
+      prompt: [:prompt]
   reducer:
     agent: pushAgent
     inputs:
@@ -148,7 +150,8 @@ nodes:
           agent: openAIAgent
           params:
             model: gpt-4o
-          inputs: [:prompt]
+          inputs: 
+            prompt: [:prompt]
         result:
           agent: copyAgent
           inputs: [:llm.choices.$0.message.content]
@@ -208,8 +211,7 @@ nodes:
   llm:
     agent: openAIAgent
     inputs:
-      - null
-      - :appendedMessages
+      messages: :appendedMessages
   output:
     agent: stringTemplateAgent
     params:
@@ -303,8 +305,7 @@ nodes:
                 - latitude
                 - longitude
     inputs:
-      - null
-      - :messagesWithUserInput
+      messages: :messagesWithUserInput
   output:
     agent: stringTemplateAgent
     params:
@@ -469,7 +470,7 @@ nodes:
       before: ...splitting the article into chunks
     agent: stringSplitterAgent
     inputs:
-      - :wikipedia.content
+      text: :wikipedia.content
   embeddings:
     console:
       before: ...fetching embeddings for chunks
@@ -485,17 +486,17 @@ nodes:
   similarityCheck:
     agent: dotProductAgent
     inputs:
-      - :embeddings
-      - :topicEmbedding.$0
+      matrix: :embeddings
+      vector: :topicEmbedding.$0
   sortedChunks:
     agent: sortByValuesAgent
     inputs:
-      - :chunks.contents
-      - :similarityCheck
+      array: :chunks.contents
+      values: :similarityCheck
   referenceText:
     agent: tokenBoundStringsAgent
     inputs:
-      - :sortedChunks
+      chunks: :sortedChunks
     params:
       limit: 5000
   prompt:
