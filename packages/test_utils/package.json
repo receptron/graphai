@@ -25,7 +25,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
     "@graphai/agent_filters": "^0.0.5",
-    "@graphai/vanilla": "^0.0.3",
+    "@graphai/vanilla": "^0.0.4",
     "graphai": "^0.5.1",
     "yaml": "^2.4.5"
   },
