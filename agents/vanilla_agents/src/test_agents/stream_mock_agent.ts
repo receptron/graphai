@@ -19,13 +19,17 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   agent: streamMockAgent,
   mock: streamMockAgent,
   inputs: {
-    type: "object",
-    properties: {
-      array: {
-        type: "message",
-        description: "streaming message",
+    anyOf: [{
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+          description: "streaming message",
+        },
       },
-    },
+    }, {
+      type: "array",
+    }]
   },
   samples: [
     {
