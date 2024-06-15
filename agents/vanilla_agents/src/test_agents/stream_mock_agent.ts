@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 
-export const streamMockAgent: AgentFunction = async ({ params, filterParams }) => {
-  const message = params.message || "";
+export const streamMockAgent: AgentFunction = async ({ params, filterParams, namedInputs }) => {
+  const message = params.message ?? namedInputs.message ?? "";
 
   for await (const token of message.split("")) {
     if (filterParams.streamTokenCallback) {
@@ -10,7 +10,7 @@ export const streamMockAgent: AgentFunction = async ({ params, filterParams }) =
     await sleep(params.sleep || 100);
   }
 
-  return params;
+  return { message };
 };
 
 // for test and document
@@ -18,11 +18,29 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   name: "streamMockAgent",
   agent: streamMockAgent,
   mock: streamMockAgent,
+  inputs: {
+    anyOf: [{
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+          description: "streaming message",
+        },
+      },
+    }, {
+      type: "array",
+    }]
+  },
   samples: [
     {
       inputs: [],
-      params: { message: "this is test" },
-      result: { message: "this is test" },
+      params: { message: "this is params test" },
+      result: { message: "this is params test" },
+    },
+    {
+      inputs: { message: "this is named inputs test" },
+      params: {},
+      result: { message: "this is named inputs test" },
     },
   ],
   description: "Stream mock agent",
