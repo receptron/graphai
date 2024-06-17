@@ -6,6 +6,7 @@ var NodeState;
     NodeState["Waiting"] = "waiting";
     NodeState["Queued"] = "queued";
     NodeState["Executing"] = "executing";
+    NodeState["ExecutingServer"] = "executing-server";
     NodeState["Failed"] = "failed";
     NodeState["TimedOut"] = "timed-out";
     NodeState["Completed"] = "completed";

@@ -4,6 +4,7 @@ export declare enum NodeState {
     Waiting = "waiting",
     Queued = "queued",
     Executing = "executing",
+    ExecutingServer = "executing-server",
     Failed = "failed",
     TimedOut = "timed-out",
     Completed = "completed",
