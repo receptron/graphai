@@ -19,7 +19,8 @@ const streamMockAgentInfo = {
     agent: exports.streamMockAgent,
     mock: exports.streamMockAgent,
     inputs: {
-        anyOf: [{
+        anyOf: [
+            {
                 type: "object",
                 properties: {
                     message: {
@@ -27,9 +28,11 @@ const streamMockAgentInfo = {
                         description: "streaming message",
                     },
                 },
-            }, {
+            },
+            {
                 type: "array",
-            }]
+            },
+        ],
     },
     samples: [
         {
