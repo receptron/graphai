@@ -115,18 +115,20 @@ export type AgentFilterInfo = {
   filterParams?: AgentFilterParams;
 };
 
+export type AgentFunctionInfoSample = {
+  inputs: any;
+  params: DefaultParamsType;
+  result: any;
+  graph?: GraphData;
+};
+
 export type AgentFunctionInfo = {
   name: string;
   agent: AgentFunction<any, any, any, any>;
   mock: AgentFunction<any, any, any, any>;
   inputs?: any;
   output?: any;
-  samples: {
-    inputs: any;
-    params: DefaultParamsType;
-    result: any;
-    graph?: GraphData;
-  }[];
+  samples: AgentFunctionInfoSample[];
   description: string;
   category: string[];
   author: string;

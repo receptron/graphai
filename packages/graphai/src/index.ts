@@ -4,6 +4,7 @@ export {
   AgentFunction,
   AgentFunctionInfo,
   AgentFunctionInfoDictionary,
+  AgentFunctionInfoSamples
   AgentFunctionContext,
   GraphData,
   ResultDataDictionary,
