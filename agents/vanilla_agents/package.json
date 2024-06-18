@@ -1,6 +1,6 @@
 {
   "name": "@graphai/vanilla",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Vanilla agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
