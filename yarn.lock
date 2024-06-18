@@ -82,6 +82,11 @@
     openai "^4.47.1"
     tiktoken "^1.0.14"
 
+"@graphai/vanilla@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@graphai/vanilla/-/vanilla-0.0.5.tgz#61176a94fea31bbafd811189410f9aea3914cb43"
+  integrity sha512-4jnoreA7HpmfUQ01WgEy3DTaXYFBcKCIOiu2bbnbV4F1nqBk5iwOR3++WUy5+0wcrDb2Oqmc+gLmdlJO4EsB+w==
+
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
