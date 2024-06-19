@@ -73,7 +73,7 @@ export const httpAgentFilter: AgentFilterFunction = async (context, next) => {
     const isStreaming = filterParams.streamTokenCallback !== undefined;
     const url = serverAgentUrlDictionary && agentId && serverAgentUrlDictionary[agentId] ? serverAgentUrlDictionary[agentId] : [baseUrl, agentId].join("/");
     if (url === undefined) {
-      console.log("httpAgentFilter: Url is not defined")
+      console.log("httpAgentFilter: Url is not defined");
     }
     const postData = {
       params,
