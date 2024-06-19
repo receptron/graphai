@@ -71,7 +71,7 @@ export const httpAgentFilter: AgentFilterFunction = async (context, next) => {
     const { baseUrl, isDebug, serverAgentUrlDictionary } = filterParams.server;
     const agentId = debugInfo.agentId;
     const isStreaming = filterParams.streamTokenCallback !== undefined;
-    const url = serverAgentUrlDictionary && serverAgentUrlDictionary[agentId] ? serverAgentUrlDictionary[agentId] : [baseUrl, agentId].join("/");
+    const url = serverAgentUrlDictionary && agentId && serverAgentUrlDictionary[agentId] ? serverAgentUrlDictionary[agentId] : [baseUrl, agentId].join("/");
     if (url === undefined) {
       console.log("httpAgentFilter: Url is not defined")
     }
