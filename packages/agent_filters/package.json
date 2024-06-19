@@ -1,6 +1,6 @@
 {
   "name": "@graphai/agent_filters",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [
