@@ -4,5 +4,6 @@ export * from "./matrix_agents";
 export * from "./test_agents";
 export * from "./graph_agents";
 export * from "./data_agents";
+export * from "./service_agents";
 import stringEmbeddingsAgent from "./embedding_agent";
 export { stringEmbeddingsAgent };
