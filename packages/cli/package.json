@@ -36,11 +36,11 @@
     "@types/yargs": "^17.0.32"
   },
   "dependencies": {
-    "@graphai/agent_filters": "^0.0.5",
+    "@graphai/agent_filters": "^0.0.6",
     "@graphai/agents": "^0.0.14",
-    "@receptron/test_utils": "^0.0.4",
+    "@receptron/test_utils": "^0.0.5",
     "dotenv": "^16.4.5",
-    "graphai": "^0.5.1",
+    "graphai": "^0.5.2",
     "json-schema-generator": "^2.0.6",
     "yargs": "^17.7.2"
   },
