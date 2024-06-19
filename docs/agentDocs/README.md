@@ -18,6 +18,7 @@
 ## service
 ### [fetchAgent](./service/fetchAgent.md)
 ### [wikipediaAgent](./service/wikipediaAgent.md)
+### [vanillaFetchAgent](./service/vanillaFetchAgent.md)
 
 ## sleeper
 ### [sleeperAgent](./sleeper/sleeperAgent.md)
