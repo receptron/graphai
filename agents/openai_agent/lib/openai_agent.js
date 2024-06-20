@@ -171,6 +171,29 @@ const openaiAgentInfo = {
         },
         required: ["id", "object", "created", "model", "choices", "usage"],
     },
+    params: {
+        type: "object",
+        properties: {
+            model: { type: "string" },
+            system: { type: "string" },
+            tools: { type: "object" },
+            tool_choice: { anyOf: [{ type: "array" }, { type: "object" }] },
+            max_tokens: { type: "number" },
+            verbose: { type: "boolean" },
+            temperature: { type: "number" },
+            baseURL: { type: "string" },
+            apiKey: { anyOf: [{ type: "string" }, { type: "object" }] },
+            stream: { type: "boolean" },
+            prompt: { type: "string", description: "query string" },
+            messages: { anyOf: [{ type: "string" }, { type: "object" }, { type: "array" }], description: "chat messages" },
+        },
+    },
+    outputFormat: {
+        llmResponse: {
+            key: "choices.$0.message.content",
+            type: "string",
+        },
+    },
     samples: [
         {
             inputs: { prompt: input_sample },
@@ -178,7 +201,7 @@ const openaiAgentInfo = {
             result: result_sample,
         },
     ],
-    description: "Openai Agent",
+    description: "OpenAI Agent",
     category: ["llm"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
