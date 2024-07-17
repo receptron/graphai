@@ -1,4 +1,5 @@
 import { anonymization, rejectTest } from "@receptron/test_utils";
+import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 
@@ -9,7 +10,7 @@ test("test validation no data", async () => {
 
 test("test validation nodes is array", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: [],
   });
   await rejectTest(__dirname, graph_data, "Invalid Graph Data: nodes must be object");
@@ -17,7 +18,7 @@ test("test validation nodes is array", async () => {
 
 test("test validation nodes is empty", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {},
   });
   await rejectTest(__dirname, graph_data, "Invalid Graph Data: nodes is empty");
@@ -25,7 +26,7 @@ test("test validation nodes is empty", async () => {
 
 test("test validation nodes is not object", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: "123",
   });
   await rejectTest(__dirname, graph_data, "Invalid Graph Data: invalid nodes");
@@ -33,7 +34,7 @@ test("test validation nodes is not object", async () => {
 
 test("test validation invalid agent", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       invalidAgent: {
         agent: "NonExistAgent",
@@ -45,7 +46,7 @@ test("test validation invalid agent", async () => {
 
 test("test validation invalid agent", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       nodeTest: {},
     },
@@ -55,7 +56,7 @@ test("test validation invalid agent", async () => {
 
 test("test validation invalid agent", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       nodeTest: {
         value: {},

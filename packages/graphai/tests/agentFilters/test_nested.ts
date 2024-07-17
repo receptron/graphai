@@ -1,6 +1,7 @@
 import { GraphAI, AgentFilterFunction } from "@/index";
 
-import * as agents from "../test_agents";
+import * as agents from "~/test_agents";
+import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -37,7 +38,7 @@ const agentFilters = [
 
 test("test nested agent filter", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
 
     nodes: {
       nested1: {
@@ -71,7 +72,7 @@ test("test nested agent filter", async () => {
 
 test("test map agent filter", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
 
     nodes: {
       source: {

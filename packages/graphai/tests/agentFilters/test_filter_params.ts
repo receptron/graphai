@@ -1,6 +1,7 @@
 import { GraphAI, AgentFilterFunction } from "@/index";
 
-import * as agents from "../test_agents";
+import * as agents from "~/test_agents";
+import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -11,7 +12,7 @@ const httpAgentFilter: AgentFilterFunction = async (context, next) => {
 
 test("test filterParams on agent filter", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -49,7 +50,7 @@ test("test filterParams on agent filter", async () => {
 
 test("test filterParams on node", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -86,7 +87,7 @@ test("test filterParams on node", async () => {
 
 test("test filterParams on agent filter and node. Then node.ts use filterParams on node", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -129,7 +130,7 @@ test("test filterParams on agent filter and node. Then node.ts use filterParams 
 
 test("test filterParams on each agent", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -179,7 +180,7 @@ test("test filterParams on each agent", async () => {
 
 test("test filterParams on agent filter", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",
