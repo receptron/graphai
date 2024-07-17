@@ -1,5 +1,7 @@
 # Samples
 
+This repository is sample graph data for developer.
+Samples for end user is [here](https://github.com/receptron/graphai_samples).
 
 ## Interview
 
