@@ -13,7 +13,7 @@ const graph_data = {
       isResult: true,
     },
     namedResult: {
-      agent: (object: {input: string}) => object.input,
+      agent: (object: { input: string }) => object.input,
       inputs: { input: ":message" },
       isResult: true,
     },
