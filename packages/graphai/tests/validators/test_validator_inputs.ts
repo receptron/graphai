@@ -1,10 +1,11 @@
 import { anonymization, rejectTest } from "@receptron/test_utils";
+import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       computed1: {
         agent: "echoAgent",
@@ -20,7 +21,7 @@ test("test computed node validation value", async () => {
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       computed1: {
         agent: "echoAgent",
@@ -37,7 +38,7 @@ test("test computed node validation value", async () => {
 
 test("test no initial running node", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       computed1: {
         agent: "echoAgent",
@@ -54,7 +55,7 @@ test("test no initial running node", async () => {
 
 test("test closed loop validation", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       computed1: {
         agent: "echoAgent",

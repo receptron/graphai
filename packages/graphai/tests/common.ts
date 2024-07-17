@@ -1,0 +1,1 @@
+export { graphDataLatestVersion } from "@/index";

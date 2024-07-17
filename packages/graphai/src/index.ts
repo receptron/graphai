@@ -1,4 +1,8 @@
-export { GraphAI } from "./graphai";
+export {
+  GraphAI,
+  defaultConcurrency,
+  graphDataLatestVersion,
+} from "./graphai";
 
 export {
   AgentFunction,

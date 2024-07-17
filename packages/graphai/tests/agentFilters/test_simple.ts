@@ -1,7 +1,8 @@
 import { GraphAI } from "@/index";
 import { AgentFilterFunction } from "@/type";
 
-import * as agents from "../test_agents";
+import * as agents from "~/test_agents";
+import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -27,7 +28,7 @@ const simpleAgentFilter2: AgentFilterFunction = async (context, next) => {
 
 test("test agent filter", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -62,7 +63,7 @@ test("test agent filter", async () => {
 
 test("test agent filter with agent condition", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",
@@ -97,7 +98,7 @@ test("test agent filter with agent condition", async () => {
 
 test("test agent filter with agent condition", async () => {
   const graph_data = {
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       echo: {
         agent: "echoAgent",

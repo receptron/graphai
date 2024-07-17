@@ -18,8 +18,8 @@ import { TaskManager } from "./task_manager";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
-const defaultConcurrency = 8;
-const latestVersion = 0.3;
+export const defaultConcurrency = 8;
+export const graphDataLatestVersion = 0.5;
 
 export class GraphAI {
   public readonly version: number;
@@ -108,9 +108,9 @@ export class GraphAI {
     if (!data.version && !options.taskManager) {
       console.warn("------------ missing version number");
     }
-    this.version = data.version ?? latestVersion;
-    if (this.version < latestVersion) {
-      console.warn(`------------ upgrade to ${latestVersion}!`);
+    this.version = data.version ?? graphDataLatestVersion;
+    if (this.version < graphDataLatestVersion) {
+      console.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
     }
     this.retryLimit = data.retry; // optional
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);

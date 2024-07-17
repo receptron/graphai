@@ -1,10 +1,11 @@
 import { anonymization, rejectTest } from "@receptron/test_utils";
+import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 
 test("test computed node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       computed1: {
         value: {},
@@ -17,7 +18,7 @@ test("test computed node validation value", async () => {
 
 test("test static node validation value", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       computed1: {
         update: "",

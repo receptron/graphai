@@ -1,5 +1,7 @@
+import { graphDataLatestVersion } from "~/common";
+
 export const graph_data = {
-  version: 0.3,
+  version: graphDataLatestVersion,
   nodes: {
     echo: {
       agent: "echoAgent",
@@ -19,7 +21,7 @@ export const graph_data = {
 };
 
 export const graph_injection_data = {
-  version: 0.3,
+  version: graphDataLatestVersion,
   nodes: {
     echo: {
       agent: "echoAgent",

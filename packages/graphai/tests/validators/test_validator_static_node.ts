@@ -2,9 +2,11 @@ import { anonymization, rejectTest } from "@receptron/test_utils";
 
 import test from "node:test";
 
+import { graphDataLatestVersion } from "~/common";
+
 test("test static node validation inputs", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       static1: {
         value: {},
@@ -17,7 +19,7 @@ test("test static node validation inputs", async () => {
 
 test("test static node validation anyInput", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       static1: {
         value: {},
@@ -30,7 +32,7 @@ test("test static node validation anyInput", async () => {
 
 test("test static node validation params", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       static1: {
         value: {},
@@ -43,7 +45,7 @@ test("test static node validation params", async () => {
 
 test("test static node validation retry", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       static1: {
         value: {},
@@ -56,7 +58,7 @@ test("test static node validation retry", async () => {
 
 test("test static node validation timeout", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       static1: {
         value: {},
@@ -69,7 +71,7 @@ test("test static node validation timeout", async () => {
 
 test("test static node validation update", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       static1: {
         value: {},
@@ -85,7 +87,7 @@ test("test static node validation update", async () => {
 
 test("test static node validation update", async () => {
   const graph_data = anonymization({
-    version: 0.3,
+    version: graphDataLatestVersion,
     nodes: {
       static1: {
         value: {},

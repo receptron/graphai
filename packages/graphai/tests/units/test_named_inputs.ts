@@ -1,7 +1,8 @@
 import { GraphAI } from "@/index";
+import { graphDataLatestVersion } from "~/common";
 
 const graph_data = {
-  version: 0.3,
+  version: graphDataLatestVersion,
   nodes: {
     message: {
       value: "Hello World",
@@ -12,7 +13,7 @@ const graph_data = {
       isResult: true,
     },
     namedResult: {
-      agent: (object: any) => object.input,
+      agent: (object: {input: string}) => object.input,
       inputs: { input: ":message" },
       isResult: true,
     },
