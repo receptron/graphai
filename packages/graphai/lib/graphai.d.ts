@@ -3,6 +3,8 @@ import { TransactionLog } from "./transaction_log";
 import { ComputedNode, StaticNode } from "./node";
 import { TaskManager } from "./task_manager";
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
+export declare const defaultConcurrency = 8;
+export declare const graphDataLatestVersion = 0.5;
 export declare class GraphAI {
     readonly version: number;
     private readonly graphId;

@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GraphAI = void 0;
+exports.GraphAI = exports.graphDataLatestVersion = exports.defaultConcurrency = void 0;
 const node_1 = require("./node");
 const utils_1 = require("./utils/utils");
 const validator_1 = require("./validator");
 const task_manager_1 = require("./task_manager");
-const defaultConcurrency = 8;
-const latestVersion = 0.3;
+exports.defaultConcurrency = 8;
+exports.graphDataLatestVersion = 0.5;
 class GraphAI {
     // This method is called when either the GraphAI obect was created,
     // or we are about to start n-th iteration (n>2).
@@ -74,15 +74,15 @@ class GraphAI {
         if (!data.version && !options.taskManager) {
             console.warn("------------ missing version number");
         }
-        this.version = data.version ?? latestVersion;
-        if (this.version < latestVersion) {
-            console.warn(`------------ upgrade to ${latestVersion}!`);
+        this.version = data.version ?? exports.graphDataLatestVersion;
+        if (this.version < exports.graphDataLatestVersion) {
+            console.warn(`------------ upgrade to ${exports.graphDataLatestVersion}!`);
         }
         this.retryLimit = data.retry; // optional
         this.graphId = URL.createObjectURL(new Blob()).slice(-36);
         this.data = data;
         this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
-        this.taskManager = options.taskManager ?? new task_manager_1.TaskManager(data.concurrency ?? defaultConcurrency);
+        this.taskManager = options.taskManager ?? new task_manager_1.TaskManager(data.concurrency ?? exports.defaultConcurrency);
         this.agentFilters = options.agentFilters ?? [];
         this.bypassAgentIds = options.bypassAgentIds ?? [];
         this.loop = data.loop;
