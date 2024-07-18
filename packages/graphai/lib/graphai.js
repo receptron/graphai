@@ -67,8 +67,10 @@ class GraphAI {
         taskManager: undefined,
         agentFilters: [],
         bypassAgentIds: [],
+        config: {},
     }) {
         this.logs = [];
+        this.config = {};
         this.onLogCallback = (__log, __isUpdate) => { };
         this.repeatCount = 0;
         if (!data.version && !options.taskManager) {
@@ -85,6 +87,7 @@ class GraphAI {
         this.taskManager = options.taskManager ?? new task_manager_1.TaskManager(data.concurrency ?? exports.defaultConcurrency);
         this.agentFilters = options.agentFilters ?? [];
         this.bypassAgentIds = options.bypassAgentIds ?? [];
+        this.config = options.config;
         this.loop = data.loop;
         this.verbose = data.verbose === true;
         this.onComplete = () => {

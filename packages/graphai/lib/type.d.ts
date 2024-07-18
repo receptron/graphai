@@ -61,6 +61,7 @@ export type GraphOptions = {
     agentFilters?: AgentFilterInfo[] | undefined;
     taskManager?: TaskManager | undefined;
     bypassAgentIds?: string[] | undefined;
+    config?: Record<string, unknown>;
 };
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
     params: NodeDataParams<ParamsType>;
@@ -80,6 +81,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     filterParams: AgentFilterParams;
     agentFilters?: AgentFilterInfo[];
     log?: TransactionLog[];
+    config?: Record<string, unknown>;
 };
 export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>) => Promise<ResultData<ResultType>>;
 export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = (context: AgentFunctionContext<ParamsType, InputDataType, NamedInputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
