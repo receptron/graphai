@@ -28,6 +28,7 @@ export class GraphAI {
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
   private readonly bypassAgentIds: string[];
+  public readonly config?: Record<string, unknown> = {};
   public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
@@ -103,6 +104,7 @@ export class GraphAI {
       taskManager: undefined,
       agentFilters: [],
       bypassAgentIds: [],
+      config: {},
     },
   ) {
     if (!data.version && !options.taskManager) {
@@ -119,6 +121,7 @@ export class GraphAI {
     this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
     this.bypassAgentIds = options.bypassAgentIds ?? [];
+    this.config = options.config;
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {
