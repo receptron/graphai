@@ -11,22 +11,22 @@ import * as fs from "fs";
 import assert from "node:assert";
 import test from "node:test";
 
-export const readGraphData = (base_dir: string, file: string) => {
-  const file_path = path.resolve(base_dir) + "/.." + file;
+export const readGraphData = (baseDir: string, file: string) => {
+  const file_path = path.resolve(baseDir) + "/.." + file;
   return readGraphaiData(file_path);
 };
 
 export const fileTestRunner = async (
-  base_dir: string,
+  baseDir: string,
   file: string,
   agentFunctionInfoDictionary: AgentFunctionInfoDictionary,
   callback: (graph: GraphAI) => void = () => {},
 ) => {
-  return await graphDataTestRunner(base_dir, file, readGraphData(base_dir, file), agentFunctionInfoDictionary, callback);
+  return await graphDataTestRunner(baseDir, file, readGraphData(baseDir, file), agentFunctionInfoDictionary, callback);
 };
 
 export const graphDataTestRunner = async <T = DefaultResultData>(
-  base_dir: string,
+  logBaseDir: string,
   logFileName: string,
   graph_data: GraphData,
   agentFunctionInfoDictionary: AgentFunctionInfoDictionary,
@@ -40,7 +40,7 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
     },
   ];
 
-  const baseDir = path.resolve(base_dir) + "/../logs/";
+  const baseDir = path.resolve(logBaseDir) + "/../logs/";
   mkdirLogDir(baseDir);
   const log_path = baseDir + fileBaseName(logFileName) + ".log";
   const graph = new GraphAI(graph_data, { ...defaultTestAgents, ...agentFunctionInfoDictionary }, { agentFilters });
@@ -57,16 +57,16 @@ export const graphDataTestRunner = async <T = DefaultResultData>(
 };
 
 export const rejectFileTest = async (
-  base_dir: string,
+  baseDir: string,
   file: string,
   errorMessage: string,
   agentFunctionInfoDictionary: AgentFunctionInfoDictionary = {},
   validationError: boolean = true,
 ) => {
-  return await rejectTest(base_dir, readGraphData(base_dir, file), errorMessage, agentFunctionInfoDictionary, validationError);
+  return await rejectTest(baseDir, readGraphData(baseDir, file), errorMessage, agentFunctionInfoDictionary, validationError);
 };
 export const rejectTest = async (
-  base_dir: string,
+  logBaseDir: string,
   graphdata: GraphData,
   errorMessage: string,
   agentFunctionInfoDictionary: AgentFunctionInfoDictionary = {},
@@ -74,7 +74,7 @@ export const rejectTest = async (
 ) => {
   await assert.rejects(
     async () => {
-      await graphDataTestRunner(base_dir, __filename, graphdata, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
+      await graphDataTestRunner(logBaseDir, __filename, graphdata, { ...defaultTestAgents, ...agentFunctionInfoDictionary });
     },
     { name: "Error", message: validationError ? new ValidationError(errorMessage).message : errorMessage },
   );
