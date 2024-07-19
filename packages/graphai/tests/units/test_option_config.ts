@@ -19,7 +19,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test named inputs", async () => {
-  const testAgent: AgentFunction = async ({ config, inputs }) => {
+  const testAgent: AgentFunction = async ({ config }) => {
     return config;
   };
   const config = { message: "hello" };
