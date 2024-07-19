@@ -72,6 +72,7 @@ export type GraphOptions = {
   agentFilters?: AgentFilterInfo[] | undefined;
   taskManager?: TaskManager | undefined;
   bypassAgentIds?: string[] | undefined;
+  config?: Record<string, unknown>;
 };
 
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
@@ -92,6 +93,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
   filterParams: AgentFilterParams; // agent filter
   agentFilters?: AgentFilterInfo[];
   log?: TransactionLog[];
+  config?: Record<string, unknown>;
 };
 
 export type AgentFunction<

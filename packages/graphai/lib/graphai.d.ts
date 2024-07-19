@@ -12,6 +12,7 @@ export declare class GraphAI {
     private readonly loop?;
     private readonly logs;
     private readonly bypassAgentIds;
+    readonly config?: Record<string, unknown>;
     readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
     readonly taskManager: TaskManager;
     readonly agentFilters: AgentFilterInfo[];

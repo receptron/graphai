@@ -318,6 +318,7 @@ export class ComputedNode extends Node {
         },
         filterParams: this.filterParams,
         agentFilters: this.graph.agentFilters,
+        config: this.graph.config,
         log: localLog,
       };
       if (this.inputNames) {
