@@ -1,40 +1,48 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 
-const flatString = (input: string | string[] | undefined) => {
-  return Array.isArray(input) ? input.join("\n") : input ?? "";
+type InputType = string | (string | undefined)[] | undefined;
+
+type OpenAIInputs = {
+  model?: string;
+  prompt?: InputType;
+  system?: InputType;
+  mergeablePrompts: InputType;
+  mergeableSystem: InputType;
+  tools?: any;
+  tool_choice?: any;
+  max_tokens?: number;
+  verbose?: boolean;
+  temperature?: number;
+  baseURL?: string;
+  apiKey?: string;
+  stream?: boolean;
+  messages?: Array<Record<string, any>>;
+  forWeb?: boolean;
 };
 
-export const openAIAgent: AgentFunction<
-  {
-    model?: string;
-    system?: string;
-    mergeablePrompts: string | string[],
-    mergeableSystem: string | string[],
-    tools?: any;
-    tool_choice?: any;
-    max_tokens?: number;
-    verbose?: boolean;
-    temperature?: number;
-    baseURL?: string;
-    apiKey?: string;
-    stream?: boolean;
-    prompt?: string;
-    messages?: Array<Record<string, any>>;
-    forWeb?: boolean;
-  },
-  Record<string, any> | string,
-  string | Array<any>
-> = async ({ filterParams, params, namedInputs }) => {
+// export for test
+export const flatString = (input: InputType) => {
+  return Array.isArray(input) ? input.filter((a) => a).join("\n") : input ?? "";
+};
+
+// export for test
+export const getMergeValue = (namedInputs: OpenAIInputs, params: OpenAIInputs, key: "mergeablePrompts" | "mergeableSystem", values: InputType) => {
+  const inputValue = namedInputs[key];
+  const paramsValue = params[key];
+
+  return inputValue || paramsValue ? [flatString(inputValue), flatString(paramsValue)].join("\n") : flatString(values);
+};
+
+export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
+  filterParams,
+  params,
+  namedInputs,
+}) => {
   const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
 
-  const { mergeablePrompts: inputMergeablePrompts, mergeableSystem: inputMergeableSystem } = namedInputs;
-  const { mergeablePrompts: paramsMergeablePrompts, mergeableSystem: paramsMergeableSystem } = params;
-
-  const userPrompt =
-    inputMergeablePrompts || paramsMergeablePrompts ? [flatString(inputMergeablePrompts), flatString(paramsMergeablePrompts)].join("\n") : flatString(prompt);
-  const systemPrompt =
-    inputMergeableSystem || paramsMergeableSystem ? [flatString(inputMergeableSystem), flatString(paramsMergeableSystem)].join("\n") : flatString(system);
+  const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
+  const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
   // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
