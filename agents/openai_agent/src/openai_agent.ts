@@ -32,10 +32,10 @@ export const openAIAgent: AgentFunction<
   const userPrompt =
     inputMergeablePrompts || paramsMergeablePrompts ? [flatString(inputMergeablePrompts), flatString(paramsMergeablePrompts)].join("\n") : flatString(prompt);
   const systemPrompt =
-    inputMergeableSystem || inputMergeableSystem ? [flatString(inputMergeableSystem), flatString(inputMergeableSystem)].join("\n") : flatString(system);
+    inputMergeableSystem || paramsMergeableSystem ? [flatString(inputMergeableSystem), flatString(paramsMergeableSystem)].join("\n") : flatString(system);
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
   if (prompt) {
     messagesCopy.push({
