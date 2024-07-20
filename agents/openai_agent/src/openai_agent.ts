@@ -9,6 +9,8 @@ export const openAIAgent: AgentFunction<
   {
     model?: string;
     system?: string;
+    mergeablePrompts: string | string[],
+    mergeableSystem: string | string[],
     tools?: any;
     tool_choice?: any;
     max_tokens?: number;
