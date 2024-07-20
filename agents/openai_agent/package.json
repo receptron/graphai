@@ -13,9 +13,7 @@
     "doc": "npx agentdoc",
     "test": "echo nothing",
     "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
-    "b": "yarn run format && yarn run eslint && yarn run build",
-    "samples": "npx ts-node  -r tsconfig-paths/register samples/sample_runner.ts",
-    "sample": "npx ts-node  -r tsconfig-paths/register"
+    "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
     "type": "git",
