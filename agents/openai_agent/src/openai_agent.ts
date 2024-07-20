@@ -60,22 +60,19 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
 
   const openai = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
 
-  if (!stream) {
-    return await openai.chat.completions.create({
-      model: params.model || "gpt-3.5-turbo",
-      messages: messagesCopy,
-      tools,
-      tool_choice,
-      max_tokens,
-      temperature: temperature ?? 0.7,
-    });
-  }
-  const chatStream = await openai.beta.chat.completions.stream({
+  const chatParams = {
     model: params.model || "gpt-3.5-turbo",
     messages: messagesCopy,
-    tools: params.tools,
-    tool_choice: params.tool_choice,
+    tools,
+    tool_choice,
+    max_tokens,
     temperature: temperature ?? 0.7,
+  };
+  if (!stream) {
+    return await openai.chat.completions.create(chatParams);
+  }
+  const chatStream = await openai.beta.chat.completions.stream({
+    ...chatParams,
     stream: true,
   });
 
