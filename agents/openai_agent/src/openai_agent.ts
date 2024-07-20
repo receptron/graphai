@@ -7,8 +7,8 @@ type OpenAIInputs = {
   model?: string;
   prompt?: InputType;
   system?: InputType;
-  mergeablePrompts: InputType;
-  mergeableSystem: InputType;
+  mergeablePrompts?: InputType;
+  mergeableSystem?: InputType;
   tools?: any;
   tool_choice?: any;
   max_tokens?: number;
@@ -31,7 +31,7 @@ export const getMergeValue = (namedInputs: OpenAIInputs, params: OpenAIInputs, k
   const inputValue = namedInputs[key];
   const paramsValue = params[key];
 
-  return inputValue || paramsValue ? [flatString(inputValue), flatString(paramsValue)].join("\n") : flatString(values);
+  return inputValue || paramsValue ? [flatString(inputValue), flatString(paramsValue)].filter((a) => a).join("\n") : flatString(values);
 };
 
 export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
