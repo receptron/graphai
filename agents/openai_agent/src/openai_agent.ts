@@ -1,34 +1,56 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 
-export const openAIAgent: AgentFunction<
-  {
-    model?: string;
-    system?: string;
-    tools?: any;
-    tool_choice?: any;
-    max_tokens?: number;
-    verbose?: boolean;
-    temperature?: number;
-    baseURL?: string;
-    apiKey?: string;
-    stream?: boolean;
-    prompt?: string;
-    messages?: Array<Record<string, any>>;
-    forWeb?: boolean;
-  },
-  Record<string, any> | string,
-  string | Array<any>
-> = async ({ filterParams, params, namedInputs }) => {
+type InputType = string | (string | undefined)[] | undefined;
+
+type OpenAIInputs = {
+  model?: string;
+  prompt?: InputType;
+  system?: InputType;
+  mergeablePrompts?: InputType;
+  mergeableSystem?: InputType;
+  tools?: any;
+  tool_choice?: any;
+  max_tokens?: number;
+  verbose?: boolean;
+  temperature?: number;
+  baseURL?: string;
+  apiKey?: string;
+  stream?: boolean;
+  messages?: Array<Record<string, any>>;
+  forWeb?: boolean;
+};
+
+// export for test
+export const flatString = (input: InputType) => {
+  return Array.isArray(input) ? input.filter((a) => a).join("\n") : input ?? "";
+};
+
+// export for test
+export const getMergeValue = (namedInputs: OpenAIInputs, params: OpenAIInputs, key: "mergeablePrompts" | "mergeableSystem", values: InputType) => {
+  const inputValue = namedInputs[key];
+  const paramsValue = params[key];
+
+  return inputValue || paramsValue ? [flatString(inputValue), flatString(paramsValue)].filter((a) => a).join("\n") : flatString(values);
+};
+
+export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
+  filterParams,
+  params,
+  namedInputs,
+}) => {
   const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
 
+  const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
+  const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
+
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
   if (prompt) {
     messagesCopy.push({
       role: "user",
-      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
+      content: userPrompt,
     });
   }
 
@@ -38,22 +60,19 @@ export const openAIAgent: AgentFunction<
 
   const openai = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
 
-  if (!stream) {
-    return await openai.chat.completions.create({
-      model: params.model || "gpt-3.5-turbo",
-      messages: messagesCopy,
-      tools,
-      tool_choice,
-      max_tokens,
-      temperature: temperature ?? 0.7,
-    });
-  }
-  const chatStream = await openai.beta.chat.completions.stream({
+  const chatParams = {
     model: params.model || "gpt-3.5-turbo",
     messages: messagesCopy,
-    tools: params.tools,
-    tool_choice: params.tool_choice,
+    tools,
+    tool_choice,
+    max_tokens,
     temperature: temperature ?? 0.7,
+  };
+  if (!stream) {
+    return await openai.chat.completions.create(chatParams);
+  }
+  const chatStream = await openai.beta.chat.completions.stream({
+    ...chatParams,
     stream: true,
   });
 
