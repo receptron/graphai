@@ -3,39 +3,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.openAIMockAgent = exports.openAIAgent = void 0;
+exports.openAIMockAgent = exports.openAIAgent = exports.getMergeValue = exports.flatString = void 0;
 const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
-const openAIAgent = async ({ filterParams, params, namedInputs }) => {
+// export for test
+const flatString = (input) => {
+    return Array.isArray(input) ? input.filter((a) => a).join("\n") : input ?? "";
+};
+exports.flatString = flatString;
+// export for test
+const getMergeValue = (namedInputs, params, key, values) => {
+    const inputValue = namedInputs[key];
+    const paramsValue = params[key];
+    return inputValue || paramsValue ? [(0, exports.flatString)(inputValue), (0, exports.flatString)(paramsValue)].filter((a) => a).join("\n") : (0, exports.flatString)(values);
+};
+exports.getMergeValue = getMergeValue;
+const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
+    const userPrompt = (0, exports.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
+    const systemPrompt = (0, exports.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     // Notice that we ignore params.system if previous_message exists.
-    const messagesCopy = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
+    const messagesCopy = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
     if (prompt) {
         messagesCopy.push({
             role: "user",
-            content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
+            content: userPrompt,
         });
     }
     if (verbose) {
         console.log(messagesCopy);
     }
     const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
-    if (!stream) {
-        return await openai.chat.completions.create({
-            model: params.model || "gpt-3.5-turbo",
-            messages: messagesCopy,
-            tools,
-            tool_choice,
-            max_tokens,
-            temperature: temperature ?? 0.7,
-        });
-    }
-    const chatStream = await openai.beta.chat.completions.stream({
+    const chatParams = {
         model: params.model || "gpt-3.5-turbo",
         messages: messagesCopy,
-        tools: params.tools,
-        tool_choice: params.tool_choice,
+        tools,
+        tool_choice,
+        max_tokens,
         temperature: temperature ?? 0.7,
+    };
+    if (!stream) {
+        return await openai.chat.completions.create(chatParams);
+    }
+    const chatStream = await openai.beta.chat.completions.stream({
+        ...chatParams,
         stream: true,
     });
     for await (const message of chatStream) {

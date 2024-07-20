@@ -1,7 +1,11 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const openAIAgent: AgentFunction<{
+type InputType = string | (string | undefined)[] | undefined;
+type OpenAIInputs = {
     model?: string;
-    system?: string;
+    prompt?: InputType;
+    system?: InputType;
+    mergeablePrompts?: InputType;
+    mergeableSystem?: InputType;
     tools?: any;
     tool_choice?: any;
     max_tokens?: number;
@@ -10,10 +14,12 @@ export declare const openAIAgent: AgentFunction<{
     baseURL?: string;
     apiKey?: string;
     stream?: boolean;
-    prompt?: string;
     messages?: Array<Record<string, any>>;
     forWeb?: boolean;
-}, Record<string, any> | string, string | Array<any>>;
+};
+export declare const flatString: (input: InputType) => string;
+export declare const getMergeValue: (namedInputs: OpenAIInputs, params: OpenAIInputs, key: "mergeablePrompts" | "mergeableSystem", values: InputType) => string;
+export declare const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;
     query?: string;
