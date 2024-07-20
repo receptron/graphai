@@ -1,6 +1,10 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 
+const flatString = (input: string | string[] | undefined) => {
+  return Array.isArray(input) ? input.join("\n") : input ?? "";
+};
+
 export const openAIAgent: AgentFunction<
   {
     model?: string;
@@ -22,13 +26,21 @@ export const openAIAgent: AgentFunction<
 > = async ({ filterParams, params, namedInputs }) => {
   const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
 
+  const { mergeablePrompts: inputMergeablePrompts, mergeableSystem: inputMergeableSystem } = namedInputs;
+  const { mergeablePrompts: paramsMergeablePrompts, mergeableSystem: paramsMergeableSystem } = params;
+
+  const userPrompt =
+    inputMergeablePrompts || paramsMergeablePrompts ? [flatString(inputMergeablePrompts), flatString(paramsMergeablePrompts)].join("\n") : flatString(prompt);
+  const systemPrompt =
+    inputMergeableSystem || inputMergeableSystem ? [flatString(inputMergeableSystem), flatString(inputMergeableSystem)].join("\n") : flatString(system);
+
   // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
 
   if (prompt) {
     messagesCopy.push({
       role: "user",
-      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
+      content: userPrompt,
     });
   }
 
