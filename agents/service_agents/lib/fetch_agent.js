@@ -14,7 +14,7 @@ const fetchAgent = async ({ namedInputs, params }) => {
         headers0["Content-Type"] = "application/json";
     }
     const fetchOptions = {
-        method: method ?? body ? "POST" : "GET",
+        method: (method ?? body) ? "POST" : "GET",
         headers: new Headers(headers0),
         body: body ? JSON.stringify(body) : undefined,
     };

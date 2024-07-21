@@ -13,7 +13,7 @@ const graphai_1 = require("graphai");
 //
 const sortByValuesAgent = async ({ params, namedInputs }) => {
     (0, graphai_1.assert)(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
-    const direction = params?.assendant ?? false ? -1 : 1;
+    const direction = (params?.assendant ?? false) ? -1 : 1;
     const array = namedInputs.array;
     const values = namedInputs.values;
     const joined = array.map((item, index) => {

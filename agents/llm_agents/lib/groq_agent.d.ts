@@ -1,16 +1,16 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { Groq } from "groq-sdk";
-export declare const groqAgent: AgentFunction<{
+import { AIAPIInputBase } from "./utils";
+type GroqInputs = {
     model: string;
-    system?: string;
     verbose?: boolean;
     tools?: Groq.Chat.CompletionCreateParams.Tool[];
     temperature?: number;
     max_tokens?: number;
     tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
     stream?: boolean;
-    prompt?: string;
     messages?: Array<Record<string, any>>;
-}, any, string | Array<Groq.Chat.CompletionCreateParams.Message>>;
+} & AIAPIInputBase;
+export declare const groqAgent: AgentFunction<GroqInputs, any, string | Array<Groq.Chat.CompletionCreateParams.Message>, GroqInputs>;
 declare const groqAgentInfo: AgentFunctionInfo;
 export default groqAgentInfo;

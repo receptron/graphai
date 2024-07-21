@@ -8,7 +8,7 @@ const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
 // export for test
 const flatString = (input) => {
-    return Array.isArray(input) ? input.filter((a) => a).join("\n") : input ?? "";
+    return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
 exports.flatString = flatString;
 // export for test
@@ -24,7 +24,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     const systemPrompt = (0, exports.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     // Notice that we ignore params.system if previous_message exists.
     const messagesCopy = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
-    if (prompt) {
+    if (userPrompt) {
         messagesCopy.push({
             role: "user",
             content: userPrompt,
