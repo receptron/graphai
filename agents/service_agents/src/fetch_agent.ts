@@ -17,7 +17,7 @@ export const fetchAgent: AgentFunction<{ debug?: boolean; type?: string }, any, 
   }
 
   const fetchOptions: RequestInit = {
-    method: method ?? body ? "POST" : "GET",
+    method: (method ?? body) ? "POST" : "GET",
     headers: new Headers(headers0),
     body: body ? JSON.stringify(body) : undefined,
   };
