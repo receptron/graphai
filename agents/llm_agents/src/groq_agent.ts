@@ -2,7 +2,20 @@ import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { Groq } from "groq-sdk";
 import { ChatCompletionCreateParams, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
 
+import { AIAPIInputBase, getMergeValue } from "./utils";
+
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
+
+type GroqInputs = {
+  model: string;
+  verbose?: boolean;
+  tools?: Groq.Chat.CompletionCreateParams.Tool[];
+  temperature?: number;
+  max_tokens?: number;
+  tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
+  stream?: boolean;
+  messages?: Array<Record<string, any>>;
+} & AIAPIInputBase;
 
 //
 // This agent takes two optional inputs, and following parameters.
@@ -23,32 +36,25 @@ const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_
 // https://console.groq.com/docs/quickstart
 //
 export const groqAgent: AgentFunction<
-  {
-    model: string;
-    system?: string;
-    verbose?: boolean;
-    tools?: Groq.Chat.CompletionCreateParams.Tool[];
-    temperature?: number;
-    max_tokens?: number;
-    tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
-    stream?: boolean;
-    prompt?: string;
-    messages?: Array<Record<string, any>>;
-  },
+  GroqInputs,
   // Groq.Chat.ChatCompletion,
   any,
-  string | Array<Groq.Chat.CompletionCreateParams.Message>
+  string | Array<Groq.Chat.CompletionCreateParams.Message>,
+  GroqInputs
 > = async ({ params, namedInputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
   const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
 
+  const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
+  const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
+
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
   if (prompt) {
     messagesCopy.push({
       role: "user",
-      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
+      content: userPrompt,
     });
   }
 

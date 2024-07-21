@@ -1,29 +1,30 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
 
-export const geminiAgent: AgentFunction<
-  {
-    model?: string;
-    system?: string;
-    temperature?: number;
-    max_tokens?: number;
-    tools?: Array<Record<string, any>>;
-    // tool_choice?: any;
-    prompt?: string;
-    messages?: Array<Record<string, any>>;
-  },
-  Record<string, any> | string,
-  string | Array<any>
-> = async ({ params, namedInputs }) => {
+import { AIAPIInputBase, getMergeValue } from "./utils";
+
+type GeminiInputs = {
+  model?: string;
+  temperature?: number;
+  max_tokens?: number;
+  tools?: Array<Record<string, any>>;
+  // tool_choice?: any;
+  messages?: Array<Record<string, any>>;
+} & AIAPIInputBase;
+
+export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, string | Array<any>, GeminiInputs> = async ({ params, namedInputs }) => {
   const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
 
+  const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
+  const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
+
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
   if (prompt) {
     messagesCopy.push({
       role: "user",
-      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
+      content: userPrompt,
     });
   }
 

@@ -1,29 +1,33 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-export const anthropicAgent: AgentFunction<
-  {
-    model?: string;
-    system?: string;
-    temperature?: number;
-    max_tokens?: number;
-    // tools?: any;
-    // tool_choice?: any;
-    prompt?: string;
-    messages?: Array<Record<string, any>>;
-  },
-  Record<string, any> | string,
-  string | Array<any>
-> = async ({ params, namedInputs }) => {
+import { AIAPIInputBase, getMergeValue } from "./utils";
+
+type AnthropicInputs = {
+  model?: string;
+  temperature?: number;
+  max_tokens?: number;
+  // tools?: any;
+  // tool_choice?: any;
+  messages?: Array<Record<string, any>>;
+} & AIAPIInputBase;
+
+export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, string | Array<any>, AnthropicInputs> = async ({
+  params,
+  namedInputs,
+}) => {
   const { model, system, temperature, max_tokens, prompt, messages } = { ...params, ...namedInputs };
 
+  const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
+  const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
+
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : system ? [{ role: "system", content: system }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
   if (prompt) {
     messagesCopy.push({
       role: "user",
-      content: Array.isArray(prompt) ? prompt.join("\n") : prompt,
+      content: userPrompt,
     });
   }
 
