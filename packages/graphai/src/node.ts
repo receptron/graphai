@@ -67,7 +67,7 @@ export class ComputedNode extends Node {
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
   public readonly anyInput: boolean; // any input makes this node ready
-  public dataSources: Array<DataSource | DataSource[]>; // data sources, the order is significant.
+  public dataSources: Record<string, DataSource | DataSource[]> = {}; // data sources.
   public inputNames?: Array<string>; // names of named inputs
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
@@ -89,23 +89,29 @@ export class ComputedNode extends Node {
     this.priority = data.priority ?? 0;
 
     this.anyInput = data.anyInput ?? false;
-    if (!data.inputs) {
-      this.dataSources = [];
-    } else if (Array.isArray(data.inputs)) {
-      this.dataSources = (data.inputs ?? []).map((input) => parseNodeName(input, graph.version));
-    } else {
-      const inputs = data.inputs as Record<string, string | string[]>;
-      const keys = Object.keys(inputs);
-      this.inputNames = keys;
-      this.dataSources = Object.values(inputs).map((input) => {
-        if (Array.isArray(input)) {
-          return input.map((inp) => parseNodeName(inp, graph.version));
-        }
-        return parseNodeName(input, graph.version);
-      });
+    if (data.inputs) {
+      if (Array.isArray(data.inputs)) {
+        Array.from(data.inputs.keys()).forEach((key) => {
+          if (Array.isArray(data.inputs)) {
+            // duplicate but this is for type inference
+            this.dataSources[String(key)] = parseNodeName(data.inputs[key], graph.version);
+          }
+        });
+      } else {
+        const inputs = data.inputs;
+        this.inputNames = Object.keys(inputs);
+        Object.keys(inputs).map((key) => {
+          const input = inputs[key];
+          if (Array.isArray(input)) {
+            this.dataSources[key] = input.map((inp) => parseNodeName(inp, graph.version));
+          } else {
+            this.dataSources[key] = parseNodeName(input, graph.version);
+          }
+        });
+      }
     }
     this.pendings = new Set(
-      this.dataSources
+      Object.values(this.dataSources)
         .flat()
         .filter((source) => source.nodeId)
         .map((source) => source.nodeId!),
@@ -165,10 +171,12 @@ export class ComputedNode extends Node {
       // Count the number of data actually available.
       // We care it only when this.anyInput is true.
       // Notice that this logic enables dynamic data-flows.
-      const counter = this.dataSources.flat().reduce((count, source) => {
-        const [result] = this.graph.resultsOf([source]);
-        return result === undefined ? count : count + 1;
-      }, 0);
+      const counter = Object.values(this.dataSources)
+        .flat()
+        .reduce((count, source) => {
+          const [result] = this.graph.resultsOf([source]);
+          return result === undefined ? count : count + 1;
+        }, 0);
       if (!this.anyInput || counter > 0) {
         if (this.ifSource) {
           const [condition] = this.graph.resultsOf([this.ifSource]);
@@ -212,7 +220,7 @@ export class ComputedNode extends Node {
 
   private checkDataAvailability() {
     assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
-    const results = this.graph.resultsOf(this.dataSources.flat()).filter((result) => {
+    const results = this.graph.resultsOf(Object.values(this.dataSources).flat()).filter((result) => {
       return result !== undefined;
     });
     return results.length > 0;
@@ -290,8 +298,7 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    // TODO
-    const previousResults = this.graph.resultsOf(this.dataSources).filter((result) => {
+    const previousResults = this.graph.resultsOf(Object.values(this.dataSources)).filter((result) => {
       // Remove undefined if anyInput flag is set.
       return !this.anyInput || result !== undefined;
     });

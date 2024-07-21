@@ -63,7 +63,7 @@ export class TransactionLog {
     this.state = node.state;
     this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
     this.startTime = transactionId;
-    this.inputs = node.dataSources
+    this.inputs = Object.values(node.dataSources)
       .flat()
       .filter((source) => source.nodeId)
       .map((source) => source.nodeId!);
