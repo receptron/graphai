@@ -253,10 +253,23 @@ class GraphAI {
         }
     }
     resultsOf(sources) {
-        return sources.map((source) => {
-            const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
-            return (0, utils_1.getDataFromSource)(result, source);
+        const ret = {};
+        Object.keys(sources).forEach((key) => {
+            const source = sources[key];
+            if (Array.isArray(source)) {
+                ret[key] = source.map((s) => {
+                    return this.resultOf(s);
+                });
+            }
+            else {
+                ret[key] = this.resultOf(source);
+            }
         });
+        return ret;
+    }
+    resultOf(source) {
+        const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
+        return (0, utils_1.getDataFromSource)(result, source);
     }
 }
 exports.GraphAI = GraphAI;

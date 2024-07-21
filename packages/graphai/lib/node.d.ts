@@ -28,7 +28,8 @@ export declare class ComputedNode extends Node {
     error?: Error;
     transactionId: undefined | number;
     readonly anyInput: boolean;
-    dataSources: Array<DataSource>;
+    dataSources: Record<string, DataSource | DataSource[]>;
+    private inputs?;
     inputNames?: Array<string>;
     pendings: Set<string>;
     private ifSource?;

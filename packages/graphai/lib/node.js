@@ -34,6 +34,7 @@ class ComputedNode extends Node {
     constructor(graphId, nodeId, data, graph) {
         super(nodeId, graph);
         this.retryCount = 0;
+        this.dataSources = {}; // data sources.
         this.isStaticNode = false;
         this.isComputedNode = true;
         this.graphId = graphId;
@@ -45,19 +46,31 @@ class ComputedNode extends Node {
         this.isResult = data.isResult ?? false;
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
-        if (!data.inputs) {
-            this.dataSources = [];
+        if (data.inputs) {
+            if (Array.isArray(data.inputs)) {
+                this.inputs = data.inputs;
+                this.inputs.forEach((input) => {
+                    this.dataSources[input] = (0, utils_2.parseNodeName)(input, graph.version);
+                });
+            }
+            else {
+                const inputs = data.inputs;
+                this.inputNames = Object.keys(inputs);
+                Object.keys(inputs).map((key) => {
+                    const input = inputs[key];
+                    if (Array.isArray(input)) {
+                        this.dataSources[key] = input.map((inp) => (0, utils_2.parseNodeName)(inp, graph.version));
+                    }
+                    else {
+                        this.dataSources[key] = (0, utils_2.parseNodeName)(input, graph.version);
+                    }
+                });
+            }
         }
-        else if (Array.isArray(data.inputs)) {
-            this.dataSources = (data.inputs ?? []).map((input) => (0, utils_2.parseNodeName)(input, graph.version));
-        }
-        else {
-            const inputs = data.inputs;
-            const keys = Object.keys(inputs);
-            this.inputNames = keys;
-            this.dataSources = keys.map((key) => (0, utils_2.parseNodeName)(inputs[key], graph.version));
-        }
-        this.pendings = new Set(this.dataSources.filter((source) => source.nodeId).map((source) => source.nodeId));
+        this.pendings = new Set(Object.values(this.dataSources)
+            .flat()
+            .filter((source) => source.nodeId)
+            .map((source) => source.nodeId));
         if (typeof data.agent === "string") {
             this.agentId = data.agent;
         }
@@ -113,13 +126,15 @@ class ComputedNode extends Node {
             // Count the number of data actually available.
             // We care it only when this.anyInput is true.
             // Notice that this logic enables dynamic data-flows.
-            const counter = this.dataSources.reduce((count, source) => {
-                const [result] = this.graph.resultsOf([source]);
+            const counter = Object.values(this.dataSources)
+                .flat()
+                .reduce((count, source) => {
+                const result = this.graph.resultOf(source);
                 return result === undefined ? count : count + 1;
             }, 0);
             if (!this.anyInput || counter > 0) {
                 if (this.ifSource) {
-                    const [condition] = this.graph.resultsOf([this.ifSource]);
+                    const condition = this.graph.resultOf(this.ifSource);
                     if (!(0, utils_2.isLogicallyTrue)(condition)) {
                         this.state = type_1.NodeState.Skipped;
                         this.log.onSkipped(this, this.graph);
@@ -127,7 +142,7 @@ class ComputedNode extends Node {
                     }
                 }
                 if (this.unlessSource) {
-                    const [condition] = this.graph.resultsOf([this.unlessSource]);
+                    const condition = this.graph.resultOf(this.unlessSource);
                     if ((0, utils_2.isLogicallyTrue)(condition)) {
                         this.state = type_1.NodeState.Skipped;
                         this.log.onSkipped(this, this.graph);
@@ -158,7 +173,9 @@ class ComputedNode extends Node {
     }
     checkDataAvailability() {
         (0, utils_2.assert)(this.anyInput, "checkDataAvailability should be called only for anyInput case");
-        const results = this.graph.resultsOf(this.dataSources).filter((result) => {
+        const results = Object.values(this.graph.resultsOf(this.dataSources))
+            .flat()
+            .filter((result) => {
             return result !== undefined;
         });
         return results.length > 0;
@@ -228,12 +245,17 @@ class ComputedNode extends Node {
     // then it removes itself from the "running node" list of the graph.
     // Notice that setting the result of this node may make other nodes ready to run.
     async execute() {
-        const previousResults = this.graph.resultsOf(this.dataSources).filter((result) => {
+        const previousResults = this.graph.resultsOf(this.dataSources);
+        if (this.anyInput) {
             // Remove undefined if anyInput flag is set.
-            return !this.anyInput || result !== undefined;
-        });
+            Object.keys(previousResults).map((key) => {
+                if (previousResults[key] === undefined) {
+                    delete previousResults[key];
+                }
+            });
+        }
         const transactionId = Date.now();
-        this.prepareExecute(transactionId, previousResults);
+        this.prepareExecute(transactionId, Object.values(previousResults));
         if (this.timeout && this.timeout > 0) {
             setTimeout(() => {
                 this.executeTimeout(transactionId);
@@ -243,13 +265,13 @@ class ComputedNode extends Node {
             const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
             const localLog = [];
             const params = Object.keys(this.dynamicParams).reduce((tmp, key) => {
-                const [result] = this.graph.resultsOf([this.dynamicParams[key]]);
+                const result = this.graph.resultOf(this.dynamicParams[key]);
                 tmp[key] = result;
                 return tmp;
             }, { ...this.params });
             const context = {
                 params: params,
-                inputs: previousResults,
+                inputs: (this.inputs ?? []).map((key) => previousResults[String(key)]),
                 inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
                 namedInputs: {},
                 debugInfo: {
@@ -265,8 +287,8 @@ class ComputedNode extends Node {
                 log: localLog,
             };
             if (this.inputNames) {
-                context.namedInputs = this.inputNames.reduce((tmp, name, index) => {
-                    tmp[name] = previousResults[index];
+                context.namedInputs = this.inputNames.reduce((tmp, name) => {
+                    tmp[name] = previousResults[name];
                     return tmp;
                 }, {});
                 context.inputs = [];
@@ -280,7 +302,7 @@ class ComputedNode extends Node {
                     context.graphData = this.nestedGraph;
                 }
                 else {
-                    const [graphData] = this.graph.resultsOf([this.nestedGraph]);
+                    const graphData = this.graph.resultOf(this.nestedGraph);
                     context.graphData = graphData; // HACK: compiler work-around
                 }
                 context.agents = this.graph.agentFunctionInfoDictionary;
