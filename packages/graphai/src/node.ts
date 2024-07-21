@@ -157,31 +157,26 @@ export class ComputedNode extends Node {
   }
 
   public isReadyNode() {
-    if (this.state === NodeState.Waiting && this.pendings.size === 0) {
-      // Count the number of data actually available.
-      // We care it only when this.anyInput is true.
-      // Notice that this logic enables dynamic data-flows.
-      if (!this.anyInput || this.checkDataAvailability(false)) {
-        if (this.ifSource) {
-          const condition = this.graph.resultOf(this.ifSource);
-          if (!isLogicallyTrue(condition)) {
-            this.state = NodeState.Skipped;
-            this.log.onSkipped(this, this.graph);
-            return false;
-          }
-        }
-        if (this.unlessSource) {
-          const condition = this.graph.resultOf(this.unlessSource);
-          if (isLogicallyTrue(condition)) {
-            this.state = NodeState.Skipped;
-            this.log.onSkipped(this, this.graph);
-            return false;
-          }
-        }
-        return true;
-      }
+    if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
+      return false;
     }
-    return false;
+    // Count the number of data actually available.
+    // We care it only when this.anyInput is true.
+    // Notice that this logic enables dynamic data-flows.
+    if (this.anyInput && !this.checkDataAvailability(false)) {
+      return false;
+    }
+    if (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) {
+      this.state = NodeState.Skipped;
+      this.log.onSkipped(this, this.graph);
+      return false;
+    }
+    if (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource))) {
+      this.state = NodeState.Skipped;
+      this.log.onSkipped(this, this.graph);
+      return false;
+    }
+    return true;
   }
 
   // This private method (only called while executing execute()) performs
