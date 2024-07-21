@@ -54,6 +54,5 @@ test("test named inputs", async () => {
 test("test named inputs array", async () => {
   const graph = new GraphAI(graph_data_array_named_input, {}, {});
   const result = await graph.run();
-  console.log(result);
   assert.deepStrictEqual(result, { result: "Hello World", namedResult: ["Hello World", "Hello World2"] });
 });

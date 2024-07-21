@@ -310,8 +310,14 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: Array<DataSource>) {
+  public resultsOf(sources: Array<DataSource | DataSource[]>) {
     return sources.map((source) => {
+      if (Array.isArray(source)) {
+        return source.map((s) => {
+          const { result } = s.nodeId ? this.nodes[s.nodeId] : { result: undefined };
+          return getDataFromSource(result, s);
+        });
+      }
       const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
       return getDataFromSource(result, source);
     });
