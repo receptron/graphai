@@ -220,9 +220,11 @@ export class ComputedNode extends Node {
 
   private checkDataAvailability() {
     assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
-    const results = this.graph.resultsOf(Object.values(this.dataSources).flat()).filter((result) => {
-      return result !== undefined;
-    });
+    const results = Object.values(this.graph.resultsOf(this.dataSources))
+      .flat()
+      .filter((result) => {
+        return result !== undefined;
+      });
     return results.length > 0;
   }
 
@@ -298,7 +300,7 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const previousResults = this.graph.resultsOf(Object.values(this.dataSources)).filter((result) => {
+    const previousResults = Object.values(this.graph.resultsOf(this.dataSources)).filter((result) => {
       // Remove undefined if anyInput flag is set.
       return !this.anyInput || result !== undefined;
     });
