@@ -346,7 +346,7 @@ export class ComputedNode extends Node {
         log: localLog,
       };
       if (this.inputNames) {
-        context.namedInputs = this.inputNames.reduce((tmp: Record<string, any>, name, index) => {
+        context.namedInputs = this.inputNames.reduce((tmp: Record<string, any>, name) => {
           tmp[name] = previousResults[name];
           return tmp;
         }, {});
