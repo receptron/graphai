@@ -1,5 +1,6 @@
 import type { GraphAI, GraphData } from "@/index";
 import { strIntentionalError } from "@/utils/utils";
+import { inputs2dataSources, namedInputs2dataSources } from "@/utils/nodeUtils";
 
 import {
   NodeDataParams,
@@ -93,20 +94,10 @@ export class ComputedNode extends Node {
     if (data.inputs) {
       if (Array.isArray(data.inputs)) {
         this.inputs = data.inputs;
-        this.inputs.forEach((input) => {
-          this.dataSources[input] = parseNodeName(input, graph.version);
-        });
+        this.dataSources = inputs2dataSources(data.inputs, graph.version);
       } else {
-        const inputs = data.inputs;
-        this.inputNames = Object.keys(inputs);
-        Object.keys(inputs).map((key) => {
-          const input = inputs[key];
-          if (Array.isArray(input)) {
-            this.dataSources[key] = input.map((inp) => parseNodeName(inp, graph.version));
-          } else {
-            this.dataSources[key] = parseNodeName(input, graph.version);
-          }
-        });
+        this.inputNames = Object.keys(data.inputs);
+        this.dataSources = namedInputs2dataSources(data.inputs, graph.version);
       }
     }
     this.pendings = new Set(
