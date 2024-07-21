@@ -206,12 +206,11 @@ export class ComputedNode extends Node {
     if (checkAnyInput) {
       assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
     }
-    const results = Object.values(this.graph.resultsOf(this.dataSources))
+    return Object.values(this.graph.resultsOf(this.dataSources))
       .flat()
-      .filter((result) => {
+      .some((result) => {
         return result !== undefined;
       });
-    return results.length > 0;
   }
 
   // This method is called right before the Graph add this node to the task manager.
