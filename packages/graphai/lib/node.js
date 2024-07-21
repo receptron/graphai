@@ -89,23 +89,16 @@ class ComputedNode extends Node {
             }
         }
         if (typeof data.graph === "string") {
-            const source = (0, utils_2.parseNodeName)(data.graph, graph.version);
-            (0, utils_2.assert)(!!source.nodeId, `Invalid data source ${data.graph}`);
-            this.pendings.add(source.nodeId);
-            this.nestedGraph = source;
+            this.nestedGraph = this.addPengindNode(data.graph);
         }
         else if (data.graph) {
             this.nestedGraph = data.graph;
         }
         if (data.if) {
-            this.ifSource = (0, utils_2.parseNodeName)(data.if, graph.version);
-            (0, utils_2.assert)(!!this.ifSource.nodeId, `Invalid data source ${data.if}`);
-            this.pendings.add(this.ifSource.nodeId);
+            this.ifSource = this.addPengindNode(data.if);
         }
         if (data.unless) {
-            this.unlessSource = (0, utils_2.parseNodeName)(data.unless, graph.version);
-            (0, utils_2.assert)(!!this.unlessSource.nodeId, `Invalid data source ${data.unless}`);
-            this.pendings.add(this.unlessSource.nodeId);
+            this.unlessSource = this.addPengindNode(data.unless);
         }
         this.dynamicParams = Object.keys(this.params).reduce((tmp, key) => {
             const dataSource = (0, utils_2.parseNodeName)(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
@@ -120,6 +113,12 @@ class ComputedNode extends Node {
     }
     getAgentId() {
         return this.agentId ?? "__custom__function"; // only for display purpose in the log.
+    }
+    addPengindNode(nodeId) {
+        const source = (0, utils_2.parseNodeName)(nodeId, this.graph.version);
+        (0, utils_2.assert)(!!source.nodeId, `Invalid data source ${nodeId}`);
+        this.pendings.add(source.nodeId);
+        return source;
     }
     isReadyNode() {
         if (this.state === type_1.NodeState.Waiting && this.pendings.size === 0) {
