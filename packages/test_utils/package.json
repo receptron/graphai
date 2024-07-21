@@ -26,7 +26,7 @@
   "devDependencies": {
     "@graphai/agent_filters": "^0.0.6",
     "@graphai/vanilla": "^0.0.7",
-    "graphai": "^0.5.2",
+    "graphai": "^0.5.3",
     "yaml": "^2.4.5"
   },
   "types": "./lib/index.d.ts",
