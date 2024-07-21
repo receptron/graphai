@@ -208,9 +208,7 @@ export class ComputedNode extends Node {
     }
     return Object.values(this.graph.resultsOf(this.dataSources))
       .flat()
-      .some((result) => {
-        return result !== undefined;
-      });
+      .some((result) => result !== undefined);
   }
 
   // This method is called right before the Graph add this node to the task manager.
