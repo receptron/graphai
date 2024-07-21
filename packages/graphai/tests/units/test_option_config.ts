@@ -18,7 +18,7 @@ const graph_data = {
 import test from "node:test";
 import assert from "node:assert";
 
-test("test named inputs", async () => {
+test("test graphai config option", async () => {
   const testAgent: AgentFunction = async ({ config }) => {
     return config;
   };
