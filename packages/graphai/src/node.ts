@@ -314,9 +314,14 @@ export class ComputedNode extends Node {
       );
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
         params: params,
-        inputs: (this.inputs ?? []).map((key) => previousResults[String(key)]),
+        inputs: !!this.inputNames ? [] : (this.inputs ?? []).map((key) => previousResults[String(key)]),
+        namedInputs: !!this.inputNames
+          ? this.inputNames.reduce((tmp: Record<string, any>, name) => {
+              tmp[name] = previousResults[name];
+              return tmp;
+            }, {})
+          : {},
         inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
-        namedInputs: {},
         debugInfo: {
           nodeId: this.nodeId,
           agentId: this.agentId,
@@ -329,13 +334,6 @@ export class ComputedNode extends Node {
         config: this.graph.config,
         log: localLog,
       };
-      if (this.inputNames) {
-        context.namedInputs = this.inputNames.reduce((tmp: Record<string, any>, name) => {
-          tmp[name] = previousResults[name];
-          return tmp;
-        }, {});
-        context.inputs = [];
-      }
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
