@@ -17,7 +17,7 @@ export const sortByValuesAgent: AgentFunction<
   Array<any>
 > = async ({ params, namedInputs }) => {
   assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
-  const direction = params?.assendant ?? false ? -1 : 1;
+  const direction = (params?.assendant ?? false) ? -1 : 1;
   const array: Array<any> = namedInputs.array;
   const values: Array<any> = namedInputs.values;
   const joined = array.map((item, index) => {

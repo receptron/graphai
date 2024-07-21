@@ -24,7 +24,7 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
   // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
-  if (prompt) {
+  if (userPrompt) {
     messagesCopy.push({
       role: "user",
       content: userPrompt,

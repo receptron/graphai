@@ -8,7 +8,7 @@ export type AIAPIInputBase = {
 };
 
 const flatString = (input: InputType) => {
-  return Array.isArray(input) ? input.filter((a) => a).join("\n") : input ?? "";
+  return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
 
 export const getMergeValue = (namedInputs: AIAPIInputBase, params: AIAPIInputBase, key: "mergeablePrompts" | "mergeableSystem", values: InputType) => {

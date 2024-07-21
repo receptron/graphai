@@ -23,7 +23,7 @@ type OpenAIInputs = {
 
 // export for test
 export const flatString = (input: InputType) => {
-  return Array.isArray(input) ? input.filter((a) => a).join("\n") : input ?? "";
+  return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
 
 // export for test
@@ -47,7 +47,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
-  if (prompt) {
+  if (userPrompt) {
     messagesCopy.push({
       role: "user",
       content: userPrompt,
