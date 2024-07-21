@@ -166,12 +166,10 @@ export class ComputedNode extends Node {
     if (this.anyInput && !this.checkDataAvailability(false)) {
       return false;
     }
-    if (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) {
-      this.state = NodeState.Skipped;
-      this.log.onSkipped(this, this.graph);
-      return false;
-    }
-    if (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource))) {
+    if (
+      (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) ||
+      (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)))
+    ) {
       this.state = NodeState.Skipped;
       this.log.onSkipped(this, this.graph);
       return false;
