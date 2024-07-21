@@ -52,6 +52,9 @@ export declare class ComputedNode extends Node {
     execute(): Promise<void>;
     private prepareExecute;
     private errorProcess;
+    private getNamedInput;
+    private getInputs;
+    private getDebugInfo;
 }
 export declare class StaticNode extends Node {
     value?: ResultData;

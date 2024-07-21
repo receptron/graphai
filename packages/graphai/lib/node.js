@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StaticNode = exports.ComputedNode = exports.Node = void 0;
 const utils_1 = require("./utils/utils");
+const nodeUtils_1 = require("./utils/nodeUtils");
 const type_1 = require("./type");
 const utils_2 = require("./utils/utils");
 const transaction_log_1 = require("./transaction_log");
@@ -49,22 +50,11 @@ class ComputedNode extends Node {
         if (data.inputs) {
             if (Array.isArray(data.inputs)) {
                 this.inputs = data.inputs;
-                this.inputs.forEach((input) => {
-                    this.dataSources[input] = (0, utils_2.parseNodeName)(input, graph.version);
-                });
+                this.dataSources = (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version);
             }
             else {
-                const inputs = data.inputs;
-                this.inputNames = Object.keys(inputs);
-                Object.keys(inputs).map((key) => {
-                    const input = inputs[key];
-                    if (Array.isArray(input)) {
-                        this.dataSources[key] = input.map((inp) => (0, utils_2.parseNodeName)(inp, graph.version));
-                    }
-                    else {
-                        this.dataSources[key] = (0, utils_2.parseNodeName)(input, graph.version);
-                    }
-                });
+                this.inputNames = Object.keys(data.inputs);
+                this.dataSources = (0, nodeUtils_1.namedInputs2dataSources)(data.inputs, graph.version);
             }
         }
         this.pendings = new Set(Object.values(this.dataSources)
@@ -125,13 +115,7 @@ class ComputedNode extends Node {
             // Count the number of data actually available.
             // We care it only when this.anyInput is true.
             // Notice that this logic enables dynamic data-flows.
-            const counter = Object.values(this.dataSources)
-                .flat()
-                .reduce((count, source) => {
-                const result = this.graph.resultOf(source);
-                return result === undefined ? count : count + 1;
-            }, 0);
-            if (!this.anyInput || counter > 0) {
+            if (!this.anyInput || this.checkDataAvailability(false)) {
                 if (this.ifSource) {
                     const condition = this.graph.resultOf(this.ifSource);
                     if (!(0, utils_2.isLogicallyTrue)(condition)) {
@@ -170,14 +154,13 @@ class ComputedNode extends Node {
             this.graph.onExecutionComplete(this);
         }
     }
-    checkDataAvailability() {
-        (0, utils_2.assert)(this.anyInput, "checkDataAvailability should be called only for anyInput case");
-        const results = Object.values(this.graph.resultsOf(this.dataSources))
+    checkDataAvailability(checkAnyInput = true) {
+        if (checkAnyInput) {
+            (0, utils_2.assert)(this.anyInput, "checkDataAvailability should be called only for anyInput case");
+        }
+        return Object.values(this.graph.resultsOf(this.dataSources))
             .flat()
-            .filter((result) => {
-            return result !== undefined;
-        });
-        return results.length > 0;
+            .some((result) => result !== undefined);
     }
     // This method is called right before the Graph add this node to the task manager.
     beforeAddTask() {
@@ -270,28 +253,15 @@ class ComputedNode extends Node {
             }, { ...this.params });
             const context = {
                 params: params,
-                inputs: (this.inputs ?? []).map((key) => previousResults[String(key)]),
+                inputs: this.getInputs(previousResults),
+                namedInputs: this.getNamedInput(previousResults),
                 inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
-                namedInputs: {},
-                debugInfo: {
-                    nodeId: this.nodeId,
-                    agentId: this.agentId,
-                    retry: this.retryCount,
-                    verbose: this.graph.verbose,
-                    version: this.graph.version,
-                },
+                debugInfo: this.getDebugInfo(),
                 filterParams: this.filterParams,
                 agentFilters: this.graph.agentFilters,
                 config: this.graph.config,
                 log: localLog,
             };
-            if (this.inputNames) {
-                context.namedInputs = this.inputNames.reduce((tmp, name) => {
-                    tmp[name] = previousResults[name];
-                    return tmp;
-                }, {});
-                context.inputs = [];
-            }
             // NOTE: We use the existence of graph object in the agent-specific params to determine
             // if this is a nested agent or not.
             if (this.nestedGraph) {
@@ -359,6 +329,30 @@ class ComputedNode extends Node {
             console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
             this.retry(type_1.NodeState.Failed, Error("Unknown"));
         }
+    }
+    getNamedInput(previousResults) {
+        if (this.inputNames) {
+            return this.inputNames.reduce((tmp, name) => {
+                tmp[name] = previousResults[name];
+                return tmp;
+            }, {});
+        }
+        return {};
+    }
+    getInputs(previousResults) {
+        if (this.inputNames) {
+            return [];
+        }
+        return (this.inputs ?? []).map((key) => previousResults[String(key)]);
+    }
+    getDebugInfo() {
+        return {
+            nodeId: this.nodeId,
+            agentId: this.agentId,
+            retry: this.retryCount,
+            verbose: this.graph.verbose,
+            version: this.graph.version,
+        };
     }
 }
 exports.ComputedNode = ComputedNode;
