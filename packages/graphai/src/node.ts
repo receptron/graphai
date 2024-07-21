@@ -161,13 +161,7 @@ export class ComputedNode extends Node {
       // Count the number of data actually available.
       // We care it only when this.anyInput is true.
       // Notice that this logic enables dynamic data-flows.
-      const counter = Object.values(this.dataSources)
-        .flat()
-        .reduce((count, source) => {
-          const result = this.graph.resultOf(source);
-          return result === undefined ? count : count + 1;
-        }, 0);
-      if (!this.anyInput || counter > 0) {
+      if (!this.anyInput || this.checkDataAvailability(false)) {
         if (this.ifSource) {
           const condition = this.graph.resultOf(this.ifSource);
           if (!isLogicallyTrue(condition)) {
@@ -208,8 +202,10 @@ export class ComputedNode extends Node {
     }
   }
 
-  private checkDataAvailability() {
-    assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
+  private checkDataAvailability(checkAnyInput: boolean = true) {
+    if (checkAnyInput) {
+      assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
+    }
     const results = Object.values(this.graph.resultsOf(this.dataSources))
       .flat()
       .filter((result) => {
