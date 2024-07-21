@@ -314,21 +314,10 @@ export class ComputedNode extends Node {
       );
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
         params: params,
-        inputs: !!this.inputNames ? [] : (this.inputs ?? []).map((key) => previousResults[String(key)]),
-        namedInputs: !!this.inputNames
-          ? this.inputNames.reduce((tmp: Record<string, any>, name) => {
-              tmp[name] = previousResults[name];
-              return tmp;
-            }, {})
-          : {},
+        inputs: this.getInputs(previousResults),
+        namedInputs: this.getNamedInput(previousResults),
         inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
-        debugInfo: {
-          nodeId: this.nodeId,
-          agentId: this.agentId,
-          retry: this.retryCount,
-          verbose: this.graph.verbose,
-          version: this.graph.version,
-        },
+        debugInfo: this.getDebugInfo(),
         filterParams: this.filterParams,
         agentFilters: this.graph.agentFilters,
         config: this.graph.config,
@@ -408,6 +397,32 @@ export class ComputedNode extends Node {
       console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
       this.retry(NodeState.Failed, Error("Unknown"));
     }
+  }
+
+  private getNamedInput(previousResults: Record<string, ResultData | undefined>) {
+    if (this.inputNames) {
+      return this.inputNames.reduce((tmp: Record<string, any>, name) => {
+        tmp[name] = previousResults[name];
+        return tmp;
+      }, {});
+    }
+    return {};
+  }
+  private getInputs(previousResults: Record<string, ResultData | undefined>) {
+    if (this.inputNames) {
+      return [];
+    }
+    return (this.inputs ?? []).map((key) => previousResults[String(key)]);
+  }
+
+  private getDebugInfo() {
+    return {
+      nodeId: this.nodeId,
+      agentId: this.agentId,
+      retry: this.retryCount,
+      verbose: this.graph.verbose,
+      version: this.graph.version,
+    };
   }
 }
 
