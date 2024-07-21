@@ -2,7 +2,7 @@
 
 ## Description
 
-OpenAI Agent
+Openai Agent
 
 ## Schema
 
