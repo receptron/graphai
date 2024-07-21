@@ -314,12 +314,14 @@ export class GraphAI {
     return sources.map((source) => {
       if (Array.isArray(source)) {
         return source.map((s) => {
-          const { result } = s.nodeId ? this.nodes[s.nodeId] : { result: undefined };
-          return getDataFromSource(result, s);
+          return this.resultOf(s);
         });
       }
-      const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
-      return getDataFromSource(result, source);
+      return this.resultOf(source);
     });
+  }
+  public resultOf(source: DataSource) {
+    const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
+    return getDataFromSource(result, source);
   }
 }

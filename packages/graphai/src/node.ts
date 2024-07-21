@@ -174,12 +174,12 @@ export class ComputedNode extends Node {
       const counter = Object.values(this.dataSources)
         .flat()
         .reduce((count, source) => {
-          const [result] = this.graph.resultsOf([source]);
+          const result = this.graph.resultOf(source);
           return result === undefined ? count : count + 1;
         }, 0);
       if (!this.anyInput || counter > 0) {
         if (this.ifSource) {
-          const [condition] = this.graph.resultsOf([this.ifSource]);
+          const condition = this.graph.resultOf(this.ifSource);
           if (!isLogicallyTrue(condition)) {
             this.state = NodeState.Skipped;
             this.log.onSkipped(this, this.graph);
@@ -187,7 +187,7 @@ export class ComputedNode extends Node {
           }
         }
         if (this.unlessSource) {
-          const [condition] = this.graph.resultsOf([this.unlessSource]);
+          const condition = this.graph.resultOf(this.unlessSource);
           if (isLogicallyTrue(condition)) {
             this.state = NodeState.Skipped;
             this.log.onSkipped(this, this.graph);
@@ -316,7 +316,7 @@ export class ComputedNode extends Node {
       const localLog: TransactionLog[] = [];
       const params = Object.keys(this.dynamicParams).reduce(
         (tmp, key) => {
-          const [result] = this.graph.resultsOf([this.dynamicParams[key]]);
+          const result = this.graph.resultOf(this.dynamicParams[key]);
           tmp[key] = result;
           return tmp;
         },
@@ -355,7 +355,7 @@ export class ComputedNode extends Node {
         if ("nodes" in this.nestedGraph) {
           context.graphData = this.nestedGraph;
         } else {
-          const [graphData] = this.graph.resultsOf([this.nestedGraph]);
+          const graphData = this.graph.resultOf(this.nestedGraph);
           context.graphData = graphData as GraphData; // HACK: compiler work-around
         }
         context.agents = this.graph.agentFunctionInfoDictionary;
