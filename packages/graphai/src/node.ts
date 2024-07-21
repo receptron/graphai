@@ -68,6 +68,7 @@ export class ComputedNode extends Node {
 
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: Record<string, DataSource | DataSource[]> = {}; // data sources.
+  private inputs?: Array<string>;
   public inputNames?: Array<string>; // names of named inputs
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
@@ -91,11 +92,9 @@ export class ComputedNode extends Node {
     this.anyInput = data.anyInput ?? false;
     if (data.inputs) {
       if (Array.isArray(data.inputs)) {
-        Array.from(data.inputs.keys()).forEach((key) => {
-          if (Array.isArray(data.inputs)) {
-            // duplicate but this is for type inference
-            this.dataSources[String(key)] = parseNodeName(data.inputs[key], graph.version);
-          }
+        this.inputs = data.inputs;
+        this.inputs.forEach((input) => {
+          this.dataSources[input] = parseNodeName(input, graph.version);
         });
       } else {
         const inputs = data.inputs;
@@ -300,12 +299,17 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const previousResults = Object.values(this.graph.resultsOf(this.dataSources)).filter((result) => {
+    const previousResults = this.graph.resultsOf(this.dataSources);
+    if (this.anyInput) {
       // Remove undefined if anyInput flag is set.
-      return !this.anyInput || result !== undefined;
-    });
+      Object.keys(previousResults).map((key) => {
+        if (previousResults[key] === undefined) {
+          delete previousResults[key];
+        }
+      });
+    }
     const transactionId = Date.now();
-    this.prepareExecute(transactionId, previousResults);
+    this.prepareExecute(transactionId, Object.values(previousResults));
 
     if (this.timeout && this.timeout > 0) {
       setTimeout(() => {
@@ -326,7 +330,7 @@ export class ComputedNode extends Node {
       );
       const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
         params: params,
-        inputs: previousResults,
+        inputs: (this.inputs ?? []).map((key) => previousResults[String(key)]),
         inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
         namedInputs: {},
         debugInfo: {
@@ -343,7 +347,7 @@ export class ComputedNode extends Node {
       };
       if (this.inputNames) {
         context.namedInputs = this.inputNames.reduce((tmp: Record<string, any>, name, index) => {
-          tmp[name] = previousResults[index];
+          tmp[name] = previousResults[name];
           return tmp;
         }, {});
         context.inputs = [];
