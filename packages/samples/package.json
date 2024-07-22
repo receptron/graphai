@@ -27,7 +27,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.21.0",
-    "@google/generative-ai": "^0.11.4",
+    "@google/generative-ai": "^0.15.0",
     "@graphai/agent_filters": "^0.0.6",
     "@inquirer/prompts": "^5.0.0",
     "@receptron/test_utils": "^0.0.6",
