@@ -106,25 +106,15 @@ export class ComputedNode extends Node {
         .filter((source) => source.nodeId)
         .map((source) => source.nodeId!),
     );
+    assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
     } else {
-      assert(typeof data.agent === "function", "agent must be either string or function");
       const agent = data.agent;
-      if (this.inputNames) {
-        this.agentFunction = async ({ namedInputs }) => {
-          return agent(namedInputs);
-        };
-      } else {
-        this.agentFunction = async ({ inputs }) => {
-          return agent(...inputs);
-        };
-      }
+      this.agentFunction = this.inputNames ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
     }
-    if (typeof data.graph === "string") {
-      this.nestedGraph = this.addPengindNode(data.graph);
-    } else if (data.graph) {
-      this.nestedGraph = data.graph;
+    if (data.graph) {
+      this.nestedGraph = typeof data.graph === "string" ? this.addPengindNode(data.graph) : data.graph;
     }
     if (data.if) {
       this.ifSource = this.addPengindNode(data.if);
@@ -317,19 +307,14 @@ export class ComputedNode extends Node {
         if ("nodes" in this.nestedGraph) {
           context.graphData = this.nestedGraph;
         } else {
-          const graphData = this.graph.resultOf(this.nestedGraph);
-          context.graphData = graphData as GraphData; // HACK: compiler work-around
+          context.graphData = this.graph.resultOf(this.nestedGraph) as GraphData; // HACK: compiler work-around
         }
         context.agents = this.graph.agentFunctionInfoDictionary;
       }
 
-      if (this.console.before) {
-        console.log(this.console.before === true ? JSON.stringify(this.inputNames ? context.namedInputs : context.inputs, null, 2) : this.console.before);
-      }
+      this.beforeConsoleLog(context);
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);
-      if (this.console.after) {
-        console.log(this.console.after === true ? (typeof result === "string" ? result : JSON.stringify(result, null, 2)) : this.console.after);
-      }
+      this.afterConsoleLog(result);
 
       if (this.nestedGraph) {
         this.graph.taskManager.restoreAfterNesting();
@@ -410,6 +395,22 @@ export class ComputedNode extends Node {
       verbose: this.graph.verbose,
       version: this.graph.version,
     };
+  }
+
+  private beforeConsoleLog(context: AgentFunctionContext<DefaultParamsType, string | number | boolean | DefaultInputData | undefined>) {
+    if (this.console.before === true) {
+      console.log(JSON.stringify(this.inputNames ? context.namedInputs : context.inputs, null, 2));
+    } else if (this.console.before) {
+      console.log(this.console.before);
+    }
+  }
+
+  private afterConsoleLog(result: ResultData) {
+    if (this.console.after === true) {
+      console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
+    } else if (this.console.after) {
+      console.log(this.console.after);
+    }
   }
 }
 
