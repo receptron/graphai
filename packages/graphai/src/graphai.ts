@@ -3,11 +3,14 @@ import {
   AgentFilterInfo,
   GraphData,
   DataSource,
+  DataSources,
   LoopData,
   ResultDataDictionary,
   ResultData,
+  ResultDataSet,
   DefaultResultData,
   GraphOptions,
+  NestedDataSource,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
@@ -310,17 +313,19 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: Record<string, DataSource | DataSource[]>) {
+  private nestedResultOf(source: DataSources): ResultDataSet {
+    if (Array.isArray(source)) {
+      return source.map((a) => {
+        return this.nestedResultOf(a);
+      });
+    }
+    return this.resultOf(source);
+  }
+
+  public resultsOf(sources: NestedDataSource) {
     const ret: Record<string, ResultData | undefined> = {};
     Object.keys(sources).forEach((key) => {
-      const source = sources[key];
-      if (Array.isArray(source)) {
-        ret[key] = source.map((s) => {
-          return this.resultOf(s);
-        });
-      } else {
-        ret[key] = this.resultOf(source);
-      }
+      ret[key] = this.nestedResultOf(sources[key]);
     });
     return ret;
   }

@@ -1,6 +1,6 @@
 import type { GraphAI, GraphData } from "@/index";
 import { strIntentionalError } from "@/utils/utils";
-import { inputs2dataSources, namedInputs2dataSources } from "@/utils/nodeUtils";
+import { inputs2dataSources, namedInputs2dataSources, flatDataSourceNodeIds } from "@/utils/nodeUtils";
 
 import {
   NodeDataParams,
@@ -15,6 +15,7 @@ import {
   AgentFilterParams,
   DefaultParamsType,
   DefaultInputData,
+  NestedDataSource,
 } from "@/type";
 import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
@@ -68,7 +69,7 @@ export class ComputedNode extends Node {
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
 
   public readonly anyInput: boolean; // any input makes this node ready
-  public dataSources: Record<string, DataSource | DataSource[]> = {}; // data sources.
+  public dataSources: NestedDataSource = {}; // data sources.
   private inputs?: Array<string>;
   public inputNames?: Array<string>; // names of named inputs
   public pendings: Set<string>; // List of nodes this node is waiting data from.
@@ -100,12 +101,7 @@ export class ComputedNode extends Node {
         this.dataSources = namedInputs2dataSources(data.inputs, graph.version);
       }
     }
-    this.pendings = new Set(
-      Object.values(this.dataSources)
-        .flat()
-        .filter((source) => source.nodeId)
-        .map((source) => source.nodeId!),
-    );
+    this.pendings = new Set(flatDataSourceNodeIds(Object.values(this.dataSources)));
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
