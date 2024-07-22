@@ -9,8 +9,8 @@ type OpenAIInputs = {
   system?: InputType;
   mergeablePrompts?: InputType;
   mergeableSystem?: InputType;
-  tools?: any;
-  tool_choice?: any;
+  tools?: OpenAI.ChatCompletionTool[];
+  tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
   max_tokens?: number;
   verbose?: boolean;
   temperature?: number;
@@ -71,7 +71,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   if (!stream) {
     return await openai.chat.completions.create(chatParams);
   }
-  const chatStream = await openai.beta.chat.completions.stream({
+  const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
     stream: true,
   });
