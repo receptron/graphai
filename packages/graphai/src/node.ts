@@ -150,12 +150,6 @@ export class ComputedNode extends Node {
     if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
       return false;
     }
-    // Count the number of data actually available.
-    // We care it only when this.anyInput is true.
-    // Notice that this logic enables dynamic data-flows.
-    if (this.anyInput && !this.checkDataAvailability(false)) {
-      return false;
-    }
     if (
       (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) ||
       (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)))
@@ -185,10 +179,7 @@ export class ComputedNode extends Node {
     }
   }
 
-  private checkDataAvailability(checkAnyInput: boolean = true) {
-    if (checkAnyInput) {
-      assert(this.anyInput, "checkDataAvailability should be called only for anyInput case");
-    }
+  private checkDataAvailability() {
     return Object.values(this.graph.resultsOf(this.dataSources))
       .flat()
       .some((result) => result !== undefined);
