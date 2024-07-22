@@ -7,7 +7,6 @@ import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 
 type GroqInputs = {
-  model: string;
   verbose?: boolean;
   tools?: Groq.Chat.CompletionCreateParams.Tool[];
   temperature?: number;
@@ -36,7 +35,7 @@ type GroqInputs = {
 // https://console.groq.com/docs/quickstart
 //
 export const groqAgent: AgentFunction<
-  GroqInputs,
+  GroqInputs & { model: string },
   // Groq.Chat.ChatCompletion,
   any,
   string | Array<Groq.Chat.CompletionCreateParams.Message>,
