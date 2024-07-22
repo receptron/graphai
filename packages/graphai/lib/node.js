@@ -111,31 +111,22 @@ class ComputedNode extends Node {
         return source;
     }
     isReadyNode() {
-        if (this.state === type_1.NodeState.Waiting && this.pendings.size === 0) {
-            // Count the number of data actually available.
-            // We care it only when this.anyInput is true.
-            // Notice that this logic enables dynamic data-flows.
-            if (!this.anyInput || this.checkDataAvailability(false)) {
-                if (this.ifSource) {
-                    const condition = this.graph.resultOf(this.ifSource);
-                    if (!(0, utils_2.isLogicallyTrue)(condition)) {
-                        this.state = type_1.NodeState.Skipped;
-                        this.log.onSkipped(this, this.graph);
-                        return false;
-                    }
-                }
-                if (this.unlessSource) {
-                    const condition = this.graph.resultOf(this.unlessSource);
-                    if ((0, utils_2.isLogicallyTrue)(condition)) {
-                        this.state = type_1.NodeState.Skipped;
-                        this.log.onSkipped(this, this.graph);
-                        return false;
-                    }
-                }
-                return true;
-            }
+        if (this.state !== type_1.NodeState.Waiting || this.pendings.size !== 0) {
+            return false;
         }
-        return false;
+        // Count the number of data actually available.
+        // We care it only when this.anyInput is true.
+        // Notice that this logic enables dynamic data-flows.
+        if (this.anyInput && !this.checkDataAvailability(false)) {
+            return false;
+        }
+        if ((this.ifSource && !(0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.ifSource))) ||
+            (this.unlessSource && (0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.unlessSource)))) {
+            this.state = type_1.NodeState.Skipped;
+            this.log.onSkipped(this, this.graph);
+            return false;
+        }
+        return true;
     }
     // This private method (only called while executing execute()) performs
     // the "retry" if specified. The transaction log must be updated before
@@ -228,14 +219,6 @@ class ComputedNode extends Node {
     // Notice that setting the result of this node may make other nodes ready to run.
     async execute() {
         const previousResults = this.graph.resultsOf(this.dataSources);
-        if (this.anyInput) {
-            // Remove undefined if anyInput flag is set.
-            Object.keys(previousResults).map((key) => {
-                if (previousResults[key] === undefined) {
-                    delete previousResults[key];
-                }
-            });
-        }
         const transactionId = Date.now();
         this.prepareExecute(transactionId, Object.values(previousResults));
         if (this.timeout && this.timeout > 0) {
@@ -333,7 +316,9 @@ class ComputedNode extends Node {
     getNamedInput(previousResults) {
         if (this.inputNames) {
             return this.inputNames.reduce((tmp, name) => {
-                tmp[name] = previousResults[name];
+                if (!this.anyInput || previousResults[name]) {
+                    tmp[name] = previousResults[name];
+                }
                 return tmp;
             }, {});
         }
@@ -343,7 +328,7 @@ class ComputedNode extends Node {
         if (this.inputNames) {
             return [];
         }
-        return (this.inputs ?? []).map((key) => previousResults[String(key)]);
+        return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter(a => !this.anyInput || a);
     }
     getDebugInfo() {
         return {
