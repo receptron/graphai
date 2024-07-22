@@ -9,6 +9,7 @@ type OpenAIInputs = {
   system?: InputType;
   mergeablePrompts?: InputType;
   mergeableSystem?: InputType;
+  images?: string[];
   tools?: OpenAI.ChatCompletionTool[];
   tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
   max_tokens?: number;
@@ -39,7 +40,10 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   params,
   namedInputs,
 }) => {
-  const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = {
+    ...params,
+    ...namedInputs,
+  };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
@@ -51,6 +55,17 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
     messagesCopy.push({
       role: "user",
       content: userPrompt,
+    });
+  }
+  if (images) {
+    messagesCopy.push({
+      role: "user",
+      content: [
+        {
+          type: "image_url",
+          image_url: images[0],
+        },
+      ],
     });
   }
 
