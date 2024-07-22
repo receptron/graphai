@@ -405,7 +405,7 @@ export class ComputedNode extends Node {
     if (this.inputNames) {
       return [];
     }
-    return (this.inputs ?? []).map((key) => previousResults[String(key)]);
+    return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter(a => !this.anyInput || a);
   }
 
   private getDebugInfo() {
