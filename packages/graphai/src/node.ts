@@ -277,14 +277,6 @@ export class ComputedNode extends Node {
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
     const previousResults = this.graph.resultsOf(this.dataSources);
-    if (this.anyInput) {
-      // Remove undefined if anyInput flag is set.
-      Object.keys(previousResults).map((key) => {
-        if (previousResults[key] === undefined) {
-          delete previousResults[key];
-        }
-      });
-    }
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 
@@ -395,7 +387,9 @@ export class ComputedNode extends Node {
   private getNamedInput(previousResults: Record<string, ResultData | undefined>) {
     if (this.inputNames) {
       return this.inputNames.reduce((tmp: Record<string, any>, name) => {
-        tmp[name] = previousResults[name];
+        if (!this.anyInput || previousResults[name]) {
+          tmp[name] = previousResults[name];
+        }
         return tmp;
       }, {});
     }
