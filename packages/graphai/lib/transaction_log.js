@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionLog = void 0;
 const type_1 = require("./type");
 const utils_1 = require("./utils/utils");
+const nodeUtils_1 = require("./utils/nodeUtils");
 class TransactionLog {
     constructor(nodeId) {
         this.nodeId = nodeId;
@@ -43,10 +44,7 @@ class TransactionLog {
         this.state = node.state;
         this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
         this.startTime = transactionId;
-        this.inputs = Object.values(node.dataSources)
-            .flat()
-            .filter((source) => source.nodeId)
-            .map((source) => source.nodeId);
+        this.inputs = (0, nodeUtils_1.flatDataSourceNodeIds)(Object.values(node.dataSources));
         this.inputsData = inputs.length > 0 ? inputs : undefined;
         graph.setLoopLog(this);
         graph.appendLog(this);

@@ -57,10 +57,7 @@ class ComputedNode extends Node {
                 this.dataSources = (0, nodeUtils_1.namedInputs2dataSources)(data.inputs, graph.version);
             }
         }
-        this.pendings = new Set(Object.values(this.dataSources)
-            .flat()
-            .filter((source) => source.nodeId)
-            .map((source) => source.nodeId));
+        this.pendings = new Set((0, nodeUtils_1.flatDataSourceNodeIds)(Object.values(this.dataSources)));
         (0, utils_2.assert)(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
         if (typeof data.agent === "string") {
             this.agentId = data.agent;
