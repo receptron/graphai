@@ -1,12 +1,8 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-type InputType = string | (string | undefined)[] | undefined;
+import { GrapAILLMInputBase } from "@graphai/llm_utils";
 type OpenAIInputs = {
     model?: string;
-    prompt?: InputType;
-    system?: InputType;
-    mergeablePrompts?: InputType;
-    mergeableSystem?: InputType;
     images?: string[];
     tools?: OpenAI.ChatCompletionTool[];
     tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
@@ -18,9 +14,7 @@ type OpenAIInputs = {
     stream?: boolean;
     messages?: Array<Record<string, any>>;
     forWeb?: boolean;
-};
-export declare const flatString: (input: InputType) => string;
-export declare const getMergeValue: (namedInputs: OpenAIInputs, params: OpenAIInputs, key: "mergeablePrompts" | "mergeableSystem", values: InputType) => string;
+} & GrapAILLMInputBase;
 export declare const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;

@@ -3,28 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.openAIMockAgent = exports.openAIAgent = exports.getMergeValue = exports.flatString = void 0;
+exports.openAIMockAgent = exports.openAIAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
-// export for test
-const flatString = (input) => {
-    return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
-};
-exports.flatString = flatString;
-// export for test
-const getMergeValue = (namedInputs, params, key, values) => {
-    const inputValue = namedInputs[key];
-    const paramsValue = params[key];
-    return inputValue || paramsValue ? [(0, exports.flatString)(inputValue), (0, exports.flatString)(paramsValue)].filter((a) => a).join("\n") : (0, exports.flatString)(values);
-};
-exports.getMergeValue = getMergeValue;
+const llm_utils_1 = require("@graphai/llm_utils");
 const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = {
         ...params,
         ...namedInputs,
     };
-    const userPrompt = (0, exports.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
-    const systemPrompt = (0, exports.getMergeValue)(namedInputs, params, "mergeableSystem", system);
+    const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
+    const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     // Notice that we ignore params.system if previous_message exists.
     const messagesCopy = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
     if (userPrompt) {
