@@ -2,12 +2,11 @@ import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { Groq } from "groq-sdk";
 import { ChatCompletionCreateParams, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
 
-import { AIAPIInputBase, getMergeValue } from "./utils";
+import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 
 type GroqInputs = {
-  model: string;
   verbose?: boolean;
   tools?: Groq.Chat.CompletionCreateParams.Tool[];
   temperature?: number;
@@ -15,7 +14,7 @@ type GroqInputs = {
   tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
   stream?: boolean;
   messages?: Array<Record<string, any>>;
-} & AIAPIInputBase;
+} & GrapAILLMInputBase;
 
 //
 // This agent takes two optional inputs, and following parameters.
@@ -36,7 +35,7 @@ type GroqInputs = {
 // https://console.groq.com/docs/quickstart
 //
 export const groqAgent: AgentFunction<
-  GroqInputs,
+  GroqInputs & { model: string },
   // Groq.Chat.ChatCompletion,
   any,
   string | Array<Groq.Chat.CompletionCreateParams.Message>,

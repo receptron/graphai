@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.geminiAgent = void 0;
 const graphai_1 = require("graphai");
 const generative_ai_1 = require("@google/generative-ai");
-const utils_1 = require("./utils");
+const llm_utils_1 = require("@graphai/llm_utils");
 const geminiAgent = async ({ params, namedInputs }) => {
     const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
-    const userPrompt = (0, utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
-    const systemPrompt = (0, utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
+    const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
+    const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     // Notice that we ignore params.system if previous_message exists.
     const messagesCopy = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
     if (userPrompt) {

@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-import { AIAPIInputBase, getMergeValue } from "./utils";
+import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type AnthropicInputs = {
   model?: string;
@@ -10,7 +10,7 @@ type AnthropicInputs = {
   // tools?: any;
   // tool_choice?: any;
   messages?: Array<Record<string, any>>;
-} & AIAPIInputBase;
+} & GrapAILLMInputBase;
 
 export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, string | Array<any>, AnthropicInputs> = async ({
   params,

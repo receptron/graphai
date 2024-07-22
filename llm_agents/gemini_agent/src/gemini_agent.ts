@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
 
-import { AIAPIInputBase, getMergeValue } from "./utils";
+import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type GeminiInputs = {
   model?: string;
@@ -10,7 +10,7 @@ type GeminiInputs = {
   tools?: Array<Record<string, any>>;
   // tool_choice?: any;
   messages?: Array<Record<string, any>>;
-} & AIAPIInputBase;
+} & GrapAILLMInputBase;
 
 export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, string | Array<any>, GeminiInputs> = async ({ params, namedInputs }) => {
   const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };

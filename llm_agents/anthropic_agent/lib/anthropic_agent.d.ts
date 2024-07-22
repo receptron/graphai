@@ -1,11 +1,11 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { AIAPIInputBase } from "./utils";
+import { GrapAILLMInputBase } from "@graphai/llm_utils";
 type AnthropicInputs = {
     model?: string;
     temperature?: number;
     max_tokens?: number;
     messages?: Array<Record<string, any>>;
-} & AIAPIInputBase;
+} & GrapAILLMInputBase;
 export declare const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, string | Array<any>, AnthropicInputs>;
 declare const anthropicAgentInfo: AgentFunctionInfo;
 export default anthropicAgentInfo;

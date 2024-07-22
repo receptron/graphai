@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.groqAgent = void 0;
 const graphai_1 = require("graphai");
 const groq_sdk_1 = require("groq-sdk");
-const utils_1 = require("./utils");
+const llm_utils_1 = require("@graphai/llm_utils");
 const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 //
 // This agent takes two optional inputs, and following parameters.
@@ -26,8 +26,8 @@ const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.en
 const groqAgent = async ({ params, namedInputs, filterParams }) => {
     (0, graphai_1.assert)(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
     const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
-    const userPrompt = (0, utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
-    const systemPrompt = (0, utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
+    const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
+    const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     // Notice that we ignore params.system if previous_message exists.
     const messagesCopy = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
     if (userPrompt) {
