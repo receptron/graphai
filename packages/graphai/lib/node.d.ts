@@ -55,6 +55,8 @@ export declare class ComputedNode extends Node {
     private getNamedInput;
     private getInputs;
     private getDebugInfo;
+    private beforeConsoleLog;
+    private afterConsoleLog;
 }
 export declare class StaticNode extends Node {
     value?: ResultData;
