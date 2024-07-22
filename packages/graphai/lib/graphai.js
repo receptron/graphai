@@ -252,18 +252,18 @@ class GraphAI {
             throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
         }
     }
+    nestedResultOf(source) {
+        if (Array.isArray(source)) {
+            return source.map((a) => {
+                return this.nestedResultOf(a);
+            });
+        }
+        return this.resultOf(source);
+    }
     resultsOf(sources) {
         const ret = {};
         Object.keys(sources).forEach((key) => {
-            const source = sources[key];
-            if (Array.isArray(source)) {
-                ret[key] = source.map((s) => {
-                    return this.resultOf(s);
-                });
-            }
-            else {
-                ret[key] = this.resultOf(source);
-            }
+            ret[key] = this.nestedResultOf(sources[key]);
         });
         return ret;
     }

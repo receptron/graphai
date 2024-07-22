@@ -22,6 +22,9 @@ export type DataSource = {
     value?: any;
     propIds?: string[];
 };
+export type DataSources = DataSource | DataSource[] | DataSources[];
+export type NestedDataSource = Record<string, DataSources>;
+export type ResultDataSet = ResultData | ResultData[] | ResultDataSet[];
 export type StaticNodeData = {
     value: ResultData;
     update?: string;
