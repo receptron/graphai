@@ -24,8 +24,10 @@ export const namedInputs2dataSources = (inputs: Record<string, any>, graphVersio
 };
 
 export const flatDataSourceNodeIds = (sources: DataSource[] | DataSources[]): string[] => {
-  return flatDataSource(sources).filter((source) => source.nodeId).map((source) => source.nodeId!);
-}
+  return flatDataSource(sources)
+    .filter((source) => source.nodeId)
+    .map((source) => source.nodeId!);
+};
 
 export const flatDataSource = (sources: DataSource[] | DataSources[]): DataSource[] => {
   return sources
