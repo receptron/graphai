@@ -399,7 +399,7 @@ export class ComputedNode extends Node {
     if (this.inputNames) {
       return [];
     }
-    return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter(a => !this.anyInput || a);
+    return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
   }
 
   private getDebugInfo() {
