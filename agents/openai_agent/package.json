@@ -1,6 +1,6 @@
 {
   "name": "@graphai/openai_agent",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "OpenAI agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "openai": "^4.47.1",
+    "openai": "^4.52.7",
     "tiktoken": "^1.0.14"
   },
   "devDependencies": {},
