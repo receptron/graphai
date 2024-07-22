@@ -19,7 +19,10 @@ const getMergeValue = (namedInputs, params, key, values) => {
 };
 exports.getMergeValue = getMergeValue;
 const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
-    const { verbose, system, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = { ...params, ...namedInputs };
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = {
+        ...params,
+        ...namedInputs,
+    };
     const userPrompt = (0, exports.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, exports.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     // Notice that we ignore params.system if previous_message exists.
@@ -28,6 +31,17 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
         messagesCopy.push({
             role: "user",
             content: userPrompt,
+        });
+    }
+    if (images) {
+        messagesCopy.push({
+            role: "user",
+            content: [
+                {
+                    type: "image_url",
+                    image_url: images[0],
+                },
+            ],
         });
     }
     if (verbose) {

@@ -7,6 +7,7 @@ type OpenAIInputs = {
     system?: InputType;
     mergeablePrompts?: InputType;
     mergeableSystem?: InputType;
+    images?: string[];
     tools?: OpenAI.ChatCompletionTool[];
     tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
     max_tokens?: number;
