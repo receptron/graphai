@@ -1,6 +1,6 @@
 {
   "name": "@receptron/test_utils",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Test utilities for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@graphai/agent_filters": "^0.0.6",
     "@graphai/vanilla": "^0.0.7",
-    "graphai": "^0.5.3",
+    "graphai": "^0.5.5",
     "yaml": "^2.4.5"
   },
   "types": "./lib/index.d.ts",
