@@ -1,3 +1,4 @@
+import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 type InputType = string | (string | undefined)[] | undefined;
 type OpenAIInputs = {
@@ -6,8 +7,8 @@ type OpenAIInputs = {
     system?: InputType;
     mergeablePrompts?: InputType;
     mergeableSystem?: InputType;
-    tools?: any;
-    tool_choice?: any;
+    tools?: OpenAI.ChatCompletionTool[];
+    tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
     max_tokens?: number;
     verbose?: boolean;
     temperature?: number;

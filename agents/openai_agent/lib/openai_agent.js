@@ -45,7 +45,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     if (!stream) {
         return await openai.chat.completions.create(chatParams);
     }
-    const chatStream = await openai.beta.chat.completions.stream({
+    const chatStream = openai.beta.chat.completions.stream({
         ...chatParams,
         stream: true,
     });
