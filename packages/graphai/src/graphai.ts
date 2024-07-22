@@ -8,6 +8,7 @@ import {
   ResultData,
   DefaultResultData,
   GraphOptions,
+  NestedDataSource,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
@@ -310,13 +311,13 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: Record<string, DataSource | DataSource[]>) {
+  public resultsOf(sources: NestedDataSource) {
     const ret: Record<string, ResultData | undefined> = {};
     Object.keys(sources).forEach((key) => {
       const source = sources[key];
       if (Array.isArray(source)) {
         ret[key] = source.map((s) => {
-          return this.resultOf(s);
+          return this.resultOf(s as DataSource); // TODO
         });
       } else {
         ret[key] = this.resultOf(source);
