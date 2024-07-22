@@ -157,31 +157,24 @@ export class ComputedNode extends Node {
   }
 
   public isReadyNode() {
-    if (this.state === NodeState.Waiting && this.pendings.size === 0) {
-      // Count the number of data actually available.
-      // We care it only when this.anyInput is true.
-      // Notice that this logic enables dynamic data-flows.
-      if (!this.anyInput || this.checkDataAvailability(false)) {
-        if (this.ifSource) {
-          const condition = this.graph.resultOf(this.ifSource);
-          if (!isLogicallyTrue(condition)) {
-            this.state = NodeState.Skipped;
-            this.log.onSkipped(this, this.graph);
-            return false;
-          }
-        }
-        if (this.unlessSource) {
-          const condition = this.graph.resultOf(this.unlessSource);
-          if (isLogicallyTrue(condition)) {
-            this.state = NodeState.Skipped;
-            this.log.onSkipped(this, this.graph);
-            return false;
-          }
-        }
-        return true;
-      }
+    if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
+      return false;
     }
-    return false;
+    // Count the number of data actually available.
+    // We care it only when this.anyInput is true.
+    // Notice that this logic enables dynamic data-flows.
+    if (this.anyInput && !this.checkDataAvailability(false)) {
+      return false;
+    }
+    if (
+      (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) ||
+      (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)))
+    ) {
+      this.state = NodeState.Skipped;
+      this.log.onSkipped(this, this.graph);
+      return false;
+    }
+    return true;
   }
 
   // This private method (only called while executing execute()) performs
@@ -284,14 +277,6 @@ export class ComputedNode extends Node {
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
     const previousResults = this.graph.resultsOf(this.dataSources);
-    if (this.anyInput) {
-      // Remove undefined if anyInput flag is set.
-      Object.keys(previousResults).map((key) => {
-        if (previousResults[key] === undefined) {
-          delete previousResults[key];
-        }
-      });
-    }
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 
@@ -402,7 +387,9 @@ export class ComputedNode extends Node {
   private getNamedInput(previousResults: Record<string, ResultData | undefined>) {
     if (this.inputNames) {
       return this.inputNames.reduce((tmp: Record<string, any>, name) => {
-        tmp[name] = previousResults[name];
+        if (!this.anyInput || previousResults[name]) {
+          tmp[name] = previousResults[name];
+        }
         return tmp;
       }, {});
     }
@@ -412,7 +399,7 @@ export class ComputedNode extends Node {
     if (this.inputNames) {
       return [];
     }
-    return (this.inputs ?? []).map((key) => previousResults[String(key)]);
+    return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter(a => !this.anyInput || a);
   }
 
   private getDebugInfo() {
