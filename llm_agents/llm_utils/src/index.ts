@@ -11,7 +11,12 @@ export const flatString = (input: GrapAILLInputType) => {
   return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
 
-export const getMergeValue = (namedInputs: GrapAILLMInputBase, params: GrapAILLMInputBase, key: "mergeablePrompts" | "mergeableSystem", values: GrapAILLInputType) => {
+export const getMergeValue = (
+  namedInputs: GrapAILLMInputBase,
+  params: GrapAILLMInputBase,
+  key: "mergeablePrompts" | "mergeableSystem",
+  values: GrapAILLInputType,
+) => {
   const inputValue = namedInputs[key];
   const paramsValue = params[key];
 

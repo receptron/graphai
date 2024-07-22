@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
-import { GrapAILLInputType, GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type OpenAIInputs = {
   model?: string;
