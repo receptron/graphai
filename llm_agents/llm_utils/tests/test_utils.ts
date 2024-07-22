@@ -1,4 +1,4 @@
-import { flatString, getMergeValue } from "@/openai_agent";
+import { flatString, getMergeValue } from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";

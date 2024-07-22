@@ -1,7 +1,7 @@
 {
-  "name": "@graphai/llm_agents",
-  "version": "0.0.9",
-  "description": "LLM agents for GraphAI.",
+  "name": "@graphai/openai_agent",
+  "version": "0.0.6",
+  "description": "OpenAI agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
     "./lib"
@@ -12,9 +12,8 @@
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "doc": "npx agentdoc",
     "test": "echo nothing",
-    "b": "yarn run format && yarn run eslint && yarn run build",
-    "samples": "npx ts-node  -r tsconfig-paths/register samples/sample_runner.ts",
-    "sample": "npx ts-node  -r tsconfig-paths/register"
+    "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
+    "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
     "type": "git",
@@ -27,11 +26,8 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.21.0",
-    "@graphai/openai_agent": "^0.0.6",
-    "@graphai/slashgpt_agent": "^0.0.1",
-    "@google/generative-ai": "^0.11.4",
-    "groq-sdk": "^0.3.3",
+    "@graphai/llm_utils": "^0.0.1",
+    "openai": "^4.52.7",
     "tiktoken": "^1.0.14"
   },
   "devDependencies": {},
