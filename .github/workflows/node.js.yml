@@ -23,9 +23,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: yarn install
+    - run: yarn run build
     - run: cd packages/agent_filters/ && npx ts-node -r tsconfig-paths/register tests/express/server.ts &
     - run: cd packages/graphai/ && npx http-server tests/http-server/docs  &
     - run: yarn run test 
     - run: cd packages/agents/ && yarn http_test
     - run: yarn run eslint
-    - run: yarn run build
