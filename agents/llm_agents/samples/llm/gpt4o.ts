@@ -25,7 +25,7 @@ const base64Image = convertImageToBase64(imagePath);
 const query = "これはなんと言う魚ですか？";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     messages: {
       value: [

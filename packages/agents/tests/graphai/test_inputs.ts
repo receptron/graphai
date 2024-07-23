@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_inputs = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     apple: {
       value: { fruits: { apple: "red" } },

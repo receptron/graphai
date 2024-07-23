@@ -15,7 +15,7 @@ const home_actions = {
 };
 
 const graph_data: GraphData = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     node1: {
       value: { content: "Turn on the light in the kitchen" },

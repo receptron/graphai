@@ -31,7 +31,7 @@ const messages = [
 ];
 
 export const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.

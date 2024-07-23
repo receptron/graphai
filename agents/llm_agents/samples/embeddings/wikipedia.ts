@@ -5,7 +5,7 @@ import * as service_agents from "@graphai/service_agents";
 import * as vanilla from "@graphai/vanilla";
 
 export const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: {

@@ -7,7 +7,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphData = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     input: {
       agent: "testAgent",
@@ -37,7 +37,7 @@ test("test source props test", async () => {
 });
 
 const graphData_literal = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: "apple",

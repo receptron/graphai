@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_nested = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: "hello",
@@ -51,7 +51,7 @@ test("test nested loop & $0", async () => {
 });
 
 const graphdata_pop = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     fruits: {
       value: ["orange", "banana", "lemon"],
@@ -98,7 +98,7 @@ test("test loop, update $0", async () => {
 });
 
 const graphdata_nested_injection = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: "hello",

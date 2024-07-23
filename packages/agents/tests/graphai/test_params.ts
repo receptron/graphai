@@ -11,7 +11,7 @@ const testAgent: AgentFunction<Record<never, never>, any> = async ({ params }) =
 };
 
 const graphData_literal = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source1: {
       value: { apple: "red" },

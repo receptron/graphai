@@ -4,7 +4,7 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     while: ":people",
   },

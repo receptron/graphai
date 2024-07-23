@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: "Hello World",
@@ -37,7 +37,7 @@ test("test nested agent", async () => {
 });
 
 const graph_data2 = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: "Hello World",

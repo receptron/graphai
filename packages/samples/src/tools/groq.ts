@@ -24,7 +24,7 @@ const tools = [
 ];
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   concurrency: 1,
   nodes: {
     foods: {

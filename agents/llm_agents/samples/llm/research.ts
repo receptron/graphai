@@ -154,7 +154,7 @@ const translator_graph = {
 };
 
 export const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     topic: {
       // Gets the research topic from the user.

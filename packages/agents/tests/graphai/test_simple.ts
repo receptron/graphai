@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     echo: {
       agent: "echoAgent",
@@ -26,7 +26,7 @@ const graph_data = {
 };
 
 const graph_injection_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     echo: {
       agent: "echoAgent",
