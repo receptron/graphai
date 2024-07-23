@@ -1,0 +1,38 @@
+{
+  "name": "@graphai/replicate_agent",
+  "version": "0.0.1",
+  "description": "Replicate agents for GraphAI.",
+  "main": "lib/index.js",
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "rm -r lib/* && tsc && tsc-alias",
+    "eslint": "eslint",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "doc": "npx agentdoc",
+    "test": "echo nothing",
+    "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
+    "b": "yarn run format && yarn run eslint && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "author": "Satoshi Nakajima, Isamu Arimoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai#readme",
+  "dependencies": {
+    "@graphai/llm_utils": "^0.0.1",
+    "replicate": "^0.31.1",
+    "tiktoken": "^1.0.14"
+  },
+  "devDependencies": {},
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  }
+}
