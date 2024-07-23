@@ -97,6 +97,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/object-schema/-/object-schema-2.1.4.tgz#9e69f8bb4031e11df79e03db09f9dbbae1740843"
   integrity sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==
 
+"@google/generative-ai@^0.11.4":
+  version "0.11.5"
+  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.11.5.tgz#b031c9508061bc8650a6470ef7d77122c083d70a"
+  integrity sha512-DviMgrnljEKh6qkDT2pVFW+NEuVhggqBUoEnyy2PNL7l4ewxXRJubk3PctC9yPl1AdRIlhqP7E076QQt+IWuTg==
+
 "@google/generative-ai@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.15.0.tgz#5df2455235a59b16d874f3cfae2bcb7ed7478b6d"
@@ -113,14 +118,6 @@
     "@graphai/service_agents" "^0.0.4"
     "@graphai/sleeper_agents" "^0.0.2"
     "@graphai/vanilla" "^0.0.7"
-
-"@graphai/groq_agent@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/groq_agent/-/groq_agent-0.0.1.tgz#282bff286f551b4b0e189f5d935ae1b0f14a9cf7"
-  integrity sha512-mW7osdt7hVX7m0X/u9hPlX3RJ6KOPuvXEwdCr9xPe711m0a46h7GK+RbTyr0360xKb9cZWUZ30GxaxFLmzthDQ==
-  dependencies:
-    "@graphai/llm_utils" "^0.0.1"
-    groq-sdk "^0.3.3"
 
 "@graphai/llm_agents@^0.0.9":
   version "0.0.9"
