@@ -77,7 +77,7 @@ const groqAgent = async ({ params, namedInputs, filterParams }) => {
         lastMessage = message;
     }
     if (lastMessage) {
-        lastMessage.choices[0]["message"] = [{ role: "assistant", content: contents.join("") }];
+        lastMessage.choices[0]["message"] = { role: "assistant", content: contents.join("") };
     }
     return lastMessage;
 };

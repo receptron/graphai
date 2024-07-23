@@ -1,6 +1,6 @@
 {
   "name": "@graphai/anthropic_agent",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Anthropic agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
