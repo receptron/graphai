@@ -4,7 +4,7 @@ import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
 export const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     url: {
       // Holds the RSS feed URL

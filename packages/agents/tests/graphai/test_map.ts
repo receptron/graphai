@@ -31,7 +31,7 @@ test("test map 3", async () => {
 });
 
 const graphdata_map4 = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
@@ -42,7 +42,7 @@ const graphdata_map4 = {
         rows: ":source1",
       },
       graph: {
-        version: 0.3,
+        version: 0.5,
         nodes: {
           node1: {
             agent: "bypassAgent",
@@ -69,7 +69,7 @@ test("test map 4", async () => {
 });
 
 const graphdata_map5 = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source1: {
       value: ["hello", "hello2"],
@@ -80,7 +80,7 @@ const graphdata_map5 = {
         rows: ":source1",
       },
       graph: {
-        version: 0.3,
+        version: 0.5,
         nodes: {
           node1: {
             agent: "bypassAgent",

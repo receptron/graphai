@@ -9,7 +9,7 @@ const filePath = path.join(__dirname, "sample.txt");
 const document = fs.readFileSync(filePath, "utf8");
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   verbose: true,
   loop: {
     count: 10,

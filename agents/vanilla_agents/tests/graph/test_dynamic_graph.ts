@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_child = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     count: 5,
   },
@@ -31,7 +31,7 @@ const graphdata_child = {
 };
 
 const graphdata = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: graphdata_child,
@@ -54,7 +54,7 @@ test("test dynamic graph", async () => {
 });
 
 const graphdata2 = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: JSON.stringify(graphdata_child),
@@ -81,7 +81,7 @@ test("test dynamic graph parser", async () => {
 });
 
 const graphdata3 = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: "```json\n" + JSON.stringify(graphdata_child) + "\n```\n",

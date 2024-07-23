@@ -39,7 +39,7 @@ test("test fetch", async () => {
 });
 
 const graph_data_post = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     url: {
       value: "https://www.google.com/search?q=hello",

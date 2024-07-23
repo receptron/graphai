@@ -6,7 +6,7 @@ import { sleeperAgent } from "@graphai/agents";
 const query = "Hello!";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     query: {
       agent: "anthropicAgent",

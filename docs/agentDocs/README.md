@@ -9,11 +9,12 @@
 ### [copyAgent](./data/copyAgent.md)
 
 ## llm
-### [groqAgent](./llm/groqAgent.md)
-### [slashGPTAgent](./llm/slashGPTAgent.md)
-### [openAIAgent](./llm/openAIAgent.md)
 ### [anthropicAgent](./llm/anthropicAgent.md)
 ### [geminiAgent](./llm/geminiAgent.md)
+### [groqAgent](./llm/groqAgent.md)
+### [openAIAgent](./llm/openAIAgent.md)
+### [replicateAgent](./llm/replicateAgent.md)
+### [slashGPTAgent](./llm/slashGPTAgent.md)
 
 ## service
 ### [fetchAgent](./service/fetchAgent.md)

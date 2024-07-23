@@ -24,7 +24,7 @@ const httpAgent: AgentFunction = async ({ inputs, params }) => {
 
 test("test bypass1", async () => {
   const graph_data = {
-    version: 0.3,
+    version: 0.5,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -72,7 +72,7 @@ test("test bypass1", async () => {
 
 test("test bypass2", async () => {
   const graph_data = {
-    version: 0.3,
+    version: 0.5,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -87,7 +87,7 @@ test("test bypass2", async () => {
         agent: "mapAgent",
         inputs: { rows: ":echo.message" },
         graph: {
-          version: 0.3,
+          version: 0.5,
           nodes: {
             bypassAgent: {
               agent: "httpAgent",
@@ -124,7 +124,7 @@ test("test bypass2", async () => {
 
 test("test bypass3", async () => {
   const graph_data = {
-    version: 0.3,
+    version: 0.5,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -139,7 +139,7 @@ test("test bypass3", async () => {
         agent: "mapAgent",
         inputs: { rows: ":echo.message" },
         graph: {
-          version: 0.3,
+          version: 0.5,
           nodes: {
             bypassAgent: {
               agent: "httpAgent",
@@ -193,7 +193,7 @@ test("test bypass3", async () => {
 
 test("test bypass4", async () => {
   const graph_data = {
-    version: 0.3,
+    version: 0.5,
     nodes: {
       echo: {
         agent: "httpAgent",
@@ -208,7 +208,7 @@ test("test bypass4", async () => {
         agent: "mapAgent",
         inputs: { rows: ":echo.message" },
         graph: {
-          version: 0.3,
+          version: 0.5,
           nodes: {
             memory: {
               value: {},

@@ -5,7 +5,7 @@ import * as agents from "@graphai/agents";
 import { agentFilters } from "./streamAgentFilter";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     node: {
       agent: "slashGPTAgent",

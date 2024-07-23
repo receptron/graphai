@@ -2,7 +2,7 @@ import { stringify } from "yaml";
 import { writeFileSync } from "fs";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     while: ":continue",
   },

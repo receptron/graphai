@@ -32,7 +32,7 @@ const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => 
 
 test("test fork 1", async () => {
   const forkGraph = {
-    version: 0.3,
+    version: 0.5,
     nodes: {
       node1: {
         agent: "testAgent1a",
@@ -46,7 +46,7 @@ test("test fork 1", async () => {
         agent: "mapAgent",
         inputs: { rows: ":node2" },
         graph: {
-          version: 0.3,
+          version: 0.5,
           nodes: {
             buffer: {
               value: {},
@@ -106,7 +106,7 @@ test("test fork 1", async () => {
 
 test("test fork 2", async () => {
   const forkGraph = {
-    version: 0.3,
+    version: 0.5,
     nodes: {
       echo: {
         agent: "copyMessageAgent",
@@ -119,7 +119,7 @@ test("test fork 2", async () => {
         agent: "mapAgent",
         inputs: { rows: ":echo.messages" },
         graph: {
-          version: 0.3,
+          version: 0.5,
           nodes: {
             node1: {
               agent: "testAgent1",
@@ -169,7 +169,7 @@ test("test fork 2", async () => {
 
 test("test fork 3", async () => {
   const forkGraph = {
-    version: 0.3,
+    version: 0.5,
     nodes: {
       source: {
         value: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
@@ -178,7 +178,7 @@ test("test fork 3", async () => {
         agent: "mapAgent",
         inputs: { rows: ":source.content" },
         graph: {
-          version: 0.3,
+          version: 0.5,
           nodes: {
             workingMemory: {
               value: {},

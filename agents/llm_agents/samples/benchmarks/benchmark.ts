@@ -3,7 +3,7 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     GSM8: {
       // This node specifies the URL and query paramters to fetch GSM8K dataset.

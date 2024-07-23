@@ -6,7 +6,7 @@ import { copyAgent } from "@graphai/agents";
 const query = "What is bitcoin?";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     query: {
       agent: "geminiAgent",

@@ -29,7 +29,7 @@ class WordStreamer {
 const theMessage = "May the force be with you.";
 
 const graphdata_any = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     message: {
       value: theMessage,

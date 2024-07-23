@@ -19,7 +19,7 @@ const valid_graph = {
 };
 
 const graphdata_nested = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: valid_graph,
@@ -109,7 +109,7 @@ test("test nest invalid 2", async () => {
 });
 
 const graphdata_mapped = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     source: {
       value: valid_graph,

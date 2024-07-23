@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_push = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     count: 10,
   },
@@ -39,7 +39,7 @@ test("test loop & push", async () => {
 });
 
 const graphdata_pop = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     while: ":source",
   },

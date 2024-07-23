@@ -1,4 +1,4 @@
-version: 0.3
+version: 0.5
 nodes:
   source1:
     value:
@@ -21,7 +21,7 @@ nodes:
         - :source3.fruit
         - :source4.fruit
     graph:
-      version: 0.3
+      version: 0.5
       nodes:
         node2:
           agent: stringTemplateAgent
