@@ -107,6 +107,14 @@
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.15.0.tgz#5df2455235a59b16d874f3cfae2bcb7ed7478b6d"
   integrity sha512-zs37judcTYFJf1U7tnuqnh7gdzF6dcWj9pNRxjA5JTONRoiQ0htrRdbefRFiewOIfXwhun5t9hbd2ray7812eQ==
 
+"@graphai/anthropic_agent@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@graphai/anthropic_agent/-/anthropic_agent-0.0.1.tgz#13a1c1da7b6280aed62074b4230d07e3580bffbf"
+  integrity sha512-4o8xPid6PRJw4sr2Hc/ncD4cQCvphkvxnC1Hl8FtJSMm32AXMSfe35WMqftc1xHuCYcYfZPtFUvD3U3SpT0iaw==
+  dependencies:
+    "@anthropic-ai/sdk" "^0.21.0"
+    "@graphai/llm_utils" "^0.0.1"
+
 "@graphai/llm_agents@^0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-0.0.9.tgz#1f988f0886d02035b7e5a082efd74bca42fedc2f"
