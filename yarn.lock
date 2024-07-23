@@ -97,6 +97,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/object-schema/-/object-schema-2.1.4.tgz#9e69f8bb4031e11df79e03db09f9dbbae1740843"
   integrity sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==
 
+"@google/generative-ai@^0.11.4":
+  version "0.11.5"
+  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.11.5.tgz#b031c9508061bc8650a6470ef7d77122c083d70a"
+  integrity sha512-DviMgrnljEKh6qkDT2pVFW+NEuVhggqBUoEnyy2PNL7l4ewxXRJubk3PctC9yPl1AdRIlhqP7E076QQt+IWuTg==
+
 "@google/generative-ai@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.15.0.tgz#5df2455235a59b16d874f3cfae2bcb7ed7478b6d"
@@ -2462,6 +2467,13 @@ replicate@^0.29.4:
   version "0.29.4"
   resolved "https://registry.yarnpkg.com/replicate/-/replicate-0.29.4.tgz#27bee748c9ac17f397f63a8929e5548376a411df"
   integrity sha512-BizXBehB2Rjil3o2R9Vy9fd0k3w7aIoXtc/+vdOmitC2viW3pSMt0GwC4h+OmMpx9zot90C43wrssyMJ3rMScQ==
+  optionalDependencies:
+    readable-stream ">=4.0.0"
+
+replicate@^0.31.1:
+  version "0.31.1"
+  resolved "https://registry.yarnpkg.com/replicate/-/replicate-0.31.1.tgz#83e2b809dd093a72a629a4063bebd670d068e7cd"
+  integrity sha512-klO76pTPzzS9Xri6bWtAp5mNjgcvyvqpVHibhTyrx4pAK7rvXal8rNGspURGCwp8ToxDQNYGEV7l+3d+xiFiwQ==
   optionalDependencies:
     readable-stream ">=4.0.0"
 
