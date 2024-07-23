@@ -102,32 +102,28 @@
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.15.0.tgz#5df2455235a59b16d874f3cfae2bcb7ed7478b6d"
   integrity sha512-zs37judcTYFJf1U7tnuqnh7gdzF6dcWj9pNRxjA5JTONRoiQ0htrRdbefRFiewOIfXwhun5t9hbd2ray7812eQ==
 
-"@graphai/anthropic_agent@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/anthropic_agent/-/anthropic_agent-0.0.1.tgz#13a1c1da7b6280aed62074b4230d07e3580bffbf"
-  integrity sha512-4o8xPid6PRJw4sr2Hc/ncD4cQCvphkvxnC1Hl8FtJSMm32AXMSfe35WMqftc1xHuCYcYfZPtFUvD3U3SpT0iaw==
+"@graphai/agents@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@graphai/agents/-/agents-0.0.17.tgz#221da4657b8ba54b262b89354ecdd7a4f5926f9b"
+  integrity sha512-z9K/0INlUh4rV+nEHFVnPO9Tja1gH9ItEayqNyk8q7dDfMe8BqqfzPPtewmQbOAM2Da4LpN2qk1o3xw+BETR/A==
+  dependencies:
+    "@graphai/data_agents" "^0.0.2"
+    "@graphai/input_agents" "^0.0.3"
+    "@graphai/llm_agents" "^0.0.9"
+    "@graphai/service_agents" "^0.0.4"
+    "@graphai/sleeper_agents" "^0.0.2"
+    "@graphai/vanilla" "^0.0.7"
+
+"@graphai/llm_agents@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-0.0.9.tgz#1f988f0886d02035b7e5a082efd74bca42fedc2f"
+  integrity sha512-71XZaazPUkVsyN0yv/guqPNxGBxOQG5j/zoIY59Th63bqB0XZBmMSFAogenPdmEM3Ygp0d7Ut5tKbruceJLHag==
   dependencies:
     "@anthropic-ai/sdk" "^0.21.0"
-    "@graphai/llm_utils" "^0.0.1"
-
-"@graphai/groq_agent@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/groq_agent/-/groq_agent-0.0.1.tgz#282bff286f551b4b0e189f5d935ae1b0f14a9cf7"
-  integrity sha512-mW7osdt7hVX7m0X/u9hPlX3RJ6KOPuvXEwdCr9xPe711m0a46h7GK+RbTyr0360xKb9cZWUZ30GxaxFLmzthDQ==
-  dependencies:
-    "@graphai/llm_utils" "^0.0.1"
-    groq-sdk "^0.3.3"
-
-"@graphai/llm_agents@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-0.0.10.tgz#1fa09f4d7ee4b143d5058f962966b2311a70f64e"
-  integrity sha512-BaRpHoqQmw4Xjmtr03jmYkxLqGw4Wj0srY0mFwetGVDsHDFDDIbIxD1ubwDPAhRm6jQdWEtTHXaz6xoZQmwoIQ==
-  dependencies:
-    "@graphai/anthropic_agent" "^0.0.1"
-    "@graphai/gemini_agent" "^0.0.2"
-    "@graphai/groq_agent" "^0.0.1"
+    "@google/generative-ai" "^0.11.4"
     "@graphai/openai_agent" "^0.0.6"
-    "@graphai/slashgpt_agent" "^0.0.1"
+    groq-sdk "^0.3.3"
+    slashgpt "^0.1.2"
     tiktoken "^1.0.14"
 
 "@graphql-typed-document-node/core@^3.2.0":
