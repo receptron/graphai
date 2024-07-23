@@ -74,18 +74,6 @@
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.15.0.tgz#5df2455235a59b16d874f3cfae2bcb7ed7478b6d"
   integrity sha512-zs37judcTYFJf1U7tnuqnh7gdzF6dcWj9pNRxjA5JTONRoiQ0htrRdbefRFiewOIfXwhun5t9hbd2ray7812eQ==
 
-"@graphai/llm_agents@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-0.0.12.tgz#c84dfa3bff379c6c2cf2a868281afb41e407ab61"
-  integrity sha512-TUH4aLySGKky09MYvxrF7JrP14cgIgfjYBfFvo4knYVcwtsEJ7tzEIezJPFDURrdbyPjZ9VC1oua52k2XHVDQQ==
-  dependencies:
-    "@graphai/anthropic_agent" "^0.0.4"
-    "@graphai/gemini_agent" "^0.0.2"
-    "@graphai/groq_agent" "^0.0.3"
-    "@graphai/openai_agent" "^0.0.6"
-    "@graphai/slashgpt_agent" "^0.0.1"
-    tiktoken "^1.0.14"
-
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
