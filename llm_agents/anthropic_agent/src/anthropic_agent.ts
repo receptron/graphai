@@ -24,7 +24,7 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
+  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : [];
 
   if (userPrompt) {
     messagesCopy.push({
@@ -40,6 +40,7 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
   const opt = {
     model: model || "claude-3-haiku-20240307", // "claude-3-opus-20240229",
     messages: messagesCopy,
+    system: systemPrompt,
     temperature: temperature ?? 0.7,
     max_tokens: max_tokens ?? 1024,
   };

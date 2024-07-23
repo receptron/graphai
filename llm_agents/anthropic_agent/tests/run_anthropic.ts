@@ -36,3 +36,18 @@ test("test anthropicAgent stream", async () => {
   }
   assert.deepStrictEqual(true, true);
 });
+
+
+test("test anthropicAgent", async () => {
+  const namedInputs = {
+    prompt: ["hello, let me know the answer 1 + 1"],
+    system: ["You are an assembly programmer. Please answer the given calculation using a program for z80."]
+  };
+  const params = {};
+  const res = (await anthropicAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+
+  if (res) {
+    console.log(res.choices[0].message["content"]);
+  }
+  assert.deepStrictEqual(true, true);
+});

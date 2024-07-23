@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@graphai/anthropic_agent": "^0.0.2",
+    "@graphai/anthropic_agent": "^0.0.3",
     "@graphai/gemini_agent": "^0.0.2",
     "@graphai/groq_agent": "^0.0.2",
     "@graphai/openai_agent": "^0.0.6",
