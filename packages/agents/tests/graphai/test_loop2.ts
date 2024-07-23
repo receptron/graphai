@@ -101,7 +101,7 @@ test("test counter3", async () => {
   assert.deepStrictEqual(result, {
     workingMemory: { v: 10220 },
     workingMemory2: { v: 10220 },
-    mapping: { counter: [{ v: 10.50 }, { v: 10.50 }] },
+    mapping: { counter: [{ v: 10230 }, { v: 10230 }] },
     merge: { v: 20460 },
   });
 });
