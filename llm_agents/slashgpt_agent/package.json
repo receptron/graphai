@@ -1,6 +1,6 @@
 {
   "name": "@graphai/slashgpt_agent",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "SlashGPT agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "slashgpt": "^0.1.3"
+    "slashgpt": "^0.1.4"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
