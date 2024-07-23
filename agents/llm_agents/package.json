@@ -1,6 +1,6 @@
 {
   "name": "@graphai/llm_agents",
-  "version": "0.0.12",
+  "version": "0.0.15",
   "description": "LLM agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -31,10 +31,12 @@
     "@graphai/gemini_agent": "^0.0.2",
     "@graphai/groq_agent": "^0.0.3",
     "@graphai/openai_agent": "^0.0.6",
-    "@graphai/slashgpt_agent": "^0.0.1",
+    "@graphai/slashgpt_agent": "^0.0.5",
     "tiktoken": "^1.0.14"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1"
+  },
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
