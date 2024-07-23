@@ -97,23 +97,22 @@
   resolved "https://registry.yarnpkg.com/@eslint/object-schema/-/object-schema-2.1.4.tgz#9e69f8bb4031e11df79e03db09f9dbbae1740843"
   integrity sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==
 
-"@google/generative-ai@^0.11.4":
-  version "0.11.5"
-  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.11.5.tgz#b031c9508061bc8650a6470ef7d77122c083d70a"
-  integrity sha512-DviMgrnljEKh6qkDT2pVFW+NEuVhggqBUoEnyy2PNL7l4ewxXRJubk3PctC9yPl1AdRIlhqP7E076QQt+IWuTg==
-
 "@google/generative-ai@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.15.0.tgz#5df2455235a59b16d874f3cfae2bcb7ed7478b6d"
   integrity sha512-zs37judcTYFJf1U7tnuqnh7gdzF6dcWj9pNRxjA5JTONRoiQ0htrRdbefRFiewOIfXwhun5t9hbd2ray7812eQ==
 
-"@graphai/anthropic_agent@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/anthropic_agent/-/anthropic_agent-0.0.1.tgz#13a1c1da7b6280aed62074b4230d07e3580bffbf"
-  integrity sha512-4o8xPid6PRJw4sr2Hc/ncD4cQCvphkvxnC1Hl8FtJSMm32AXMSfe35WMqftc1xHuCYcYfZPtFUvD3U3SpT0iaw==
+"@graphai/agents@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@graphai/agents/-/agents-0.0.17.tgz#221da4657b8ba54b262b89354ecdd7a4f5926f9b"
+  integrity sha512-z9K/0INlUh4rV+nEHFVnPO9Tja1gH9ItEayqNyk8q7dDfMe8BqqfzPPtewmQbOAM2Da4LpN2qk1o3xw+BETR/A==
   dependencies:
-    "@anthropic-ai/sdk" "^0.21.0"
-    "@graphai/llm_utils" "^0.0.1"
+    "@graphai/data_agents" "^0.0.2"
+    "@graphai/input_agents" "^0.0.3"
+    "@graphai/llm_agents" "^0.0.9"
+    "@graphai/service_agents" "^0.0.4"
+    "@graphai/sleeper_agents" "^0.0.2"
+    "@graphai/vanilla" "^0.0.7"
 
 "@graphai/groq_agent@^0.0.1":
   version "0.0.1"
@@ -2243,7 +2242,7 @@ once@^1.3.0:
   dependencies:
     wrappy "1"
 
-openai@^4.40.2, openai@^4.47.1:
+openai@^4.40.2:
   version "4.52.7"
   resolved "https://registry.yarnpkg.com/openai/-/openai-4.52.7.tgz#e32b000142287a9e8eda8512ba28df33d11ec1f1"
   integrity sha512-dgxA6UZHary6NXUHEDj5TWt8ogv0+ibH+b4pT5RrWMjiRZVylNwLcw/2ubDrX5n0oUmHX/ZgudMJeemxzOvz7A==
