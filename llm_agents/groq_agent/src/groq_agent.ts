@@ -1,6 +1,13 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { Groq } from "groq-sdk";
-import { ChatCompletionCreateParams, ChatCompletionCreateParamsNonStreaming, ChatCompletionCreateParamsStreaming } from "groq-sdk/resources/chat/completions";
+import {
+  ChatCompletionCreateParams,
+  ChatCompletionCreateParamsNonStreaming,
+  ChatCompletionCreateParamsStreaming,
+  ChatCompletionTool,
+  ChatCompletionMessageParam,
+  ChatCompletionToolChoiceOption,
+} from "groq-sdk/resources/chat/completions";
 
 import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
@@ -8,12 +15,12 @@ const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_
 
 type GroqInputs = {
   verbose?: boolean;
-  tools?: Groq.Chat.CompletionCreateParams.Tool[];
+  tools?: ChatCompletionTool[];
   temperature?: number;
   max_tokens?: number;
-  tool_choice?: Groq.Chat.CompletionCreateParams.ToolChoice;
+  tool_choice?: ChatCompletionToolChoiceOption;
   stream?: boolean;
-  messages?: Array<Record<string, any>>;
+  messages?: Array<ChatCompletionMessageParam>;
 } & GrapAILLMInputBase;
 
 //
@@ -38,7 +45,7 @@ export const groqAgent: AgentFunction<
   GroqInputs & { model: string },
   // Groq.Chat.ChatCompletion,
   any,
-  string | Array<Groq.Chat.CompletionCreateParams.Message>,
+  string | Array<ChatCompletionMessageParam>,
   GroqInputs
 > = async ({ params, namedInputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
@@ -48,7 +55,7 @@ export const groqAgent: AgentFunction<
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
+  const messagesCopy: Array<ChatCompletionMessageParam> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
 
   if (userPrompt) {
     messagesCopy.push({
@@ -78,7 +85,7 @@ export const groqAgent: AgentFunction<
   }
   if (tools) {
     options.tools = tools;
-    options.tool_choice = tool_choice ?? ("auto" as Groq.Chat.CompletionCreateParams.ToolChoice);
+    options.tool_choice = tool_choice ?? ("auto" as const);
   }
   if (!options.stream) {
     const result = await groq.chat.completions.create(options);
