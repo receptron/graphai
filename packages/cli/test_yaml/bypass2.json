@@ -1,5 +1,5 @@
 {
-  "version": 0.3,
+  "version": 0.5,
   "nodes": {
     "echo": {
       "agent": "echoAgent",
@@ -11,7 +11,7 @@
       "agent": "mapAgent",
       "inputs": { "rows": ":echo.message" },
       "graph": {
-        "version": 0.3,
+        "version": 0.5,
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",

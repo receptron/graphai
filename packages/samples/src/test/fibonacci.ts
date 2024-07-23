@@ -10,7 +10,7 @@ const fibonacciAgent: AgentFunction = async ({ inputs }) => {
 };
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     count: 1000,
   },

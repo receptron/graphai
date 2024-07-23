@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 const graphdata_counter = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     count: 10,
   },
@@ -36,7 +36,7 @@ test("test counter", async () => {
 
 test("test counter2", async () => {
   const nested_graphdata = {
-    version: 0.3,
+    version: 0.5,
     loop: {
       count: 10,
     },
@@ -64,7 +64,7 @@ test("test counter2", async () => {
 /* Removed from test for now
 test("test counter3", async () => {
   const nested_graphdata = {
-    version: 0.3,
+    version: 0.5,
     concurrency: 2,
     loop: {
       count: 10,
@@ -101,7 +101,7 @@ test("test counter3", async () => {
   assert.deepStrictEqual(result, {
     workingMemory: { v: 10220 },
     workingMemory2: { v: 10220 },
-    mapping: { counter: [{ v: 10230 }, { v: 10230 }] },
+    mapping: { counter: [{ v: 10.50 }, { v: 10.50 }] },
     merge: { v: 20460 },
   });
 });

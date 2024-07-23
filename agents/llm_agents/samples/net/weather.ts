@@ -134,7 +134,7 @@ const graph_tool = {
 };
 
 export const graph_data = {
-  version: 0.3,
+  version: 0.5,
   loop: {
     while: ":continue",
   },

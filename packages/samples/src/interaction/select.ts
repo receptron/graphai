@@ -6,7 +6,7 @@ import { interactiveInputSelectAgent } from "../utils/agents/interactiveInputAge
 import { agentInfoWrapper } from "graphai";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     countingAgent: {
       agent: "countingAgent",

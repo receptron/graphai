@@ -1,5 +1,5 @@
 verbose: true
-version: 0.3
+version: 0.5
 nodes:
   node1:
     agent: slashGPTAgent

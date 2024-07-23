@@ -4,7 +4,7 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
 const graph_data = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     strings: {
       value: ["王", "女王", "貴族", "男", "女", "庶民", "農民"],

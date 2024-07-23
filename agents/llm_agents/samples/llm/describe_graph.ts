@@ -25,7 +25,7 @@ This sample graph was designed to simulate an interview with a famous person. Th
 `;
 
 const graph_data_explain = {
-  version: 0.3,
+  version: 0.5,
   nodes: {
     describer: {
       agent: "openAIAgent",

@@ -10,7 +10,7 @@ test("test nest agent", async () => {
     ...defaultTestContext,
     agents: { sleeperAgent },
     graphData: {
-      version: 0.3,
+      version: 0.5,
       nodes: {
         node1: {
           agent: "sleeperAgent",
