@@ -119,6 +119,34 @@
     "@graphai/sleeper_agents" "^0.0.2"
     "@graphai/vanilla" "^0.0.7"
 
+"@graphai/anthropic_agent@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@graphai/anthropic_agent/-/anthropic_agent-0.0.2.tgz#bc953dcf562c95f44f2ea5e7aad56f6139126368"
+  integrity sha512-ydhyDayyoop5VvmAr6hHiVL0Uu+PnpBK+96Fs8lEX03jN/142FvzaLhEsNu3Rl1tFOZIxd8Ij/08d3vjGhXT6Q==
+  dependencies:
+    "@anthropic-ai/sdk" "^0.24.3"
+    "@graphai/llm_utils" "^0.0.1"
+
+"@graphai/groq_agent@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@graphai/groq_agent/-/groq_agent-0.0.2.tgz#07ecc4c74f561aa786183baa5373ea5b75e5b4c5"
+  integrity sha512-5LHIFjTBimH6IfmYHdbSxGh++mE0zGlcCjuPxxE+bEbQ3kKvzW7oV5sJg7HL7WFZ5yLRWtzrrRWKTRKQ0e0mZA==
+  dependencies:
+    "@graphai/llm_utils" "^0.0.1"
+    groq-sdk "^0.5.0"
+
+"@graphai/llm_agents@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-0.0.11.tgz#8116f5c90e406802188ce767f00b58c83a9430ea"
+  integrity sha512-xYlGU/CMFemQ55356j4UP5Atq8QtEyv0LOxGSXM77TbpA5vwLVOn0LGlkHGb24vkXTLSa4Np5G6bYtm0DTdObg==
+  dependencies:
+    "@graphai/anthropic_agent" "^0.0.2"
+    "@graphai/gemini_agent" "^0.0.2"
+    "@graphai/groq_agent" "^0.0.2"
+    "@graphai/openai_agent" "^0.0.6"
+    "@graphai/slashgpt_agent" "^0.0.1"
+    tiktoken "^1.0.14"
+
 "@graphai/llm_agents@^0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-0.0.9.tgz#1f988f0886d02035b7e5a082efd74bca42fedc2f"
