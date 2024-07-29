@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.streamAgentFilterGenerator = void 0;
 const streamAgentFilterGenerator = (callback) => {
     const streamAgentFilter = async (context, next) => {
-        if (context.debugInfo.isResult && context.filterParams.streamTokenCallback) {
+        if (context.debugInfo.isResult) {
             context.filterParams.streamTokenCallback = (data) => {
                 callback(context, data);
             };
