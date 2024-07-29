@@ -13,6 +13,7 @@
 ### [geminiAgent](./llm/geminiAgent.md)
 ### [groqAgent](./llm/groqAgent.md)
 ### [openAIAgent](./llm/openAIAgent.md)
+### [openAIImageAgent](./llm/openAIImageAgent.md)
 ### [replicateAgent](./llm/replicateAgent.md)
 ### [slashGPTAgent](./llm/slashGPTAgent.md)
 
