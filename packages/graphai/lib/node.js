@@ -308,6 +308,7 @@ class ComputedNode extends Node {
             retry: this.retryCount,
             verbose: this.graph.verbose,
             version: this.graph.version,
+            isResult: this.isResult,
         };
     }
     beforeConsoleLog(context) {
