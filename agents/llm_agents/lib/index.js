@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tokenBoundStringsAgent = exports.slashGPTAgent = exports.replicateAgent = exports.openAIAgent = exports.groqAgent = exports.geminiAgent = exports.anthropicAgent = void 0;
+exports.tokenBoundStringsAgent = exports.slashGPTAgent = exports.replicateAgent = exports.openAIImageAgent = exports.openAIAgent = exports.groqAgent = exports.geminiAgent = exports.anthropicAgent = void 0;
 const token_bound_string_agent_1 = __importDefault(require("./token_bound_string_agent"));
 exports.tokenBoundStringsAgent = token_bound_string_agent_1.default;
 const anthropic_agent_1 = require("@graphai/anthropic_agent");
@@ -14,6 +14,7 @@ const groq_agent_1 = require("@graphai/groq_agent");
 Object.defineProperty(exports, "groqAgent", { enumerable: true, get: function () { return groq_agent_1.groqAgent; } });
 const openai_agent_1 = require("@graphai/openai_agent");
 Object.defineProperty(exports, "openAIAgent", { enumerable: true, get: function () { return openai_agent_1.openAIAgent; } });
+Object.defineProperty(exports, "openAIImageAgent", { enumerable: true, get: function () { return openai_agent_1.openAIImageAgent; } });
 const replicate_agent_1 = require("@graphai/replicate_agent");
 Object.defineProperty(exports, "replicateAgent", { enumerable: true, get: function () { return replicate_agent_1.replicateAgent; } });
 const slashgpt_agent_1 = require("@graphai/slashgpt_agent");
