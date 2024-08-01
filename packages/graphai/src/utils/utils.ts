@@ -106,7 +106,7 @@ export const defaultAgentInfo = {
   license: "",
 };
 
-export const agentInfoWrapper = (agent: AgentFunction<any, any, any>) => {
+export const agentInfoWrapper = (agent: AgentFunction<any, any, any, any>) => {
   return {
     agent,
     mock: agent,
