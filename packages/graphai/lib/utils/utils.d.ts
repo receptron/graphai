@@ -18,7 +18,7 @@ export declare const defaultAgentInfo: {
     repository: string;
     license: string;
 };
-export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any>) => {
+export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any, any>) => {
     name: string;
     samples: {
         inputs: never[];
@@ -30,8 +30,8 @@ export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any>) => 
     author: string;
     repository: string;
     license: string;
-    agent: AgentFunction<any, any, any>;
-    mock: AgentFunction<any, any, any>;
+    agent: AgentFunction<any, any, any, any>;
+    mock: AgentFunction<any, any, any, any>;
 };
 export declare const debugResultKey: (agentId: string, result: any) => string[];
 export declare const isLogicallyTrue: (value: any) => boolean;
