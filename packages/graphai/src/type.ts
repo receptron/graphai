@@ -21,6 +21,8 @@ export type ResultDataDictionary<ResultType = DefaultResultData> = Record<string
 export type DefaultParamsType = Record<string, any>;
 export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType; // Agent-specific parameters
 
+export type PassThrough = Record<string, any>;
+
 export type DataSource = {
   nodeId?: string;
   value?: any;
@@ -54,6 +56,7 @@ export type ComputedNodeData = {
   graph?: GraphData | string;
   isResult?: boolean;
   priority?: number; // The default is 0.
+  passThrough?: PassThrough; // data that pass trough to result
   console?: Record<string, string | boolean>;
 };
 
