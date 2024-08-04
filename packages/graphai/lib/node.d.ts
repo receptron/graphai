@@ -27,6 +27,7 @@ export declare class ComputedNode extends Node {
     readonly priority: number;
     error?: Error;
     transactionId: undefined | number;
+    private readonly passThrough?;
     readonly anyInput: boolean;
     dataSources: NestedDataSource;
     private inputs?;

@@ -16,6 +16,7 @@ exports.computedNodeAttributeKeys = [
     "unless",
     "filterParams",
     "console",
+    "passThrough",
 ];
 exports.staticNodeAttributeKeys = ["value", "update", "isResult"];
 class ValidationError extends Error {

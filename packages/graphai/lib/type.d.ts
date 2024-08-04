@@ -17,6 +17,7 @@ export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
 export type ResultDataDictionary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
 export type DefaultParamsType = Record<string, any>;
 export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType;
+export type PassThrough = Record<string, any>;
 export type DataSource = {
     nodeId?: string;
     value?: any;
@@ -45,6 +46,7 @@ export type ComputedNodeData = {
     graph?: GraphData | string;
     isResult?: boolean;
     priority?: number;
+    passThrough?: PassThrough;
     console?: Record<string, string | boolean>;
 };
 export type NodeData = StaticNodeData | ComputedNodeData;

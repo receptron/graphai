@@ -42,6 +42,7 @@ class ComputedNode extends Node {
         this.params = data.params ?? {};
         this.console = data.console ?? {};
         this.filterParams = data.filterParams ?? {};
+        this.passThrough = data.passThrough;
         this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
         this.timeout = data.timeout;
         this.isResult = data.isResult ?? false;
@@ -247,7 +248,17 @@ class ComputedNode extends Node {
                 return;
             }
             this.state = type_1.NodeState.Completed;
-            this.result = result;
+            this.result = (() => {
+                if (result && this.passThrough) {
+                    if ((0, utils_2.isObject)(result) && !Array.isArray(result)) {
+                        return { ...result, ...this.passThrough };
+                    }
+                    else if (Array.isArray(result)) {
+                        return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+                    }
+                }
+                return result;
+            })();
             this.log.onComplete(this, this.graph, localLog);
             this.onSetResult();
             this.graph.onExecutionComplete(this);
