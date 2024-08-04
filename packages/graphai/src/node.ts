@@ -318,14 +318,16 @@ export class ComputedNode extends Node {
       }
 
       this.state = NodeState.Completed;
-      if (result && isObject(result) && !Array.isArray(result) && this.passThrough) {
-        this.result = {
-          ...result,
-          ...this.passThrough,
-        };
-      } else {
-        this.result = result;
-      }
+      this.result = (() => {
+        if (result && this.passThrough) {
+          if (isObject(result) && !Array.isArray(result)) {
+            return { ...result, ...this.passThrough };
+          } else if (Array.isArray(result)) {
+            return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+          }
+        }
+        return result;
+      })();
       this.log.onComplete(this, this.graph, localLog);
 
       this.onSetResult();
