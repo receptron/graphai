@@ -16,8 +16,9 @@ import {
   DefaultParamsType,
   DefaultInputData,
   NestedDataSource,
+  PassThrough,
 } from "@/type";
-import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
+import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
 
 export class Node {
@@ -67,6 +68,7 @@ export class ComputedNode extends Node {
   public readonly priority: number;
   public error?: Error;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
+  private readonly passThrough?: PassThrough;
 
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: NestedDataSource = {}; // data sources.
@@ -86,6 +88,7 @@ export class ComputedNode extends Node {
     this.params = data.params ?? {};
     this.console = data.console ?? {};
     this.filterParams = data.filterParams ?? {};
+    this.passThrough = data.passThrough;
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
@@ -315,7 +318,16 @@ export class ComputedNode extends Node {
       }
 
       this.state = NodeState.Completed;
-      this.result = result;
+      this.result = (() => {
+        if (result && this.passThrough) {
+          if (isObject(result) && !Array.isArray(result)) {
+            return { ...result, ...this.passThrough };
+          } else if (Array.isArray(result)) {
+            return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+          }
+        }
+        return result;
+      })();
       this.log.onComplete(this, this.graph, localLog);
 
       this.onSetResult();

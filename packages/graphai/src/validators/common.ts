@@ -14,6 +14,7 @@ export const computedNodeAttributeKeys = [
   "unless",
   "filterParams",
   "console",
+  "passThrough",
 ];
 export const staticNodeAttributeKeys = ["value", "update", "isResult"];
 

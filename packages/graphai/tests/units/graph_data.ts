@@ -36,3 +36,62 @@ export const graph_injection_data = {
     },
   },
 };
+
+export const graph_data_passthrough = {
+  version: graphDataLatestVersion,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    bypassAgent: {
+      isResult: true,
+      agent: "bypassAgent",
+      inputs: [":echo"],
+      passThrough: {
+        type: "bypass1",
+      },
+    },
+    bypassAgent2: {
+      isResult: true,
+      agent: "bypassAgent",
+      inputs: [":bypassAgent"],
+      params: {
+        flat: true,
+      },
+      passThrough: {
+        type: "bypass2",
+      },
+    },
+  },
+};
+
+export const graph_data_passthrough2 = {
+  version: graphDataLatestVersion,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    bypassAgent: {
+      isResult: true,
+      agent: "bypassNamedAgent",
+      inputs: { echo: ":echo" },
+      passThrough: {
+        type: "bypass1",
+      },
+    },
+    bypassAgent2: {
+      isResult: true,
+      agent: "bypassNamedAgent",
+      inputs: { bypass: ":bypassAgent" },
+      passThrough: {
+        type: "bypass2",
+      },
+    },
+  },
+};
