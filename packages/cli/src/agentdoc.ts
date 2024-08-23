@@ -5,8 +5,8 @@ import { readTemplate } from "./docs";
 const main = async () => {
   const path = process.cwd();
   const packageJson = JSON.parse(fs.readFileSync(path + "/package.json", "utf8"));
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const agents = require(path + "/lib/index");
+   
+  const agents = await import(path + "/lib/index");
 
   const agentAttribute = (key: string) => {
     if (key === "packageName") {
