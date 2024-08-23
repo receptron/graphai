@@ -39,7 +39,7 @@
   "dependencies": {
     "@graphai/agent_filters": "^0.0.6",
     "@graphai/agents": "^0.0.21",
-    "@receptron/test_utils": "^0.0.6",
+    "@receptron/test_utils": "^0.0.7",
     "dotenv": "^16.4.5",
     "graphai": "^0.5.5",
     "json-schema-generator": "^2.0.6",
