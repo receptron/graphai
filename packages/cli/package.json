@@ -1,14 +1,14 @@
 {
   "name": "@receptron/graphai_cli",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "description": "GraphAI command line tools.",
   "main": "lib/graphai_cli.js",
   "bin": {
-    "graphai": "lib/graphai_cli.js",
-    "agentdoc": "lib/agentdoc.js"
+    "graphai": "lib/graphai_cli.js"
   },
   "files": [
-    "./lib"
+    "./lib",
+    "./templates"
   ],
   "scripts": {
     "build": "tsc && tsc-alias",
@@ -23,14 +23,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/receptron/graphai_cli"
+    "url": "git+https://github.com/receptron/graphai"
   },
   "author": "Receptron team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/receptron/graphai_cli/issues"
+    "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai_cli#readme",
+  "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@types/json-schema-generator": "^2.0.3",
@@ -47,7 +47,6 @@
   },
   "types": "./lib/graphai_cli.d.ts",
   "directories": {
-    "lib": "lib",
-    "template": "template"
+    "lib": "lib"
   }
 }
