@@ -27,8 +27,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const docs_1 = require("./docs");
+const readTemplate = (file) => {
+    return fs_1.default.readFileSync(path_1.default.resolve(__dirname) + "/../templates/" + file, "utf8");
+};
 const main = async () => {
     const path = process.cwd();
     const packageJson = JSON.parse(fs_1.default.readFileSync(path + "/package.json", "utf8"));
@@ -44,7 +47,7 @@ const main = async () => {
             return Object.keys(agents).join(", ");
         }
     };
-    const temp = (0, docs_1.readTemplate)("readme.md");
+    const temp = readTemplate("readme.md");
     const md = ["packageName", "description", "agents"].reduce((tmp, key) => {
         tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
         return tmp;

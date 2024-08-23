@@ -1,6 +1,10 @@
 #!/usr/bin/env node
+import path from "path";
 import fs from "fs";
-import { readTemplate } from "./docs";
+
+const readTemplate = (file: string) => {
+  return fs.readFileSync(path.resolve(__dirname) + "/../templates/" + file, "utf8");
+};
 
 const main = async () => {
   const path = process.cwd();

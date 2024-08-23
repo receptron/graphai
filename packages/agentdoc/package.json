@@ -1,0 +1,37 @@
+{
+  "name": "@receptron/agentdoc",
+  "version": "0.0.1",
+  "description": "GraphAI agent document generator.",
+  "main": "lib/agentdoc.js",
+  "bin": {
+    "agentdoc": "lib/agentdoc.js"
+  },
+  "files": [
+    "./lib",
+    "./templates"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "eslint": "eslint --fix",
+    "format": "prettier --write '{src,test_yaml,samples}/**/*.{yaml,ts,json}'",
+    "test": "echo nothing",
+    "b": "yarn run format && yarn run eslint && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "author": "Receptron team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai#readme",
+  "devDependencies": {},
+  "dependencies": {},
+  "types": "./lib/agentdoc.d.ts",
+  "directories": {
+    "lib": "lib",
+    "template": "template"
+  }
+}
