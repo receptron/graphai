@@ -7,10 +7,15 @@ const readTemplate = (file: string) => {
 };
 
 const main = async () => {
-  const path = process.cwd();
-  const packageJson = JSON.parse(fs.readFileSync(path + "/package.json", "utf8"));
+  const npmRootPath = process.cwd();
+  const packagePath = npmRootPath + "/package.json";
+  if (!fs.existsSync(packagePath)) {
+    console.log("No package.json. Run this script in root of npm repository directory.");
+    return;
+  }
+  const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 
-  const agents = await import(path + "/lib/index");
+  const agents = await import(npmRootPath + "/lib/index");
 
   const agentAttribute = (key: string) => {
     if (key === "packageName") {
@@ -29,7 +34,20 @@ const main = async () => {
     return tmp;
   }, temp);
 
-  fs.writeFileSync(path + "/README.md", md);
+  const readDocIfExist = (key: string) => {
+    const docPath = npmRootPath + "/docs/" + key + ".md";
+    if (fs.existsSync(docPath)) {
+      return fs.readFileSync(docPath, "utf8");
+    }
+    return "";
+  };
+
+  const md2 = ["READMEBefore", "READMEAfter"].reduce((tmp, key) => {
+    tmp = tmp.replaceAll("{" + key + "}", readDocIfExist(key));
+    return tmp;
+  }, md);
+
+  fs.writeFileSync(npmRootPath + "/README.md", md2);
 };
 
 main();

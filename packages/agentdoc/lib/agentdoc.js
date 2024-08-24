@@ -33,9 +33,14 @@ const readTemplate = (file) => {
     return fs_1.default.readFileSync(path_1.default.resolve(__dirname) + "/../templates/" + file, "utf8");
 };
 const main = async () => {
-    const path = process.cwd();
-    const packageJson = JSON.parse(fs_1.default.readFileSync(path + "/package.json", "utf8"));
-    const agents = await Promise.resolve(`${path + "/lib/index"}`).then(s => __importStar(require(s)));
+    const npmRootPath = process.cwd();
+    const packagePath = npmRootPath + "/package.json";
+    if (!fs_1.default.existsSync(packagePath)) {
+        console.log("No package.json. Run this script in root of npm repository directory.");
+        return;
+    }
+    const packageJson = JSON.parse(fs_1.default.readFileSync(packagePath, "utf8"));
+    const agents = await Promise.resolve(`${npmRootPath + "/lib/index"}`).then(s => __importStar(require(s)));
     const agentAttribute = (key) => {
         if (key === "packageName") {
             return packageJson.name;
@@ -52,6 +57,17 @@ const main = async () => {
         tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
         return tmp;
     }, temp);
-    fs_1.default.writeFileSync(path + "/README.md", md);
+    const readDocIfExist = (key) => {
+        const docPath = npmRootPath + "/docs/" + key + ".md";
+        if (fs_1.default.existsSync(docPath)) {
+            return fs_1.default.readFileSync(docPath, "utf8");
+        }
+        return "";
+    };
+    const md2 = ["READMEBefore", "READMEAfter"].reduce((tmp, key) => {
+        tmp = tmp.replaceAll("{" + key + "}", readDocIfExist(key));
+        return tmp;
+    }, md);
+    fs_1.default.writeFileSync(npmRootPath + "/README.md", md2);
 };
 main();
