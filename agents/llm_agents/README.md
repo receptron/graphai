@@ -9,15 +9,18 @@ LLM agents for GraphAI.
 yarn add @graphai/llm_agents
 ```
 
+
 ### Usage
 
 ```typescript
 import { GraphAI } from "graphai";
-import { groqAgent, slashGPTAgent, openAIAgent, anthropicAgent, geminiAgent, tokenBoundStringsAgent } from "@graphai/llm_agents";
+import { anthropicAgent, geminiAgent, groqAgent, openAIAgent, openAIImageAgent, replicateAgent, slashGPTAgent, tokenBoundStringsAgent } from "@graphai/llm_agents";
 
-const agents = { groqAgent, slashGPTAgent, openAIAgent, anthropicAgent, geminiAgent, tokenBoundStringsAgent };
+const agents = { anthropicAgent, geminiAgent, groqAgent, openAIAgent, openAIImageAgent, replicateAgent, slashGPTAgent, tokenBoundStringsAgent };
 
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
+
+
 
