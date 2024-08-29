@@ -69,7 +69,7 @@ const workerAgentInfo = {
             params: {},
             result: { message: "May the force be with you" },
             graph: {
-                version: 0.3,
+                version: 0.5,
                 nodes: {
                     source: {
                         value: "May the force be with you",
@@ -87,7 +87,7 @@ const workerAgentInfo = {
             params: {},
             result: { message: "May the force be with you" },
             graph: {
-                version: 0.3,
+                version: 0.5,
                 nodes: {
                     source: {
                         value: "TypeScript compiler fails without this node for some reason.",
