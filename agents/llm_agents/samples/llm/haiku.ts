@@ -2,7 +2,8 @@ import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
-const system_prompt = "あなたは、俳句の達人です。与えられたトピックの俳句を１０句詠んで、call function 'generated'。";
+const haiku_prompt = "あなたは、俳句の達人です。与えられたトピックの俳句を４０句詠んで、call function 'generated'。";
+const review_prompt = "あなたは、俳句の評論家です。季節感を重視して与えられた俳句を評価し、良いものを５つ選んで、call function 'generated'。";
 
 const tools_haiku = [
   {
@@ -43,7 +44,7 @@ const graph_data = {
         template: [
           {
             role: "system",
-            content: system_prompt,
+            content: haiku_prompt,
           },
           {
             role: "user",
@@ -58,14 +59,39 @@ const graph_data = {
       params: {
         model: "gpt-4o",
         tools: tools_haiku,
+        temparature: 0.3,
         tool_choice: { type: "function", function: { name: "generated" } },
       },
       inputs: { messages: ":messages" },
     },
-    parser: {
-      // Parses the arguments
-      agent: "jsonParserAgent",
+    messages2: {
+      agent: "stringTemplateAgent",
+      params: {
+        template: [
+          {
+            role: "system",
+            content: review_prompt,
+          },
+          {
+            role: "user",
+            content: "${0}"
+          }
+        ],
+      },
       inputs: [":query.choices.$0.message.tool_calls.$0.function.arguments"],
+    },
+    query2: {
+      agent: "openAIAgent",
+      params: {
+        model: "gpt-4o",
+        tools: tools_haiku,
+        tool_choice: { type: "function", function: { name: "generated" } },
+      },
+      inputs: { messages: ":messages2" },
+    },
+    parser: {
+      agent: "jsonParserAgent",
+      inputs: [":query2.choices.$0.message.tool_calls.$0.function.arguments"],
       isResult: true,
     },
   },
