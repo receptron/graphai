@@ -1,13 +1,19 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as agents from "@/index";
-import { sleeperAgent } from "@graphai/agents";
+import * as agents from "@graphai/agents";
 
 const system_prompt = "あなたは、俳句の達人です。与えられたトピックの俳句を１０句詠んで、JSON arrayで返して。";
 
 const graph_data = {
   version: 0.5,
   nodes: {
+    topic: {
+      // Gets the research topic from the user.
+      agent: "textInputAgent",
+      params: {
+        message: "含めたいトピック（複数可）を入力してください:",
+      },
+    },
     messages: {
       value: [
         {
@@ -16,7 +22,7 @@ const graph_data = {
         },
         {
           role: "user",
-          content: "蛙、静けさ"
+          content: "米"
         }
       ],
     },
@@ -36,7 +42,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { sleeperAgent, ...agents }, () => {},
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents }, () => {},
   false);
   console.log(result);
 };
