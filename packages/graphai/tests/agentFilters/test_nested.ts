@@ -79,7 +79,7 @@ test("test map agent filter", async () => {
         value: { data: ["1", "2"] },
       },
       nested1: {
-        inputs: [":source.data"],
+        inputs: {rows: ":source.data"},
         agent: "mapAgent",
         graph: {
           nodes: {

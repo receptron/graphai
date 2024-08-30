@@ -7,9 +7,6 @@ export const bypassAgent: AgentFunction<{ flat?: number; firstElement?: boolean 
   if (params && params.flat) {
     return inputs.flat(params.flat || 1);
   }
-  if (namedInputs) {
-    return namedInputs;
-  }
   return inputs;
 };
 
