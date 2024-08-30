@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nestedAgent = void 0;
 const graphai_1 = require("graphai");
-const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo }) => {
+const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config }) => {
     if (taskManager) {
         const status = taskManager.getStatus(false);
         (0, graphai_1.assert)(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -30,6 +30,7 @@ const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, a
         const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, {
             taskManager,
             agentFilters,
+            config,
         });
         const results = await graphAI.run(false);
         log?.push(...graphAI.transactionLogs());

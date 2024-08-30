@@ -1,58 +1,39 @@
-import { GraphAI, AgentFunction } from "@/index";
-import { assert } from "@/utils/utils";
-import { GraphData, StaticNodeData } from "@/type";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert } from "@/index";
 
-// This function allows us to use one of inputs as the graph data for this nested agent,
-// which is equivalent to "eval" of JavaScript.
-export const getNestedGraphData = (graphData: GraphData | string | undefined, inputs: Array<any>): GraphData => {
-  assert(graphData !== undefined, "nestedAgent: graphData is required");
-  if (typeof graphData === "string") {
-    const regex = /^\$(\d+)$/;
-    const match = graphData.match(regex);
-    if (match) {
-      const index = parseInt(match[1], 10);
-      if (index < inputs.length) {
-        return inputs[index] as GraphData;
-      }
-    }
-    assert(false, `getNestedGraphData: Invalid graphData string: ${graphData}`);
-  }
-  return graphData;
-};
-
-export const nestedAgent: AgentFunction<{ namedInputs?: Array<string> }> = async ({
-  params,
-  inputs,
-  agents,
-  log,
-  taskManager,
-  graphData,
-  agentFilters,
-  debugInfo,
-}) => {
+export const nestedAgent: AgentFunction<{
+  namedInputs?: Array<string>;
+}> = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config }) => {
   if (taskManager) {
     const status = taskManager.getStatus(false);
     assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
   }
+  assert(!!graphData, "nestedAgent: graph is required");
 
-  const nestedGraphData = getNestedGraphData(graphData, inputs);
+  const { nodes } = graphData;
+  const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
 
-  const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
-  namedInputs.forEach((nodeId, index) => {
-    if (nestedGraphData.nodes[nodeId] === undefined) {
-      // If the input node does not exist, automatically create a static node
-      nestedGraphData.nodes[nodeId] = { value: inputs[index] };
-    } else {
-      // Otherwise, inject the proper data here (instead of calling injectTo method later)
-      (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = inputs[index];
-    }
-  });
+  const nodeIds = Object.keys(namedInputs);
+  if (nodeIds.length > 0) {
+    nodeIds.forEach((nodeId) => {
+      if (nestedGraphData.nodes[nodeId] === undefined) {
+        // If the input node does not exist, automatically create a static node
+        nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
+      } else {
+        // Otherwise, inject the proper data here (instead of calling injectTo method later)
+        (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+      }
+    });
+  }
 
   try {
     if (nestedGraphData.version === undefined && debugInfo.version) {
       nestedGraphData.version = debugInfo.version;
     }
-    const graphAI = new GraphAI(nestedGraphData, agents || {}, { taskManager, agentFilters });
+    const graphAI = new GraphAI(nestedGraphData, agents || {}, {
+      taskManager,
+      agentFilters,
+      config,
+    });
 
     const results = await graphAI.run(false);
     log?.push(...graphAI.transactionLogs());
@@ -70,7 +51,7 @@ export const nestedAgent: AgentFunction<{ namedInputs?: Array<string> }> = async
   }
 };
 
-const nestedAgentInfo = {
+const nestedAgentInfo: AgentFunctionInfo = {
   name: "nestedAgent",
   agent: nestedAgent,
   mock: nestedAgent,
