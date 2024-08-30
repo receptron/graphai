@@ -15,16 +15,21 @@ const graph_data = {
       },
     },
     messages: {
-      value: [
-        {
-          role: "system",
-          content: system_prompt,
-        },
-        {
-          role: "user",
-          content: "米"
-        }
-      ],
+      agent: "stringTemplateAgent",
+      params: {
+        template: [
+          {
+            role: "system",
+            content: system_prompt,
+          },
+          {
+            role: "user",
+            content: "${0}"
+          }
+        ],
+      },
+      inputs: [":topic"],
+      isResult: true,
     },
     query: {
       agent: "openAIAgent",
