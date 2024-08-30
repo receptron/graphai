@@ -2,7 +2,30 @@ import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
-const system_prompt = "あなたは、俳句の達人です。与えられたトピックの俳句を１０句詠んで、JSON arrayで返して。";
+const system_prompt = "あなたは、俳句の達人です。与えられたトピックの俳句を１０句詠んで、call function 'generated'。";
+
+const tools_haiku = [
+  {
+    type: "function",
+    function: {
+      name: "generated",
+      description: "report generated strings",
+      parameters: {
+        type: "object",
+        properties: {
+          strings: {
+            type: "array",
+            "items": {
+              "type": "string"
+            },
+            description: "generated strings",
+          },
+        },
+        required: ["strings"],
+      },
+    },
+  },
+];
 
 const graph_data = {
   version: 0.5,
@@ -29,18 +52,20 @@ const graph_data = {
         ],
       },
       inputs: [":topic"],
-      isResult: true,
     },
     query: {
       agent: "openAIAgent",
       params: {
         model: "gpt-4o",
+        tools: tools_haiku,
+        tool_choice: { type: "function", function: { name: "generated" } },
       },
       inputs: { messages: ":messages" },
     },
-    answer: {
-      agent: "sleeperAgent",
-      inputs: [":query.choices.$0.message"],
+    parser: {
+      // Parses the arguments
+      agent: "jsonParserAgent",
+      inputs: [":query.choices.$0.message.tool_calls.$0.function.arguments"],
       isResult: true,
     },
   },
