@@ -16,8 +16,8 @@ const tools_haiku = [
         properties: {
           strings: {
             type: "array",
-            "items": {
-              "type": "string"
+            items: {
+              type: "string",
             },
             description: "generated strings",
           },
@@ -48,8 +48,8 @@ const graph_data = {
           },
           {
             role: "user",
-            content: "${0}"
-          }
+            content: "${0}",
+          },
         ],
       },
       inputs: [":topic"],
@@ -74,8 +74,8 @@ const graph_data = {
           },
           {
             role: "user",
-            content: "${0}"
-          }
+            content: "${0}",
+          },
         ],
       },
       inputs: [":query.choices.$0.message.tool_calls.$0.function.arguments"],
@@ -98,8 +98,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents }, () => {},
-  false);
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents }, () => {}, false);
   console.log(result);
 };
 
