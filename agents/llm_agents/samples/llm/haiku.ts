@@ -59,7 +59,7 @@ const graph_data = {
       params: {
         model: "gpt-4o",
         tools: tools_haiku,
-        temparature: 0.3,
+        temperature: 0.5,
         tool_choice: { type: "function", function: { name: "generated" } },
       },
       inputs: { messages: ":messages" },
