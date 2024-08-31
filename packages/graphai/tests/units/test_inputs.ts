@@ -13,14 +13,12 @@ const graph_data = {
     result: {
       agent: "nestedAgent",
       params: {
-        namedInput: [
-          "a", "b", "c",
-        ],
+        namedInput: ["a", "b", "c"],
       },
       inputs: {
         a: [":message"],
         b: [],
-        c: ""
+        c: "",
       },
       graph: {
         nodes: {
@@ -31,8 +29,8 @@ const graph_data = {
               c: ":c",
             },
             agent: (input: string) => {
-              console.log(input)
-              return input
+              console.log(input);
+              return input;
             },
             isResult: true,
           },
@@ -51,5 +49,14 @@ const graph_data = {
 test("test named inputs", async () => {
   const graph = new GraphAI(graph_data, { nestedAgent }, {});
   const result = await graph.run();
-  assert.deepStrictEqual(result, { result: "Hello World", namedResult: "Hello World" });
+  assert.deepStrictEqual(result, {
+    result: {
+      test: {
+        a: ["Hello World"],
+        b: [],
+        c: "",
+      },
+    },
+    namedResult: "Hello World",
+  });
 });
