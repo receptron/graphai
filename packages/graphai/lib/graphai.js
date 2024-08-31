@@ -52,7 +52,7 @@ class GraphAI {
             const node = this.nodes[nodeId];
             if (node?.isStaticNode) {
                 const value = node?.value;
-                if (value) {
+                if (value !== undefined) {
                     this.injectValue(nodeId, value, nodeId);
                 }
                 const update = node?.update;
