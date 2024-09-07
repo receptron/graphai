@@ -34,7 +34,7 @@ const main = async () => {
       }
     }
     if (key === "relatedAgents") {
-      const agents = Object.keys(packageJson.dependencies).filter(depend => depend.match(/^@graphai/) && depend.match(/_agent$/));
+      const agents = Object.keys(packageJson.dependencies).filter(depend => depend.match(/^@graphai/) && depend.match(/_agents?$/));
       if (agents.length > 0) {
         return [
           "### RelatedPackages",
