@@ -23,7 +23,7 @@ const graphdata_child = {
   },
 };
 
-export const graphdata = {
+export const dynamicGraphData = {
   version: 0.5,
   nodes: {
     source: {
@@ -37,7 +37,7 @@ export const graphdata = {
   },
 };
 
-export const graphdata2 = {
+export const dynamicGraphData2 = {
   version: 0.5,
   nodes: {
     source: {
@@ -55,7 +55,7 @@ export const graphdata2 = {
   },
 };
 
-export const graphdata3 = {
+export const dynamicGraphData3 = {
   version: 0.5,
   nodes: {
     source: {
@@ -69,6 +69,52 @@ export const graphdata3 = {
       agent: "nestedAgent",
       graph: ":parser",
       isResult: true,
+    },
+  },
+};
+
+export const nestedGraphData = {
+  version: 0.5,
+  nodes: {
+    source: {
+      value: "Hello World",
+    },
+    nestedNode: {
+      agent: "nestedAgent",
+      inputs: { inner0: ":source" },
+      isResult: true,
+      graph: {
+        nodes: {
+          result: {
+            agent: "copyAgent",
+            inputs: [":inner0"],
+            isResult: true,
+          },
+        },
+      },
+    },
+  },
+};
+
+export const nestedGraphData2 = {
+  version: 0.5,
+  nodes: {
+    source: {
+      value: "Hello World",
+    },
+    nestedNode: {
+      agent: "nestedAgent",
+      inputs: { source: ":source" },
+      isResult: true,
+      graph: {
+        nodes: {
+          result: {
+            agent: "copyAgent",
+            inputs: [":source"],
+            isResult: true,
+          },
+        },
+      },
     },
   },
 };

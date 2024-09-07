@@ -1,4 +1,4 @@
-## graphdata
+## dynamicGraphData
 ```yaml
 version: 0.5
 nodes:
@@ -29,7 +29,7 @@ nodes:
 
 ```
 
-## graphdata2
+## dynamicGraphData2
 ```yaml
 version: 0.5
 nodes:
@@ -46,7 +46,7 @@ nodes:
 
 ```
 
-## graphdata3
+## dynamicGraphData3
 ```yaml
 version: 0.5
 nodes:
@@ -65,5 +65,47 @@ nodes:
     agent: nestedAgent
     graph: :parser
     isResult: true
+
+```
+
+## nestedGraphData
+```yaml
+version: 0.5
+nodes:
+  source:
+    value: Hello World
+  nestedNode:
+    agent: nestedAgent
+    inputs:
+      inner0: :source
+    isResult: true
+    graph:
+      nodes:
+        result:
+          agent: copyAgent
+          inputs:
+            - :inner0
+          isResult: true
+
+```
+
+## nestedGraphData2
+```yaml
+version: 0.5
+nodes:
+  source:
+    value: Hello World
+  nestedNode:
+    agent: nestedAgent
+    inputs:
+      source: :source
+    isResult: true
+    graph:
+      nodes:
+        result:
+          agent: copyAgent
+          inputs:
+            - :source
+          isResult: true
 
 ```
