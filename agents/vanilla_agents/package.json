@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
-    "doc": "npx agentdoc",
+    "doc": "npm run examplesDoc && npx agentdoc",
     "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/graph/examples.ts",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
     "rollup": "npx rollup -c",
