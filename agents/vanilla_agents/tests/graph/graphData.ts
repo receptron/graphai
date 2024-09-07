@@ -125,7 +125,7 @@ export const nestedGraphData2 = {
 
 // test_map
 
-export const graphdataMap1 = {
+export const graphDataMap1 = {
   version: 0.5,
   nodes: {
     source: {
@@ -160,7 +160,7 @@ export const graphdataMap1 = {
   },
 };
 
-export const graphdataMap3 = {
+export const graphDataMap3 = {
   version: 0.5,
   nodes: {
     source1: {
@@ -190,7 +190,7 @@ export const graphdataMap3 = {
   },
 };
 
-export const graphdataMap4 = {
+export const graphDataMap4 = {
   version: 0.5,
   nodes: {
     source1: {
@@ -222,7 +222,7 @@ export const graphdataMap4 = {
   },
 };
 
-export const graphdataMap5 = {
+export const graphDataMap5 = {
   version: 0.5,
   nodes: {
     source1: {
