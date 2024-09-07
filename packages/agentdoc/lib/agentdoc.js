@@ -49,7 +49,17 @@ const main = async () => {
             return packageJson.description;
         }
         if (key === "agents") {
-            return Object.keys(agents).join(", ");
+            const keys = Object.keys(agents);
+            if (keys.length > 0) {
+                if (keys.length > 5) {
+                    return [
+                        "\n  ",
+                        Object.keys(agents).join(",\n  "),
+                        "\n",
+                    ].join("");
+                }
+                return Object.keys(agents).join(", ");
+            }
         }
     };
     const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
