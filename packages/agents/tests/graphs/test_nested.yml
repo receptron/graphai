@@ -1,4 +1,4 @@
-version: 0.3
+version: 0.5
 nodes:
   outer1:
     agent: sleeperAgent
@@ -11,7 +11,7 @@ nodes:
     inputs:
       inner0: :outer1
     graph:
-      version: 0.3
+      version: 0.5
       nodes:
         inner1:
           agent: sleeperAgent

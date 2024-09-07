@@ -1,4 +1,4 @@
-version: 0.3
+version: 0.5
 nodes:
   source1:
     value: ["hello", "hello2"]
@@ -7,7 +7,7 @@ nodes:
     inputs: 
       rows: ":source1"
     graph:
-      version: 0.3
+      version: 0.5
       nodes:
         node1:
           agent: "bypassAgent"
