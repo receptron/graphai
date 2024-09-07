@@ -1,6 +1,6 @@
 ### GraphData Example
 
-#### graphDataAnthropicMath
+#### graphDataGroqMath
 ```json
 {
   "version": 0.5,

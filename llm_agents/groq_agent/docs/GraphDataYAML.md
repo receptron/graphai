@@ -1,4 +1,4 @@
-#### graphDataAnthropicMath
+#### graphDataGroqMath
 ```yaml
 version: 0.5
 nodes:

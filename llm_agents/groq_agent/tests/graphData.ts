@@ -1,4 +1,4 @@
-export const graphDataAnthropicMath = {
+export const graphDataGroqMath = {
   version: 0.5,
   nodes: {
     inputData: {

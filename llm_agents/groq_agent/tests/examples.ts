@@ -1,9 +1,9 @@
 import { writeGraphExample } from "@receptron/agentdoc";
-import { graphDataAnthropicMath } from "./graphData";
+import { graphDataGroqMath } from "./graphData";
 
 writeGraphExample(
   {
-    graphDataAnthropicMath,
+    graphDataGroqMath,
   },
   __dirname + "/../docs/",
 );
