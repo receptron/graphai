@@ -1,3 +1,5 @@
+// for test_dynamic_graph
+
 const graphdata_child = {
   version: 0.5,
   loop: {
@@ -73,6 +75,8 @@ export const dynamicGraphData3 = {
   },
 };
 
+// for test_nest_agent
+
 export const nestedGraphData = {
   version: 0.5,
   nodes: {
@@ -115,6 +119,137 @@ export const nestedGraphData2 = {
           },
         },
       },
+    },
+  },
+};
+
+// test_map
+
+export const graphdataMap1 = {
+  version: 0.5,
+  nodes: {
+    source: {
+      value: {
+        fruits: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"],
+      },
+    },
+    nestedNode: {
+      agent: "mapAgent",
+      inputs: {
+        rows: ":source.fruits",
+      },
+      graph: {
+        version: 0.5,
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${0}.",
+            },
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    result: {
+      agent: "sleeperAgent",
+      inputs: [":nestedNode.node2"],
+      isResult: true,
+    },
+  },
+};
+
+export const graphdataMap3 = {
+  version: 0.5,
+  nodes: {
+    source1: {
+      value: ["hello", "hello2"],
+    },
+    nestedNode: {
+      agent: "mapAgent",
+      inputs: {
+        rows: ":source1",
+      },
+      graph: {
+        version: 0.5,
+        nodes: {
+          node1: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    result: {
+      agent: "bypassAgent",
+      inputs: [":nestedNode.node1"],
+      isResult: true,
+    },
+  },
+};
+
+export const graphdataMap4 = {
+  version: 0.5,
+  nodes: {
+    source1: {
+      value: ["hello", "hello2"],
+    },
+    nestedNode: {
+      agent: "mapAgent",
+      inputs: {
+        rows: ":source1",
+      },
+      graph: {
+        version: 0.5,
+        nodes: {
+          node1: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    result: {
+      agent: "bypassAgent",
+      params: {
+        flat: 1,
+      },
+      inputs: [":nestedNode.node1"],
+    },
+  },
+};
+
+export const graphdataMap5 = {
+  version: 0.5,
+  nodes: {
+    source1: {
+      value: ["hello", "hello2"],
+    },
+    nestedNode: {
+      agent: "mapAgent",
+      inputs: {
+        rows: ":source1",
+      },
+      graph: {
+        version: 0.5,
+        nodes: {
+          node1: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    result: {
+      agent: "bypassAgent",
+      params: {
+        flat: 2,
+      },
+      inputs: [":nestedNode.node1"],
     },
   },
 };

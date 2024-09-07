@@ -173,6 +173,180 @@ const result = await graph.run();
 }
 ```
 
+#### graphdataMap1
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "source": {
+      "value": {
+        "fruits": [
+          "apple",
+          "orange",
+          "banana",
+          "lemon",
+          "melon",
+          "pineapple",
+          "tomato"
+        ]
+      }
+    },
+    "nestedNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":source.fruits"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "node2": {
+            "agent": "stringTemplateAgent",
+            "params": {
+              "template": "I love ${0}."
+            },
+            "inputs": [
+              ":row"
+            ],
+            "isResult": true
+          }
+        }
+      }
+    },
+    "result": {
+      "agent": "sleeperAgent",
+      "inputs": [
+        ":nestedNode.node2"
+      ],
+      "isResult": true
+    }
+  }
+}
+```
+
+#### graphdataMap3
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "source1": {
+      "value": [
+        "hello",
+        "hello2"
+      ]
+    },
+    "nestedNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":source1"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "node1": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":row"
+            ],
+            "isResult": true
+          }
+        }
+      }
+    },
+    "result": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":nestedNode.node1"
+      ],
+      "isResult": true
+    }
+  }
+}
+```
+
+#### graphdataMap4
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "source1": {
+      "value": [
+        "hello",
+        "hello2"
+      ]
+    },
+    "nestedNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":source1"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "node1": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":row"
+            ],
+            "isResult": true
+          }
+        }
+      }
+    },
+    "result": {
+      "agent": "bypassAgent",
+      "params": {
+        "flat": 1
+      },
+      "inputs": [
+        ":nestedNode.node1"
+      ]
+    }
+  }
+}
+```
+
+#### graphdataMap5
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "source1": {
+      "value": [
+        "hello",
+        "hello2"
+      ]
+    },
+    "nestedNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":source1"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "node1": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":row"
+            ],
+            "isResult": true
+          }
+        }
+      }
+    },
+    "result": {
+      "agent": "bypassAgent",
+      "params": {
+        "flat": 2
+      },
+      "inputs": [
+        ":nestedNode.node1"
+      ]
+    }
+  }
+}
+```
+
 
 
 
