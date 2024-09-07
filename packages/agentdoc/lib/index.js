@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.writeGraphExample = void 0;
-const YAML_1 = __importDefault(require("YAML"));
+const yaml_1 = __importDefault(require("yaml"));
 const fs_1 = __importDefault(require("fs"));
 const writeGraphExample = (dataSet, dir) => {
     const json = [];
@@ -14,7 +14,7 @@ const writeGraphExample = (dataSet, dir) => {
         json.push(`## ${key}`);
         json.push("```json\n" + JSON.stringify(grapData, null, 2) + "\n```\n");
         yamls.push(`## ${key}`);
-        yamls.push("```yaml\n" + YAML_1.default.stringify(grapData) + "\n```\n");
+        yamls.push("```yaml\n" + yaml_1.default.stringify(grapData) + "\n```\n");
     });
     fs_1.default.writeFileSync(dir + "GraphDataJSON.md", json.join("\n"));
     fs_1.default.writeFileSync(dir + "GraphDataYAML.md", yamls.join("\n"));

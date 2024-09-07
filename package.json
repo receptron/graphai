@@ -30,5 +30,8 @@
     "llm_agents/*"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "yaml": "^2.5.1"
+  }
 }
