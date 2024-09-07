@@ -5,7 +5,7 @@ import fs from "fs";
 export const writeGraphExample = (dataSet: Record<string, GraphData>, dir: string) => {
   const json: string[] = ["### GraphData Example\n"];
   const yamls: string[] = [];
-  Object.keys(dataSet).map(key => {
+  Object.keys(dataSet).map((key) => {
     const grapData = dataSet[key];
     json.push(`#### ${key}`);
     json.push("```json\n" + JSON.stringify(grapData, null, 2) +  "\n```\n");
