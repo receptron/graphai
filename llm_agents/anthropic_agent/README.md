@@ -9,6 +9,7 @@ Anthropic agents for GraphAI.
 yarn add @graphai/anthropic_agent
 ```
 
+
 ### Usage
 
 ```typescript
@@ -20,4 +21,27 @@ const agents = { anthropicAgent };
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
+
+### GraphData Example
+
+#### graphDataAnthropicMath
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "inputData": {
+      "value": "hello, let me know the answer 1 + 1"
+    },
+    "llm": {
+      "agent": "anthropicAgent",
+      "inputs": {
+        "prompt": ":inputData"
+      }
+    }
+  }
+}
+```
+
+
+
 
