@@ -419,3 +419,196 @@ export const graphDataNestedInjection = {
     },
   },
 };
+
+// test_fork.ts
+export const forkGraph = {
+  version: 0.5,
+  nodes: {
+    source: {
+      value: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
+    },
+    mapNode: {
+      agent: "mapAgent",
+      inputs: { rows: ":source.content" },
+      graph: {
+        version: 0.5,
+        nodes: {
+          workingMemory: {
+            value: {},
+          },
+          forked: {
+            agent: "sleeperAgent",
+            inputs: [":row.level1"],
+          },
+          forked2: {
+            agent: "sleeperAgent",
+            inputs: [":forked"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    bypassAgent: {
+      agent: "bypassAgent",
+      inputs: [":mapNode"],
+    },
+  },
+};
+
+// test_bypass.ts
+export const graphDataBypass = {
+  version: 0.5,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    bypassAgent: {
+      agent: "bypassAgent",
+      inputs: [":echo"],
+    },
+    bypassAgent2: {
+      agent: "bypassAgent",
+      inputs: [":bypassAgent.$0"],
+    },
+  },
+};
+
+export const graphDataBypass2 = {
+  version: 0.5,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: ["hello", "hello"],
+      },
+    },
+    mapNode: {
+      agent: "mapAgent",
+      inputs: { rows: ":echo.message" },
+      graph: {
+        version: 0.5,
+        nodes: {
+          bypassAgent: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+            params: {
+              firstElement: true,
+            },
+          },
+        },
+      },
+    },
+    bypassAgent2: {
+      agent: "bypassAgent",
+      inputs: [":mapNode.bypassAgent"],
+    },
+  },
+};
+
+export const graphDataBypass3 = {
+  version: 0.5,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: ["hello", "hello"],
+      },
+    },
+    mapNode: {
+      agent: "mapAgent",
+      inputs: { rows: ":echo.message" },
+      graph: {
+        version: 0.5,
+        nodes: {
+          bypassAgent: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+          bypassAgent2: {
+            agent: "bypassAgent",
+            inputs: [":bypassAgent.$0"],
+          },
+          bypassAgent3: {
+            agent: "bypassAgent",
+            inputs: [":bypassAgent2.$0"],
+            params: {
+              firstElement: true,
+            },
+            isResult: true,
+          },
+        },
+      },
+    },
+    bypassAgent4: {
+      agent: "bypassAgent",
+      params: {
+        firstElement: true,
+      },
+      inputs: [":mapNode.bypassAgent3"],
+    },
+  },
+};
+export const graphDataBypass4 = {
+  version: 0.5,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: ["hello", "hello"],
+      },
+    },
+    mapNode: {
+      agent: "mapAgent",
+      inputs: { rows: ":echo.message" },
+      graph: {
+        version: 0.5,
+        nodes: {
+          bypassAgent: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+          bypassAgent2: {
+            agent: "bypassAgent",
+            inputs: [":bypassAgent.$0", ":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    bypassAgent3: {
+      agent: "bypassAgent",
+      inputs: [":mapNode.bypassAgent2"],
+      params: {
+        firstElement: true,
+      },
+    },
+  },
+};
+
+export const graphDataBypass5 = {
+  version: 0.5,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    bypassAgent: {
+      agent: "bypassAgent",
+      inputs: [":echo", ":echo", ":echo"],
+    },
+    bypassAgent2: {
+      agent: "bypassAgent",
+      inputs: [":bypassAgent", ":bypassAgent"],
+    },
+    bypassAgent3: {
+      agent: "bypassAgent",
+      inputs: [":bypassAgent2", ":bypassAgent2"],
+    },
+  },
+};

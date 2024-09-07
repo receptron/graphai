@@ -1,27 +1,13 @@
 import { graphDataTestRunner } from "@receptron/test_utils";
 import { sleeperAgent } from "@/index";
 
+import { graphDataInputs } from "./graphData";
+
 import test from "node:test";
 import assert from "node:assert";
 
-const graphdata_inputs = {
-  version: 0.5,
-  nodes: {
-    apple: {
-      value: { fruits: { apple: "red" } },
-    },
-    lemon: {
-      value: { fruits: { lemon: "yellow" } },
-    },
-    total: {
-      agent: "sleeperAgent",
-      inputs: [":apple", ":lemon", ":apple.fruits", ":lemon.fruits"],
-    },
-  },
-};
-
-test("test loop & push", async () => {
-  const result = await graphDataTestRunner(__dirname, "test_inputs", graphdata_inputs, { sleeperAgent }, () => {}, true);
+test("test input", async () => {
+  const result = await graphDataTestRunner(__dirname, "test_inputs", graphDataInputs, { sleeperAgent }, () => {}, true);
   assert.deepStrictEqual(result, {
     apple: { fruits: { apple: "red" } },
     lemon: { fruits: { lemon: "yellow" } },

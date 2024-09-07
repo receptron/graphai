@@ -14,6 +14,12 @@ import {
   graphDataNested,
   graphDataNestedPop,
   graphDataNestedInjection,
+  forkGraph,
+  graphDataBypass,
+  graphDataBypass2,
+  graphDataBypass3,
+  graphDataBypass4,
+  graphDataBypass5,
 } from "./graphData";
 
 writeGraphExample(
@@ -32,6 +38,12 @@ writeGraphExample(
     graphDataNested,
     graphDataNestedPop,
     graphDataNestedInjection,
+    forkGraph,
+    graphDataBypass,
+    graphDataBypass2,
+    graphDataBypass3,
+    graphDataBypass4,
+    graphDataBypass5,
   },
   __dirname + "/../../docs/",
 );

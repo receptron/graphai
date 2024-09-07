@@ -1,6 +1,13 @@
 import { AgentFunction, agentInfoWrapper } from "graphai";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as agents from "@/index";
+import * as vanilla_agents from "@/index";
+import { sleeperAgent } from "@graphai/sleeper_agents";
+const agents = {
+  sleeperAgent,
+  ...vanilla_agents,
+};
+
+import { forkGraph } from "./graphData";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -31,7 +38,7 @@ const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => 
 };
 
 test("test fork 1", async () => {
-  const forkGraph = {
+  const forkGraph1 = {
     version: 0.5,
     nodes: {
       node1: {
@@ -66,7 +73,7 @@ test("test fork 1", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__dirname, __filename, forkGraph, {
+  const result = await graphDataTestRunner(__dirname, __filename, forkGraph1, {
     testAgent1a: agentInfoWrapper(testAgent1a),
     ...agents,
   });
@@ -105,7 +112,7 @@ test("test fork 1", async () => {
 });
 
 test("test fork 2", async () => {
-  const forkGraph = {
+  const forkGraph2 = {
     version: 0.5,
     nodes: {
       echo: {
@@ -142,7 +149,7 @@ test("test fork 2", async () => {
     },
   };
 
-  const result = await graphDataTestRunner(__dirname, __filename, forkGraph, {
+  const result = await graphDataTestRunner(__dirname, __filename, forkGraph2, {
     testAgent1: agentInfoWrapper(testAgent1),
   });
   // console.log(JSON.stringify(result, null, "  "));
@@ -168,42 +175,7 @@ test("test fork 2", async () => {
 });
 
 test("test fork 3", async () => {
-  const forkGraph = {
-    version: 0.5,
-    nodes: {
-      source: {
-        value: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
-      },
-      mapNode: {
-        agent: "mapAgent",
-        inputs: { rows: ":source.content" },
-        graph: {
-          version: 0.5,
-          nodes: {
-            workingMemory: {
-              value: {},
-            },
-            forked: {
-              agent: "sleeperAgent",
-              inputs: [":row.level1"],
-            },
-            forked2: {
-              agent: "sleeperAgent",
-              inputs: [":forked"],
-              isResult: true,
-            },
-          },
-        },
-      },
-      bypassAgent: {
-        agent: "bypassAgent",
-        inputs: [":mapNode"],
-      },
-    },
-  };
-
   const result = await graphDataTestRunner(__dirname, __filename, forkGraph, agents);
-  // console.log(JSON.stringify(result, null, "  "));
   assert.deepStrictEqual(result, {
     source: { content: [{ level1: { level2: "hello1" } }, { level1: { level2: "hello2" } }] },
     mapNode: { forked2: [{ level2: "hello1" }, { level2: "hello2" }] },
