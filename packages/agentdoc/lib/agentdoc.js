@@ -52,11 +52,7 @@ const main = async () => {
             const keys = Object.keys(agents);
             if (keys.length > 0) {
                 if (keys.length > 5) {
-                    return [
-                        "\n  ",
-                        Object.keys(agents).join(",\n  "),
-                        "\n",
-                    ].join("");
+                    return ["\n  ", Object.keys(agents).join(",\n  "), "\n"].join("");
                 }
                 return Object.keys(agents).join(", ");
             }
