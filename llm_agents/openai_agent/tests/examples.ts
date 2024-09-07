@@ -4,6 +4,8 @@ import { graphDataOpenAIMath, graphDataOpenAIPaint, graphDataOpenAIImageDescript
 writeGraphExample(
   {
     graphDataOpenAIMath,
+    graphDataOpenAIPaint,
+    graphDataOpenAIImageDescription,
   },
   __dirname + "/../docs/",
 );
