@@ -118,6 +118,7 @@ export type AgentFunctionInfo = {
     author: string;
     repository: string;
     license: string;
+    environmentVariables?: string[];
     stream?: boolean;
     apiKeys?: string[];
     npms?: string[];
