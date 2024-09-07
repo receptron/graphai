@@ -38,7 +38,7 @@ const main = async () => {
       if (agents.length > 0) {
         return [
           "### RelatedPackages",
-          agents.map(agent => `[${agent}](https://www.npmjs.com/package/${agent})`).join("\n"),
+          agents.map(agent => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n"),
         ].join("\n")
       }
       return "";
