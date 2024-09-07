@@ -1,4 +1,6 @@
-## graphDataFetch
+### GraphData Example
+
+#### graphDataFetch
 ```json
 {
   "version": 0.5,
@@ -35,7 +37,7 @@
 }
 ```
 
-## graphDataPost
+#### graphDataPost
 ```json
 {
   "version": 0.5,
