@@ -1,4 +1,4 @@
-version: 0.3
+version: 0.5
 nodes:
   source:
     value:
@@ -8,7 +8,7 @@ nodes:
     inputs:
       rows: ":source.fruits"
     graph:
-      version: 0.3
+      version: 0.5
       nodes:
         node2:
           agent: "stringTemplateAgent"
