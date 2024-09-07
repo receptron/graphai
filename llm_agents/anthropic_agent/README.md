@@ -22,7 +22,9 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
-
+### Environment Variables
+ - anthropicAgent
+   - ANTHROPIC_API_KEY
 
 
 

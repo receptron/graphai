@@ -53,5 +53,6 @@ const openAIImageAgentInfo = {
     license: "MIT",
     stream: false,
     npms: ["openai"],
+    environmentVariables: ["OPENAI_API_KEY"]
 };
 exports.default = openAIImageAgentInfo;

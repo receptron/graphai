@@ -34,5 +34,6 @@ const replicateAgentInfo = {
     license: "MIT",
     stream: false,
     npms: ["replicate"],
+    environmentVariables: ["REPLICATE_API_TOKEN"],
 };
 exports.default = replicateAgentInfo;

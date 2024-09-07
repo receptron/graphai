@@ -22,6 +22,12 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Environment Variables
+ - replicateAgent
+   - REPLICATE_API_TOKEN
+
+
+
 ### GraphData Example
 
 #### graphDataReplicateMath

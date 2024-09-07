@@ -25,6 +25,8 @@ const result = await graph.run();
 ### Environment Variables
  - openAIAgent
    - OPENAI_API_KEY
+ - openAIImageAgent
+   - OPENAI_API_KEY
 
 
 
