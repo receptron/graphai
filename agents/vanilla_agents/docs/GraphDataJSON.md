@@ -1,4 +1,6 @@
-## dynamicGraphData
+### GraphData Example
+
+#### dynamicGraphData
 ```json
 {
   "version": 0.5,
@@ -41,7 +43,7 @@
 }
 ```
 
-## dynamicGraphData2
+#### dynamicGraphData2
 ```json
 {
   "version": 0.5,
@@ -64,7 +66,7 @@
 }
 ```
 
-## dynamicGraphData3
+#### dynamicGraphData3
 ```json
 {
   "version": 0.5,
@@ -87,7 +89,7 @@
 }
 ```
 
-## nestedGraphData
+#### nestedGraphData
 ```json
 {
   "version": 0.5,
@@ -117,7 +119,7 @@
 }
 ```
 
-## nestedGraphData2
+#### nestedGraphData2
 ```json
 {
   "version": 0.5,
