@@ -6,13 +6,13 @@ const agents = {
   ...vanilla_agents,
 };
 
-import { graphdataMap1, graphdataMap3, graphdataMap4, graphdataMap5 } from "./graphData";
+import { graphDataMap1, graphDataMap3, graphDataMap4, graphDataMap5 } from "./graphData";
 
 import test from "node:test";
 import assert from "node:assert";
 
 test("test map 1", async () => {
-  const result = await graphDataTestRunner(__dirname, "test_map1", graphdataMap1, agents);
+  const result = await graphDataTestRunner(__dirname, "test_map1", graphDataMap1, agents);
   assert.deepStrictEqual(result.result, [
     "I love apple.",
     "I love orange.",
@@ -26,18 +26,18 @@ test("test map 1", async () => {
 
 // nest graph and flat
 test("test map 3", async () => {
-  const result = await graphDataTestRunner(__dirname, "test_map3", graphdataMap3, agents);
+  const result = await graphDataTestRunner(__dirname, "test_map3", graphDataMap3, agents);
   assert.deepStrictEqual(result.result, [[["hello"], ["hello2"]]]);
 });
 
 test("test map 4", async () => {
-  const result = await graphDataTestRunner(__dirname, "test_map4", graphdataMap4, agents);
+  const result = await graphDataTestRunner(__dirname, "test_map4", graphDataMap4, agents);
 
   assert.deepStrictEqual(result.result, [["hello"], ["hello2"]]);
 });
 
 test("test map 5", async () => {
-  const result = await graphDataTestRunner(__dirname, "test_map5", graphdataMap5, agents);
+  const result = await graphDataTestRunner(__dirname, "test_map5", graphDataMap5, agents);
 
   assert.deepStrictEqual(result.result, ["hello", "hello2"]);
 });

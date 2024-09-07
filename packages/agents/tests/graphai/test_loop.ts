@@ -1,69 +1,108 @@
-import { graphDataTestRunner, fileBaseName } from "@receptron/test_utils";
-import * as agents from "@/index";
+import { AgentFunction, agentInfoWrapper } from "graphai";
+import { graphDataTestRunner } from "@receptron/test_utils";
+import * as agents from "@graphai/vanilla";
 
 import test from "node:test";
 import assert from "node:assert";
 
-const graphdata_push = {
+const graphdata_counter = {
   version: 0.5,
   loop: {
     count: 10,
   },
   nodes: {
-    array: {
-      value: [],
-      update: ":reducer",
+    data: {
+      value: { v: 0 },
+      update: ":counter",
     },
-    item: {
-      agent: "sleeperAgent",
-      params: {
-        duration: 10,
-        value: "hello",
+    counter: {
+      agent: "counterAgent",
+      inputs: [":data"],
+      isResult: true,
+    },
+  },
+};
+
+const counterAgent: AgentFunction = async ({ inputs }) => {
+  return { v: (inputs[0].v || 0) + 1 };
+};
+
+test("test counter", async () => {
+  const result = await graphDataTestRunner(__dirname, __filename, graphdata_counter, {
+    counterAgent: agentInfoWrapper(counterAgent),
+  });
+  assert.deepStrictEqual(result, { data: { v: 9 }, counter: { v: 10 } });
+});
+
+test("test counter2", async () => {
+  const nested_graphdata = {
+    version: 0.5,
+    loop: {
+      count: 10,
+    },
+    nodes: {
+      workingMemory: {
+        value: {},
+        update: ":nested1.counter", // update data from nested1 data
+      },
+      nested1: {
+        agent: "nestedAgent",
+        isResult: true,
+        graph: graphdata_counter,
+        inputs: { data: ":workingMemory" },
       },
     },
-    reducer: {
-      isResult: true,
-      agent: "pushAgent",
-      inputs: { array: ":array", item: ":item" },
-    },
-  },
-};
+  };
 
-test("test loop & push", async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graphdata_push, agents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, nested_graphdata, {
+    ...agents,
+    counterAgent: agentInfoWrapper(counterAgent),
+  });
+  assert.deepStrictEqual(result, { workingMemory: { v: 90 }, nested1: { counter: { v: 100 } } });
+});
+
+/* Removed from test for now
+test("test counter3", async () => {
+  const nested_graphdata = {
+    version: 0.5,
+    concurrency: 2,
+    loop: {
+      count: 10,
+    },
+    nodes: {
+      workingMemory: {
+        value: {},
+        update: ":merge", // update data from nested1 data
+      },
+      workingMemory2: {
+        // HACK until we fix the bug (inputs:["workingMemory", "workingMemory"])
+        agent: "totalAgent",
+        inputs: [":workingMemory"],
+      },
+      mapping: {
+        agent: "mapAgent",
+        inputs: [":workingMemory", ":workingMemory2"],
+        params: {
+          namedInputs: ["data"],
+        },
+        graph: graphdata_counter,
+      },
+      merge: {
+        agent: "totalAgent",
+        inputs: [":mapping.counter"],
+      },
+    },
+  };
+
+  const result = await graphDataTestRunner(__dirname, __filename, nested_graphdata, {
+    ...agents,
+    counterAgent: agentInfoWrapper(counterAgent),
+  });
   assert.deepStrictEqual(result, {
-    // array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
-    // item: "hello",
-    reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+    workingMemory: { v: 10220 },
+    workingMemory2: { v: 10220 },
+    mapping: { counter: [{ v: 10230 }, { v: 10230 }] },
+    merge: { v: 20460 },
   });
 });
-
-const graphdata_pop = {
-  version: 0.5,
-  loop: {
-    while: ":source",
-  },
-  nodes: {
-    source: {
-      value: ["orange", "banana", "lemon"],
-      update: ":popper.array",
-    },
-    result: {
-      value: [],
-      update: ":reducer",
-    },
-    popper: {
-      inputs: { array: ":source" },
-      agent: "popAgent", // returns { array, item }
-    },
-    reducer: {
-      agent: "pushAgent",
-      inputs: { array: ":result", item: ":popper.item" },
-    },
-  },
-};
-
-test("test loop & pop", async () => {
-  const result = await graphDataTestRunner(__dirname, fileBaseName(__filename) + "_2.log", graphdata_pop, agents);
-  assert.deepStrictEqual(result.result, ["lemon", "banana", "orange"]);
-});
+*/
