@@ -10,6 +10,7 @@
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
     "doc": "npx agentdoc",
+    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/examples.ts",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
