@@ -33,9 +33,19 @@ const main = async () => {
         return Object.keys(agents).join(", ");
       }
     }
+    if (key === "relatedAgents") {
+      const agents = Object.keys(packageJson.dependencies).filter(depend => depend.match(/^@graphai/) && depend.match(/_agent$/));
+      if (agents.length > 0) {
+        return [
+          "### RelatedPackages",
+          agents.map(agent => `[${agent}](https://www.npmjs.com/package/${agent})`).join("\n"),
+        ].join("\n")
+      }
+      return "";
+    }
   };
   const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
-  const md = ["packageName", "description", "agents"].reduce((tmp, key) => {
+  const md = ["packageName", "description", "agents", "relatedAgents"].reduce((tmp, key) => {
     tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
     return tmp;
   }, temp);

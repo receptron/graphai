@@ -22,6 +22,8 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+
+
 ### GraphData Example
 
 #### graphDataOpenAIMath
