@@ -1,4 +1,4 @@
-## graphDataFetch
+#### graphDataFetch
 ```yaml
 version: 0.5
 nodes:
@@ -25,7 +25,7 @@ nodes:
 
 ```
 
-## graphDataPost
+#### graphDataPost
 ```yaml
 version: 0.5
 nodes:

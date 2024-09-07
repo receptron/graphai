@@ -42,7 +42,7 @@ const main = async () => {
     return "";
   };
 
-  const md2 = ["READMEBefore", "READMEAfter"].reduce((tmp, key) => {
+  const md2 = ["GraphDataJSON", "READMEBefore", "READMEAfter"].reduce((tmp, key) => {
     tmp = tmp.replaceAll("{" + key + "}", readDocIfExist(key));
     return tmp;
   }, md);
