@@ -1,5 +1,10 @@
 import { graphDataTestRunner, fileBaseName } from "@receptron/test_utils";
-import * as agents from "@/index";
+import * as vanilla_agents from "@/index";
+import { sleeperAgent } from "@graphai/sleeper_agents";
+const agents = {
+  sleeperAgent,
+  ...vanilla_agents,
+};
 
 import test from "node:test";
 import assert from "node:assert";
