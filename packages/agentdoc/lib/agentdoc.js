@@ -52,7 +52,7 @@ const main = async () => {
             return Object.keys(agents).join(", ");
         }
     };
-    const temp = readTemplate("readme.md");
+    const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
     const md = ["packageName", "description", "agents"].reduce((tmp, key) => {
         tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
         return tmp;
