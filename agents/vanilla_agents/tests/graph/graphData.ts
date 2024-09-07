@@ -253,3 +253,169 @@ export const graphdataMap5 = {
     },
   },
 };
+
+// test_loop_push
+
+export const graphDataPush = {
+  version: 0.5,
+  loop: {
+    count: 10,
+  },
+  nodes: {
+    array: {
+      value: [],
+      update: ":reducer",
+    },
+    item: {
+      agent: "sleeperAgent",
+      params: {
+        duration: 10,
+        value: "hello",
+      },
+    },
+    reducer: {
+      isResult: true,
+      agent: "pushAgent",
+      inputs: { array: ":array", item: ":item" },
+    },
+  },
+};
+
+export const graphDataPop = {
+  version: 0.5,
+  loop: {
+    while: ":source",
+  },
+  nodes: {
+    source: {
+      value: ["orange", "banana", "lemon"],
+      update: ":popper.array",
+    },
+    result: {
+      value: [],
+      update: ":reducer",
+    },
+    popper: {
+      inputs: { array: ":source" },
+      agent: "popAgent", // returns { array, item }
+    },
+    reducer: {
+      agent: "pushAgent",
+      inputs: { array: ":result", item: ":popper.item" },
+    },
+  },
+};
+
+// test_loop_nested_array
+
+export const graphDataNested = {
+  version: 0.5,
+  nodes: {
+    source: {
+      value: "hello",
+    },
+    parent: {
+      agent: "nestedAgent",
+      inputs: { source: ":source" },
+      isResult: true,
+      graph: {
+        loop: {
+          count: 10,
+        },
+        nodes: {
+          array: {
+            value: [],
+            update: ":reducer",
+          },
+          item: {
+            agent: "sleeperAgent",
+            params: {
+              duration: 10,
+              value: ":source",
+            },
+          },
+          reducer: {
+            agent: "pushAgent",
+            inputs: { array: ":array", item: ":item" },
+            isResult: true,
+          },
+        },
+      },
+    },
+  },
+};
+
+export const graphDataNestedPop = {
+  version: 0.5,
+  nodes: {
+    fruits: {
+      value: ["orange", "banana", "lemon"],
+    },
+    parent: {
+      agent: "nestedAgent",
+      isResult: true,
+      inputs: { fruits: ":fruits" },
+      graph: {
+        loop: {
+          while: ":fruits",
+        },
+        nodes: {
+          fruits: {
+            value: [], // it will be filled with inputs[0]
+            update: ":popper.array",
+          },
+          result: {
+            value: [],
+            update: ":reducer",
+            isResult: true,
+          },
+          popper: {
+            inputs: { array: ":fruits" },
+            agent: "popAgent", // returns { array, item }
+          },
+          reducer: {
+            agent: "pushAgent",
+            inputs: { array: ":result", item: ":popper.item" },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const graphDataNestedInjection = {
+  version: 0.5,
+  nodes: {
+    source: {
+      value: "hello",
+    },
+    parent: {
+      agent: "nestedAgent",
+      inputs: { inner_source: ":source" },
+      isResult: true,
+      graph: {
+        loop: {
+          count: 10,
+        },
+        nodes: {
+          array: {
+            value: [],
+            update: ":reducer",
+          },
+          item: {
+            agent: "sleeperAgent",
+            params: {
+              duration: 10,
+              value: ":inner_source",
+            },
+          },
+          reducer: {
+            agent: "pushAgent",
+            inputs: { array: ":array", item: ":item" },
+            isResult: true,
+          },
+        },
+      },
+    },
+  },
+};
