@@ -9,6 +9,7 @@ Gemini agents for GraphAI.
 yarn add @graphai/gemini_agent
 ```
 
+
 ### Usage
 
 ```typescript
@@ -20,4 +21,27 @@ const agents = { geminiAgent };
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
+
+### GraphData Example
+
+#### graphDataGeminiMath
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "inputData": {
+      "value": "hello, let me know the answer 1 + 1"
+    },
+    "llm": {
+      "agent": "geminiAgent",
+      "inputs": {
+        "prompt": ":inputData"
+      }
+    }
+  }
+}
+```
+
+
+
 

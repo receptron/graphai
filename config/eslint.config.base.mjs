@@ -1,6 +1,7 @@
 import eslint from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
   eslint.configs.recommended,
@@ -29,4 +30,5 @@ export default [
       semi: ["error", "always"],
     },
   },
+  eslintConfigPrettier,
 ];
