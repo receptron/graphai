@@ -40,7 +40,11 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
-### RelatedPackages
+### Environment Variables
+ - openAIAgent
+   - OPENAI_API_KEY
+
+### Related Agent Packages
  - [@graphai/anthropic_agent](https://www.npmjs.com/package/@graphai/anthropic_agent)
  - [@graphai/gemini_agent](https://www.npmjs.com/package/@graphai/gemini_agent)
  - [@graphai/groq_agent](https://www.npmjs.com/package/@graphai/groq_agent)
