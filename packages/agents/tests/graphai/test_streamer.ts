@@ -28,7 +28,7 @@ class WordStreamer {
 
 const theMessage = "May the force be with you.";
 
-const graphdata_any = {
+const graphDataStream = {
   version: 0.5,
   nodes: {
     message: {
@@ -61,6 +61,6 @@ const graphdata_any = {
 };
 
 test("test streamer object", async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graphdata_any, agents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphDataStream, agents, () => {}, false);
   assert.deepStrictEqual(result, { destination: theMessage });
 });
