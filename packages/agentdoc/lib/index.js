@@ -9,7 +9,7 @@ const fs_1 = __importDefault(require("fs"));
 const writeGraphExample = (dataSet, dir) => {
     const json = ["### GraphData Example\n"];
     const yamls = [];
-    Object.keys(dataSet).map(key => {
+    Object.keys(dataSet).map((key) => {
         const grapData = dataSet[key];
         json.push(`#### ${key}`);
         json.push("```json\n" + JSON.stringify(grapData, null, 2) + "\n```\n");
