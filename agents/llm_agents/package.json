@@ -27,13 +27,13 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@graphai/anthropic_agent": "^0.0.4",
-    "@graphai/gemini_agent": "^0.0.2",
-    "@graphai/groq_agent": "^0.0.3",
-    "@graphai/openai_agent": "^0.0.6",
-    "@graphai/replicate_agent": "^0.0.1",
+    "@graphai/anthropic_agent": "^0.0.6",
+    "@graphai/gemini_agent": "^0.0.4",
+    "@graphai/groq_agent": "^0.0.6",
+    "@graphai/openai_agent": "^0.0.7",
+    "@graphai/replicate_agent": "^0.0.2",
     "@graphai/slashgpt_agent": "^0.0.5",
-    "tiktoken": "^1.0.14"
+    "tiktoken": "^1.0.16"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
