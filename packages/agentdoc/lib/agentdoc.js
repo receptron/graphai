@@ -61,15 +61,29 @@ const main = async () => {
             const agents = Object.keys(packageJson.dependencies).filter(depend => depend.match(/^@graphai/) && depend.match(/_agents?$/));
             if (agents.length > 0) {
                 return [
-                    "### RelatedPackages",
+                    "### Related Agent Packages",
                     agents.map(agent => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n"),
                 ].join("\n");
             }
             return "";
         }
+        if (key === "environmentVariables") {
+            const keys = Object.keys(agents);
+            const targets = keys.filter((key) => agents[key].environmentVariables);
+            if (targets.length > 0) {
+                return [
+                    "### Environment Variables",
+                    targets.map(target => [
+                        ` - ${target}`,
+                        agents[target].environmentVariables.map((env) => `   - ${env}`)
+                    ]),
+                ].flat(4).join("\n");
+            }
+            return "";
+        }
     };
     const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
-    const md = ["packageName", "description", "agents", "relatedAgents"].reduce((tmp, key) => {
+    const md = ["packageName", "description", "agents", "relatedAgents", "environmentVariables"].reduce((tmp, key) => {
         tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
         return tmp;
     }, temp);
