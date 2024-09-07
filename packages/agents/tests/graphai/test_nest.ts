@@ -2,47 +2,13 @@ import { GraphAI } from "graphai";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import { nestedAgent, copyAgent, propertyFilterAgent, mapAgent } from "@/index";
 
+import { validChildGraph, graphDataNested } from "./graphData";
+
 import test from "node:test";
 import assert from "node:assert";
 
-const valid_graph = {
-  nodes: {
-    source: {
-      value: 1,
-    },
-    result: {
-      agent: "copyAgent",
-      inputs: [":source"],
-      isResult: true,
-    },
-  },
-};
-
-const graphdata_nested = {
-  version: 0.5,
-  nodes: {
-    source: {
-      value: valid_graph,
-    },
-    nested: {
-      agent: "nestedAgent",
-      graph: ":source",
-      isResult: true,
-    },
-    catch: {
-      agent: "propertyFilterAgent",
-      params: {
-        include: ["message"],
-      },
-      if: ":nested.onError",
-      inputs: [":nested.onError"],
-      isResult: true,
-    },
-  },
-};
-
 test("test nest valid", async () => {
-  const result = await graphDataTestRunner(__dirname, "test_nest_valid", graphdata_nested, { nestedAgent, copyAgent, propertyFilterAgent }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, "test_nest_valid", graphDataNested, { nestedAgent, copyAgent, propertyFilterAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
       result: 1,
@@ -50,7 +16,7 @@ test("test nest valid", async () => {
   });
 });
 
-const invalid_graph = {
+const invalidChildGraph = {
   nodes: {
     source: {
       value: 1,
@@ -67,10 +33,10 @@ test("test nest invalid 1", async () => {
   const result = await graphDataTestRunner(
     __dirname,
     "test_nest_invalid",
-    graphdata_nested,
+    graphDataNested,
     { nestedAgent, copyAgent, propertyFilterAgent },
     (graph: GraphAI) => {
-      graph.injectValue("source", invalid_graph);
+      graph.injectValue("source", invalidChildGraph);
     },
     false,
   );
@@ -79,7 +45,7 @@ test("test nest invalid 1", async () => {
   });
 });
 
-const invalid_graph2 = {
+const invalidChildGraph2 = {
   nodes: {
     source: {
       agent: "invalidAgent",
@@ -96,10 +62,10 @@ test("test nest invalid 2", async () => {
   const result = await graphDataTestRunner(
     __dirname,
     "test_nest_invalid2",
-    graphdata_nested,
+    graphDataNested,
     { nestedAgent, copyAgent, propertyFilterAgent },
     (graph: GraphAI) => {
-      graph.injectValue("source", invalid_graph2);
+      graph.injectValue("source", invalidChildGraph2);
     },
     false,
   );
@@ -108,11 +74,11 @@ test("test nest invalid 2", async () => {
   });
 });
 
-const graphdata_mapped = {
+const graphdataMapped = {
   version: 0.5,
   nodes: {
     source: {
-      value: valid_graph,
+      value: validChildGraph,
     },
     array: {
       value: [1, 2, 3],
@@ -139,10 +105,10 @@ test("test map invalid 3", async () => {
   const result = await graphDataTestRunner(
     __dirname,
     "test_map_invalid",
-    graphdata_mapped,
+    graphdataMapped,
     { mapAgent, copyAgent, propertyFilterAgent },
     (graph: GraphAI) => {
-      graph.injectValue("source", invalid_graph);
+      graph.injectValue("source", invalidChildGraph);
     },
     false,
   );

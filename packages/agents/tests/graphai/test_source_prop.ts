@@ -3,10 +3,12 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@/index";
 import { agentInfoWrapper } from "graphai";
 
+import { graphDataLiteral } from "./graphData";
+
 import test from "node:test";
 import assert from "node:assert";
 
-const graphData = {
+const graphDataSourceProps = {
   version: 0.5,
   nodes: {
     input: {
@@ -29,40 +31,14 @@ const testAgent: AgentFunction<Record<never, never>, string> = async () => {
 };
 
 test("test source props test", async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graphData, { testAgent: agentInfoWrapper(testAgent) }, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphDataSourceProps, { testAgent: agentInfoWrapper(testAgent) }, () => {}, false);
   assert.deepStrictEqual(result, {
     test2: "test",
   });
-  // await rejectTest(graphData, "result is not object.", { testAgent: agentInfoWrapper(testAgent) }, false);
 });
 
-const graphData_literal = {
-  version: 0.5,
-  nodes: {
-    source: {
-      value: "apple",
-    },
-    source2: {
-      value: { apple: "red" },
-    },
-    step1: {
-      agent: "stringTemplateAgent",
-      params: {
-        template: "${0}, ${1}, ${2}.",
-      },
-      inputs: [":source", "orange", undefined],
-      isResult: true,
-    },
-    step2: {
-      agent: "sleeperAgent",
-      inputs: [":source2", { lemon: "yellow" }],
-      isResult: true,
-    },
-  },
-};
-
 test("test retry", async () => {
-  const result = await graphDataTestRunner(__dirname, __filename, graphData_literal, agents, () => {}, false);
+  const result = await graphDataTestRunner(__dirname, __filename, graphDataLiteral, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     step1: "apple, orange, undefined.",
     step2: { apple: "red", lemon: "yellow" },

@@ -14,9 +14,59 @@ yarn add @graphai/vanilla
 
 ```typescript
 import { GraphAI } from "graphai";
-import { stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, jsonParserAgent, pushAgent, popAgent, shiftAgent, dotProductAgent, sortByValuesAgent, echoAgent, bypassAgent, countingAgent, copyMessageAgent, copy2ArrayAgent, mergeNodeIdAgent, streamMockAgent, nestedAgent, mapAgent, workerAgent, totalAgent, dataSumTemplateAgent, propertyFilterAgent, copyAgent, vanillaFetchAgent } from "@graphai/vanilla";
+import { 
+  stringEmbeddingsAgent,
+  stringSplitterAgent,
+  stringTemplateAgent,
+  jsonParserAgent,
+  pushAgent,
+  popAgent,
+  shiftAgent,
+  dotProductAgent,
+  sortByValuesAgent,
+  echoAgent,
+  bypassAgent,
+  countingAgent,
+  copyMessageAgent,
+  copy2ArrayAgent,
+  mergeNodeIdAgent,
+  streamMockAgent,
+  nestedAgent,
+  mapAgent,
+  workerAgent,
+  totalAgent,
+  dataSumTemplateAgent,
+  propertyFilterAgent,
+  copyAgent,
+  vanillaFetchAgent
+ } from "@graphai/vanilla";
 
-const agents = { stringEmbeddingsAgent, stringSplitterAgent, stringTemplateAgent, jsonParserAgent, pushAgent, popAgent, shiftAgent, dotProductAgent, sortByValuesAgent, echoAgent, bypassAgent, countingAgent, copyMessageAgent, copy2ArrayAgent, mergeNodeIdAgent, streamMockAgent, nestedAgent, mapAgent, workerAgent, totalAgent, dataSumTemplateAgent, propertyFilterAgent, copyAgent, vanillaFetchAgent };
+const agents = { 
+  stringEmbeddingsAgent,
+  stringSplitterAgent,
+  stringTemplateAgent,
+  jsonParserAgent,
+  pushAgent,
+  popAgent,
+  shiftAgent,
+  dotProductAgent,
+  sortByValuesAgent,
+  echoAgent,
+  bypassAgent,
+  countingAgent,
+  copyMessageAgent,
+  copy2ArrayAgent,
+  mergeNodeIdAgent,
+  streamMockAgent,
+  nestedAgent,
+  mapAgent,
+  workerAgent,
+  totalAgent,
+  dataSumTemplateAgent,
+  propertyFilterAgent,
+  copyAgent,
+  vanillaFetchAgent
+ };
 
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
@@ -173,7 +223,7 @@ const result = await graph.run();
 }
 ```
 
-#### graphdataMap1
+#### graphDataMap1
 ```json
 {
   "version": 0.5,
@@ -223,7 +273,7 @@ const result = await graph.run();
 }
 ```
 
-#### graphdataMap3
+#### graphDataMap3
 ```json
 {
   "version": 0.5,
@@ -263,7 +313,7 @@ const result = await graph.run();
 }
 ```
 
-#### graphdataMap4
+#### graphDataMap4
 ```json
 {
   "version": 0.5,
@@ -305,7 +355,7 @@ const result = await graph.run();
 }
 ```
 
-#### graphdataMap5
+#### graphDataMap5
 ```json
 {
   "version": 0.5,
@@ -552,6 +602,285 @@ const result = await graph.run();
           }
         }
       }
+    }
+  }
+}
+```
+
+#### forkGraph
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "source": {
+      "value": {
+        "content": [
+          {
+            "level1": {
+              "level2": "hello1"
+            }
+          },
+          {
+            "level1": {
+              "level2": "hello2"
+            }
+          }
+        ]
+      }
+    },
+    "mapNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":source.content"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "workingMemory": {
+            "value": {}
+          },
+          "forked": {
+            "agent": "sleeperAgent",
+            "inputs": [
+              ":row.level1"
+            ]
+          },
+          "forked2": {
+            "agent": "sleeperAgent",
+            "inputs": [
+              ":forked"
+            ],
+            "isResult": true
+          }
+        }
+      }
+    },
+    "bypassAgent": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":mapNode"
+      ]
+    }
+  }
+}
+```
+
+#### graphDataBypass
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "echo": {
+      "agent": "echoAgent",
+      "params": {
+        "message": "hello"
+      }
+    },
+    "bypassAgent": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":echo"
+      ]
+    },
+    "bypassAgent2": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":bypassAgent.$0"
+      ]
+    }
+  }
+}
+```
+
+#### graphDataBypass2
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "echo": {
+      "agent": "echoAgent",
+      "params": {
+        "message": [
+          "hello",
+          "hello"
+        ]
+      }
+    },
+    "mapNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":echo.message"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "bypassAgent": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":row"
+            ],
+            "isResult": true,
+            "params": {
+              "firstElement": true
+            }
+          }
+        }
+      }
+    },
+    "bypassAgent2": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":mapNode.bypassAgent"
+      ]
+    }
+  }
+}
+```
+
+#### graphDataBypass3
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "echo": {
+      "agent": "echoAgent",
+      "params": {
+        "message": [
+          "hello",
+          "hello"
+        ]
+      }
+    },
+    "mapNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":echo.message"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "bypassAgent": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":row"
+            ]
+          },
+          "bypassAgent2": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":bypassAgent.$0"
+            ]
+          },
+          "bypassAgent3": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":bypassAgent2.$0"
+            ],
+            "params": {
+              "firstElement": true
+            },
+            "isResult": true
+          }
+        }
+      }
+    },
+    "bypassAgent4": {
+      "agent": "bypassAgent",
+      "params": {
+        "firstElement": true
+      },
+      "inputs": [
+        ":mapNode.bypassAgent3"
+      ]
+    }
+  }
+}
+```
+
+#### graphDataBypass4
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "echo": {
+      "agent": "echoAgent",
+      "params": {
+        "message": [
+          "hello",
+          "hello"
+        ]
+      }
+    },
+    "mapNode": {
+      "agent": "mapAgent",
+      "inputs": {
+        "rows": ":echo.message"
+      },
+      "graph": {
+        "version": 0.5,
+        "nodes": {
+          "bypassAgent": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":row"
+            ]
+          },
+          "bypassAgent2": {
+            "agent": "bypassAgent",
+            "inputs": [
+              ":bypassAgent.$0",
+              ":row"
+            ],
+            "isResult": true
+          }
+        }
+      }
+    },
+    "bypassAgent3": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":mapNode.bypassAgent2"
+      ],
+      "params": {
+        "firstElement": true
+      }
+    }
+  }
+}
+```
+
+#### graphDataBypass5
+```json
+{
+  "version": 0.5,
+  "nodes": {
+    "echo": {
+      "agent": "echoAgent",
+      "params": {
+        "message": "hello"
+      }
+    },
+    "bypassAgent": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":echo",
+        ":echo",
+        ":echo"
+      ]
+    },
+    "bypassAgent2": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":bypassAgent",
+        ":bypassAgent"
+      ]
+    },
+    "bypassAgent3": {
+      "agent": "bypassAgent",
+      "inputs": [
+        ":bypassAgent2",
+        ":bypassAgent2"
+      ]
     }
   }
 }

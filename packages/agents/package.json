@@ -9,6 +9,8 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
+    "doc": "npm run examplesDoc && npx agentdoc",
+    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/graphai/examples.ts",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
