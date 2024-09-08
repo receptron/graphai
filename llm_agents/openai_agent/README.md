@@ -22,6 +22,10 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Input/Output/Params Schema & samples
+ - [openAIAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIAgent.md)
+ - [openAIImageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIImageAgent.md)
+
 ### Environment Variables
  - openAIAgent
    - OPENAI_API_KEY

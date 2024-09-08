@@ -22,6 +22,14 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Input/Output/Params Schema & samples
+ - [fetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/fetchAgent.md)
+ - [wikipediaAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/wikipediaAgent.md)
+
+
+
+
+
 ### GraphData Example
 
 #### graphDataFetch

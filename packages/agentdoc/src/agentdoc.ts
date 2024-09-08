@@ -34,7 +34,7 @@ const main = async () => {
       }
     }
     if (key === "relatedAgents") {
-      const agents = Object.keys(packageJson.dependencies).filter((depend) => depend.match(/^@graphai/) && depend.match(/_agents?$/));
+      const agents = Object.keys(packageJson.dependencies ?? {}).filter((depend) => depend.match(/^@graphai/) && depend.match(/_agents?$/));
       if (agents.length > 0) {
         return ["### Related Agent Packages", agents.map((agent) => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n")].join("\n");
       }
@@ -50,9 +50,20 @@ const main = async () => {
       }
       return "";
     }
+    if (key === "sample") {
+      return [
+        "### Input/Output/Params Schema & samples",
+        Object.values(agents).map((agent: any) => {
+          return ` - [${agent.name}](https://github.com/receptron/graphai/blob/main/docs/agentDocs/${agent.category[0]}/${agent.name}.md)`;
+        }),
+      ]
+        .flat(2)
+        .join("\n");
+      return "";
+    }
   };
   const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
-  const md = ["packageName", "description", "agents", "relatedAgents", "environmentVariables"].reduce((tmp, key) => {
+  const md = ["packageName", "description", "agents", "relatedAgents", "environmentVariables", "sample"].reduce((tmp, key) => {
     tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
     return tmp;
   }, temp);
