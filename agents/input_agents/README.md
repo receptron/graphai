@@ -9,6 +9,7 @@ Input agents for GraphAI.
 yarn add @graphai/input_agents
 ```
 
+
 ### Usage
 
 ```typescript
@@ -20,4 +21,15 @@ const agents = { textInputAgent };
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
+
+### Input/Output/Params Schema & samples
+ - [textInputAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/input/textInputAgent.md)
+
+
+
+
+
+
+
+
 

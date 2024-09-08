@@ -9,6 +9,7 @@ Data agents for GraphAI.
 yarn add @graphai/data_agents
 ```
 
+
 ### Usage
 
 ```typescript
@@ -20,4 +21,15 @@ const agents = { dataObjectMergeTemplateAgent };
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
+
+### Input/Output/Params Schema & samples
+ - [dataObjectMergeTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/dataObjectMergeTemplateAgent.md)
+
+
+
+
+
+
+
+
 
