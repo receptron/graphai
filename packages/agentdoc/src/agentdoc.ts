@@ -34,12 +34,9 @@ const main = async () => {
       }
     }
     if (key === "relatedAgents") {
-      const agents = Object.keys(packageJson.dependencies).filter(depend => depend.match(/^@graphai/) && depend.match(/_agents?$/));
+      const agents = Object.keys(packageJson.dependencies).filter((depend) => depend.match(/^@graphai/) && depend.match(/_agents?$/));
       if (agents.length > 0) {
-        return [
-          "### Related Agent Packages",
-          agents.map(agent => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n"),
-        ].join("\n")
+        return ["### Related Agent Packages", agents.map((agent) => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n")].join("\n");
       }
       return "";
     }
@@ -47,13 +44,9 @@ const main = async () => {
       const keys = Object.keys(agents);
       const targets = keys.filter((key) => agents[key].environmentVariables);
       if (targets.length > 0) {
-        return [
-          "### Environment Variables",
-          targets.map(target => [
-            ` - ${target}`,
-            agents[target].environmentVariables.map((env: string) => `   - ${env}`)
-          ]),
-        ].flat(4).join("\n");
+        return ["### Environment Variables", targets.map((target) => [` - ${target}`, agents[target].environmentVariables.map((env: string) => `   - ${env}`)])]
+          .flat(4)
+          .join("\n");
       }
       return "";
     }

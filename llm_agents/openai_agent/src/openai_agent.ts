@@ -262,7 +262,7 @@ const openaiAgentInfo: AgentFunctionInfo = {
   license: "MIT",
   stream: true,
   npms: ["openai"],
-  environmentVariables: ["OPENAI_API_KEY"]
+  environmentVariables: ["OPENAI_API_KEY"],
 };
 
 export default openaiAgentInfo;
