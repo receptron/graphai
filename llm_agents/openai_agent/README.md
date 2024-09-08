@@ -22,6 +22,14 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Environment Variables
+ - openAIAgent
+   - OPENAI_API_KEY
+ - openAIImageAgent
+   - OPENAI_API_KEY
+
+
+
 ### GraphData Example
 
 #### graphDataOpenAIMath

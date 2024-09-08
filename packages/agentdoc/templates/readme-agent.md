@@ -20,6 +20,8 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+{relatedAgents}
+
 {GraphDataJSON}
 
 {READMEAfter}

@@ -4,7 +4,7 @@ import { geminiAgent } from "@/gemini_agent";
 import test from "node:test";
 import assert from "node:assert";
 
-test("test openai", async () => {
+test("test gemini", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
   const params = {};
   const res = (await geminiAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;

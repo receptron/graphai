@@ -150,6 +150,7 @@ const groqAgentInfo: AgentFunctionInfo = {
 
   stream: true,
   npms: ["groq-sdk"],
+  environmentVariables: ["GROQ_API_KEY"],
 };
 
 export default groqAgentInfo;

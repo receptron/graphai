@@ -82,6 +82,7 @@ const anthropicAgentInfo = {
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
     // stream: true,
+    environmentVariables: ["ANTHROPIC_API_KEY"],
     npms: ["@anthropic-ai/sdk"],
 };
 exports.default = anthropicAgentInfo;

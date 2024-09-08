@@ -47,6 +47,7 @@ const replicateAgentInfo: AgentFunctionInfo = {
   license: "MIT",
   stream: false,
   npms: ["replicate"],
+  environmentVariables: ["REPLICATE_API_TOKEN"],
 };
 
 export default replicateAgentInfo;

@@ -22,6 +22,12 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Environment Variables
+ - geminiAgent
+   - GOOGLE_GENAI_API_KEY
+
+
+
 ### GraphData Example
 
 #### graphDataGeminiMath

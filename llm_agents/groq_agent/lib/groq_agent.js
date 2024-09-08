@@ -120,5 +120,6 @@ const groqAgentInfo = {
     license: "MIT",
     stream: true,
     npms: ["groq-sdk"],
+    environmentVariables: ["GROQ_API_KEY"],
 };
 exports.default = groqAgentInfo;

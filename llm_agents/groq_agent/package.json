@@ -1,6 +1,6 @@
 {
   "name": "@graphai/groq_agent",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "Groq agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -10,7 +10,8 @@
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "doc": "npx agentdoc",
+    "doc": "npm run examplesDoc && npx agentdoc",
+    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/examples.ts",
     "test": "echo hello",
     "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
     "b": "yarn run format && yarn run eslint && yarn run build"
@@ -27,7 +28,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
     "@graphai/llm_utils": "^0.0.1",
-    "groq-sdk": "^0.5.0"
+    "groq-sdk": "^0.7.0"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",

@@ -115,6 +115,7 @@ const geminiAgentInfo: AgentFunctionInfo = {
   license: "MIT",
   // stream: true,
   npms: ["@anthropic-ai/sdk"],
+  environmentVariables: ["GOOGLE_GENAI_API_KEY"],
 };
 
 export default geminiAgentInfo;

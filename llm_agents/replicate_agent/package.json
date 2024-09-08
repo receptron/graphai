@@ -1,6 +1,6 @@
 {
   "name": "@graphai/replicate_agent",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Replicate agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -10,7 +10,8 @@
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "doc": "npx agentdoc",
+    "doc": "npm run examplesDoc && npx agentdoc",
+    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/examples.ts",
     "test": "echo nothing",
     "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
     "b": "yarn run format && yarn run eslint && yarn run build"
@@ -27,8 +28,8 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
     "@graphai/llm_utils": "^0.0.1",
-    "replicate": "^0.31.1",
-    "tiktoken": "^1.0.14"
+    "replicate": "^0.32.1",
+    "tiktoken": "^1.0.16"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
