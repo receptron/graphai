@@ -54,7 +54,7 @@ const main = async () => {
       return [
         "### Input/Output/Params Schema & samples",
         Object.values(agents).map((agent: any) => {
-          return `[${agent.name}](https://github.com/receptron/graphai/blob/main/docs/agentDocs/${agent.category[0]}/${agent.name}.md)`;
+          return ` - [${agent.name}](https://github.com/receptron/graphai/blob/main/docs/agentDocs/${agent.category[0]}/${agent.name}.md)`;
         }),
       ]
         .flat(2)
