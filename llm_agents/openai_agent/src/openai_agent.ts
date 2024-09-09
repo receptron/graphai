@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
-import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import { GrapAILLMInputBase, getMergeValue, getMessages, GraphAILlmMessage } from "@graphai/llm_utils";
 
 type OpenAIInputs = {
   model?: string;
@@ -13,7 +13,7 @@ type OpenAIInputs = {
   baseURL?: string;
   apiKey?: string;
   stream?: boolean;
-  messages?: Array<Record<string, any>>;
+  messages?: Array<GraphAILlmMessage>;
   forWeb?: boolean;
 } & GrapAILLMInputBase;
 
@@ -30,8 +30,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
-  // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
+  const messagesCopy = getMessages(systemPrompt, messages);
 
   if (userPrompt) {
     messagesCopy.push({
@@ -66,7 +65,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
 
   const chatParams = {
     model: params.model || "gpt-3.5-turbo",
-    messages: messagesCopy,
+    messages: messagesCopy as unknown as OpenAI.ChatCompletionMessageParam[],
     tools,
     tool_choice,
     max_tokens,
