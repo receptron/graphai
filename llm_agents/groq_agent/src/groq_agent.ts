@@ -10,7 +10,7 @@ import {
   ChatCompletionToolChoiceOption,
 } from "groq-sdk/resources/chat/completions";
 
-import { GraphAILLMInputBase, getMergeValue, getMessages, GraphAILlmMessage } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 
