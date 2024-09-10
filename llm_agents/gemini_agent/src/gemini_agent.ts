@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
 
-import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue, GraphAILlmMessage, getMessages } from "@graphai/llm_utils";
 
 type GeminiInputs = {
   model?: string;
@@ -9,8 +9,8 @@ type GeminiInputs = {
   max_tokens?: number;
   tools?: Array<Record<string, any>>;
   // tool_choice?: any;
-  messages?: Array<Record<string, any>>;
-} & GrapAILLMInputBase;
+  messages?: Array<GraphAILlmMessage>;
+} & GraphAILLMInputBase;
 
 export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, string | Array<any>, GeminiInputs> = async ({ params, namedInputs }) => {
   const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
@@ -18,8 +18,7 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
-  // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
+  const messagesCopy = getMessages(systemPrompt, messages);
 
   if (userPrompt) {
     messagesCopy.push({
@@ -30,6 +29,10 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
 
   const lastMessage = messagesCopy.pop();
 
+  if (!lastMessage) {
+    return [];
+  }
+  
   const key = process.env["GOOGLE_GENAI_API_KEY"];
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
@@ -63,12 +66,12 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
         // Gemini does not have the concept of system message
         return { role: "user", parts: [{ text: "System Message: " + message.content }] };
       }
-      return { role, parts: [{ text: message.content }] };
+      return { role, parts: [{ text: message.content as unknown as string}] };
     }),
     generationConfig,
   });
 
-  const result = await chat.sendMessage(lastMessage.content);
+  const result = await chat.sendMessage(lastMessage.content as unknown as string);
   const response = result.response;
   const text = response.text();
   const message: any = { role: "assistant", content: text };
