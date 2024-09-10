@@ -22,6 +22,7 @@ import {
   pushAgent,
   popAgent,
   shiftAgent,
+  arrayFlatAgent,
   dotProductAgent,
   sortByValuesAgent,
   echoAgent,
@@ -49,6 +50,7 @@ const agents = {
   pushAgent,
   popAgent,
   shiftAgent,
+  arrayFlatAgent,
   dotProductAgent,
   sortByValuesAgent,
   echoAgent,
@@ -80,6 +82,7 @@ const result = await graph.run();
  - [pushAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/pushAgent.md)
  - [popAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/popAgent.md)
  - [shiftAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/shiftAgent.md)
+ - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
  - [dotProductAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/dotProductAgent.md)
  - [sortByValuesAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/sortByValuesAgent.md)
  - [echoAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/echoAgent.md)

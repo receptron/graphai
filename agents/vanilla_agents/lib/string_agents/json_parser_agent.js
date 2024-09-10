@@ -13,7 +13,10 @@ const jsonParserAgent = async ({ params, inputs }) => {
 };
 exports.jsonParserAgent = jsonParserAgent;
 const sample_object = { apple: "red", lemon: "yellow" };
-// for test and document
+const json_str = JSON.stringify(sample_object);
+const md_json1 = ["```", json_str, "```"].join("\n");
+const md_json2 = ["```json", json_str, "```"].join("\n");
+const md_json3 = ["```JSON", json_str, "```"].join("\n");
 const jsonParserAgentInfo = {
     name: "jsonParserAgent",
     agent: exports.jsonParserAgent,
@@ -32,6 +35,21 @@ const jsonParserAgentInfo = {
         },
         {
             inputs: [JSON.stringify(sample_object, null, 2)],
+            params: {},
+            result: sample_object,
+        },
+        {
+            inputs: [md_json1],
+            params: {},
+            result: sample_object,
+        },
+        {
+            inputs: [md_json2],
+            params: {},
+            result: sample_object,
+        },
+        {
+            inputs: [md_json3],
             params: {},
             result: sample_object,
         },
