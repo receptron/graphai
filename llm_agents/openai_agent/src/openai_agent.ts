@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
-import { GrapAILLMInputBase, getMergeValue, getMessages, GraphAILlmMessage } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue, getMessages, GraphAILlmMessage } from "@graphai/llm_utils";
 
 type OpenAIInputs = {
   model?: string;
@@ -15,7 +15,7 @@ type OpenAIInputs = {
   stream?: boolean;
   messages?: Array<GraphAILlmMessage>;
   forWeb?: boolean;
-} & GrapAILLMInputBase;
+} & GraphAILLMInputBase;
 
 export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
   filterParams,

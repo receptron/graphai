@@ -1,3 +1,4 @@
+// typo (todo remove later)
 export type GrapAILLInputType = string | (string | undefined)[] | undefined;
 
 export type GrapAILLMInputBase = {
@@ -7,15 +8,26 @@ export type GrapAILLMInputBase = {
   mergeableSystem?: GrapAILLInputType;
 };
 
-export const flatString = (input: GrapAILLInputType): string => {
+// valid
+export type GraphAILLInputType = string | (string | undefined)[] | undefined;
+
+export type GraphAILLMInputBase = {
+  prompt?: GraphAILLInputType;
+  system?: GraphAILLInputType;
+  mergeablePrompts?: GraphAILLInputType;
+  mergeableSystem?: GraphAILLInputType;
+};
+
+
+export const flatString = (input: GraphAILLInputType): string => {
   return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
 
 export const getMergeValue = (
-  namedInputs: GrapAILLMInputBase,
-  params: GrapAILLMInputBase,
+  namedInputs: GraphAILLMInputBase,
+  params: GraphAILLMInputBase,
   key: "mergeablePrompts" | "mergeableSystem",
-  values: GrapAILLInputType,
+  values: GraphAILLInputType,
 ): string => {
   const inputValue = namedInputs[key];
   const paramsValue = params[key];

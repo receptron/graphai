@@ -1,31 +1,14 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-type InputType = string | (string | undefined)[] | undefined;
+import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type OpenAIInputs = {
   model?: string;
-  prompt?: InputType;
-  system?: InputType;
-  mergeablePrompts?: InputType;
-  mergeableSystem?: InputType;
   baseURL?: string;
   apiKey?: string;
   forWeb?: boolean;
-};
-
-// export for test
-export const flatString = (input: InputType) => {
-  return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
-};
-
-// export for test
-export const getMergeValue = (namedInputs: OpenAIInputs, params: OpenAIInputs, key: "mergeablePrompts" | "mergeableSystem", values: InputType) => {
-  const inputValue = namedInputs[key];
-  const paramsValue = params[key];
-
-  return inputValue || paramsValue ? [flatString(inputValue), flatString(paramsValue)].filter((a) => a).join("\n") : flatString(values);
-};
+} & GraphAILLMInputBase;
 
 export const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
   params,

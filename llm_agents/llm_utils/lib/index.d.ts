@@ -5,8 +5,15 @@ export type GrapAILLMInputBase = {
     mergeablePrompts?: GrapAILLInputType;
     mergeableSystem?: GrapAILLInputType;
 };
-export declare const flatString: (input: GrapAILLInputType) => string;
-export declare const getMergeValue: (namedInputs: GrapAILLMInputBase, params: GrapAILLMInputBase, key: "mergeablePrompts" | "mergeableSystem", values: GrapAILLInputType) => string;
+export type GraphAILLInputType = string | (string | undefined)[] | undefined;
+export type GraphAILLMInputBase = {
+    prompt?: GraphAILLInputType;
+    system?: GraphAILLInputType;
+    mergeablePrompts?: GraphAILLInputType;
+    mergeableSystem?: GraphAILLInputType;
+};
+export declare const flatString: (input: GraphAILLInputType) => string;
+export declare const getMergeValue: (namedInputs: GraphAILLMInputBase, params: GraphAILLMInputBase, key: "mergeablePrompts" | "mergeableSystem", values: GraphAILLInputType) => string;
 type GraphAILlmMessageRole = "user" | "system" | "assistant";
 export type GraphAILlmMessage = {
     role: GraphAILlmMessageRole;
