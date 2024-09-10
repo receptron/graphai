@@ -28,7 +28,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
     "@graphai/llm_utils": "^0.0.2",
-    "openai": "^4.58.1",
+    "openai": "^4.58.2",
     "tiktoken": "^1.0.16"
   },
   "devDependencies": {},

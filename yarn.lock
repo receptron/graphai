@@ -29,6 +29,19 @@
     formdata-node "^4.3.2"
     node-fetch "^2.6.7"
 
+"@anthropic-ai/sdk@^0.27.3":
+  version "0.27.3"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.27.3.tgz#592cdd873c85ffab9589ae6f2e250cbf150e1475"
+  integrity sha512-IjLt0gd3L4jlOfilxVXTifn42FnVffMgDC04RJK1KDZpmkBWLv0XC92MVVmkxrFZNS/7l3xWgP/I3nqtX1sQHw==
+  dependencies:
+    "@types/node" "^18.11.18"
+    "@types/node-fetch" "^2.6.4"
+    abort-controller "^3.0.0"
+    agentkeepalive "^4.2.1"
+    form-data-encoder "1.7.2"
+    formdata-node "^4.3.2"
+    node-fetch "^2.6.7"
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
@@ -86,6 +99,88 @@
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.17.1.tgz#6cd40d7489abf4d22e3bbb06e686bd03610deedc"
   integrity sha512-TgWz02c5l2XJlEDys81UVat5+Qg9xqmYah7tQt6xlsBwFvzIFPz64aZFGd1av2sxT22NsssqLATjNsusAIJICA==
+
+"@graphai/agents@^0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@graphai/agents/-/agents-0.0.22.tgz#9693ed3a397967c5df0fbc1349cb2bce53d8f60d"
+  integrity sha512-oitp77Fatj9lAQdS/huar8ra8SGgnHGdNQb+OZoJhOIbvdqSmNBOWcjaazfKFJ50ukWdxaffBKLV2NlYCYFaCw==
+  dependencies:
+    "@graphai/data_agents" "^0.0.2"
+    "@graphai/input_agents" "^0.0.3"
+    "@graphai/llm_agents" "^0.0.19"
+    "@graphai/service_agents" "^0.0.4"
+    "@graphai/sleeper_agents" "^0.0.2"
+    "@graphai/vanilla" "^0.0.8"
+
+"@graphai/anthropic_agent@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@graphai/anthropic_agent/-/anthropic_agent-0.0.6.tgz#da1688285ddfb7c6532011ddebce8fe1a59dc5ad"
+  integrity sha512-oGX3T7C+fQzxDhCrmTjOgoT6SoBHyBh1NDbSoY0J/GN/ZZojX/7Cff3fRzlEsk0jAbWGfE5tq1l5UwSqT4UzZw==
+  dependencies:
+    "@anthropic-ai/sdk" "^0.27.2"
+    "@graphai/llm_utils" "^0.0.1"
+
+"@graphai/gemini_agent@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@graphai/gemini_agent/-/gemini_agent-0.0.4.tgz#5ba1e23826a7a4e4399b0a559aaad291b5632038"
+  integrity sha512-oQLgY2520ZE44+w+mlYGa6NdlgRzyqyG17opIgofJFJcrGVqA3/bCqnxdNgWUnEBGSS6x7YcFGXiZvmnz7JguA==
+  dependencies:
+    "@google/generative-ai" "^0.17.1"
+    "@graphai/llm_utils" "^0.0.1"
+
+"@graphai/groq_agent@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@graphai/groq_agent/-/groq_agent-0.0.6.tgz#c012494c17ee847428cef922b75cda01208d1ea1"
+  integrity sha512-fci85gB4xtrKYfq2A354zCK9ooq/IIHQrhjv0YkF9x4XDj1MIY6h7n8Q4uM3mGKw92mIsPn4KXZKGUBggjKvkw==
+  dependencies:
+    "@graphai/llm_utils" "^0.0.1"
+    groq-sdk "^0.7.0"
+
+"@graphai/llm_agents@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-0.0.19.tgz#7a704187a0558f5c6a8863caf810e40be6581797"
+  integrity sha512-RHKcpnc2WrogUlmx90NH4FRTtYy/XsDeQ9POPw6kKstr+8eDt6z/wJ8cTZI8i/jesxQmDz6vt0U3SY2mZGahbA==
+  dependencies:
+    "@graphai/anthropic_agent" "^0.0.6"
+    "@graphai/gemini_agent" "^0.0.4"
+    "@graphai/groq_agent" "^0.0.6"
+    "@graphai/openai_agent" "^0.0.7"
+    "@graphai/replicate_agent" "^0.0.2"
+    "@graphai/slashgpt_agent" "^0.0.5"
+    tiktoken "^1.0.16"
+
+"@graphai/llm_utils@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@graphai/llm_utils/-/llm_utils-0.0.1.tgz#a085b550eb294db210f1c48e11a7a442f57fec2a"
+  integrity sha512-Xb9WiuoRsara32stQBnKPd81KQ/cnYiaHnARikAMy+/eyu3LdX58OpPIWLKeM24Ddxm/x7/7cjhT8Fzup+zyJQ==
+
+"@graphai/openai_agent@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@graphai/openai_agent/-/openai_agent-0.0.7.tgz#186ffb0202eef19d021eedd0a4f47385e816086b"
+  integrity sha512-22u6g0fPc0lW/5zm44Y6sCW4A5hDHm7F6wyjIiLDx+aifym4Xu92NXNsDHOngs3jmeX3yUYP7Rc8JPH3c7W+Kg==
+  dependencies:
+    "@graphai/llm_utils" "^0.0.1"
+    openai "^4.53.0"
+    tiktoken "^1.0.14"
+
+"@graphai/replicate_agent@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@graphai/replicate_agent/-/replicate_agent-0.0.2.tgz#8d61c49e7f34631f00e3a2515a02be060fcc0b5b"
+  integrity sha512-GVNuAz/duIQGbujnM69PQpGBV4+E4i7lm68EbHALkzjSor6PSHEtIK1Wyo6XWZql29FWhOiRw+LZjlbEaxpsew==
+  dependencies:
+    "@graphai/llm_utils" "^0.0.1"
+    replicate "^0.32.1"
+    tiktoken "^1.0.16"
+
+"@graphai/vanilla@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@graphai/vanilla/-/vanilla-0.0.8.tgz#4817b2ab833370e0007de5a99b899a6e63d25185"
+  integrity sha512-5dDbPQj8sEkxdojbWLC64YbWmrZVYUwFMm1ghrACJ0+cpaZ0KdhP3hGZnnPMXxfZI4Ju3nYJyY+AmbmMNG3aog==
+
+"@graphai/vanilla@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@graphai/vanilla/-/vanilla-0.0.9.tgz#8087367f97707041e70e3d6ce8e6296c0c4ffc47"
+  integrity sha512-FCOCSikTxeM4iFYk1g+SlznK13TAgNAgPFGREz3ZNhs3D+8mw/2n4vNGEvl2hutwXDvvwDSUkIaQe2SP6KM+mg==
 
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
@@ -2416,10 +2511,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^4.58.1:
-  version "4.58.1"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-4.58.1.tgz#be3720720e730cd6e14726b346d0bbe8d7983017"
-  integrity sha512-n9fN4RIjbj4PbZU6IN/FOBBbxHbHEcW18rDZ4nW2cDNfZP2+upm/FM20UCmRNMQTvhOvw/2Tw4vgioQyQb5nlA==
+openai@^4.58.2:
+  version "4.58.2"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.58.2.tgz#e45a41fe91eb626b8f07afb522c27016f58aab58"
+  integrity sha512-hIalypYELt7/PcryFpz4Gi1z/8ZDzukWyOhr+jKM6L/GVE+t4NseaENXKt+OxnkkIm/1R2EkdGxgnHrZ0kB5bQ==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -2960,7 +3055,7 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
-tiktoken@^1.0.16:
+tiktoken@^1.0.14, tiktoken@^1.0.16:
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/tiktoken/-/tiktoken-1.0.16.tgz#efa91e6bb653dfbe81455865ea90ee845de915ad"
   integrity sha512-hRcORIGF2YlAgWx3nzrGJOrKSJwLoc81HpXmMQk89632XAgURc7IeV2FgQ2iXo9z/J96fCvpsHg2kWoHcbj9fg==
