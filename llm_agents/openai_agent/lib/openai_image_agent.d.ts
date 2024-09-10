@@ -1,11 +1,11 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { GrapAILLMInputBase } from "@graphai/llm_utils";
+import { GraphAILLMInputBase } from "@graphai/llm_utils";
 type OpenAIInputs = {
     model?: string;
     baseURL?: string;
     apiKey?: string;
     forWeb?: boolean;
-} & GrapAILLMInputBase;
+} & GraphAILLMInputBase;
 export declare const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs>;
 declare const openAIImageAgentInfo: AgentFunctionInfo;
 export default openAIImageAgentInfo;

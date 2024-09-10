@@ -32,7 +32,7 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
   if (!lastMessage) {
     return [];
   }
-  
+
   const key = process.env["GOOGLE_GENAI_API_KEY"];
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
@@ -66,7 +66,7 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
         // Gemini does not have the concept of system message
         return { role: "user", parts: [{ text: "System Message: " + message.content }] };
       }
-      return { role, parts: [{ text: message.content as unknown as string}] };
+      return { role, parts: [{ text: message.content as unknown as string }] };
     }),
     generationConfig,
   });

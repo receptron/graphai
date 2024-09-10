@@ -18,7 +18,6 @@ export type GraphAILLMInputBase = {
   mergeableSystem?: GraphAILLInputType;
 };
 
-
 export const flatString = (input: GraphAILLInputType): string => {
   return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
@@ -36,13 +35,17 @@ export const getMergeValue = (
 };
 
 type GraphAILlmMessageRole = "user" | "system" | "assistant";
+type GraphAILlmMessageContent = string | string[] | Record<string, unknown>;
 
-export type GraphAILlmMessage<GraphAILlmMessageContent = string | string[] | Record<string, unknown>> = {
+export type GraphAILlmMessage<ContetType = GraphAILlmMessageContent> = {
   role: GraphAILlmMessageRole;
-  content: GraphAILlmMessageContent;
+  content: ContetType;
 };
 
-export const getMessages = (systemPrompt?: string, messages?: GraphAILlmMessage[]): GraphAILlmMessage[] => {
-  const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt }] : []), ...(messages ?? [])];
+export const getMessages = <ContetType = GraphAILlmMessageContent>(
+  systemPrompt?: string,
+  messages?: GraphAILlmMessage<ContetType>[],
+): GraphAILlmMessage<ContetType>[] => {
+  const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt as ContetType }] : []), ...(messages ?? [])];
   return messagesCopy;
 };

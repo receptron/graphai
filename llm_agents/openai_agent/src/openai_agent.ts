@@ -2,6 +2,8 @@ import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 import { GraphAILLMInputBase, getMergeValue, getMessages, GraphAILlmMessage } from "@graphai/llm_utils";
 
+type OpenAIMessageContent = OpenAI.ChatCompletionContentPart | OpenAI.ChatCompletionContentPart[] | string;
+
 type OpenAIInputs = {
   model?: string;
   images?: string[];
@@ -13,7 +15,7 @@ type OpenAIInputs = {
   baseURL?: string;
   apiKey?: string;
   stream?: boolean;
-  messages?: Array<GraphAILlmMessage>;
+  messages?: Array<GraphAILlmMessage<OpenAIMessageContent>>;
   forWeb?: boolean;
 } & GraphAILLMInputBase;
 
@@ -30,7 +32,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
-  const messagesCopy = getMessages(systemPrompt, messages);
+  const messagesCopy = getMessages<OpenAIMessageContent>(systemPrompt, messages);
 
   if (userPrompt) {
     messagesCopy.push({
@@ -52,7 +54,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
         {
           type: "image_url",
           image_url,
-        },
+        } as OpenAI.ChatCompletionContentPart,
       ],
     });
   }
