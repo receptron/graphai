@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
-import { GraphAILLMInputBase, getMergeValue, getMessages, GraphAILlmMessage } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue, getMessages2 } from "@graphai/llm_utils";
 
 type OpenAIMessageContent = OpenAI.ChatCompletionContentPart | OpenAI.ChatCompletionContentPart[] | string;
 
@@ -15,7 +15,7 @@ type OpenAIInputs = {
   baseURL?: string;
   apiKey?: string;
   stream?: boolean;
-  messages?: Array<GraphAILlmMessage<OpenAIMessageContent>>;
+  messages?: Array<OpenAI.ChatCompletionMessageParam>;
   forWeb?: boolean;
 } & GraphAILLMInputBase;
 
@@ -32,7 +32,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
-  const messagesCopy = getMessages<OpenAIMessageContent>(systemPrompt, messages);
+  const messagesCopy = getMessages2<OpenAI.ChatCompletionMessageParam>(systemPrompt, messages);
 
   if (userPrompt) {
     messagesCopy.push({
