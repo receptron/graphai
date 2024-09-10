@@ -10,7 +10,6 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
     const { model, system, temperature, max_tokens, prompt, messages, stream } = { ...params, ...namedInputs };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
-    // Notice that we ignore params.system if previous_message exists.
     const messagesCopy = messages ? messages.map((m) => m) : [];
     if (userPrompt) {
         messagesCopy.push({
