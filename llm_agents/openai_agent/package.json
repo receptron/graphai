@@ -1,6 +1,6 @@
 {
   "name": "@graphai/openai_agent",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "OpenAI agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
