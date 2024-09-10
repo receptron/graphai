@@ -49,3 +49,11 @@ export const getMessages = <ContetType = GraphAILlmMessageContent>(
   const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt as ContetType }] : []), ...(messages ?? [])];
   return messagesCopy;
 };
+
+export const getMessages2 = <MessageType>(
+  systemPrompt?: string,
+  messages?: MessageType[],
+): MessageType[] => {
+  const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt } as MessageType] : []), ...(messages ?? [])];
+  return messagesCopy;
+};

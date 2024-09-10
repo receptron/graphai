@@ -21,4 +21,5 @@ export type GraphAILlmMessage<ContetType = GraphAILlmMessageContent> = {
     content: ContetType;
 };
 export declare const getMessages: <ContetType = GraphAILlmMessageContent>(systemPrompt?: string, messages?: GraphAILlmMessage<ContetType>[]) => GraphAILlmMessage<ContetType>[];
+export declare const getMessages2: <MessageType>(systemPrompt?: string, messages?: MessageType[]) => MessageType[];
 export {};
