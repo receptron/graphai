@@ -1,9 +1,11 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 
-export const arrayFlatAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, { array: Array<unknown>, depth?: number }> = async ({ namedInputs }) => {
+export const arrayFlatAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, { array: Array<unknown>; depth?: number }> = async ({
+  namedInputs,
+}) => {
   assert(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
   const depth = namedInputs.depth ?? 1;
-  
+
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   return { array: array.flat(depth) };
 };
