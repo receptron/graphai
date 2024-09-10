@@ -2,8 +2,6 @@ import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
 
-type OpenAIMessageContent = OpenAI.ChatCompletionContentPart | OpenAI.ChatCompletionContentPart[] | string;
-
 type OpenAIInputs = {
   model?: string;
   images?: string[];

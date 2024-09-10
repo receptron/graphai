@@ -14,11 +14,8 @@ export type GraphAILLMInputBase = {
 };
 export declare const flatString: (input: GraphAILLInputType) => string;
 export declare const getMergeValue: (namedInputs: GraphAILLMInputBase, params: GraphAILLMInputBase, key: "mergeablePrompts" | "mergeableSystem", values: GraphAILLInputType) => string;
-type GraphAILlmMessageRole = "user" | "system" | "assistant";
-type GraphAILlmMessageContent = string | string[] | Record<string, unknown>;
-export type GraphAILlmMessage<ContetType = GraphAILlmMessageContent> = {
-    role: GraphAILlmMessageRole;
-    content: ContetType;
+export type GraphAILlmMessage = {
+    role: "user" | "system" | "assistant";
+    content: string;
 };
 export declare const getMessages: <MessageType>(systemPrompt?: string, messages?: MessageType[]) => MessageType[];
-export {};

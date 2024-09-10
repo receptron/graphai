@@ -66,12 +66,12 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
         // Gemini does not have the concept of system message
         return { role: "user", parts: [{ text: "System Message: " + message.content }] };
       }
-      return { role, parts: [{ text: message.content as unknown as string }] };
+      return { role, parts: [{ text: message.content }] };
     }),
     generationConfig,
   });
 
-  const result = await chat.sendMessage(lastMessage.content as unknown as string);
+  const result = await chat.sendMessage(lastMessage.content);
   const response = result.response;
   const text = response.text();
   const message: any = { role: "assistant", content: text };

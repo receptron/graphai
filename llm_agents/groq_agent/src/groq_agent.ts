@@ -4,7 +4,6 @@ import {
   ChatCompletionCreateParams,
   ChatCompletionCreateParamsNonStreaming,
   ChatCompletionCreateParamsStreaming,
-  ChatCompletionContentPart,
   ChatCompletionTool,
   ChatCompletionMessageParam,
   ChatCompletionToolChoiceOption,

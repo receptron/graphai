@@ -34,12 +34,10 @@ export const getMergeValue = (
   return inputValue || paramsValue ? [flatString(inputValue), flatString(paramsValue)].filter((a) => a).join("\n") : flatString(values);
 };
 
-type GraphAILlmMessageRole = "user" | "system" | "assistant";
-type GraphAILlmMessageContent = string | string[] | Record<string, unknown>;
-
-export type GraphAILlmMessage<ContetType = GraphAILlmMessageContent> = {
-  role: GraphAILlmMessageRole;
-  content: ContetType;
+// just for gemini_agent
+export type GraphAILlmMessage = {
+  role: "user" | "system" | "assistant";
+  content: string;
 };
 
 export const getMessages = <MessageType>(
