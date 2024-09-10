@@ -14,7 +14,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
-    const messagesCopy = (0, llm_utils_1.getMessages2)(systemPrompt, messages);
+    const messagesCopy = (0, llm_utils_1.getMessages)(systemPrompt, messages);
     if (userPrompt) {
         messagesCopy.push({
             role: "user",
