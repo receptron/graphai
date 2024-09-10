@@ -37,12 +37,12 @@ export const getMergeValue = (
 
 type GraphAILlmMessageRole = "user" | "system" | "assistant";
 
-export type GraphAILlmMessage = {
+export type GraphAILlmMessage<GraphAILlmMessageContent = string | string[] | Record<string, unknown>> = {
   role: GraphAILlmMessageRole;
-  content: string | string[] | Record<string, unknown>[];
+  content: GraphAILlmMessageContent;
 };
 
 export const getMessages = (systemPrompt?: string, messages?: GraphAILlmMessage[]): GraphAILlmMessage[] => {
-  const messagesCopy: GraphAILlmMessage[] = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt }] : []), ...(messages ?? [])];
+  const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt }] : []), ...(messages ?? [])];
   return messagesCopy;
 };
