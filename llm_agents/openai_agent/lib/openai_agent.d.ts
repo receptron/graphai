@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { GrapAILLMInputBase } from "@graphai/llm_utils";
+import { GraphAILLMInputBase } from "@graphai/llm_utils";
 type OpenAIInputs = {
     model?: string;
     images?: string[];
@@ -12,9 +12,9 @@ type OpenAIInputs = {
     baseURL?: string;
     apiKey?: string;
     stream?: boolean;
-    messages?: Array<Record<string, any>>;
+    messages?: Array<OpenAI.ChatCompletionMessageParam>;
     forWeb?: boolean;
-} & GrapAILLMInputBase;
+} & GraphAILLMInputBase;
 export declare const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;

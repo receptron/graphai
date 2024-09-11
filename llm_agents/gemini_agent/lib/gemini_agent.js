@@ -8,8 +8,7 @@ const geminiAgent = async ({ params, namedInputs }) => {
     const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
-    // Notice that we ignore params.system if previous_message exists.
-    const messagesCopy = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
+    const messagesCopy = (0, llm_utils_1.getMessages)(systemPrompt, messages);
     if (userPrompt) {
         messagesCopy.push({
             role: "user",
@@ -17,6 +16,9 @@ const geminiAgent = async ({ params, namedInputs }) => {
         });
     }
     const lastMessage = messagesCopy.pop();
+    if (!lastMessage) {
+        return [];
+    }
     const key = process.env["GOOGLE_GENAI_API_KEY"];
     (0, graphai_1.assert)(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
     const genAI = new generative_ai_1.GoogleGenerativeAI(key);

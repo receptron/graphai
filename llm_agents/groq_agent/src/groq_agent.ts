@@ -9,7 +9,7 @@ import {
   ChatCompletionToolChoiceOption,
 } from "groq-sdk/resources/chat/completions";
 
-import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
 
 const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
 
@@ -21,7 +21,7 @@ type GroqInputs = {
   tool_choice?: ChatCompletionToolChoiceOption;
   stream?: boolean;
   messages?: Array<ChatCompletionMessageParam>;
-} & GrapAILLMInputBase;
+} & GraphAILLMInputBase;
 
 //
 // This agent takes two optional inputs, and following parameters.
@@ -55,7 +55,7 @@ export const groqAgent: AgentFunction<
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
   // Notice that we ignore params.system if previous_message exists.
-  const messagesCopy: Array<ChatCompletionMessageParam> = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
+  const messagesCopy = getMessages<ChatCompletionMessageParam>(systemPrompt, messages);
 
   if (userPrompt) {
     messagesCopy.push({

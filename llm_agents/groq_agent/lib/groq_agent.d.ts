@@ -1,6 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { ChatCompletionTool, ChatCompletionMessageParam, ChatCompletionToolChoiceOption } from "groq-sdk/resources/chat/completions";
-import { GrapAILLMInputBase } from "@graphai/llm_utils";
+import { GraphAILLMInputBase } from "@graphai/llm_utils";
 type GroqInputs = {
     verbose?: boolean;
     tools?: ChatCompletionTool[];
@@ -9,7 +9,7 @@ type GroqInputs = {
     tool_choice?: ChatCompletionToolChoiceOption;
     stream?: boolean;
     messages?: Array<ChatCompletionMessageParam>;
-} & GrapAILLMInputBase;
+} & GraphAILLMInputBase;
 export declare const groqAgent: AgentFunction<GroqInputs & {
     model: string;
 }, any, string | Array<ChatCompletionMessageParam>, GroqInputs>;
