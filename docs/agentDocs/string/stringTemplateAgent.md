@@ -72,6 +72,51 @@ Template agent
 ]
 
 ````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.apple",
+  ":agentId.lemon"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.apple",
+  ":agentId.$0.lemon"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.apple",
+  ":agentId.lemon",
+  ":agentId.lemon.$0"
+]
+
+````
 
 ## Samples
 
@@ -216,6 +261,162 @@ Template agent
 ```json
 
 {"template":{"apple":"${0}","lemon":["${1}"]}}
+
+````
+
+#### result
+
+```json
+
+{
+  "apple": "hello",
+  "lemon": [
+    "test"
+  ]
+}
+
+````
+### Sample5
+
+#### inputs
+
+```json
+
+{
+  "message1": "hello",
+  "message2": "test"
+}
+
+````
+
+#### params
+
+```json
+
+{"template":"${message1}: ${message2}"}
+
+````
+
+#### result
+
+```json
+
+"hello: test"
+
+````
+### Sample6
+
+#### inputs
+
+```json
+
+{
+  "message1": "hello",
+  "message2": "test"
+}
+
+````
+
+#### params
+
+```json
+
+{"template":["${message1}: ${message2}","${message2}: ${message1}"]}
+
+````
+
+#### result
+
+```json
+
+[
+  "hello: test",
+  "test: hello"
+]
+
+````
+### Sample7
+
+#### inputs
+
+```json
+
+{
+  "message1": "hello",
+  "message2": "test"
+}
+
+````
+
+#### params
+
+```json
+
+{"template":{"apple":"${message1}","lemon":"${message2}"}}
+
+````
+
+#### result
+
+```json
+
+{
+  "apple": "hello",
+  "lemon": "test"
+}
+
+````
+### Sample8
+
+#### inputs
+
+```json
+
+{
+  "message1": "hello",
+  "message2": "test"
+}
+
+````
+
+#### params
+
+```json
+
+{"template":[{"apple":"${message1}","lemon":"${message2}"}]}
+
+````
+
+#### result
+
+```json
+
+[
+  {
+    "apple": "hello",
+    "lemon": "test"
+  }
+]
+
+````
+### Sample9
+
+#### inputs
+
+```json
+
+{
+  "message1": "hello",
+  "message2": "test"
+}
+
+````
+
+#### params
+
+```json
+
+{"template":{"apple":"${message1}","lemon":["${message2}"]}}
 
 ````
 
