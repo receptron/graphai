@@ -13,16 +13,22 @@ const processTemplate = (template, match, input) => {
         return tmp;
     }, {});
 };
-const stringTemplateAgent = async ({ params, inputs }) => {
+const stringTemplateAgent = async ({ params, inputs, namedInputs }) => {
     if (params.template === undefined) {
         console.warn("warning: stringTemplateAgent no template");
     }
-    return inputs.reduce((template, input, index) => {
-        return processTemplate(template, "${" + index + "}", input);
+    if (inputs && inputs.length > 0) {
+        return inputs.reduce((template, input, index) => {
+            return processTemplate(template, "${" + index + "}", input);
+        }, params.template);
+    }
+    return Object.keys(namedInputs).reduce((template, key) => {
+        return processTemplate(template, "${" + key + "}", namedInputs[key]);
     }, params.template);
 };
 exports.stringTemplateAgent = stringTemplateAgent;
 const sampleInput = ["hello", "test"];
+const sampleNamedInput = { message1: "hello", message2: "test" };
 // for test and document
 const stringTemplateAgentInfo = {
     name: "stringTemplateAgent",
@@ -52,6 +58,32 @@ const stringTemplateAgentInfo = {
         {
             inputs: sampleInput,
             params: { template: { apple: "${0}", lemon: ["${1}"] } },
+            result: { apple: "hello", lemon: ["test"] },
+        },
+        // named
+        {
+            inputs: sampleNamedInput,
+            params: { template: "${message1}: ${message2}" },
+            result: "hello: test",
+        },
+        {
+            inputs: sampleNamedInput,
+            params: { template: ["${message1}: ${message2}", "${message2}: ${message1}"] },
+            result: ["hello: test", "test: hello"],
+        },
+        {
+            inputs: sampleNamedInput,
+            params: { template: { apple: "${message1}", lemon: "${message2}" } },
+            result: { apple: "hello", lemon: "test" },
+        },
+        {
+            inputs: sampleNamedInput,
+            params: { template: [{ apple: "${message1}", lemon: "${message2}" }] },
+            result: [{ apple: "hello", lemon: "test" }],
+        },
+        {
+            inputs: sampleNamedInput,
+            params: { template: { apple: "${message1}", lemon: ["${message2}"] } },
             result: { apple: "hello", lemon: ["test"] },
         },
     ],
