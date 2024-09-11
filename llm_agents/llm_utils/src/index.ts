@@ -40,10 +40,7 @@ export type GraphAILlmMessage = {
   content: string;
 };
 
-export const getMessages = <MessageType>(
-  systemPrompt?: string,
-  messages?: MessageType[],
-): MessageType[] => {
+export const getMessages = <MessageType>(systemPrompt?: string, messages?: MessageType[]): MessageType[] => {
   const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt } as MessageType] : []), ...(messages ?? [])];
   return messagesCopy;
 };
