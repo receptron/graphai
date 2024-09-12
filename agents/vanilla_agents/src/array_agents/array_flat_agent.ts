@@ -1,6 +1,6 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 
-export const arrayFlatAgent: AgentFunction<{ depth?: number }, Record<string, any>, Array<any>, { array: Array<unknown> }> = async ({
+export const arrayFlatAgent: AgentFunction<{ depth?: number }, { array: Array<unknown> }, Array<never>, { array: Array<unknown> }> = async ({
   namedInputs,
   params,
 }) => {
