@@ -1,17 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringTemplateAgent = void 0;
+const utils_1 = require("graphai/lib/utils/utils");
 const processTemplate = (template, match, input) => {
     if (typeof template === "string") {
+        if (template === match) {
+            return input;
+        }
         return template.replace(match, input);
     }
     else if (Array.isArray(template)) {
         return template.map((item) => processTemplate(item, match, input));
     }
-    return Object.keys(template).reduce((tmp, key) => {
-        tmp[key] = processTemplate(template[key], match, input);
-        return tmp;
-    }, {});
+    if ((0, utils_1.isObject)(template)) {
+        return Object.keys(template).reduce((tmp, key) => {
+            tmp[key] = processTemplate(template[key], match, input);
+            return tmp;
+        }, {});
+    }
+    return template;
 };
 const stringTemplateAgent = async ({ params, inputs, namedInputs }) => {
     if (params.template === undefined) {
@@ -85,6 +92,36 @@ const stringTemplateAgentInfo = {
             inputs: sampleNamedInput,
             params: { template: { apple: "${message1}", lemon: ["${message2}"] } },
             result: { apple: "hello", lemon: ["test"] },
+        },
+        // graphData
+        {
+            inputs: { agent: "openAiAgent", row: "hello world", params: { text: "message" } },
+            params: {
+                template: {
+                    version: 0.5,
+                    nodes: {
+                        ai: {
+                            agent: "${agent}",
+                            isResult: true,
+                            params: "${params}",
+                            inputs: { prompt: "${row}" },
+                        },
+                    },
+                },
+            },
+            result: {
+                nodes: {
+                    ai: {
+                        agent: "openAiAgent",
+                        inputs: {
+                            prompt: "hello world",
+                        },
+                        isResult: true,
+                        params: { text: "message" },
+                    },
+                },
+                version: 0.5,
+            },
         },
     ],
     description: "Template agent",
