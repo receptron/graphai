@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ValidationError = exports.sleep = exports.assert = exports.strIntentionalError = exports.defaultTestContext = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.NodeState = exports.graphDataLatestVersion = exports.defaultConcurrency = exports.GraphAI = void 0;
+exports.ValidationError = exports.isObject = exports.sleep = exports.assert = exports.strIntentionalError = exports.defaultTestContext = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.NodeState = exports.graphDataLatestVersion = exports.defaultConcurrency = exports.GraphAI = void 0;
 var graphai_1 = require("./graphai");
 Object.defineProperty(exports, "GraphAI", { enumerable: true, get: function () { return graphai_1.GraphAI; } });
 Object.defineProperty(exports, "defaultConcurrency", { enumerable: true, get: function () { return graphai_1.defaultConcurrency; } });
@@ -14,5 +14,6 @@ Object.defineProperty(exports, "defaultTestContext", { enumerable: true, get: fu
 Object.defineProperty(exports, "strIntentionalError", { enumerable: true, get: function () { return utils_1.strIntentionalError; } });
 Object.defineProperty(exports, "assert", { enumerable: true, get: function () { return utils_1.assert; } });
 Object.defineProperty(exports, "sleep", { enumerable: true, get: function () { return utils_1.sleep; } });
+Object.defineProperty(exports, "isObject", { enumerable: true, get: function () { return utils_1.isObject; } });
 var common_1 = require("./validators/common");
 Object.defineProperty(exports, "ValidationError", { enumerable: true, get: function () { return common_1.ValidationError; } });
