@@ -1,0 +1,32 @@
+{
+  "name": "@graphai/agent_utils",
+  "version": "0.0.1",
+  "description": "Agent utils for GraphAI.",
+  "main": "lib/index.js",
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "rm -r lib/* && tsc && tsc-alias",
+    "eslint": "eslint",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
+    "b": "yarn run format && yarn run eslint && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "author": "Satoshi Nakajima, Isamu Arimoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai#readme",
+  "dependencies": {},
+  "devDependencies": {},
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  }
+}
