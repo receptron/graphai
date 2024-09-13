@@ -46,7 +46,6 @@ export const mapAgent: AgentFunction<
         agentFilters: agentFilters || [],
         config,
       });
-
       graphAI.injectValue("row", row, "__mapAgent_inputs__");
       return graphAI;
     });

@@ -1,18 +1,26 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { isObject } from "graphai/lib/utils/utils";
 
 type StringTemplate = string | Record<string, string>;
 type StringTemplateObject = StringTemplate | StringTemplate[] | Record<string, StringTemplate>;
 
 const processTemplate: any = (template: StringTemplateObject, match: string, input: string) => {
   if (typeof template === "string") {
+    if (template === match) {
+      return input;
+    }
     return template.replace(match, input);
   } else if (Array.isArray(template)) {
     return template.map((item: StringTemplate) => processTemplate(item, match, input));
   }
-  return Object.keys(template).reduce((tmp: any, key: string) => {
-    tmp[key] = processTemplate(template[key], match, input);
-    return tmp;
-  }, {});
+
+  if (isObject(template)) {
+    return Object.keys(template).reduce((tmp: any, key: string) => {
+      tmp[key] = processTemplate(template[key], match, input);
+      return tmp;
+    }, {});
+  }
+  return template;
 };
 
 export const stringTemplateAgent: AgentFunction<
@@ -94,6 +102,36 @@ const stringTemplateAgentInfo: AgentFunctionInfo = {
       inputs: sampleNamedInput,
       params: { template: { apple: "${message1}", lemon: ["${message2}"] } },
       result: { apple: "hello", lemon: ["test"] },
+    },
+    // graphData
+    {
+      inputs: { agent: "openAiAgent", row: "hello world", params: { text: "message" } },
+      params: {
+        template: {
+          version: 0.5,
+          nodes: {
+            ai: {
+              agent: "${agent}",
+              isResult: true,
+              params: "${params}",
+              inputs: { prompt: "${row}" },
+            },
+          },
+        },
+      },
+      result: {
+        nodes: {
+          ai: {
+            agent: "openAiAgent",
+            inputs: {
+              prompt: "hello world",
+            },
+            isResult: true,
+            params: { text: "message" },
+          },
+        },
+        version: 0.5,
+      },
     },
   ],
   description: "Template agent",
