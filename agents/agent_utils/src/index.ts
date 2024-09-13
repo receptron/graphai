@@ -32,4 +32,3 @@ export const sample2GraphData = (sample: AgentFunctionInfoSample, agentName: str
   };
   return graphData;
 };
-
