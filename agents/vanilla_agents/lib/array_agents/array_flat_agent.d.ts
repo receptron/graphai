@@ -1,7 +1,10 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const arrayFlatAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, {
-    array: Array<unknown>;
+export declare const arrayFlatAgent: AgentFunction<{
     depth?: number;
+}, {
+    array: Array<unknown>;
+}, Array<never>, {
+    array: Array<unknown>;
 }>;
 declare const arrayFlatAgentInfo: AgentFunctionInfo;
 export default arrayFlatAgentInfo;

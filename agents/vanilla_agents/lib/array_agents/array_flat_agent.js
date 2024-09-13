@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayFlatAgent = void 0;
 const graphai_1 = require("graphai");
-const arrayFlatAgent = async ({ namedInputs, }) => {
+const arrayFlatAgent = async ({ namedInputs, params, }) => {
     (0, graphai_1.assert)(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
-    const depth = namedInputs.depth ?? 1;
+    const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy
     return { array: array.flat(depth) };
 };
@@ -32,6 +32,15 @@ const arrayFlatAgentInfo = {
             },
         },
     },
+    params: {
+        type: "object",
+        properties: {
+            depth: {
+                type: "number",
+                description: "array depth",
+            },
+        },
+    },
     samples: [
         {
             inputs: { array: [[1], [2], [3]] },
@@ -48,8 +57,8 @@ const arrayFlatAgentInfo = {
             },
         },
         {
-            inputs: { array: [[1], [2], [[3]]], depth: 2 },
-            params: {},
+            inputs: { array: [[1], [2], [[3]]] },
+            params: { depth: 2 },
             result: {
                 array: [1, 2, 3],
             },
