@@ -39,7 +39,6 @@
 ### [popAgent](./array/popAgent.md)
 ### [shiftAgent](./array/shiftAgent.md)
 ### [arrayFlatAgent](./array/arrayFlatAgent.md)
-### [arrayJoinAgent](./array/arrayJoinAgent.md)
 
 ## matrix
 ### [dotProductAgent](./matrix/dotProductAgent.md)

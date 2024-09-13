@@ -200,7 +200,8 @@ Array Flat Agent
         3
       ]
     ]
-  ]
+  ],
+  "depth": 2
 }
 
 ````
@@ -209,7 +210,7 @@ Array Flat Agent
 
 ```json
 
-{"depth":2}
+{}
 
 ````
 
