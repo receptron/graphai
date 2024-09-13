@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@google/generative-ai": "^0.17.1",
+    "@google/generative-ai": "^0.19.0",
     "@graphai/llm_utils": "^0.0.2"
   },
   "devDependencies": {},
