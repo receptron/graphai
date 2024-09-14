@@ -25,6 +25,7 @@ export const sample2GraphData = (sample: AgentFunctionInfoSample, agentName: str
     agent: agentName,
     params: sample.params,
     inputs: inputs,
+    graph: sample.graph,
   };
   const graphData: GraphData = {
     version: 0.5,
