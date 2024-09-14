@@ -1,4 +1,4 @@
-import { AgentFunctionInfoSample, GraphData, NodeData } from "graphai";
+import { AgentFunctionInfoSample, GraphData, NodeData, DefaultInputData } from "graphai";
 
 export const sample2GraphData = (sample: AgentFunctionInfoSample, agentName: string) => {
   const nodes: Record<string, NodeData> = {};
@@ -32,4 +32,8 @@ export const sample2GraphData = (sample: AgentFunctionInfoSample, agentName: str
     nodes,
   };
   return graphData;
+};
+
+export const isNamedInputs = <NamedInput = DefaultInputData>(namedInputs: NamedInput) => {
+  return Object.keys(namedInputs || {}).length > 0;
 };
