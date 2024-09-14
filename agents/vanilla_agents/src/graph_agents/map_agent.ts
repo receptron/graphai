@@ -149,6 +149,45 @@ const mapAgentInfo: AgentFunctionInfo = {
         },
       },
     },
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: { resultAll: true },
+      result: {
+        test: [[1], [2]],
+        map: [
+          {
+            test: [[[1]], [[1]]],
+          },
+          {
+            test: [[[2]], [[2]]],
+          },
+        ],
+        row: [1, 2],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+          map: {
+            agent: "mapAgent",
+            inputs: { rows: [":test", ":test"] },
+            graph: {
+              nodes: {
+                test: {
+                  isResult: true,
+                  agent: "bypassAgent",
+                  inputs: [":row"],
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   ],
   description: "Map Agent",
   category: ["graph"],
