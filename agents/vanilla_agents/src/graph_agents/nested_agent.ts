@@ -55,7 +55,26 @@ const nestedAgentInfo: AgentFunctionInfo = {
   name: "nestedAgent",
   agent: nestedAgent,
   mock: nestedAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: {
+        message: "hello",
+      },
+      params: {},
+      result: {
+        test: ["hello"],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":message"],
+            isResult: true,
+          },
+        },
+      },
+    },
+  ],
   description: "nested Agent",
   category: ["graph"],
   author: "Receptron team",
