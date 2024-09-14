@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
 
 export const mapAgent: AgentFunction<
   {
@@ -22,7 +22,7 @@ export const mapAgent: AgentFunction<
   }
 
   const { nodes } = graphData;
-  const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
+  const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
 
   const nodeIds = Object.keys(namedInputs);
   nodeIds.forEach((nodeId) => {
@@ -90,7 +90,26 @@ const mapAgentInfo: AgentFunctionInfo = {
   name: "mapAgent",
   agent: mapAgent,
   mock: mapAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: {},
+      result: {
+        test: [[1], [2]],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+  ],
   description: "Map Agent",
   category: ["graph"],
   author: "Receptron team",

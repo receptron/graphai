@@ -14,7 +14,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
         rows.length = params.limit; // trim
     }
     const { nodes } = graphData;
-    const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
+    const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai_1.graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
     nodeIds.forEach((nodeId) => {
         const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
@@ -80,7 +80,26 @@ const mapAgentInfo = {
     name: "mapAgent",
     agent: exports.mapAgent,
     mock: exports.mapAgent,
-    samples: [],
+    samples: [
+        {
+            inputs: {
+                rows: [1, 2],
+            },
+            params: {},
+            result: {
+                test: [[1], [2]],
+            },
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "bypassAgent",
+                        inputs: [":row"],
+                        isResult: true,
+                    },
+                },
+            },
+        },
+    ],
     description: "Map Agent",
     category: ["graph"],
     author: "Receptron team",
