@@ -52,6 +52,9 @@ test("test fork 1", async () => {
       mapNode: {
         agent: "mapAgent",
         inputs: { rows: ":node2" },
+        params: {
+          compositeResult: true,
+        },
         graph: {
           version: 0.5,
           nodes: {
@@ -125,6 +128,9 @@ test("test fork 2", async () => {
       mapNode: {
         agent: "mapAgent",
         inputs: { rows: ":echo.messages" },
+        params: {
+          compositeResult: true,
+        },
         graph: {
           version: 0.5,
           nodes: {

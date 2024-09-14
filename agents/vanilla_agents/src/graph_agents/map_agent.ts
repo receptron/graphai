@@ -4,6 +4,7 @@ export const mapAgent: AgentFunction<
   {
     limit?: number;
     resultAll?: boolean;
+    compositeResult?: boolean;
   },
   Record<string, any>,
   any
@@ -57,12 +58,6 @@ export const mapAgent: AgentFunction<
     const results = await Promise.all(runs);
     const nodeIds = Object.keys(results[0]);
     // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
-    const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
-      tmp[nodeId] = results.map((result) => {
-        return result[nodeId];
-      });
-      return tmp;
-    }, {});
 
     if (log) {
       const logs = graphs.map((graph, index) => {
@@ -73,7 +68,17 @@ export const mapAgent: AgentFunction<
       });
       log.push(...logs.flat());
     }
-    return compositeResult;
+
+    if (params.compositeResult) {
+      const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
+        tmp[nodeId] = results.map((result) => {
+          return result[nodeId];
+        });
+        return tmp;
+      }, {});
+      return compositeResult;
+    }
+    return results;
   } catch (error) {
     if (error instanceof Error) {
       return {
@@ -97,9 +102,7 @@ const mapAgentInfo: AgentFunctionInfo = {
         rows: [1, 2],
       },
       params: {},
-      result: {
-        test: [[1], [2]],
-      },
+      result: [{ test: [1] }, { test: [2] }],
       graph: {
         nodes: {
           test: {
@@ -127,6 +130,184 @@ const mapAgentInfo: AgentFunctionInfo = {
           },
         },
       },
+      result: [
+        { node2: "I love apple." },
+        { node2: "I love orange." },
+        { node2: "I love banana." },
+        { node2: "I love lemon." },
+        { node2: "I love melon." },
+        { node2: "I love pineapple." },
+        { node2: "I love tomato." },
+      ],
+    },
+    {
+      inputs: {
+        rows: [{ fruit: "apple" }, { fruit: "orange" }],
+      },
+      params: {},
+      graph: {
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${0}.",
+            },
+            inputs: [":row.fruit"],
+            isResult: true,
+          },
+        },
+      },
+      result: [{ node2: "I love apple." }, { node2: "I love orange." }],
+    },
+    {
+      inputs: {
+        rows: [{ fruit: "apple" }, { fruit: "orange" }],
+        name: "You",
+        verb: "like",
+      },
+      params: {},
+      graph: {
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "${1} ${2} ${0}.",
+            },
+            inputs: [":row.fruit", ":name", ":verb"],
+            isResult: true,
+          },
+        },
+      },
+      result: [{ node2: "You like apple." }, { node2: "You like orange." }],
+    },
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: {
+        resultAll: true,
+      },
+      result: [
+        {
+          test: [1],
+          row: 1,
+        },
+        {
+          test: [2],
+          row: 2,
+        },
+      ],
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+        },
+      },
+    },
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: {
+        resultAll: true,
+      },
+      result: [
+        {
+          map: [
+            {
+              test: 1,
+            },
+            {
+              test: 1,
+            },
+          ],
+          row: 1,
+          test: 1,
+        },
+        {
+          map: [
+            {
+              test: 2,
+            },
+            {
+              test: 2,
+            },
+          ],
+          test: 2,
+          row: 2,
+        },
+      ],
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            params: {
+              firstElement: true,
+            },
+            inputs: [":row"],
+          },
+          map: {
+            agent: "mapAgent",
+            inputs: { rows: [":test", ":test"] },
+            graph: {
+              nodes: {
+                test: {
+                  isResult: true,
+                  agent: "bypassAgent",
+                  inputs: [":row"],
+                  params: {
+                    firstElement: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+
+    // old response
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: {
+        compositeResult: true,
+      },
+      result: {
+        test: [[1], [2]],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    {
+      inputs: {
+        rows: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"],
+      },
+      params: {
+        compositeResult: true,
+      },
+      graph: {
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${0}.",
+            },
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
       result: {
         node2: ["I love apple.", "I love orange.", "I love banana.", "I love lemon.", "I love melon.", "I love pineapple.", "I love tomato."],
       },
@@ -135,7 +316,10 @@ const mapAgentInfo: AgentFunctionInfo = {
       inputs: {
         rows: [1, 2],
       },
-      params: { resultAll: true },
+      params: {
+        resultAll: true,
+        compositeResult: true,
+      },
       result: {
         test: [[1], [2]],
         row: [1, 2],
@@ -153,7 +337,10 @@ const mapAgentInfo: AgentFunctionInfo = {
       inputs: {
         rows: [1, 2],
       },
-      params: { resultAll: true },
+      params: {
+        resultAll: true,
+        compositeResult: true,
+      },
       result: {
         test: [[1], [2]],
         map: [
@@ -175,6 +362,9 @@ const mapAgentInfo: AgentFunctionInfo = {
           map: {
             agent: "mapAgent",
             inputs: { rows: [":test", ":test"] },
+            params: {
+              compositeResult: true,
+            },
             graph: {
               nodes: {
                 test: {

@@ -186,6 +186,9 @@
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -226,6 +229,9 @@
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -266,6 +272,9 @@
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -308,6 +317,9 @@
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -579,6 +591,9 @@
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent": {
@@ -651,6 +666,9 @@
             }
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent2": {
@@ -708,6 +726,9 @@
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent4": {
@@ -760,6 +781,9 @@
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent3": {

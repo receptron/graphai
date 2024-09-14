@@ -86,6 +86,9 @@ test("test bypass2", async () => {
       mapNode: {
         agent: "mapAgent",
         inputs: { rows: ":echo.message" },
+        params: {
+          compositeResult: true,
+        },
         graph: {
           version: 0.5,
           nodes: {
@@ -138,6 +141,9 @@ test("test bypass3", async () => {
       mapNode: {
         agent: "mapAgent",
         inputs: { rows: ":echo.message" },
+        params: {
+          compositeResult: true,
+        },
         graph: {
           version: 0.5,
           nodes: {
@@ -207,6 +213,9 @@ test("test bypass4", async () => {
       mapNode: {
         agent: "mapAgent",
         inputs: { rows: ":echo.message" },
+        params: {
+          compositeResult: true,
+        },
         graph: {
           version: 0.5,
           nodes: {
