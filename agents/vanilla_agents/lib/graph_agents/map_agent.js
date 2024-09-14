@@ -205,23 +205,23 @@ const mapAgentInfo = {
                 {
                     map: [
                         {
-                            test: 1
+                            test: 1,
                         },
                         {
-                            test: 1
-                        }
+                            test: 1,
+                        },
                     ],
                     row: 1,
-                    test: 1
+                    test: 1,
                 },
                 {
                     map: [
                         {
-                            test: 2
+                            test: 2,
                         },
                         {
-                            test: 2
-                        }
+                            test: 2,
+                        },
                     ],
                     test: 2,
                     row: 2,
