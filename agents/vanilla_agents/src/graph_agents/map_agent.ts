@@ -4,6 +4,7 @@ export const mapAgent: AgentFunction<
   {
     limit?: number;
     resultAll?: boolean;
+    compositeResult?: boolean;
   },
   Record<string, any>,
   any
@@ -57,12 +58,6 @@ export const mapAgent: AgentFunction<
     const results = await Promise.all(runs);
     const nodeIds = Object.keys(results[0]);
     // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
-    const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
-      tmp[nodeId] = results.map((result) => {
-        return result[nodeId];
-      });
-      return tmp;
-    }, {});
 
     if (log) {
       const logs = graphs.map((graph, index) => {
@@ -73,7 +68,17 @@ export const mapAgent: AgentFunction<
       });
       log.push(...logs.flat());
     }
-    return compositeResult;
+
+    if (params.compositeResult) {
+      const compositeResult = nodeIds.reduce((tmp: Record<string, Array<any>>, nodeId) => {
+        tmp[nodeId] = results.map((result) => {
+          return result[nodeId];
+        });
+        return tmp;
+      }, {});
+      return compositeResult;
+    }
+    return results;
   } catch (error) {
     if (error instanceof Error) {
       return {
@@ -96,7 +101,9 @@ const mapAgentInfo: AgentFunctionInfo = {
       inputs: {
         rows: [1, 2],
       },
-      params: {},
+      params: {
+        compositeResult: true,
+      },
       result: {
         test: [[1], [2]],
       },
@@ -114,7 +121,9 @@ const mapAgentInfo: AgentFunctionInfo = {
       inputs: {
         rows: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"],
       },
-      params: {},
+      params: {
+        compositeResult: true,
+      },
       graph: {
         nodes: {
           node2: {
@@ -135,7 +144,10 @@ const mapAgentInfo: AgentFunctionInfo = {
       inputs: {
         rows: [1, 2],
       },
-      params: { resultAll: true },
+      params: {
+        resultAll: true,
+        compositeResult: true,
+      },
       result: {
         test: [[1], [2]],
         row: [1, 2],
@@ -153,7 +165,10 @@ const mapAgentInfo: AgentFunctionInfo = {
       inputs: {
         rows: [1, 2],
       },
-      params: { resultAll: true },
+      params: {
+        resultAll: true,
+        compositeResult: true,
+      },
       result: {
         test: [[1], [2]],
         map: [
