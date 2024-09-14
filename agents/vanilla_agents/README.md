@@ -296,6 +296,9 @@ const result = await graph.run();
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -336,6 +339,9 @@ const result = await graph.run();
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -376,6 +382,9 @@ const result = await graph.run();
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -418,6 +427,9 @@ const result = await graph.run();
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "result": {
@@ -689,6 +701,9 @@ const result = await graph.run();
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent": {
@@ -761,6 +776,9 @@ const result = await graph.run();
             }
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent2": {
@@ -818,6 +836,9 @@ const result = await graph.run();
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent4": {
@@ -870,6 +891,9 @@ const result = await graph.run();
             "isResult": true
           }
         }
+      },
+      "params": {
+        "compositeResult": true
       }
     },
     "bypassAgent3": {
