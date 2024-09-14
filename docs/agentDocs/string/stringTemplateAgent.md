@@ -117,6 +117,22 @@ Template agent
 ]
 
 ````
+```json
+
+[
+  ":agentId",
+  ":agentId.nodes",
+  ":agentId.nodes.ai",
+  ":agentId.nodes.ai.agent",
+  ":agentId.nodes.ai.inputs",
+  ":agentId.nodes.ai.inputs.prompt",
+  ":agentId.nodes.ai.isResult",
+  ":agentId.nodes.ai.params",
+  ":agentId.nodes.ai.params.text",
+  ":agentId.version"
+]
+
+````
 
 ## Samples
 
@@ -429,6 +445,51 @@ Template agent
   "lemon": [
     "test"
   ]
+}
+
+````
+### Sample10
+
+#### inputs
+
+```json
+
+{
+  "agent": "openAiAgent",
+  "row": "hello world",
+  "params": {
+    "text": "message"
+  }
+}
+
+````
+
+#### params
+
+```json
+
+{"template":{"version":0.5,"nodes":{"ai":{"agent":"${agent}","isResult":true,"params":"${params}","inputs":{"prompt":"${row}"}}}}}
+
+````
+
+#### result
+
+```json
+
+{
+  "nodes": {
+    "ai": {
+      "agent": "openAiAgent",
+      "inputs": {
+        "prompt": "hello world"
+      },
+      "isResult": true,
+      "params": {
+        "text": "message"
+      }
+    }
+  },
+  "version": 0.5
 }
 
 ````
