@@ -25,6 +25,7 @@ const sample2GraphData = (sample, agentName) => {
         agent: agentName,
         params: sample.params,
         inputs: inputs,
+        graph: sample.graph,
     };
     const graphData = {
         version: 0.5,

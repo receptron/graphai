@@ -9,7 +9,7 @@ const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, a
     }
     (0, graphai_1.assert)(!!graphData, "nestedAgent: graph is required");
     const { nodes } = graphData;
-    const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
+    const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai_1.graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
     if (nodeIds.length > 0) {
         nodeIds.forEach((nodeId) => {
@@ -53,7 +53,26 @@ const nestedAgentInfo = {
     name: "nestedAgent",
     agent: exports.nestedAgent,
     mock: exports.nestedAgent,
-    samples: [],
+    samples: [
+        {
+            inputs: {
+                message: "hello",
+            },
+            params: {},
+            result: {
+                test: ["hello"],
+            },
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "bypassAgent",
+                        inputs: [":message"],
+                        isResult: true,
+                    },
+                },
+            },
+        },
+    ],
     description: "nested Agent",
     category: ["graph"],
     author: "Receptron team",

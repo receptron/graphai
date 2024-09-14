@@ -1,6 +1,6 @@
 import { AgentFunctionInfo, defaultTestContext } from "graphai";
 
-import * as agents from "@graphai/vanilla"
+import * as agents from "@graphai/vanilla";
 
 import test from "node:test";
 import assert from "node:assert";
