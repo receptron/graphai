@@ -1,7 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bypassAgent = void 0;
-const bypassAgent = async ({ params, inputs }) => {
+const bypassAgent = async ({ params, inputs, namedInputs }) => {
+    if (Object.keys(namedInputs || {}).length > 0) {
+        return namedInputs;
+    }
     if (params && params.firstElement) {
         return inputs[0];
     }
@@ -48,6 +51,12 @@ const bypassAgentInfo = {
             ],
             params: { flat: 1 },
             result: [{ a: "123" }, { b: "abc" }, { c: "987" }, { d: "xyz" }],
+        },
+        // named
+        {
+            inputs: { a: "123", b: "abc", c: "987", d: "xyz" },
+            params: {},
+            result: { a: "123", b: "abc", c: "987", d: "xyz" },
         },
     ],
     description: "bypass agent",

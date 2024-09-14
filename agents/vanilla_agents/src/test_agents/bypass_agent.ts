@@ -1,9 +1,13 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { isNamedInputs } from "@graphai/agent_utils";
 
 export const bypassAgent: AgentFunction<{
   flat?: number;
   firstElement?: boolean;
-}> = async ({ params, inputs }) => {
+}> = async ({ params, inputs, namedInputs }) => {
+  if (isNamedInputs(namedInputs)) {
+    return namedInputs;
+  }
   if (params && params.firstElement) {
     return inputs[0];
   }
@@ -50,6 +54,12 @@ const bypassAgentInfo: AgentFunctionInfo = {
       ],
       params: { flat: 1 },
       result: [{ a: "123" }, { b: "abc" }, { c: "987" }, { d: "xyz" }],
+    },
+    // named
+    {
+      inputs: { a: "123", b: "abc", c: "987", d: "xyz" },
+      params: {},
+      result: { a: "123", b: "abc", c: "987", d: "xyz" },
     },
   ],
   description: "bypass agent",

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sample2GraphData = void 0;
+exports.isNamedInputs = exports.sample2GraphData = void 0;
 const sample2GraphData = (sample, agentName) => {
     const nodes = {};
     const inputs = (() => {
@@ -33,3 +33,7 @@ const sample2GraphData = (sample, agentName) => {
     return graphData;
 };
 exports.sample2GraphData = sample2GraphData;
+const isNamedInputs = (namedInputs) => {
+    return (Object.keys(namedInputs || {}).length > 0);
+};
+exports.isNamedInputs = isNamedInputs;
