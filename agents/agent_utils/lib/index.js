@@ -35,6 +35,6 @@ const sample2GraphData = (sample, agentName) => {
 };
 exports.sample2GraphData = sample2GraphData;
 const isNamedInputs = (namedInputs) => {
-    return (Object.keys(namedInputs || {}).length > 0);
+    return Object.keys(namedInputs || {}).length > 0;
 };
 exports.isNamedInputs = isNamedInputs;
