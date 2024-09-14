@@ -142,6 +142,46 @@ const mapAgentInfo: AgentFunctionInfo = {
     },
     {
       inputs: {
+        rows: [{ fruit: "apple" }, { fruit: "orange" }],
+      },
+      params: {},
+      graph: {
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${0}.",
+            },
+            inputs: [":row.fruit"],
+            isResult: true,
+          },
+        },
+      },
+      result: [{ node2: "I love apple." }, { node2: "I love orange." }],
+    },
+    {
+      inputs: {
+        rows: [{ fruit: "apple" }, { fruit: "orange" }],
+        name: "You",
+        verb: "like",
+      },
+      params: {},
+      graph: {
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "${1} ${2} ${0}.",
+            },
+            inputs: [":row.fruit", ":name", ":verb"],
+            isResult: true,
+          },
+        },
+      },
+      result: [{ node2: "You like apple." }, { node2: "You like orange." }],
+    },
+    {
+      inputs: {
         rows: [1, 2],
       },
       params: {
