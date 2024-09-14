@@ -1,9 +1,9 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
 
 export const mapAgent: AgentFunction<
   {
-    namedInputs?: Array<string>;
     limit?: number;
+    resultAll?: boolean;
   },
   Record<string, any>,
   any
@@ -20,9 +20,10 @@ export const mapAgent: AgentFunction<
   if (params.limit && params.limit < rows.length) {
     rows.length = params.limit; // trim
   }
+  const resultAll = params.resultAll ?? false;
 
   const { nodes } = graphData;
-  const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
+  const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
 
   const nodeIds = Object.keys(namedInputs);
   nodeIds.forEach((nodeId) => {
@@ -51,7 +52,7 @@ export const mapAgent: AgentFunction<
     });
 
     const runs = graphs.map((graph) => {
-      return graph.run(false);
+      return graph.run(resultAll);
     });
     const results = await Promise.all(runs);
     const nodeIds = Object.keys(results[0]);
@@ -90,7 +91,104 @@ const mapAgentInfo: AgentFunctionInfo = {
   name: "mapAgent",
   agent: mapAgent,
   mock: mapAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: {},
+      result: {
+        test: [[1], [2]],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    {
+      inputs: {
+        rows: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"],
+      },
+      params: {},
+      graph: {
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${0}.",
+            },
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+      result: {
+        node2: ["I love apple.", "I love orange.", "I love banana.", "I love lemon.", "I love melon.", "I love pineapple.", "I love tomato."],
+      },
+    },
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: { resultAll: true },
+      result: {
+        test: [[1], [2]],
+        row: [1, 2],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+        },
+      },
+    },
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: { resultAll: true },
+      result: {
+        test: [[1], [2]],
+        map: [
+          {
+            test: [[[1]], [[1]]],
+          },
+          {
+            test: [[[2]], [[2]]],
+          },
+        ],
+        row: [1, 2],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+          map: {
+            agent: "mapAgent",
+            inputs: { rows: [":test", ":test"] },
+            graph: {
+              nodes: {
+                test: {
+                  isResult: true,
+                  agent: "bypassAgent",
+                  inputs: [":row"],
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  ],
   description: "Map Agent",
   category: ["graph"],
   author: "Receptron team",

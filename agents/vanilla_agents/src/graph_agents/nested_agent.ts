@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
 
 export const nestedAgent: AgentFunction<{
   namedInputs?: Array<string>;
@@ -10,7 +10,7 @@ export const nestedAgent: AgentFunction<{
   assert(!!graphData, "nestedAgent: graph is required");
 
   const { nodes } = graphData;
-  const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
+  const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
 
   const nodeIds = Object.keys(namedInputs);
   if (nodeIds.length > 0) {
@@ -55,7 +55,26 @@ const nestedAgentInfo: AgentFunctionInfo = {
   name: "nestedAgent",
   agent: nestedAgent,
   mock: nestedAgent,
-  samples: [],
+  samples: [
+    {
+      inputs: {
+        message: "hello",
+      },
+      params: {},
+      result: {
+        test: ["hello"],
+      },
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":message"],
+            isResult: true,
+          },
+        },
+      },
+    },
+  ],
   description: "nested Agent",
   category: ["graph"],
   author: "Receptron team",
