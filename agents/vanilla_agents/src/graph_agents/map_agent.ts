@@ -101,6 +101,122 @@ const mapAgentInfo: AgentFunctionInfo = {
       inputs: {
         rows: [1, 2],
       },
+      params: {},
+      result: [{ test: [1] }, { test: [2] }],
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+    },
+    {
+      inputs: {
+        rows: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"],
+      },
+      params: {},
+      graph: {
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${0}.",
+            },
+            inputs: [":row"],
+            isResult: true,
+          },
+        },
+      },
+      result: [
+        { node2: "I love apple." },
+        { node2: "I love orange." },
+        { node2: "I love banana." },
+        { node2: "I love lemon." },
+        { node2: "I love melon." },
+        { node2: "I love pineapple." },
+        { node2: "I love tomato." },
+      ],
+    },
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: {
+        resultAll: true,
+      },
+      result: [
+        {
+          test: [1],
+          row: 1,
+        },
+        {
+          test: [2],
+          row: 2,
+        },
+      ],
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+        },
+      },
+    },
+    {
+      inputs: {
+        rows: [1, 2],
+      },
+      params: {
+        resultAll: true,
+      },
+      result: [
+        {
+          test: [1],
+          map: {
+            test: [[[1]], [[1]]],
+          },
+          row: 1,
+        },
+        {
+          test: [2],
+          map: {
+            test: [[[2]], [[2]]],
+          },
+          row: 2,
+        },
+      ],
+      graph: {
+        nodes: {
+          test: {
+            agent: "bypassAgent",
+            inputs: [":row"],
+          },
+          map: {
+            agent: "mapAgent",
+            inputs: { rows: [":test", ":test"] },
+            graph: {
+              nodes: {
+                test: {
+                  isResult: true,
+                  agent: "bypassAgent",
+                  inputs: [":row"],
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+
+    // old response
+    {
+      inputs: {
+        rows: [1, 2],
+      },
       params: {
         compositeResult: true,
       },
