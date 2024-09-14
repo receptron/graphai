@@ -215,17 +215,27 @@ const mapAgentInfo: AgentFunctionInfo = {
       },
       result: [
         {
-          test: 1,
-          map: {
-            test: [1, 1],
-          },
+          map: [
+            {
+              test: 1,
+            },
+            {
+              test: 1,
+            },
+          ],
           row: 1,
+          test: 1,
         },
         {
+          map: [
+            {
+              test: 2,
+            },
+            {
+              test: 2,
+            },
+          ],
           test: 2,
-          map: {
-            test: [2, 2],
-          },
           row: 2,
         },
       ],
@@ -352,6 +362,9 @@ const mapAgentInfo: AgentFunctionInfo = {
           map: {
             agent: "mapAgent",
             inputs: { rows: [":test", ":test"] },
+            params: {
+              compositeResult: true,
+            },
             graph: {
               nodes: {
                 test: {
