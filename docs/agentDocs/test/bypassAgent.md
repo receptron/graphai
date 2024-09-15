@@ -86,6 +86,17 @@ bypass agent
 ]
 
 ````
+```json
+
+[
+  ":agentId",
+  ":agentId.a",
+  ":agentId.b",
+  ":agentId.c",
+  ":agentId.d"
+]
+
+````
 
 ## Samples
 
@@ -283,6 +294,41 @@ bypass agent
     "d": "xyz"
   }
 ]
+
+````
+### Sample4
+
+#### inputs
+
+```json
+
+{
+  "a": "123",
+  "b": "abc",
+  "c": "987",
+  "d": "xyz"
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": "123",
+  "b": "abc",
+  "c": "987",
+  "d": "xyz"
+}
 
 ````
 
