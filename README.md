@@ -16,7 +16,8 @@ GraphAI is an asynchronous data flow execution engine, which allows developers t
 
 ## Application Samples
 - [Tutorial](./docs/Tutorial.md)
-- [GraphAI samples](./packages/samples/README.md)
+- [GraphAI samples for developer](./packages/samples/README.md)
+- [GraphAI samples for end user](https://github.com/receptron/graphai_samples)
 
 ## Development
 - [Collaboration](./Collaboration.md)
