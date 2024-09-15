@@ -17,6 +17,7 @@ export {
   ComputedNodeData,
   DefaultResultData,
   DefaultInputData,
+  DefaultParamsType,
 } from "@/type";
 
 export type { TransactionLog } from "./transaction_log";
