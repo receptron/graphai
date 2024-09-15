@@ -11,6 +11,10 @@ GraphAI is an asynchronous data flow execution engine, which allows developers t
 - [API Document](./APIDocument.md)
 - [API Document by typedoc](https://receptron.github.io/graphai/apiDoc/)
 
+### Agent Document
+
+- [Agent Document](./docs/agentDocs/README.md)
+
 ### Tools
 - [GraphAI cli](./packages/cli/README.md)
 
