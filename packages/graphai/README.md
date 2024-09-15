@@ -25,7 +25,8 @@ nodes:
     inputs: [:source.name]
   chunks: // Break the text from Wikipedia into chunks (2048 character each with 512 overlap）
     agent: stringSplitterAgent
-    inputs: [:wikipedia]
+    inputs:
+      text: :wikipedia
   chunkEmbeddings: // Get embedding vector of each chunk
     agent: stringEmbeddingsAgent
     inputs: [:chunks]
@@ -201,7 +202,8 @@ nodes:
         ... // issue query to the database and build an appropriate prompt with it.
         query: // send the generated prompt to the LLM
           agent: "llama3Agent"
-          inputs: [":prompt"]
+          inputs:
+            promot: ":prompt"
           isResult: true
   response: // Deliver the answer
     agent: "deliveryAgent"      
@@ -256,7 +258,8 @@ nodes:
     isResult: true
   retriever:
     agent: shift
-    inputs: [people]
+    inputs:
+      array: :people
   query:
     agent: slashgpt
     params:
@@ -265,7 +268,9 @@ nodes:
     inputs: [:retriever.item]
   reducer:
     agent: push
-    inputs: [:result, :query.content]
+    inputs:
+      array: :result
+      item: :query.content
 ```
 
 ```mermaid
