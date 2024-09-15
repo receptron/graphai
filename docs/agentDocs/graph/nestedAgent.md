@@ -27,7 +27,7 @@ nested Agent
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

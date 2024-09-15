@@ -26,7 +26,7 @@ Returns inputs[0]
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

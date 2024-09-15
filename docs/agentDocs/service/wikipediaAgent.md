@@ -25,7 +25,7 @@ Retrieves data from wikipedia
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

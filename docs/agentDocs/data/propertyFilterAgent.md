@@ -26,7 +26,7 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

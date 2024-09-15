@@ -26,7 +26,7 @@ Returns the sum of input values
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 
