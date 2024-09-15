@@ -36,6 +36,100 @@ Map Agent
 
 [
   ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.test",
+  ":agentId.$0.test.$0",
+  ":agentId.$1",
+  ":agentId.$1.test",
+  ":agentId.$1.test.$0"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.node2",
+  ":agentId.$1",
+  ":agentId.$1.node2",
+  ":agentId.$2",
+  ":agentId.$2.node2",
+  ":agentId.$3",
+  ":agentId.$3.node2",
+  ":agentId.$4",
+  ":agentId.$4.node2",
+  ":agentId.$5",
+  ":agentId.$5.node2",
+  ":agentId.$6",
+  ":agentId.$6.node2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.node2",
+  ":agentId.$1",
+  ":agentId.$1.node2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.node2",
+  ":agentId.$1",
+  ":agentId.$1.node2"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.test",
+  ":agentId.$0.test.$0",
+  ":agentId.$0.row",
+  ":agentId.$1",
+  ":agentId.$1.test",
+  ":agentId.$1.test.$0",
+  ":agentId.$1.row"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.map",
+  ":agentId.$0.map.$0",
+  ":agentId.$0.map.$0.test",
+  ":agentId.$0.map.$1",
+  ":agentId.$0.map.$1.test",
+  ":agentId.$0.row",
+  ":agentId.$0.test",
+  ":agentId.$1",
+  ":agentId.$1.map",
+  ":agentId.$1.map.$0",
+  ":agentId.$1.map.$0.test",
+  ":agentId.$1.map.$1",
+  ":agentId.$1.map.$1.test",
+  ":agentId.$1.test",
+  ":agentId.$1.row"
+]
+
+````
+```json
+
+[
+  ":agentId",
   ":agentId.test",
   ":agentId.test.$0",
   ":agentId.test.$0.$0",
@@ -136,16 +230,18 @@ Map Agent
 
 ```json
 
-{
-  "test": [
-    [
+[
+  {
+    "test": [
       1
-    ],
-    [
+    ]
+  },
+  {
+    "test": [
       2
     ]
-  ]
-}
+  }
+]
 
 ````
 ### Sample1
@@ -180,20 +276,116 @@ Map Agent
 
 ```json
 
+[
+  {
+    "node2": "I love apple."
+  },
+  {
+    "node2": "I love orange."
+  },
+  {
+    "node2": "I love banana."
+  },
+  {
+    "node2": "I love lemon."
+  },
+  {
+    "node2": "I love melon."
+  },
+  {
+    "node2": "I love pineapple."
+  },
+  {
+    "node2": "I love tomato."
+  }
+]
+
+````
+### Sample2
+
+#### inputs
+
+```json
+
 {
-  "node2": [
-    "I love apple.",
-    "I love orange.",
-    "I love banana.",
-    "I love lemon.",
-    "I love melon.",
-    "I love pineapple.",
-    "I love tomato."
+  "rows": [
+    {
+      "fruit": "apple"
+    },
+    {
+      "fruit": "orange"
+    }
   ]
 }
 
 ````
-### Sample2
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+[
+  {
+    "node2": "I love apple."
+  },
+  {
+    "node2": "I love orange."
+  }
+]
+
+````
+### Sample3
+
+#### inputs
+
+```json
+
+{
+  "rows": [
+    {
+      "fruit": "apple"
+    },
+    {
+      "fruit": "orange"
+    }
+  ],
+  "name": "You",
+  "verb": "like"
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+[
+  {
+    "node2": "You like apple."
+  },
+  {
+    "node2": "You like orange."
+  }
+]
+
+````
+### Sample4
 
 #### inputs
 
@@ -220,23 +412,23 @@ Map Agent
 
 ```json
 
-{
-  "test": [
-    [
+[
+  {
+    "test": [
       1
     ],
-    [
+    "row": 1
+  },
+  {
+    "test": [
       2
-    ]
-  ],
-  "row": [
-    1,
-    2
-  ]
-}
+    ],
+    "row": 2
+  }
+]
 
 ````
-### Sample3
+### Sample5
 
 #### inputs
 
@@ -256,6 +448,188 @@ Map Agent
 ```json
 
 {"resultAll":true}
+
+````
+
+#### result
+
+```json
+
+[
+  {
+    "map": [
+      {
+        "test": 1
+      },
+      {
+        "test": 1
+      }
+    ],
+    "row": 1,
+    "test": 1
+  },
+  {
+    "map": [
+      {
+        "test": 2
+      },
+      {
+        "test": 2
+      }
+    ],
+    "test": 2,
+    "row": 2
+  }
+]
+
+````
+### Sample6
+
+#### inputs
+
+```json
+
+{
+  "rows": [
+    1,
+    2
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"compositeResult":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "test": [
+    [
+      1
+    ],
+    [
+      2
+    ]
+  ]
+}
+
+````
+### Sample7
+
+#### inputs
+
+```json
+
+{
+  "rows": [
+    "apple",
+    "orange",
+    "banana",
+    "lemon",
+    "melon",
+    "pineapple",
+    "tomato"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"compositeResult":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "node2": [
+    "I love apple.",
+    "I love orange.",
+    "I love banana.",
+    "I love lemon.",
+    "I love melon.",
+    "I love pineapple.",
+    "I love tomato."
+  ]
+}
+
+````
+### Sample8
+
+#### inputs
+
+```json
+
+{
+  "rows": [
+    1,
+    2
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"resultAll":true,"compositeResult":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "test": [
+    [
+      1
+    ],
+    [
+      2
+    ]
+  ],
+  "row": [
+    1,
+    2
+  ]
+}
+
+````
+### Sample9
+
+#### inputs
+
+```json
+
+{
+  "rows": [
+    1,
+    2
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"resultAll":true,"compositeResult":true}
 
 ````
 

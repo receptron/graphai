@@ -7,7 +7,7 @@ GraphAI (https://github.com/receptron/graphai) is an open source project, which 
 Here is the "Hello World" of GraphAI. 
 
 ```YAML
-version: 0.3
+version: 0.5
 nodes:
   llm:
     agent: openAIAgent
@@ -58,7 +58,7 @@ A *static nodes* is a place holder of a value, just like a *variable* in compute
 The example below performs the same operation, but uses one *static node*, **prompt**, which holds the value "Explain ML's transformer in 100 words".
 
 ```YAML
-version: 0.3
+version: 0.5
 nodes:
   prompt:
     value: Explain ML's transformer in 100 words.
@@ -83,7 +83,7 @@ The dataflow graph needs to be acyclic by design, but we added a few control flo
 Here is a simple application, which uses **loop**.
 
 ```YAML
-version: 0.3
+version: 0.5
 loop:
   while: :fruits
 nodes:
@@ -97,7 +97,7 @@ nodes:
   shift:
     agent: shiftAgent
     inputs: 
-      array: [:fruits]
+      array: :fruits
   prompt:
     agent: stringTemplateAgent
     params:
@@ -108,7 +108,7 @@ nodes:
     params:
       model: gpt-4o
     inputs: 
-      prompt: [:prompt]
+      prompt: :prompt
   reducer:
     agent: pushAgent
     inputs:
@@ -130,7 +130,7 @@ Please notice that each item in the array will be processed sequentially. To pro
 Here is a simple application, which uses **map**.
 
 ```YAML
-version: 0.3
+version: 0.5
 nodes:
   fruits:
     value: [apple, lemon, banana]
@@ -151,7 +151,7 @@ nodes:
           params:
             model: gpt-4o
           inputs: 
-            prompt: [:prompt]
+            prompt: :prompt
         result:
           agent: copyAgent
           inputs: [:llm.choices.$0.message.content]
@@ -171,7 +171,7 @@ Please notice that each item in the array will be processed concurrently.
 Here is a chatbot application using the loop, which allows the user to talk to the LLM until she/he types "/bye".
 
 ```YAML
-version: 0.3
+version: 0.5
 loop:
   while: :continue
 nodes:
@@ -242,7 +242,7 @@ nodes:
 Here is an example, which uses the function call capability and nested graph.
 
 ```YAML
-version: 0.3
+version: 0.5
 loop:
   while: :continue
 nodes:
@@ -450,7 +450,7 @@ This sample application generates a new GraphAI graph based on a sample GraphAI 
 This sample application performs an in-memory RAG by dividing a Wikipedi article into chunks, get embedding vectors for those chunks and create an appropriate prompt based on the cosine similarities. 
 
 ```YAML
-version: 0.3
+version: 0.5
 nodes:
   source:
     value:

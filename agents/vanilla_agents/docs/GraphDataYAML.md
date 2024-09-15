@@ -138,6 +138,8 @@ nodes:
           inputs:
             - :row
           isResult: true
+    params:
+      compositeResult: true
   result:
     agent: sleeperAgent
     inputs:
@@ -166,6 +168,8 @@ nodes:
           inputs:
             - :row
           isResult: true
+    params:
+      compositeResult: true
   result:
     agent: bypassAgent
     inputs:
@@ -194,6 +198,8 @@ nodes:
           inputs:
             - :row
           isResult: true
+    params:
+      compositeResult: true
   result:
     agent: bypassAgent
     params:
@@ -223,6 +229,8 @@ nodes:
           inputs:
             - :row
           isResult: true
+    params:
+      compositeResult: true
   result:
     agent: bypassAgent
     params:
@@ -412,6 +420,8 @@ nodes:
           inputs:
             - :forked
           isResult: true
+    params:
+      compositeResult: true
   bypassAgent:
     agent: bypassAgent
     inputs:
@@ -462,6 +472,8 @@ nodes:
           isResult: true
           params:
             firstElement: true
+    params:
+      compositeResult: true
   bypassAgent2:
     agent: bypassAgent
     inputs:
@@ -501,6 +513,8 @@ nodes:
           params:
             firstElement: true
           isResult: true
+    params:
+      compositeResult: true
   bypassAgent4:
     agent: bypassAgent
     params:
@@ -537,6 +551,8 @@ nodes:
             - :bypassAgent.$0
             - :row
           isResult: true
+    params:
+      compositeResult: true
   bypassAgent3:
     agent: bypassAgent
     inputs:
