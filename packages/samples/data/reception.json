@@ -47,10 +47,10 @@
     },
     "appendedMessages": {
       "agent": "pushAgent",
-      "inputs": [
-        ":messages",
-        ":userMessage"
-      ]
+      "inputs": {
+        "array": ":messages",
+        "item": ":userMessage"
+      }
     },
     "llm": {
       "agent": "openAIAgent",
@@ -92,10 +92,9 @@
           }
         ]
       },
-      "inputs": [
-        null,
-        ":appendedMessages"
-      ]
+      "inputs": {
+        "messages": ":appendedMessages"
+      }
     },
     "argumentsParser": {
       "agent": "jsonParserAgent",
@@ -119,10 +118,10 @@
     },
     "reducer": {
       "agent": "pushAgent",
-      "inputs": [
-        ":appendedMessages",
-        ":llm.choices.$0.message"
-      ]
+      "inputs": {
+        "array": ":appendedMessages",
+        "item": ":llm.choices.$0.message"
+      }
     }
   }
 }
