@@ -1,0 +1,32 @@
+version: 0.5
+loop:
+  while: :fruits
+nodes:
+  fruits:
+    value: [apple, lemon, banana]
+    update: :shift.array
+  result:
+    value: []
+    update: :reducer
+    isResult: true
+  shift:
+    agent: shiftAgent
+    inputs: 
+      array: :fruits
+  prompt:
+    agent: stringTemplateAgent
+    params:
+      template: What is the typical color of ${0}? Just answer the color.
+    inputs: [:shift.item]
+  llm:
+    agent: openAIAgent
+    params:
+      model: gpt-4o
+    inputs: 
+      prompt: :prompt
+  reducer:
+    agent: pushAgent
+    inputs:
+      array: :result
+      item: :llm.choices.$0.message.content
+
