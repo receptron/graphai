@@ -34,7 +34,9 @@ const main = async () => {
       }
     }
     if (key === "relatedAgents") {
-      const agents = Object.keys(packageJson.dependencies ?? {}).filter((depend) => depend.match(/^@graphai/) && depend.match(/_agents?$/));
+      const agents = Object.keys(packageJson.dependencies ?? {}).filter(
+        (depend) => (depend.match(/^@graphai/) && depend.match(/_agents?$/)) || depend === "@graphai/vanilla",
+      );
       if (agents.length > 0) {
         return ["### Related Agent Packages", agents.map((agent) => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n")].join("\n");
       }
