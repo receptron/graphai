@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/service_agents/README.md",
   "dependencies": {
     "@types/xml2js": "^0.4.14",
     "deepmerge": "^4.3.1",

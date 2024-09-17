@@ -31,7 +31,7 @@
   "dependencies": {
     "@graphai/agent_utils": "0.0.2"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/README.md",
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
