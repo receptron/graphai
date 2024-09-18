@@ -1,8 +1,13 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import { isNamedInputs } from "@graphai/agent_utils";
 
-export const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ namedInputs }) => {
-  assert(!!namedInputs, "pushAgent: namedInputs is UNDEFINED!");
-  const { item } = namedInputs;
+export const pushAgent: AgentFunction<null, Array<unknown>, null, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({
+  namedInputs,
+}) => {
+  assert(isNamedInputs(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+  const { item, items } = namedInputs;
+  assert(!!(item || items), "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   array.push(item);
   return array;

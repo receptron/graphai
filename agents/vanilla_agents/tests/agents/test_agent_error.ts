@@ -1,4 +1,4 @@
-import { popAgent } from "@/index";
+import { popAgent, pushAgent } from "@/index";
 import { defaultTestContext } from "graphai";
 
 import test from "node:test";
@@ -15,8 +15,8 @@ test("test pop_agent error", async () => {
       });
     },
     {
-      message: 'popAgent: namedInputs.array is UNDEFINED!',
-      name: 'Error',
+      message: "popAgent: namedInputs is UNDEFINED!",
+      name: "Error",
     },
   );
 
@@ -30,8 +30,70 @@ test("test pop_agent error", async () => {
       });
     },
     {
-      message: 'popAgent: namedInputs.array is UNDEFINED!',
-      name: 'Error',
+      message: "popAgent: namedInputs is UNDEFINED!",
+      name: "Error",
+    },
+  );
+
+  await assert.rejects(
+    async () => {
+      await popAgent.agent({
+        ...defaultTestContext,
+        inputs: [],
+        params: {},
+        namedInputs: { message: "123" },
+      });
+    },
+    {
+      message: "popAgent: namedInputs.array is UNDEFINED!",
+      name: "Error",
+    },
+  );
+});
+
+test("test push_agent error", async () => {
+  await assert.rejects(
+    async () => {
+      await pushAgent.agent({
+        ...defaultTestContext,
+        inputs: [],
+        params: {},
+        namedInputs: {},
+      });
+    },
+    {
+      message: "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }",
+      name: "Error",
+    },
+  );
+
+  await assert.rejects(
+    async () => {
+      await pushAgent.agent({
+        ...defaultTestContext,
+        inputs: [1, 2, 3],
+        params: {},
+        namedInputs: {},
+      });
+    },
+    {
+      message: "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }",
+      name: "Error",
+    },
+  );
+
+  await assert.rejects(
+    async () => {
+      await pushAgent.agent({
+        ...defaultTestContext,
+        inputs: [],
+        params: {},
+        namedInputs: { test: 123 },
+      });
+    },
+    {
+      message: "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }",
+      name: "Error",
     },
   );
 });
