@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/slashgpt_agent/README.md",
   "dependencies": {
     "slashgpt": "^0.1.4"
   },

@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/gemini_agent/README.md",
   "dependencies": {
     "@google/generative-ai": "^0.19.0",
     "@graphai/llm_utils": "^0.0.2"

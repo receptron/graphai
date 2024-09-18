@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/agent_utils/README.md",
   "dependencies": {},
   "devDependencies": {},
   "types": "./lib/index.d.ts",

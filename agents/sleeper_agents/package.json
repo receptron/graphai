@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/sleeper_agents/README.md",
   "dependencies": {
     "deepmerge": "^4.3.1"
   },
