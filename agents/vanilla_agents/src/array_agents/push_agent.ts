@@ -9,7 +9,13 @@ export const pushAgent: AgentFunction<null, Array<unknown>, null, { array: Array
   assert(!!(item || items), "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
-  array.push(item);
+  if (item) {
+    array.push(item);
+  } else {
+    items.forEach((item) => {
+      array.push(item);
+    });
+  }
   return array;
 };
 
@@ -44,6 +50,11 @@ const pushAgentInfo: AgentFunctionInfo = {
       inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
       params: {},
       result: [{ apple: 1 }, { lemon: 2 }],
+    },
+    {
+      inputs: { array: [{ apple: 1 }], items: [{ lemon: 2 }, { banana: 3 }] },
+      params: {},
+      result: [{ apple: 1 }, { lemon: 2 }, { banana: 3 }],
     },
   ],
   description: "push Agent",
