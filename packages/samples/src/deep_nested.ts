@@ -13,57 +13,55 @@ const nestedDepth = 400;
 
 const getDeepNestedGraph = () => {
   const copy = {
-    "version": 0.5,
-    "nodes": {
-      "nested": {
-        "agent": "copyAgent",
-        "inputs": [
-          ":count"
-        ],
-        "isResult": true
-      }
-    }
-  }
+    version: 0.5,
+    nodes: {
+      nested: {
+        agent: "copyAgent",
+        inputs: [":count"],
+        isResult: true,
+      },
+    },
+  };
   const getNestedGraph = (graph: any) => {
     const nested = {
-      "version": 0.5,
-      "nodes": {
-        "nested": {
-          "agent": "nestedAgent",
-          "isResult": true,
-          "inputs": {
-            "count": ":count"
+      version: 0.5,
+      nodes: {
+        nested: {
+          agent: "nestedAgent",
+          isResult: true,
+          inputs: {
+            count: ":count",
           },
-          "graph": graph,
-        }
-      }
-    }
+          graph: graph,
+        },
+      },
+    };
     return nested;
   };
-  
+
   const loop = () => {
     let tmp: any = copy;
-    for (let i = 0; i< nestedDepth; i++) {
+    for (let i = 0; i < nestedDepth; i++) {
       tmp = getNestedGraph(tmp);
     }
     return tmp;
   };
-  
+
   const base = {
-    "version": 0.5,
-    "nodes": {
-      "count": {
-        "value": 1
+    version: 0.5,
+    nodes: {
+      count: {
+        value: 1,
       },
-      "nested": {
-        "agent": "nestedAgent",
-        "isResult": true,
-        "inputs": {
-          "count": ":count"
+      nested: {
+        agent: "nestedAgent",
+        isResult: true,
+        inputs: {
+          count: ":count",
         },
-        graph: loop()
-      }
-    }
+        graph: loop(),
+      },
+    },
   };
   return base;
 };
@@ -81,4 +79,3 @@ export const main = async () => {
 if (process.argv[1] === __filename) {
   main();
 }
-
