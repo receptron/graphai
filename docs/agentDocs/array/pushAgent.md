@@ -33,11 +33,27 @@ push Agent
         }
       ],
       "description": "the item push into the array"
+    },
+    "items": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ],
+      "description": "the item push into the array"
     }
   },
   "required": [
-    "array",
-    "item"
+    "array"
   ]
 }
 
@@ -73,6 +89,19 @@ push Agent
   ":agentId.$0.apple",
   ":agentId.$1",
   ":agentId.$1.lemon"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.apple",
+  ":agentId.$1",
+  ":agentId.$1.lemon",
+  ":agentId.$2",
+  ":agentId.$2.banana"
 ]
 
 ````
@@ -151,6 +180,55 @@ push Agent
   },
   {
     "lemon": 2
+  }
+]
+
+````
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    {
+      "apple": 1
+    }
+  ],
+  "items": [
+    {
+      "lemon": 2
+    },
+    {
+      "banana": 3
+    }
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+[
+  {
+    "apple": 1
+  },
+  {
+    "lemon": 2
+  },
+  {
+    "banana": 3
   }
 ]
 
