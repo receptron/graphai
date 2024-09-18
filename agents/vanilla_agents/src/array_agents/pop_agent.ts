@@ -1,8 +1,9 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 
-export const popAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, { array: Array<unknown> }> = async ({ namedInputs }) => {
+export const popAgent: AgentFunction<null, { array: Array<unknown>, item: unknown }, null, { array: Array<unknown> }> = async ({ namedInputs }) => {
   assert(!!namedInputs, "popAgent: namedInputs is UNDEFINED!");
-
+  assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
+  
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   const item = array.pop();
   return { array, item };
