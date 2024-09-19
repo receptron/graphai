@@ -1,7 +1,7 @@
 import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
 
 export const nestedAgent: AgentFunction<{
-  namedInputs?: Array<string>;
+
 }> = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config }) => {
   if (taskManager) {
     const status = taskManager.getStatus(false);

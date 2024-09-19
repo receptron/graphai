@@ -43,26 +43,43 @@ graphai test_yaml/test_base.yml
 graphai -l
 
 Available Agents
-- bypassAgent
-- copyMessageAgent
-- countingAgent
-- dataObjectMergeTemplateAgent
-- dataSumTemplateAgent
-- dotProductAgent
-- echoAgent
-- mapAgent
-- mergeNodeIdAgent
-- nestedAgent
-- popAgent
-- pushAgent
-- shiftAgent
-- slashGPTAgent
-- sleeperAgent
-- sleeperAgentDebug
-- sortByValuesAgent
-- stringEmbeddingsAgent
-- stringSplitterAgent
-- stringTemplateAgent
-- tokenBoundStringsAgent
-- totalAgent
+* anthropicAgent - Anthropic Agent
+* arrayFlatAgent - Array Flat Agent
+* bypassAgent - bypass agent
+* copy2ArrayAgent - Copy2Array agent
+* copyAgent - Returns inputs[0]
+* copyMessageAgent - CopyMessage agent
+* countingAgent - Counting agent
+* dataObjectMergeTemplateAgent - Merge object
+* dataSumTemplateAgent - Returns the sum of input values
+* dotProductAgent - dotProduct Agent
+* echoAgent - Echo agent
+* fetchAgent - Retrieves JSON data from the specified URL
+* geminiAgent - Gemini Agent
+* groqAgent - Groq Agent
+* jsonParserAgent - Template agent
+* mapAgent - Map Agent
+* mergeNodeIdAgent - merge node id agent
+* nestedAgent - nested Agent
+* openAIAgent - OpenAI Agent
+* openAIImageAgent - OpenAI Image Agent
+* popAgent - Pop Agent
+* propertyFilterAgent - Filter properties based on property name either with 'include' or 'exclude'
+* pushAgent - push Agent
+* replicateAgent - Replicate Agent
+* shiftAgent - shift Agent
+* slashGPTAgent - Slash GPT Agent
+* sleeperAgent - sleeper Agent
+* sleeperAgentDebug - sleeper debug Agent
+* sortByValuesAgent - sortByValues Agent
+* streamMockAgent - Stream mock agent
+* stringEmbeddingsAgent - Embeddings Agent
+* stringSplitterAgent - This agent strip one long string into chunks using following parameters
+* stringTemplateAgent - Template agent
+* textInputAgent - Text Input Agent
+* tokenBoundStringsAgent - token bound Agent
+* totalAgent - Returns the sum of input values
+* vanillaFetchAgent - Retrieves JSON data from the specified URL
+* wikipediaAgent - Retrieves data from wikipedia
+* workerAgent - Map Agent
 ```
