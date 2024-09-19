@@ -14,6 +14,7 @@
     "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/examples.ts",
     "test": "echo nothing",
     "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
+    "chat": "node -r tsconfig-paths/register -r ts-node/register ./tests/chat_dispatch.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {

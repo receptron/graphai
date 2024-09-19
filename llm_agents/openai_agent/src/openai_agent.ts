@@ -17,6 +17,32 @@ type OpenAIInputs = {
   forWeb?: boolean;
 } & GraphAILLMInputBase;
 
+const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion) => {
+  const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
+  const text = message && message.content ? message.content : null;
+
+  const functionResponse = message?.tool_calls ? message?.tool_calls[0].function : null;
+
+  const tool = functionResponse
+    ? {
+        name: functionResponse.name,
+        arguments: (() => {
+          try {
+            return JSON.parse(functionResponse?.arguments);
+          } catch (__e) {
+            return undefined;
+          }
+        })(),
+      }
+    : undefined;
+
+  return {
+    ...response,
+    text,
+    tool,
+  };
+};
+
 export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
   filterParams,
   params,
@@ -71,14 +97,17 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
     max_tokens,
     temperature: temperature ?? 0.7,
   };
+
   if (!stream) {
-    return await openai.chat.completions.create(chatParams);
+    const result = await openai.chat.completions.create(chatParams);
+    return convertOpenAIChatCompletion(result);
   }
   const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
     stream: true,
   });
 
+  // streaming
   for await (const message of chatStream) {
     const token = message.choices[0].delta.content;
     if (filterParams && filterParams.streamTokenCallback && token) {
@@ -87,7 +116,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   }
 
   const chatCompletion = await chatStream.finalChatCompletion();
-  return chatCompletion;
+  return convertOpenAIChatCompletion(chatCompletion);
 };
 
 const input_sample = "this is response result";
