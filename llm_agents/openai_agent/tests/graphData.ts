@@ -55,3 +55,89 @@ export const graphDataOpenAIImageDescription = {
     },
   },
 };
+
+export const graphDataOpenAITools = {
+  version: 0.5,
+  loop: {
+    while: ":lastMessage",
+  },
+  nodes: {
+    history: {
+      value: [],
+      update: ":nextHistory.array",
+    },
+    lastMessage: {
+      value: "",
+      update: ":echoData",
+    },
+    textInput: {
+      agent: "textInputAgent",
+      params: {
+        message: "",
+      },
+    },
+    llm: {
+      agent: "openAIAgent",
+      params: {
+        system: "You are a telephone operator. Listen well to what the other person is saying and decide which one to connect with.",
+        tool_choice: "auto",
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "dispatchNextEvent",
+              description: "Determine which department to respond to next",
+              parameters: {
+                type: "object",
+                properties: {
+                  eventType: {
+                    type: "string",
+                    enum: ["return", "About payment", "How to order", "others", "Defective product"],
+                    description: "eventType",
+                  },
+                },
+              },
+              required: ["eventType"],
+            },
+          },
+        ],
+      },
+      inputs: {
+        prompt: ":textInput",
+        messages: ":history",
+      },
+      console: {
+        after: true,
+      },
+    },
+    messageData: {
+      agent: "stringTemplateAgent",
+      inputs: [":textInput", ":llm.choices.$0.message.content"],
+      params: {
+        template: [
+          {
+            role: "user",
+            content: "${0}",
+          },
+          {
+            role: "assistant",
+            content: "${1}",
+          },
+        ],
+      },
+    },
+    echoData: {
+      agent: "copyAgent",
+      inputs: [":llm.choices.$0.message.content"],
+      console: {
+        after: true,
+      },
+    },
+    nextHistory: {
+      agent: "arrayFlatAgent",
+      inputs: {
+        array: [":history", ":messageData"],
+      },
+    },
+  },
+};
