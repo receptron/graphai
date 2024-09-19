@@ -2,7 +2,7 @@ import "dotenv/config";
 import * as agent from "@/index";
 import { textInputAgent } from "@graphai/input_agents";
 import * as vanilla from "@graphai/vanilla";
-import { GraphAI, GraphData, AgentFunctionInfoDictionary, DefaultResultData, ValidationError } from "graphai";
+import { GraphAI } from "graphai";
 
 import { graphDataOpenAITools } from "./graphData";
 
