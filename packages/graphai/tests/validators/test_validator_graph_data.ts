@@ -20,7 +20,7 @@ test("test loop error", async () => {
     nodes,
   };
 
-  await rejectTest(__dirname, graphdata, "Loop: Either count or while is required in loop");
+  await rejectTest(__dirname, graphdata, "Loop: Either count or while or doWhile is required in loop");
 });
 
 test("test loop error 1", async () => {

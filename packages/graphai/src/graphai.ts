@@ -263,18 +263,16 @@ export class GraphAI {
   private processLoopIfNecessary() {
     this.repeatCount++;
     const loop = this.loop;
-    if (loop) {
-      if (loop.count !== undefined) {
-        return this.repeatCount < loop.count;
-      }
-
+    if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
       const results = this.results(true); // results from previous loop
 
-      // Notice that we need to check the while condition *after* calling initializeNodes.
-      if (loop.while) {
+      if(!loop.doWhile) {
         this.nodes = this.createNodes(this.data);
         this.initializeNodes(results);
-
+      }
+      
+      // Notice that we need to check the while condition *after* calling initializeNodes.
+      if (loop.while) {
         // while is initialize first.
         const source = parseNodeName(loop.while, this.version);
         const value = this.getValueFromResults(source, this.results(true));
