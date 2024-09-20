@@ -263,20 +263,36 @@ export class GraphAI {
   private processLoopIfNecessary() {
     this.repeatCount++;
     const loop = this.loop;
-    if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
-      const results = this.results(true); // results from previous loop
+    if (loop) {
+      if (loop.count !== undefined) {
+        return this.repeatCount < loop.count;
+      }
 
-      this.nodes = this.createNodes(this.data);
-      this.initializeNodes(results);
+      const results = this.results(true); // results from previous loop
 
       // Notice that we need to check the while condition *after* calling initializeNodes.
       if (loop.while) {
+        this.nodes = this.createNodes(this.data);
+        this.initializeNodes(results);
+
+        // while is initialize first.
         const source = parseNodeName(loop.while, this.version);
         const value = this.getValueFromResults(source, this.results(true));
         // NOTE: We treat an empty array as false.
         if (!isLogicallyTrue(value)) {
           return false; // while condition is not met
         }
+      }
+      if (loop.doWhile) {
+        const source = parseNodeName(loop.doWhile, this.version);
+        const value = this.getValueFromResults(source, results);
+        // NOTE: We treat an empty array as false.
+        if (!isLogicallyTrue(value)) {
+          return false; // while condition is not met
+        }
+        // doWhile, if nest loop, initialize node.
+        this.nodes = this.createNodes(this.data);
+        this.initializeNodes(results);
       }
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.

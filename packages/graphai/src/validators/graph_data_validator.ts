@@ -22,10 +22,10 @@ export const graphNodesValidator = (data: GraphData) => {
 };
 export const graphDataValidator = (data: GraphData) => {
   if (data.loop) {
-    if (data.loop.count === undefined && data.loop.while === undefined) {
-      throw new ValidationError("Loop: Either count or while is required in loop");
+    if (data.loop.count === undefined && data.loop.while === undefined && data.loop.doWhile === undefined) {
+      throw new ValidationError("Loop: Either count or while or doWhile is required in loop");
     }
-    if (data.loop.count !== undefined && data.loop.while !== undefined) {
+    if ([data.loop.count !== undefined, data.loop.while !== undefined, data.loop.doWhile !== undefined].filter((a) => a).length !== 1) {
       throw new ValidationError("Loop: Both count and while cannot be set");
     }
   }
