@@ -95,3 +95,26 @@ export const graph_data_passthrough2 = {
     },
   },
 };
+
+
+export const graph_data_while = {
+  version: graphDataLatestVersion,
+  loop: {
+    "while": ":result"
+  },
+  nodes: {
+    result: {
+      value: 3,
+      update: ":next",
+      isResult: true,
+    },
+    next: {
+      isResult: true,
+      agent: "dataSumTemplateAgent",
+      inputs: [":result", -1],
+      "console": {
+        after: true
+      }
+    },
+  }
+};
