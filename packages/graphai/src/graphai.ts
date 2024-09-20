@@ -18,6 +18,7 @@ import { ComputedNode, StaticNode } from "@/node";
 import { parseNodeName, assert, getDataFromSource, isLogicallyTrue } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
+import { only } from "node:test";
 
 type GraphNodes = Record<string, ComputedNode | StaticNode>;
 
@@ -80,16 +81,18 @@ export class GraphAI {
   }
 
   // for static
-  private initializeNodes(previousResults?: ResultDataDictionary<DefaultResultData>) {
+  private initializeNodes(onlyUpdate: boolean, previousResults?: ResultDataDictionary<DefaultResultData>) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
     Object.keys(this.data.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       if (node?.isStaticNode) {
-        const value = node?.value;
-        if (value !== undefined) {
-          this.injectValue(nodeId, value, nodeId);
+        if (!onlyUpdate) {
+          const value = node?.value;
+          if (value !== undefined) {
+            this.injectValue(nodeId, value, nodeId);
+          }
         }
         const update = node?.update;
         if (update && previousResults) {
@@ -134,7 +137,7 @@ export class GraphAI {
     validateGraphData(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
 
     this.nodes = this.createNodes(data);
-    this.initializeNodes();
+    this.initializeNodes(false);
   }
 
   public getAgentFunctionInfo(agentId?: string) {
@@ -266,11 +269,9 @@ export class GraphAI {
     if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
       const results = this.results(true); // results from previous loop
 
-      this.nodes = this.createNodes(this.data);
-      this.initializeNodes(results);
-
-      // Notice that we need to check the while condition *after* calling initializeNodes.
       if (loop.while) {
+        // We need to update static nodes, before checking the condition
+        this.initializeNodes(true, results);
         const source = parseNodeName(loop.while, this.version);
         const value = this.getValueFromResults(source, this.results(true));
         // NOTE: We treat an empty array as false.
@@ -278,6 +279,9 @@ export class GraphAI {
           return false; // while condition is not met
         }
       }
+      this.nodes = this.createNodes(this.data);
+      this.initializeNodes(false, results);
+
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.
     }
