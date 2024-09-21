@@ -277,7 +277,7 @@ export class GraphAI {
     if (!loop) {
       return false;
     }
-    
+
     // We need to update static nodes, before checking the condition
     const previousResults = this.results(true); // results from previous loop
     this.updateStaticNodes(previousResults);
