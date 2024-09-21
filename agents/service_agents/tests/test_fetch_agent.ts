@@ -9,7 +9,7 @@ import assert from "node:assert";
 
 test("test fetch", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graphDataFetch, { fetchAgent, copyAgent }, () => {}, false);
-  assert.deepStrictEqual(result, { success: true });
+  assert.deepStrictEqual(result, { success: { result: true } });
 });
 
 test("test fetch post", async () => {
