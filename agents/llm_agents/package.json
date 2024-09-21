@@ -11,7 +11,7 @@
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "doc": "npx agentdoc",
-    "test": "echo nothing",
+    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
     "samples": "npx ts-node  -r tsconfig-paths/register samples/sample_runner.ts",
     "sample": "npx ts-node  -r tsconfig-paths/register"
