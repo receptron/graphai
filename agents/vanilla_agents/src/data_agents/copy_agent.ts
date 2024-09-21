@@ -12,10 +12,10 @@ const copyAgentInfo: AgentFunctionInfo = {
   agent: copyAgent,
   mock: copyAgent,
   inputs: {
-    type: "any",
+    anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
   },
   output: {
-    type: "any",
+    anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
   },
   samples: [
     {
