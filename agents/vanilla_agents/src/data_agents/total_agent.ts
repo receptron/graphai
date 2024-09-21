@@ -3,7 +3,7 @@ import { isNamedInputs } from "@graphai/agent_utils";
 
 export const totalAgent: AgentFunction<Record<never, never>, Record<string, number>, null, { array: Record<string, number>[] }> = async ({ namedInputs }) => {
   assert(isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-  assert(!!(namedInputs?.array), "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+  assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
 
   return namedInputs.array.reduce((result, input) => {
     const inputArray = Array.isArray(input) ? input : [input];
