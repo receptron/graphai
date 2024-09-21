@@ -5,7 +5,7 @@ const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
 const totalAgent = async ({ namedInputs }) => {
     (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-    (0, graphai_1.assert)(!!(namedInputs?.array), "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    (0, graphai_1.assert)(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     return namedInputs.array.reduce((result, input) => {
         const inputArray = Array.isArray(input) ? input : [input];
         inputArray.forEach((innerInput) => {
