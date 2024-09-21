@@ -274,12 +274,16 @@ export class GraphAI {
   private processLoopIfNecessary() {
     this.repeatCount++;
     const loop = this.loop;
-    if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
-      const results = this.results(true); // results from previous loop
+    if (!loop) {
+      return false;
+    }
 
+    // We need to update static nodes, before checking the condition
+    const previousResults = this.results(true); // results from previous loop
+    this.updateStaticNodes(previousResults);
+
+    if (loop.count === undefined || this.repeatCount < loop.count) {
       if (loop.while) {
-        // We need to update static nodes, before checking the condition
-        this.updateStaticNodes(results);
         const source = parseNodeName(loop.while, this.version);
         const value = this.getValueFromResults(source, this.results(true));
         // NOTE: We treat an empty array as false.
@@ -289,7 +293,7 @@ export class GraphAI {
       }
       this.nodes = this.createNodes(this.data);
       this.initializeStaticNodes();
-      this.updateStaticNodes(results);
+      this.updateStaticNodes(previousResults);
 
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.

@@ -31,7 +31,7 @@ test("test counter", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graphdata_counter, {
     counterAgent: agentInfoWrapper(counterAgent),
   });
-  assert.deepStrictEqual(result, { data: { v: 9 }, counter: { v: 10 } });
+  assert.deepStrictEqual(result, { data: { v: 10 }, counter: { v: 10 } });
 });
 
 test("test counter2", async () => {
@@ -58,7 +58,7 @@ test("test counter2", async () => {
     ...agents,
     counterAgent: agentInfoWrapper(counterAgent),
   });
-  assert.deepStrictEqual(result, { workingMemory: { v: 90 }, nested1: { counter: { v: 100 } } });
+  assert.deepStrictEqual(result, { workingMemory: { v: 100 }, nested1: { counter: { v: 100 } } });
 });
 
 /* Removed from test for now

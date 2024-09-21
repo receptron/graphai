@@ -3,6 +3,10 @@ export declare const tokenBoundStringsAgent: AgentFunction<{
     limit?: number;
 }, {
     content: string;
-}, Array<string>>;
+    tokenCount: number;
+    endIndex: number;
+}, null, {
+    chunks: Array<string>;
+}>;
 declare const tokenBoundStringsAgentInfo: AgentFunctionInfo;
 export default tokenBoundStringsAgentInfo;
