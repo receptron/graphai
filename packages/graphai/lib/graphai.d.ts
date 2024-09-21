@@ -24,7 +24,8 @@ export declare class GraphAI {
     private repeatCount;
     private createNodes;
     private getValueFromResults;
-    private initializeNodes;
+    private initializeStaticNodes;
+    private updateStaticNodes;
     constructor(data: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: GraphOptions);
     getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo | {
         agent: () => Promise<null>;
