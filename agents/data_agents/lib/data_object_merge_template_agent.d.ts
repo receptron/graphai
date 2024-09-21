@@ -1,4 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const dataObjectMergeTemplateAgent: AgentFunction;
+type MegeDataType = Record<string, unknown>;
+export declare const dataObjectMergeTemplateAgent: AgentFunction<null, MegeDataType, null, {
+    array: MegeDataType[];
+}>;
 declare const dataObjectMergeTemplateAgentInfo: AgentFunctionInfo;
 export default dataObjectMergeTemplateAgentInfo;
