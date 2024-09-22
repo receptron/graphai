@@ -3,11 +3,13 @@ import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 // This agent calculates the dot product of an array of vectors (A[]) and a vector (B),
 // typically used to calculate cosine similarity of embedding vectors.
 // Inputs:
-//  inputs[0]: Two dimentional array of numbers.
-//  inputs[1]: One dimentional array of numbers.
+//  matrix: Two dimentional array of numbers.
+//  vector: One dimentional array of numbers.
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
-export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, Array<Array<number>> | Array<number>> = async ({ namedInputs }) => {
+export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, null, { matrix: Array<Array<number>>; vector: Array<number> }> = async ({
+  namedInputs,
+}) => {
   assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
   const matrix = namedInputs.matrix as Array<Array<number>>;
   const vector = namedInputs.vector as Array<number>;
@@ -32,10 +34,19 @@ const dotProductAgentInfo: AgentFunctionInfo = {
       matrix: {
         type: "array",
         description: "two dimentional matrix",
+        items: {
+          type: "array",
+          items: {
+            type: "number",
+          },
+        },
       },
       vector: {
         type: "array",
         description: "the vector",
+        items: {
+          type: "number",
+        },
       },
     },
     required: ["matrix", "vector"],
