@@ -6,7 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.textInputAgent = void 0;
 const input_1 = __importDefault(require("@inquirer/input"));
 const textInputAgent = async ({ params }) => {
-    return await (0, input_1.default)({ message: params.message ?? "Enter" });
+    const { message, required } = params;
+    while (true) {
+        const result = await (0, input_1.default)({ message: message ?? "Enter" });
+        // console.log(!required,  (result ?? '' !== ''), required);
+        if (!required || (result ?? "") !== "") {
+            return result;
+        }
+    }
 };
 exports.textInputAgent = textInputAgent;
 const textInputAgentInfo = {
