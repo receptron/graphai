@@ -23,7 +23,7 @@ const graph_data = {
     review: {
       // Extracts the response from the generated message
       agent: "copyAgent",
-      inputs: [":reviewer.choices.$0.message.content"],
+      inputs: { message:":reviewer.choices.$0.message.content" },
       isResult: true,
     },
     evangelist: {
@@ -39,18 +39,18 @@ const graph_data = {
     statement: {
       // Extracts the response from the generated message
       agent: "copyAgent",
-      inputs: [":evangelist.choices.$0.message.content"],
+      inputs: { message:":evangelist.choices.$0.message.content" },
       isResult: true,
     },
   },
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents, ...llm_agents });
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents, ...llm_agents }) as any;
   console.log("[REVIEW]");
-  console.log(result.review);
+  console.log(result.review.message);
   console.log("[PROMOTIONAL STATEMENT]");
-  console.log(result.statement);
+  console.log(result.statement.message);
 };
 
 if (process.argv[1] === __filename) {
