@@ -82,7 +82,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: [{ role: "user" }, ":userInput"],
+      inputs: { array: [{ role: "user" }, ":userInput"] },
     },
     appendedMessages: {
       // Appends it to the conversation
@@ -101,19 +101,19 @@ export const graph_data = {
     argumentsParser: {
       // Parses the function arguments
       agent: "jsonParserAgent",
-      inputs: [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
+      inputs: { text: ":llm.choices.$0.message.tool_calls.$0.function.arguments" },
       if: ":llm.choices.$0.message.tool_calls",
     },
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mAgent\x1b[0m: ${0}",
+        template: "\x1b[32mAgent\x1b[0m: ${message}",
       },
       console: {
         after: true,
       },
-      inputs: [":llm.choices.$0.message.content"],
+      inputs: { message: [":llm.choices.$0.message.content"] },
       if: ":llm.choices.$0.message.content",
     },
     reducer: {

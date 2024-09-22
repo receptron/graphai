@@ -23,7 +23,7 @@ export const graph_data = {
     meaning: {
       agent: "copyAgent",
       isResult: true,
-      inputs: [":meaning_llm.choices.$0.message.content"],
+      inputs: { text: ":meaning_llm.choices.$0.message.content" },
     },
     meaning_jp_llm: {
       agent: "openAIAgent",
@@ -36,7 +36,7 @@ export const graph_data = {
     meaning_jp: {
       agent: "copyAgent",
       isResult: true,
-      inputs: [":meaning_jp_llm.choices.$0.message.content"],
+      inputs: { text: ":meaning_jp_llm.choices.$0.message.content" },
     },
     samples_llm: {
       agent: "openAIAgent",
@@ -51,7 +51,9 @@ export const graph_data = {
     samples: {
       agent: "jsonParserAgent",
       isResult: true,
-      inputs: [":samples_llm.choices.$0.message.content"],
+      inputs: {
+        text: ":samples_llm.choices.$0.message.content",
+      },
     },
     similar_llm: {
       agent: "openAIAgent",
@@ -66,7 +68,9 @@ export const graph_data = {
     similar: {
       agent: "jsonParserAgent",
       isResult: true,
-      inputs: [":similar_llm.choices.$0.message.content"],
+      inputs: {
+        text: ":similar_llm.choices.$0.message.content",
+      },
     },
     root_llm: {
       agent: "openAIAgent",
@@ -79,7 +83,9 @@ export const graph_data = {
     root: {
       agent: "copyAgent",
       isResult: true,
-      inputs: [":root_llm.choices.$0.message.content"],
+      inputs: {
+        text: ":root_llm.choices.$0.message.content",
+      },
     },
   },
 };

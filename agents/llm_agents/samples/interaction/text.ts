@@ -19,10 +19,10 @@ const graph_data = {
     node2ToObj: {
       agent: "propertyFilterAgent",
       params: { inject: [{ propId: "answer", from: 0 }], include: [] },
-      inputs: [":node2"],
+      inputs: { array: [":node2"] },
     },
     node3: {
-      inputs: [":node1", ":node2ToObj"],
+      inputs: { array: [":node1", ":node2ToObj"] },
       agent: "mergeNodeIdAgent",
     },
   },

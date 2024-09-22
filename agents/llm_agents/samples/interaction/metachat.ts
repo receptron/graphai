@@ -35,7 +35,7 @@ export const graph_data = {
             role: "system",
             content:
               "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
-              "[documation of GraphAI]\n${0}",
+              "[documation of GraphAI]\n${doc}",
           },
           {
             // Sample question, which specifies which information we need to get from the user.
@@ -45,11 +45,11 @@ export const graph_data = {
           {
             // Sample AI agent graph, which acquires those information from the user.
             role: "assistant",
-            content: "```json\n${1}\n```\n",
+            content: "```json\n${graph}\n```\n",
           },
         ],
       },
-      inputs: [":document", ":sampleGraph"],
+      inputs: { doc: ":document", graph: ":sampleGraph" },
     },
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.
@@ -65,7 +65,7 @@ export const graph_data = {
     parser: {
       // Parses the JSON data in the returned message
       agent: "jsonParserAgent",
-      inputs: [":graphGenerator.choices.$0.message.content"],
+      inputs: { text: ":graphGenerator.choices.$0.message.content" },
     },
     executer: {
       // Execute that AI Agent
