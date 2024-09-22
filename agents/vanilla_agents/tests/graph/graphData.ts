@@ -91,7 +91,7 @@ export const nestedGraphData = {
         nodes: {
           result: {
             agent: "copyAgent",
-            inputs: [":inner0"],
+            inputs: { text: ":inner0" },
             isResult: true,
           },
         },
@@ -114,7 +114,7 @@ export const nestedGraphData2 = {
         nodes: {
           result: {
             agent: "copyAgent",
-            inputs: [":source"],
+            inputs: { text: ":source" },
             isResult: true,
           },
         },

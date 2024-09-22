@@ -11,7 +11,9 @@ test("test nest valid", async () => {
   const result = await graphDataTestRunner(__dirname, "test_nest_valid", graphDataNested, { nestedAgent, copyAgent, propertyFilterAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
-      result: 1,
+      result: {
+        source: 1,
+      }
     },
   });
 });
@@ -23,7 +25,7 @@ const invalidChildGraph = {
     },
     result: {
       agent: "copyAgent",
-      inputs: [":badsource"],
+      inputs: {text: ":badsource"},
       isResult: true,
     },
   },
