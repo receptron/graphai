@@ -1,5 +1,4 @@
 import * as packages from "@/index";
-import { agentTestRunner } from "@receptron/test_utils";
 import { defaultTestContext } from "graphai";
 
 const main = async () => {
