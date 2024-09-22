@@ -118,7 +118,7 @@ const translator_graph = {
       // Copies the input data ($0) if the context language is English
       agent: "copyAgent",
       if: ":lang_info.isEnglish",
-      inputs: { text: ":content" },
+      inputs: { message: ":content" },
     },
     nonEnglish: {
       // Prepares the prompt if the context language is not English.
@@ -147,7 +147,7 @@ const translator_graph = {
       // Makes the result of either pass available
       agent: "copyAgent",
       anyInput: true,
-      inputs: { array:[":english", ":translate.choices.$0.message.content"] },
+      inputs: { lang:":english", message:":translate.choices.$0.message.content" },
       isResult: true,
     },
   },
