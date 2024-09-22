@@ -50,6 +50,7 @@ class ComputedNode extends Node {
         this.anyInput = data.anyInput ?? false;
         if (data.inputs) {
             if (Array.isArray(data.inputs)) {
+                console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
                 this.inputs = data.inputs;
                 this.dataSources = (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version);
             }
