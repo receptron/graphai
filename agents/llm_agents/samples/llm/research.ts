@@ -47,18 +47,18 @@ const language_detection_graph = {
     parser: {
       // Parses the arguments
       agent: "jsonParserAgent",
-      inputs: [":identifier.choices.$0.message.tool_calls.$0.function.arguments"],
+      inputs: { text: ":identifier.choices.$0.message.tool_calls.$0.function.arguments" },
     },
     extractor: {
       // Creates a language context
       agent: "stringTemplateAgent",
       params: {
         template: {
-          language: "${0}",
-          text: "${1}",
+          language: "${lang}",
+          text: "${text}",
         },
       },
-      inputs: [":parser.language", ":parser.englishTranslation"],
+      inputs: { lang:":parser.language", text:":parser.englishTranslation" },
     },
     result: {
       // Sets the isEnglish flag to the context.
@@ -72,7 +72,7 @@ const language_detection_graph = {
           },
         ],
       },
-      inputs: [":extractor", ":extractor.language"],
+      inputs: { array:[":extractor", ":extractor.language"] },
       isResult: true,
     },
   },
@@ -89,7 +89,7 @@ const wikipedia_graph = {
       params: {
         lang: "en",
       },
-      inputs: [":topic"],
+      inputs: { query:[":topic"] },
     },
     summary: {
       // Asks the LLM to summarize it.
@@ -107,7 +107,7 @@ const wikipedia_graph = {
       // Extracts the response from the generated message
       agent: "copyAgent",
       isResult: true,
-      inputs: [":summary.choices.$0.message.content"],
+      inputs: { text:":summary.choices.$0.message.content" },
     },
   },
 };
@@ -118,15 +118,15 @@ const translator_graph = {
       // Copies the input data ($0) if the context language is English
       agent: "copyAgent",
       if: ":lang_info.isEnglish",
-      inputs: [":content"],
+      inputs: { text: ":content" },
     },
     nonEnglish: {
       // Prepares the prompt if the context language is not English.
       agent: "stringTemplateAgent",
       params: {
-        template: "Translate the text below into ${0}",
+        template: "Translate the text below into ${lang}",
       },
-      inputs: [":lang_info.language"],
+      inputs: { lang:":lang_info.language" },
       unless: ":lang_info.isEnglish",
       isResult: true,
     },
@@ -147,7 +147,7 @@ const translator_graph = {
       // Makes the result of either pass available
       agent: "copyAgent",
       anyInput: true,
-      inputs: [":english", ":translate.choices.$0.message.content"],
+      inputs: { array:[":english", ":translate.choices.$0.message.content"] },
       isResult: true,
     },
   },
