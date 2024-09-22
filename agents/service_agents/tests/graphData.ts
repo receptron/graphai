@@ -52,7 +52,7 @@ export const graphDataPost = {
       },
       isResult: true,
       if: ":fetch.onError",
-      inputs: [":fetch.onError"],
+      inputs: { array: [":fetch.onError"] },
     },
   },
 };

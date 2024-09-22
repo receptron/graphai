@@ -11,7 +11,16 @@ Filter properties based on property name either with 'include' or 'exclude'
 ```json
 
 {
-  "type": "array"
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to apply filter"
+    }
+  },
+  "required": [
+    "array"
+  ]
 }
 
 ````
@@ -173,15 +182,17 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  {
-    "color": "red",
-    "model": "Model 3",
-    "type": "EV",
-    "maker": "Tesla",
-    "range": 300
-  }
-]
+{
+  "array": [
+    {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  ]
+}
 
 ````
 
@@ -209,25 +220,27 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  [
-    {
-      "color": "red",
-      "model": "Model 3",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 300
-    },
-    {
-      "color": "blue",
-      "model": "Model Y",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 400
-    }
-  ],
-  "Tesla Motors"
-]
+{
+  "array": [
+    [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      },
+      {
+        "color": "blue",
+        "model": "Model Y",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 400
+      }
+    ],
+    "Tesla Motors"
+  ]
+}
 
 ````
 
@@ -261,25 +274,27 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  [
-    {
-      "color": "red",
-      "model": "Model 3",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 300
-    },
-    {
-      "color": "blue",
-      "model": "Model Y",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 400
-    }
-  ],
-  "Tesla Motors"
-]
+{
+  "array": [
+    [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      },
+      {
+        "color": "blue",
+        "model": "Model Y",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 400
+      }
+    ],
+    "Tesla Motors"
+  ]
+}
 
 ````
 
@@ -315,25 +330,27 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  [
-    {
-      "color": "red",
-      "model": "Model 3",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 300
-    },
-    {
-      "color": "blue",
-      "model": "Model Y",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 400
-    }
-  ],
-  "Tesla Motors"
-]
+{
+  "array": [
+    [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      },
+      {
+        "color": "blue",
+        "model": "Model Y",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 400
+      }
+    ],
+    "Tesla Motors"
+  ]
+}
 
 ````
 
@@ -373,25 +390,27 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  [
-    {
-      "color": "red",
-      "model": "Model 3",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 300
-    },
-    {
-      "color": "blue",
-      "model": "Model Y",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 400
-    }
-  ],
-  "Tesla Motors"
-]
+{
+  "array": [
+    [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      },
+      {
+        "color": "blue",
+        "model": "Model Y",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 400
+      }
+    ],
+    "Tesla Motors"
+  ]
+}
 
 ````
 
@@ -431,25 +450,27 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  [
-    {
-      "color": "red",
-      "model": "Model 3",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 300
-    },
-    {
-      "color": "blue",
-      "model": "Model Y",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 400
-    }
-  ],
-  "Tesla Motors"
-]
+{
+  "array": [
+    [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      },
+      {
+        "color": "blue",
+        "model": "Model Y",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 400
+      }
+    ],
+    "Tesla Motors"
+  ]
+}
 
 ````
 
@@ -489,25 +510,27 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  [
-    {
-      "color": "red",
-      "model": "Model 3",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 300
-    },
-    {
-      "color": "blue",
-      "model": "Model Y",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 400
-    }
-  ],
-  "Tesla Motors"
-]
+{
+  "array": [
+    [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      },
+      {
+        "color": "blue",
+        "model": "Model Y",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 400
+      }
+    ],
+    "Tesla Motors"
+  ]
+}
 
 ````
 
@@ -547,25 +570,27 @@ Filter properties based on property name either with 'include' or 'exclude'
 
 ```json
 
-[
-  [
-    {
-      "color": "red",
-      "model": "Model 3",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 300
-    },
-    {
-      "color": "blue",
-      "model": "Model Y",
-      "type": "EV",
-      "maker": "Tesla",
-      "range": 400
-    }
-  ],
-  "Tesla Motors"
-]
+{
+  "array": [
+    [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      },
+      {
+        "color": "blue",
+        "model": "Model Y",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 400
+      }
+    ],
+    "Tesla Motors"
+  ]
+}
 
 ````
 
