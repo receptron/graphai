@@ -35,18 +35,18 @@ const dotProductAgentInfo: AgentFunctionInfo = {
         type: "array",
         description: "two dimentional matrix",
         items: {
-          type: "number",
-        }
+          type: "array",
+          items: {
+            type: "number",
+          },
+        },
       },
       vector: {
         type: "array",
         description: "the vector",
         items: {
-          type: "array",
-          items: {
-            type: "number",
-          }
-        }
+          type: "number",
+        },
       },
     },
     required: ["matrix", "vector"],
