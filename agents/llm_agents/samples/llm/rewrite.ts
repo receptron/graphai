@@ -20,25 +20,31 @@ const graph_data = {
       update: ":reviewer.choices.$0.message.content",
     },
     review: {
+      agent: "copyAgent",
+      console: {
+        before: true,
+      },
+      /*
       agent: (input: unknown) => {
         console.log(input);
         return input;
       },
-      inputs: [":document"],
+      */
+      inputs: { document:":document" },
     },
     textInputAgent: {
       agent: "textInputAgent",
       params: {
         message: "この文章に対して指示をしてください",
       },
-      inputs: ["review"],
+      // inputs: [":review"],
     },
     prompt: {
       agent: "stringTemplateAgent",
       params: {
-        template: "${0}\n----------\n${1}\n${2}",
+        template: "${name}\n----------\n${message}\n${document}",
       },
-      inputs: [":textInputAgent", "ユーザの書いた文章は以下です. \n", ":document"],
+      inputs: { name:":textInputAgent", message:"ユーザの書いた文章は以下です. \n", document:":document" },
     },
     reviewer: {
       agent: "openAIAgent",
