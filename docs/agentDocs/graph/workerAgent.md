@@ -31,7 +31,8 @@ Map Agent
 
 [
   ":agentId",
-  ":agentId.message"
+  ":agentId.message",
+  ":agentId.message.text"
 ]
 
 ````
@@ -39,7 +40,8 @@ Map Agent
 
 [
   ":agentId",
-  ":agentId.message"
+  ":agentId.message",
+  ":agentId.message.text"
 ]
 
 ````
@@ -69,7 +71,9 @@ Map Agent
 ```json
 
 {
-  "message": "May the force be with you"
+  "message": {
+    "text": "May the force be with you"
+  }
 }
 
 ````
@@ -98,7 +102,9 @@ Map Agent
 ```json
 
 {
-  "message": "May the force be with you"
+  "message": {
+    "text": "May the force be with you"
+  }
 }
 
 ````
