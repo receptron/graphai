@@ -7,13 +7,13 @@ exports.slashGPTAgent = void 0;
 const path_1 = __importDefault(require("path"));
 const slashgpt_1 = require("slashgpt");
 const config = new slashgpt_1.ChatConfig(path_1.default.resolve(__dirname));
-const slashGPTAgent = async ({ params, inputs, debugInfo: { verbose, nodeId }, filterParams }) => {
+const slashGPTAgent = async ({ params, namedInputs, debugInfo: { verbose, nodeId }, filterParams }) => {
     if (verbose) {
         console.log("executing", nodeId, params);
     }
     const session = new slashgpt_1.ChatSession(config, params.manifest ?? {});
     const query = params?.query ? [params.query] : [];
-    const contents = query.concat(inputs);
+    const contents = query.concat(namedInputs.array ?? []);
     session.append_user_question(contents.join("\n"));
     await session.call_loop(() => { }, (token) => {
         if (filterParams && filterParams.streamTokenCallback && token) {
@@ -29,7 +29,7 @@ const slashGPTAgentInfo = {
     mock: exports.slashGPTAgent,
     samples: [
         {
-            inputs: [],
+            inputs: {},
             params: {
                 query: "Come up with ten business ideas for AI startup",
             },
