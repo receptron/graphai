@@ -24,13 +24,13 @@ export const graph_data = {
             system: system_interviewer,
           },
           person1: {
-            name: "${0}",
-            system: "You are ${0}.",
-            greeting: "Hi, I'm ${0}",
+            name: "${name}",
+            system: "You are ${name}.",
+            greeting: "Hi, I'm ${name}",
           },
         },
       },
-      inputs: [":name"],
+      inputs: { name:":name" },
     },
     messages: {
       agent: "propertyFilterAgent",
@@ -48,7 +48,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"],
+      inputs: { array:[[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
     },
     chat: {
       agent: "nestedAgent",
@@ -83,12 +83,12 @@ export const graph_data = {
             // This node displays the responce to the user.
             agent: "stringTemplateAgent",
             params: {
-              template: "\x1b[32m${1}:\x1b[0m ${0}\n",
+              template: "\x1b[32m${name}:\x1b[0m ${message}\n",
             },
             console: {
               after: true,
             },
-            inputs: [":llm.choices.$0.message.content", ":context.person0.name"],
+            inputs: { message:":llm.choices.$0.message.content", name:":context.person0.name" },
           },
           reducer: {
             // This node append the responce to the messages.
@@ -102,7 +102,7 @@ export const graph_data = {
                 person0: "person1",
               },
             },
-            inputs: [":context"],
+            inputs: { array:[":context"] },
           },
           swappedMessages: {
             agent: "propertyFilterAgent",
@@ -121,7 +121,7 @@ export const graph_data = {
                 },
               },
             },
-            inputs: [":reducer", ":swappedContext.person0.system"],
+            inputs: { array:[":reducer", ":swappedContext.person0.system"] },
           },
         },
       },
