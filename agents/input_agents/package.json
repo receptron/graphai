@@ -12,6 +12,7 @@
     "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",
+    "test_run": "node -r tsconfig-paths/register --require ts-node/register ./test/run_agent.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
