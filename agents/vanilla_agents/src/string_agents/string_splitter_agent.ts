@@ -17,11 +17,17 @@ export const stringSplitterAgent: AgentFunction<
   },
   {
     contents: Array<string>;
+    count: number;
+    chunkSize: number;
+    overlap: number;
   },
-  string
+  null,
+  {
+    text: string;
+  }
 > = async ({ params, namedInputs }) => {
   assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
-  const source: string = namedInputs.text;
+  const source = namedInputs.text;
   const chunkSize = params.chunkSize ?? defaultChunkSize;
   const overlap = params.overlap ?? Math.floor(chunkSize / 8);
   const count = Math.floor(source.length / (chunkSize - overlap)) + 1;

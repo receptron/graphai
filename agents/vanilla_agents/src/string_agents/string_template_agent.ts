@@ -28,7 +28,8 @@ export const stringTemplateAgent: AgentFunction<
     template: StringTemplateObject;
   },
   StringTemplateObject,
-  string
+  string,
+  Record<string, string>
 > = async ({ params, inputs, namedInputs }) => {
   if (params.template === undefined) {
     console.warn("warning: stringTemplateAgent no template");
