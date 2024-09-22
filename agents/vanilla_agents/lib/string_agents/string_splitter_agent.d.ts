@@ -4,6 +4,11 @@ export declare const stringSplitterAgent: AgentFunction<{
     overlap?: number;
 }, {
     contents: Array<string>;
-}, string>;
+    count: number;
+    chunkSize: number;
+    overlap: number;
+}, null, {
+    text: string;
+}>;
 declare const stringSplitterAgentInfo: AgentFunctionInfo;
 export default stringSplitterAgentInfo;
