@@ -8,11 +8,13 @@ const graphai_1 = require("graphai");
 // Parameters:
 //  acendant: Specifies if the sorting order should be acendant. The default is "false" (decendant).
 // Inputs:
-//  inputs[0]: Array<any>; // array to be sorted
-//  inputs[1]: Array<number>; // array of numbers for sorting
+//  array: Array<any>; // array to be sorted
+//  values: Array<number>; // array of numbers for sorting
 //
 const sortByValuesAgent = async ({ params, namedInputs }) => {
     (0, graphai_1.assert)(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
+    (0, graphai_1.assert)(!!namedInputs.array, "sortByValue: namedInputs.array is UNDEFINED!");
+    (0, graphai_1.assert)(!!namedInputs.values, "sortByValue: namedInputs.values is UNDEFINED!");
     const direction = (params?.assendant ?? false) ? -1 : 1;
     const array = namedInputs.array;
     const values = namedInputs.values;

@@ -106,7 +106,7 @@ export const validChildGraph = {
     },
     result: {
       agent: "copyAgent",
-      inputs: {source: ":source"},
+      inputs: { source: ":source" },
       isResult: true,
     },
   },

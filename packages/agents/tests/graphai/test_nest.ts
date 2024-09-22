@@ -13,7 +13,7 @@ test("test nest valid", async () => {
     nested: {
       result: {
         source: 1,
-      }
+      },
     },
   });
 });
@@ -25,7 +25,7 @@ const invalidChildGraph = {
     },
     result: {
       agent: "copyAgent",
-      inputs: {text: ":badsource"},
+      inputs: { text: ":badsource" },
       isResult: true,
     },
   },
