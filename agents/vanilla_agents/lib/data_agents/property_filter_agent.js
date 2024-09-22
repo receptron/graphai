@@ -43,35 +43,43 @@ const applyFilter = (input, index, inputs, include, exclude, alter, inject, swap
     }
     return result;
 };
-const propertyFilterAgent = async ({ inputs, params }) => {
-    const [input] = inputs;
+const propertyFilterAgent = async ({ namedInputs, params }) => {
+    const { array } = namedInputs;
+    const [input] = array;
     const { include, exclude, alter, inject, swap, inspect } = params;
     if (Array.isArray(input)) {
-        return input.map((item, index) => applyFilter(item, index, inputs, include, exclude, alter, inject, swap, inspect));
+        return input.map((item, index) => applyFilter(item, index, array, include, exclude, alter, inject, swap, inspect));
     }
-    return applyFilter(input, 0, inputs, include, exclude, alter, inject, swap, inspect);
+    return applyFilter(input, 0, array, include, exclude, alter, inject, swap, inspect);
 };
 exports.propertyFilterAgent = propertyFilterAgent;
-const testInputs = [
-    [
-        { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
-        { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
-    ],
-    "Tesla Motors",
-];
+const testInputs = { array: [
+        [
+            { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
+            { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+        ],
+        "Tesla Motors",
+    ] };
 const propertyFilterAgentInfo = {
     name: "propertyFilterAgent",
     agent: exports.propertyFilterAgent,
     mock: exports.propertyFilterAgent,
     inputs: {
-        type: "array",
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "the array to apply filter",
+            },
+        },
+        required: ["array"],
     },
     output: {
         type: "any",
     },
     samples: [
         {
-            inputs: [testInputs[0][0]],
+            inputs: { array: [testInputs.array[0][0]] },
             params: { include: ["color", "model"] },
             result: { color: "red", model: "Model 3" },
         },

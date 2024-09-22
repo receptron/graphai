@@ -69,13 +69,15 @@ export const propertyFilterAgent: AgentFunction<{
   return applyFilter(input, 0, array, include, exclude, alter, inject, swap, inspect);
 };
 
-const testInputs = { array:[
-  [
-    { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
-    { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+const testInputs = {
+  array: [
+    [
+      { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
+      { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
+    ],
+    "Tesla Motors",
   ],
-  "Tesla Motors",
-]};
+};
 
 const propertyFilterAgentInfo: AgentFunctionInfo = {
   name: "propertyFilterAgent",
