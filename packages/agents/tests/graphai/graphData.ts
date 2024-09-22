@@ -129,7 +129,7 @@ export const graphDataNested = {
         include: ["message"],
       },
       if: ":nested.onError",
-      namedInputs: { array: [":nested.onError"] },
+      inputs: { array: [":nested.onError"] },
       isResult: true,
     },
   },
