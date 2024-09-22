@@ -48,11 +48,11 @@ const graph_data = {
           },
           {
             role: "user",
-            content: "${0}",
+            content: "${topic}",
           },
         ],
       },
-      inputs: [":topic"],
+      inputs: { topic:":topic" },
     },
     query: {
       agent: "openAIAgent",
@@ -74,11 +74,11 @@ const graph_data = {
           },
           {
             role: "user",
-            content: "${0}",
+            content: "${args}",
           },
         ],
       },
-      inputs: [":query.choices.$0.message.tool_calls.$0.function.arguments"],
+      inputs: { args:":query.choices.$0.message.tool_calls.$0.function.arguments" },
     },
     query2: {
       agent: "openAIAgent",
@@ -91,7 +91,7 @@ const graph_data = {
     },
     parser: {
       agent: "jsonParserAgent",
-      inputs: [":query2.choices.$0.message.tool_calls.$0.function.arguments"],
+      inputs: { text: ":query2.choices.$0.message.tool_calls.$0.function.arguments" },
       isResult: true,
     },
   },

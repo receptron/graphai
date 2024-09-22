@@ -26,13 +26,13 @@ export const graph_data = {
             system: system_interviewer,
           },
           person1: {
-            name: "${0}",
-            system: "You are ${0}.",
-            greeting: "Hi, I'm ${0}",
+            name: "${name}",
+            system: "You are ${name}.",
+            greeting: "Hi, I'm ${name}",
           },
         },
       },
-      inputs: [":name"],
+      inputs: { name:":name" },
     },
     messages: {
       // Prepares the conversation with one system message and one user message
@@ -51,7 +51,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"],
+      inputs: { array:[[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
     },
 
     chat: {
@@ -96,12 +96,12 @@ export const graph_data = {
             // Displays the response to the user.
             agent: "stringTemplateAgent",
             params: {
-              template: "\x1b[32m${1}:\x1b[0m ${0}\n",
+              template: "\x1b[32m${name}:\x1b[0m ${message}\n",
             },
             console: {
               after: true,
             },
-            inputs: [":translate.choices.$0.message.content", ":context.person1.name"],
+            inputs: { message:":translate.choices.$0.message.content", name:":context.person1.name" },
           },
           reducer: {
             // Append the responce to the messages.
@@ -116,7 +116,7 @@ export const graph_data = {
                 person0: "person1",
               },
             },
-            inputs: [":context"],
+            inputs: { array:[":context"] },
             isResult: true,
           },
           swappedMessages: {
@@ -137,7 +137,7 @@ export const graph_data = {
                 },
               },
             },
-            inputs: [":reducer", ":swappedContext.person0.system"],
+            inputs: { array:[":reducer", ":swappedContext.person0.system"] },
             isResult: true,
           },
         },
@@ -160,7 +160,7 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: [":translate.choices.$0.message.content", ":chat.swappedContext.person1.name"],
+      inputs: { message:":translate.choices.$0.message.content", name:":chat.swappedContext.person1.name" },
     },
   },
 };
