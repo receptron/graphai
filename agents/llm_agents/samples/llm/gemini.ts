@@ -16,7 +16,7 @@ const graph_data = {
     },
     result: {
       agent: "copyAgent",
-      inputs: [":query.choices.$0.message"],
+      inputs: { text: ":query.choices.$0.message" },
       isResult: true,
     },
   },
