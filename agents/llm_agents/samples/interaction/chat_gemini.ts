@@ -25,6 +25,7 @@ export const graph_data = {
       agent: "textInputAgent",
       params: {
         message: "You:",
+        required: true,
       },
     },
     checkInput: {
@@ -38,7 +39,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: [{}, ":userInput"],
+      inputs: { array: [{}, ":userInput"] },
     },
     userMessage: {
       // Generates an message object with the user input.
@@ -51,7 +52,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: [{ role: "user" }, ":userInput"],
+      inputs: { array: [{ role: "user" }, ":userInput"] },
     },
     appendedMessages: {
       // Appends it to the conversation
@@ -67,12 +68,12 @@ export const graph_data = {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLlama3\x1b[0m: ${0}",
+        template: "\x1b[32mGemini\x1b[0m: ${message}",
       },
       console: {
         after: true,
       },
-      inputs: [":groq.choices.$0.message.content"],
+      inputs: { message: ":groq.choices.$0.message.content" },
     },
     reducer: {
       // Appends the responce to the messages.
