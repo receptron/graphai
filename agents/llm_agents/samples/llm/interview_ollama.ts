@@ -30,7 +30,7 @@ export const graph_data = {
           },
         },
       },
-      inputs: { name:":name" },
+      inputs: { name: ":name" },
     },
     messages: {
       agent: "propertyFilterAgent",
@@ -48,7 +48,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: { array:[[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
+      inputs: { array: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
     },
     chat: {
       agent: "nestedAgent",
@@ -88,7 +88,7 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: { message:":llm.choices.$0.message.content", name:":context.person0.name" },
+            inputs: { message: ":llm.choices.$0.message.content", name: ":context.person0.name" },
           },
           reducer: {
             // This node append the responce to the messages.
@@ -102,7 +102,7 @@ export const graph_data = {
                 person0: "person1",
               },
             },
-            inputs: { array:[":context"] },
+            inputs: { array: [":context"] },
           },
           swappedMessages: {
             agent: "propertyFilterAgent",
@@ -121,7 +121,7 @@ export const graph_data = {
                 },
               },
             },
-            inputs: { array:[":reducer", ":swappedContext.person0.system"] },
+            inputs: { array: [":reducer", ":swappedContext.person0.system"] },
           },
         },
       },

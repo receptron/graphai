@@ -58,7 +58,7 @@ const language_detection_graph = {
           text: "${text}",
         },
       },
-      inputs: { lang:":parser.language", text:":parser.englishTranslation" },
+      inputs: { lang: ":parser.language", text: ":parser.englishTranslation" },
     },
     result: {
       // Sets the isEnglish flag to the context.
@@ -72,7 +72,7 @@ const language_detection_graph = {
           },
         ],
       },
-      inputs: { array:[":extractor", ":extractor.language"] },
+      inputs: { array: [":extractor", ":extractor.language"] },
       isResult: true,
     },
   },
@@ -89,7 +89,7 @@ const wikipedia_graph = {
       params: {
         lang: "en",
       },
-      inputs: { query:[":topic"] },
+      inputs: { query: [":topic"] },
     },
     summary: {
       // Asks the LLM to summarize it.
@@ -107,7 +107,7 @@ const wikipedia_graph = {
       // Extracts the response from the generated message
       agent: "copyAgent",
       isResult: true,
-      inputs: { text:":summary.choices.$0.message.content" },
+      inputs: { text: ":summary.choices.$0.message.content" },
     },
   },
 };
@@ -126,7 +126,7 @@ const translator_graph = {
       params: {
         template: "Translate the text below into ${lang}",
       },
-      inputs: { lang:":lang_info.language" },
+      inputs: { lang: ":lang_info.language" },
       unless: ":lang_info.isEnglish",
       isResult: true,
     },
@@ -147,7 +147,7 @@ const translator_graph = {
       // Makes the result of either pass available
       agent: "copyAgent",
       anyInput: true,
-      inputs: { lang:":english", message:":translate.choices.$0.message.content" },
+      inputs: { lang: ":english", message: ":translate.choices.$0.message.content" },
       isResult: true,
     },
   },

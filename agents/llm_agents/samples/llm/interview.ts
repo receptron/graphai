@@ -32,7 +32,7 @@ export const graph_data = {
           },
         },
       },
-      inputs: { name:[":name"] },
+      inputs: { name: [":name"] },
       console: {
         after: true,
       },
@@ -94,7 +94,7 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: { message:":groq.choices.$0.message.content", name:":context.person0.name" },
+            inputs: { message: ":groq.choices.$0.message.content", name: ":context.person0.name" },
           },
           reducer: {
             // Appends the response to the messages.

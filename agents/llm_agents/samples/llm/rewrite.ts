@@ -30,7 +30,7 @@ const graph_data = {
         return input;
       },
       */
-      inputs: { document:":document" },
+      inputs: { document: ":document" },
     },
     textInputAgent: {
       agent: "textInputAgent",
@@ -44,7 +44,7 @@ const graph_data = {
       params: {
         template: "${name}\n----------\n${message}\n${document}",
       },
-      inputs: { name:":textInputAgent", message:"ユーザの書いた文章は以下です. \n", document:":document" },
+      inputs: { name: ":textInputAgent", message: "ユーザの書いた文章は以下です. \n", document: ":document" },
     },
     reviewer: {
       agent: "openAIAgent",

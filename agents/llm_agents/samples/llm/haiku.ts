@@ -52,7 +52,7 @@ const graph_data = {
           },
         ],
       },
-      inputs: { topic:":topic" },
+      inputs: { topic: ":topic" },
     },
     query: {
       agent: "openAIAgent",
@@ -78,7 +78,7 @@ const graph_data = {
           },
         ],
       },
-      inputs: { args:":query.choices.$0.message.tool_calls.$0.function.arguments" },
+      inputs: { args: ":query.choices.$0.message.tool_calls.$0.function.arguments" },
     },
     query2: {
       agent: "openAIAgent",

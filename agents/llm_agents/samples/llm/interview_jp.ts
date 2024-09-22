@@ -32,7 +32,7 @@ export const graph_data = {
           },
         },
       },
-      inputs: { name:":name" },
+      inputs: { name: ":name" },
     },
     messages: {
       // Prepares the conversation with one system message and one user message
@@ -51,7 +51,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: { array:[[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
+      inputs: { array: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
     },
 
     chat: {
@@ -101,7 +101,7 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: { message:":translate.choices.$0.message.content", name:":context.person1.name" },
+            inputs: { message: ":translate.choices.$0.message.content", name: ":context.person1.name" },
           },
           reducer: {
             // Append the responce to the messages.
@@ -116,7 +116,7 @@ export const graph_data = {
                 person0: "person1",
               },
             },
-            inputs: { array:[":context"] },
+            inputs: { array: [":context"] },
             isResult: true,
           },
           swappedMessages: {
@@ -137,7 +137,7 @@ export const graph_data = {
                 },
               },
             },
-            inputs: { array:[":reducer", ":swappedContext.person0.system"] },
+            inputs: { array: [":reducer", ":swappedContext.person0.system"] },
             isResult: true,
           },
         },
@@ -160,7 +160,7 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: { message:":translate.choices.$0.message.content", name:":chat.swappedContext.person1.name" },
+      inputs: { message: ":translate.choices.$0.message.content", name: ":chat.swappedContext.person1.name" },
     },
   },
 };
