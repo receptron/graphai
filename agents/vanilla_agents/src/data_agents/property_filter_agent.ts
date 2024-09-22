@@ -83,6 +83,13 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
   mock: propertyFilterAgent,
   inputs: {
     type: "object",
+    properties: {
+      array: {
+        type: "array",
+        description: "the array to apply filter",
+      },
+    },
+    required: ["array"],
   },
   output: {
     type: "any",
