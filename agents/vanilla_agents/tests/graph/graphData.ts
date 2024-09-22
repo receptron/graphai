@@ -47,7 +47,7 @@ export const dynamicGraphData2 = {
     },
     parser: {
       agent: "jsonParserAgent",
-      inputs: [":source"],
+      inputs: { text: ":source" },
     },
     nested: {
       agent: "nestedAgent",
@@ -65,7 +65,7 @@ export const dynamicGraphData3 = {
     },
     parser: {
       agent: "jsonParserAgent",
-      inputs: [":source"],
+      inputs: { text: ":source" },
     },
     nested: {
       agent: "nestedAgent",
