@@ -53,13 +53,15 @@ const propertyFilterAgent = async ({ namedInputs, params }) => {
     return applyFilter(input, 0, array, include, exclude, alter, inject, swap, inspect);
 };
 exports.propertyFilterAgent = propertyFilterAgent;
-const testInputs = { array: [
+const testInputs = {
+    array: [
         [
             { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
             { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
         ],
         "Tesla Motors",
-    ] };
+    ],
+};
 const propertyFilterAgentInfo = {
     name: "propertyFilterAgent",
     agent: exports.propertyFilterAgent,
