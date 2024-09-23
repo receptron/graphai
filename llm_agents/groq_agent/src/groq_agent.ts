@@ -7,6 +7,7 @@ import {
   ChatCompletionTool,
   ChatCompletionMessageParam,
   ChatCompletionToolChoiceOption,
+  ChatCompletion,
 } from "groq-sdk/resources/chat/completions";
 
 import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
@@ -41,6 +42,32 @@ type GroqInputs = {
 //
 // https://console.groq.com/docs/quickstart
 //
+
+const convertOpenAIChatCompletion = (response: ChatCompletion) => {
+  const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
+  const text = message && message.content ? message.content : null;
+
+  const functionResponse = message?.tool_calls ? message?.tool_calls[0].function : null;
+
+  const tool = functionResponse
+    ? {
+        name: functionResponse.name,
+        arguments: (() => {
+          try {
+            return JSON.parse(functionResponse?.arguments);
+          } catch (__e) {
+            return undefined;
+          }
+        })(),
+      }
+    : undefined;
+  return {
+    ...response,
+    text,
+    tool,
+  };
+};
+
 export const groqAgent: AgentFunction<
   GroqInputs & { model: string },
   // Groq.Chat.ChatCompletion,
@@ -89,10 +116,8 @@ export const groqAgent: AgentFunction<
   }
   if (!options.stream) {
     const result = await groq.chat.completions.create(options);
-    return {
-      ...result,
-      text: result && result.choices ? result.choices[0].message["content"] : "",
-    };
+
+    return convertOpenAIChatCompletion(result);
   }
   // streaming
   const pipe = await groq.chat.completions.create(options);
@@ -111,6 +136,7 @@ export const groqAgent: AgentFunction<
   if (lastMessage) {
     lastMessage.choices[0]["message"] = { role: "assistant", content: contents.join("") };
   }
+  // maybe not suppor tool when streaming
   return {
     ...lastMessage,
     text: contents.join(""),
