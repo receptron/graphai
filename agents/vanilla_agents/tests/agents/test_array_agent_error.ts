@@ -62,7 +62,7 @@ test("test push_agent error", async () => {
       });
     },
     {
-      message: "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }",
+      message: "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }",
       name: "Error",
     },
   );
@@ -77,7 +77,7 @@ test("test push_agent error", async () => {
       });
     },
     {
-      message: "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }",
+      message: "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }",
       name: "Error",
     },
   );
@@ -92,8 +92,24 @@ test("test push_agent error", async () => {
       });
     },
     {
-      message: "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }",
+      message: "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }",
       name: "Error",
     },
   );
+
+  await assert.rejects(
+    async () => {
+      await pushAgent.agent({
+        ...defaultTestContext,
+        inputs: [],
+        params: {},
+        namedInputs: { array: [123] },
+      });
+    },
+    {
+      message: "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }",
+      name: "Error",
+    },
+  );
+
 });

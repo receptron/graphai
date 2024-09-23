@@ -6,6 +6,7 @@ export const pushAgent: AgentFunction<null, Array<unknown>, null, { array: Array
 }) => {
   assert(isNamedInputs(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
   const { item, items } = namedInputs;
+  assert(!!(namedInputs.array), "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
   assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
