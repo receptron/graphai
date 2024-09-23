@@ -82,7 +82,15 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
       return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
     });
   }
-  return { choices: [{ message }] };
+  const tool =
+    calls && calls[0]
+      ? {
+          name: calls[0].name,
+          arguments: calls[0].args,
+        }
+      : undefined;
+
+  return { choices: [{ message }], text, tool };
 };
 
 const geminiAgentInfo: AgentFunctionInfo = {
