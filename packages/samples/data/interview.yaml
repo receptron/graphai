@@ -31,19 +31,16 @@ nodes:
           propId: content
           from: 2
     inputs:
-      - - role: system
-        - role: user
-      - :context.person0.system
-      - :context.person1.greeting
+      array:
+        - - role: system
+          - role: user
+        - :context.person0.system
+        - :context.person1.greeting
   chat:
     agent: nestedAgent
     inputs:
-      - :messages
-      - :context
-    params:
-      namedInputs:
-        - messages
-        - context
+      messages: :messages
+      context: :context
     isResult: true
     graph:
       loop:
@@ -61,29 +58,29 @@ nodes:
           params:
             model: Llama3-8b-8192
           inputs:
-            - null
-            - :messages
+            messages: :messages
         output:
           agent: stringTemplateAgent
           params:
-            template: "\e[32m${1}:\e[0m ${0}\n"
+            template: "\e[32m${name}:\e[0m ${content}\n"
           console:
             after: true
           inputs:
-            - :groq.choices.$0.message.content
-            - :context.person0.name
+            content: :groq.choices.$0.message.content
+            name: :context.person0.name
         reducer:
           agent: pushAgent
           inputs:
-            - :messages
-            - :groq.choices.$0.message
+            array: :messages
+            item: :groq.choices.$0.message
         swappedContext:
           agent: propertyFilterAgent
           params:
             swap:
               person0: person1
           inputs:
-            - :context
+            array:
+              - :context
         swappedMessages:
           agent: propertyFilterAgent
           params:
@@ -96,5 +93,6 @@ nodes:
                 assistant: user
                 user: assistant
           inputs:
-            - :reducer
-            - :swappedContext.person0.system
+            array:
+              - :reducer
+              - :swappedContext.person0.system
