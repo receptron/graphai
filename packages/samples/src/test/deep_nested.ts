@@ -17,7 +17,7 @@ const getDeepNestedGraph = () => {
     nodes: {
       nested: {
         agent: "copyAgent",
-        inputs: [":count"],
+        inputs: {item: ":count"},
         isResult: true,
       },
     },

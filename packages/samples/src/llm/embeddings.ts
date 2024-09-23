@@ -12,7 +12,7 @@ const graph_data = {
     },
     embeddings: {
       agent: "stringEmbeddingsAgent",
-      inputs: [":strings"],
+      inputs: {array: ":strings"},
     },
     similarities: {
       agent: "mapAgent",

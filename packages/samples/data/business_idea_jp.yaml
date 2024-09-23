@@ -20,32 +20,37 @@ nodes:
       prompt: ":node2"
   node4:
     agent: stringTemplateAgent
-    inputs: [":node1.choices.$0.message.content", ":node3.choices.$0.message.content"]
+    inputs:
+      idea: ":node1.choices.$0.message.content"
+      eval: ":node3.choices.$0.message.content"
     params:
       template: |
         このビジネスアイデアコンテストの優勝者を選んでください.
         [アイデア]
-        ${0}
+        ${idea}
         [評価]
-        ${1}
+        ${eval}
   node5:
     agent: openAIAgent
     inputs:
       prompt: ":node4"
   output:
     agent: stringTemplateAgent
-    inputs: [":node1.choices.$0.message.content", ":node3.choices.$0.message.content", ":node5.choices.$0.message.content"]
+    inputs:
+      idea: :node1.choices.$0.message.content
+      eval: :node3.choices.$0.message.content
+      result: :node5.choices.$0.message.content"
     params:
       template: |
         このビジネスアイデアコンテスト.
 
         [アイデア]
-        ${0}
+        ${idea}
 
         [評価]
-        ${1}
+        ${eval}
 
         [結果]
-        ${2}
+        ${result}
     console:
       after: true

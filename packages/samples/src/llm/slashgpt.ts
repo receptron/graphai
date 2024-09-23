@@ -4,7 +4,7 @@ import { fileTestRunner } from "../utils/runner";
 import * as agents from "@graphai/agents";
 
 export const main = async () => {
-  const result = await fileTestRunner("/graphs/slash_gpt.yml", agents);
+  const result = await fileTestRunner("/llm/slash_gpt.yml", agents);
   console.log(result.node3);
   console.log(result.node5);
 };

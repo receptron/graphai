@@ -8,10 +8,13 @@ nodes:
       limit: 10
     agent: arxivAgent
   arxiv2TextAgent:
-    inputs: [":searchArxiv"]
+    inputs:
+      array: ":searchArxiv"
     agent: arxiv2TextAgent
   slashGPTAgent:
-    inputs: [":arxiv2TextAgent.content"]
+    inputs:
+      array:
+        - :arxiv2TextAgent.content
     agent: slashGPTAgent
     params:
       query: |
