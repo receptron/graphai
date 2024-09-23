@@ -11,6 +11,7 @@ test("test replicateAgent", async () => {
 
   if (res) {
     console.log(res.choices[0].message["content"]);
+    console.log(res.text);
   }
   assert.deepStrictEqual(true, true);
 });
