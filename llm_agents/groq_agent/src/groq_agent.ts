@@ -89,7 +89,10 @@ export const groqAgent: AgentFunction<
   }
   if (!options.stream) {
     const result = await groq.chat.completions.create(options);
-    return result;
+    return {
+      ...result,
+      text: result && result.choices ? result.choices[0].message["content"] : "",
+    };
   }
   // streaming
   const pipe = await groq.chat.completions.create(options);
@@ -108,7 +111,10 @@ export const groqAgent: AgentFunction<
   if (lastMessage) {
     lastMessage.choices[0]["message"] = { role: "assistant", content: contents.join("") };
   }
-  return lastMessage;
+  return {
+    ...lastMessage,
+    text: contents.join(""),
+  };
 };
 
 const groqAgentInfo: AgentFunctionInfo = {
