@@ -9,7 +9,8 @@ nodes:
       prompt: "AIスタートアップのビジネスアイデアを10個考えてください"
   node2:
     agent: stringTemplateAgent
-    inputs: [":node1.choices.$0.message.content"]
+    inputs:
+      - :node1.choices.$0.message.content
     params:
       template: |
         次のビジネスアイデアを評価してください.
@@ -21,8 +22,8 @@ nodes:
   node4:
     agent: stringTemplateAgent
     inputs:
-      idea: ":node1.choices.$0.message.content"
-      eval: ":node3.choices.$0.message.content"
+      idea: :node1.choices.$0.message.content
+      eval: :node3.choices.$0.message.content
     params:
       template: |
         このビジネスアイデアコンテストの優勝者を選んでください.
