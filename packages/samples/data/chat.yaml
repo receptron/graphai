@@ -20,8 +20,9 @@ nodes:
         - propId: continue
           notEqual: /bye
     inputs:
-      - {}
-      - :userInput
+      array:
+        - {}
+        - :userInput
   userMessage:
     agent: propertyFilterAgent
     params:
@@ -29,30 +30,31 @@ nodes:
         - propId: content
           from: 1
     inputs:
-      - role: user
-      - :userInput
+      array:
+        - role:
+            user
+        - :userInput
   appendedMessages:
     agent: pushAgent
     inputs:
-      - :messages
-      - :userMessage
+      array: :messages
+      item: :userMessage
   groq:
     agent: groqAgent
     params:
       model: Llama3-8b-8192
     inputs:
-      - null
-      - :appendedMessages
+      messages: :appendedMessages
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mLlama3\e[0m: ${0}"
+      template: "\e[32mLlama3\e[0m: ${message}"
     console:
       after: true
     inputs:
-      - :groq.choices.$0.message.content
+      message: :groq.choices.$0.message.content
   reducer:
     agent: pushAgent
     inputs:
-      - :appendedMessages
-      - :groq.choices.$0.message
+      array: :appendedMessages
+      item: :groq.choices.$0.message
