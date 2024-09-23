@@ -8,7 +8,7 @@ import { arxivAgent, arxiv2TextAgent } from "../utils/agents/arxiv_agent";
 import { agentInfoWrapper } from "graphai";
 
 export const main = async () => {
-  const res = await fileTestRunner("/graphs/arxiv.yml", {
+  const res = await fileTestRunner("/net/arxiv.yml", {
     arxivAgent: agentInfoWrapper(arxivAgent),
     arxiv2TextAgent: agentInfoWrapper(arxiv2TextAgent),
     slashGPTAgent,

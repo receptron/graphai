@@ -7,24 +7,31 @@ nodes:
       query: "Come up with ten business ideas for AI startup"
   node2:
     agent: stringTemplateAgent
-    inputs: [":node1.$last.content"]
+    inputs:
+      idea: ":node1.$last.content"
     params:
       template: |
         Please evaluate following business ideas.
-        ${0}
+        ${idea}
   node3:
     agent: slashGPTAgent
-    inputs: [:node2]
+    inputs:
+      array:
+        - :node2
   node4:
     agent: stringTemplateAgent
-    inputs: [:node1.$last.content, :node3.$last.content]
+    inputs:
+      idea: :node1.$last.content
+      eval: :node3.$last.content
     params:
       template: |
         Please pick the winner of this business idea contest.
         [ideas]
-        ${0}
+        ${idea}
         [evalutations]
-        ${1}
+        ${eval}
   node5:
     agent: slashGPTAgent
-    inputs: [:node4]
+    inputs:
+      array:
+        - :node4
