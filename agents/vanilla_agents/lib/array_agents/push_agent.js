@@ -4,9 +4,10 @@ exports.pushAgent = void 0;
 const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
 const pushAgent = async ({ namedInputs, }) => {
-    (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
     const { item, items } = namedInputs;
-    (0, graphai_1.assert)(!!(item || items), "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    (0, graphai_1.assert)(!!(namedInputs.array), "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    (0, graphai_1.assert)(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
     const array = namedInputs.array.map((item) => item); // shallow copy
     if (item) {
         array.push(item);
