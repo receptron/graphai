@@ -16,7 +16,7 @@ const graph_data = {
     },
     interactiveInputAgent: {
       inputs: {
-        array: ":countingAgent.list"
+        array: ":countingAgent.list",
       },
       agent: "interactiveInputSelectAgent",
       isResult: true,
