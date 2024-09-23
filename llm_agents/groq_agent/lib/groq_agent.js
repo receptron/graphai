@@ -23,6 +23,29 @@ const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.en
 //
 // https://console.groq.com/docs/quickstart
 //
+const convertOpenAIChatCompletion = (response) => {
+    const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
+    const text = message && message.content ? message.content : null;
+    const functionResponse = message?.tool_calls ? message?.tool_calls[0].function : null;
+    const tool = functionResponse
+        ? {
+            name: functionResponse.name,
+            arguments: (() => {
+                try {
+                    return JSON.parse(functionResponse?.arguments);
+                }
+                catch (__e) {
+                    return undefined;
+                }
+            })(),
+        }
+        : undefined;
+    return {
+        ...response,
+        text,
+        tool,
+    };
+};
 const groqAgent = async ({ params, namedInputs, filterParams }) => {
     (0, graphai_1.assert)(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
     const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
@@ -60,7 +83,7 @@ const groqAgent = async ({ params, namedInputs, filterParams }) => {
     }
     if (!options.stream) {
         const result = await groq.chat.completions.create(options);
-        return result;
+        return convertOpenAIChatCompletion(result);
     }
     // streaming
     const pipe = await groq.chat.completions.create(options);
@@ -79,7 +102,11 @@ const groqAgent = async ({ params, namedInputs, filterParams }) => {
     if (lastMessage) {
         lastMessage.choices[0]["message"] = { role: "assistant", content: contents.join("") };
     }
-    return lastMessage;
+    // maybe not suppor tool when streaming
+    return {
+        ...lastMessage,
+        text: contents.join(""),
+    };
 };
 exports.groqAgent = groqAgent;
 const groqAgentInfo = {

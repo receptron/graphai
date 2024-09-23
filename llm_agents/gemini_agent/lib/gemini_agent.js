@@ -67,7 +67,13 @@ const geminiAgent = async ({ params, namedInputs }) => {
             return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
         });
     }
-    return { choices: [{ message }] };
+    const tool = calls && calls[0]
+        ? {
+            name: calls[0].name,
+            arguments: calls[0].args,
+        }
+        : undefined;
+    return { choices: [{ message }], text, tool };
 };
 exports.geminiAgent = geminiAgent;
 const geminiAgentInfo = {
