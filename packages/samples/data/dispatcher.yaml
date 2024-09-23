@@ -1,0 +1,52 @@
+version: 0.5
+loop:
+  while: :echoData
+nodes:
+  history:
+    value: []
+    update: ":nextHistory.array"
+  textInput:
+    agent: "textInputAgent"
+    params:
+      message: ""
+  llm:
+    agent: "openAIAgent"
+    params:
+      system: "あなたは、電話の取次かかりです。相手からの話をうまくきいて、どれにつなげばよいか判断してください"
+      tool_choice: 'auto'
+      tools:
+        - type: 'function'
+          function:
+            name: 'dispatchNextEvent'
+            description: 'Determine which department to respond to next'
+            parameters:
+              type: 'object'
+              properties: 
+                eventType: 
+                  type: 'string'
+                  enum: ["返品", "支払いについて", "注文方法", "その他", "不良品"]
+                  description: 'The user name'
+            required: ['eventType']
+    inputs:
+      prompt: :textInput
+      messages: :history
+  messageData:
+    agent: "stringTemplateAgent"
+    inputs: [:textInput, :llm.text]
+    params:
+      template:
+        - role: "user"
+          content: "${0}"
+        - role: "assistant"
+          content: "${1}"
+  echoData:
+    agent: "copyAgent"
+    inputs: [:llm.text]
+    console:
+      after: true
+  nextHistory:
+    agent: "arrayFlatAgent"
+    inputs:
+      array:
+        - :history
+        - :messageData
