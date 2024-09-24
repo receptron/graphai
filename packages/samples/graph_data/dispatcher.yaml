@@ -1,6 +1,6 @@
 version: 0.5
 loop:
-  while: :echoData
+  while: :echoData.reply
 nodes:
   history:
     value: []
@@ -32,16 +32,27 @@ nodes:
       messages: :history
   messageData:
     agent: "stringTemplateAgent"
-    inputs: [:textInput, :llm.text]
+    inputs:
+      user: :textInput
+      assistant: :llm.text
     params:
       template:
         - role: "user"
-          content: "${0}"
+          content: "${user}"
         - role: "assistant"
-          content: "${1}"
+          content: "${assistant}"
   echoData:
     agent: "copyAgent"
-    inputs: [:llm.text]
+    inputs:
+      reply: :llm.text
+    if: :llm.text
+    console:
+      after: true
+  toolData:
+    agent: "copyAgent"
+    inputs:
+      reply: :llm.tool
+    if: :llm.tool
     console:
       after: true
   nextHistory:
