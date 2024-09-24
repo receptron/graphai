@@ -14,6 +14,7 @@
     "build": "tsc",
     "eslint": "eslint --fix",
     "format": "prettier --write '{src,test_yaml,samples}/**/*.{yaml,ts,json}'",
+    "doc": "echo nothing",
     "test": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },

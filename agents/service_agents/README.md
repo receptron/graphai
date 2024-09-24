@@ -53,17 +53,17 @@ const result = await graph.run();
       "agent": "copyAgent",
       "isResult": true,
       "unless": ":fetch.onError",
-      "inputs": [
-        true
-      ]
+      "inputs": {
+        "result": true
+      }
     },
     "error": {
       "agent": "copyAgent",
       "isResult": true,
       "if": ":fetch.onError",
-      "inputs": [
-        ":fetch.onError"
-      ]
+      "inputs": {
+        "error": ":fetch.onError"
+      }
     }
   }
 }
@@ -91,9 +91,9 @@ const result = await graph.run();
       "agent": "copyAgent",
       "isResult": true,
       "unless": ":fetch.onError",
-      "inputs": [
-        true
-      ]
+      "inputs": {
+        "result": true
+      }
     },
     "error": {
       "agent": "propertyFilterAgent",
@@ -105,9 +105,9 @@ const result = await graph.run();
       },
       "isResult": true,
       "if": ":fetch.onError",
-      "inputs": [
-        ":fetch.onError"
-      ]
+      "inputs": {
+        "item": ":fetch.onError"
+      }
     }
   }
 }

@@ -21,17 +21,17 @@
       "agent": "copyAgent",
       "isResult": true,
       "unless": ":fetch.onError",
-      "inputs": [
-        true
-      ]
+      "inputs": {
+        "result": true
+      }
     },
     "error": {
       "agent": "copyAgent",
       "isResult": true,
       "if": ":fetch.onError",
-      "inputs": [
-        ":fetch.onError"
-      ]
+      "inputs": {
+        "error": ":fetch.onError"
+      }
     }
   }
 }
@@ -59,9 +59,9 @@
       "agent": "copyAgent",
       "isResult": true,
       "unless": ":fetch.onError",
-      "inputs": [
-        true
-      ]
+      "inputs": {
+        "result": true
+      }
     },
     "error": {
       "agent": "propertyFilterAgent",
@@ -73,9 +73,9 @@
       },
       "isResult": true,
       "if": ":fetch.onError",
-      "inputs": [
-        ":fetch.onError"
-      ]
+      "inputs": {
+        "item": ":fetch.onError"
+      }
     }
   }
 }

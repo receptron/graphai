@@ -38,7 +38,7 @@ nodes:
   parser:
     agent: jsonParserAgent
     inputs:
-      - :source
+      text: :source
   nested:
     agent: nestedAgent
     graph: :parser
@@ -60,7 +60,7 @@ nodes:
   parser:
     agent: jsonParserAgent
     inputs:
-      - :source
+      text: :source
   nested:
     agent: nestedAgent
     graph: :parser
@@ -84,7 +84,7 @@ nodes:
         result:
           agent: copyAgent
           inputs:
-            - :inner0
+            text: :inner0
           isResult: true
 
 ```
@@ -105,7 +105,7 @@ nodes:
         result:
           agent: copyAgent
           inputs:
-            - :source
+            text: :source
           isResult: true
 
 ```

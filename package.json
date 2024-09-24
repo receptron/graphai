@@ -7,6 +7,7 @@
     "build": "yarn workspaces run build",
     "eslint": "yarn workspaces run eslint",
     "format": "yarn workspaces run format",
+    "doc": "yarn workspaces run doc",
     "sample": "npx ts-node docs/async/sample1.ts"
   },
   "private": true,

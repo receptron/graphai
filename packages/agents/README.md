@@ -190,9 +190,9 @@ const result = await graph.run();
           },
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":source"
-            ],
+            "inputs": {
+              "source": ":source"
+            },
             "isResult": true
           }
         }
@@ -211,9 +211,9 @@ const result = await graph.run();
         ]
       },
       "if": ":nested.onError",
-      "inputs": [
-        ":nested.onError"
-      ],
+      "inputs": {
+        "item": ":nested.onError"
+      },
       "isResult": true
     }
   }

@@ -163,9 +163,9 @@ const result = await graph.run();
     },
     "parser": {
       "agent": "jsonParserAgent",
-      "inputs": [
-        ":source"
-      ]
+      "inputs": {
+        "text": ":source"
+      }
     },
     "nested": {
       "agent": "nestedAgent",
@@ -186,9 +186,9 @@ const result = await graph.run();
     },
     "parser": {
       "agent": "jsonParserAgent",
-      "inputs": [
-        ":source"
-      ]
+      "inputs": {
+        "text": ":source"
+      }
     },
     "nested": {
       "agent": "nestedAgent",
@@ -217,9 +217,9 @@ const result = await graph.run();
         "nodes": {
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":inner0"
-            ],
+            "inputs": {
+              "text": ":inner0"
+            },
             "isResult": true
           }
         }
@@ -247,9 +247,9 @@ const result = await graph.run();
         "nodes": {
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":source"
-            ],
+            "inputs": {
+              "text": ":source"
+            },
             "isResult": true
           }
         }
