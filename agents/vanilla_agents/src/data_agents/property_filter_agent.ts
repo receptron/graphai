@@ -61,22 +61,26 @@ export const propertyFilterAgent: AgentFunction<{
   swap?: Record<string, string>;
 }> = async ({ namedInputs, params }) => {
   const { include, exclude, alter, inject, swap, inspect } = params;
-  const { array } = namedInputs;
-  if (array) {
+  const { _array, array } = namedInputs;
+  const arrayInputs = _array || array;
+  if (arrayInputs) {
+    if (array) {
+      console.log("WARNING: propertyFilter, array is obsolete. Use _array")
+    }
     // This is advanced usage, including "inject" and "inspect", which uses
     // array[1], array[2], ...
-    const [target] = array; // Extract the first one
+    const [target] = arrayInputs; // Extract the first one
     if (Array.isArray(target)) {
-      return target.map((item, index) => applyFilter(item, index, array, include, exclude, alter, inject, swap, inspect));
+      return target.map((item, index) => applyFilter(item, index, arrayInputs, include, exclude, alter, inject, swap, inspect));
     }
-    return applyFilter(target, 0, array, include, exclude, alter, inject, swap, inspect);
+    return applyFilter(target, 0, arrayInputs, include, exclude, alter, inject, swap, inspect);
   }
   // This is simple case. No "inject" or "inspect"
   return applyFilter(namedInputs, 0, [], include, exclude, alter, inject, swap, inspect);
 };
 
 const testInputs = {
-  array: [
+  _array: [
     [
       { color: "red", model: "Model 3", type: "EV", maker: "Tesla", range: 300 },
       { color: "blue", model: "Model Y", type: "EV", maker: "Tesla", range: 400 },
@@ -97,12 +101,12 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
   },
   samples: [
     {
-      inputs: { array: [testInputs.array[0][0]] },
+      inputs: { _array: [testInputs._array[0][0]] },
       params: { include: ["color", "model"] },
       result: { color: "red", model: "Model 3" },
     },
     {
-      inputs: testInputs.array[0][0],
+      inputs: testInputs._array[0][0],
       params: { include: ["color", "model"] },
       result: { color: "red", model: "Model 3" },
     },
@@ -123,7 +127,7 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
       ],
     },
     {
-      inputs: testInputs.array[0][0],
+      inputs: testInputs._array[0][0],
       params: { exclude: ["color", "model"] },
       result: { type: "EV", maker: "Tesla", range: 300 },
     },
@@ -148,7 +152,7 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
       ],
     },
     {
-      inputs: testInputs.array[0][0],
+      inputs: testInputs._array[0][0],
       params: { alter: { color: { red: "blue", blue: "red" } } },
       result: {
         color: "blue",
@@ -179,7 +183,7 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
       ],
     },
     {
-      inputs: testInputs.array[0][0],
+      inputs: testInputs._array[0][0],
       params: { swap: { maker: "model" } },
       result: {
         color: "red",
