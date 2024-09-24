@@ -41,7 +41,7 @@ const main = async () => {
     }
     const packageJson = JSON.parse(fs_1.default.readFileSync(packagePath, "utf8"));
     const agents = await Promise.resolve(`${npmRootPath + "/lib/index"}`).then(s => __importStar(require(s)));
-    const agentKeys = Object.keys(agents).sort((a, b) => a > b ? 1 : -1);
+    const agentKeys = Object.keys(agents).sort((a, b) => (a > b ? 1 : -1));
     const agentAttribute = (key) => {
         if (key === "packageName") {
             return packageJson.name;
@@ -85,10 +85,12 @@ const main = async () => {
             return "";
         }
         if (key === "agentsDescription") {
-            return agentKeys.map((key) => {
+            return agentKeys
+                .map((key) => {
                 const agent = agents[key];
                 return `- ${agent.name} - ${agent.description}`;
-            }).join("\n");
+            })
+                .join("\n");
         }
     };
     const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
