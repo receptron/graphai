@@ -60,13 +60,19 @@ export const propertyFilterAgent: AgentFunction<{
   inspect?: Array<Record<string, any>>;
   swap?: Record<string, string>;
 }> = async ({ namedInputs, params }) => {
-  const { array } = namedInputs;
-  const [input] = array;
   const { include, exclude, alter, inject, swap, inspect } = params;
-  if (Array.isArray(input)) {
-    return input.map((item, index) => applyFilter(item, index, array, include, exclude, alter, inject, swap, inspect));
+  const { array } = namedInputs;
+  if (array) {
+    // This is advanced usage, including "inject" and "inspect", which uses
+    // array[1], array[2], ...
+    const [target] = array; // Extract the first one
+    if (Array.isArray(target)) {
+      return target.map((item, index) => applyFilter(item, index, array, include, exclude, alter, inject, swap, inspect));
+    }
+    return applyFilter(target, 0, array, include, exclude, alter, inject, swap, inspect);
   }
-  return applyFilter(input, 0, array, include, exclude, alter, inject, swap, inspect);
+  // This is simple case. No "inject" or "inspect"
+  return applyFilter(namedInputs, 0, [], include, exclude, alter, inject, swap, inspect);
 };
 
 const testInputs = {
@@ -85,13 +91,6 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
   mock: propertyFilterAgent,
   inputs: {
     type: "object",
-    properties: {
-      array: {
-        type: "array",
-        description: "the array to apply filter",
-      },
-    },
-    required: ["array"],
   },
   output: {
     type: "any",
