@@ -102,7 +102,7 @@ export const graph_data = {
                 person0: "person1",
               },
             },
-            inputs: { array: [":context"] },
+            inputs: { item: ":context" },
           },
           swappedMessages: {
             agent: "propertyFilterAgent",
