@@ -1,9 +1,9 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 const applyFilter = (
-  input: any,
+  object: any,
   index: number,
-  inputs: any,
+  arrayInputs: any,
   include: Array<string> | undefined,
   exclude: Array<string> | undefined,
   alter: Record<string, Record<string, string>> | undefined,
@@ -11,15 +11,15 @@ const applyFilter = (
   swap: Record<string, string> | undefined,
   inspect: Array<Record<string, any>> | undefined,
 ) => {
-  const propIds = include ? include : Object.keys(input);
+  const propIds = include ? include : Object.keys(object);
   const excludeSet = new Set(exclude ?? []);
   const result = propIds.reduce((tmp: Record<string, any>, propId) => {
     if (!excludeSet.has(propId)) {
       const mapping = alter && alter[propId];
-      if (mapping && mapping[input[propId]]) {
-        tmp[propId] = mapping[input[propId]];
+      if (mapping && mapping[object[propId]]) {
+        tmp[propId] = mapping[object[propId]];
       } else {
-        tmp[propId] = input[propId];
+        tmp[propId] = object[propId];
       }
     }
     return tmp;
@@ -28,13 +28,13 @@ const applyFilter = (
   if (inject) {
     inject.forEach((item) => {
       if (item.index === undefined || item.index === index) {
-        result[item.propId] = inputs[item.from];
+        result[item.propId] = arrayInputs[item.from];
       }
     });
   }
   if (inspect) {
     inspect.forEach((item) => {
-      const value = inputs[item.from ?? 1]; // default is inputs[1]
+      const value = arrayInputs[item.from ?? 1]; // default is arrayInputs[1]
       if (item.equal) {
         result[item.propId] = item.equal === value;
       } else if (item.notEqual) {
