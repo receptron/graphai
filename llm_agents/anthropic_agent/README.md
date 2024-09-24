@@ -22,6 +22,8 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+- anthropicAgent - Anthropic Agent
+
 ### Input/Output/Params Schema & samples
  - [anthropicAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/anthropicAgent.md)
 

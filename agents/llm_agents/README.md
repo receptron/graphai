@@ -40,6 +40,15 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+- anthropicAgent - Anthropic Agent
+- geminiAgent - Gemini Agent
+- groqAgent - Groq Agent
+- openAIAgent - OpenAI Agent
+- openAIImageAgent - OpenAI Image Agent
+- replicateAgent - Replicate Agent
+- slashGPTAgent - Slash GPT Agent
+- tokenBoundStringsAgent - token bound Agent
+
 ### Input/Output/Params Schema & samples
  - [anthropicAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/anthropicAgent.md)
  - [geminiAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/geminiAgent.md)

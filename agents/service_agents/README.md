@@ -22,6 +22,9 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+- fetchAgent - Retrieves JSON data from the specified URL
+- wikipediaAgent - Retrieves data from wikipedia
+
 ### Input/Output/Params Schema & samples
  - [fetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/fetchAgent.md)
  - [wikipediaAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/wikipediaAgent.md)
