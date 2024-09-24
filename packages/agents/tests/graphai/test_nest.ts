@@ -97,7 +97,7 @@ const graphdataMapped = {
         include: ["message"],
       },
       if: ":nested.onError",
-      inputs: { array: [":nested.onError"] },
+      inputs: { item: ":nested.onError" },
       isResult: true,
     },
   },
