@@ -76,6 +76,7 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Agents description
 - arrayFlatAgent - Array Flat Agent
 - arrayJoinAgent - Array Join Agent
 - bypassAgent - bypass agent

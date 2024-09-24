@@ -22,6 +22,7 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Agents description
 - dataObjectMergeTemplateAgent - Merge object
 
 ### Input/Output/Params Schema & samples

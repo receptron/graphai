@@ -53,7 +53,6 @@ const main = async () => {
     }
     if (key === "sample") {
       return [
-        "### Input/Output/Params Schema & samples",
         agentKeys.map((key: string) => {
           const agent = agents[key];
           return ` - [${agent.name}](https://github.com/receptron/graphai/blob/main/docs/agentDocs/${agent.category[0]}/${agent.name}.md)`;

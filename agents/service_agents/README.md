@@ -22,6 +22,7 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Agents description
 - fetchAgent - Retrieves JSON data from the specified URL
 - wikipediaAgent - Retrieves data from wikipedia
 
