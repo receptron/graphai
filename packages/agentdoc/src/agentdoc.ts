@@ -16,7 +16,7 @@ const main = async () => {
   const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
 
   const agents = await import(npmRootPath + "/lib/index");
-  const agentKeys = Object.keys(agents).sort((a, b) => a > b ? 1 : -1);
+  const agentKeys = Object.keys(agents).sort((a, b) => (a > b ? 1 : -1));
 
   const agentAttribute = (key: string) => {
     if (key === "packageName") {
@@ -64,10 +64,12 @@ const main = async () => {
     }
 
     if (key === "agentsDescription") {
-      return agentKeys.map((key: string) => {
-        const agent = agents[key];
-        return `- ${agent.name} - ${agent.description}`
-      }).join("\n");
+      return agentKeys
+        .map((key: string) => {
+          const agent = agents[key];
+          return `- ${agent.name} - ${agent.description}`;
+        })
+        .join("\n");
     }
   };
   const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
