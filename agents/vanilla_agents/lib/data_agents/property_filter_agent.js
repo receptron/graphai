@@ -79,6 +79,16 @@ const propertyFilterAgentInfo = {
     },
     output: {
         type: "any",
+        properties: {
+            array: {
+                type: "array",
+                description: "the array to apply filter",
+            },
+            item: {
+                type: "object",
+                description: "the object to apply filter",
+            },
+        },
     },
     samples: [
         {
@@ -244,7 +254,7 @@ const propertyFilterAgentInfo = {
             ],
         },
     ],
-    description: "Filter properties based on property name either with 'include' or 'exclude'",
+    description: "Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'",
     category: ["data"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
