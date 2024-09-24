@@ -102,6 +102,11 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
       result: { color: "red", model: "Model 3" },
     },
     {
+      inputs: testInputs.array[0][0],
+      params: { include: ["color", "model"] },
+      result: { color: "red", model: "Model 3" },
+    },
+    {
       inputs: testInputs,
       params: { include: ["color", "model"] },
       result: [
@@ -116,6 +121,11 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
         { type: "EV", maker: "Tesla", range: 300 },
         { type: "EV", maker: "Tesla", range: 400 },
       ],
+    },
+    {
+      inputs: testInputs.array[0][0],
+      params: { exclude: ["color", "model"] },
+      result: { type: "EV", maker: "Tesla", range: 300 },
     },
     {
       inputs: testInputs,
@@ -136,6 +146,48 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
           range: 400,
         },
       ],
+    },
+    {
+      inputs: testInputs.array[0][0],
+      params: { alter: { color: { red: "blue", blue: "red" } } },
+      result: {
+        color: "blue",
+        model: "Model 3",
+        type: "EV",
+        maker: "Tesla",
+        range: 300,
+      },
+    },
+    {
+      inputs: testInputs,
+      params: { swap: { maker: "model" } },
+      result: [
+        {
+          color: "red",
+          model: "Tesla",
+          type: "EV",
+          maker: "Model 3",
+          range: 300,
+        },
+        {
+          color: "blue",
+          model: "Tesla",
+          type: "EV",
+          maker: "Model Y",
+          range: 400,
+        },
+      ],
+    },
+    {
+      inputs: testInputs.array[0][0],
+      params: { swap: { maker: "model" } },
+      result: {
+        color: "red",
+        model: "Tesla",
+        type: "EV",
+        maker: "Model 3",
+        range: 300,
+      },
     },
     {
       inputs: testInputs,
@@ -173,26 +225,6 @@ const propertyFilterAgentInfo: AgentFunctionInfo = {
           model: "Model Y",
           type: "EV",
           maker: "Tesla",
-          range: 400,
-        },
-      ],
-    },
-    {
-      inputs: testInputs,
-      params: { swap: { maker: "model" } },
-      result: [
-        {
-          color: "red",
-          model: "Tesla",
-          type: "EV",
-          maker: "Model 3",
-          range: 300,
-        },
-        {
-          color: "blue",
-          model: "Tesla",
-          type: "EV",
-          maker: "Model Y",
           range: 400,
         },
       ],
