@@ -2,7 +2,7 @@
 
 ## Description
 
-Filter properties based on property name either with 'include' or 'exclude'
+Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
 
 ## Schema
 
@@ -21,7 +21,17 @@ Filter properties based on property name either with 'include' or 'exclude'
 ```json
 
 {
-  "type": "any"
+  "type": "any",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "the array to apply filter"
+    },
+    "item": {
+      "type": "object",
+      "description": "the object to apply filter"
+    }
+  }
 }
 
 ````
