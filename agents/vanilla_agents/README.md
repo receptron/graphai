@@ -15,94 +15,122 @@ yarn add @graphai/vanilla
 ```typescript
 import { GraphAI } from "graphai";
 import { 
+  arrayFlatAgent,
+  arrayJoinAgent,
+  bypassAgent,
+  copy2ArrayAgent,
+  copyAgent,
+  copyMessageAgent,
+  countingAgent,
+  dataSumTemplateAgent,
+  dotProductAgent,
+  echoAgent,
+  jsonParserAgent,
+  mapAgent,
+  mergeNodeIdAgent,
+  nestedAgent,
+  popAgent,
+  propertyFilterAgent,
+  pushAgent,
+  shiftAgent,
+  sortByValuesAgent,
+  streamMockAgent,
   stringEmbeddingsAgent,
   stringSplitterAgent,
   stringTemplateAgent,
-  jsonParserAgent,
-  pushAgent,
-  popAgent,
-  shiftAgent,
-  arrayFlatAgent,
-  arrayJoinAgent,
-  dotProductAgent,
-  sortByValuesAgent,
-  echoAgent,
-  bypassAgent,
-  countingAgent,
-  copyMessageAgent,
-  copy2ArrayAgent,
-  mergeNodeIdAgent,
-  streamMockAgent,
-  nestedAgent,
-  mapAgent,
-  workerAgent,
   totalAgent,
-  dataSumTemplateAgent,
-  propertyFilterAgent,
-  copyAgent,
-  vanillaFetchAgent
+  vanillaFetchAgent,
+  workerAgent
  } from "@graphai/vanilla";
 
 const agents = { 
+  arrayFlatAgent,
+  arrayJoinAgent,
+  bypassAgent,
+  copy2ArrayAgent,
+  copyAgent,
+  copyMessageAgent,
+  countingAgent,
+  dataSumTemplateAgent,
+  dotProductAgent,
+  echoAgent,
+  jsonParserAgent,
+  mapAgent,
+  mergeNodeIdAgent,
+  nestedAgent,
+  popAgent,
+  propertyFilterAgent,
+  pushAgent,
+  shiftAgent,
+  sortByValuesAgent,
+  streamMockAgent,
   stringEmbeddingsAgent,
   stringSplitterAgent,
   stringTemplateAgent,
-  jsonParserAgent,
-  pushAgent,
-  popAgent,
-  shiftAgent,
-  arrayFlatAgent,
-  arrayJoinAgent,
-  dotProductAgent,
-  sortByValuesAgent,
-  echoAgent,
-  bypassAgent,
-  countingAgent,
-  copyMessageAgent,
-  copy2ArrayAgent,
-  mergeNodeIdAgent,
-  streamMockAgent,
-  nestedAgent,
-  mapAgent,
-  workerAgent,
   totalAgent,
-  dataSumTemplateAgent,
-  propertyFilterAgent,
-  copyAgent,
-  vanillaFetchAgent
+  vanillaFetchAgent,
+  workerAgent
  };
 
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Agents description
+- arrayFlatAgent - Array Flat Agent
+- arrayJoinAgent - Array Join Agent
+- bypassAgent - bypass agent
+- copy2ArrayAgent - Copy2Array agent
+- copyAgent - Returns namedInputs
+- copyMessageAgent - CopyMessage agent
+- countingAgent - Counting agent
+- dataSumTemplateAgent - Returns the sum of input values
+- dotProductAgent - dotProduct Agent
+- echoAgent - Echo agent
+- jsonParserAgent - Template agent
+- mapAgent - Map Agent
+- mergeNodeIdAgent - merge node id agent
+- nestedAgent - nested Agent
+- popAgent - Pop Agent
+- propertyFilterAgent - Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
+- pushAgent - push Agent
+- shiftAgent - shift Agent
+- sortByValuesAgent - sortByValues Agent
+- streamMockAgent - Stream mock agent
+- stringEmbeddingsAgent - Embeddings Agent
+- stringSplitterAgent - This agent strip one long string into chunks using following parameters
+- stringTemplateAgent - Template agent
+- totalAgent - Returns the sum of input values
+- vanillaFetchAgent - Retrieves JSON data from the specified URL
+- workerAgent - Map Agent
+
 ### Input/Output/Params Schema & samples
+ - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
+ - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
+ - [bypassAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/bypassAgent.md)
+ - [copy2ArrayAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copy2ArrayAgent.md)
+ - [copyAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/copyAgent.md)
+ - [copyMessageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copyMessageAgent.md)
+ - [countingAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/countingAgent.md)
+ - [dataSumTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/dataSumTemplateAgent.md)
+ - [dotProductAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/dotProductAgent.md)
+ - [echoAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/echoAgent.md)
+ - [jsonParserAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/jsonParserAgent.md)
+ - [mapAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/mapAgent.md)
+ - [mergeNodeIdAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/mergeNodeIdAgent.md)
+ - [nestedAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/nestedAgent.md)
+ - [popAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/popAgent.md)
+ - [propertyFilterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/propertyFilterAgent.md)
+ - [pushAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/pushAgent.md)
+ - [shiftAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/shiftAgent.md)
+ - [sortByValuesAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/sortByValuesAgent.md)
+ - [streamMockAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/streamMockAgent.md)
  - [stringEmbeddingsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/embedding/stringEmbeddingsAgent.md)
  - [stringSplitterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringSplitterAgent.md)
  - [stringTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringTemplateAgent.md)
- - [jsonParserAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/jsonParserAgent.md)
- - [pushAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/pushAgent.md)
- - [popAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/popAgent.md)
- - [shiftAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/shiftAgent.md)
- - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
- - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
- - [dotProductAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/dotProductAgent.md)
- - [sortByValuesAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/sortByValuesAgent.md)
- - [echoAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/echoAgent.md)
- - [bypassAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/bypassAgent.md)
- - [countingAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/countingAgent.md)
- - [copyMessageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copyMessageAgent.md)
- - [copy2ArrayAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copy2ArrayAgent.md)
- - [mergeNodeIdAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/mergeNodeIdAgent.md)
- - [streamMockAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/streamMockAgent.md)
- - [nestedAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/nestedAgent.md)
- - [mapAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/mapAgent.md)
- - [workerAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/workerAgent.md)
  - [totalAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/totalAgent.md)
- - [dataSumTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/dataSumTemplateAgent.md)
- - [propertyFilterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/propertyFilterAgent.md)
- - [copyAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/copyAgent.md)
  - [vanillaFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/vanillaFetchAgent.md)
+ - [workerAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/workerAgent.md)
 
 
 
@@ -163,9 +191,9 @@ const result = await graph.run();
     },
     "parser": {
       "agent": "jsonParserAgent",
-      "inputs": [
-        ":source"
-      ]
+      "inputs": {
+        "text": ":source"
+      }
     },
     "nested": {
       "agent": "nestedAgent",
@@ -186,9 +214,9 @@ const result = await graph.run();
     },
     "parser": {
       "agent": "jsonParserAgent",
-      "inputs": [
-        ":source"
-      ]
+      "inputs": {
+        "text": ":source"
+      }
     },
     "nested": {
       "agent": "nestedAgent",
@@ -217,9 +245,9 @@ const result = await graph.run();
         "nodes": {
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":inner0"
-            ],
+            "inputs": {
+              "text": ":inner0"
+            },
             "isResult": true
           }
         }
@@ -247,9 +275,9 @@ const result = await graph.run();
         "nodes": {
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":source"
-            ],
+            "inputs": {
+              "text": ":source"
+            },
             "isResult": true
           }
         }

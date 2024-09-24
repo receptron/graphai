@@ -22,6 +22,9 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Agents description
+- groqAgent - Groq Agent
+
 ### Input/Output/Params Schema & samples
  - [groqAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/groqAgent.md)
 

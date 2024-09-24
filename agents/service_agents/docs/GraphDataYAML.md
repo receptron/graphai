@@ -15,13 +15,13 @@ nodes:
     isResult: true
     unless: :fetch.onError
     inputs:
-      - true
+      result: true
   error:
     agent: copyAgent
     isResult: true
     if: :fetch.onError
     inputs:
-      - :fetch.onError
+      error: :fetch.onError
 
 ```
 
@@ -43,7 +43,7 @@ nodes:
     isResult: true
     unless: :fetch.onError
     inputs:
-      - true
+      result: true
   error:
     agent: propertyFilterAgent
     params:
@@ -53,6 +53,6 @@ nodes:
     isResult: true
     if: :fetch.onError
     inputs:
-      - :fetch.onError
+      item: :fetch.onError
 
 ```

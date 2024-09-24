@@ -12,6 +12,7 @@
     "test": "echo hello",
     "format": "prettier --write 'src/**/*.ts'",
     "b": "yarn run format && yarn run eslint && yarn run build",
+    "doc": "echo nothing",
     "samples": "npx ts-node  -r tsconfig-paths/register src/sample_runner.ts",
     "sample": "npx ts-node  -r tsconfig-paths/register"
   },

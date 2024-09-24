@@ -53,9 +53,9 @@
     },
     "parser": {
       "agent": "jsonParserAgent",
-      "inputs": [
-        ":source"
-      ]
+      "inputs": {
+        "text": ":source"
+      }
     },
     "nested": {
       "agent": "nestedAgent",
@@ -76,9 +76,9 @@
     },
     "parser": {
       "agent": "jsonParserAgent",
-      "inputs": [
-        ":source"
-      ]
+      "inputs": {
+        "text": ":source"
+      }
     },
     "nested": {
       "agent": "nestedAgent",
@@ -107,9 +107,9 @@
         "nodes": {
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":inner0"
-            ],
+            "inputs": {
+              "text": ":inner0"
+            },
             "isResult": true
           }
         }
@@ -137,9 +137,9 @@
         "nodes": {
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":source"
-            ],
+            "inputs": {
+              "text": ":source"
+            },
             "isResult": true
           }
         }
