@@ -29,7 +29,7 @@
   "dependencies": {
     "@graphai/data_agents": "^0.0.2",
     "@graphai/input_agents": "^0.0.3",
-    "@graphai/llm_agents": "^0.0.21",
+    "@graphai/llm_agents": "^0.0.22",
     "@graphai/service_agents": "^0.0.4",
     "@graphai/sleeper_agents": "^0.0.2",
     "@graphai/vanilla": "^0.0.14"

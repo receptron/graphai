@@ -26,7 +26,7 @@ const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.en
 const convertOpenAIChatCompletion = (response) => {
     const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = message && message.content ? message.content : null;
-    const functionResponse = message?.tool_calls ? message?.tool_calls[0].function : null;
+    const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.function : null;
     const tool = functionResponse
         ? {
             name: functionResponse.name,

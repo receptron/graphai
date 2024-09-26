@@ -28,7 +28,7 @@
   "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/replicate_agent/README.md",
   "dependencies": {
     "@graphai/llm_utils": "^0.0.2",
-    "replicate": "^0.32.1",
+    "replicate": "^0.34.0",
     "tiktoken": "^1.0.16"
   },
   "devDependencies": {},
