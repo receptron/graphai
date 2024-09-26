@@ -10,7 +10,7 @@ const llm_utils_1 = require("@graphai/llm_utils");
 const convertOpenAIChatCompletion = (response) => {
     const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = message && message.content ? message.content : null;
-    const functionResponse = message?.tool_calls ? message?.tool_calls[0].function : null;
+    const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.function : null;
     const tool = functionResponse
         ? {
             name: functionResponse.name,
