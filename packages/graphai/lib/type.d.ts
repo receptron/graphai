@@ -61,6 +61,7 @@ export type GraphData = {
     loop?: LoopData;
     verbose?: boolean;
     retry?: number;
+    metadata?: any;
 };
 export type GraphOptions = {
     agentFilters?: AgentFilterInfo[] | undefined;
