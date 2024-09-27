@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
-// import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
+// Based on https://github.com/bklieger-groq/g1
 export const graph_data = {
   version: 0.5,
   nodes: {
