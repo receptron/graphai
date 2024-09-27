@@ -65,7 +65,30 @@ export const graph_data = {
       inputs: {
         message: ":messages.$1"
       }
-    }
+    },
+    subGraph: {
+      agent: "nestedAgent",
+      inputs: {
+        messages: ":messages"
+      },
+      graph: {
+        loop: {
+          count: 2,
+        },
+        nodes: {
+          debug2: {
+            agent: "copyAgent",
+            console: {
+              after: true,
+            },
+            isResult: true,
+            inputs: {
+              debug2: ":messages.$1"
+            }
+          },
+        }
+      }
+    }    
   }
 
   /*
