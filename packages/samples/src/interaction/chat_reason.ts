@@ -62,13 +62,6 @@ export const graph_data = {
         ]
       }
     },
-    debug1: {
-      agent: "copyAgent",
-      isResult: true,
-      inputs: {
-        message: ":messages.$1"
-      }
-    },
     subGraph: {
       agent: "nestedAgent",
       inputs: {
@@ -89,14 +82,13 @@ export const graph_data = {
             },
             inputs: { messages: ":messages" },
           },
-          debug2: {
-            agent: "copyAgent",
+          parser: {
+            agent: "jsonParserAgent",
             console: {
               after: true,
             },
-            isResult: true,
             inputs: {
-              debug2: ":llm.text"
+              text: ":llm.text"
             }
           },
         }
