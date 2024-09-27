@@ -36,13 +36,14 @@ nodes:
         - propId: content
           from: 1
     inputs:
-      - role: user
-      - :userInput
+      array:
+        - role: user
+        - :userInput
   appendedMessages:
     agent: pushAgent
     inputs:
-      - :messages
-      - :userMessage
+      array: :messages
+      item: :userMessage
   llm:
     agent: openAIAgent
     params:
@@ -72,24 +73,23 @@ nodes:
                 - sex
                 - dob
     inputs:
-      - null
-      - :appendedMessages
+      messages: :appendedMessages
   argumentsParser:
     agent: jsonParserAgent
     inputs:
-      - :llm.choices.$0.message.tool_calls.$0.function.arguments
+      text: :llm.choices.$0.message.tool_calls.$0.function.arguments
     if: :llm.choices.$0.message.tool_calls
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mLlama3\e[0m: ${0}"
+      template: "\e[32mOpenAI\e[0m: ${content}"
     console:
       after: true
     inputs:
-      - :llm.choices.$0.message.content
+      content: :llm.choices.$0.message.content
     if: :llm.choices.$0.message.content
   reducer:
     agent: pushAgent
     inputs:
-      - :appendedMessages
-      - :llm.choices.$0.message
+      array: :appendedMessages
+      item: :llm.choices.$0.message
