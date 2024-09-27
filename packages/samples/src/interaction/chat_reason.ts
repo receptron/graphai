@@ -72,6 +72,10 @@ export const graph_data = {
           while: ":continue",
         },
         nodes: {
+          messages: {
+            value: [],
+            update: ":updatedMessages",
+          },
           continue: {
             value: true,
             update: ":evaluator.continue"
@@ -85,6 +89,20 @@ export const graph_data = {
               },
             },
             inputs: { messages: ":messages" },
+          },
+          message: {
+            agent: "copyAgent",
+            inputs: {
+              "role": "assistant",
+              "content": ":llm.text"
+            }
+          },
+          updatedMessages: {
+            agent: "pushAgent",
+            inputs: {
+              array: ":messages",
+              item: ":message",
+            }
           },
           parser: {
             agent: "jsonParserAgent",
