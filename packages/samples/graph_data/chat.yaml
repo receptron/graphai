@@ -31,8 +31,7 @@ nodes:
           from: 1
     inputs:
       array:
-        - role:
-            user
+        - role: user
         - :userInput
   appendedMessages:
     agent: pushAgent

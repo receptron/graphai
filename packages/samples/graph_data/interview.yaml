@@ -15,11 +15,11 @@ nodes:
             engage the audience, ask questions one by one, and respond to the
             answer before moving to the next topic.
         person1:
-          name: ${0}
-          system: You are ${0}.
-          greeting: Hi, I'm ${0}
+          name: ${name}
+          system: You are ${name}.
+          greeting: Hi, I'm ${name}
     inputs:
-      - :name
+      name: :name
   messages:
     agent: propertyFilterAgent
     params:

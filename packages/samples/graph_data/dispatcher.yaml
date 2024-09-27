@@ -13,20 +13,20 @@ nodes:
     agent: "openAIAgent"
     params:
       system: "あなたは、電話の取次かかりです。相手からの話をうまくきいて、どれにつなげばよいか判断してください"
-      tool_choice: 'auto'
+      tool_choice: "auto"
       tools:
-        - type: 'function'
+        - type: "function"
           function:
-            name: 'dispatchNextEvent'
-            description: 'Determine which department to respond to next'
+            name: "dispatchNextEvent"
+            description: "Determine which department to respond to next"
             parameters:
-              type: 'object'
-              properties: 
-                eventType: 
-                  type: 'string'
+              type: "object"
+              properties:
+                eventType:
+                  type: "string"
                   enum: ["返品", "支払いについて", "注文方法", "その他", "不良品"]
-                  description: 'The user name'
-            required: ['eventType']
+                  description: "The user name"
+            required: ["eventType"]
     inputs:
       prompt: :textInput
       messages: :history
