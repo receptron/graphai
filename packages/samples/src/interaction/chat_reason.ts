@@ -82,6 +82,11 @@ export const graph_data = {
           llm: {
             // Sends those messages to LLM to get a response.
             agent: "openAIAgent",
+            params: {
+              response_format: {
+                type: "json_object"
+              },
+            },
             inputs: { messages: ":messages" },
           },
           debug2: {
