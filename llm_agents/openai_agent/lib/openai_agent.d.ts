@@ -14,6 +14,7 @@ type OpenAIInputs = {
     stream?: boolean;
     messages?: Array<OpenAI.ChatCompletionMessageParam>;
     forWeb?: boolean;
+    response_format?: any;
 } & GraphAILLMInputBase;
 export declare const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs>;
 export declare const openAIMockAgent: AgentFunction<{
