@@ -69,9 +69,13 @@ export const graph_data = {
       },
       graph: {
         loop: {
-          count: 1,
+          while: ":continue",
         },
         nodes: {
+          continue: {
+            value: true,
+            update: ":evaluator.continue"
+          },
           llm: {
             // Sends those messages to LLM to get a response.
             agent: "openAIAgent",
@@ -84,6 +88,9 @@ export const graph_data = {
           },
           parser: {
             agent: "jsonParserAgent",
+            console: {
+              after: true,
+            },
             inputs: {
               text: ":llm.text"
             }
