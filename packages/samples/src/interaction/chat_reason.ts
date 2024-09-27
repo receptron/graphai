@@ -84,13 +84,40 @@ export const graph_data = {
           },
           parser: {
             agent: "jsonParserAgent",
-            console: {
-              after: true,
-            },
             inputs: {
               text: ":llm.text"
             }
           },
+          hack: {
+            agent: "pushAgent",
+            inputs: {
+              array: [{}],
+              item: ":parser.next_action"
+            }
+          },
+          debug2: {
+            agent: "copyAgent",
+            isResult: true,
+            inputs: {
+              array: ":hack" 
+            }
+          },
+          evaluator: {
+            console: {
+              before: true,
+              after: true,
+            },
+            agent: "propertyFilterAgent",
+            inputs: { 
+              array: ":hack" 
+            },
+            params: {
+              inspect: [
+                { propId: "continue", equal: "continue", from: 1 },
+              ],
+            },
+            // params: { inpect: [{ propId: "continue", equal: "continue", from: 1 }] },
+          }
         }
       }
     }    
