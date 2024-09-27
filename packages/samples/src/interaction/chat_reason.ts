@@ -7,14 +7,13 @@ export const graph_data = {
   version: 0.5,
   nodes: {
     userInput: {
-      value: "How may 'r' in strawberry?"
-      /*
-      // Receives an input from the user.
+      // Sample questions:
+      // - How many Rs are in strawberry?
+      // - Which is larger, .9 or .11?
       agent: "textInputAgent",
       params: {
         message: "Question:",
       },
-      */
     },
     userMessage: {
       agent: "propertyFilterAgent",
