@@ -29,7 +29,6 @@ export const graph_data = {
       params: { inject: [{ propId: "content", from: 1 }] },
     },
     messages: {
-      isResult: true,
       agent: "pushAgent",
       inputs: {
         array: [],
@@ -82,10 +81,7 @@ export const graph_data = {
         nodes: {
           llm: {
             // Sends those messages to LLM to get a response.
-            agent: "groqAgent",
-            params: {
-              model: "Llama3-8b-8192",
-            },
+            agent: "openAIAgent",
             inputs: { messages: ":messages" },
           },
           debug2: {
@@ -95,7 +91,7 @@ export const graph_data = {
             },
             isResult: true,
             inputs: {
-              debug2: ":llm"
+              debug2: ":llm.text"
             }
           },
         }
