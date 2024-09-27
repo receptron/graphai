@@ -17,13 +17,13 @@ export const graph_data = {
     },
     userMessage: {
       agent: "propertyFilterAgent",
-      inputs: { 
+      inputs: {
         array: [
           {
             role: "user",
           },
-          ":userInput"
-        ] 
+          ":userInput",
+        ],
       },
       params: { inject: [{ propId: "content", from: 1 }] },
     },
@@ -51,20 +51,20 @@ export const graph_data = {
                 "content": "To begin solving this problem, we need to carefully examine the given information and identify the crucial elements that will guide our solution process. This involves...",
                 "next_action": "continue"
               }
-            `
+            `,
           },
           ":userMessage",
           {
             role: "assistant",
-            content: "Thank you! I will now think step by step following my instructions, starting at the beginning after decomposing the problem."
-          }
-        ]
-      }
+            content: "Thank you! I will now think step by step following my instructions, starting at the beginning after decomposing the problem.",
+          },
+        ],
+      },
     },
     subGraph: {
       agent: "nestedAgent",
       inputs: {
-        messages: ":messages"
+        messages: ":messages",
       },
       graph: {
         loop: {
@@ -77,14 +77,14 @@ export const graph_data = {
           },
           continue: {
             value: true,
-            update: ":evaluator.continue"
+            update: ":evaluator.continue",
           },
           llm: {
             // Sends those messages to LLM to get a response.
             agent: "openAIAgent",
             params: {
               response_format: {
-                type: "json_object"
+                type: "json_object",
               },
             },
             inputs: { messages: ":messages" },
@@ -92,22 +92,22 @@ export const graph_data = {
           message: {
             agent: "copyAgent",
             inputs: {
-              "role": "assistant",
-              "content": ":llm.text"
-            }
+              role: "assistant",
+              content: ":llm.text",
+            },
           },
           updatedMessages: {
             agent: "pushAgent",
             inputs: {
               array: ":messages",
               item: ":message",
-            }
+            },
           },
           parser: {
             agent: "jsonParserAgent",
             inputs: {
-              text: ":llm.text"
-            }
+              text: ":llm.text",
+            },
           },
           output: {
             agent: "stringTemplateAgent",
@@ -117,32 +117,30 @@ export const graph_data = {
             params: { template: "\n[${title}]\n${content}" },
             inputs: {
               title: ":parser.title",
-              content: ":parser.content"
-            }
+              content: ":parser.content",
+            },
           },
           hack: {
             agent: "pushAgent",
             inputs: {
               array: [{}],
-              item: ":parser.next_action"
-            }
+              item: ":parser.next_action",
+            },
           },
           evaluator: {
             agent: "propertyFilterAgent",
-            inputs: { 
-              array: ":hack" 
+            inputs: {
+              array: ":hack",
             },
             params: {
-              inspect: [
-                { propId: "continue", equal: "continue", from: 1 },
-              ],
+              inspect: [{ propId: "continue", equal: "continue", from: 1 }],
             },
             // params: { inpect: [{ propId: "continue", equal: "continue", from: 1 }] },
-          }
-        }
-      }
-    }    
-  }
+          },
+        },
+      },
+    },
+  },
 };
 
 export const main = async () => {
