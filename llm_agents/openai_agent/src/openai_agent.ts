@@ -15,6 +15,7 @@ type OpenAIInputs = {
   stream?: boolean;
   messages?: Array<OpenAI.ChatCompletionMessageParam>;
   forWeb?: boolean;
+  response_format?: any;
 } & GraphAILLMInputBase;
 
 const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion) => {
@@ -48,7 +49,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   params,
   namedInputs,
 }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb, response_format } = {
     ...params,
     ...namedInputs,
   };
@@ -90,12 +91,13 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   const openai = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
 
   const chatParams = {
-    model: params.model || "gpt-3.5-turbo",
+    model: params.model || "gpt-4o",
     messages: messagesCopy as unknown as OpenAI.ChatCompletionMessageParam[],
     tools,
     tool_choice,
     max_tokens,
     temperature: temperature ?? 0.7,
+    response_format,
   };
 
   if (!stream) {
