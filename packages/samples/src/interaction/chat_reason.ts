@@ -7,11 +7,14 @@ export const graph_data = {
   version: 0.5,
   nodes: {
     userInput: {
+      value: "How may 'r' in strawberry?"
+      /*
       // Receives an input from the user.
       agent: "textInputAgent",
       params: {
         message: "Question:",
       },
+      */
     },
     userMessage: {
       agent: "propertyFilterAgent",
@@ -26,6 +29,7 @@ export const graph_data = {
       params: { inject: [{ propId: "content", from: 1 }] },
     },
     messages: {
+      isResult: true,
       agent: "pushAgent",
       inputs: {
         array: [],
@@ -73,9 +77,17 @@ export const graph_data = {
       },
       graph: {
         loop: {
-          count: 2,
+          count: 1,
         },
         nodes: {
+          llm: {
+            // Sends those messages to LLM to get a response.
+            agent: "groqAgent",
+            params: {
+              model: "Llama3-8b-8192",
+            },
+            inputs: { messages: ":messages" },
+          },
           debug2: {
             agent: "copyAgent",
             console: {
@@ -83,7 +95,7 @@ export const graph_data = {
             },
             isResult: true,
             inputs: {
-              debug2: ":messages.$1"
+              debug2: ":llm"
             }
           },
         }
