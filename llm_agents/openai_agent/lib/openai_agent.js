@@ -31,7 +31,7 @@ const convertOpenAIChatCompletion = (response) => {
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb, response_format } = {
         ...params,
         ...namedInputs,
     };
@@ -66,12 +66,13 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     }
     const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
     const chatParams = {
-        model: params.model || "gpt-3.5-turbo",
+        model: params.model || "gpt-4o",
         messages: messagesCopy,
         tools,
         tool_choice,
         max_tokens,
         temperature: temperature ?? 0.7,
+        response_format,
     };
     if (!stream) {
         const result = await openai.chat.completions.create(chatParams);

@@ -38,12 +38,14 @@
           }
         ]
       },
-      "inputs": [
-        {
-          "role": "user"
-        },
-        ":userInput"
-      ]
+      "inputs": {
+        "array": [
+          {
+            "role": "user"
+          },
+          ":userInput"
+        ]
+      }
     },
     "appendedMessages": {
       "agent": "pushAgent",
@@ -91,18 +93,22 @@
     },
     "argumentsParser": {
       "agent": "jsonParserAgent",
-      "inputs": [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
+      "inputs": {
+        "text": ":llm.choices.$0.message.tool_calls.$0.function.arguments"
+      },
       "if": ":llm.choices.$0.message.tool_calls"
     },
     "output": {
       "agent": "stringTemplateAgent",
       "params": {
-        "template": "\u001b[32mAgent\u001b[0m: ${0}"
+        "template": "\u001b[32mAgent\u001b[0m: ${content}"
       },
       "console": {
         "after": true
       },
-      "inputs": [":llm.choices.$0.message.content"],
+      "inputs": {
+        "content": ":llm.choices.$0.message.content"
+      },
       "if": ":llm.choices.$0.message.content"
     },
     "reducer": {
