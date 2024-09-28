@@ -23,8 +23,9 @@ nodes:
         - propId: continue
           notEqual: /bye
     inputs:
-      - {}
-      - :userInput
+      array:
+        - {}
+        - :userInput
   userMessage:
     agent: propertyFilterAgent
     params:
@@ -32,8 +33,9 @@ nodes:
         - propId: content
           from: 1
     inputs:
-      - role: user
-      - :userInput
+      array:
+        - role: user
+        - :userInput
   messagesWithUserInput:
     agent: pushAgent
     inputs:
@@ -61,16 +63,15 @@ nodes:
                 - latitude
                 - longitude
     inputs:
-      - null
-      - :messagesWithUserInput
+      array: :messagesWithUserInput
   output:
     agent: stringTemplateAgent
     params:
-      template: "Weather: ${0}"
+      template: "Weather: ${content}"
     console:
       after: true
     inputs:
-      - :llmCall.choices.$0.message.content
+      content: :llmCall.choices.$0.message.content
     if: :llmCall.choices.$0.message.content
   messagesWithFirstRes:
     agent: pushAgent
@@ -88,22 +89,22 @@ nodes:
         outputFetching:
           agent: stringTemplateAgent
           params:
-            template: "... fetching weather info: ${0}"
+            template: "... fetching weather info: ${message}"
           console:
             after: true
           inputs:
-            - :tool_calls.$0.function.arguments
+            message: :tool_calls.$0.function.arguments
         parser:
           agent: jsonParserAgent
           inputs:
-            - :tool_calls.$0.function.arguments
+            text: :tool_calls.$0.function.arguments
         urlPoints:
           agent: stringTemplateAgent
           params:
-            template: https://api.weather.gov/points/${0},${1}
+            template: https://api.weather.gov/points/${lat},${lng}
           inputs:
-            - :parser.latitude
-            - :parser.longitude
+            lat: :parser.latitude
+            lng: :parser.longitude
         fetchPoints:
           agent: fetchAgent
           inputs:
@@ -122,10 +123,10 @@ nodes:
         extractError:
           agent: stringTemplateAgent
           params:
-            template: "${0}: ${1}"
+            template: "${title}: ${detail}"
           inputs:
-            - :fetchPoints.onError.error.title
-            - :fetchPoints.onError.error.detail
+            title: :fetchPoints.onError.error.title
+            detail: :fetchPoints.onError.error.detail
           if: :fetchPoints.onError
         responseText:
           agent: copyAgent

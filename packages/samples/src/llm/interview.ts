@@ -1,6 +1,5 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 
 const system_interviewer =
@@ -10,12 +9,14 @@ export const graph_data = {
   version: 0.5,
   nodes: {
     name: {
+      // Asks the user to enter the name of the person to interview.
       agent: "textInputAgent",
       params: {
         message: "Name of a famous person you want to interview:",
       },
     },
     context: {
+      // prepares the context for this interview.
       agent: "stringTemplateAgent",
       params: {
         template: {
@@ -30,9 +31,13 @@ export const graph_data = {
           },
         },
       },
-      inputs: { name: ":name" },
+      inputs: { name: [":name"] },
+      console: {
+        after: true,
+      },
     },
     messages: {
+      // Prepares the conversation with one system message and one user message
       agent: "propertyFilterAgent",
       params: {
         inject: [
@@ -51,6 +56,7 @@ export const graph_data = {
       inputs: { array: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
     },
     chat: {
+      // performs the conversation using nested graph
       agent: "nestedAgent",
       inputs: { messages: ":messages", context: ":context" },
       isResult: true,
@@ -60,27 +66,26 @@ export const graph_data = {
         },
         nodes: {
           messages: {
-            // This node holds the conversation, array of messages.
-            value: [], // to be filled with inputs[0]
+            // Holds the conversation, array of messages.
+            value: [], // filled with inputs[0]
             update: ":swappedMessages",
             isResult: true,
           },
           context: {
-            value: {}, // te be mfilled with inputs[1]
+            // Holds the context, which is swapped for each iteration.
+            value: {}, // filled with inputs[1]
             update: ":swappedContext",
           },
-          llm: {
-            // This node sends those messages to the llm to get the answer.
-            agent: "openAIAgent",
+          groq: {
+            // Sends those messages to the LLM to get a response.
+            agent: "groqAgent",
             params: {
-              model: "llama3",
-              baseURL: "http://127.0.0.1:11434/v1",
-              apiKey: "ollama",
+              model: "Llama3-8b-8192",
             },
             inputs: { messages: ":messages" },
           },
           output: {
-            // This node displays the responce to the user.
+            // Displays the response to the user.
             agent: "stringTemplateAgent",
             params: {
               template: "\x1b[32m${name}:\x1b[0m ${message}\n",
@@ -88,14 +93,15 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: { message: ":llm.choices.$0.message.content", name: ":context.person0.name" },
+            inputs: { message: ":groq.choices.$0.message.content", name: ":context.person0.name" },
           },
           reducer: {
-            // This node append the responce to the messages.
+            // Appends the response to the messages.
             agent: "pushAgent",
-            inputs: { array: ":messages", item: ":llm.choices.$0.message" },
+            inputs: { array: ":messages", item: ":groq.choices.$0.message" },
           },
           swappedContext: {
+            // Swaps the context
             agent: "propertyFilterAgent",
             params: {
               swap: {
@@ -105,6 +111,7 @@ export const graph_data = {
             inputs: { item: ":context" },
           },
           swappedMessages: {
+            // Swaps the user and assistant of messages
             agent: "propertyFilterAgent",
             params: {
               inject: [
@@ -134,7 +141,7 @@ export const main = async () => {
     __dirname + "/../",
     __filename,
     graph_data,
-    { ...agents, ...llm_agents },
+    { ...agents },
     () => {},
     false,
   );

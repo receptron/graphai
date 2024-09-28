@@ -1,6 +1,5 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as llm_agents from "@/index";
 import * as agents from "@graphai/agents";
 import * as path from "path";
 import * as fs from "fs";
@@ -61,7 +60,7 @@ const graph_data = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents, ...llm_agents });
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, { ...agents });
   console.log(result.review);
 };
 
