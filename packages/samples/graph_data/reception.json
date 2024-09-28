@@ -72,21 +72,14 @@
                   "sex": {
                     "type": "string",
                     "description": "Gender of the patient.",
-                    "enum": [
-                      "male",
-                      "female"
-                    ]
+                    "enum": ["male", "female"]
                   },
                   "dob": {
                     "type": "string",
                     "description": "Patient's date of birth."
                   }
                 },
-                "required": [
-                  "name",
-                  "sex",
-                  "dob"
-                ]
+                "required": ["name", "sex", "dob"]
               }
             }
           }
@@ -98,9 +91,7 @@
     },
     "argumentsParser": {
       "agent": "jsonParserAgent",
-      "inputs": [
-        ":llm.choices.$0.message.tool_calls.$0.function.arguments"
-      ],
+      "inputs": [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
       "if": ":llm.choices.$0.message.tool_calls"
     },
     "output": {
@@ -111,9 +102,7 @@
       "console": {
         "after": true
       },
-      "inputs": [
-        ":llm.choices.$0.message.content"
-      ],
+      "inputs": [":llm.choices.$0.message.content"],
       "if": ":llm.choices.$0.message.content"
     },
     "reducer": {
