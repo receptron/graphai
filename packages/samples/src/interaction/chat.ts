@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as llm_agents from "@/index";
+import * as llm_agents from "@graphai/llm_agents";
 import * as agents from "@graphai/agents";
 
 export const graph_data = {
@@ -60,14 +60,17 @@ export const graph_data = {
     },
     llm: {
       // Sends those messages to LLM to get a response.
-      agent: "anthropicAgent",
+      agent: "groqAgent",
+      params: {
+        model: "Llama3-8b-8192",
+      },
       inputs: { messages: ":appendedMessages" },
     },
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLLM\x1b[0m: ${message}",
+        template: "\x1b[32mAgent\x1b[0m: ${message}",
       },
       console: {
         after: true,

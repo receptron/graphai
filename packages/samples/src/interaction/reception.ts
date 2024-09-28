@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as llm_agents from "@/index";
+import * as llm_agents from "@graphai/llm_agents";
 import * as agents from "@graphai/agents";
 
 const tools = [
@@ -91,8 +91,9 @@ export const graph_data = {
     },
     llm: {
       // Sends those messages to LLM to get a response.
-      agent: "geminiAgent",
+      agent: "openAIAgent",
       params: {
+        model: "gpt-4o",
         tools,
       },
       inputs: { messages: ":appendedMessages" },
@@ -100,19 +101,19 @@ export const graph_data = {
     argumentsParser: {
       // Parses the function arguments
       agent: "jsonParserAgent",
-      inputs: { text: [":llm.choices.$0.message.tool_calls.$0.function.arguments"] },
+      inputs: { text: ":llm.choices.$0.message.tool_calls.$0.function.arguments" },
       if: ":llm.choices.$0.message.tool_calls",
     },
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLlama3\x1b[0m: ${message}",
+        template: "\x1b[32mAgent\x1b[0m: ${message}",
       },
       console: {
         after: true,
       },
-      inputs: { message: ":llm.choices.$0.message.content" },
+      inputs: { message: [":llm.choices.$0.message.content"] },
       if: ":llm.choices.$0.message.content",
     },
     reducer: {
