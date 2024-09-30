@@ -19,9 +19,8 @@ nodes:
        - propId: continue
          notEqual: /bye
     inputs:
-      array:
-        - dummy: 1
-        - ":userInput"
+      - dummy: 1
+      - ":userInput"
   userMessage:
     agent: propertyFilterAgent
     params:
@@ -29,9 +28,8 @@ nodes:
         - propId: content
           from: 1
     inputs:
-      array:
-        - role: user
-        - :userInput
+      - role: user
+      - :userInput
   appendedMessages:
     agent: pushAgent
     inputs:
@@ -52,5 +50,5 @@ nodes:
   reducer:
     agent: pushAgent
     inputs:
-      array: appendedMessages
+      array: :appendedMessages
       item: :llm.text
