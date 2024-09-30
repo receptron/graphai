@@ -99,13 +99,6 @@
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.19.0.tgz#02cb718e596d390e5356dfb71ab8316acca72a41"
   integrity sha512-iGf/62v3sTwtEJGJY6S5m7PfkglU8hi1URaxqIjiRg1OItV27xyc4aVeR0og8cDkZFkUlGZKv+23bJtT1QWFzQ==
 
-"@graphai/vanilla@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@graphai/vanilla/-/vanilla-0.0.14.tgz#524e1d307726b6addce1963b70ad529666698768"
-  integrity sha512-c/rvY3opbTx2kB4fr16iVPasYLRjDItq8ioTWLS5lNweYeUAvvRMxbUFN/kmCWhxBAeV0vQyGeqMVs8prfPSfw==
-  dependencies:
-    "@graphai/agent_utils" "0.0.2"
-
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
