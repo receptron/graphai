@@ -30,7 +30,7 @@ nodes:
     inputs:
       - role: user
       - :userInput
-  appendedMessages:
+  appender:
     agent: pushAgent
     inputs:
       array: :messages
@@ -38,7 +38,7 @@ nodes:
   llm:
     agent: openAIAgent
     inputs:
-      messages: :appendedMessages
+      messages: :appender
   output:
     agent: stringTemplateAgent
     console:
@@ -50,5 +50,5 @@ nodes:
   reducer:
     agent: pushAgent
     inputs:
-      array: :appendedMessages
+      array: :appender
       item: :llm.choices.$0.message
