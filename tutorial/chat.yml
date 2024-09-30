@@ -51,4 +51,4 @@ nodes:
     agent: pushAgent
     inputs:
       array: :appendedMessages
-      item: :llm.text
+      item: :llm.choices.$0.message
