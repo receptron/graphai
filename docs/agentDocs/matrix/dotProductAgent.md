@@ -15,20 +15,11 @@ dotProduct Agent
   "properties": {
     "matrix": {
       "type": "array",
-      "description": "two dimentional matrix",
-      "items": {
-        "type": "array",
-        "items": {
-          "type": "number"
-        }
-      }
+      "description": "two dimentional matrix"
     },
     "vector": {
       "type": "array",
-      "description": "the vector",
-      "items": {
-        "type": "number"
-      }
+      "description": "the vector"
     }
   },
   "required": [

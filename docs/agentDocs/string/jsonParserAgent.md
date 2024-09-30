@@ -93,12 +93,12 @@ Template agent
 
 ```json
 
-{
-  "data": {
+[
+  {
     "apple": "red",
     "lemon": "yellow"
   }
-}
+]
 
 ````
 
@@ -106,7 +106,7 @@ Template agent
 
 ```json
 
-{}
+{"stringify":true}
 
 ````
 
@@ -123,9 +123,9 @@ Template agent
 
 ```json
 
-{
-  "text": "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
-}
+[
+  "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
+]
 
 ````
 
@@ -153,9 +153,9 @@ Template agent
 
 ```json
 
-{
-  "text": "```\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
-}
+[
+  "```\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+]
 
 ````
 
@@ -183,9 +183,9 @@ Template agent
 
 ```json
 
-{
-  "text": "```json\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
-}
+[
+  "```json\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+]
 
 ````
 
@@ -213,9 +213,9 @@ Template agent
 
 ```json
 
-{
-  "text": "```JSON\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
-}
+[
+  "```JSON\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+]
 
 ````
 

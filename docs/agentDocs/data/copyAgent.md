@@ -2,7 +2,7 @@
 
 ## Description
 
-Returns namedInputs
+Returns inputs[0]
 
 ## Schema
 
@@ -11,20 +11,7 @@ Returns namedInputs
 ```json
 
 {
-  "anyOf": [
-    {
-      "type": "string"
-    },
-    {
-      "type": "integer"
-    },
-    {
-      "type": "object"
-    },
-    {
-      "type": "array"
-    }
-  ]
+  "type": "array"
 }
 
 ````
@@ -34,20 +21,7 @@ Returns namedInputs
 ```json
 
 {
-  "anyOf": [
-    {
-      "type": "string"
-    },
-    {
-      "type": "integer"
-    },
-    {
-      "type": "object"
-    },
-    {
-      "type": "array"
-    }
-  ]
+  "type": "any"
 }
 
 ````
@@ -66,10 +40,7 @@ Returns namedInputs
 ```json
 
 [
-  ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$1"
+  ":agentId"
 ]
 
 ````
@@ -82,10 +53,12 @@ Returns namedInputs
 
 ```json
 
-{
-  "color": "red",
-  "model": "Model 3"
-}
+[
+  {
+    "color": "red",
+    "model": "Model 3"
+  }
+]
 
 ````
 
@@ -113,12 +86,10 @@ Returns namedInputs
 
 ```json
 
-{
-  "array": [
-    "Hello World",
-    "Discarded"
-  ]
-}
+[
+  "Hello World",
+  "Discarded"
+]
 
 ````
 
@@ -134,12 +105,7 @@ Returns namedInputs
 
 ```json
 
-{
-  "array": [
-    "Hello World",
-    "Discarded"
-  ]
-}
+"Hello World"
 
 ````
 

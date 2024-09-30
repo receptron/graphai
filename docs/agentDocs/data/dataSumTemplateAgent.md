@@ -11,19 +11,7 @@ Returns the sum of input values
 ```json
 
 {
-  "type": "object",
-  "properties": {
-    "array": {
-      "type": "array",
-      "description": "the array of numbers to calculate the sum of",
-      "items": {
-        "type": "integer"
-      }
-    }
-  },
-  "required": [
-    "array"
-  ]
+  "type": "array"
 }
 
 ````
@@ -70,11 +58,9 @@ Returns the sum of input values
 
 ```json
 
-{
-  "array": [
-    1
-  ]
-}
+[
+  1
+]
 
 ````
 
@@ -99,12 +85,10 @@ Returns the sum of input values
 
 ```json
 
-{
-  "array": [
-    1,
-    2
-  ]
-}
+[
+  1,
+  2
+]
 
 ````
 
@@ -129,13 +113,11 @@ Returns the sum of input values
 
 ```json
 
-{
-  "array": [
-    1,
-    2,
-    3
-  ]
-}
+[
+  1,
+  2,
+  3
+]
 
 ````
 
