@@ -35,7 +35,7 @@ export const arxivAgent: AgentFunction<{ keywords: string[]; limit: number }, ar
 };
 
 export const arxiv2TextAgent: AgentFunction<Record<string, unknown>, Record<string, unknown>, string[]> = async (context) => {
-  const result = (context.inputs[0] || [])
+  const result = (context.namedInputs.array || [])
     .map((r: any) => {
       const { id, title, summary } = r;
       return ["id:", id, "title:", title, "summary:", summary].join("\n");

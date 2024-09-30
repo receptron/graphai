@@ -73,7 +73,8 @@ const main = async () => {
             graph.onLogCallback = test_utils_1.callbackLog;
         }
         try {
-            const results = await graph.run();
+            const resultAll = !!args_1.args.all;
+            const results = await graph.run(resultAll);
             console.log(JSON.stringify(results, null, 2));
         }
         catch (e) {

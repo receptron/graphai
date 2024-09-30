@@ -7,14 +7,15 @@ const OpenAI_embedding_API = "https://api.openai.com/v1/embeddings";
 //
 // Parameters:
 //   model: Specifies the model (default is "text-embedding-3-small")
-// Inputs:
-//   inputs[0]: Array<string>
+// NamedInputs:
+//   array: Array<string>
+//   item: string,
 // Result:
 //   contents: Array<Array<number>>
 //
-const stringEmbeddingsAgent = async ({ params, inputs }) => {
-    const input = inputs[0];
-    const sources = Array.isArray(input) ? input : [input];
+const stringEmbeddingsAgent = async ({ params, namedInputs }) => {
+    const { array, item } = namedInputs;
+    const sources = array ?? [item];
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
         throw new Error("OPENAI_API_KEY key is not set in environment variables.");

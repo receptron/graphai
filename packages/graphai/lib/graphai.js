@@ -44,7 +44,7 @@ class GraphAI {
         return (0, utils_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source);
     }
     // for static
-    initializeNodes(previousResults) {
+    initializeStaticNodes() {
         // If the result property is specified, inject it.
         // If the previousResults exists (indicating we are in a loop),
         // process the update property (nodeId or nodeId.propId).
@@ -55,6 +55,16 @@ class GraphAI {
                 if (value !== undefined) {
                     this.injectValue(nodeId, value, nodeId);
                 }
+            }
+        });
+    }
+    updateStaticNodes(previousResults) {
+        // If the result property is specified, inject it.
+        // If the previousResults exists (indicating we are in a loop),
+        // process the update property (nodeId or nodeId.propId).
+        Object.keys(this.data.nodes).forEach((nodeId) => {
+            const node = this.nodes[nodeId];
+            if (node?.isStaticNode) {
                 const update = node?.update;
                 if (update && previousResults) {
                     const result = this.getValueFromResults(update, previousResults);
@@ -95,7 +105,7 @@ class GraphAI {
         };
         (0, validator_1.validateGraphData)(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
         this.nodes = this.createNodes(data);
-        this.initializeNodes();
+        this.initializeStaticNodes();
     }
     getAgentFunctionInfo(agentId) {
         if (agentId && this.agentFunctionInfoDictionary[agentId]) {
@@ -209,11 +219,13 @@ class GraphAI {
     processLoopIfNecessary() {
         this.repeatCount++;
         const loop = this.loop;
-        if (loop && (loop.count === undefined || this.repeatCount < loop.count)) {
-            const results = this.results(true); // results from previous loop
-            this.nodes = this.createNodes(this.data);
-            this.initializeNodes(results);
-            // Notice that we need to check the while condition *after* calling initializeNodes.
+        if (!loop) {
+            return false;
+        }
+        // We need to update static nodes, before checking the condition
+        const previousResults = this.results(true); // results from previous loop
+        this.updateStaticNodes(previousResults);
+        if (loop.count === undefined || this.repeatCount < loop.count) {
             if (loop.while) {
                 const source = (0, utils_1.parseNodeName)(loop.while, this.version);
                 const value = this.getValueFromResults(source, this.results(true));
@@ -222,6 +234,9 @@ class GraphAI {
                     return false; // while condition is not met
                 }
             }
+            this.nodes = this.createNodes(this.data);
+            this.initializeStaticNodes();
+            this.updateStaticNodes(previousResults);
             this.pushReadyNodesIntoQueue();
             return true; // Indicating that we are going to continue.
         }

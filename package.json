@@ -7,23 +7,27 @@
     "build": "yarn workspaces run build",
     "eslint": "yarn workspaces run eslint",
     "format": "yarn workspaces run format",
+    "doc": "yarn workspaces run doc",
     "sample": "npx ts-node docs/async/sample1.ts"
   },
   "private": true,
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@types/node": "^20.14.12",
-    "eslint": "^9.7.0",
+    "@types/node": "^22.5.5",
+    "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.8.0",
+    "globals": "^15.9.0",
     "prettier": "^3.3.2",
-    "rollup": "^4.18.0",
+    "rollup": "^4.22.4",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^7.15.0"
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.6.0"
+  },
+  "resolutions": {
+    "string-width": "4.2.3"
   },
   "workspaces": [
     "packages/*",

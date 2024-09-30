@@ -22,6 +22,10 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Agents description
+- fetchAgent - Retrieves JSON data from the specified URL
+- wikipediaAgent - Retrieves data from wikipedia
+
 ### Input/Output/Params Schema & samples
  - [fetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/fetchAgent.md)
  - [wikipediaAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/wikipediaAgent.md)
@@ -53,17 +57,17 @@ const result = await graph.run();
       "agent": "copyAgent",
       "isResult": true,
       "unless": ":fetch.onError",
-      "inputs": [
-        true
-      ]
+      "inputs": {
+        "result": true
+      }
     },
     "error": {
       "agent": "copyAgent",
       "isResult": true,
       "if": ":fetch.onError",
-      "inputs": [
-        ":fetch.onError"
-      ]
+      "inputs": {
+        "error": ":fetch.onError"
+      }
     }
   }
 }
@@ -91,9 +95,9 @@ const result = await graph.run();
       "agent": "copyAgent",
       "isResult": true,
       "unless": ":fetch.onError",
-      "inputs": [
-        true
-      ]
+      "inputs": {
+        "result": true
+      }
     },
     "error": {
       "agent": "propertyFilterAgent",
@@ -105,9 +109,9 @@ const result = await graph.run();
       },
       "isResult": true,
       "if": ":fetch.onError",
-      "inputs": [
-        ":fetch.onError"
-      ]
+      "inputs": {
+        "item": ":fetch.onError"
+      }
     }
   }
 }

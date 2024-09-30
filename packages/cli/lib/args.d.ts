@@ -5,6 +5,7 @@ export declare const args: {
     sample: string | undefined;
     d: string | undefined;
     v: boolean;
+    a: boolean;
     m: boolean;
     yaml: boolean;
     json: boolean;

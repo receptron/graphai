@@ -22,6 +22,9 @@ test("test map_agent", async () => {
       },
     },
     inputs: [],
+    params: {
+      compositeResult: true,
+    },
     namedInputs: { rows: [{ fruit: "apple" }, { fruit: "orange" }] },
   });
   assert.deepStrictEqual(result, {
@@ -47,6 +50,9 @@ test("test map_agent 2", async () => {
       },
     },
     inputs: [],
+    params: {
+      compositeResult: true,
+    },
     namedInputs: { rows: ["apple", "orange", "banana", "lemon"] },
   });
   assert.deepStrictEqual(result, {
@@ -72,6 +78,9 @@ test("test map_agent 3", async () => {
       },
     },
     inputs: [],
+    params: {
+      compositeResult: true,
+    },
     namedInputs: { rows: ["apple", "orange", "banana", "lemon"], name: "You", verb: "like" },
   });
   assert.deepStrictEqual(result, {

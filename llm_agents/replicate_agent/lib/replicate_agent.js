@@ -15,7 +15,8 @@ const replicateAgent = async ({ params, namedInputs, }) => {
     // const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
     const replicate = new replicate_1.default();
     const output = await replicate.run(params.model, { input: { prompt: userPrompt } });
-    return { choices: [{ message: { role: "assistant", content: output.join("") } }] };
+    const content = output.join("");
+    return { choices: [{ message: { role: "assistant", content } }], text: content };
 };
 exports.replicateAgent = replicateAgent;
 const replicateAgentInfo = {

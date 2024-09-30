@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.copy2ArrayAgent = void 0;
-const copy2ArrayAgent = async ({ inputs, params }) => {
+const agent_utils_1 = require("@graphai/agent_utils");
+const copy2ArrayAgent = async ({ inputs, namedInputs, params }) => {
+    const input = (0, agent_utils_1.isNamedInputs)(namedInputs) ? namedInputs : inputs[0];
     return new Array(params.count).fill(undefined).map(() => {
-        return inputs[0];
+        return input;
     });
 };
 exports.copy2ArrayAgent = copy2ArrayAgent;
@@ -15,6 +17,22 @@ const copy2ArrayAgentInfo = {
     samples: [
         {
             inputs: [{ message: "hello" }],
+            params: { count: 10 },
+            result: [
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+                { message: "hello" },
+            ],
+        },
+        {
+            inputs: { message: "hello" },
             params: { count: 10 },
             result: [
                 { message: "hello" },

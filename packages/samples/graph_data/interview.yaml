@@ -1,0 +1,98 @@
+version: 0.5
+nodes:
+  name:
+    agent: textInputAgent
+    params:
+      message: "Name of a famous person you want to interview:"
+  context:
+    agent: stringTemplateAgent
+    params:
+      template:
+        person0:
+          name: Interviewer
+          system: You are a professional interviewer. It is your job to dig into the
+            personality of the person, making some tough questions. In order to
+            engage the audience, ask questions one by one, and respond to the
+            answer before moving to the next topic.
+        person1:
+          name: ${name}
+          system: You are ${name}.
+          greeting: Hi, I'm ${name}
+    inputs:
+      name: :name
+  messages:
+    agent: propertyFilterAgent
+    params:
+      inject:
+        - index: 0
+          propId: content
+          from: 1
+        - index: 1
+          propId: content
+          from: 2
+    inputs:
+      array:
+        - - role: system
+          - role: user
+        - :context.person0.system
+        - :context.person1.greeting
+  chat:
+    agent: nestedAgent
+    inputs:
+      messages: :messages
+      context: :context
+    isResult: true
+    graph:
+      loop:
+        count: 6
+      nodes:
+        messages:
+          value: []
+          update: :swappedMessages
+          isResult: true
+        context:
+          value: {}
+          update: :swappedContext
+        groq:
+          agent: groqAgent
+          params:
+            model: Llama3-8b-8192
+          inputs:
+            messages: :messages
+        output:
+          agent: stringTemplateAgent
+          params:
+            template: "\e[32m${name}:\e[0m ${content}\n"
+          console:
+            after: true
+          inputs:
+            content: :groq.choices.$0.message.content
+            name: :context.person0.name
+        reducer:
+          agent: pushAgent
+          inputs:
+            array: :messages
+            item: :groq.choices.$0.message
+        swappedContext:
+          agent: propertyFilterAgent
+          params:
+            swap:
+              person0: person1
+          inputs:
+            array:
+              - :context
+        swappedMessages:
+          agent: propertyFilterAgent
+          params:
+            inject:
+              - propId: content
+                index: 0
+                from: 1
+            alter:
+              role:
+                assistant: user
+                user: assistant
+          inputs:
+            array:
+              - :reducer
+              - :swappedContext.person0.system

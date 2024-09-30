@@ -20,12 +20,13 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
-### RelatedPackages
+### Related Agent Packages
  - [@graphai/data_agents](https://www.npmjs.com/package/@graphai/data_agents)
  - [@graphai/input_agents](https://www.npmjs.com/package/@graphai/input_agents)
  - [@graphai/llm_agents](https://www.npmjs.com/package/@graphai/llm_agents)
  - [@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)
  - [@graphai/sleeper_agents](https://www.npmjs.com/package/@graphai/sleeper_agents)
+ - [@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
 
 ### GraphData Example
 
@@ -189,9 +190,9 @@ const result = await graph.run();
           },
           "result": {
             "agent": "copyAgent",
-            "inputs": [
-              ":source"
-            ],
+            "inputs": {
+              "source": ":source"
+            },
             "isResult": true
           }
         }
@@ -210,9 +211,9 @@ const result = await graph.run();
         ]
       },
       "if": ":nested.onError",
-      "inputs": [
-        ":nested.onError"
-      ],
+      "inputs": {
+        "item": ":nested.onError"
+      },
       "isResult": true
     }
   }

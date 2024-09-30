@@ -10,7 +10,6 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
     const { model, system, temperature, max_tokens, prompt, messages, stream } = { ...params, ...namedInputs };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
-    // Notice that we ignore params.system if previous_message exists.
     const messagesCopy = messages ? messages.map((m) => m) : [];
     if (userPrompt) {
         messagesCopy.push({
@@ -31,7 +30,8 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
     if (!stream) {
         const message = await anthropic.messages.create(opt);
         // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
-        return { choices: [{ message: { role: message.role, content: message.content[0].text } }] };
+        const content = message.content[0].text;
+        return { choices: [{ message: { role: message.role, content } }], text: content };
     }
     const chatStream = await anthropic.messages.create({
         ...opt,
@@ -48,7 +48,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
             }
         }
     }
-    return { choices: [{ message: { role: "assistant", content: contents.join("") } }] };
+    return { choices: [{ message: { role: "assistant", content: contents.join("") } }], text: contents.join("") };
 };
 exports.anthropicAgent = anthropicAgent;
 const anthropicAgentInfo = {

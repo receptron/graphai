@@ -7,15 +7,37 @@ exports.openAIMockAgent = exports.openAIAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
 const llm_utils_1 = require("@graphai/llm_utils");
+const convertOpenAIChatCompletion = (response) => {
+    const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
+    const text = message && message.content ? message.content : null;
+    const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.function : null;
+    const tool = functionResponse
+        ? {
+            name: functionResponse.name,
+            arguments: (() => {
+                try {
+                    return JSON.parse(functionResponse?.arguments);
+                }
+                catch (__e) {
+                    return undefined;
+                }
+            })(),
+        }
+        : undefined;
+    return {
+        ...response,
+        text,
+        tool,
+    };
+};
 const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb } = {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb, response_format } = {
         ...params,
         ...namedInputs,
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
-    // Notice that we ignore params.system if previous_message exists.
-    const messagesCopy = messages ? messages.map((m) => m) : systemPrompt ? [{ role: "system", content: systemPrompt }] : [];
+    const messagesCopy = (0, llm_utils_1.getMessages)(systemPrompt, messages);
     if (userPrompt) {
         messagesCopy.push({
             role: "user",
@@ -44,20 +66,23 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     }
     const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
     const chatParams = {
-        model: params.model || "gpt-3.5-turbo",
+        model: params.model || "gpt-4o",
         messages: messagesCopy,
         tools,
         tool_choice,
         max_tokens,
         temperature: temperature ?? 0.7,
+        response_format,
     };
     if (!stream) {
-        return await openai.chat.completions.create(chatParams);
+        const result = await openai.chat.completions.create(chatParams);
+        return convertOpenAIChatCompletion(result);
     }
     const chatStream = openai.beta.chat.completions.stream({
         ...chatParams,
         stream: true,
     });
+    // streaming
     for await (const message of chatStream) {
         const token = message.choices[0].delta.content;
         if (filterParams && filterParams.streamTokenCallback && token) {
@@ -65,7 +90,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
         }
     }
     const chatCompletion = await chatStream.finalChatCompletion();
-    return chatCompletion;
+    return convertOpenAIChatCompletion(chatCompletion);
 };
 exports.openAIAgent = openAIAgent;
 const input_sample = "this is response result";

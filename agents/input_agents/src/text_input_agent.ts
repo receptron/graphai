@@ -1,8 +1,16 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import input from "@inquirer/input";
 
-export const textInputAgent: AgentFunction<{ message?: string }, string | { [x: string]: string }> = async ({ params }) => {
-  return await input({ message: params.message ?? "Enter" });
+export const textInputAgent: AgentFunction<{ message?: string; required: boolean }, string | { [x: string]: string }> = async ({ params }) => {
+  const { message, required } = params;
+
+  while (true) {
+    const result = await input({ message: message ?? "Enter" });
+    // console.log(!required,  (result ?? '' !== ''), required);
+    if (!required || (result ?? "") !== "") {
+      return result;
+    }
+  }
 };
 
 const textInputAgentInfo: AgentFunctionInfo = {

@@ -1,18 +1,21 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import deepmerge from "deepmerge";
 
-export const dataObjectMergeTemplateAgent: AgentFunction = async ({ inputs }) => {
-  return inputs.reduce((tmp, input) => {
+type MegeDataType = Record<string, unknown>;
+export const dataObjectMergeTemplateAgent: AgentFunction<null, MegeDataType, null, { array: MegeDataType[] }> = async ({ namedInputs }) => {
+  return namedInputs.array.reduce((tmp: MegeDataType, input: MegeDataType) => {
     return deepmerge(tmp, input);
   }, {});
 };
 
 // for test and document
-const sampleInputs = [
-  { a: 1, b: 1 },
-  { a: 2, b: 2 },
-  { a: 3, b: 0, c: 5 },
-];
+const sampleInputs = {
+  array: [
+    { a: 1, b: 1 },
+    { a: 2, b: 2 },
+    { a: 3, b: 0, c: 5 },
+  ],
+};
 const sampleParams = {};
 const sampleResult = { a: 3, b: 0, c: 5 };
 
@@ -22,7 +25,7 @@ const dataObjectMergeTemplateAgentInfo: AgentFunctionInfo = {
   mock: dataObjectMergeTemplateAgent,
   samples: [
     {
-      inputs: [{ content1: "hello" }, { content2: "test" }],
+      inputs: { array: [{ content1: "hello" }, { content2: "test" }] },
       params: {},
       result: {
         content1: "hello",
@@ -30,14 +33,14 @@ const dataObjectMergeTemplateAgentInfo: AgentFunctionInfo = {
       },
     },
     {
-      inputs: [{ content1: "hello" }],
+      inputs: { array: [{ content1: "hello" }] },
       params: {},
       result: {
         content1: "hello",
       },
     },
     {
-      inputs: [{ content: "hello1" }, { content: "hello2" }],
+      inputs: { array: [{ content: "hello1" }, { content: "hello2" }] },
       params: {},
       result: {
         content: "hello2",
@@ -49,7 +52,7 @@ const dataObjectMergeTemplateAgentInfo: AgentFunctionInfo = {
       result: sampleResult,
     },
     {
-      inputs: [{ a: { b: { c: { d: "e" } } } }, { b: { c: { d: { e: "f" } } } }, { b: { d: { e: { f: "g" } } } }],
+      inputs: { array: [{ a: { b: { c: { d: "e" } } } }, { b: { c: { d: { e: "f" } } } }, { b: { d: { e: { f: "g" } } } }] },
       params: {},
       result: {
         a: { b: { c: { d: "e" } } },

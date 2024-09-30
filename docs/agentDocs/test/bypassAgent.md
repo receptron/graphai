@@ -32,7 +32,7 @@ bypass agent
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 
@@ -83,6 +83,17 @@ bypass agent
   ":agentId.$2.c",
   ":agentId.$3",
   ":agentId.$3.d"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.a",
+  ":agentId.b",
+  ":agentId.c",
+  ":agentId.d"
 ]
 
 ````
@@ -283,6 +294,41 @@ bypass agent
     "d": "xyz"
   }
 ]
+
+````
+### Sample4
+
+#### inputs
+
+```json
+
+{
+  "a": "123",
+  "b": "abc",
+  "c": "987",
+  "d": "xyz"
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": "123",
+  "b": "abc",
+  "c": "987",
+  "d": "xyz"
+}
 
 ````
 

@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bypassAgent = void 0;
-const bypassAgent = async ({ params, inputs }) => {
+const agent_utils_1 = require("@graphai/agent_utils");
+const bypassAgent = async ({ params, inputs, namedInputs }) => {
+    if ((0, agent_utils_1.isNamedInputs)(namedInputs)) {
+        return namedInputs;
+    }
     if (params && params.firstElement) {
         return inputs[0];
     }
@@ -48,6 +52,12 @@ const bypassAgentInfo = {
             ],
             params: { flat: 1 },
             result: [{ a: "123" }, { b: "abc" }, { c: "987" }, { d: "xyz" }],
+        },
+        // named
+        {
+            inputs: { a: "123", b: "abc", c: "987", d: "xyz" },
+            params: {},
+            result: { a: "123", b: "abc", c: "987", d: "xyz" },
         },
     ],
     description: "bypass agent",

@@ -1,0 +1,28 @@
+version: 0.5
+nodes:
+  searchArxiv:
+    params:
+      keywords:
+        - llm
+        - gpt
+      limit: 10
+    agent: arxivAgent
+  arxiv2TextAgent:
+    inputs:
+      array: ":searchArxiv"
+    agent: arxiv2TextAgent
+  slashGPTAgent:
+    inputs:
+      array:
+        - :arxiv2TextAgent.content
+    agent: slashGPTAgent
+    params:
+      query: |
+        与えられたそれぞれの論文の要点をまとめ、以下の項目で日本語で出力せよ。それぞれの項目は最大でも180文字以内に要約せよ。
+        ```
+        論文名:タイトルの日本語訳
+        キーワード:この論文のキーワード
+        課題:この論文が解決する課題
+        手法:この論文が提案する手法,
+        結果:提案手法によって得られた結果
+        ```

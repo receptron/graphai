@@ -6,15 +6,72 @@ nested Agent
 
 ## Schema
 
+#### inputs
 
+```json
 
-## Input Format
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "message"
+  ]
+}
 
+````
 
+## Input example of the next node
+
+```json
+
+[
+  ":agentId",
+  ":agentId.test",
+  ":agentId.test.$0"
+]
+
+````
 
 ## Samples
 
+### Sample0
 
+#### inputs
+
+```json
+
+{
+  "message": "hello"
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "test": [
+    "hello"
+  ]
+}
+
+````
 
 ## Author
 

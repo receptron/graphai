@@ -15,11 +15,20 @@ dotProduct Agent
   "properties": {
     "matrix": {
       "type": "array",
-      "description": "two dimentional matrix"
+      "description": "two dimentional matrix",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
     },
     "vector": {
       "type": "array",
-      "description": "the vector"
+      "description": "the vector",
+      "items": {
+        "type": "number"
+      }
     }
   },
   "required": [
@@ -40,7 +49,7 @@ dotProduct Agent
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

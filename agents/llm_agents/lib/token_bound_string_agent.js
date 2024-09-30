@@ -8,10 +8,10 @@ const encoder = (0, tiktoken_1.get_encoding)("cl100k_base");
 // adding one by one until the token count exceeds the specified limit.
 // Parameters:
 //  limit?: number; // specifies the maximum token count. The default is 5000.
-// Inputs:
-//  inputs[0]: Array<string>; // array of string sorted by relevance.
+// namedInputs:
+//  chunks: Array<string>; // array of string sorted by relevance.
 // Returns:
-//  { content: string } // reference text
+//  { content: string, tokenCount: number, endIndex: number } // reference text
 const tokenBoundStringsAgent = async ({ params, namedInputs }) => {
     const contents = namedInputs.chunks;
     const limit = params?.limit ?? defaultMaxToken;

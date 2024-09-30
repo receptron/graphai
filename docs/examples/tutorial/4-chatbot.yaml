@@ -1,0 +1,54 @@
+version: 0.5
+loop:
+  while: :continue
+nodes:
+  continue:
+    value: true
+    update: :checkInput.continue
+  messages:
+    value: []
+    update: :reducer
+  userInput:
+    agent: textInputAgent
+    params:
+      message: "You:"
+  checkInput:
+    agent: propertyFilterAgent
+    params:
+      inspect:
+        - propId: continue
+          notEqual: /bye
+    inputs:
+      - {}
+      - :userInput
+  userMessage:
+    agent: propertyFilterAgent
+    params:
+      inject:
+        - propId: content
+          from: 1
+    inputs:
+      - role: user
+      - :userInput
+  appendedMessages:
+    agent: pushAgent
+    inputs:
+      array: :messages
+      item: :userMessage
+  llm:
+    agent: openAIAgent
+    inputs:
+      messages: :appendedMessages
+  output:
+    agent: stringTemplateAgent
+    params:
+      template: "\e[32mLLM\e[0m: ${0}"
+    console:
+      after: true
+    inputs:
+      - :llm.choices.$0.message.content
+  reducer:
+    agent: pushAgent
+    inputs:
+      array: :appendedMessages
+      item: :llm.choices.$0.message

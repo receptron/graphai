@@ -1,6 +1,6 @@
 {
   "name": "@graphai/vanilla",
-  "version": "0.0.9",
+  "version": "0.0.14",
   "description": "Vanilla agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -28,7 +28,10 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "dependencies": {
+    "@graphai/agent_utils": "0.0.2"
+  },
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/README.md",
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

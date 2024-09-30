@@ -32,7 +32,7 @@ merge node id agent
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

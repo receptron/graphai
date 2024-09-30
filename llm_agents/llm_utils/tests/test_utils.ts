@@ -1,4 +1,4 @@
-import { flatString, getMergeValue } from "@/index";
+import { flatString, getMergeValue, getMessages } from "@/index";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -38,4 +38,74 @@ test("test getMergeValue", async () => {
 
   const res4 = getMergeValue({ mergeablePrompts: undefined }, { mergeablePrompts: "param1" }, "mergeablePrompts", "prompt1");
   assert.deepStrictEqual(res4, "param1");
+});
+
+test("test getMessages", async () => {
+  const res1 = getMessages();
+  assert.deepStrictEqual(res1, []);
+
+  const res2 = getMessages("hello");
+  assert.deepStrictEqual(res2, [
+    {
+      content: "hello",
+      role: "system",
+    },
+  ]);
+
+  const res3 = getMessages(undefined, [
+    {
+      content: "hello",
+      role: "user",
+    },
+  ]);
+  assert.deepStrictEqual(res3, [
+    {
+      content: "hello",
+      role: "user",
+    },
+  ]);
+
+  const res4 = getMessages("123", [
+    {
+      content: "hello",
+      role: "user",
+    },
+  ]);
+  assert.deepStrictEqual(res4, [
+    {
+      content: "123",
+      role: "system",
+    },
+    {
+      content: "hello",
+      role: "user",
+    },
+  ]);
+
+  const res5 = getMessages("123", [
+    {
+      content: [
+        {
+          type: "image",
+          image_url: "123",
+        },
+      ],
+      role: "user",
+    },
+  ]);
+  assert.deepStrictEqual(res5, [
+    {
+      content: "123",
+      role: "system",
+    },
+    {
+      content: [
+        {
+          type: "image",
+          image_url: "123",
+        },
+      ],
+      role: "user",
+    },
+  ]);
 });

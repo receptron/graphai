@@ -1,6 +1,6 @@
 {
   "name": "@graphai/groq_agent",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Groq agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -25,9 +25,9 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/groq_agent/README.md",
   "dependencies": {
-    "@graphai/llm_utils": "^0.0.1",
+    "@graphai/llm_utils": "^0.0.2",
     "groq-sdk": "^0.7.0"
   },
   "devDependencies": {},

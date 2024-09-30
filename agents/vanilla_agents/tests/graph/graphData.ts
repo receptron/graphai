@@ -47,7 +47,7 @@ export const dynamicGraphData2 = {
     },
     parser: {
       agent: "jsonParserAgent",
-      inputs: [":source"],
+      inputs: { text: ":source" },
     },
     nested: {
       agent: "nestedAgent",
@@ -65,7 +65,7 @@ export const dynamicGraphData3 = {
     },
     parser: {
       agent: "jsonParserAgent",
-      inputs: [":source"],
+      inputs: { text: ":source" },
     },
     nested: {
       agent: "nestedAgent",
@@ -91,7 +91,7 @@ export const nestedGraphData = {
         nodes: {
           result: {
             agent: "copyAgent",
-            inputs: [":inner0"],
+            inputs: { text: ":inner0" },
             isResult: true,
           },
         },
@@ -114,7 +114,7 @@ export const nestedGraphData2 = {
         nodes: {
           result: {
             agent: "copyAgent",
-            inputs: [":source"],
+            inputs: { text: ":source" },
             isResult: true,
           },
         },
@@ -151,6 +151,9 @@ export const graphDataMap1 = {
           },
         },
       },
+      params: {
+        compositeResult: true,
+      },
     },
     result: {
       agent: "sleeperAgent",
@@ -181,6 +184,9 @@ export const graphDataMap3 = {
           },
         },
       },
+      params: {
+        compositeResult: true,
+      },
     },
     result: {
       agent: "bypassAgent",
@@ -210,6 +216,9 @@ export const graphDataMap4 = {
             isResult: true,
           },
         },
+      },
+      params: {
+        compositeResult: true,
       },
     },
     result: {
@@ -242,6 +251,9 @@ export const graphDataMap5 = {
             isResult: true,
           },
         },
+      },
+      params: {
+        compositeResult: true,
       },
     },
     result: {
@@ -447,6 +459,9 @@ export const forkGraph = {
           },
         },
       },
+      params: {
+        compositeResult: true,
+      },
     },
     bypassAgent: {
       agent: "bypassAgent",
@@ -501,6 +516,9 @@ export const graphDataBypass2 = {
           },
         },
       },
+      params: {
+        compositeResult: true,
+      },
     },
     bypassAgent2: {
       agent: "bypassAgent",
@@ -542,6 +560,9 @@ export const graphDataBypass3 = {
           },
         },
       },
+      params: {
+        compositeResult: true,
+      },
     },
     bypassAgent4: {
       agent: "bypassAgent",
@@ -577,6 +598,9 @@ export const graphDataBypass4 = {
             isResult: true,
           },
         },
+      },
+      params: {
+        compositeResult: true,
       },
     },
     bypassAgent3: {

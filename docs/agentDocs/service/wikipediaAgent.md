@@ -11,21 +11,23 @@ Retrieves data from wikipedia
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "query"
+  ]
 }
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 
@@ -47,9 +49,9 @@ Retrieves data from wikipedia
 
 ```json
 
-[
-  "steve jobs"
-]
+{
+  "query": "steve jobs"
+}
 
 ````
 

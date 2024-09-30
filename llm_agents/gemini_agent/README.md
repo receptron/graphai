@@ -22,6 +22,9 @@ const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
+### Agents description
+- geminiAgent - Gemini Agent
+
 ### Input/Output/Params Schema & samples
  - [geminiAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/geminiAgent.md)
 

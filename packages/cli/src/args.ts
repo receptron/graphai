@@ -25,6 +25,13 @@ export const args = yargs
     default: false,
     type: "boolean",
   })
+  .option("a", {
+    alias: "all",
+    describe: "all result",
+    demandOption: true,
+    default: false,
+    type: "boolean",
+  })
   .option("m", {
     alias: "mermaid",
     describe: "mermaid",

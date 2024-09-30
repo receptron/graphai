@@ -58,7 +58,7 @@ Retrieves JSON data from the specified URL
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

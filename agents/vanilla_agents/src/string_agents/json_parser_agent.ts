@@ -1,20 +1,24 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 export const jsonParserAgent: AgentFunction<
+  null,
+  unknown,
+  null,
   {
-    stringify: boolean;
-  },
-  any,
-  any
-> = async ({ params, inputs }) => {
-  if (params.stringify) {
-    return JSON.stringify(inputs[0], null, 2);
+    text: string;
+    data: unknown;
   }
-  const match = ("\n" + inputs[0]).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+> = async ({ namedInputs }) => {
+  const { text, data } = namedInputs;
+
+  if (data) {
+    return JSON.stringify(data, null, 2);
+  }
+  const match = ("\n" + text).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
   if (match) {
     return JSON.parse(match[1]);
   }
-  return JSON.parse(inputs[0]);
+  return JSON.parse(text);
 };
 
 const sample_object = { apple: "red", lemon: "yellow" };
@@ -38,27 +42,27 @@ const jsonParserAgentInfo: AgentFunctionInfo = {
   },
   samples: [
     {
-      inputs: [sample_object],
-      params: { stringify: true },
+      inputs: { data: sample_object },
+      params: {},
       result: JSON.stringify(sample_object, null, 2),
     },
     {
-      inputs: [JSON.stringify(sample_object, null, 2)],
+      inputs: { text: JSON.stringify(sample_object, null, 2) },
       params: {},
       result: sample_object,
     },
     {
-      inputs: [md_json1],
+      inputs: { text: md_json1 },
       params: {},
       result: sample_object,
     },
     {
-      inputs: [md_json2],
+      inputs: { text: md_json2 },
       params: {},
       result: sample_object,
     },
     {
-      inputs: [md_json3],
+      inputs: { text: md_json3 },
       params: {},
       result: sample_object,
     },

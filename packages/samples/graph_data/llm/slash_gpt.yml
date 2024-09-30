@@ -1,0 +1,37 @@
+verbose: true
+version: 0.5
+nodes:
+  node1:
+    agent: slashGPTAgent
+    params:
+      query: "Come up with ten business ideas for AI startup"
+  node2:
+    agent: stringTemplateAgent
+    inputs:
+      idea: ":node1.$last.content"
+    params:
+      template: |
+        Please evaluate following business ideas.
+        ${idea}
+  node3:
+    agent: slashGPTAgent
+    inputs:
+      array:
+        - :node2
+  node4:
+    agent: stringTemplateAgent
+    inputs:
+      idea: :node1.$last.content
+      eval: :node3.$last.content
+    params:
+      template: |
+        Please pick the winner of this business idea contest.
+        [ideas]
+        ${idea}
+        [evalutations]
+        ${eval}
+  node5:
+    agent: slashGPTAgent
+    inputs:
+      array:
+        - :node4

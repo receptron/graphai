@@ -2,11 +2,11 @@ import { AgentFunction } from "graphai";
 import { select } from "@inquirer/prompts";
 
 export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
-  inputs,
+  namedInputs,
   params,
 }) => {
   const { resultKey, isReturnString } = params;
-  const choices = Array.from(inputs[0].keys()).map((k) => {
+  const choices = Array.from(namedInputs.array.keys()).map((k) => {
     return {
       name: "input_" + String(k),
       value: String(k),

@@ -53,7 +53,8 @@ const main = async () => {
       graph.onLogCallback = callbackLog;
     }
     try {
-      const results = await graph.run();
+      const resultAll = !!args.all;
+      const results = await graph.run(resultAll);
       console.log(JSON.stringify(results, null, 2));
     } catch (e) {
       console.log("error", e);

@@ -11,7 +11,7 @@
     "doc": "npx agentdoc",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "echo nothing",
+    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/sleeper_agents/README.md",
   "dependencies": {
     "deepmerge": "^4.3.1"
   },

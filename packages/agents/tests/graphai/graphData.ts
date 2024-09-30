@@ -106,7 +106,7 @@ export const validChildGraph = {
     },
     result: {
       agent: "copyAgent",
-      inputs: [":source"],
+      inputs: { source: ":source" },
       isResult: true,
     },
   },
@@ -129,7 +129,7 @@ export const graphDataNested = {
         include: ["message"],
       },
       if: ":nested.onError",
-      inputs: [":nested.onError"],
+      inputs: { item: ":nested.onError" },
       isResult: true,
     },
   },

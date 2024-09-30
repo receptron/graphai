@@ -1,5 +1,7 @@
 import { AgentFunctionInfo, defaultTestContext } from "graphai";
 
+import * as agents from "@graphai/vanilla";
+
 import test from "node:test";
 import assert from "node:assert";
 
@@ -22,6 +24,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
           inputSchema,
           namedInputs,
           graphData: graph,
+          agents,
         });
         assert.deepStrictEqual(actual, result);
       });

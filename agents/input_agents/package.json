@@ -12,6 +12,7 @@
     "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",
+    "test_run": "node -r tsconfig-paths/register --require ts-node/register ./test/run_agent.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
@@ -23,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/input_agents/README.md",
   "dependencies": {
     "@inquirer/prompts": "^5.0.0"
   },

@@ -1,4 +1,8 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const pushAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>>;
+export declare const pushAgent: AgentFunction<null, Array<unknown>, null, {
+    array: Array<unknown>;
+    item?: unknown;
+    items: Array<unknown>;
+}>;
 declare const pushAgentInfo: AgentFunctionInfo;
 export default pushAgentInfo;

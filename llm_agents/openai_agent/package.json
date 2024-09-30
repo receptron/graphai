@@ -1,6 +1,6 @@
 {
   "name": "@graphai/openai_agent",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "OpenAI agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -14,6 +14,7 @@
     "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/examples.ts",
     "test": "echo nothing",
     "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
+    "chat": "node -r tsconfig-paths/register -r ts-node/register ./tests/chat_dispatch.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
@@ -25,10 +26,10 @@
   "bugs": {
     "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/graphai#readme",
+  "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/README.md",
   "dependencies": {
-    "@graphai/llm_utils": "^0.0.1",
-    "openai": "^4.58.1",
+    "@graphai/llm_utils": "^0.0.2",
+    "openai": "^4.64.0",
     "tiktoken": "^1.0.16"
   },
   "devDependencies": {},

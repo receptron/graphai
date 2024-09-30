@@ -11,6 +11,7 @@
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
+    "doc": "echo nothing",
     "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
@@ -31,7 +32,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.21.0"
   },
   "types": "./lib/index.d.ts",
   "directories": {

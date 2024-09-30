@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sleeperAgent = void 0;
 const graphai_1 = require("graphai");
 const deepmerge_1 = __importDefault(require("deepmerge"));
-const sleeperAgent = async (context) => {
-    const { params, inputs } = context;
+const agent_utils_1 = require("@graphai/agent_utils");
+const sleeperAgent = async ({ params, inputs, namedInputs }) => {
     await (0, graphai_1.sleep)(params?.duration ?? 10);
-    return inputs.reduce((result, input) => {
+    return ((0, agent_utils_1.isNamedInputs)(namedInputs) ? namedInputs.array : inputs).reduce((result, input) => {
         return (0, deepmerge_1.default)(result, input);
     }, params.value ?? {});
 };
@@ -18,7 +18,29 @@ const sleeperAgentInfo = {
     name: "sleeperAgent",
     agent: exports.sleeperAgent,
     mock: exports.sleeperAgent,
-    samples: [],
+    samples: [
+        {
+            inputs: {},
+            params: { duration: 1 },
+            result: {},
+        },
+        {
+            inputs: [{ a: 1 }, { b: 2 }],
+            params: { duration: 1 },
+            result: {
+                a: 1,
+                b: 2,
+            },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { b: 2 }] },
+            params: { duration: 1 },
+            result: {
+                a: 1,
+                b: 2,
+            },
+        },
+    ],
     description: "sleeper Agent",
     category: ["sleeper"],
     author: "Receptron team",

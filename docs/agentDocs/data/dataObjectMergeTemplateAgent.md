@@ -11,28 +11,35 @@ Merge object
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [
-      "content1"
-    ],
-    "properties": {
-      "content1": {
-        "type": "string",
-        "minLength": 1
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "content1"
+        ],
+        "properties": {
+          "content1": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       }
     }
-  }
+  },
+  "required": [
+    "array"
+  ]
 }
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 
@@ -96,14 +103,16 @@ Merge object
 
 ```json
 
-[
-  {
-    "content1": "hello"
-  },
-  {
-    "content2": "test"
-  }
-]
+{
+  "array": [
+    {
+      "content1": "hello"
+    },
+    {
+      "content2": "test"
+    }
+  ]
+}
 
 ````
 
@@ -131,11 +140,13 @@ Merge object
 
 ```json
 
-[
-  {
-    "content1": "hello"
-  }
-]
+{
+  "array": [
+    {
+      "content1": "hello"
+    }
+  ]
+}
 
 ````
 
@@ -162,14 +173,16 @@ Merge object
 
 ```json
 
-[
-  {
-    "content": "hello1"
-  },
-  {
-    "content": "hello2"
-  }
-]
+{
+  "array": [
+    {
+      "content": "hello1"
+    },
+    {
+      "content": "hello2"
+    }
+  ]
+}
 
 ````
 
@@ -196,21 +209,23 @@ Merge object
 
 ```json
 
-[
-  {
-    "a": 1,
-    "b": 1
-  },
-  {
-    "a": 2,
-    "b": 2
-  },
-  {
-    "a": 3,
-    "b": 0,
-    "c": 5
-  }
-]
+{
+  "array": [
+    {
+      "a": 1,
+      "b": 1
+    },
+    {
+      "a": 2,
+      "b": 2
+    },
+    {
+      "a": 3,
+      "b": 0,
+      "c": 5
+    }
+  ]
+}
 
 ````
 
@@ -239,35 +254,37 @@ Merge object
 
 ```json
 
-[
-  {
-    "a": {
+{
+  "array": [
+    {
+      "a": {
+        "b": {
+          "c": {
+            "d": "e"
+          }
+        }
+      }
+    },
+    {
       "b": {
         "c": {
-          "d": "e"
+          "d": {
+            "e": "f"
+          }
         }
       }
-    }
-  },
-  {
-    "b": {
-      "c": {
+    },
+    {
+      "b": {
         "d": {
-          "e": "f"
+          "e": {
+            "f": "g"
+          }
         }
       }
     }
-  },
-  {
-    "b": {
-      "d": {
-        "e": {
-          "f": "g"
-        }
-      }
-    }
-  }
-]
+  ]
+}
 
 ````
 

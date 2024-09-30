@@ -67,7 +67,7 @@ const workerAgentInfo = {
         {
             inputs: [],
             params: {},
-            result: { message: "May the force be with you" },
+            result: { message: { text: "May the force be with you" } },
             graph: {
                 version: 0.5,
                 nodes: {
@@ -76,7 +76,7 @@ const workerAgentInfo = {
                     },
                     message: {
                         agent: "copyAgent",
-                        inputs: [":source"],
+                        inputs: { text: ":source" },
                         isResult: true,
                     },
                 },
@@ -85,7 +85,7 @@ const workerAgentInfo = {
         {
             inputs: ["May the force be with you"],
             params: {},
-            result: { message: "May the force be with you" },
+            result: { message: { text: "May the force be with you" } },
             graph: {
                 version: 0.5,
                 nodes: {
@@ -94,7 +94,7 @@ const workerAgentInfo = {
                     },
                     message: {
                         agent: "copyAgent",
-                        inputs: [":$0"],
+                        inputs: { text: ":$0" },
                         isResult: true,
                     },
                 },

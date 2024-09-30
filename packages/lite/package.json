@@ -10,6 +10,7 @@
     "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
+    "doc": "echo nothing",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'"
   },
   "repository": {

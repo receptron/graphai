@@ -53,7 +53,7 @@ This agent strip one long string into chunks using following parameters
 
 ````
 
-## Input Format
+## Input example of the next node
 
 ```json
 

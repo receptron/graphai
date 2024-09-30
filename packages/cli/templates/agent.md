@@ -8,7 +8,7 @@
 
 {schemas}
 
-## Input Format
+## Input example of the next node
 
 {resultKey}
 

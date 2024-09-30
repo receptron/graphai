@@ -15,13 +15,13 @@ export const graphDataFetch = {
       agent: "copyAgent",
       isResult: true,
       unless: ":fetch.onError",
-      inputs: [true],
+      inputs: { result: true },
     },
     error: {
       agent: "copyAgent",
       isResult: true,
       if: ":fetch.onError",
-      inputs: [":fetch.onError"],
+      inputs: { error: ":fetch.onError" },
     },
   },
 };
@@ -43,7 +43,7 @@ export const graphDataPost = {
       agent: "copyAgent",
       isResult: true,
       unless: ":fetch.onError",
-      inputs: [true],
+      inputs: { result: true },
     },
     error: {
       agent: "propertyFilterAgent",
@@ -52,7 +52,7 @@ export const graphDataPost = {
       },
       isResult: true,
       if: ":fetch.onError",
-      inputs: [":fetch.onError"],
+      inputs: { item: ":fetch.onError" },
     },
   },
 };

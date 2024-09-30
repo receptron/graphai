@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type AnthropicInputs = {
   model?: string;
@@ -11,7 +11,7 @@ type AnthropicInputs = {
   // tool_choice?: any;
   stream?: boolean;
   messages?: Array<Record<string, any>>;
-} & GrapAILLMInputBase;
+} & GraphAILLMInputBase;
 
 export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, string | Array<any>, AnthropicInputs> = async ({
   params,
@@ -23,7 +23,6 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
-  // Notice that we ignore params.system if previous_message exists.
   const messagesCopy: Array<any> = messages ? messages.map((m) => m) : [];
 
   if (userPrompt) {
@@ -47,7 +46,8 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
   if (!stream) {
     const message = await anthropic.messages.create(opt);
     // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
-    return { choices: [{ message: { role: message.role, content: (message.content[0] as Anthropic.TextBlock).text } }] };
+    const content = (message.content[0] as Anthropic.TextBlock).text;
+    return { choices: [{ message: { role: message.role, content } }], text: content };
   }
   const chatStream = await anthropic.messages.create({
     ...opt,
@@ -64,7 +64,7 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
       }
     }
   }
-  return { choices: [{ message: { role: "assistant", content: contents.join("") } }] };
+  return { choices: [{ message: { role: "assistant", content: contents.join("") } }], text: contents.join("") };
 };
 
 const anthropicAgentInfo: AgentFunctionInfo = {

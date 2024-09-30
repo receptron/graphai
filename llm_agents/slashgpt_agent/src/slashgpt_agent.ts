@@ -11,15 +11,18 @@ export const slashGPTAgent: AgentFunction<
     function_result?: boolean;
   },
   ChatData[],
-  string
-> = async ({ params, inputs, debugInfo: { verbose, nodeId }, filterParams }) => {
+  null,
+  {
+    array?: string[];
+  }
+> = async ({ params, namedInputs, debugInfo: { verbose, nodeId }, filterParams }) => {
   if (verbose) {
     console.log("executing", nodeId, params);
   }
   const session = new ChatSession(config, params.manifest ?? {});
 
   const query = params?.query ? [params.query] : [];
-  const contents = query.concat(inputs);
+  const contents = query.concat(namedInputs.array ?? []);
 
   session.append_user_question(contents.join("\n"));
   await session.call_loop(
@@ -39,7 +42,7 @@ const slashGPTAgentInfo: AgentFunctionInfo = {
   mock: slashGPTAgent,
   samples: [
     {
-      inputs: [],
+      inputs: {},
       params: {
         query: "Come up with ten business ideas for AI startup",
       },
