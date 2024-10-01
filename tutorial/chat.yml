@@ -19,7 +19,7 @@ nodes:
        - propId: continue
          notEqual: /bye
     inputs:
-      - dummy: 1
+      - {}
       - ":userInput"
   userMessage:
     agent: propertyFilterAgent
