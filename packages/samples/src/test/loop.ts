@@ -28,7 +28,7 @@ const graph_data = {
           prompt: "Describe about the person in less than 100 words",
         },
       },
-      inputs: {array: [":retriever.item"]},
+      inputs: { array: [":retriever.item"] },
     },
     reducer1: {
       agent: "popAgent",

@@ -21,7 +21,7 @@ const graph_data = {
     },
     fibonacci: {
       agent: "fibonacciAgent",
-      inputs: {prev: ":data"},
+      inputs: { prev: ":data" },
     },
   },
 };
