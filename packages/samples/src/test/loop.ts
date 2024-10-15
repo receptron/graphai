@@ -17,10 +17,6 @@ const graph_data = {
       value: [],
       update: ":reducer2",
     },
-    usage: {
-      value: {},
-      update: ":acountant",
-    },
     retriever: {
       agent: "shiftAgent",
       inputs: { array: ":people" },
@@ -32,7 +28,7 @@ const graph_data = {
           prompt: "Describe about the person in less than 100 words",
         },
       },
-      inputs: [":retriever.item"],
+      inputs: {array: [":retriever.item"]},
     },
     reducer1: {
       agent: "popAgent",
@@ -42,21 +38,12 @@ const graph_data = {
       agent: "pushAgent",
       inputs: { array: ":result", item: ":reducer1.item" },
     },
-    usageData: {
-      agent: "totalAgent",
-      inputs: [":reducer2"],
-    },
-    acountant: {
-      agent: "totalAgent",
-      inputs: [":usage", ":usageData.usage"],
-    },
   },
 };
 
 export const main = async () => {
   const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents);
   console.log(result.result);
-  console.log(result.usage);
   console.log("COMPLETE 1");
 };
 
