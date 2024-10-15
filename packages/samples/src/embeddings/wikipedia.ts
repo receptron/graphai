@@ -20,7 +20,7 @@ export const graph_data = {
         before: "...fetching data from wikkpedia",
       },
       agent: "wikipediaAgent",
-      inputs: [":source.name"],
+      inputs: { query: ":source.name" },
       params: {
         lang: "en",
       },
@@ -39,7 +39,7 @@ export const graph_data = {
         before: "...fetching embeddings for chunks",
       },
       agent: "stringEmbeddingsAgent",
-      inputs: [":chunks.contents"],
+      inputs: { item: ":chunks.contents" },
     },
     topicEmbedding: {
       // Get embedding vector of the topic
@@ -47,7 +47,7 @@ export const graph_data = {
         before: "...fetching embedding for the topic",
       },
       agent: "stringEmbeddingsAgent",
-      inputs: [":source.topic"],
+      inputs: { item: ":source.topic" },
     },
     similarityCheck: {
       // Get the cosine similarities of those vectors
@@ -70,9 +70,9 @@ export const graph_data = {
     prompt: {
       // Generate a prompt with that reference text
       agent: "stringTemplateAgent",
-      inputs: [":source.query", ":referenceText.content"],
+      inputs: { q: ":source.query", c: ":referenceText.content" },
       params: {
-        template: "Using the following document, ${0}\n\n${1}",
+        template: "Using the following document, ${c}\n\n${q}",
       },
     },
     RagQuery: {
@@ -95,7 +95,7 @@ export const graph_data = {
     },
     OneShotResult: {
       agent: "copyAgent",
-      inputs: [":OneShotQuery.choices.$0.message.content"],
+      inputs: { result: ":OneShotQuery.choices.$0.message.content" },
       isResult: true,
     },
   },
