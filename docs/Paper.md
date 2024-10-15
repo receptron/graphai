@@ -76,40 +76,52 @@ nodes:
       query: describe the final sentence by the court for Sam Bankman-Fried
   wikipedia: # (2)
     agentId: wikipediaAgent
-    inputs: [:source.name]
+    inputs: 
+      query: :source.name
   chunks: # (3) 
     agentId: stringSplitterAgent
-    inputs: [:wikipedia]
+    inputs:
+      text: :wikipedia
   chunkEmbeddings: # (4)
     agentId: stringEmbeddingsAgent
-    inputs: [:chunks]
+    inputs:
+      array: :chunks
   topicEmbedding: # (5) 
     agentId: stringEmbeddingsAgent
-    inputs: [:source.query]
+    inputs: 
+      item: :source.query
   similarities: # (6)
     agentId: dotProductAgent
-    inputs: [:chunkEmbeddings, :topicEmbedding.$0]
+    inputs:
+      matrix: :chunkEmbeddings
+      vector: :topicEmbedding.$0]
   sortedChunks: # (7) 
     agentId: sortByValuesAgent
-    inputs: [:chunks, :similarities]
+    inputs:
+      array: :chunks
+      values: :similarities]
   referenceText: # (8) 
     agentId: tokenBoundStringsAgent
-    inputs: [:sortedChunks]
+    inputs:
+      array: :sortedChunks
     params:
       limit: 5000
   prompt: # (9) 
     agentId: stringTemplateAgent
-    inputs: [:source.query, :referenceText]
+    inputs:
+      prompt: :source.query
+      text: :referenceText
     params:
       template: |-
-        Using the following document, ${0}
-        ${1}
+        Using the following document, ${prompt}
+        ${text}
   query: # (10)
     agentId: openAIAgent
     params:
       model: gpt-3.5-turbo
     isResult: true # indicating this is the final result
-    inputs: [:prompt]
+    inputs:
+      prompt: :prompt
 ```
 
 This application consists of 10 nodes. Each node responsible in either holding a data (*static data*) or performing some computations (*computed data*). A *computation node* is associated with a piece of code (*agent function*), which is specified by its *agentId* property. The *inputs* property of a *computation node* specifies the data sources for this node. 
@@ -171,19 +183,23 @@ Nested agents in GraphAI allow for complex workflows to be broken down into mana
 ```YAML
 nodes:
   parentNode:
-    agent: "nestedAgent"
-    inputs: { param1: ":inputData" }
+    agent: nestedAgent
+    inputs:
+      param1: :inputData
     graph:
       nodes:
         subTask1:
-          agent: "subTaskAgent1"
-          inputs: [":param1"]
+          agent: subTaskAgent1
+          inputs: 
+            param1: :param1
         subTask2:
-          agent: "subTaskAgent2"
-          inputs: [":subTask1"]
+          agent: subTaskAgent2
+          inputs:
+            param1: :subTask1
         result:
-          agent: "subTaskResultAgent"
-          inputs: [":subTask2"]
+          agent: subTaskResultAgent
+          inputs:
+            param1: :subTask2
           isResult: true
 ```
 
@@ -204,14 +220,15 @@ nodes:
   dataList:
     value: [data1, data2, data3]
   mapper:
-    agent: "mapAgent"
+    agent: mapAgent
     inputs: 
-      rows: ":dataList"
+      rows: :dataList
     graph:
       nodes:
         mapTask:
-          agent: "processDataAgent"
-          inputs: [":row"]
+          agent: processDataAgent
+          inputs: 
+            param1: :row
           isResult: true
 ```
 
@@ -233,7 +250,8 @@ nodes:
     value: true
   conditionalTask:
     agent: "conditionalAgent"
-    inputs: [":someData"]
+    inputs:
+      param1: :someData"
     if: ":decisionNode"
 ```
 
@@ -261,13 +279,17 @@ nodes:
       nodes:
         profile: 
           agent: fetchUserProfile
-          inputs: [":row"]
+          inputs: 
+            userName: :row
         posts: 
           agent: fetchUserPosts
-          inputs: [":row"]
+          inputs:
+            userName: ":row"
         combinedData: 
           agent: combineData
-          inputs: [":profile", ":posts"]
+          inputs: 
+            profile: :profile
+            posts: :posts
           isResult: true
 ```
 

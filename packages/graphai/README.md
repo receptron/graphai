@@ -22,42 +22,53 @@ nodes:
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia: // Retrieve data from Wikipedia
     agent: wikipediaAgent
-    inputs: [:source.name]
+    inputs:
+      query: :source.name
   chunks: // Break the text from Wikipedia into chunks (2048 character each with 512 overlap）
     agent: stringSplitterAgent
     inputs:
       text: :wikipedia
   chunkEmbeddings: // Get embedding vector of each chunk
     agent: stringEmbeddingsAgent
-    inputs: [:chunks]
+    inputs:
+      array: :chunks
   topicEmbedding: // Get embedding vector of the question
     agent: stringEmbeddingsAgent
-    inputs: [:source.query]
+    inputs:
+      item: :source.query
   similarities: // Calculate the cosine similarity of each chunk
     agent: dotProductAgent
-    inputs: [:chunkEmbeddings, :topicEmbedding]
+    inputs:
+      matrix: :chunkEmbeddings
+      vector: :topicEmbedding
   sortedChunks: // Sort chunks based on their similarities
     agent: sortByValuesAgent
-    inputs: [:chunks, :similarities]
+    inputs:
+      array: :chunks
+      values: :similarities
   referenceText: // Concatenate chunks up to the token limit (5000)
     agent: tokenBoundStringsAgent
-    inputs: [:sortedChunks]
+    inputs:
+      array: :sortedChunks
     params:
       limit: 5000
   prompt: // Generate a prompt with that reference text
     agent: stringTemplateAgent
-    inputs: [:source, :referenceText]
+    inputs:
+      prompt: :source
+      text: :referenceText
     params:
       template: |-
-        Using the following document, ${0}
-        ${1}
+        Using the following document, ${prompt}
+        ${text}
   query: // retrieves the answer from GPT3.5
     agent: slashGPTAgent
     params:
       manifest:
         model: gpt-3.5-turbo
     isResult: true // indicating this is the final result
-    inputs: [:prompt]
+    inputs:
+      prompt: :prompt
 ```
 
 ```mermaid
@@ -135,8 +146,10 @@ Here is an examnple (from [weather chat](https://github.com/receptron/graphai/bl
 ```typescript
     messagesWithUserInput: {
       // Appends the user's input to the messages.
-      agent: (messages: Array<any>, content: string) => [...messages, { role: "user", content }],
-      inputs: [":messages", ":userInput"],
+      agent: ({ messages: Array<any>, content: string }) => [...messages, { role: "user", content }],
+      inputs:
+        messages: ":messages"
+        content: ":userInput"
       if: "checkInput",
     },
 ```
@@ -187,8 +200,9 @@ nodes:
   question:
     value: "Find out which materials we need to purchase this week for Joe Smith's residential house project."
   projectId: // identifies the projectId from the question
-    agent: "identifierAgent"
-    inputs: [":source"] // == "sourceNode.query"
+    agent: identifierAgent
+    inputs: 
+      id: :source
   database:
     agent: "nestedAgent"
     inputs:
@@ -207,7 +221,8 @@ nodes:
           isResult: true
   response: // Deliver the answer
     agent: "deliveryAgent"      
-    inputs: [:database.query.$last.content]
+    inputs:
+      text: :database.query.$last.content
 ```
 
 The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, "$0" and "$1". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
@@ -358,7 +373,8 @@ This property is particularly useful when you want to continue the flow regardle
       // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
-      inputs: [":no_tool_calls", ":tool_calls.messagesWithSecondRes"],
+      inputs: 
+        array: [":no_tool_calls", ":tool_calls.messagesWithSecondRes"],
     },
 ```
 
