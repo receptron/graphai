@@ -3,8 +3,8 @@ import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import { AgentFunction, agentInfoWrapper } from "graphai";
 
-const fibonacciAgent: AgentFunction = async ({ inputs }) => {
-  const prev = inputs[0];
+const fibonacciAgent: AgentFunction = async ({ namedInputs }) => {
+  const { prev } = namedInputs;
   console.log(prev);
   return [prev[1], prev[0] + prev[1]];
 };
@@ -16,12 +16,12 @@ const graph_data = {
   },
   nodes: {
     data: {
-      value: [1, 1],
+      value: [BigInt(1), BigInt(1)],
       update: ":fibonacci",
     },
     fibonacci: {
       agent: "fibonacciAgent",
-      inputs: [":data"],
+      inputs: { prev: ":data" },
     },
   },
 };

@@ -7,7 +7,7 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
   null,
   { array: ChatData[] }
 > = async ({ params, namedInputs }) => {
-  // console.log(inputs);
+  // console.log(namedInputs);
   const message = namedInputs.array.find((m) => m.role === "function_result");
   if (!message) {
     return;
@@ -17,7 +17,6 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<
     return ["title:", title, "description:", description].join("\n");
   });
   // console.log(result)
-  console.log(result);
   return result;
 };
 
@@ -33,27 +32,29 @@ const slashGPTAgentMock : AgentFunction<
 const slashGPTAgentMock = slashGPTFuncitons2TextAgent;
 
 const apiDoc = {
-  inputs_example: [
-    {
-      role: "function_result",
-      content: "",
-      name: "",
-      preset: false,
-      function_data: {
-        methods: [
-          {
-            title: "Renewable Energy",
-            description:
-              "Promote the use of renewable energy sources like solar, wind, and hydro power to reduce dependence on fossil fuels and decrease CO2 emissions.",
-          },
-          {
-            title: "Energy Efficiency",
-            description: "Improve energy efficiency in industries, buildings, and transportation to reduce energy consumption and lower CO2 emissions.",
-          },
-        ],
+  inputs_example: {
+    array: [
+      {
+        role: "function_result",
+        content: "",
+        name: "",
+        preset: false,
+        function_data: {
+          methods: [
+            {
+              title: "Renewable Energy",
+              description:
+                "Promote the use of renewable energy sources like solar, wind, and hydro power to reduce dependence on fossil fuels and decrease CO2 emissions.",
+            },
+            {
+              title: "Energy Efficiency",
+              description: "Improve energy efficiency in industries, buildings, and transportation to reduce energy consumption and lower CO2 emissions.",
+            },
+          ],
+        },
       },
-    },
-  ],
+    ],
+  },
   response_example: { content: "test response" },
 };
 

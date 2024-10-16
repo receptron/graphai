@@ -25,8 +25,8 @@ const graph_data = {
     },
     rows: {
       // This node extract the "row" property from each item in the dataset.
-      agent: (items: Array<Record<string, any>>) => items.map((item) => item.row),
-      inputs: [":fetch.rows"],
+      agent: (namedItems: { array: Array<Record<string, any>> }) => namedItems.array.map((item) => item.row),
+      inputs: { array: ":fetch.rows" },
     },
     map: {
       // This node executes the nested graph concurrently
@@ -44,8 +44,8 @@ const graph_data = {
             inputs: { prompt: ":row.question" },
           },
           answer: {
-            agent: (item: string) => item,
-            inputs: [":groq.choices.$0.message.content"],
+            agent: (namedInputs: { item: string }) => namedInputs.item,
+            inputs: { item: ":groq.choices.$0.message.content" },
             isResult: true,
           },
         },
