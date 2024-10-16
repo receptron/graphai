@@ -16,7 +16,7 @@ const graph_data = {
     },
     answer: {
       agent: "sleeperAgent",
-      inputs: [":query.choices.$0.message"],
+      inputs: { array: [":query.choices.$0.message"] },
       isResult: true,
     },
   },

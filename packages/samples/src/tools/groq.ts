@@ -37,8 +37,8 @@ const graph_data = {
       graph: {
         nodes: {
           debug: {
-            agent: (food: string) => console.log(food),
-            inputs: [":row"],
+            agent: (namedInputs: { food: string }) => console.log(namedInputs.food),
+            inputs: { food: ":row" },
             isResult: true,
           },
           groq: {
@@ -54,11 +54,12 @@ const graph_data = {
             inputs: { prompt: ":row" },
           },
           parser: {
-            agent: (food: string, args: string) => {
+            agent: (namedInputs: { food: string; args: string }) => {
+              const { food, args } = namedInputs;
               const json = JSON.parse(args);
               return { [food]: json.category };
             },
-            inputs: [":row", ":groq.choices.$0.message.tool_calls.$0.function.arguments"],
+            inputs: { food: ":row", args: ":groq.choices.$0.message.tool_calls.$0.function.arguments" },
             isResult: true,
           },
         },
@@ -69,7 +70,7 @@ const graph_data = {
 
 export const main = async () => {
   const result: any = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents, () => {}, false);
-  console.log(result.categorizer.parser);
+  console.log(result.categorizer);
 };
 
 if (process.argv[1] === __filename) {

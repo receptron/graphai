@@ -41,15 +41,15 @@ const graph_data_explain = {
     },
     description: {
       agent: "copyAgent",
-      inputs: [":describer.choices.$0.message.content"],
+      inputs: { result: ":describer.choices.$0.message.content" },
       isResult: true,
     },
   },
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data_explain, { ...agents });
-  console.log(result.description);
+  const result = await graphDataTestRunner<{ result: string }>(__dirname + "/../", __filename, graph_data_explain, { ...agents });
+  console.log(result?.description?.result);
 };
 
 if (process.argv[1] === __filename) {

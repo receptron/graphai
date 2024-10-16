@@ -36,7 +36,7 @@ const graph_data = {
           },
         ],
       },
-      inputs: [{}, ":userInput"],
+      inputs: { array: [{}, ":userInput"] },
     },
     userMessage: {
       // Generates an message object with the user input.
@@ -49,12 +49,12 @@ const graph_data = {
           },
         ],
       },
-      inputs: [{ role: "user" }, ":userInput"],
+      inputs: { array: [{ role: "user" }, ":userInput"] },
     },
     appendedMessages: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: [":messages", ":userMessage"],
+      inputs: { array: ":messages", item: ":userMessage" },
     },
     groq: {
       // Sends those messages to LLM to get a response.
@@ -62,7 +62,7 @@ const graph_data = {
       params: {
         model: "Llama3-8b-8192",
       },
-      inputs: [undefined, ":appendedMessages"],
+      inputs: { messages: ":appendedMessages" },
     },
     output: {
       // Displays the response to the user.
@@ -73,12 +73,12 @@ const graph_data = {
       console: {
         after: true,
       },
-      inputs: [":groq.choices.$0.message.content"],
+      inputs: { message: ":groq.choices.$0.message.content" },
     },
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: [":appendedMessages", ":groq.choices.$0.message"],
+      inputs: { array: ":appendedMessages", item: ":llm.choices.$0.message" },
     },
   },
 };

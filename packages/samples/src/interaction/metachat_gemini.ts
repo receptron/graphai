@@ -41,7 +41,7 @@ export const graph_data = {
     parser: {
       // Parses the JSON data in the returned message
       agent: "jsonParserAgent",
-      inputs: [":graphGenerator.choices.$0.message.content"],
+      inputs: { text: ":graphGenerator.choices.$0.message.content" },
     },
     executer: {
       // Execute that AI Agent
