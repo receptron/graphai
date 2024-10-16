@@ -60,7 +60,7 @@ const graph_data = {
         function_data_key: "methods",
         result_key: 0,
       },
-      inputs: [":slashGPTAgent"],
+      inputs: { array: ":slashGPTAgent" },
       agent: "slashGPTFuncitons2TextAgent",
     },
     mapNode: {
@@ -76,7 +76,7 @@ const graph_data = {
               },
             },
             isResult: true,
-            inputs: [":row"],
+            inputs: { array: [":row"] },
           },
         },
       },

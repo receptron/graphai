@@ -8,6 +8,9 @@ export const main = async () => {
   const res = await openAIAgent.agent({
     ...defaultTestContext,
     inputs: [],
+    params: {
+      stream: true,
+    },
     namedInputs: { prompt: "日本の歴史について200文字でまとめてください" },
     ...{
       filterParams: {

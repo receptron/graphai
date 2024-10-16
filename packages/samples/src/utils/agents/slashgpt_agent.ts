@@ -1,12 +1,14 @@
 import { AgentFunction } from "graphai";
 import { ChatData } from "slashgpt";
 
-export const slashGPTFuncitons2TextAgent: AgentFunction<{ function_data_key: string; result_key: number }, Record<string, string[]>, ChatData[]> = async ({
-  params,
-  inputs,
-}) => {
-  console.log(inputs);
-  const message = inputs[0].find((m) => m.role === "function_result");
+export const slashGPTFuncitons2TextAgent: AgentFunction<
+  { function_data_key: string; result_key: number },
+  Record<string, string[]>,
+  null,
+  { array: ChatData[] }
+> = async ({ params, namedInputs }) => {
+  // console.log(namedInputs);
+  const message = namedInputs.array.find((m) => m.role === "function_result");
   if (!message) {
     return;
   }
@@ -15,7 +17,6 @@ export const slashGPTFuncitons2TextAgent: AgentFunction<{ function_data_key: str
     return ["title:", title, "description:", description].join("\n");
   });
   // console.log(result)
-  console.log(result);
   return result;
 };
 
@@ -31,27 +32,29 @@ const slashGPTAgentMock : AgentFunction<
 const slashGPTAgentMock = slashGPTFuncitons2TextAgent;
 
 const apiDoc = {
-  inputs_example: [
-    {
-      role: "function_result",
-      content: "",
-      name: "",
-      preset: false,
-      function_data: {
-        methods: [
-          {
-            title: "Renewable Energy",
-            description:
-              "Promote the use of renewable energy sources like solar, wind, and hydro power to reduce dependence on fossil fuels and decrease CO2 emissions.",
-          },
-          {
-            title: "Energy Efficiency",
-            description: "Improve energy efficiency in industries, buildings, and transportation to reduce energy consumption and lower CO2 emissions.",
-          },
-        ],
+  inputs_example: {
+    array: [
+      {
+        role: "function_result",
+        content: "",
+        name: "",
+        preset: false,
+        function_data: {
+          methods: [
+            {
+              title: "Renewable Energy",
+              description:
+                "Promote the use of renewable energy sources like solar, wind, and hydro power to reduce dependence on fossil fuels and decrease CO2 emissions.",
+            },
+            {
+              title: "Energy Efficiency",
+              description: "Improve energy efficiency in industries, buildings, and transportation to reduce energy consumption and lower CO2 emissions.",
+            },
+          ],
+        },
       },
-    },
-  ],
+    ],
+  },
   response_example: { content: "test response" },
 };
 

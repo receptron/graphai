@@ -22,7 +22,7 @@ const graph_data: GraphData = {
     },
     node2: {
       agent: "slashGPTAgent",
-      inputs: [":node1.content"],
+      inputs: { array: [":node1.content"] },
       params: {
         manifest: {
           skip_function_result: true,
@@ -33,11 +33,8 @@ const graph_data: GraphData = {
     },
     node3: {
       agent: "bypassAgent",
-      inputs: [":node2.$last.content"],
+      inputs: { result: ":node2.$last.content" },
       isResult: true,
-      params: {
-        firstElement: true,
-      },
     },
   },
 };

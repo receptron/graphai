@@ -25,12 +25,12 @@ const graph_data = {
     },
     rows: {
       // This node extract the "row" property from each item in the dataset.
-      agent: (items: Array<Record<string, any>>) => items.map((item) => item.row),
-      inputs: [":fetch.rows"],
+      agent: (namedItems: { array: Array<Record<string, any>> }) => namedItems.array.map((item) => item.row),
+      inputs: { array: ":fetch.rows" },
     },
     debugOutputRow: {
-      agent: (row: Record<string, string>) => console.log(row),
-      inputs: [":rows.$0"],
+      agent: (namedInputs: { row: Record<string, string> }) => console.log(namedInputs.row),
+      inputs: { row: [":rows.$0"] },
     },
     loop: {
       // This node interate all the items in the dataset using the nested graph
@@ -61,8 +61,8 @@ const graph_data = {
             inputs: { array: ":rows" },
           },
           debugOutputQA: {
-            agent: (item: Record<string, string>) => console.log(`Q: ${item.question}\nA0: ${item.answer}`),
-            inputs: [":retriever.item"],
+            agent: (namedInputs: { item: Record<string, string> }) => console.log(`Q: ${namedInputs.item.question}\nA0: ${namedInputs.item.answer}`),
+            inputs: { item: ":retriever.item" },
           },
           groq: {
             // This node sends the question on the current item to Llama3 on groq and get the answer.
@@ -78,8 +78,8 @@ const graph_data = {
             inputs: { array: ":answers", item: ":groq.choices.$0.message.content" },
           },
           debugOutputA: {
-            agent: (answer: string) => console.log(`A: ${answer}\n`),
-            inputs: [":groq.choices.$0.message.content"],
+            agent: (namedInputs: { answer: string }) => console.log(`A: ${namedInputs.answer}\n`),
+            inputs: { answer: ":groq.choices.$0.message.content" },
           },
         },
       },
