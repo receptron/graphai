@@ -23,7 +23,7 @@ export const graph_data = {
       params: {
         include: ["title", "link", "content"],
       },
-      inputs: {array: [":rssFeed.feed.entry"]},
+      inputs: { array: [":rssFeed.feed.entry"] },
     },
     map: {
       // Processes each entry concurrently.
@@ -41,7 +41,7 @@ export const graph_data = {
             params: {
               template: "Title:${t}\n${c}",
             },
-            inputs: {t: ":row.title", c: ":row.content._"},
+            inputs: { t: ":row.title", c: ":row.content._" },
           },
           query: {
             // Asks the LLM to summarize it
@@ -56,7 +56,7 @@ export const graph_data = {
             // Extract the content from the generated message
             agent: "copyAgent",
             isResult: true,
-            inputs: {result: ":query.choices.$0.message.content"},
+            inputs: { result: ":query.choices.$0.message.content" },
           },
         },
       },

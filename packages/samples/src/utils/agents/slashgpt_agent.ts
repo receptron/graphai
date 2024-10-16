@@ -1,12 +1,14 @@
 import { AgentFunction } from "graphai";
 import { ChatData } from "slashgpt";
 
-export const slashGPTFuncitons2TextAgent: AgentFunction<{ function_data_key: string; result_key: number }, Record<string, string[]>, ChatData[]> = async ({
-  params,
-  inputs,
-}) => {
-  console.log(inputs);
-  const message = inputs[0].find((m) => m.role === "function_result");
+export const slashGPTFuncitons2TextAgent: AgentFunction<
+  { function_data_key: string; result_key: number },
+  Record<string, string[]>,
+  null,
+  { array: ChatData[] }
+> = async ({ params, namedInputs }) => {
+  // console.log(inputs);
+  const message = namedInputs.array.find((m) => m.role === "function_result");
   if (!message) {
     return;
   }

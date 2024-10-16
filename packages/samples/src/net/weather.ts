@@ -32,25 +32,25 @@ const graph_tool = {
       // Displays the fetching message.
       agent: "stringTemplateAgent",
       params: {
-        template: "... fetching weather info: ${0}",
+        template: "... fetching weather info: ${m}",
       },
       console: {
         after: true,
       },
-      inputs: [":tool_calls.$0.function.arguments"],
+      inputs: { m: ":tool_calls.$0.function.arguments" },
     },
     parser: {
       // Parse the arguments to the function
       agent: "jsonParserAgent",
-      inputs: [":tool_calls.$0.function.arguments"],
+      inputs: { text: ":tool_calls.$0.function.arguments" },
     },
     urlPoints: {
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
       agent: "stringTemplateAgent",
       params: {
-        template: "https://api.weather.gov/points/${0},${1}",
+        template: "https://api.weather.gov/points/${lat},${lng}",
       },
-      inputs: [":parser.latitude", ":parser.longitude"],
+      inputs: { lat: ":parser.latitude", lng: ":parser.longitude" },
     },
     fetchPoints: {
       // Fetches the "grid location" from the URL.
@@ -70,16 +70,16 @@ const graph_tool = {
       // Extract error title and detail
       agent: "stringTemplateAgent",
       params: {
-        template: "${0}: ${1}",
+        template: "${title}: ${error}",
       },
-      inputs: [":fetchPoints.onError.error.title", ":fetchPoints.onError.error.detail"],
+      inputs: { title: ":fetchPoints.onError.error.title", error: ":fetchPoints.onError.error.detail" },
       if: ":fetchPoints.onError",
     },
     responseText: {
       // Extract the forecast and error
       agent: "copyAgent",
       anyInput: true,
-      inputs: [":fetchForecast", ":extractError"],
+      inputs: { array: [":fetchForecast", ":extractError"] },
     },
     toolMessage: {
       // Creates a tool message as the return value of the tool call.
@@ -100,12 +100,13 @@ const graph_tool = {
           },
         ],
       },
-      inputs: [{ role: "tool" }, ":tool_calls.$0.id", ":tool_calls.$0.function.name", ":responseText"],
+      inputs: { array: [{ role: "tool" }, ":tool_calls.$0.id", ":tool_calls.$0.function.name", ":responseText.array"] },
     },
     messagesWithToolRes: {
       // Appends that message to the messages.
       agent: "pushAgent",
       inputs: { array: ":messages", item: ":toolMessage" },
+      console: { after: true },
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
@@ -116,12 +117,12 @@ const graph_tool = {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "Weather: ${0}",
+        template: "Weather: ${m}",
       },
       console: {
         after: true,
       },
-      inputs: [":llmCall.choices.$0.message.content"],
+      inputs: { m: ":llmCall.choices.$0.message.content" },
     },
     messagesWithSecondRes: {
       // Appends the response to the messages.
@@ -146,7 +147,7 @@ export const graph_data = {
     messages: {
       // Holds the conversation, array of messages.
       value: [{ role: "system", content: "You are a meteorologist. Use getWeather API, only when the user ask for the weather information." }],
-      update: ":reducer",
+      update: ":reducer.array",
       isResult: true,
     },
     userInput: {
@@ -167,7 +168,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: [{}, ":userInput"],
+      inputs: { array: [{}, ":userInput"] },
     },
     userMessage: {
       // Generates an message object with the user input.
@@ -180,7 +181,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: [{ role: "user" }, ":userInput"],
+      inputs: { array: [{ role: "user" }, ":userInput"] },
     },
     messagesWithUserInput: {
       // Appends it to the conversation
@@ -195,17 +196,21 @@ export const graph_data = {
         tools,
       },
       inputs: { messages: ":messagesWithUserInput" },
+      console: {
+        before: true,
+        after: true,
+      },
     },
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "Weather: ${0}",
+        template: "Weather: ${m}",
       },
       console: {
         after: true,
       },
-      inputs: [":llmCall.choices.$0.message.content"],
+      inputs: { m: ":llmCall.choices.$0.message.content" },
       if: ":llmCall.choices.$0.message.content",
     },
     messagesWithFirstRes: {
@@ -218,19 +223,23 @@ export const graph_data = {
       agent: "nestedAgent",
       inputs: { tool_calls: ":llmCall.choices.$0.message.tool_calls", messages: ":messagesWithFirstRes" },
       if: ":llmCall.choices.$0.message.tool_calls",
+      console: {
+        before: true,
+        after: true,
+      },
       graph: graph_tool,
     },
     no_tool_calls: {
       // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
       unless: ":llmCall.choices.$0.message.tool_calls",
-      inputs: [":messagesWithFirstRes"],
+      inputs: { result: ":messagesWithFirstRes" },
     },
     reducer: {
       // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
-      inputs: [":no_tool_calls", ":tool_calls.messagesWithSecondRes"],
+      inputs: { array: [":no_tool_calls.result", ":tool_calls.messagesWithSecondRes"] },
     },
   },
 };

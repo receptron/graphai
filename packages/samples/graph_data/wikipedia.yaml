@@ -8,52 +8,52 @@ nodes:
   wikipedia:
     agent: wikipediaAgent
     inputs:
-      - :source.name
+      query: :source.name
     params:
       lang: en
   chunks:
     agent: stringSplitterAgent
     inputs:
-      - :wikipedia.content
+      text: :wikipedia.content
   embeddings:
     agent: stringEmbeddingsAgent
     inputs:
-      - :chunks.contents
+      item: :chunks.contents
   topicEmbedding:
     agent: stringEmbeddingsAgent
     inputs:
-      - :source.topic
+      item: :source.topic
   similarityCheck:
     agent: dotProductAgent
     inputs:
-      - :embeddings
-      - :topicEmbedding.$0
+      matrix: :embeddings
+      vector: :topicEmbedding.$0
   sortedChunks:
     agent: sortByValuesAgent
     inputs:
-      - :chunks.contents
-      - :similarityCheck
+      array: :chunks.contents
+      value: :similarityCheck
   referenceText:
     agent: tokenBoundStringsAgent
     inputs:
-      - :sortedChunks
+      chunks: :sortedChunks
     params:
       limit: 5000
   prompt:
     agent: stringTemplateAgent
     inputs:
-      - :source.query
-      - :referenceText.content
+      a: :source.query
+      b: :referenceText.content
     params:
       template: |-
-        Using the following document, ${0}
+        Using the following document, ${a}
 
-        ${1}
+        ${b}
   RagQuery:
     agent: slashGPTAgent
     inputs:
-      - :prompt
+      array: [:prompt]
   OneShotQuery:
     agent: slashGPTAgent
     inputs:
-      - :source.query
+      array: [:source.query]
