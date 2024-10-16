@@ -23,7 +23,7 @@ export const graph_data = {
       params: {
         include: ["title", "link", "content"],
       },
-      inputs: [":rssFeed.feed.entry"],
+      inputs: {array: [":rssFeed.feed.entry"]},
     },
     map: {
       // Processes each entry concurrently.
@@ -39,9 +39,9 @@ export const graph_data = {
             // Extracts title and content, then generate a single text
             agent: "stringTemplateAgent",
             params: {
-              template: "Title:${0}\n${1}",
+              template: "Title:${t}\n${c}",
             },
-            inputs: [":row.title", ":row.content._"],
+            inputs: {t: ":row.title", c: ":row.content._"},
           },
           query: {
             // Asks the LLM to summarize it
@@ -56,7 +56,7 @@ export const graph_data = {
             // Extract the content from the generated message
             agent: "copyAgent",
             isResult: true,
-            inputs: [":query.choices.$0.message.content"],
+            inputs: {result: ":query.choices.$0.message.content"},
           },
         },
       },
@@ -66,7 +66,8 @@ export const graph_data = {
 
 export const main = async () => {
   const result = (await graphDataTestRunner(__dirname + "/../", "sample_net.log", graph_data, agents)) as any;
-  console.log(result.map.extractor.join("\n\n"));
+  // console.log(result.map.extractor.join("\n\n"));
+  console.log(result.map);
 };
 if (process.argv[1] === __filename) {
   main();
