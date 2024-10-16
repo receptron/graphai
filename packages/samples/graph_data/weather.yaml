@@ -132,8 +132,9 @@ nodes:
           agent: copyAgent
           anyInput: true
           inputs:
-            - :fetchForecast
-            - :extractError
+            array:
+              - :fetchForecast
+              - :extractError
         toolMessage:
           agent: propertyFilterAgent
           params:
@@ -145,10 +146,11 @@ nodes:
               - propId: content
                 from: 3
           inputs:
-            - role: tool
-            - :tool_calls.$0.id
-            - :tool_calls.$0.function.name
-            - :responseText
+            array:
+              - role: tool
+              - :tool_calls.$0.id
+              - :tool_calls.$0.function.name
+              - :responseText
         messagesWithToolRes:
           agent: pushAgent
           inputs:
@@ -161,11 +163,11 @@ nodes:
         output:
           agent: stringTemplateAgent
           params:
-            template: "Weather: ${0}"
+            template: "Weather: ${w}"
           console:
             after: true
           inputs:
-            - :llmCall.choices.$0.message.content
+            w: :llmCall.choices.$0.message.content
         messagesWithSecondRes:
           agent: pushAgent
           inputs:
@@ -176,10 +178,11 @@ nodes:
     agent: copyAgent
     unless: :llmCall.choices.$0.message.tool_calls
     inputs:
-      - :messagesWithFirstRes
+      result: :messagesWithFirstRes
   reducer:
     agent: copyAgent
     anyInput: true
     inputs:
-      - :no_tool_calls
-      - :tool_calls.messagesWithSecondRes
+      array:
+        - :no_tool_calls.result
+        - :tool_calls.messagesWithSecondRes
