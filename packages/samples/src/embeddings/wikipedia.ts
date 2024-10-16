@@ -90,7 +90,7 @@ export const graph_data = {
     },
     RagResult: {
       agent: "copyAgent",
-      inputs: { result: ":RagQuery.choices.$0.message.content"},
+      inputs: { result: ":RagQuery.choices.$0.message.content" },
       isResult: true,
     },
     OneShotResult: {
