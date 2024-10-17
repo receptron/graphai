@@ -161,4 +161,4 @@ export type AgentFunctionInfo = {
 
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
 
-export const DataSourceType = "datasource";
+export const DataSourceType = "datasource" as const;
