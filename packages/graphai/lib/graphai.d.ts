@@ -1,8 +1,7 @@
 import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions, NestedDataSource } from "./type";
 import { TransactionLog } from "./transaction_log";
-import { ComputedNode, StaticNode } from "./node";
+import { ComputedNode, GraphNodes } from "./node";
 import { TaskManager } from "./task_manager";
-type GraphNodes = Record<string, ComputedNode | StaticNode>;
 export declare const defaultConcurrency = 8;
 export declare const graphDataLatestVersion = 0.5;
 export declare class GraphAI {
@@ -47,8 +46,6 @@ export declare class GraphAI {
     updateLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
-    private nestedResultOf;
     resultsOf(sources: NestedDataSource): Record<string, ResultData>;
     resultOf(source: DataSource): ResultData;
 }
-export {};

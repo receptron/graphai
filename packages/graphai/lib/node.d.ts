@@ -68,3 +68,4 @@ export declare class StaticNode extends Node {
     constructor(nodeId: string, data: StaticNodeData, graph: GraphAI);
     injectValue(value: ResultData, injectFrom?: string): void;
 }
+export type GraphNodes = Record<string, ComputedNode | StaticNode>;

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GraphAI = exports.graphDataLatestVersion = exports.defaultConcurrency = void 0;
-const type_1 = require("./type");
 const node_1 = require("./node");
 const utils_1 = require("./utils/utils");
 const validator_1 = require("./validator");
 const task_manager_1 = require("./task_manager");
+const result_1 = require("./result");
 exports.defaultConcurrency = 8;
 exports.graphDataLatestVersion = 0.5;
 class GraphAI {
@@ -268,33 +268,11 @@ class GraphAI {
             throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
         }
     }
-    nestedResultOf(source) {
-        if (Array.isArray(source)) {
-            return source.map((a) => {
-                return this.nestedResultOf(a);
-            });
-        }
-        if ((0, utils_1.isNamedInputs)(source)) {
-            if (source.__type === type_1.DataSourceType) {
-                return this.resultOf(source);
-            }
-            return Object.keys(source).reduce((tmp, key) => {
-                tmp[key] = this.nestedResultOf(source[key]);
-                return tmp;
-            }, {});
-        }
-        return this.resultOf(source);
-    }
     resultsOf(sources) {
-        const ret = {};
-        Object.keys(sources).forEach((key) => {
-            ret[key] = this.nestedResultOf(sources[key]);
-        });
-        return ret;
+        return (0, result_1.resultsOf)(sources, this.nodes);
     }
     resultOf(source) {
-        const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
-        return (0, utils_1.getDataFromSource)(result, source);
+        return (0, result_1.resultOf)(source, this.nodes);
     }
 }
 exports.GraphAI = GraphAI;
