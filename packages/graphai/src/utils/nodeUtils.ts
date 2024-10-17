@@ -1,4 +1,4 @@
-import { parseNodeName } from "./utils";
+import { parseNodeName, isNamedInputs } from "./utils";
 import { DataSource, DataSources, NestedDataSource } from "@/type";
 
 export const inputs2dataSources = (inputs: string[], graphVersion: number) => {
@@ -15,21 +15,21 @@ const nestedParseNodeName = (input: any, graphVersion: number): DataSources => {
   return parseNodeName(input, graphVersion);
 };
 
-export const namedInputs2dataSources = (inputs: Record<string, any>, graphVersion: number) => {
+export const namedInputs2dataSources = (inputs: Record<string, any>, graphVersion: number): NestedDataSource => {
   return Object.keys(inputs).reduce((tmp: NestedDataSource, key) => {
     const input = inputs[key];
-    tmp[key] = nestedParseNodeName(input, graphVersion);
+    tmp[key] = isNamedInputs(input) ? namedInputs2dataSources(input, graphVersion) : nestedParseNodeName(input, graphVersion);
     return tmp;
   }, {});
 };
 
-export const flatDataSourceNodeIds = (sources: DataSource[] | DataSources[]): string[] => {
+export const flatDataSourceNodeIds = (sources: (DataSource | DataSources | NestedDataSource)[]): string[] => {
   return flatDataSource(sources)
-    .filter((source) => source.nodeId)
+    .filter((source: DataSource) => source.nodeId)
     .map((source) => source.nodeId!);
 };
 
-export const flatDataSource = (sources: DataSource[] | DataSources[]): DataSource[] => {
+export const flatDataSource = (sources: (DataSource | DataSources | NestedDataSource)[]): DataSource[] => {
   return sources
     .map((source) => {
       if (Array.isArray(source)) {
@@ -44,5 +44,5 @@ export const flatDataSource = (sources: DataSource[] | DataSources[]): DataSourc
       }
       return source;
     })
-    .flat();
+    .flat() as DataSource[];
 };

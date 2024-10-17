@@ -3,23 +3,21 @@ import {
   AgentFilterInfo,
   GraphData,
   DataSource,
-  DataSources,
   LoopData,
   ResultDataDictionary,
   ResultData,
-  ResultDataSet,
   DefaultResultData,
   GraphOptions,
   NestedDataSource,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
-import { ComputedNode, StaticNode } from "@/node";
+import { ComputedNode, StaticNode, GraphNodes } from "@/node";
 import { parseNodeName, assert, getDataFromSource, isLogicallyTrue } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
-type GraphNodes = Record<string, ComputedNode | StaticNode>;
+import { resultsOf, resultOf } from "./result";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -330,24 +328,10 @@ export class GraphAI {
     }
   }
 
-  private nestedResultOf(source: DataSources): ResultDataSet {
-    if (Array.isArray(source)) {
-      return source.map((a) => {
-        return this.nestedResultOf(a);
-      });
-    }
-    return this.resultOf(source);
-  }
-
   public resultsOf(sources: NestedDataSource) {
-    const ret: Record<string, ResultData | undefined> = {};
-    Object.keys(sources).forEach((key) => {
-      ret[key] = this.nestedResultOf(sources[key]);
-    });
-    return ret;
+    return resultsOf(sources, this.nodes);
   }
   public resultOf(source: DataSource) {
-    const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
-    return getDataFromSource(result, source);
+    return resultOf(source, this.nodes);
   }
 }

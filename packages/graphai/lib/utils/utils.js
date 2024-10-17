@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.getDataFromSource = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
+exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.getDataFromSource = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
 exports.assert = assert;
+const type_1 = require("../type");
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -11,15 +12,15 @@ const parseNodeName_02 = (inputNodeId) => {
         const regex = /^"(.*)"$/;
         const match = inputNodeId.match(regex);
         if (match) {
-            return { value: match[1] }; // string literal
+            return { value: match[1], __type: type_1.DataSourceType }; // string literal
         }
         const parts = inputNodeId.split(".");
         if (parts.length == 1) {
-            return { nodeId: parts[0] };
+            return { nodeId: parts[0], __type: type_1.DataSourceType };
         }
-        return { nodeId: parts[0], propIds: parts.slice(1) };
+        return { nodeId: parts[0], propIds: parts.slice(1), __type: type_1.DataSourceType };
     }
-    return { value: inputNodeId }; // non-string literal
+    return { value: inputNodeId, __type: type_1.DataSourceType }; // non-string literal
 };
 const parseNodeName = (inputNodeId, version) => {
     if (version === 0.2) {
@@ -29,15 +30,15 @@ const parseNodeName = (inputNodeId, version) => {
         const regex = /^:(.*)$/;
         const match = inputNodeId.match(regex);
         if (!match) {
-            return { value: inputNodeId }; // string literal
+            return { value: inputNodeId, __type: type_1.DataSourceType }; // string literal
         }
         const parts = match[1].split(".");
         if (parts.length == 1) {
-            return { nodeId: parts[0] };
+            return { nodeId: parts[0], __type: type_1.DataSourceType };
         }
-        return { nodeId: parts[0], propIds: parts.slice(1) };
+        return { nodeId: parts[0], propIds: parts.slice(1), __type: type_1.DataSourceType };
     }
-    return { value: inputNodeId }; // non-string literal
+    return { value: inputNodeId, __type: type_1.DataSourceType }; // non-string literal
 };
 exports.parseNodeName = parseNodeName;
 function assert(condition, message, isWarn = false) {
@@ -166,3 +167,7 @@ exports.defaultTestContext = {
     agents: {},
     log: [],
 };
+const isNamedInputs = (namedInputs) => {
+    return (0, exports.isObject)(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
+};
+exports.isNamedInputs = isNamedInputs;

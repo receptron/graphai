@@ -27,10 +27,13 @@ export type DataSource = {
   nodeId?: string;
   value?: any;
   propIds?: string[];
+  __type: "datasource";
 };
 
 export type DataSources = DataSource | DataSource[] | DataSources[];
-export type NestedDataSource = Record<string, DataSources>;
+export interface NestedDataSource {
+  [key: string]: NestedDataSource | DataSources;
+}
 
 export type ResultDataSet = ResultData | ResultData[] | ResultDataSet[];
 
@@ -157,3 +160,5 @@ export type AgentFunctionInfo = {
 };
 
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
+
+export const DataSourceType = "datasource";

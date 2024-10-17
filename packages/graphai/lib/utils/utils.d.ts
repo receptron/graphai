@@ -1,4 +1,4 @@
-import { DataSource, ResultData, AgentFunction } from "../type";
+import { DataSource, ResultData, AgentFunction, DefaultInputData } from "../type";
 export declare const sleep: (milliseconds: number) => Promise<unknown>;
 export declare const parseNodeName: (inputNodeId: any, version: number) => DataSource;
 export declare function assert(condition: boolean, message: string, isWarn?: boolean): asserts condition;
@@ -46,3 +46,4 @@ export declare const defaultTestContext: {
     agents: {};
     log: never[];
 };
+export declare const isNamedInputs: <NamedInput = DefaultInputData>(namedInputs: NamedInput) => boolean;
