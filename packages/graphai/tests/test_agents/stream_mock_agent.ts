@@ -21,7 +21,7 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   mock: streamMockAgent,
   samples: [
     {
-      inputs: [],
+      inputs: {},
       params: { message: "this is test" },
       result: { message: "this is test" },
     },

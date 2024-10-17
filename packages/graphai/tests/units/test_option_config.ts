@@ -10,7 +10,7 @@ const graph_data = {
     },
     result: {
       agent: "testAgent",
-      inputs: [":message"],
+      inputs: { text: ":message" },
       isResult: true,
     },
   },
@@ -38,16 +38,14 @@ const nested_graph_data = {
     nested: {
       agent: "nestedAgent",
       inputs: { message: ":message" },
-      params: {
-        namedInputs: ["message"],
-      },
       isResult: true,
       graph: {
         version: 0.5,
         nodes: {
           bypass: {
             agent: "bypassAgent",
-            inputs: [":message"],
+            params: { namedKey: "text" },
+            inputs: { text: [":message"] },
             isResult: true,
           },
           test: {

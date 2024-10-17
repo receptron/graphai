@@ -26,7 +26,8 @@ test("test agent filter", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: [":echo"],
+        params: { namedKey: "text" },
+        inputs: { text: [":echo"] },
       },
     },
   };
@@ -55,7 +56,8 @@ test("test agent filter", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: [":echo"],
+        params: { namedKey: "text" },
+        inputs: { text: [":echo"] },
         isResult: true,
       },
     },

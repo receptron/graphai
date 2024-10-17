@@ -22,7 +22,8 @@ test("test filterParams on agent filter", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: [":echo"],
+        params: { namedKey: "text" },
+        inputs: { text: [":echo"] },
         isResult: true,
       },
     },
@@ -65,7 +66,8 @@ test("test filterParams on node", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: [":echo"],
+        params: { namedKey: "text" },
+        inputs: { text: [":echo"] },
         isResult: true,
       },
     },
@@ -102,7 +104,8 @@ test("test filterParams on agent filter and node. Then node.ts use filterParams 
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: [":echo"],
+        params: { namedKey: "text" },
+        inputs: { text: [":echo"] },
         isResult: true,
       },
     },
@@ -156,7 +159,8 @@ test("test filterParams on each agent", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: [":echo", ":echo2"],
+        params: { namedKey: "array" },
+        inputs: { array: [":echo", ":echo2"] },
         isResult: true,
       },
     },
@@ -190,7 +194,8 @@ test("test filterParams on agent filter", async () => {
       },
       bypassAgent: {
         agent: "bypassAgent",
-        inputs: [":echo"],
+        params: { namedKey: "text" },
+        inputs: { text: [":echo"] },
         isResult: true,
       },
     },

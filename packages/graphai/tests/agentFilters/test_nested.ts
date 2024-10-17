@@ -54,7 +54,8 @@ test("test nested agent filter", async () => {
             },
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: [":echo"],
+              params: { namedKey: "text" },
+              inputs: { text: [":echo"] },
               isResult: true,
             },
           },
@@ -92,7 +93,8 @@ test("test map agent filter", async () => {
             },
             bypassAgent: {
               agent: "bypassAgent",
-              inputs: [":echo"],
+              params: { namedKey: "text" },
+              inputs: { text: [":echo"] },
               isResult: true,
             },
           },

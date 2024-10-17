@@ -10,7 +10,7 @@ test("test static node validation inputs", async () => {
     nodes: {
       static1: {
         value: {},
-        inputs: [""],
+        inputs: {},
       },
     },
   });
