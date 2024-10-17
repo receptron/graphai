@@ -88,6 +88,23 @@ Copy2Array agent
 ]
 
 ````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2",
+  ":agentId.$3",
+  ":agentId.$4",
+  ":agentId.$5",
+  ":agentId.$6",
+  ":agentId.$7",
+  ":agentId.$8",
+  ":agentId.$9"
+]
+
+````
 
 ## Samples
 
@@ -206,6 +223,44 @@ Copy2Array agent
   {
     "message": "hello"
   }
+]
+
+````
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "item": "hello"
+}
+
+````
+
+#### params
+
+```json
+
+{"count":10}
+
+````
+
+#### result
+
+```json
+
+[
+  "hello",
+  "hello",
+  "hello",
+  "hello",
+  "hello",
+  "hello",
+  "hello",
+  "hello",
+  "hello",
+  "hello"
 ]
 
 ````

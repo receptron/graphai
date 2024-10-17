@@ -11,16 +11,11 @@ Stream mock agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
+  "type": "object",
+  "properties": {},
+  "required": []
 }
 
 ````
@@ -52,7 +47,7 @@ Stream mock agent
 
 ```json
 
-[]
+{}
 
 ````
 
