@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.copy2ArrayAgent = void 0;
 const agent_utils_1 = require("@graphai/agent_utils");
 const copy2ArrayAgent = async ({ inputs, namedInputs, params }) => {
-    const input = (0, agent_utils_1.isNamedInputs)(namedInputs) ? namedInputs : inputs[0];
+    const input = (0, agent_utils_1.isNamedInputs)(namedInputs) ? namedInputs.item : inputs[0];
     return new Array(params.count).fill(undefined).map(() => {
         return input;
     });

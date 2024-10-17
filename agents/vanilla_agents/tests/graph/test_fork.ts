@@ -12,7 +12,8 @@ import { forkGraph } from "./graphData";
 import test from "node:test";
 import assert from "node:assert";
 
-const testAgent1: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
+const testAgent1: AgentFunction = async ({ debugInfo: { nodeId }, namedInputs }) => {
+  const inputs: Record<string, unknown>[] = namedInputs.array ?? [];
   const result = {
     [nodeId]: [nodeId, inputs.map((a) => Object.values(a).flat())]
       .flat()
@@ -22,7 +23,8 @@ const testAgent1: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
   return result;
 };
 
-const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, inputs }) => {
+const testAgent1a: AgentFunction = async ({ debugInfo: { nodeId }, namedInputs }) => {
+  const inputs: Record<string, unknown>[] = namedInputs.array ?? [];
   const result = {
     [nodeId]: [
       nodeId,
@@ -47,7 +49,7 @@ test("test fork 1", async () => {
       node2: {
         agent: "copy2ArrayAgent",
         params: { count: 10 },
-        inputs: [":node1"],
+        inputs: { item: ":node1" },
       },
       mapNode: {
         agent: "mapAgent",
@@ -63,11 +65,11 @@ test("test fork 1", async () => {
             },
             node2: {
               agent: "testAgent1a",
-              inputs: [":row"],
+              inputs: { array: [":row"] },
             },
             node3: {
               agent: "testAgent1a",
-              inputs: [":node2"],
+              inputs: { array: [":node2"] },
               isResult: true,
             },
           },
@@ -141,12 +143,12 @@ test("test fork 2", async () => {
             node2: {
               agent: "testAgent1",
               params: {},
-              inputs: [":node1"],
+              inputs: { array: [":node1"] },
             },
             node3: {
               agent: "testAgent1",
               params: {},
-              inputs: [":node2"],
+              inputs: { array: [":node2"] },
               isResult: true,
             },
           },

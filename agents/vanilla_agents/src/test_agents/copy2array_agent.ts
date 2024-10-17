@@ -2,7 +2,7 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
 
 export const copy2ArrayAgent: AgentFunction<{ count: number }> = async ({ inputs, namedInputs, params }) => {
-  const input = isNamedInputs(namedInputs) ? namedInputs : inputs[0];
+  const input = isNamedInputs(namedInputs) ? (namedInputs.item ? namedInputs.item : namedInputs) : inputs[0];
   return new Array(params.count).fill(undefined).map(() => {
     return input;
   });
@@ -45,6 +45,11 @@ const copy2ArrayAgentInfo: AgentFunctionInfo = {
         { message: "hello" },
         { message: "hello" },
       ],
+    },
+    {
+      inputs: { item: "hello" },
+      params: { count: 10 },
+      result: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
     },
   ],
   description: "Copy2Array agent",
