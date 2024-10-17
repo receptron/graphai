@@ -95,7 +95,8 @@ const mapAgentInfo = {
                 nodes: {
                     test: {
                         agent: "bypassAgent",
-                        inputs: [":row"],
+                        params: { namedKey: "rows" },
+                        inputs: { rows: [":row"] },
                         isResult: true,
                     },
                 },
@@ -111,9 +112,9 @@ const mapAgentInfo = {
                     node2: {
                         agent: "stringTemplateAgent",
                         params: {
-                            template: "I love ${0}.",
+                            template: "I love ${word}.",
                         },
-                        inputs: [":row"],
+                        inputs: { word: ":row" },
                         isResult: true,
                     },
                 },
@@ -138,9 +139,9 @@ const mapAgentInfo = {
                     node2: {
                         agent: "stringTemplateAgent",
                         params: {
-                            template: "I love ${0}.",
+                            template: "I love ${item}.",
                         },
-                        inputs: [":row.fruit"],
+                        inputs: { item: ":row.fruit" },
                         isResult: true,
                     },
                 },
@@ -159,9 +160,9 @@ const mapAgentInfo = {
                     node2: {
                         agent: "stringTemplateAgent",
                         params: {
-                            template: "${1} ${2} ${0}.",
+                            template: "${name} ${verb} ${fruit}.",
                         },
-                        inputs: [":row.fruit", ":name", ":verb"],
+                        inputs: { fruit: ":row.fruit", name: ":name", verb: ":verb" },
                         isResult: true,
                     },
                 },
@@ -189,7 +190,8 @@ const mapAgentInfo = {
                 nodes: {
                     test: {
                         agent: "bypassAgent",
-                        inputs: [":row"],
+                        params: { namedKey: "rows" },
+                        inputs: { rows: [":row"] },
                     },
                 },
             },
@@ -231,10 +233,8 @@ const mapAgentInfo = {
                 nodes: {
                     test: {
                         agent: "bypassAgent",
-                        params: {
-                            firstElement: true,
-                        },
-                        inputs: [":row"],
+                        params: { namedKey: "row" },
+                        inputs: { row: ":row" },
                     },
                     map: {
                         agent: "mapAgent",
@@ -244,10 +244,8 @@ const mapAgentInfo = {
                                 test: {
                                     isResult: true,
                                     agent: "bypassAgent",
-                                    inputs: [":row"],
-                                    params: {
-                                        firstElement: true,
-                                    },
+                                    params: { namedKey: "row" },
+                                    inputs: { row: ":row" },
                                 },
                             },
                         },
@@ -270,7 +268,8 @@ const mapAgentInfo = {
                 nodes: {
                     test: {
                         agent: "bypassAgent",
-                        inputs: [":row"],
+                        params: { namedKey: "rows" },
+                        inputs: { rows: [":row"] },
                         isResult: true,
                     },
                 },
@@ -288,9 +287,9 @@ const mapAgentInfo = {
                     node2: {
                         agent: "stringTemplateAgent",
                         params: {
-                            template: "I love ${0}.",
+                            template: "I love ${row}.",
                         },
-                        inputs: [":row"],
+                        inputs: { row: ":row" },
                         isResult: true,
                     },
                 },
@@ -315,7 +314,8 @@ const mapAgentInfo = {
                 nodes: {
                     test: {
                         agent: "bypassAgent",
-                        inputs: [":row"],
+                        params: { namedKey: "rows" },
+                        inputs: { rows: [":row"] },
                     },
                 },
             },
@@ -344,7 +344,8 @@ const mapAgentInfo = {
                 nodes: {
                     test: {
                         agent: "bypassAgent",
-                        inputs: [":row"],
+                        params: { namedKey: "rows" },
+                        inputs: { rows: [":row"] },
                     },
                     map: {
                         agent: "mapAgent",
@@ -357,7 +358,8 @@ const mapAgentInfo = {
                                 test: {
                                     isResult: true,
                                     agent: "bypassAgent",
-                                    inputs: [":row"],
+                                    params: { namedKey: "rows" },
+                                    inputs: { rows: [":row"] },
                                 },
                             },
                         },

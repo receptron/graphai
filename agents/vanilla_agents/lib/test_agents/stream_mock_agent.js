@@ -36,7 +36,7 @@ const streamMockAgentInfo = {
     },
     samples: [
         {
-            inputs: [],
+            inputs: {},
             params: { message: "this is params test" },
             result: { message: "this is params test" },
         },

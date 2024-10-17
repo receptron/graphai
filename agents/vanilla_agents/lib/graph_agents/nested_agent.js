@@ -66,7 +66,8 @@ const nestedAgentInfo = {
                 nodes: {
                     test: {
                         agent: "bypassAgent",
-                        inputs: [":message"],
+                        params: { namedKey: "messages" },
+                        inputs: { messages: [":message"] },
                         isResult: true,
                     },
                 },
