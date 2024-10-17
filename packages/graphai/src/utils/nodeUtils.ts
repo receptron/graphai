@@ -25,7 +25,7 @@ export const namedInputs2dataSources = (inputs: Record<string, any>, graphVersio
 
 export const flatDataSourceNodeIds = (sources: (DataSource | DataSources | NestedDataSource)[]): string[] => {
   return flatDataSource(sources)
-    .filter((source) => source.nodeId)
+    .filter((source: DataSource) => source.nodeId)
     .map((source) => source.nodeId!);
 };
 
