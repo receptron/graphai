@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GraphAI = exports.graphDataLatestVersion = exports.defaultConcurrency = void 0;
+const type_1 = require("./type");
 const node_1 = require("./node");
 const utils_1 = require("./utils/utils");
 const validator_1 = require("./validator");
@@ -274,7 +275,7 @@ class GraphAI {
             });
         }
         if ((0, utils_1.isNamedInputs)(source)) {
-            if (source.type === "__datasource") {
+            if (source.__type === type_1.DataSourceType) {
                 return this.resultOf(source);
             }
             return Object.keys(source).reduce((tmp, key) => {

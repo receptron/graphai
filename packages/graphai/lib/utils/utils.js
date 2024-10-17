@@ -12,15 +12,15 @@ const parseNodeName_02 = (inputNodeId) => {
         const regex = /^"(.*)"$/;
         const match = inputNodeId.match(regex);
         if (match) {
-            return { value: match[1], type: type_1.DataSourceType }; // string literal
+            return { value: match[1], __type: type_1.DataSourceType }; // string literal
         }
         const parts = inputNodeId.split(".");
         if (parts.length == 1) {
-            return { nodeId: parts[0], type: type_1.DataSourceType };
+            return { nodeId: parts[0], __type: type_1.DataSourceType };
         }
-        return { nodeId: parts[0], propIds: parts.slice(1), type: type_1.DataSourceType };
+        return { nodeId: parts[0], propIds: parts.slice(1), __type: type_1.DataSourceType };
     }
-    return { value: inputNodeId, type: type_1.DataSourceType }; // non-string literal
+    return { value: inputNodeId, __type: type_1.DataSourceType }; // non-string literal
 };
 const parseNodeName = (inputNodeId, version) => {
     if (version === 0.2) {
@@ -30,15 +30,15 @@ const parseNodeName = (inputNodeId, version) => {
         const regex = /^:(.*)$/;
         const match = inputNodeId.match(regex);
         if (!match) {
-            return { value: inputNodeId, type: type_1.DataSourceType }; // string literal
+            return { value: inputNodeId, __type: type_1.DataSourceType }; // string literal
         }
         const parts = match[1].split(".");
         if (parts.length == 1) {
-            return { nodeId: parts[0], type: type_1.DataSourceType };
+            return { nodeId: parts[0], __type: type_1.DataSourceType };
         }
-        return { nodeId: parts[0], propIds: parts.slice(1), type: type_1.DataSourceType };
+        return { nodeId: parts[0], propIds: parts.slice(1), __type: type_1.DataSourceType };
     }
-    return { value: inputNodeId, type: type_1.DataSourceType }; // non-string literal
+    return { value: inputNodeId, __type: type_1.DataSourceType }; // non-string literal
 };
 exports.parseNodeName = parseNodeName;
 function assert(condition, message, isWarn = false) {

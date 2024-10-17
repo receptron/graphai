@@ -13,4 +13,4 @@ var NodeState;
     NodeState["Injected"] = "injected";
     NodeState["Skipped"] = "skipped";
 })(NodeState || (exports.NodeState = NodeState = {}));
-exports.DataSourceType = "__datasource";
+exports.DataSourceType = "datasource";

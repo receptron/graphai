@@ -22,7 +22,7 @@ export type DataSource = {
     nodeId?: string;
     value?: any;
     propIds?: string[];
-    type: "__datasource";
+    __type: "datasource";
 };
 export type DataSources = DataSource | DataSource[] | DataSources[];
 export interface NestedDataSource {
@@ -128,4 +128,4 @@ export type AgentFunctionInfo = {
     npms?: string[];
 };
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
-export declare const DataSourceType = "__datasource";
+export declare const DataSourceType = "datasource";
