@@ -27,7 +27,7 @@ export type DataSource = {
   nodeId?: string;
   value?: any;
   propIds?: string[];
-  type: "__datasource";
+  __type: "datasource";
 };
 
 export type DataSources = DataSource | DataSource[] | DataSources[];
@@ -161,4 +161,4 @@ export type AgentFunctionInfo = {
 
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
 
-export const DataSourceType = "__datasource";
+export const DataSourceType = "datasource";

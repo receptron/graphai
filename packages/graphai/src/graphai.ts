@@ -4,6 +4,7 @@ import {
   GraphData,
   DataSource,
   DataSources,
+  DataSourceType,
   LoopData,
   ResultDataDictionary,
   ResultData,
@@ -337,7 +338,7 @@ export class GraphAI {
       });
     }
     if (isNamedInputs(source)) {
-      if (source.type === "__datasource") {
+      if (source.__type === DataSourceType) {
         return this.resultOf(source as DataSource);
       }
       return Object.keys(source).reduce((tmp: Record<string, ResultDataSet>, key: string) => {

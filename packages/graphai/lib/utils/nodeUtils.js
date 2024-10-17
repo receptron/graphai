@@ -18,7 +18,7 @@ const nestedParseNodeName = (input, graphVersion) => {
 const namedInputs2dataSources = (inputs, graphVersion) => {
     return Object.keys(inputs).reduce((tmp, key) => {
         const input = inputs[key];
-        tmp[key] = nestedParseNodeName(input, graphVersion);
+        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.namedInputs2dataSources)(input, graphVersion) : nestedParseNodeName(input, graphVersion);
         return tmp;
     }, {});
 };

@@ -273,6 +273,15 @@ class GraphAI {
                 return this.nestedResultOf(a);
             });
         }
+        if ((0, utils_1.isNamedInputs)(source)) {
+            if (source.type === "__datasource") {
+                return this.resultOf(source);
+            }
+            return Object.keys(source).reduce((tmp, key) => {
+                tmp[key] = this.nestedResultOf(source[key]);
+                return tmp;
+            }, {});
+        }
         return this.resultOf(source);
     }
     resultsOf(sources) {
