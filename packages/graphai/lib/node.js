@@ -204,6 +204,7 @@ class ComputedNode extends Node {
                 this.executeTimeout(transactionId);
             }, this.timeout);
         }
+        const namedInputs = this.getNamedInput(previousResults);
         try {
             const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
             const localLog = [];
@@ -215,7 +216,7 @@ class ComputedNode extends Node {
             const context = {
                 params: params,
                 inputs: this.getInputs(previousResults),
-                namedInputs: this.getNamedInput(previousResults),
+                namedInputs,
                 inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
                 debugInfo: this.getDebugInfo(),
                 filterParams: this.filterParams,
@@ -265,7 +266,7 @@ class ComputedNode extends Node {
             this.graph.onExecutionComplete(this);
         }
         catch (error) {
-            this.errorProcess(error, transactionId);
+            this.errorProcess(error, transactionId, namedInputs);
         }
     }
     // This private method (called only by execute()) prepares the ComputedNode object
@@ -278,9 +279,10 @@ class ComputedNode extends Node {
     // This private method (called only by execute) processes an error received from
     // the agent function. It records the error in the transaction log and handles
     // the retry if specified.
-    errorProcess(error, transactionId) {
+    errorProcess(error, transactionId, namedInputs) {
         if (error instanceof Error && error.message !== utils_1.strIntentionalError) {
             console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
+            console.error({ namedInputs });
             console.error(error);
             console.error("-->");
         }
