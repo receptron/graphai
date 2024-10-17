@@ -438,3 +438,5 @@ export class StaticNode extends Node {
     this.onSetResult();
   }
 }
+
+export type GraphNodes = Record<string, ComputedNode | StaticNode>;

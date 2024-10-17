@@ -3,24 +3,21 @@ import {
   AgentFilterInfo,
   GraphData,
   DataSource,
-  DataSources,
-  DataSourceType,
   LoopData,
   ResultDataDictionary,
   ResultData,
-  ResultDataSet,
   DefaultResultData,
   GraphOptions,
   NestedDataSource,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
-import { ComputedNode, StaticNode } from "@/node";
-import { parseNodeName, assert, getDataFromSource, isLogicallyTrue, isNamedInputs } from "@/utils/utils";
+import { ComputedNode, StaticNode, GraphNodes } from "@/node";
+import { parseNodeName, assert, getDataFromSource, isLogicallyTrue } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
-type GraphNodes = Record<string, ComputedNode | StaticNode>;
+import { resultsOf, resultOf } from "./result";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -331,33 +328,10 @@ export class GraphAI {
     }
   }
 
-  private nestedResultOf(source: DataSource | NestedDataSource | DataSources): ResultDataSet {
-    if (Array.isArray(source)) {
-      return source.map((a) => {
-        return this.nestedResultOf(a);
-      });
-    }
-    if (isNamedInputs(source)) {
-      if (source.__type === DataSourceType) {
-        return this.resultOf(source as DataSource);
-      }
-      return Object.keys(source).reduce((tmp: Record<string, ResultDataSet>, key: string) => {
-        tmp[key] = this.nestedResultOf((source as NestedDataSource)[key]);
-        return tmp;
-      }, {});
-    }
-    return this.resultOf(source as DataSource);
-  }
-
   public resultsOf(sources: NestedDataSource) {
-    const ret: Record<string, ResultData | undefined> = {};
-    Object.keys(sources).forEach((key) => {
-      ret[key] = this.nestedResultOf(sources[key]);
-    });
-    return ret;
+    return resultsOf(sources, this.nodes);
   }
   public resultOf(source: DataSource) {
-    const { result } = source.nodeId ? this.nodes[source.nodeId] : { result: undefined };
-    return getDataFromSource(result, source);
+    return resultOf(source, this.nodes);
   }
 }
