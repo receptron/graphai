@@ -27,10 +27,13 @@ export type DataSource = {
   nodeId?: string;
   value?: any;
   propIds?: string[];
+  type: "__datasource";
 };
 
 export type DataSources = DataSource | DataSource[] | DataSources[];
-export type NestedDataSource = Record<string, DataSources>;
+export interface NestedDataSource {
+  [key: string]: NestedDataSource | DataSources;
+}
 
 export type ResultDataSet = ResultData | ResultData[] | ResultDataSet[];
 

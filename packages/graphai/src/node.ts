@@ -6,6 +6,7 @@ import {
   NodeDataParams,
   ResultData,
   DataSource,
+  DataSources,
   ComputedNodeData,
   StaticNodeData,
   NodeState,
@@ -105,7 +106,7 @@ export class ComputedNode extends Node {
         this.dataSources = namedInputs2dataSources(data.inputs, graph.version);
       }
     }
-    this.pendings = new Set(flatDataSourceNodeIds(Object.values(this.dataSources)));
+    this.pendings = new Set(flatDataSourceNodeIds(Object.values(this.dataSources) as DataSources[]));
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
       this.agentId = data.agent;

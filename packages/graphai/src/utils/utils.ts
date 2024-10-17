@@ -9,15 +9,15 @@ const parseNodeName_02 = (inputNodeId: any): DataSource => {
     const regex = /^"(.*)"$/;
     const match = inputNodeId.match(regex);
     if (match) {
-      return { value: match[1] }; // string literal
+      return { value: match[1], type: "__datasource" }; // string literal
     }
     const parts = inputNodeId.split(".");
     if (parts.length == 1) {
-      return { nodeId: parts[0] };
+      return { nodeId: parts[0], type: "__datasource" };
     }
-    return { nodeId: parts[0], propIds: parts.slice(1) };
+    return { nodeId: parts[0], propIds: parts.slice(1), type: "__datasource" };
   }
-  return { value: inputNodeId }; // non-string literal
+  return { value: inputNodeId, type: "__datasource" }; // non-string literal
 };
 
 export const parseNodeName = (inputNodeId: any, version: number): DataSource => {
@@ -28,15 +28,15 @@ export const parseNodeName = (inputNodeId: any, version: number): DataSource => 
     const regex = /^:(.*)$/;
     const match = inputNodeId.match(regex);
     if (!match) {
-      return { value: inputNodeId }; // string literal
+      return { value: inputNodeId, type: "__datasource" }; // string literal
     }
     const parts = match[1].split(".");
     if (parts.length == 1) {
-      return { nodeId: parts[0] };
+      return { nodeId: parts[0], type: "__datasource" };
     }
-    return { nodeId: parts[0], propIds: parts.slice(1) };
+    return { nodeId: parts[0], propIds: parts.slice(1), type: "__datasource" };
   }
-  return { value: inputNodeId }; // non-string literal
+  return { value: inputNodeId, type: "__datasource" }; // non-string literal
 };
 
 export function assert(condition: boolean, message: string, isWarn: boolean = false): asserts condition {

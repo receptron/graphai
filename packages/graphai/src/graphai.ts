@@ -15,7 +15,7 @@ import {
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode } from "@/node";
-import { parseNodeName, assert, getDataFromSource, isLogicallyTrue } from "@/utils/utils";
+import { parseNodeName, assert, getDataFromSource, isLogicallyTrue, isNamedInputs } from "@/utils/utils";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
@@ -330,13 +330,22 @@ export class GraphAI {
     }
   }
 
-  private nestedResultOf(source: DataSources): ResultDataSet {
+  private nestedResultOf(source: DataSource | NestedDataSource | DataSources): ResultDataSet {
     if (Array.isArray(source)) {
       return source.map((a) => {
         return this.nestedResultOf(a);
       });
     }
-    return this.resultOf(source);
+    if (isNamedInputs(source)) {
+      if (source.type === "__datasource") {
+        return this.resultOf(source as DataSource);
+      }
+      return Object.keys(source).reduce((tmp, key: string) => {
+        tmp[key] = this.nestedResultOf((source as NestedDataSource)[key] as any);
+        return tmp;
+      }, {} as any);
+    }
+    return this.resultOf(source as DataSource);
   }
 
   public resultsOf(sources: NestedDataSource) {
