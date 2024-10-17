@@ -114,13 +114,13 @@ export class ComputedNode extends Node {
       this.agentFunction = this.inputNames ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
     }
     if (data.graph) {
-      this.nestedGraph = typeof data.graph === "string" ? this.addPengindNode(data.graph) : data.graph;
+      this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
     }
     if (data.if) {
-      this.ifSource = this.addPengindNode(data.if);
+      this.ifSource = this.addPendingNode(data.if);
     }
     if (data.unless) {
-      this.unlessSource = this.addPengindNode(data.unless);
+      this.unlessSource = this.addPendingNode(data.unless);
     }
     this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
       const dataSource = parseNodeName(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
@@ -139,7 +139,7 @@ export class ComputedNode extends Node {
     return this.agentId ?? "__custom__function"; // only for display purpose in the log.
   }
 
-  private addPengindNode(nodeId: string) {
+  private addPendingNode(nodeId: string) {
     const source = parseNodeName(nodeId, this.graph.version);
     assert(!!source.nodeId, `Invalid data source ${nodeId}`);
     this.pendings.add(source.nodeId);
