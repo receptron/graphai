@@ -144,9 +144,9 @@ export const graphDataMap1 = {
           node2: {
             agent: "stringTemplateAgent",
             params: {
-              template: "I love ${0}.",
+              template: "I love ${m}.",
             },
-            inputs: [":row"],
+            inputs: { m: ":row" },
             isResult: true,
           },
         },
@@ -157,7 +157,7 @@ export const graphDataMap1 = {
     },
     result: {
       agent: "sleeperAgent",
-      inputs: [":nestedNode.node2"],
+      inputs: { array: [":nestedNode.node2"] },
       isResult: true,
     },
   },
@@ -179,7 +179,8 @@ export const graphDataMap3 = {
         nodes: {
           node1: {
             agent: "bypassAgent",
-            inputs: [":row"],
+            params: { namedKey: "row" },
+            inputs: {row: ":row"},
             isResult: true,
           },
         },
@@ -190,7 +191,8 @@ export const graphDataMap3 = {
     },
     result: {
       agent: "bypassAgent",
-      inputs: [":nestedNode.node1"],
+      params: { namedKey: "result" },
+      inputs: { result: [":nestedNode.node1"]},
       isResult: true,
     },
   },
@@ -212,7 +214,8 @@ export const graphDataMap4 = {
         nodes: {
           node1: {
             agent: "bypassAgent",
-            inputs: [":row"],
+            params: { namedKey: "row" },
+            inputs: {row: ":row"},
             isResult: true,
           },
         },
@@ -224,9 +227,9 @@ export const graphDataMap4 = {
     result: {
       agent: "bypassAgent",
       params: {
-        flat: 1,
+        namedKey: "result",
       },
-      inputs: [":nestedNode.node1"],
+      inputs: {result: ":nestedNode.node1"},
     },
   },
 };
@@ -247,7 +250,8 @@ export const graphDataMap5 = {
         nodes: {
           node1: {
             agent: "bypassAgent",
-            inputs: [":row"],
+            params: { namedKey: "row" },
+            inputs: {row: ":row"},
             isResult: true,
           },
         },

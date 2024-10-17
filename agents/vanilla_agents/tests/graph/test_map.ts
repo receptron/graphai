@@ -27,13 +27,13 @@ test("test map 1", async () => {
 // nest graph and flat
 test("test map 3", async () => {
   const result = await graphDataTestRunner(__dirname, "test_map3", graphDataMap3, agents);
-  assert.deepStrictEqual(result.result, [[["hello"], ["hello2"]]]);
+  assert.deepStrictEqual(result.result, [["hello", "hello2"]]);
 });
 
 test("test map 4", async () => {
   const result = await graphDataTestRunner(__dirname, "test_map4", graphDataMap4, agents);
 
-  assert.deepStrictEqual(result.result, [["hello"], ["hello2"]]);
+  assert.deepStrictEqual(result.result, ["hello", "hello2"]);
 });
 
 test("test map 5", async () => {
