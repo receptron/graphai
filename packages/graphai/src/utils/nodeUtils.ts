@@ -23,13 +23,13 @@ export const namedInputs2dataSources = (inputs: Record<string, any>, graphVersio
   }, {});
 };
 
-export const flatDataSourceNodeIds = (sources: DataSource[] | DataSources[] | NestedDataSource[]): string[] => {
+export const flatDataSourceNodeIds = (sources: (DataSource | DataSources | NestedDataSource)[]): string[] => {
   return flatDataSource(sources)
     .filter((source) => source.nodeId)
     .map((source) => source.nodeId!);
 };
 
-export const flatDataSource = (sources: DataSource[] | DataSources[] | NestedDataSource[]): DataSource[] => {
+export const flatDataSource = (sources: (DataSource | DataSources | NestedDataSource)[]): DataSource[] => {
   return sources
     .map((source) => {
       if (Array.isArray(source)) {
