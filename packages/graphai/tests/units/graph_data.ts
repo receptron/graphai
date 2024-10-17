@@ -22,25 +22,6 @@ export const graph_data = {
   },
 };
 
-/*
-export const graph_injection_data = {
-  version: graphDataLatestVersion,
-  nodes: {
-    echo: {
-      agent: "echoAgent",
-    },
-    bypassAgent: {
-      agent: "injectAgent",
-      inputs: [":echo"],
-    },
-    bypassAgent2: {
-      agent: "bypassAgent",
-      inputs: [":bypassAgent"],
-    },
-  },
-};
-*/
-
 export const graph_data_passthrough = {
   version: graphDataLatestVersion,
   nodes: {
