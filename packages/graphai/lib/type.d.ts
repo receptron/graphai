@@ -128,4 +128,4 @@ export type AgentFunctionInfo = {
     npms?: string[];
 };
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
-export declare const DataSourceType = "datasource";
+export declare const DataSourceType: "datasource";
