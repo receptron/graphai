@@ -40,7 +40,9 @@ export const graph_data = {
 };
 
 class DummyTaskManager extends TaskManager {
-  public onComplete(node: ComputedNode) {}
+  public onComplete(node: ComputedNode) {
+    console.log(node);
+  }
 }
 
 const taskManager = new DummyTaskManager(10);
