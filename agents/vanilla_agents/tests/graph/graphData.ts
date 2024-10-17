@@ -528,7 +528,8 @@ export const graphDataBypass2 = {
     },
     bypassAgent2: {
       agent: "bypassAgent",
-      inputs: [":mapNode.bypassAgent"],
+      params: { namedKey: "array" },
+      inputs: { array: [":mapNode.bypassAgent"] },
     },
   },
 };
@@ -550,18 +551,18 @@ export const graphDataBypass3 = {
         nodes: {
           bypassAgent: {
             agent: "bypassAgent",
-            inputs: [":row"],
+            params: { namedKey: "row" },
+            inputs: { row: [":row"] },
           },
           bypassAgent2: {
             agent: "bypassAgent",
-            inputs: [":bypassAgent.$0"],
+            params: { namedKey: "text" },
+            inputs: { text: ":bypassAgent" },
           },
           bypassAgent3: {
             agent: "bypassAgent",
-            inputs: [":bypassAgent2.$0"],
-            params: {
-              firstElement: true,
-            },
+            params: { namedKey: "text" },
+            inputs: { text: ":bypassAgent2.$0" },
             isResult: true,
           },
         },
@@ -572,10 +573,8 @@ export const graphDataBypass3 = {
     },
     bypassAgent4: {
       agent: "bypassAgent",
-      params: {
-        firstElement: true,
-      },
-      inputs: [":mapNode.bypassAgent3"],
+      params: { namedKey: "text" },
+      inputs: { text: ":mapNode.bypassAgent3" },
     },
   },
 };
@@ -596,11 +595,13 @@ export const graphDataBypass4 = {
         nodes: {
           bypassAgent: {
             agent: "bypassAgent",
-            inputs: [":row"],
+            params: { namedKey: "row" },
+            inputs: { row: ":row" },
           },
           bypassAgent2: {
             agent: "bypassAgent",
-            inputs: [":bypassAgent.$0", ":row"],
+            params: { namedKey: "array" },
+            inputs: { array: [":bypassAgent", ":row"] },
             isResult: true,
           },
         },
@@ -611,10 +612,8 @@ export const graphDataBypass4 = {
     },
     bypassAgent3: {
       agent: "bypassAgent",
-      inputs: [":mapNode.bypassAgent2"],
-      params: {
-        firstElement: true,
-      },
+      params: { namedKey: "text" },
+      inputs: { text: ":mapNode.bypassAgent2" },
     },
   },
 };
@@ -630,15 +629,18 @@ export const graphDataBypass5 = {
     },
     bypassAgent: {
       agent: "bypassAgent",
-      inputs: [":echo", ":echo", ":echo"],
+      params: { namedKey: "array" },
+      inputs: { array: [":echo", ":echo", ":echo"] },
     },
     bypassAgent2: {
       agent: "bypassAgent",
-      inputs: [":bypassAgent", ":bypassAgent"],
+      params: { namedKey: "array" },
+      inputs: { array: [":bypassAgent", ":bypassAgent"] },
     },
     bypassAgent3: {
       agent: "bypassAgent",
-      inputs: [":bypassAgent2", ":bypassAgent2"],
+      params: { namedKey: "array" },
+      inputs: { array: [":bypassAgent2", ":bypassAgent2"] },
     },
   },
 };
