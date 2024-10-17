@@ -267,7 +267,7 @@ export class ComputedNode extends Node {
       }, this.timeout);
     }
 
-    const namedInputs =  this.getNamedInput(previousResults);
+    const namedInputs = this.getNamedInput(previousResults);
     try {
       const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
       const localLog: TransactionLog[] = [];
@@ -354,7 +354,7 @@ export class ComputedNode extends Node {
   private errorProcess(error: unknown, transactionId: number, namedInputs: DefaultInputData) {
     if (error instanceof Error && error.message !== strIntentionalError) {
       console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
-      console.error({namedInputs});
+      console.error({ namedInputs });
       console.error(error);
       console.error("-->");
     }
