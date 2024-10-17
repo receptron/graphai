@@ -1,4 +1,4 @@
-import { ResultData, NodeDataParams, NodeState, DataSources } from "@/type";
+import { ResultData, NodeDataParams, NodeState } from "@/type";
 import type { GraphAI } from "@/graphai";
 import type { ComputedNode, StaticNode } from "@/node";
 import { debugResultKey } from "@/utils/utils";
@@ -64,7 +64,7 @@ export class TransactionLog {
     this.state = node.state;
     this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
     this.startTime = transactionId;
-    this.inputs = flatDataSourceNodeIds(Object.values(node.dataSources) as DataSources[]);
+    this.inputs = flatDataSourceNodeIds(Object.values(node.dataSources));
     this.inputsData = inputs.length > 0 ? inputs : undefined;
     graph.setLoopLog(this);
     graph.appendLog(this);
