@@ -340,10 +340,10 @@ export class GraphAI {
       if (source.type === "__datasource") {
         return this.resultOf(source as DataSource);
       }
-      return Object.keys(source).reduce((tmp, key: string) => {
-        tmp[key] = this.nestedResultOf((source as NestedDataSource)[key] as any);
+      return Object.keys(source).reduce((tmp: Record<string, ResultDataSet>, key: string) => {
+        tmp[key] = this.nestedResultOf((source as NestedDataSource)[key]);
         return tmp;
-      }, {} as any);
+      }, {});
     }
     return this.resultOf(source as DataSource);
   }
