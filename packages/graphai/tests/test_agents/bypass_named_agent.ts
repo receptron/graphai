@@ -1,6 +1,10 @@
 import { AgentFunction, AgentFunctionInfo } from "@/index";
 
-export const bypassNamedAgent: AgentFunction<{ flat?: number; firstElement?: boolean }> = async ({ namedInputs }) => {
+export const bypassNamedAgent: AgentFunction<{ namedKey?: string }> = async ({ params, namedInputs }) => {
+  const { namedKey } = params;
+  if (namedKey) {
+    return namedInputs[namedKey];
+  }
   return namedInputs;
 };
 
