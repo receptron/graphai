@@ -11,15 +11,18 @@ export const graph_data = {
     },
     bypassAgent: {
       agent: "bypassAgent",
-      inputs: [":echo"],
+      params: { namedKey: "text" },
+      inputs: { text: ":echo" },
     },
     bypassAgent2: {
       agent: "bypassAgent",
-      inputs: [":bypassAgent"],
+      params: { namedKey: "text" },
+      inputs: { text: ":bypassAgent" },
     },
   },
 };
 
+/*
 export const graph_injection_data = {
   version: graphDataLatestVersion,
   nodes: {
@@ -36,6 +39,7 @@ export const graph_injection_data = {
     },
   },
 };
+*/
 
 export const graph_data_passthrough = {
   version: graphDataLatestVersion,
@@ -49,7 +53,8 @@ export const graph_data_passthrough = {
     bypassAgent: {
       isResult: true,
       agent: "bypassAgent",
-      inputs: [":echo"],
+      params: { namedKey: "text" },
+      inputs: { text: [":echo"] },
       passThrough: {
         type: "bypass1",
       },
@@ -57,10 +62,8 @@ export const graph_data_passthrough = {
     bypassAgent2: {
       isResult: true,
       agent: "bypassAgent",
-      inputs: [":bypassAgent"],
-      params: {
-        flat: true,
-      },
+      inputs: { text: ":bypassAgent" },
+      params: { namedKey: "text" },
       passThrough: {
         type: "bypass2",
       },
