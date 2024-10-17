@@ -3,14 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bypassAgent = void 0;
 const agent_utils_1 = require("@graphai/agent_utils");
 const bypassAgent = async ({ params, inputs, namedInputs }) => {
+    const { flat, firstElement, namedKey } = params;
     if ((0, agent_utils_1.isNamedInputs)(namedInputs)) {
+        if (namedKey) {
+            return namedInputs[namedKey];
+        }
         return namedInputs;
     }
-    if (params && params.firstElement) {
+    if (params && firstElement) {
         return inputs[0];
     }
-    if (params && params.flat) {
-        return inputs.flat(params.flat || 1);
+    if (params && flat) {
+        return inputs.flat(flat || 1);
     }
     return inputs;
 };
