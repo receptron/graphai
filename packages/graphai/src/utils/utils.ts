@@ -1,4 +1,4 @@
-import { DataSource, ResultData, AgentFunction } from "@/type";
+import { DataSource, ResultData, AgentFunction, DefaultInputData } from "@/type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -170,4 +170,8 @@ export const defaultTestContext = {
   filterParams: {},
   agents: {},
   log: [],
+};
+
+export const isNamedInputs = <NamedInput = DefaultInputData>(namedInputs: NamedInput) => {
+  return isObject(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
 };

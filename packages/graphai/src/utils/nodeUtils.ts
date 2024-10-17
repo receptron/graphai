@@ -1,4 +1,4 @@
-import { parseNodeName } from "./utils";
+import { parseNodeName, isNamedInputs } from "./utils";
 import { DataSource, DataSources, NestedDataSource } from "@/type";
 
 export const inputs2dataSources = (inputs: string[], graphVersion: number) => {
@@ -18,7 +18,7 @@ const nestedParseNodeName = (input: any, graphVersion: number): DataSources => {
 export const namedInputs2dataSources = (inputs: Record<string, any>, graphVersion: number) => {
   return Object.keys(inputs).reduce((tmp: NestedDataSource, key) => {
     const input = inputs[key];
-    tmp[key] = nestedParseNodeName(input, graphVersion);
+    tmp[key] = isNamedInputs(input) ? namedInputs2dataSources(input, graphVersion) : nestedParseNodeName(input, graphVersion);
     return tmp;
   }, {});
 };
