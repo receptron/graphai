@@ -40,7 +40,7 @@ export declare class ComputedNode extends Node {
     readonly isComputedNode = true;
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
     getAgentId(): string;
-    private addPengindNode;
+    private addPendingNode;
     isReadyNode(): boolean;
     private retry;
     private checkDataAvailability;
@@ -53,8 +53,11 @@ export declare class ComputedNode extends Node {
     execute(): Promise<void>;
     private prepareExecute;
     private errorProcess;
+    private getParams;
     private getNamedInput;
     private getInputs;
+    private getContext;
+    private getResult;
     private getDebugInfo;
     private beforeConsoleLog;
     private afterConsoleLog;
