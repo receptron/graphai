@@ -2,7 +2,7 @@ import { DataSource, DataSourceType, NestedDataSource, DataSources, ResultDataSe
 
 import { GraphNodes } from "./node";
 
-import { getDataFromSource, isNamedInputs } from "@/utils/utils";
+import { getDataFromSource, isNamedInputs, isObject } from "@/utils/utils";
 
 const nestedResultOf = (source: DataSource | NestedDataSource | DataSources, nodes: GraphNodes): ResultDataSet => {
   if (Array.isArray(source)) {
@@ -32,4 +32,30 @@ export const resultsOf = (sources: NestedDataSource, nodes: GraphNodes) => {
 export const resultOf = (source: DataSource, nodes: GraphNodes) => {
   const { result } = source.nodeId ? nodes[source.nodeId] : { result: undefined };
   return getDataFromSource(result, source);
+};
+
+export const cleanResultInner = (results: ResultData): ResultData => {
+  if (Array.isArray(results)) {
+    return results.filter((result) => result).map((result: ResultData) => cleanResultInner(result));
+  }
+
+  if (isObject(results)) {
+    return Object.keys(results).reduce((tmp: Record<string, ResultData>, key: string) => {
+      if (results[key]) {
+        tmp[key] = cleanResultInner(results[key]);
+      }
+      return tmp;
+    }, {});
+  }
+
+  return results;
+};
+
+export const cleanResult = (results: Record<string, ResultData | undefined>) => {
+  return Object.keys(results).reduce((tmp: Record<string, ResultData | undefined>, key: string) => {
+    if (results[key]) {
+      tmp[key] = cleanResultInner(results[key]);
+    }
+    return tmp;
+  }, {});
 };

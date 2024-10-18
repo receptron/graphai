@@ -17,7 +17,7 @@ import { parseNodeName, assert, getDataFromSource, isLogicallyTrue } from "@/uti
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
-import { resultsOf, resultOf } from "./result";
+import { resultsOf, resultOf, cleanResult } from "./result";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -328,8 +328,12 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: NestedDataSource) {
-    return resultsOf(sources, this.nodes);
+  public resultsOf(sources: NestedDataSource, anyInput: boolean = false) {
+    const results = resultsOf(sources, this.nodes);
+    if (anyInput) {
+      return cleanResult(results);
+    }
+    return results;
   }
   public resultOf(source: DataSource) {
     return resultOf(source, this.nodes);
