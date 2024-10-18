@@ -40,7 +40,7 @@ export declare class ComputedNode extends Node {
     readonly isComputedNode = true;
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
     getAgentId(): string;
-    private addPengindNode;
+    private addPendingNode;
     isReadyNode(): boolean;
     private retry;
     private checkDataAvailability;
