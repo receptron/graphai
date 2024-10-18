@@ -34,3 +34,11 @@ test("test clean result array value", async () => {
   const result = cleanResult(data);
   assert.deepStrictEqual(result, expect);
 });
+
+test("test clean result deep", async () => {
+  const data = { array: [{ array: [[], [undefined, null], { data: {} }], data: { array: [] } }] } as any;
+  const expect = {};
+
+  const result = cleanResult(data);
+  assert.deepStrictEqual(result, expect);
+});
