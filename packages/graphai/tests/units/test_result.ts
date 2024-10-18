@@ -1,15 +1,54 @@
-import { StaticNode } from "@/node";
+import { graphDataLatestVersion } from "~/common";
+import { StaticNode, ComputedNode } from "@/node";
 import { DataSourceType } from "@/type";
 import { resultsOf } from "@/result";
+import { TaskManager } from "@/task_manager";
 import { GraphAI } from "@/graphai";
 
-import { graph_data } from "./graph_data";
+// import { graph_data } from "./graph_data";
 import * as agents from "../test_agents";
 
 import test from "node:test";
 import assert from "node:assert";
 
-const graph = new GraphAI(graph_data, agents);
+export const graph_data = {
+  version: graphDataLatestVersion,
+  nodes: {
+    message1: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    message2: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    bypassAgent: {
+      agent: "bypassAgent",
+      params: { namedKey: "text" },
+      inputs: { text: ":message1" },
+    },
+    bypassAgent2: {
+      agent: "bypassAgent",
+      params: { namedKey: "text" },
+      inputs: { text: ":message2" },
+    },
+  },
+};
+
+class DummyTaskManager extends TaskManager {
+  public onComplete(node: ComputedNode) {
+    console.log(node);
+  }
+}
+
+const taskManager = new DummyTaskManager(10);
+
+const graph = new GraphAI(graph_data, agents, { taskManager });
+graph.run();
 
 const getStaticNode = (nodeId: string, value?: string) => {
   const dataSource = { value: undefined, __type: DataSourceType };
@@ -17,6 +56,15 @@ const getStaticNode = (nodeId: string, value?: string) => {
   if (value) {
     node.injectValue(value);
   }
+  return node;
+};
+
+const getComputedNode = (nodeId: string) => {
+  const nodeData = {
+    agent: "echoAgent",
+    params: { message: "hello" },
+  };
+  const node = new ComputedNode("123", nodeId, nodeData, graph);
   return node;
 };
 
@@ -38,4 +86,18 @@ test("test result for anyInput", async () => {
   const node2 = getStaticNode("message2");
   const result = resultsOf(dataSources, { message1: node1, message2: node2 });
   assert.deepStrictEqual(result, { text: ["123", undefined] });
+});
+
+test("test computed node result", async () => {
+  const dataSources = {
+    text: [
+      { nodeId: "message1", __type: DataSourceType },
+      { nodeId: "message2", __type: DataSourceType },
+    ],
+  };
+  const node1 = getComputedNode("message1");
+  const node2 = getComputedNode("message2");
+  await node1.execute();
+  const result = resultsOf(dataSources, { message1: node1, message2: node2 });
+  assert.deepStrictEqual(result, { text: [{ message: "hello" }, undefined] });
 });
