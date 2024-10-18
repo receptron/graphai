@@ -63,8 +63,29 @@ const getNestedData = (result: ResultData, propId: string) => {
     if (propId === "$last") {
       return result[result.length - 1];
     }
+    if (propId === "length()") {
+      return result.length;
+    }
+    if (propId === "flat()") {
+      return result.flat();
+    }
+    const matchJoin = propId.match(/^join\(([,-])\)$/);
+    if (matchJoin && Array.isArray(matchJoin)) {
+      return result.join(matchJoin[1]);
+    }
+    // flat, join
   } else if (isObject(result)) {
+    if (propId === "keys()") {
+      return Object.keys(result);
+    }
+    if (propId === "values()") {
+      return Object.values(result);
+    }
     return (result as Record<string, any>)[propId];
+  } else if (typeof result === "string") {
+    if (propId === "jsonParse()") {
+      return JSON.parse(result);
+    }
   }
   return undefined;
 };
