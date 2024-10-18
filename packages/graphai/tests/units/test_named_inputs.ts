@@ -133,5 +133,5 @@ test("test nested named inputs", async () => {
 test("test anyinput named inputs", async () => {
   const graph = new GraphAI(graph_data_any_named_inputs, agents, {});
   const result = await graph.run();
-  assert.deepStrictEqual(result, { reducer: { array: [[1, 1]] } });
+  assert.deepStrictEqual(result, { reducer: { array: [[], [1, 1]] } });
 });
