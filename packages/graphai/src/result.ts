@@ -37,19 +37,19 @@ export const resultOf = (source: DataSource, nodes: GraphNodes) => {
 // for anyInput
 export const cleanResultInner = (results: ResultData): ResultData | null => {
   if (Array.isArray(results)) {
-    const ret = results.map((result: ResultData) => cleanResultInner(result)).filter((result) => !isNull(result));
-    return ret.length === 0 ? null : ret;
+    return results.map((result: ResultData) => cleanResultInner(result)).filter((result) => !isNull(result));
+    // return ret.length === 0 ? null : ret;
   }
 
   if (isObject(results)) {
-    const ret = Object.keys(results).reduce((tmp: Record<string, ResultData>, key: string) => {
+    return Object.keys(results).reduce((tmp: Record<string, ResultData>, key: string) => {
       const value = cleanResultInner(results[key]);
       if (!isNull(value)) {
         tmp[key] = value;
       }
       return tmp;
     }, {});
-    return Object.keys(ret).length === 0 ? null : ret;
+    // return Object.keys(ret).length === 0 ? null : ret;
   }
 
   return results;
