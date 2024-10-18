@@ -52,6 +52,10 @@ export const isObject = (x: unknown) => {
   return x !== null && typeof x === "object";
 };
 
+export const isNull = (data: unknown) => {
+  return data === null || data === undefined;
+};
+
 const getNestedData = (result: ResultData, propId: string) => {
   if (Array.isArray(result)) {
     const regex = /^\$(\d+)$/;
