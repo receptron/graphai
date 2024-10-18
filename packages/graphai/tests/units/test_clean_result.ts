@@ -42,3 +42,34 @@ test("test clean result deep", async () => {
   const result = cleanResult(data);
   assert.deepStrictEqual(result, expect);
 });
+
+test("test clean result deep", async () => {
+  const data = {
+    array: [
+      { array: [[], [undefined, null, false], { data: { data: { a: 1, b: [], c: [null, undefined], d: false } } }], data: { array: [null, 2, undefined] } },
+    ],
+  } as any;
+  const expect = {
+    array: [
+      {
+        array: [
+          [false],
+          {
+            data: {
+              data: {
+                a: 1,
+                d: false,
+              },
+            },
+          },
+        ],
+        data: {
+          array: [2],
+        },
+      },
+    ],
+  };
+
+  const result = cleanResult(data);
+  assert.deepStrictEqual(result, expect);
+});
