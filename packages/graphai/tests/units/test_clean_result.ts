@@ -12,8 +12,8 @@ test("test clean result empty array", async () => {
 });
 
 test("test clean result value", async () => {
-  const data = { a: undefined, b: null, c: 1, d: false, e: true, f: "1", g: "", h: {}, i: [] } as any;
-  const expect = { c: 1, d: false, e: true, f: "1", g: "" };
+  const data = { a: undefined, b: null, c: 1, d: false, e: true, f: "1", g: "", h: {}, i: [], j: 0, k: -1 } as any;
+  const expect = { c: 1, d: false, e: true, f: "1", g: "", j: 0, k: -1 };
 
   const result = cleanResult(data);
   assert.deepStrictEqual(result, expect);
