@@ -57,11 +57,9 @@ export const cleanResultInner = (results: ResultData): ResultData | null => {
 
 export const cleanResult = (results: Record<string, ResultData | undefined>) => {
   return Object.keys(results).reduce((tmp: Record<string, ResultData | undefined>, key: string) => {
-    if (results[key]) {
-      const value = cleanResultInner(results[key]);
-      if (value !== null && value !== undefined) {
-        tmp[key] = value;
-      }
+    const value = cleanResultInner(results[key]);
+    if (value !== null && value !== undefined) {
+      tmp[key] = value;
     }
     return tmp;
   }, {});
