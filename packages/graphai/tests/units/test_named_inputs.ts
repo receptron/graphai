@@ -1,6 +1,8 @@
 import { GraphAI } from "@/index";
 import { graphDataLatestVersion } from "~/common";
 
+import * as agents from "~/test_agents";
+
 import test from "node:test";
 import assert from "node:assert";
 
@@ -84,6 +86,26 @@ const graph_data_nested_named_input = {
   },
 };
 
+const graph_data_any_named_inputs = {
+  version: 0.5,
+  nodes: {
+    no_tool_calls: {
+      value: [],
+    },
+    tool_calls: {
+      value: [1, 1],
+    },
+    reducer: {
+      agent: "bypassAgent",
+      anyInput: true,
+      isResult: true,
+      inputs: {
+        array: [":no_tool_calls", ":tool_calls"],
+      },
+    },
+  },
+};
+
 test("test named inputs", async () => {
   const graph = new GraphAI(graph_data, {}, {});
   const result = await graph.run();
@@ -106,4 +128,10 @@ test("test nested named inputs", async () => {
   const graph = new GraphAI(graph_data_nested_named_input, {}, {});
   const result = await graph.run();
   assert.deepStrictEqual(result, { namedResult: { nested: "Hello World", deep: { nested: ["Hello World2"] } } });
+});
+
+test("test anyinput named inputs", async () => {
+  const graph = new GraphAI(graph_data_any_named_inputs, agents, {});
+  const result = await graph.run();
+  assert.deepStrictEqual(result, { reducer: { array: [[1, 1]] } });
 });
