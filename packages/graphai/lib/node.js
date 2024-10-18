@@ -208,22 +208,7 @@ class ComputedNode extends Node {
         try {
             const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
             const localLog = [];
-            const params = Object.keys(this.dynamicParams).reduce((tmp, key) => {
-                const result = this.graph.resultOf(this.dynamicParams[key]);
-                tmp[key] = result;
-                return tmp;
-            }, { ...this.params });
-            const context = {
-                params: params,
-                inputs: this.getInputs(previousResults),
-                namedInputs,
-                inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
-                debugInfo: this.getDebugInfo(),
-                filterParams: this.filterParams,
-                agentFilters: this.graph.agentFilters,
-                config: this.graph.config,
-                log: localLog,
-            };
+            const context = this.getContext(previousResults, namedInputs, localLog);
             // NOTE: We use the existence of graph object in the agent-specific params to determine
             // if this is a nested agent or not.
             if (this.nestedGraph) {
@@ -250,17 +235,7 @@ class ComputedNode extends Node {
                 return;
             }
             this.state = type_1.NodeState.Completed;
-            this.result = (() => {
-                if (result && this.passThrough) {
-                    if ((0, utils_2.isObject)(result) && !Array.isArray(result)) {
-                        return { ...result, ...this.passThrough };
-                    }
-                    else if (Array.isArray(result)) {
-                        return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
-                    }
-                }
-                return result;
-            })();
+            this.result = this.getResult(result);
             this.log.onComplete(this, this.graph, localLog);
             this.onSetResult();
             this.graph.onExecutionComplete(this);
@@ -298,6 +273,13 @@ class ComputedNode extends Node {
             this.retry(type_1.NodeState.Failed, Error("Unknown"));
         }
     }
+    getParams() {
+        return Object.keys(this.dynamicParams).reduce((tmp, key) => {
+            const result = this.graph.resultOf(this.dynamicParams[key]);
+            tmp[key] = result;
+            return tmp;
+        }, { ...this.params });
+    }
     getNamedInput(previousResults) {
         if (this.inputNames) {
             return this.inputNames.reduce((tmp, name) => {
@@ -314,6 +296,31 @@ class ComputedNode extends Node {
             return [];
         }
         return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
+    }
+    getContext(previousResults, namedInputs, localLog) {
+        const context = {
+            params: this.getParams(),
+            inputs: this.getInputs(previousResults),
+            namedInputs,
+            inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
+            debugInfo: this.getDebugInfo(),
+            filterParams: this.filterParams,
+            agentFilters: this.graph.agentFilters,
+            config: this.graph.config,
+            log: localLog,
+        };
+        return context;
+    }
+    getResult(result) {
+        if (result && this.passThrough) {
+            if ((0, utils_2.isObject)(result) && !Array.isArray(result)) {
+                return { ...result, ...this.passThrough };
+            }
+            else if (Array.isArray(result)) {
+                return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+            }
+        }
+        return result;
     }
     getDebugInfo() {
         return {

@@ -53,8 +53,11 @@ export declare class ComputedNode extends Node {
     execute(): Promise<void>;
     private prepareExecute;
     private errorProcess;
+    private getParams;
     private getNamedInput;
     private getInputs;
+    private getContext;
+    private getResult;
     private getDebugInfo;
     private beforeConsoleLog;
     private afterConsoleLog;
