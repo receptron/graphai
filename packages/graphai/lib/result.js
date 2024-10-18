@@ -33,25 +33,30 @@ const resultOf = (source, nodes) => {
     return (0, utils_1.getDataFromSource)(result, source);
 };
 exports.resultOf = resultOf;
+// for anyInput
 const cleanResultInner = (results) => {
     if (Array.isArray(results)) {
-        return results.filter((result) => result).map((result) => (0, exports.cleanResultInner)(result));
+        return results.map((result) => (0, exports.cleanResultInner)(result)).filter((result) => !(0, utils_1.isNull)(result));
+        // return ret.length === 0 ? null : ret;
     }
     if ((0, utils_1.isObject)(results)) {
         return Object.keys(results).reduce((tmp, key) => {
-            if (results[key]) {
-                tmp[key] = (0, exports.cleanResultInner)(results[key]);
+            const value = (0, exports.cleanResultInner)(results[key]);
+            if (!(0, utils_1.isNull)(value)) {
+                tmp[key] = value;
             }
             return tmp;
         }, {});
+        // return Object.keys(ret).length === 0 ? null : ret;
     }
     return results;
 };
 exports.cleanResultInner = cleanResultInner;
 const cleanResult = (results) => {
     return Object.keys(results).reduce((tmp, key) => {
-        if (results[key]) {
-            tmp[key] = (0, exports.cleanResultInner)(results[key]);
+        const value = (0, exports.cleanResultInner)(results[key]);
+        if (!(0, utils_1.isNull)(value)) {
+            tmp[key] = value;
         }
         return tmp;
     }, {});

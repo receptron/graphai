@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.getDataFromSource = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
+exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.getDataFromSource = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
 exports.assert = assert;
 const type_1 = require("../type");
 const sleep = async (milliseconds) => {
@@ -53,6 +53,10 @@ const isObject = (x) => {
     return x !== null && typeof x === "object";
 };
 exports.isObject = isObject;
+const isNull = (data) => {
+    return data === null || data === undefined;
+};
+exports.isNull = isNull;
 const getNestedData = (result, propId) => {
     if (Array.isArray(result)) {
         const regex = /^\$(\d+)$/;
