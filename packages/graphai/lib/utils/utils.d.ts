@@ -3,6 +3,7 @@ export declare const sleep: (milliseconds: number) => Promise<unknown>;
 export declare const parseNodeName: (inputNodeId: any, version: number) => DataSource;
 export declare function assert(condition: boolean, message: string, isWarn?: boolean): asserts condition;
 export declare const isObject: (x: unknown) => x is object;
+export declare const isNull: (data: unknown) => data is null | undefined;
 export declare const getDataFromSource: (result: ResultData | undefined, source: DataSource) => ResultData | undefined;
 export declare const strIntentionalError = "Intentional Error for Debugging";
 export declare const defaultAgentInfo: {
