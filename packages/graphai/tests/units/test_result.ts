@@ -1,7 +1,7 @@
 import { graphDataLatestVersion } from "~/common";
 import { StaticNode, ComputedNode } from "@/node";
 import { DataSourceType } from "@/type";
-import { resultsOf } from "@/result";
+import { resultsOf, cleanResult } from "@/result";
 import { TaskManager } from "@/task_manager";
 import { GraphAI } from "@/graphai";
 
@@ -14,6 +14,9 @@ import assert from "node:assert";
 export const graph_data = {
   version: graphDataLatestVersion,
   nodes: {
+    data1: {
+      value: "1",
+    },
     message1: {
       agent: "echoAgent",
       params: {
@@ -25,6 +28,8 @@ export const graph_data = {
       params: {
         message: "hello",
       },
+      inputs: { test: [":data1", ":bypassAgent"] },
+      anyInput: true,
     },
     bypassAgent: {
       agent: "bypassAgent",
@@ -40,9 +45,7 @@ export const graph_data = {
 };
 
 class DummyTaskManager extends TaskManager {
-  public onComplete(node: ComputedNode) {
-    console.log(node);
-  }
+  public onComplete(__node: ComputedNode) {}
 }
 
 const taskManager = new DummyTaskManager(10);
@@ -86,6 +89,19 @@ test("test result for anyInput", async () => {
   const node2 = getStaticNode("message2");
   const result = resultsOf(dataSources, { message1: node1, message2: node2 });
   assert.deepStrictEqual(result, { text: ["123", undefined] });
+});
+
+test("test result for anyInput", async () => {
+  const dataSources = {
+    text: [
+      { nodeId: "message1", __type: DataSourceType },
+      { nodeId: "message2", __type: DataSourceType },
+    ],
+  };
+  const node1 = getStaticNode("message1", "123");
+  const node2 = getStaticNode("message2");
+  const result = cleanResult(resultsOf(dataSources, { message1: node1, message2: node2 }));
+  assert.deepStrictEqual(result, { text: ["123"] });
 });
 
 test("test computed node result", async () => {
