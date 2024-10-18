@@ -196,7 +196,7 @@ class ComputedNode extends Node {
     // then it removes itself from the "running node" list of the graph.
     // Notice that setting the result of this node may make other nodes ready to run.
     async execute() {
-        const previousResults = this.graph.resultsOf(this.dataSources);
+        const previousResults = this.graph.resultsOf(this.dataSources, this.anyInput);
         const transactionId = Date.now();
         this.prepareExecute(transactionId, Object.values(previousResults));
         if (this.timeout && this.timeout > 0) {

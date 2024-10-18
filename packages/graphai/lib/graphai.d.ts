@@ -46,6 +46,6 @@ export declare class GraphAI {
     updateLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
-    resultsOf(sources: NestedDataSource): Record<string, ResultData>;
+    resultsOf(sources: NestedDataSource, anyInput?: boolean): Record<string, ResultData>;
     resultOf(source: DataSource): ResultData;
 }

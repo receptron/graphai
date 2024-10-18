@@ -268,8 +268,12 @@ class GraphAI {
             throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
         }
     }
-    resultsOf(sources) {
-        return (0, result_1.resultsOf)(sources, this.nodes);
+    resultsOf(sources, anyInput = false) {
+        const results = (0, result_1.resultsOf)(sources, this.nodes);
+        if (anyInput) {
+            return (0, result_1.cleanResult)(results);
+        }
+        return results;
     }
     resultOf(source) {
         return (0, result_1.resultOf)(source, this.nodes);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resultOf = exports.resultsOf = void 0;
+exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
 const type_1 = require("./type");
 const utils_1 = require("./utils/utils");
 const nestedResultOf = (source, nodes) => {
@@ -33,3 +33,27 @@ const resultOf = (source, nodes) => {
     return (0, utils_1.getDataFromSource)(result, source);
 };
 exports.resultOf = resultOf;
+const cleanResultInner = (results) => {
+    if (Array.isArray(results)) {
+        return results.filter((result) => result).map((result) => (0, exports.cleanResultInner)(result));
+    }
+    if ((0, utils_1.isObject)(results)) {
+        return Object.keys(results).reduce((tmp, key) => {
+            if (results[key]) {
+                tmp[key] = (0, exports.cleanResultInner)(results[key]);
+            }
+            return tmp;
+        }, {});
+    }
+    return results;
+};
+exports.cleanResultInner = cleanResultInner;
+const cleanResult = (results) => {
+    return Object.keys(results).reduce((tmp, key) => {
+        if (results[key]) {
+            tmp[key] = (0, exports.cleanResultInner)(results[key]);
+        }
+        return tmp;
+    }, {});
+};
+exports.cleanResult = cleanResult;
