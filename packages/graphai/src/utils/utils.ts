@@ -49,7 +49,7 @@ export function assert(condition: boolean, message: string, isWarn: boolean = fa
 }
 
 export const isObject = (x: unknown) => {
-  return x !== null && typeof x === "object" && !Array.isArray(x);
+  return x !== null && typeof x === "object";
 };
 
 export const isNull = (data: unknown) => {
