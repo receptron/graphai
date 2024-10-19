@@ -32,4 +32,3 @@ test("test namedInput nested object failed", async () => {
   const pendings = flatDataSourceNodeIds(Object.values(dataSources));
   assert.deepStrictEqual(pendings, ["abc", "xyz", "aaa", "ccc"]);
 });
-
