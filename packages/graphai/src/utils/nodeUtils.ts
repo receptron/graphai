@@ -12,6 +12,9 @@ const nestedParseNodeName = (input: any, graphVersion: number): DataSources => {
   if (Array.isArray(input)) {
     return input.map((inp) => nestedParseNodeName(inp, graphVersion));
   }
+  if (isNamedInputs(input)) {
+    return namedInputs2dataSources(input, graphVersion) as unknown as DataSources;
+  }
   return parseNodeName(input, graphVersion);
 };
 
