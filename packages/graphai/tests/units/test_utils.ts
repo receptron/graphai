@@ -95,3 +95,138 @@ test("test getDataFromSource nested array last", async () => {
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
+
+// function for object
+test("test getDataFromSource nested object keys", async () => {
+  const inputId = ":node1.data.sample.keys()";
+  const result = { data: { sample: { a: "123", b: "abc" } } };
+  const data = ["a", "b"];
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "keys()"], __type: DataSourceType });
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource nested object values", async () => {
+  const inputId = ":node1.data.sample.values()";
+  const result = { data: { sample: { a: "123", b: "abc" } } };
+  const data = ["123", "abc"];
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()"], __type: DataSourceType });
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource nested object values", async () => {
+  // An example that is not good because the order is not unique
+  const inputId = ":node1.data.sample.values().$last";
+  const result = { data: { sample: { a: "123", b: "abc" } } };
+  const data = "abc";
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "$last"], __type: DataSourceType });
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+// function for array
+test("test getDataFromSource array length", async () => {
+  const inputId = ":node1.data.sample.length()";
+  const result = { data: { sample: [0, 1, 2, 3] } };
+  const data = 4;
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "length()"], __type: DataSourceType });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource array join", async () => {
+  const inputId = ":node1.data.sample.join(-)";
+  const result = { data: { sample: [0, 1, 2, 3] } };
+  const data = "0-1-2-3";
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(-)"], __type: DataSourceType });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource array join ,", async () => {
+  const inputId = ":node1.data.sample.join(,)";
+  const result = { data: { sample: [0, 1, 2, 3] } };
+  const data = "0,1,2,3";
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(,)"], __type: DataSourceType });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource array flat", async () => {
+  const inputId = ":node1.data.sample.flat()";
+  const result = { data: { sample: [0, [1, [2, [3]]]] } };
+  const data = [0, 1, [2, [3]]];
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()"], __type: DataSourceType });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource array flat", async () => {
+  const inputId = ":node1.data.sample.flat().flat()";
+  const result = { data: { sample: [0, [1, [2, [3]]]] } };
+  const data = [0, 1, 2, [3]];
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()", "flat()"], __type: DataSourceType });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+// text function
+test("test getDataFromSource string json", async () => {
+  const inputId = ":node1.data.jsonParse()";
+  const result = { data: '{ "sample": [0, 1, 2, 3] }' };
+  const data = { sample: [0, 1, 2, 3] };
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "jsonParse()"], __type: DataSourceType });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+// no default yaml parser on Node.js
+/*
+test("test getDataFromSource array flat", async () => {
+  const inputId = ":node1.data.yamlParse()";
+  const result = { data: "sample\n - 0\n  - 1\n  - 2\n  - 3" };
+  const data = 4;
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "yamlParse()"], __type: DataSourceType });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+*/
+
+test("test getDataFromSource nested object values", async () => {
+  const inputId = ":node1.data.sample.values().join(-)";
+  const result = { data: { sample: { a: "123", b: "abc" } } };
+  const data = "123-abc";
+
+  const source = parseNodeName(inputId, graphDataLatestVersion);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "join(-)"], __type: DataSourceType });
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
