@@ -1,4 +1,4 @@
-import { parseNodeName, isNamedInputs } from "./utils";
+import { parseNodeName, isNamedInputs, isObject } from "./utils";
 import { DataSource, DataSources, NestedDataSource } from "@/type";
 
 export const inputs2dataSources = (inputs: string[], graphVersion: number) => {
@@ -33,19 +33,24 @@ export const flatDataSourceNodeIds = (sources: (DataSource | DataSources | Neste
 };
 
 export const flatDataSource = (sources: (DataSource | DataSources | NestedDataSource)[]): DataSource[] => {
-  return sources
-    .map((source) => {
-      if (Array.isArray(source)) {
-        return source
-          .map((s) => {
-            if (Array.isArray(s)) {
-              return flatDataSource(s);
-            }
-            return s;
-          })
-          .flat();
-      }
-      return source;
-    })
-    .flat() as DataSource[];
+  if (Array.isArray(sources)) {
+    return sources
+      .map((source) => {
+        if (Array.isArray(source)) {
+          return flatDataSource(source).flat();
+        }
+        if (isObject(source) && !("__type" in source)) {
+          return flatDataSource(Object.values(source));
+        }
+        return source;
+      })
+      .flat(10) as DataSource[];
+  }
+  if (isObject(sources)) {
+    if ("__type" in sources) {
+      return sources as any;
+    }
+    return flatDataSource(Object.values(sources));
+  }
+  return sources;
 };

@@ -28,7 +28,8 @@ test("test namedInput array no colon", async () => {
 });
 
 test("test namedInput nested object failed", async () => {
-  const dataSources = namedInputs2dataSources({ array: { array: [":abc", ":xyz"] } }, 0.5);
+  const dataSources = namedInputs2dataSources({ array: { array: [":abc", ":xyz", { obj: { a: ":aaa", b: ":ccc", c: 1, d: false } }] } }, 0.5);
   const pendings = flatDataSourceNodeIds(Object.values(dataSources));
-  assert.deepStrictEqual(pendings, []);
+  assert.deepStrictEqual(pendings, ["abc", "xyz", "aaa", "ccc"]);
 });
+
