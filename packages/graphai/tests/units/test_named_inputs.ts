@@ -80,7 +80,7 @@ const graph_data_nested_named_input = {
     },
     namedResult: {
       agent: (object: { input: string }) => object.input,
-      inputs: { input: { nested: ":message", deep: { nested: [":message2"] } } },
+      inputs: { input: { nested: ":message", deep: { nested: [":message2", { nested: ":message", array: [":message"] }] } } },
       isResult: true,
     },
   },
@@ -127,7 +127,9 @@ test("test nested named inputs array", async () => {
 test("test nested named inputs", async () => {
   const graph = new GraphAI(graph_data_nested_named_input, {}, {});
   const result = await graph.run();
-  assert.deepStrictEqual(result, { namedResult: { nested: "Hello World", deep: { nested: ["Hello World2"] } } });
+  assert.deepStrictEqual(result, {
+    namedResult: { nested: "Hello World", deep: { nested: ["Hello World2", { nested: "Hello World", array: ["Hello World"] }] } },
+  });
 });
 
 test("test anyinput named inputs", async () => {
