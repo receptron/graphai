@@ -8,29 +8,23 @@ export const inputs2dataSources = (inputs: string[], graphVersion: number) => {
   }, {});
 };
 
-const nestedParseNodeName = (input: any, graphVersion: number): DataSources => {
-  if (Array.isArray(input)) {
-    return input.map((inp) => nestedParseNodeName(inp, graphVersion));
+export const namedInputs2dataSources = (inputs: any, graphVersion: number): NestedDataSource[] => {
+  if (Array.isArray(inputs)) {
+    return inputs.map((inp) => namedInputs2dataSources(inp, graphVersion)).flat();
   }
-  if (isNamedInputs(input)) {
-    return namedInputs2dataSources(input, graphVersion) as unknown as DataSources;
+  if (isObject(inputs)) {
+    return Object.values(inputs).map((input) => {
+      return namedInputs2dataSources(input, graphVersion);
+    }).flat();
   }
-  if (typeof input === "string") {
-    const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+  if (typeof inputs === "string") {
+    const templateMatch = [...inputs.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
     if (templateMatch.length > 0) {
-      return nestedParseNodeName(templateMatch, graphVersion);
+      return namedInputs2dataSources(templateMatch, graphVersion);
     }
   }
 
-  return parseNodeName(input, graphVersion);
-};
-
-export const namedInputs2dataSources = (inputs: Record<string, any>, graphVersion: number): NestedDataSource => {
-  return Object.keys(inputs).reduce((tmp: NestedDataSource, key) => {
-    const input = inputs[key];
-    tmp[key] = isNamedInputs(input) ? namedInputs2dataSources(input, graphVersion) : nestedParseNodeName(input, graphVersion);
-    return tmp;
-  }, {});
+  return parseNodeName(inputs, graphVersion);
 };
 
 export const flatDataSourceNodeIds = (sources: (DataSource | DataSources | NestedDataSource)[]): string[] => {

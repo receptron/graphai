@@ -71,7 +71,7 @@ export class ComputedNode extends Node {
   private readonly passThrough?: PassThrough;
 
   public readonly anyInput: boolean; // any input makes this node ready
-  public dataSources: NestedDataSource = {}; // data sources.
+  public dataSources: NestedDataSource = []; // data sources.
   private inputs?: Array<any> | Record<string, any>;
   public isNamedInputs: boolean = false;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
@@ -97,16 +97,13 @@ export class ComputedNode extends Node {
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
     this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
-    this.dataSources = data.inputs
-      ? Array.isArray(data.inputs)
-        ? inputs2dataSources(data.inputs, graph.version)
-        : namedInputs2dataSources(data.inputs, graph.version)
-      : {};
+    this.dataSources = data.inputs ? namedInputs2dataSources(data.inputs, graph.version).flat(10) : [];
+
     if (data.inputs && !this.isNamedInputs) {
       console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
     }
 
-    this.pendings = new Set(flatDataSourceNodeIds(Object.values(this.dataSources)));
+    this.pendings = new Set(flatDataSourceNodeIds(this.dataSources));
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
       this.agentId = data.agent;

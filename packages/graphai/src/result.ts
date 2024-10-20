@@ -24,6 +24,7 @@ const nestedParseNodeName = (input: any, nodes: GraphNodes, graphVersion: number
 };
 
 export const resultsOf = (inputs: Record<string, any> | Array<string>, nodes: GraphNodes, graphVersion: number) => {
+  // for inputs. TODO remove if array input is not supported
   if (Array.isArray(inputs)) {
     return inputs.reduce((tmp: Record<string, ResultData>, key) => {
       tmp[key] = nestedParseNodeName(key, nodes, graphVersion);
