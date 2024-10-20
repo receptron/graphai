@@ -1,6 +1,6 @@
 import type { GraphAI, GraphData } from "@/index";
 import { strIntentionalError } from "@/utils/utils";
-import { namedInputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
+import { inputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
 
 import {
   NodeDataParams,
@@ -96,7 +96,7 @@ export class ComputedNode extends Node {
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
     this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
-    this.dataSources = data.inputs ? namedInputs2dataSources(data.inputs, graph.version).flat(10) : [];
+    this.dataSources = data.inputs ? inputs2dataSources(data.inputs, graph.version).flat(10) : [];
     if (data.inputs && !this.isNamedInputs) {
       console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
     }

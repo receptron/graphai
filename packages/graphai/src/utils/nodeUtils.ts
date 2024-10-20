@@ -1,21 +1,21 @@
 import { parseNodeName, isObject } from "./utils";
 import { DataSource } from "@/type";
 
-export const namedInputs2dataSources = (inputs: any, graphVersion: number): DataSource[] => {
+export const inputs2dataSources = (inputs: any, graphVersion: number): DataSource[] => {
   if (Array.isArray(inputs)) {
-    return inputs.map((inp) => namedInputs2dataSources(inp, graphVersion)).flat();
+    return inputs.map((inp) => inputs2dataSources(inp, graphVersion)).flat();
   }
   if (isObject(inputs)) {
     return Object.values(inputs)
       .map((input) => {
-        return namedInputs2dataSources(input, graphVersion);
+        return inputs2dataSources(input, graphVersion);
       })
       .flat();
   }
   if (typeof inputs === "string") {
     const templateMatch = [...inputs.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
     if (templateMatch.length > 0) {
-      return namedInputs2dataSources(templateMatch, graphVersion);
+      return inputs2dataSources(templateMatch, graphVersion);
     }
   }
 
