@@ -9,7 +9,7 @@ const nestedParseNodeName = (input: any, nodes: GraphNodes, graphVersion: number
     return input.map((inp) => nestedParseNodeName(inp, nodes, graphVersion));
   }
   if (isNamedInputs(input)) {
-    return resultsOf(input, nodes, graphVersion) as unknown as DataSources;
+    return resultsOf(input, nodes, graphVersion);
   }
   if (typeof input === "string") {
     const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
@@ -20,8 +20,7 @@ const nestedParseNodeName = (input: any, nodes: GraphNodes, graphVersion: number
       }, input);
     }
   }
-  const dataSource = parseNodeName(input, graphVersion);
-  return resultOf(dataSource, nodes);
+  return resultOf(parseNodeName(input, graphVersion), nodes);
 };
 
 export const resultsOf = (inputs: Record<string, any> | Array<string>, nodes: GraphNodes, graphVersion: number) => {
