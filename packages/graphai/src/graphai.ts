@@ -328,7 +328,7 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(sources: NestedDataSource, inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
+  public resultsOf(inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
     const results = resultsOf(inputs ?? [], this.nodes, this.version);
     if (anyInput) {
       return cleanResult(results);

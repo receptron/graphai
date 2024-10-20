@@ -181,7 +181,7 @@ export class ComputedNode extends Node {
   }
 
   private checkDataAvailability() {
-    return Object.values(this.graph.resultsOf(this.dataSources, this.inputs))
+    return Object.values(this.graph.resultsOf(this.inputs))
       .flat()
       .some((result) => result !== undefined);
   }
@@ -258,7 +258,7 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const previousResults = this.graph.resultsOf(this.dataSources, this.inputs, this.anyInput);
+    const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 
