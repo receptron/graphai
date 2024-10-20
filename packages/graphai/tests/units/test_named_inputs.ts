@@ -123,6 +123,24 @@ const graph_data_deep_nested_named_input = {
   },
 };
 
+const graph_data_deep_and_any_nested_named_input = {
+  version: graphDataLatestVersion,
+  nodes: {
+    message: {
+      value: "Hello World",
+    },
+    message2: {
+      value: undefined,
+    },
+    namedResult: {
+      agent: (object: { input: string }) => object.input,
+      inputs: { input: [{ array: [":message", { item: ":message", item2: ":message2" }] }] },
+      anyInput: true,
+      isResult: true,
+    },
+  },
+};
+
 test("test named inputs", async () => {
   const graph = new GraphAI(graph_data, {}, {});
   const result = await graph.run();
@@ -159,4 +177,10 @@ test("test deep named inputs", async () => {
   const graph = new GraphAI(graph_data_deep_nested_named_input, agents, {});
   const result = await graph.run();
   assert.deepStrictEqual(result, { namedResult: [[["Hello World"], "Hello World2", { array: ["Hello World", { item: "Hello World" }] }]] });
+});
+
+test("test deep named inputs", async () => {
+  const graph = new GraphAI(graph_data_deep_and_any_nested_named_input, agents, {});
+  const result = await graph.run();
+  assert.deepStrictEqual(result, { namedResult: [{ array: ["Hello World", { item: "Hello World" }] }] });
 });

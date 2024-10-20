@@ -267,11 +267,10 @@ export class ComputedNode extends Node {
       }, this.timeout);
     }
 
-    const namedInputs = this.getNamedInput(previousResults);
     try {
       const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
       const localLog: TransactionLog[] = [];
-      const context = this.getContext(previousResults, namedInputs, localLog);
+      const context = this.getContext(previousResults, localLog);
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
@@ -309,7 +308,7 @@ export class ComputedNode extends Node {
 
       this.graph.onExecutionComplete(this);
     } catch (error) {
-      this.errorProcess(error, transactionId, namedInputs);
+      this.errorProcess(error, transactionId, previousResults);
     }
   }
 
@@ -354,17 +353,6 @@ export class ComputedNode extends Node {
       { ...this.params },
     );
   }
-  private getNamedInput(previousResults: Record<string, ResultData | undefined>) {
-    if (this.inputNames) {
-      return this.inputNames.reduce((tmp: Record<string, any>, name) => {
-        if (!this.anyInput || previousResults[name]) {
-          tmp[name] = previousResults[name];
-        }
-        return tmp;
-      }, {});
-    }
-    return {};
-  }
   private getInputs(previousResults: Record<string, ResultData | undefined>) {
     if (this.inputNames) {
       return [];
@@ -372,11 +360,11 @@ export class ComputedNode extends Node {
     return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
   }
 
-  private getContext(previousResults: Record<string, ResultData | undefined>, namedInputs: Record<string, any>, localLog: TransactionLog[]) {
+  private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[]) {
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.getParams(),
       inputs: this.getInputs(previousResults),
-      namedInputs,
+      namedInputs: previousResults,
       inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
       debugInfo: this.getDebugInfo(),
       filterParams: this.filterParams,
