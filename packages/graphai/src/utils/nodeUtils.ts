@@ -41,17 +41,7 @@ export const flatDataSourceNodeIds = (sources: (DataSource | DataSources | Neste
 
 export const flatDataSource = (sources: (DataSource | DataSources | NestedDataSource)[]): DataSource[] => {
   if (Array.isArray(sources)) {
-    return sources
-      .map((source) => {
-        if (Array.isArray(source)) {
-          return flatDataSource(source).flat();
-        }
-        if (isObject(source) && !("__type" in source)) {
-          return flatDataSource(Object.values(source));
-        }
-        return source;
-      })
-      .flat(10) as DataSource[];
+    return sources.map((source) => flatDataSource(source as unknown as DataSource[])).flat(10);
   }
   if (isObject(sources)) {
     if ("__type" in sources) {
