@@ -73,7 +73,7 @@ export class ComputedNode extends Node {
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: NestedDataSource = {}; // data sources.
   private inputs?: Array<string>;
-  public inputNames?: Array<string>; // names of named inputs
+  public isNamedInputs: boolean = false;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
@@ -96,12 +96,12 @@ export class ComputedNode extends Node {
 
     this.anyInput = data.anyInput ?? false;
     if (data.inputs) {
+      this.isNamedInputs = !Array.isArray(data.inputs);
       if (Array.isArray(data.inputs)) {
         console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
         this.inputs = data.inputs;
         this.dataSources = inputs2dataSources(data.inputs, graph.version);
       } else {
-        this.inputNames = Object.keys(data.inputs);
         this.dataSources = namedInputs2dataSources(data.inputs, graph.version);
       }
     }
@@ -111,7 +111,7 @@ export class ComputedNode extends Node {
       this.agentId = data.agent;
     } else {
       const agent = data.agent;
-      this.agentFunction = this.inputNames ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
+      this.agentFunction = this.isNamedInputs ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
     }
     if (data.graph) {
       this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
@@ -267,11 +267,10 @@ export class ComputedNode extends Node {
       }, this.timeout);
     }
 
-    const namedInputs = this.getNamedInput(previousResults);
     try {
       const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
       const localLog: TransactionLog[] = [];
-      const context = this.getContext(previousResults, namedInputs, localLog);
+      const context = this.getContext(previousResults, localLog);
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
@@ -309,7 +308,7 @@ export class ComputedNode extends Node {
 
       this.graph.onExecutionComplete(this);
     } catch (error) {
-      this.errorProcess(error, transactionId, namedInputs);
+      this.errorProcess(error, transactionId, previousResults);
     }
   }
 
@@ -354,29 +353,18 @@ export class ComputedNode extends Node {
       { ...this.params },
     );
   }
-  private getNamedInput(previousResults: Record<string, ResultData | undefined>) {
-    if (this.inputNames) {
-      return this.inputNames.reduce((tmp: Record<string, any>, name) => {
-        if (!this.anyInput || previousResults[name]) {
-          tmp[name] = previousResults[name];
-        }
-        return tmp;
-      }, {});
-    }
-    return {};
-  }
   private getInputs(previousResults: Record<string, ResultData | undefined>) {
-    if (this.inputNames) {
+    if (this.isNamedInputs) {
       return [];
     }
     return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
   }
 
-  private getContext(previousResults: Record<string, ResultData | undefined>, namedInputs: Record<string, any>, localLog: TransactionLog[]) {
+  private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[]) {
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.getParams(),
       inputs: this.getInputs(previousResults),
-      namedInputs,
+      namedInputs: this.isNamedInputs ? previousResults : {},
       inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
       debugInfo: this.getDebugInfo(),
       filterParams: this.filterParams,
@@ -411,7 +399,7 @@ export class ComputedNode extends Node {
 
   private beforeConsoleLog(context: AgentFunctionContext<DefaultParamsType, string | number | boolean | DefaultInputData | undefined>) {
     if (this.console.before === true) {
-      console.log(JSON.stringify(this.inputNames ? context.namedInputs : context.inputs, null, 2));
+      console.log(JSON.stringify(this.isNamedInputs ? context.namedInputs : context.inputs, null, 2));
     } else if (this.console.before) {
       console.log(this.console.before);
     }
