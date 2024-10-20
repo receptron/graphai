@@ -330,7 +330,7 @@ export class GraphAI {
   }
 
   public resultsOf(sources: NestedDataSource, inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
-    const results = Array.isArray(inputs) ? resultsOf(sources, this.nodes) : resultsOf2(inputs ?? [], this.nodes, this.version);
+    const results = resultsOf2(inputs ?? [], this.nodes, this.version);
     if (anyInput) {
       return cleanResult(results);
     }

@@ -24,7 +24,13 @@ const nestedParseNodeName = (input: any, nodes: GraphNodes, graphVersion: number
   return resultOf(dataSource, nodes);
 };
 
-export const resultsOf2 = (inputs: Record<string, any>, nodes: GraphNodes, graphVersion: number) => {
+export const resultsOf2 = (inputs: Record<string, any> |Array<string>, nodes: GraphNodes, graphVersion: number) => {
+  if (Array.isArray(inputs)) {
+    return inputs.reduce((tmp: Record<string, ResultData>, key) => {
+      tmp[key] = nestedParseNodeName(key, nodes, graphVersion);
+      return tmp;
+    },{})
+  };
   return Object.keys(inputs).reduce((tmp: Record<string, ResultData>, key) => {
     const input = inputs[key];
     tmp[key] = isNamedInputs(input) ? resultsOf2(input, nodes, graphVersion) : nestedParseNodeName(input, nodes, graphVersion);
