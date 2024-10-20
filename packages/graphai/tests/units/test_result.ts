@@ -1,6 +1,5 @@
 import { graphDataLatestVersion } from "~/common";
 import { StaticNode, ComputedNode } from "@/node";
-import { DataSourceType } from "@/type";
 import { resultsOf, cleanResult } from "@/result";
 import { TaskManager } from "@/task_manager";
 import { GraphAI } from "@/graphai";
@@ -54,7 +53,7 @@ const graph = new GraphAI(graph_data, agents, { taskManager });
 graph.run();
 
 const getStaticNode = (nodeId: string, value?: string) => {
-  const dataSource = { value: undefined, __type: DataSourceType };
+  const dataSource = { value: undefined };
   const node = new StaticNode(nodeId, dataSource, graph);
   if (value) {
     node.injectValue(value);

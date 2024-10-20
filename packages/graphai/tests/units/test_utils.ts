@@ -1,5 +1,4 @@
 import { parseNodeName, getDataFromSource } from "@/utils/utils";
-import { DataSourceType } from "@/type";
 import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
@@ -11,7 +10,7 @@ test("test getDataFromSource", async () => {
   const data = { data: "123" };
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1" });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -22,7 +21,7 @@ test("test getDataFromSource parseId", async () => {
   const data = "123";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -33,7 +32,7 @@ test("test getDataFromSource array", async () => {
   const data = ["123"];
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1" });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -44,7 +43,7 @@ test("test getDataFromSource array $0", async () => {
   const data = "000";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["$0"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["$0"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -55,7 +54,7 @@ test("test getDataFromSource array $1", async () => {
   const data = "111";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["$1"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["$1"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -68,7 +67,7 @@ test("test getDataFromSource nested object", async () => {
   const data = "123";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -79,7 +78,7 @@ test("test getDataFromSource nested array", async () => {
   const data = 2;
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "$2"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "$2"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -90,7 +89,7 @@ test("test getDataFromSource nested array last", async () => {
   const data = 3;
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "$last"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "$last"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -103,7 +102,7 @@ test("test getDataFromSource nested object keys", async () => {
   const data = ["a", "b"];
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "keys()"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "keys()"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -114,7 +113,7 @@ test("test getDataFromSource nested object values", async () => {
   const data = ["123", "abc"];
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -126,7 +125,7 @@ test("test getDataFromSource nested object values", async () => {
   const data = "abc";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "$last"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "$last"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
@@ -138,7 +137,7 @@ test("test getDataFromSource array length", async () => {
   const data = 4;
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "length()"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "length()"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -150,7 +149,7 @@ test("test getDataFromSource array join", async () => {
   const data = "0-1-2-3";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(-)"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(-)"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -162,7 +161,7 @@ test("test getDataFromSource array join ,", async () => {
   const data = "0,1,2,3";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(,)"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(,)"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -174,7 +173,7 @@ test("test getDataFromSource array flat", async () => {
   const data = [0, 1, [2, [3]]];
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -186,7 +185,7 @@ test("test getDataFromSource array flat", async () => {
   const data = [0, 1, 2, [3]];
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()", "flat()"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()", "flat()"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -199,7 +198,7 @@ test("test getDataFromSource string json", async () => {
   const data = { sample: [0, 1, 2, 3] };
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "jsonParse()"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "jsonParse()"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -213,7 +212,7 @@ test("test getDataFromSource array flat", async () => {
   const data = 4;
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "yamlParse()"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "yamlParse()"],});
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -226,7 +225,7 @@ test("test getDataFromSource nested object values", async () => {
   const data = "123-abc";
 
   const source = parseNodeName(inputId, graphDataLatestVersion);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "join(-)"], __type: DataSourceType });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "join(-)"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
