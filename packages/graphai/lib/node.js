@@ -49,16 +49,15 @@ class ComputedNode extends Node {
         this.isResult = data.isResult ?? false;
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
-        if (data.inputs) {
-            this.isNamedInputs = !Array.isArray(data.inputs);
-            if (Array.isArray(data.inputs)) {
-                console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
-                this.inputs = data.inputs;
-                this.dataSources = (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version);
-            }
-            else {
-                this.dataSources = (0, nodeUtils_1.namedInputs2dataSources)(data.inputs, graph.version);
-            }
+        this.inputs = data.inputs;
+        this.isNamedInputs = (0, utils_2.isObject)(data.inputs) && !Array.isArray(data.inputs);
+        this.dataSources = data.inputs
+            ? Array.isArray(data.inputs)
+                ? (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version)
+                : (0, nodeUtils_1.namedInputs2dataSources)(data.inputs, graph.version)
+            : {};
+        if (data.inputs && !this.isNamedInputs) {
+            console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
         }
         this.pendings = new Set((0, nodeUtils_1.flatDataSourceNodeIds)(Object.values(this.dataSources)));
         (0, utils_2.assert)(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
@@ -128,7 +127,7 @@ class ComputedNode extends Node {
         }
     }
     checkDataAvailability() {
-        return Object.values(this.graph.resultsOf(this.dataSources))
+        return Object.values(this.graph.resultsOf(this.inputs))
             .flat()
             .some((result) => result !== undefined);
     }
@@ -197,7 +196,7 @@ class ComputedNode extends Node {
     // then it removes itself from the "running node" list of the graph.
     // Notice that setting the result of this node may make other nodes ready to run.
     async execute() {
-        const previousResults = this.graph.resultsOf(this.dataSources, this.anyInput);
+        const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
         const transactionId = Date.now();
         this.prepareExecute(transactionId, Object.values(previousResults));
         if (this.timeout && this.timeout > 0) {
@@ -281,10 +280,10 @@ class ComputedNode extends Node {
         }, { ...this.params });
     }
     getInputs(previousResults) {
-        if (this.isNamedInputs) {
-            return [];
+        if (Array.isArray(this.inputs)) {
+            return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
         }
-        return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
+        return [];
     }
     getContext(previousResults, localLog) {
         const context = {

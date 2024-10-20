@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions, NestedDataSource } from "./type";
+import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, GraphNodes } from "./node";
 import { TaskManager } from "./task_manager";
@@ -46,6 +46,6 @@ export declare class GraphAI {
     updateLog(log: TransactionLog): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
-    resultsOf(sources: NestedDataSource, anyInput?: boolean): Record<string, ResultData>;
+    resultsOf(inputs?: Array<any> | Record<string, any>, anyInput?: boolean): Record<string, ResultData>;
     resultOf(source: DataSource): ResultData;
 }

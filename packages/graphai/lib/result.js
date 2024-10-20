@@ -1,31 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
-const type_1 = require("./type");
 const utils_1 = require("./utils/utils");
-const nestedResultOf = (source, nodes) => {
-    if (Array.isArray(source)) {
-        return source.map((a) => {
-            return nestedResultOf(a, nodes);
-        });
+const nestedParseNodeName = (input, nodes, graphVersion) => {
+    if (Array.isArray(input)) {
+        return input.map((inp) => nestedParseNodeName(inp, nodes, graphVersion));
     }
-    if ((0, utils_1.isNamedInputs)(source)) {
-        if (source.__type === type_1.DataSourceType) {
-            return (0, exports.resultOf)(source, nodes);
+    if ((0, utils_1.isNamedInputs)(input)) {
+        return (0, exports.resultsOf)(input, nodes, graphVersion);
+    }
+    if (typeof input === "string") {
+        const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+        if (templateMatch.length > 0) {
+            const results = nestedParseNodeName(templateMatch, nodes, graphVersion);
+            return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+                return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
+            }, input);
         }
-        return Object.keys(source).reduce((tmp, key) => {
-            tmp[key] = nestedResultOf(source[key], nodes);
+    }
+    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input, graphVersion), nodes);
+};
+const resultsOf = (inputs, nodes, graphVersion) => {
+    if (Array.isArray(inputs)) {
+        return inputs.reduce((tmp, key) => {
+            tmp[key] = nestedParseNodeName(key, nodes, graphVersion);
             return tmp;
         }, {});
     }
-    return (0, exports.resultOf)(source, nodes);
-};
-const resultsOf = (sources, nodes) => {
-    const ret = {};
-    Object.keys(sources).forEach((key) => {
-        ret[key] = nestedResultOf(sources[key], nodes);
-    });
-    return ret;
+    return Object.keys(inputs).reduce((tmp, key) => {
+        const input = inputs[key];
+        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, graphVersion) : nestedParseNodeName(input, nodes, graphVersion);
+        return tmp;
+    }, {});
 };
 exports.resultsOf = resultsOf;
 const resultOf = (source, nodes) => {
@@ -37,7 +43,6 @@ exports.resultOf = resultOf;
 const cleanResultInner = (results) => {
     if (Array.isArray(results)) {
         return results.map((result) => (0, exports.cleanResultInner)(result)).filter((result) => !(0, utils_1.isNull)(result));
-        // return ret.length === 0 ? null : ret;
     }
     if ((0, utils_1.isObject)(results)) {
         return Object.keys(results).reduce((tmp, key) => {
@@ -47,7 +52,6 @@ const cleanResultInner = (results) => {
             }
             return tmp;
         }, {});
-        // return Object.keys(ret).length === 0 ? null : ret;
     }
     return results;
 };
