@@ -34,17 +34,7 @@ const flatDataSourceNodeIds = (sources) => {
 exports.flatDataSourceNodeIds = flatDataSourceNodeIds;
 const flatDataSource = (sources) => {
     if (Array.isArray(sources)) {
-        return sources
-            .map((source) => {
-            if (Array.isArray(source)) {
-                return (0, exports.flatDataSource)(source).flat();
-            }
-            if ((0, utils_1.isObject)(source) && !("__type" in source)) {
-                return (0, exports.flatDataSource)(Object.values(source));
-            }
-            return source;
-        })
-            .flat(10);
+        return sources.map((source) => (0, exports.flatDataSource)(source)).flat(10);
     }
     if ((0, utils_1.isObject)(sources)) {
         if ("__type" in sources) {
