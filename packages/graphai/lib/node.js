@@ -36,6 +36,7 @@ class ComputedNode extends Node {
         super(nodeId, graph);
         this.retryCount = 0;
         this.dataSources = {}; // data sources.
+        this.isNamedInputs = false;
         this.isStaticNode = false;
         this.isComputedNode = true;
         this.graphId = graphId;
@@ -49,13 +50,13 @@ class ComputedNode extends Node {
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
         if (data.inputs) {
+            this.isNamedInputs = !Array.isArray(data.inputs);
             if (Array.isArray(data.inputs)) {
                 console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
                 this.inputs = data.inputs;
                 this.dataSources = (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version);
             }
             else {
-                this.inputNames = Object.keys(data.inputs);
                 this.dataSources = (0, nodeUtils_1.namedInputs2dataSources)(data.inputs, graph.version);
             }
         }
@@ -66,7 +67,7 @@ class ComputedNode extends Node {
         }
         else {
             const agent = data.agent;
-            this.agentFunction = this.inputNames ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
+            this.agentFunction = this.isNamedInputs ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
         }
         if (data.graph) {
             this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
@@ -204,11 +205,10 @@ class ComputedNode extends Node {
                 this.executeTimeout(transactionId);
             }, this.timeout);
         }
-        const namedInputs = this.getNamedInput(previousResults);
         try {
             const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
             const localLog = [];
-            const context = this.getContext(previousResults, namedInputs, localLog);
+            const context = this.getContext(previousResults, localLog);
             // NOTE: We use the existence of graph object in the agent-specific params to determine
             // if this is a nested agent or not.
             if (this.nestedGraph) {
@@ -241,7 +241,7 @@ class ComputedNode extends Node {
             this.graph.onExecutionComplete(this);
         }
         catch (error) {
-            this.errorProcess(error, transactionId, namedInputs);
+            this.errorProcess(error, transactionId, previousResults);
         }
     }
     // This private method (called only by execute()) prepares the ComputedNode object
@@ -280,28 +280,17 @@ class ComputedNode extends Node {
             return tmp;
         }, { ...this.params });
     }
-    getNamedInput(previousResults) {
-        if (this.inputNames) {
-            return this.inputNames.reduce((tmp, name) => {
-                if (!this.anyInput || previousResults[name]) {
-                    tmp[name] = previousResults[name];
-                }
-                return tmp;
-            }, {});
-        }
-        return {};
-    }
     getInputs(previousResults) {
-        if (this.inputNames) {
+        if (this.isNamedInputs) {
             return [];
         }
         return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
     }
-    getContext(previousResults, namedInputs, localLog) {
+    getContext(previousResults, localLog) {
         const context = {
             params: this.getParams(),
             inputs: this.getInputs(previousResults),
-            namedInputs,
+            namedInputs: this.isNamedInputs ? previousResults : {},
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
             debugInfo: this.getDebugInfo(),
             filterParams: this.filterParams,
@@ -334,7 +323,7 @@ class ComputedNode extends Node {
     }
     beforeConsoleLog(context) {
         if (this.console.before === true) {
-            console.log(JSON.stringify(this.inputNames ? context.namedInputs : context.inputs, null, 2));
+            console.log(JSON.stringify(this.isNamedInputs ? context.namedInputs : context.inputs, null, 2));
         }
         else if (this.console.before) {
             console.log(this.console.before);

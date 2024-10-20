@@ -31,7 +31,7 @@ export declare class ComputedNode extends Node {
     readonly anyInput: boolean;
     dataSources: NestedDataSource;
     private inputs?;
-    inputNames?: Array<string>;
+    isNamedInputs: boolean;
     pendings: Set<string>;
     private ifSource?;
     private unlessSource?;
@@ -54,7 +54,6 @@ export declare class ComputedNode extends Node {
     private prepareExecute;
     private errorProcess;
     private getParams;
-    private getNamedInput;
     private getInputs;
     private getContext;
     private getResult;
