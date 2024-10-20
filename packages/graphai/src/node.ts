@@ -364,7 +364,7 @@ export class ComputedNode extends Node {
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.getParams(),
       inputs: this.getInputs(previousResults),
-      namedInputs: previousResults,
+      namedInputs: this.isNamedInputs ? previousResults : {},
       inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
       debugInfo: this.getDebugInfo(),
       filterParams: this.filterParams,
