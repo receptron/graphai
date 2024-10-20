@@ -44,7 +44,7 @@ class TransactionLog {
         this.state = node.state;
         this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
         this.startTime = transactionId;
-        this.inputs = (0, nodeUtils_1.flatDataSourceNodeIds)(Object.values(node.dataSources));
+        this.inputs = (0, nodeUtils_1.dataSourceNodeIds)(node.dataSources);
         this.inputsData = inputs.length > 0 ? inputs : undefined;
         graph.setLoopLog(this);
         graph.appendLog(this);

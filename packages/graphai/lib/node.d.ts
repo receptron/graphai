@@ -1,5 +1,5 @@
 import type { GraphAI, GraphData } from "./index";
-import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState, NestedDataSource } from "./type";
+import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "./type";
 import { TransactionLog } from "./transaction_log";
 export declare class Node {
     readonly nodeId: string;
@@ -29,7 +29,7 @@ export declare class ComputedNode extends Node {
     transactionId: undefined | number;
     private readonly passThrough?;
     readonly anyInput: boolean;
-    dataSources: NestedDataSource;
+    dataSources: DataSource[];
     private inputs?;
     isNamedInputs: boolean;
     pendings: Set<string>;

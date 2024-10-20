@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DataSourceType = exports.NodeState = void 0;
+exports.NodeState = void 0;
 var NodeState;
 (function (NodeState) {
     NodeState["Waiting"] = "waiting";
@@ -13,4 +13,3 @@ var NodeState;
     NodeState["Injected"] = "injected";
     NodeState["Skipped"] = "skipped";
 })(NodeState || (exports.NodeState = NodeState = {}));
-exports.DataSourceType = "datasource";

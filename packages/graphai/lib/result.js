@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
 const utils_1 = require("./utils/utils");
-const nestedParseNodeName = (input, nodes, graphVersion) => {
+const resultsOfInner = (input, nodes, graphVersion) => {
     if (Array.isArray(input)) {
-        return input.map((inp) => nestedParseNodeName(inp, nodes, graphVersion));
+        return input.map((inp) => resultsOfInner(inp, nodes, graphVersion));
     }
     if ((0, utils_1.isNamedInputs)(input)) {
         return (0, exports.resultsOf)(input, nodes, graphVersion);
@@ -12,7 +12,7 @@ const nestedParseNodeName = (input, nodes, graphVersion) => {
     if (typeof input === "string") {
         const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
         if (templateMatch.length > 0) {
-            const results = nestedParseNodeName(templateMatch, nodes, graphVersion);
+            const results = resultsOfInner(templateMatch, nodes, graphVersion);
             return Array.from(templateMatch.keys()).reduce((tmp, key) => {
                 return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
             }, input);
@@ -21,15 +21,16 @@ const nestedParseNodeName = (input, nodes, graphVersion) => {
     return (0, exports.resultOf)((0, utils_1.parseNodeName)(input, graphVersion), nodes);
 };
 const resultsOf = (inputs, nodes, graphVersion) => {
+    // for inputs. TODO remove if array input is not supported
     if (Array.isArray(inputs)) {
         return inputs.reduce((tmp, key) => {
-            tmp[key] = nestedParseNodeName(key, nodes, graphVersion);
+            tmp[key] = resultsOfInner(key, nodes, graphVersion);
             return tmp;
         }, {});
     }
     return Object.keys(inputs).reduce((tmp, key) => {
         const input = inputs[key];
-        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, graphVersion) : nestedParseNodeName(input, nodes, graphVersion);
+        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, graphVersion) : resultsOfInner(input, nodes, graphVersion);
         return tmp;
     }, {});
 };
@@ -39,7 +40,7 @@ const resultOf = (source, nodes) => {
     return (0, utils_1.getDataFromSource)(result, source);
 };
 exports.resultOf = resultOf;
-// for anyInput
+// clean up object for anyInput
 const cleanResultInner = (results) => {
     if (Array.isArray(results)) {
         return results.map((result) => (0, exports.cleanResultInner)(result)).filter((result) => !(0, utils_1.isNull)(result));

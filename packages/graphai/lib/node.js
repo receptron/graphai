@@ -35,7 +35,7 @@ class ComputedNode extends Node {
     constructor(graphId, nodeId, data, graph) {
         super(nodeId, graph);
         this.retryCount = 0;
-        this.dataSources = {}; // data sources.
+        this.dataSources = []; // no longer needed. This is for transaction log.
         this.isNamedInputs = false;
         this.isStaticNode = false;
         this.isComputedNode = true;
@@ -51,15 +51,11 @@ class ComputedNode extends Node {
         this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
         this.isNamedInputs = (0, utils_2.isObject)(data.inputs) && !Array.isArray(data.inputs);
-        this.dataSources = data.inputs
-            ? Array.isArray(data.inputs)
-                ? (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version)
-                : (0, nodeUtils_1.namedInputs2dataSources)(data.inputs, graph.version)
-            : {};
+        this.dataSources = data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version).flat(10) : [];
         if (data.inputs && !this.isNamedInputs) {
             console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
         }
-        this.pendings = new Set((0, nodeUtils_1.flatDataSourceNodeIds)(Object.values(this.dataSources)));
+        this.pendings = new Set((0, nodeUtils_1.dataSourceNodeIds)(this.dataSources));
         (0, utils_2.assert)(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
         if (typeof data.agent === "string") {
             this.agentId = data.agent;
