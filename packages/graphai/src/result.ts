@@ -1,4 +1,4 @@
-import { DataSource, DataSourceType, NestedDataSource, DataSources, ResultDataSet, ResultData } from "./type";
+import { DataSource, DataSources, ResultData } from "./type";
 
 import { GraphNodes } from "./node";
 
