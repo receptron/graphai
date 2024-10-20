@@ -15,6 +15,13 @@ const nestedParseNodeName = (input: any, graphVersion: number): DataSources => {
   if (isNamedInputs(input)) {
     return namedInputs2dataSources(input, graphVersion) as unknown as DataSources;
   }
+  if (typeof input === "string") {
+    const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+    if (templateMatch.length > 0) {
+      return nestedParseNodeName(templateMatch, graphVersion);
+    }
+  }
+
   return parseNodeName(input, graphVersion);
 };
 
