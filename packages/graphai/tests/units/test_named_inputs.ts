@@ -106,6 +106,26 @@ const graph_data_any_named_inputs = {
   },
 };
 
+const graph_data_any_named_inputs2 = {
+  version: 0.5,
+  nodes: {
+    no_tool_calls: {
+      value: undefined,
+    },
+    tool_calls: {
+      value: [1, 1],
+    },
+    reducer: {
+      agent: "bypassAgent",
+      anyInput: true,
+      isResult: true,
+      inputs: {
+        array: [":no_tool_calls", ":tool_calls"],
+      },
+    },
+  },
+};
+
 const graph_data_deep_nested_named_input = {
   version: graphDataLatestVersion,
   nodes: {
@@ -189,6 +209,12 @@ test("test anyinput named inputs", async () => {
   const graph = new GraphAI(graph_data_any_named_inputs, agents, {});
   const result = await graph.run();
   assert.deepStrictEqual(result, { reducer: { array: [[], [1, 1]] } });
+});
+
+test("test anyinput named inputs2", async () => {
+  const graph = new GraphAI(graph_data_any_named_inputs2, agents, {});
+  const result = await graph.run();
+  assert.deepStrictEqual(result, { reducer: { array: [[1, 1]] } });
 });
 
 test("test deep named inputs", async () => {
