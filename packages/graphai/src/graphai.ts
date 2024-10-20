@@ -8,7 +8,6 @@ import {
   ResultData,
   DefaultResultData,
   GraphOptions,
-  NestedDataSource,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
