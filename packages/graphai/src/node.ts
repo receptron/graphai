@@ -1,6 +1,6 @@
 import type { GraphAI, GraphData } from "@/index";
 import { strIntentionalError } from "@/utils/utils";
-import { inputs2dataSources, namedInputs2dataSources, flatDataSourceNodeIds } from "@/utils/nodeUtils";
+import { namedInputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
 
 import {
   NodeDataParams,
@@ -15,7 +15,6 @@ import {
   AgentFilterParams,
   DefaultParamsType,
   DefaultInputData,
-  NestedDataSource,
   PassThrough,
 } from "@/type";
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
@@ -71,7 +70,7 @@ export class ComputedNode extends Node {
   private readonly passThrough?: PassThrough;
 
   public readonly anyInput: boolean; // any input makes this node ready
-  public dataSources: NestedDataSource = []; // data sources.
+  public dataSources: DataSource[] = []; // no longer needed. This is for transaction log.
   private inputs?: Array<any> | Record<string, any>;
   public isNamedInputs: boolean = false;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
@@ -98,12 +97,11 @@ export class ComputedNode extends Node {
     this.inputs = data.inputs;
     this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
     this.dataSources = data.inputs ? namedInputs2dataSources(data.inputs, graph.version).flat(10) : [];
-
     if (data.inputs && !this.isNamedInputs) {
       console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
     }
 
-    this.pendings = new Set(flatDataSourceNodeIds(this.dataSources));
+    this.pendings = new Set(dataSourceNodeIds(this.dataSources));
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
