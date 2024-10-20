@@ -160,7 +160,6 @@ const graph_data_template_nested_named_input = {
   },
 };
 
-
 const graph_data_deep_and_any_nested_named_input = {
   version: graphDataLatestVersion,
   nodes: {
@@ -228,7 +227,7 @@ test("test template named inputs", async () => {
   const result = await graph.run();
   assert.deepStrictEqual(result, { namedResult: [[["hi Hello World !"], "Hello World2", { array: ["Hello World", { item: "Hello World Hello World2" }] }]] });
 });
-  
+
 test("test deep named inputs", async () => {
   const graph = new GraphAI(graph_data_deep_and_any_nested_named_input, agents, {});
   const result = await graph.run();
