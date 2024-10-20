@@ -4,9 +4,9 @@ import { GraphNodes } from "./node";
 
 import { getDataFromSource, parseNodeName, isNamedInputs, isObject, isNull } from "@/utils/utils";
 
-const nestedParseNodeName = (input: any, nodes: GraphNodes, graphVersion: number): ResultData => {
+const resultsOfInner = (input: any, nodes: GraphNodes, graphVersion: number): ResultData => {
   if (Array.isArray(input)) {
-    return input.map((inp) => nestedParseNodeName(inp, nodes, graphVersion));
+    return input.map((inp) => resultsOfInner(inp, nodes, graphVersion));
   }
   if (isNamedInputs(input)) {
     return resultsOf(input, nodes, graphVersion);
@@ -14,7 +14,7 @@ const nestedParseNodeName = (input: any, nodes: GraphNodes, graphVersion: number
   if (typeof input === "string") {
     const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
     if (templateMatch.length > 0) {
-      const results = nestedParseNodeName(templateMatch, nodes, graphVersion);
+      const results = resultsOfInner(templateMatch, nodes, graphVersion);
       return Array.from(templateMatch.keys()).reduce((tmp, key) => {
         return tmp.replaceAll("${" + templateMatch[key] + "}", (results as any)[key]);
       }, input);
@@ -27,13 +27,13 @@ export const resultsOf = (inputs: Record<string, any> | Array<string>, nodes: Gr
   // for inputs. TODO remove if array input is not supported
   if (Array.isArray(inputs)) {
     return inputs.reduce((tmp: Record<string, ResultData>, key) => {
-      tmp[key] = nestedParseNodeName(key, nodes, graphVersion);
+      tmp[key] = resultsOfInner(key, nodes, graphVersion);
       return tmp;
     }, {});
   }
   return Object.keys(inputs).reduce((tmp: Record<string, ResultData>, key) => {
     const input = inputs[key];
-    tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, graphVersion) : nestedParseNodeName(input, nodes, graphVersion);
+    tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, graphVersion) : resultsOfInner(input, nodes, graphVersion);
     return tmp;
   }, {});
 };
@@ -43,7 +43,7 @@ export const resultOf = (source: DataSource, nodes: GraphNodes) => {
   return getDataFromSource(result, source);
 };
 
-// for anyInput
+// clean up object for anyInput
 export const cleanResultInner = (results: ResultData): ResultData | null => {
   if (Array.isArray(results)) {
     return results.map((result: ResultData) => cleanResultInner(result)).filter((result) => !isNull(result));

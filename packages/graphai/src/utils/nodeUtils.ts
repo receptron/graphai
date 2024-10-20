@@ -1,15 +1,14 @@
 import { parseNodeName, isObject } from "./utils";
 import { DataSource } from "@/type";
 
+// for dataSource
 export const inputs2dataSources = (inputs: any, graphVersion: number): DataSource[] => {
   if (Array.isArray(inputs)) {
     return inputs.map((inp) => inputs2dataSources(inp, graphVersion)).flat();
   }
   if (isObject(inputs)) {
     return Object.values(inputs)
-      .map((input) => {
-        return inputs2dataSources(input, graphVersion);
-      })
+      .map((input) => inputs2dataSources(input, graphVersion))
       .flat();
   }
   if (typeof inputs === "string") {
