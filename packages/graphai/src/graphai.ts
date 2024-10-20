@@ -18,7 +18,6 @@ import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
 import { resultsOf, resultOf, cleanResult } from "./result";
-import { resultsOf2 } from "./result2";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -330,7 +329,7 @@ export class GraphAI {
   }
 
   public resultsOf(sources: NestedDataSource, inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
-    const results = resultsOf2(inputs ?? [], this.nodes, this.version);
+    const results = resultsOf(inputs ?? [], this.nodes, this.version);
     if (anyInput) {
       return cleanResult(results);
     }

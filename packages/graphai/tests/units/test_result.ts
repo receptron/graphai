@@ -72,48 +72,29 @@ const getComputedNode = (nodeId: string) => {
 };
 
 test("test result", async () => {
-  const dataSources = { text: [{ nodeId: "message", __type: DataSourceType }] };
   const node = getStaticNode("message", "123");
-  const result = resultsOf(dataSources, { message: node });
+  const result = resultsOf({ text: [":message"] }, { message: node }, graphDataLatestVersion);
   assert.deepStrictEqual(result, { text: ["123"] });
 });
 
 test("test result for anyInput", async () => {
-  const dataSources = {
-    text: [
-      { nodeId: "message1", __type: DataSourceType },
-      { nodeId: "message2", __type: DataSourceType },
-    ],
-  };
   const node1 = getStaticNode("message1", "123");
   const node2 = getStaticNode("message2");
-  const result = resultsOf(dataSources, { message1: node1, message2: node2 });
+  const result = resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, graphDataLatestVersion);
   assert.deepStrictEqual(result, { text: ["123", undefined] });
 });
 
 test("test result for anyInput", async () => {
-  const dataSources = {
-    text: [
-      { nodeId: "message1", __type: DataSourceType },
-      { nodeId: "message2", __type: DataSourceType },
-    ],
-  };
   const node1 = getStaticNode("message1", "123");
   const node2 = getStaticNode("message2");
-  const result = cleanResult(resultsOf(dataSources, { message1: node1, message2: node2 }));
+  const result = cleanResult(resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, graphDataLatestVersion));
   assert.deepStrictEqual(result, { text: ["123"] });
 });
 
 test("test computed node result", async () => {
-  const dataSources = {
-    text: [
-      { nodeId: "message1", __type: DataSourceType },
-      { nodeId: "message2", __type: DataSourceType },
-    ],
-  };
   const node1 = getComputedNode("message1");
   const node2 = getComputedNode("message2");
   await node1.execute();
-  const result = resultsOf(dataSources, { message1: node1, message2: node2 });
+  const result = resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, graphDataLatestVersion);
   assert.deepStrictEqual(result, { text: [{ message: "hello" }, undefined] });
 });
