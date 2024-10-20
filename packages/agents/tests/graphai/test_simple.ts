@@ -50,7 +50,7 @@ test("test graph", async () => {
   const beforeResult = graph.results(true);
   assert.deepStrictEqual(beforeResult, {});
 
-  const beforeResultOf = graph.resultOf({ nodeId: "bypassAgent", __type: "datasource" });
+  const beforeResultOf = graph.resultOf({ nodeId: "bypassAgent" });
   assert.deepStrictEqual(beforeResultOf, undefined);
 
   await graph.run(true);
@@ -62,7 +62,7 @@ test("test graph", async () => {
     bypassAgent2: [[{ message: "hello" }]],
   });
 
-  const afterResultOf = graph.resultOf({ nodeId: "bypassAgent", __type: "datasource" });
+  const afterResultOf = graph.resultOf({ nodeId: "bypassAgent" });
   assert.deepStrictEqual(afterResultOf, [{ message: "hello" }]);
 });
 
@@ -101,7 +101,7 @@ test("test injection", async () => {
   const beforeResult = graph.results(true);
   assert.deepStrictEqual(beforeResult, {});
 
-  const beforeResultOf = graph.resultOf({ nodeId: "bypassAgent", __type: "datasource" });
+  const beforeResultOf = graph.resultOf({ nodeId: "bypassAgent" });
   assert.deepStrictEqual(beforeResultOf, undefined);
 
   (async () => {
@@ -114,7 +114,7 @@ test("test injection", async () => {
       bypassAgent2: [{ message: "inject" }],
     });
 
-    const afterResultOf = graph.resultOf({ nodeId: "bypassAgent", __type: "datasource" });
+    const afterResultOf = graph.resultOf({ nodeId: "bypassAgent" });
     assert.deepStrictEqual(afterResultOf, { message: "inject" });
   })();
 

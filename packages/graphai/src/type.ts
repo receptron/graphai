@@ -27,15 +27,7 @@ export type DataSource = {
   nodeId?: string;
   value?: any;
   propIds?: string[];
-  __type: "datasource";
 };
-
-export type DataSources = DataSource | DataSource[] | DataSources[];
-export interface NestedDataSource {
-  [key: string]: NestedDataSource | DataSources;
-}
-
-export type ResultDataSet = ResultData | ResultData[] | ResultDataSet[];
 
 export type StaticNodeData = {
   value: ResultData; // initial value for static node.
@@ -160,5 +152,3 @@ export type AgentFunctionInfo = {
 };
 
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
-
-export const DataSourceType = "datasource" as const;
