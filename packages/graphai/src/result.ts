@@ -1,34 +1,42 @@
-import { DataSource, DataSourceType, NestedDataSource, DataSources, ResultDataSet, ResultData } from "./type";
+import { DataSource, ResultData } from "./type";
 
 import { GraphNodes } from "./node";
 
-import { getDataFromSource, isNamedInputs, isObject, isNull } from "@/utils/utils";
+import { getDataFromSource, parseNodeName, isNamedInputs, isObject, isNull } from "@/utils/utils";
 
-const nestedResultOf = (source: DataSource | NestedDataSource | DataSources, nodes: GraphNodes): ResultDataSet => {
-  if (Array.isArray(source)) {
-    return source.map((a) => {
-      return nestedResultOf(a, nodes);
-    });
+const nestedParseNodeName = (input: any, nodes: GraphNodes, graphVersion: number): ResultData => {
+  if (Array.isArray(input)) {
+    return input.map((inp) => nestedParseNodeName(inp, nodes, graphVersion));
   }
-  if (isNamedInputs(source)) {
-    if (source.__type === DataSourceType) {
-      return resultOf(source as DataSource, nodes);
+  if (isNamedInputs(input)) {
+    return resultsOf(input, nodes, graphVersion);
+  }
+  if (typeof input === "string") {
+    const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+    if (templateMatch.length > 0) {
+      const results = nestedParseNodeName(templateMatch, nodes, graphVersion);
+      return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+        return tmp.replaceAll("${" + templateMatch[key] + "}", (results as any)[key]);
+      }, input);
     }
-    return Object.keys(source).reduce((tmp: Record<string, ResultDataSet>, key: string) => {
-      tmp[key] = nestedResultOf((source as NestedDataSource)[key], nodes);
+  }
+  return resultOf(parseNodeName(input, graphVersion), nodes);
+};
+
+export const resultsOf = (inputs: Record<string, any> | Array<string>, nodes: GraphNodes, graphVersion: number) => {
+  if (Array.isArray(inputs)) {
+    return inputs.reduce((tmp: Record<string, ResultData>, key) => {
+      tmp[key] = nestedParseNodeName(key, nodes, graphVersion);
       return tmp;
     }, {});
   }
-  return resultOf(source as DataSource, nodes);
+  return Object.keys(inputs).reduce((tmp: Record<string, ResultData>, key) => {
+    const input = inputs[key];
+    tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, graphVersion) : nestedParseNodeName(input, nodes, graphVersion);
+    return tmp;
+  }, {});
 };
 
-export const resultsOf = (sources: NestedDataSource, nodes: GraphNodes) => {
-  const ret: Record<string, ResultData | undefined> = {};
-  Object.keys(sources).forEach((key) => {
-    ret[key] = nestedResultOf(sources[key], nodes);
-  });
-  return ret;
-};
 export const resultOf = (source: DataSource, nodes: GraphNodes) => {
   const { result } = source.nodeId ? nodes[source.nodeId] : { result: undefined };
   return getDataFromSource(result, source);
@@ -38,7 +46,6 @@ export const resultOf = (source: DataSource, nodes: GraphNodes) => {
 export const cleanResultInner = (results: ResultData): ResultData | null => {
   if (Array.isArray(results)) {
     return results.map((result: ResultData) => cleanResultInner(result)).filter((result) => !isNull(result));
-    // return ret.length === 0 ? null : ret;
   }
 
   if (isObject(results)) {
@@ -49,7 +56,6 @@ export const cleanResultInner = (results: ResultData): ResultData | null => {
       }
       return tmp;
     }, {});
-    // return Object.keys(ret).length === 0 ? null : ret;
   }
 
   return results;

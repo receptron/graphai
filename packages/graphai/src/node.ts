@@ -72,7 +72,7 @@ export class ComputedNode extends Node {
 
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: NestedDataSource = {}; // data sources.
-  private inputs?: Array<string>;
+  private inputs?: Array<any> | Record<string, any>;
   public isNamedInputs: boolean = false;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
@@ -95,16 +95,17 @@ export class ComputedNode extends Node {
     this.priority = data.priority ?? 0;
 
     this.anyInput = data.anyInput ?? false;
-    if (data.inputs) {
-      this.isNamedInputs = !Array.isArray(data.inputs);
-      if (Array.isArray(data.inputs)) {
-        console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
-        this.inputs = data.inputs;
-        this.dataSources = inputs2dataSources(data.inputs, graph.version);
-      } else {
-        this.dataSources = namedInputs2dataSources(data.inputs, graph.version);
-      }
+    this.inputs = data.inputs;
+    this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
+    this.dataSources = data.inputs
+      ? Array.isArray(data.inputs)
+        ? inputs2dataSources(data.inputs, graph.version)
+        : namedInputs2dataSources(data.inputs, graph.version)
+      : {};
+    if (data.inputs && !this.isNamedInputs) {
+      console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
     }
+
     this.pendings = new Set(flatDataSourceNodeIds(Object.values(this.dataSources)));
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
@@ -180,7 +181,7 @@ export class ComputedNode extends Node {
   }
 
   private checkDataAvailability() {
-    return Object.values(this.graph.resultsOf(this.dataSources))
+    return Object.values(this.graph.resultsOf(this.inputs))
       .flat()
       .some((result) => result !== undefined);
   }
@@ -257,7 +258,7 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
-    const previousResults = this.graph.resultsOf(this.dataSources, this.anyInput);
+    const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 
@@ -354,10 +355,10 @@ export class ComputedNode extends Node {
     );
   }
   private getInputs(previousResults: Record<string, ResultData | undefined>) {
-    if (this.isNamedInputs) {
-      return [];
+    if (Array.isArray(this.inputs)) {
+      return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
     }
-    return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
+    return [];
   }
 
   private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[]) {

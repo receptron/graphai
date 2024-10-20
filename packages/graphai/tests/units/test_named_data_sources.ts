@@ -32,3 +32,9 @@ test("test namedInput nested object failed", async () => {
   const pendings = flatDataSourceNodeIds(Object.values(dataSources));
   assert.deepStrictEqual(pendings, ["abc", "xyz", "aaa", "ccc"]);
 });
+
+test("test template namedInput", async () => {
+  const dataSources = namedInputs2dataSources({ array: ["aaa${:abc} ${:xyz} ${:abc.xyz.$0} "] }, 0.5);
+  const pendings = flatDataSourceNodeIds(Object.values(dataSources));
+  assert.deepStrictEqual(pendings, ["abc", "xyz", "abc"]);
+});

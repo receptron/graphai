@@ -143,6 +143,23 @@ const graph_data_deep_nested_named_input = {
   },
 };
 
+const graph_data_template_nested_named_input = {
+  version: graphDataLatestVersion,
+  nodes: {
+    message: {
+      value: "Hello World",
+    },
+    message2: {
+      value: "Hello World2",
+    },
+    namedResult: {
+      agent: (object: { input: string }) => object.input,
+      inputs: { input: [[["hi ${:message} !"], ":message2", { array: [":message", { item: "${:message} ${:message2}" }] }]] },
+      isResult: true,
+    },
+  },
+};
+
 const graph_data_deep_and_any_nested_named_input = {
   version: graphDataLatestVersion,
   nodes: {
@@ -203,6 +220,12 @@ test("test deep named inputs", async () => {
   const graph = new GraphAI(graph_data_deep_nested_named_input, agents, {});
   const result = await graph.run();
   assert.deepStrictEqual(result, { namedResult: [[["Hello World"], "Hello World2", { array: ["Hello World", { item: "Hello World" }] }]] });
+});
+
+test("test template named inputs", async () => {
+  const graph = new GraphAI(graph_data_template_nested_named_input, agents, {});
+  const result = await graph.run();
+  assert.deepStrictEqual(result, { namedResult: [[["hi Hello World !"], "Hello World2", { array: ["Hello World", { item: "Hello World Hello World2" }] }]] });
 });
 
 test("test deep named inputs", async () => {
