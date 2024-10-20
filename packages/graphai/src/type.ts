@@ -30,9 +30,6 @@ export type DataSource = {
 };
 
 export type DataSources = DataSource | DataSource[] | DataSources[];
-export interface NestedDataSource {
-  [key: string]: NestedDataSource | DataSources;
-}
 
 export type ResultDataSet = ResultData | ResultData[] | ResultDataSet[];
 
