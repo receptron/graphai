@@ -46,7 +46,7 @@ export const graph_data = {
     information: {
       // Holds the information acquired from the user at the end of this chat.
       value: {},
-      update: ":llm.choices.$0.message.tool_calls.$0.function.arguments.jsonParse()",
+      update: ":llm.tool.arguments",
       isResult: true,
     },
     messages: {
