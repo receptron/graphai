@@ -55,7 +55,7 @@ export const graph_data = {
         {
           role: "system",
           content:
-            "You  are responsible in retrieving following information from the user.\n" +
+            "You are responsible in retrieving following information from the user.\n" +
             "name: both first and last name\n" +
             "dob: date of birth. It MUST include the year\n" +
             "sex: gender (NEVER guess from the name)\n" +
@@ -71,11 +71,6 @@ export const graph_data = {
         message: "You:",
       },
     },
-    appendedMessages: {
-      // Appends it to the conversation
-      agent: "pushAgent",
-      inputs: { array: ":messages", item: { role: "user", content: ":userInput" } },
-    },
     llm: {
       // Sends those messages to LLM to get a response.
       agent: "openAIAgent",
@@ -83,7 +78,7 @@ export const graph_data = {
         model: "gpt-4o",
         tools,
       },
-      inputs: { messages: ":appendedMessages" },
+      inputs: { messages: ":messages", prompt: ":userInput" },
     },
     output: {
       // Displays the response to the user.
@@ -100,7 +95,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages", item: ":llm.choices.$0.message" },
+      inputs: { array: ":messages", items: [{ role: "user", content: ":userInput" }, ":llm.choices.$0.message"] },
     },
   },
 };
