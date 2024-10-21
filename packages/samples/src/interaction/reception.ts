@@ -41,12 +41,12 @@ export const graph_data = {
     // Holds a boolean value, which specifies if we need to contine or not.
     continue: {
       value: true,
-      update: ":llm.choices.$0.message.content",
+      update: ":llm.text",
     },
     information: {
       // Holds the information acquired from the user at the end of this chat.
       value: {},
-      update: ":argumentsParser",
+      update: ":llm.tool.arguments",
       isResult: true,
     },
     messages: {
@@ -55,7 +55,7 @@ export const graph_data = {
         {
           role: "system",
           content:
-            "You  are responsible in retrieving following information from the user.\n" +
+            "You are responsible in retrieving following information from the user.\n" +
             "name: both first and last name\n" +
             "dob: date of birth. It MUST include the year\n" +
             "sex: gender (NEVER guess from the name)\n" +
@@ -71,24 +71,6 @@ export const graph_data = {
         message: "You:",
       },
     },
-    userMessage: {
-      // Generates an message object with the user input.
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            propId: "content",
-            from: 1,
-          },
-        ],
-      },
-      inputs: { array: [{ role: "user" }, ":userInput"] },
-    },
-    appendedMessages: {
-      // Appends it to the conversation
-      agent: "pushAgent",
-      inputs: { array: ":messages", item: ":userMessage" },
-    },
     llm: {
       // Sends those messages to LLM to get a response.
       agent: "openAIAgent",
@@ -96,13 +78,7 @@ export const graph_data = {
         model: "gpt-4o",
         tools,
       },
-      inputs: { messages: ":appendedMessages" },
-    },
-    argumentsParser: {
-      // Parses the function arguments
-      agent: "jsonParserAgent",
-      inputs: { text: ":llm.choices.$0.message.tool_calls.$0.function.arguments" },
-      if: ":llm.choices.$0.message.tool_calls",
+      inputs: { messages: ":messages", prompt: ":userInput" },
     },
     output: {
       // Displays the response to the user.
@@ -113,13 +89,13 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: { message: [":llm.choices.$0.message.content"] },
-      if: ":llm.choices.$0.message.content",
+      inputs: { message: [":llm.text"] },
+      if: ":llm.text",
     },
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages", item: ":llm.choices.$0.message" },
+      inputs: { array: ":messages", items: [{ role: "user", content: ":userInput" }, ":llm.choices.$0.message"] },
     },
   },
 };
