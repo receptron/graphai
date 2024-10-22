@@ -26,12 +26,11 @@ nodes:
         node2:
           agent: stringTemplateAgent
           params:
-            template: "I love ${0}."
-          inputs:
-            - :row
+            template: "I love ${row}."
+          inputs: row :row
           isResult: true
   result:
     agent: sleeperAgent
     inputs:
-      - :nestedNode
+      array: [:nestedNode]
     isResult: true

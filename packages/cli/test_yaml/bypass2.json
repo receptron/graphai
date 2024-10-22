@@ -15,7 +15,8 @@
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",
-            "inputs": [":row"],
+            "params": { "namedKey": "item" },
+            "inputs": { "item": [":row"] },
             "isResult": true
           }
         }
@@ -23,7 +24,8 @@
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
-      "inputs": [":mapNode.bypassAgent"],
+      "params": { "namedKey": "item" },
+      "inputs": { "item": [":mapNode.bypassAgent"] },
       "isResult": true
     }
   }
