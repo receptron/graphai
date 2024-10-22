@@ -39,7 +39,7 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
             }
             if (nodeData.graph && typeof nodeData?.graph === "string") {
                 const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)({ graph: nodeData.graph }));
-                dataSourceValidator("graph", sourceNodeIds);
+                dataSourceValidator("Graph", sourceNodeIds);
             }
         }
     });
