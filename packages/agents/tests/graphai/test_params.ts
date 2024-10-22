@@ -21,14 +21,14 @@ const graphData_literal = {
     },
     delayed1: {
       agent: "sleeperAgent",
-      inputs: [":source1"],
+      inputs: { array: [":source1"] },
     },
     delayed2: {
       agent: "sleeperAgent",
       params: {
         duration: 100,
       },
-      inputs: [":source2"],
+      inputs: { array: [":source2"] },
     },
     test1: {
       agent: "testAgent",

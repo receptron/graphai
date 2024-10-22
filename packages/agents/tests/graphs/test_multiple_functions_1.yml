@@ -11,22 +11,26 @@ nodes:
   node3:
     params:
       delay: 500
-    inputs: [:node1, :node2]
+    inputs:
+      array: [:node1, :node2]
     agent: test2
   node4:
     params:
       delay: 100
-    inputs: [:node3]
+    inputs:
+      array: [:node3]
     agent: test1
   node5:
     params:
       delay: 500
-    inputs: [:node2, :node4]
+    inputs:
+      array: [:node2, :node4]
     agent: test2
   node6:
     params:
       delay: 100
       number: 10
-    inputs: [:node4]
+    inputs:
+      array: [:node4]
     agent: numberTestAgent
 

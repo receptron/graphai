@@ -17,19 +17,22 @@ nodes:
       duration: 500
       value:
         node3: output
-    inputs: [:node1, :node2.port1]
+    inputs:
+      array: [:node1, :node2.port1]
     agent: sleeperAgent
   node4:
     params:
       duration: 100
       value:
         node4: output
-    inputs: [:node3]
+    inputs:
+      array: [:node3]
     agent: sleeperAgent
   node5:
     params:
       duration: 500
       value:
         node5: output
-    inputs: [:node2.port1, :node4]
+    inputs:
+      array: [:node2.port1, :node4]
     agent: sleeperAgent

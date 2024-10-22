@@ -12,14 +12,14 @@ export const graphDataLiteral = {
     step1: {
       agent: "stringTemplateAgent",
       params: {
-        template: "${0}, ${1}, ${2}.",
+        template: "${a}, ${b}, ${c}.",
       },
-      inputs: [":source", "orange", undefined],
+      inputs: { a: ":source", b: "orange", c: undefined },
       isResult: true,
     },
     step2: {
       agent: "sleeperAgent",
-      inputs: [":source2", { lemon: "yellow" }],
+      inputs: { array: [":source2", { lemon: "yellow" }] },
       isResult: true,
     },
   },
@@ -37,7 +37,7 @@ export const graphDataInputs = {
     },
     total: {
       agent: "sleeperAgent",
-      inputs: [":apple", ":lemon", ":apple.fruits", ":lemon.fruits"],
+      inputs: { array: [":apple", ":lemon", ":apple.fruits", ":lemon.fruits"] },
     },
   },
 };
@@ -53,13 +53,13 @@ export const graphDataAny = {
       agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
-      inputs: [":source.yes"],
+      inputs: { array: [":source.yes"] },
     },
     negative: {
       agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
-      inputs: [":source.no"],
+      inputs: { array: [":source.no"] },
     },
   },
 };
@@ -79,7 +79,7 @@ export const graphDataAny2 = {
         duration: 10,
       },
       isResult: true,
-      inputs: [":source1"],
+      inputs: { array: [":source1"] },
     },
     router2: {
       agent: "sleeperAgent",
@@ -87,13 +87,13 @@ export const graphDataAny2 = {
         duration: 100,
       },
       isResult: true,
-      inputs: [":source2"],
+      inputs: { array: [":source2"] },
     },
     receiver: {
       agent: "sleeperAgent",
       anyInput: true,
       isResult: true,
-      inputs: [":router1", ":router2"],
+      inputs: { array: [":router1", ":router2"] },
     },
   },
 };

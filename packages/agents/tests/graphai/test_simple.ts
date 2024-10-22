@@ -16,11 +16,13 @@ const graph_data = {
     },
     bypassAgent: {
       agent: "bypassAgent",
-      inputs: [":echo"],
+      params: { namedKey: "item" },
+      inputs: { item: [":echo"] },
     },
     bypassAgent2: {
       agent: "bypassAgent",
-      inputs: [":bypassAgent"],
+      params: { namedKey: "item" },
+      inputs: { item: [":bypassAgent"] },
     },
   },
 };
@@ -33,11 +35,12 @@ const graph_injection_data = {
     },
     bypassAgent: {
       agent: "injectAgent",
-      inputs: [":echo"],
+      inputs: { item: [":echo"] },
     },
     bypassAgent2: {
       agent: "bypassAgent",
-      inputs: [":bypassAgent"],
+      params: { namedKey: "item" },
+      inputs: { item: [":bypassAgent"] },
     },
   },
 };

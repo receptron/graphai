@@ -15,19 +15,22 @@ nodes:
       duration: 500
       value:
         node3: output
-    inputs: [:node1, :node2]
+    inputs:
+      array: [:node1, :node2]
   node4:
     agent: sleeperAgent
     params:
       duration: 100
       value:
         node4: output
-    inputs: [:node3]
+    inputs:
+      array: [:node3]
   node5:
     agent: sleeperAgent
     params:
       duration: 500
       value:
         node5: output
-    inputs: [:node2, :node4]
+    inputs:
+      array: [:node2, :node4]
     isResult: true

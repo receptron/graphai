@@ -35,13 +35,13 @@ const graphDataStream = {
       value: theMessage,
     },
     source: {
-      agent: (message: string) => {
-        return new WordStreamer(message);
+      agent: ({ text }: { text: string }) => {
+        return new WordStreamer(text);
       },
-      inputs: [":message"],
+      inputs: { text: ":message" },
     },
     destination: {
-      agent: (streamer: WordStreamer) => {
+      agent: ({ streamer }: { streamer: WordStreamer }) => {
         const words = new Array<string>();
         return new Promise((resolve) => {
           streamer.run();
@@ -55,7 +55,7 @@ const graphDataStream = {
         });
       },
       isResult: true,
-      inputs: [":source"],
+      inputs: { streamer: ":source" },
     },
   },
 };

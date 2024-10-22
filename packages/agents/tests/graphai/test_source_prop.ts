@@ -16,11 +16,11 @@ const graphDataSourceProps = {
     },
     test: {
       agent: "testAgent",
-      inputs: [":input"],
+      inputs: { item: ":input" },
     },
     test2: {
       agent: "testAgent",
-      inputs: [":test.hoge"],
+      inputs: { item: ":test.hoge" },
       isResult: true,
     },
   },
