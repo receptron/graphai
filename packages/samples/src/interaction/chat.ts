@@ -40,31 +40,13 @@ export const graph_data = {
       },
       inputs: { array: [{}, ":userInput"] },
     },
-    userMessage: {
-      // Generates an message object with the user input.
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            propId: "content",
-            from: 1,
-          },
-        ],
-      },
-      inputs: { array: [{ role: "user" }, ":userInput"] },
-    },
-    appendedMessages: {
-      // Appends it to the conversation
-      agent: "pushAgent",
-      inputs: { array: ":messages", item: ":userMessage" },
-    },
     llm: {
       // Sends those messages to LLM to get a response.
       agent: "groqAgent",
       params: {
         model: "Llama3-8b-8192",
       },
-      inputs: { messages: ":appendedMessages" },
+      inputs: { messages: ":messages", prompt: ":userInput" },
     },
     output: {
       // Displays the response to the user.
@@ -80,7 +62,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages", item: ":llm.choices.$0.message" },
+      inputs: { array: ":messages", items: [{ role: "user", content: ":userInput" }, ":llm.choices.$0.message"] },
     },
   },
 };
