@@ -17,14 +17,14 @@ const graphdata_counter = {
     },
     counter: {
       agent: "counterAgent",
-      inputs: [":data"],
+      inputs: { item: ":data" },
       isResult: true,
     },
   },
 };
 
-const counterAgent: AgentFunction = async ({ inputs }) => {
-  return { v: (inputs[0].v || 0) + 1 };
+const counterAgent: AgentFunction = async ({ namedInputs }) => {
+  return { v: (namedInputs.item.v || 0) + 1 };
 };
 
 test("test counter", async () => {

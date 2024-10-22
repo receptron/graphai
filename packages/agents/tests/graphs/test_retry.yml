@@ -19,7 +19,8 @@ nodes:
       fail: true
       value:
         node3: output
-    inputs: [:node1, :node2]
+    inputs:
+      array: [:node1, :node2]
     retry: 2
   node4:
     agent: sleeperAgentDebug
@@ -29,11 +30,13 @@ nodes:
       duration: 300
       value:
         node4: output
-    inputs: [:node3]
+    inputs:
+      array: [:node3]
   node5:
     agent: sleeperAgentDebug
     params:
       duration: 100
       value:
         node5: output
-    inputs: [:node4]
+    inputs:
+      array: [:node4]

@@ -32,26 +32,30 @@ nodes:
             duration: 500
             value:
               inner3: output
-          inputs: [:inner0, :inner1, :inner2]
+          inputs:
+            array: [:inner0, :inner1, :inner2]
   outer3:
     agent: sleeperAgent
     params:
       duration: 500
       value:
         outer3: output
-    inputs: [:outer2.inner3]
+    inputs:
+      array: [:outer2.inner3]
   outer4:
     agent: sleeperAgent
     params:
       duration: 100
       value:
         outer4: output
-    inputs: [:outer3]
+    inputs:
+      array: [:outer3]
   outer5:
     agent: sleeperAgent
     params:
       duration: 500
       value:
         outer5: output
-    inputs: [:outer2.inner3, :outer4]
+    inputs:
+      array: [:outer2.inner3, :outer4]
     isResult: true
