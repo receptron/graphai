@@ -228,7 +228,7 @@ class GraphAI {
         this.updateStaticNodes(previousResults);
         if (loop.count === undefined || this.repeatCount < loop.count) {
             if (loop.while) {
-                const source = (0, utils_1.parseNodeName)(loop.while, this.version);
+                const source = (0, utils_1.parseNodeName)(loop.while);
                 const value = this.getValueFromResults(source, this.results(true));
                 // NOTE: We treat an empty array as false.
                 if (!(0, utils_1.isLogicallyTrue)(value)) {
@@ -269,7 +269,7 @@ class GraphAI {
         }
     }
     resultsOf(inputs, anyInput = false) {
-        const results = (0, result_1.resultsOf)(inputs ?? [], this.nodes, this.version);
+        const results = (0, result_1.resultsOf)(inputs ?? [], this.nodes);
         if (anyInput) {
             return (0, result_1.cleanResult)(results);
         }

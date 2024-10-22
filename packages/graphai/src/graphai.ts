@@ -281,7 +281,7 @@ export class GraphAI {
 
     if (loop.count === undefined || this.repeatCount < loop.count) {
       if (loop.while) {
-        const source = parseNodeName(loop.while, this.version);
+        const source = parseNodeName(loop.while);
         const value = this.getValueFromResults(source, this.results(true));
         // NOTE: We treat an empty array as false.
         if (!isLogicallyTrue(value)) {
@@ -328,7 +328,7 @@ export class GraphAI {
   }
 
   public resultsOf(inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
-    const results = resultsOf(inputs ?? [], this.nodes, this.version);
+    const results = resultsOf(inputs ?? [], this.nodes);
     if (anyInput) {
       return cleanResult(results);
     }

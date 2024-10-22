@@ -9,7 +9,7 @@ test("test getDataFromSource", async () => {
   const result = { data: "123" };
   const data = { data: "123" };
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1" });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -20,7 +20,7 @@ test("test getDataFromSource parseId", async () => {
   const result = { data: "123" };
   const data = "123";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -31,7 +31,7 @@ test("test getDataFromSource array", async () => {
   const result = ["123"];
   const data = ["123"];
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1" });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -42,7 +42,7 @@ test("test getDataFromSource array $0", async () => {
   const result = ["000", "111"];
   const data = "000";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["$0"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -53,7 +53,7 @@ test("test getDataFromSource array $1", async () => {
   const result = ["000", "111"];
   const data = "111";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["$1"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -66,7 +66,7 @@ test("test getDataFromSource nested object", async () => {
   const result = { data: { sample: "123" } };
   const data = "123";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -77,7 +77,7 @@ test("test getDataFromSource nested array", async () => {
   const result = { data: { sample: [0, 1, 2, 3] } };
   const data = 2;
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "$2"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -88,7 +88,7 @@ test("test getDataFromSource nested array last", async () => {
   const result = { data: { sample: [0, 1, 2, 3] } };
   const data = 3;
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "$last"] });
 
   const res = getDataFromSource(result, source);
@@ -101,7 +101,7 @@ test("test getDataFromSource nested object keys", async () => {
   const result = { data: { sample: { a: "123", b: "abc" } } };
   const data = ["a", "b"];
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "keys()"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -112,7 +112,7 @@ test("test getDataFromSource nested object values", async () => {
   const result = { data: { sample: { a: "123", b: "abc" } } };
   const data = ["123", "abc"];
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -124,7 +124,7 @@ test("test getDataFromSource nested object values", async () => {
   const result = { data: { sample: { a: "123", b: "abc" } } };
   const data = "abc";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "$last"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
@@ -136,7 +136,7 @@ test("test getDataFromSource array length", async () => {
   const result = { data: { sample: [0, 1, 2, 3] } };
   const data = 4;
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "length()"] });
 
   const res = getDataFromSource(result, source);
@@ -148,7 +148,7 @@ test("test getDataFromSource array join", async () => {
   const result = { data: { sample: [0, 1, 2, 3] } };
   const data = "0-1-2-3";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(-)"] });
 
   const res = getDataFromSource(result, source);
@@ -160,7 +160,7 @@ test("test getDataFromSource array join ,", async () => {
   const result = { data: { sample: [0, 1, 2, 3] } };
   const data = "0,1,2,3";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join(,)"] });
 
   const res = getDataFromSource(result, source);
@@ -172,7 +172,7 @@ test("test getDataFromSource array flat", async () => {
   const result = { data: { sample: [0, [1, [2, [3]]]] } };
   const data = [0, 1, [2, [3]]];
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()"] });
 
   const res = getDataFromSource(result, source);
@@ -184,7 +184,7 @@ test("test getDataFromSource array flat", async () => {
   const result = { data: { sample: [0, [1, [2, [3]]]] } };
   const data = [0, 1, 2, [3]];
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "flat()", "flat()"] });
 
   const res = getDataFromSource(result, source);
@@ -197,7 +197,7 @@ test("test getDataFromSource string json", async () => {
   const result = { data: '{ "sample": [0, 1, 2, 3] }' };
   const data = { sample: [0, 1, 2, 3] };
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "jsonParse()"] });
 
   const res = getDataFromSource(result, source);
@@ -211,7 +211,7 @@ test("test getDataFromSource array flat", async () => {
   const result = { data: "sample\n - 0\n  - 1\n  - 2\n  - 3" };
   const data = 4;
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "yamlParse()"],});
 
   const res = getDataFromSource(result, source);
@@ -224,7 +224,7 @@ test("test getDataFromSource nested object values", async () => {
   const result = { data: { sample: { a: "123", b: "abc" } } };
   const data = "123-abc";
 
-  const source = parseNodeName(inputId, graphDataLatestVersion);
+  const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "values()", "join(-)"] });
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);

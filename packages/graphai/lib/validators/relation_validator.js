@@ -14,7 +14,7 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
         if ("inputs" in nodeData && nodeData && nodeData.inputs) {
             if (Array.isArray(nodeData.inputs)) {
                 nodeData.inputs.forEach((inputNodeId) => {
-                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId, data.version ?? 0.2).nodeId;
+                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId).nodeId;
                     if (sourceNodeId) {
                         if (!nodeIds.has(sourceNodeId)) {
                             throw new common_1.ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
@@ -26,10 +26,11 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
                 });
             }
             else {
+                // namedInputs
                 const keys = Object.keys(nodeData.inputs);
                 keys.forEach((key) => {
                     const inputNodeId = nodeData.inputs[key];
-                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId, data.version ?? 0.3).nodeId;
+                    const sourceNodeId = (0, utils_1.parseNodeName)(inputNodeId).nodeId;
                     if (sourceNodeId) {
                         if (!nodeIds.has(sourceNodeId)) {
                             throw new common_1.ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
@@ -47,7 +48,7 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
         const nodeData = data.nodes[staticNodeId];
         if ("value" in nodeData && nodeData.update) {
             const update = nodeData.update;
-            const updateNodeId = (0, utils_1.parseNodeName)(update, data.version ?? 0.2).nodeId;
+            const updateNodeId = (0, utils_1.parseNodeName)(update).nodeId;
             if (!updateNodeId) {
                 throw new common_1.ValidationError("Update it a literal");
             }
