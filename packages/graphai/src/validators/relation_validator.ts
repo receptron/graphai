@@ -1,6 +1,7 @@
 import { GraphData } from "@/type";
 import { parseNodeName } from "@/utils/utils";
 import { ValidationError } from "@/validators/common";
+import { inputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
 
 export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
   const nodeIds = new Set<string>(Object.keys(data.nodes));
@@ -12,34 +13,35 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
   computedNodeIds.forEach((computedNodeId) => {
     const nodeData = data.nodes[computedNodeId];
     pendings[computedNodeId] = new Set<string>();
-    if ("inputs" in nodeData && nodeData && nodeData.inputs) {
-      if (Array.isArray(nodeData.inputs)) {
-        nodeData.inputs.forEach((inputNodeId) => {
-          const sourceNodeId = parseNodeName(inputNodeId).nodeId;
-          if (sourceNodeId) {
-            if (!nodeIds.has(sourceNodeId)) {
-              throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
-            }
-            waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
-            pendings[computedNodeId].add(sourceNodeId);
-            waitlist[sourceNodeId].add(computedNodeId);
+
+    const dataSourceValidator = (sourceType: string, sourceNodeIds: string[]) => {
+      sourceNodeIds.forEach((sourceNodeId) => {
+        if (sourceNodeId) {
+          if (!nodeIds.has(sourceNodeId)) {
+            throw new ValidationError(`${sourceType} not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
           }
-        });
-      } else {
-        // namedInputs
-        const keys = Object.keys(nodeData.inputs);
-        keys.forEach((key) => {
-          const inputNodeId = (nodeData.inputs as Record<string, any>)[key];
-          const sourceNodeId = parseNodeName(inputNodeId).nodeId;
-          if (sourceNodeId) {
-            if (!nodeIds.has(sourceNodeId)) {
-              throw new ValidationError(`Inputs not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
-            }
-            waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
-            pendings[computedNodeId].add(sourceNodeId);
-            waitlist[sourceNodeId].add(computedNodeId);
-          }
-        });
+          waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set<string>());
+          pendings[computedNodeId].add(sourceNodeId);
+          waitlist[sourceNodeId].add(computedNodeId);
+        }
+      });
+    };
+    if ("agent" in nodeData && nodeData) {
+      if (nodeData.inputs) {
+        const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
+        dataSourceValidator("Inputs", sourceNodeIds);
+      }
+      if (nodeData.if) {
+        const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ if: nodeData.if }));
+        dataSourceValidator("If", sourceNodeIds);
+      }
+      if (nodeData.unless) {
+        const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ unless: nodeData.unless }));
+        dataSourceValidator("Unless", sourceNodeIds);
+      }
+      if (nodeData.graph && typeof nodeData?.graph === "string") {
+        const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ graph: nodeData.graph }));
+        dataSourceValidator("Graph", sourceNodeIds);
       }
     }
   });
