@@ -1,5 +1,4 @@
 import { parseNodeName, getDataFromSource } from "@/utils/utils";
-import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 import assert from "node:assert";
