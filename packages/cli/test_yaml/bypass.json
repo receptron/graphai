@@ -9,12 +9,14 @@
     },
     "bypassAgent": {
       "agent": "bypassAgent",
-      "inputs": [":echo"]
+      "params": { "namedKey": "item" },
+      "inputs": { "item": [":echo"] }
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
       "isResult": true,
-      "inputs": [":bypassAgent"]
+      "params": { "namedKey": "item" },
+      "inputs": { "item": [":bypassAgent"] }
     }
   }
 }
