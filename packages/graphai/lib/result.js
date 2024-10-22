@@ -2,35 +2,35 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
 const utils_1 = require("./utils/utils");
-const resultsOfInner = (input, nodes, graphVersion) => {
+const resultsOfInner = (input, nodes) => {
     if (Array.isArray(input)) {
-        return input.map((inp) => resultsOfInner(inp, nodes, graphVersion));
+        return input.map((inp) => resultsOfInner(inp, nodes));
     }
     if ((0, utils_1.isNamedInputs)(input)) {
-        return (0, exports.resultsOf)(input, nodes, graphVersion);
+        return (0, exports.resultsOf)(input, nodes);
     }
     if (typeof input === "string") {
         const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
         if (templateMatch.length > 0) {
-            const results = resultsOfInner(templateMatch, nodes, graphVersion);
+            const results = resultsOfInner(templateMatch, nodes);
             return Array.from(templateMatch.keys()).reduce((tmp, key) => {
                 return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
             }, input);
         }
     }
-    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input, graphVersion), nodes);
+    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input), nodes);
 };
-const resultsOf = (inputs, nodes, graphVersion) => {
+const resultsOf = (inputs, nodes) => {
     // for inputs. TODO remove if array input is not supported
     if (Array.isArray(inputs)) {
         return inputs.reduce((tmp, key) => {
-            tmp[key] = resultsOfInner(key, nodes, graphVersion);
+            tmp[key] = resultsOfInner(key, nodes);
             return tmp;
         }, {});
     }
     return Object.keys(inputs).reduce((tmp, key) => {
         const input = inputs[key];
-        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, graphVersion) : resultsOfInner(input, nodes, graphVersion);
+        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes) : resultsOfInner(input, nodes);
         return tmp;
     }, {});
 };

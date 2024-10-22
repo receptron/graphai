@@ -10,7 +10,7 @@ export const mermaid = (graphData: GraphData) => {
       if (node.inputs) {
         if (Array.isArray(node.inputs)) {
           node.inputs.forEach((input) => {
-            const source = parseNodeName(input, graphData.version ?? 0.2);
+            const source = parseNodeName(input);
             if (source.propIds) {
               console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
             } else {
@@ -22,7 +22,7 @@ export const mermaid = (graphData: GraphData) => {
           const inputNames = Object.keys(node.inputs);
           inputNames.forEach((inputName) => {
             const input = (node.inputs as Record<string, any>)[inputName];
-            const source = parseNodeName(input, graphData.version ?? 0.2);
+            const source = parseNodeName(input);
             if (source.propIds) {
               console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
             } else {

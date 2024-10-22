@@ -51,7 +51,7 @@ class ComputedNode extends Node {
         this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
         this.isNamedInputs = (0, utils_2.isObject)(data.inputs) && !Array.isArray(data.inputs);
-        this.dataSources = data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs, graph.version).flat(10) : [];
+        this.dataSources = data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : [];
         if (data.inputs && !this.isNamedInputs) {
             console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
         }
@@ -74,7 +74,7 @@ class ComputedNode extends Node {
             this.unlessSource = this.addPendingNode(data.unless);
         }
         this.dynamicParams = Object.keys(this.params).reduce((tmp, key) => {
-            const dataSource = (0, utils_2.parseNodeName)(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
+            const dataSource = (0, utils_2.parseNodeName)(this.params[key]);
             if (dataSource.nodeId) {
                 (0, utils_2.assert)(!this.anyInput, "Dynamic params are not supported with anyInput");
                 tmp[key] = dataSource;
@@ -88,7 +88,7 @@ class ComputedNode extends Node {
         return this.agentId ?? "__custom__function"; // only for display purpose in the log.
     }
     addPendingNode(nodeId) {
-        const source = (0, utils_2.parseNodeName)(nodeId, this.graph.version);
+        const source = (0, utils_2.parseNodeName)(nodeId);
         (0, utils_2.assert)(!!source.nodeId, `Invalid data source ${nodeId}`);
         this.pendings.add(source.nodeId);
         return source;
@@ -340,7 +340,7 @@ class StaticNode extends Node {
         this.isStaticNode = true;
         this.isComputedNode = false;
         this.value = data.value;
-        this.update = data.update ? (0, utils_2.parseNodeName)(data.update, graph.version) : undefined;
+        this.update = data.update ? (0, utils_2.parseNodeName)(data.update) : undefined;
         this.isResult = data.isResult ?? false;
     }
     injectValue(value, injectFrom) {

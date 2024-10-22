@@ -4,26 +4,7 @@ export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-const parseNodeName_02 = (inputNodeId: any): DataSource => {
-  if (typeof inputNodeId === "string") {
-    const regex = /^"(.*)"$/;
-    const match = inputNodeId.match(regex);
-    if (match) {
-      return { value: match[1] }; // string literal
-    }
-    const parts = inputNodeId.split(".");
-    if (parts.length == 1) {
-      return { nodeId: parts[0] };
-    }
-    return { nodeId: parts[0], propIds: parts.slice(1) };
-  }
-  return { value: inputNodeId }; // non-string literal
-};
-
-export const parseNodeName = (inputNodeId: any, version: number): DataSource => {
-  if (version === 0.2) {
-    return parseNodeName_02(inputNodeId);
-  }
+export const parseNodeName = (inputNodeId: any): DataSource => {
   if (typeof inputNodeId === "string") {
     const regex = /^:(.*)$/;
     const match = inputNodeId.match(regex);

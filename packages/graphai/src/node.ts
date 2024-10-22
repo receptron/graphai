@@ -96,7 +96,7 @@ export class ComputedNode extends Node {
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
     this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
-    this.dataSources = data.inputs ? inputs2dataSources(data.inputs, graph.version).flat(10) : [];
+    this.dataSources = data.inputs ? inputs2dataSources(data.inputs).flat(10) : [];
     if (data.inputs && !this.isNamedInputs) {
       console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
     }
@@ -119,7 +119,7 @@ export class ComputedNode extends Node {
       this.unlessSource = this.addPendingNode(data.unless);
     }
     this.dynamicParams = Object.keys(this.params).reduce((tmp: Record<string, DataSource>, key) => {
-      const dataSource = parseNodeName(this.params[key], graph.version < 0.3 ? 0.3 : graph.version);
+      const dataSource = parseNodeName(this.params[key]);
       if (dataSource.nodeId) {
         assert(!this.anyInput, "Dynamic params are not supported with anyInput");
         tmp[key] = dataSource;
@@ -136,7 +136,7 @@ export class ComputedNode extends Node {
   }
 
   private addPendingNode(nodeId: string) {
-    const source = parseNodeName(nodeId, this.graph.version);
+    const source = parseNodeName(nodeId);
     assert(!!source.nodeId, `Invalid data source ${nodeId}`);
     this.pendings.add(source.nodeId);
     return source;
@@ -420,7 +420,7 @@ export class StaticNode extends Node {
   constructor(nodeId: string, data: StaticNodeData, graph: GraphAI) {
     super(nodeId, graph);
     this.value = data.value;
-    this.update = data.update ? parseNodeName(data.update, graph.version) : undefined;
+    this.update = data.update ? parseNodeName(data.update) : undefined;
     this.isResult = data.isResult ?? false;
   }
 
