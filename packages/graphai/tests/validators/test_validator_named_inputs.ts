@@ -72,3 +72,83 @@ test("test closed loop validation", async () => {
   });
   await rejectTest(__dirname, graph_data, "Some nodes are not executed: computed3");
 });
+
+test("test closed loop validation nested named Inputs", async () => {
+  const graph_data = anonymization({
+    version: graphDataLatestVersion,
+    nodes: {
+      computed1: {
+        agent: "echoAgent",
+      },
+      computed2: {
+        agent: "echoAgent",
+        inputs: { text: ":computed1" },
+      },
+      computed3: {
+        agent: "echoAgent",
+        inputs: { text: { item: ":computed3" } },
+      },
+    },
+  });
+  await rejectTest(__dirname, graph_data, "Some nodes are not executed: computed3");
+});
+
+test("test closed loop validation nested named Inputs", async () => {
+  const graph_data = anonymization({
+    version: graphDataLatestVersion,
+    nodes: {
+      computed1: {
+        agent: "echoAgent",
+      },
+      computed2: {
+        agent: "echoAgent",
+        inputs: { text: ":computed1" },
+      },
+      computed3: {
+        agent: "echoAgent",
+        inputs: { text: { item: ["123", { array: [false, ":computed3"] }] } },
+      },
+    },
+  });
+  await rejectTest(__dirname, graph_data, "Some nodes are not executed: computed3");
+});
+
+test("test closed loop validation nested named Inputs", async () => {
+  const graph_data = anonymization({
+    version: graphDataLatestVersion,
+    nodes: {
+      computed1: {
+        agent: "echoAgent",
+      },
+      computed2: {
+        agent: "echoAgent",
+        inputs: { text: ":computed1" },
+      },
+      computed3: {
+        agent: "echoAgent",
+        if: ":computed3",
+      },
+    },
+  });
+  await rejectTest(__dirname, graph_data, "Some nodes are not executed: computed3");
+});
+
+test("test closed loop validation nested named Inputs", async () => {
+  const graph_data = anonymization({
+    version: graphDataLatestVersion,
+    nodes: {
+      computed1: {
+        agent: "echoAgent",
+      },
+      computed2: {
+        agent: "echoAgent",
+        inputs: { text: ":computed1" },
+      },
+      computed3: {
+        agent: "echoAgent",
+        if: ":computed4",
+      },
+    },
+  });
+  await rejectTest(__dirname, graph_data, "If not match: NodeId computed3, Inputs: computed4");
+});
