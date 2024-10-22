@@ -28,7 +28,7 @@
     "@graphai/agent_filters": "^0.0.6",
     "@graphai/vanilla": "^0.1.0",
     "graphai": "^0.5.9",
-    "yaml": "^2.5.0"
+    "yaml": "^2.6.0"
   },
   "types": "./lib/index.d.ts",
   "directories": {

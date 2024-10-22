@@ -33,7 +33,7 @@
     "@graphai/openai_agent": "^0.0.10",
     "@graphai/replicate_agent": "^0.0.3",
     "@graphai/slashgpt_agent": "^0.0.5",
-    "tiktoken": "^1.0.16"
+    "tiktoken": "^1.0.17"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
