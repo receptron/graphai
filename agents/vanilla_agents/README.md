@@ -316,11 +316,11 @@ const result = await graph.run();
           "node2": {
             "agent": "stringTemplateAgent",
             "params": {
-              "template": "I love ${0}."
+              "template": "I love ${m}."
             },
-            "inputs": [
-              ":row"
-            ],
+            "inputs": {
+              "m": ":row"
+            },
             "isResult": true
           }
         }
@@ -331,9 +331,11 @@ const result = await graph.run();
     },
     "result": {
       "agent": "sleeperAgent",
-      "inputs": [
-        ":nestedNode.node2"
-      ],
+      "inputs": {
+        "array": [
+          ":nestedNode.node2"
+        ]
+      },
       "isResult": true
     }
   }
@@ -361,9 +363,12 @@ const result = await graph.run();
         "nodes": {
           "node1": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
             "isResult": true
           }
         }
@@ -374,9 +379,14 @@ const result = await graph.run();
     },
     "result": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":nestedNode.node1"
-      ],
+      "params": {
+        "namedKey": "result"
+      },
+      "inputs": {
+        "result": [
+          ":nestedNode.node1"
+        ]
+      },
       "isResult": true
     }
   }
@@ -404,9 +414,12 @@ const result = await graph.run();
         "nodes": {
           "node1": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
             "isResult": true
           }
         }
@@ -418,11 +431,11 @@ const result = await graph.run();
     "result": {
       "agent": "bypassAgent",
       "params": {
-        "flat": 1
+        "namedKey": "result"
       },
-      "inputs": [
-        ":nestedNode.node1"
-      ]
+      "inputs": {
+        "result": ":nestedNode.node1"
+      }
     }
   }
 }
@@ -449,9 +462,12 @@ const result = await graph.run();
         "nodes": {
           "node1": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
             "isResult": true
           }
         }
@@ -463,11 +479,12 @@ const result = await graph.run();
     "result": {
       "agent": "bypassAgent",
       "params": {
-        "flat": 2
+        "flat": 2,
+        "namedKey": "res"
       },
-      "inputs": [
-        ":nestedNode.node1"
-      ]
+      "inputs": {
+        "res": ":nestedNode.node1"
+      }
     }
   }
 }
@@ -717,15 +734,19 @@ const result = await graph.run();
           },
           "forked": {
             "agent": "sleeperAgent",
-            "inputs": [
-              ":row.level1"
-            ]
+            "inputs": {
+              "array": [
+                ":row.level1"
+              ]
+            }
           },
           "forked2": {
             "agent": "sleeperAgent",
-            "inputs": [
-              ":forked"
-            ],
+            "inputs": {
+              "array": [
+                ":forked"
+              ]
+            },
             "isResult": true
           }
         }
@@ -736,9 +757,14 @@ const result = await graph.run();
     },
     "bypassAgent": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":mapNode"
-      ]
+      "params": {
+        "namedKey": "result"
+      },
+      "inputs": {
+        "result": [
+          ":mapNode"
+        ]
+      }
     }
   }
 }
@@ -757,15 +783,25 @@ const result = await graph.run();
     },
     "bypassAgent": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":echo"
-      ]
+      "params": {
+        "namedKey": "text"
+      },
+      "inputs": {
+        "text": [
+          ":echo"
+        ]
+      }
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":bypassAgent.$0"
-      ]
+      "params": {
+        "namedKey": "text"
+      },
+      "inputs": {
+        "text": [
+          ":bypassAgent.$0"
+        ]
+      }
     }
   }
 }
@@ -795,13 +831,13 @@ const result = await graph.run();
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
-            "isResult": true,
             "params": {
-              "firstElement": true
-            }
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
+            "isResult": true
           }
         }
       },
@@ -811,9 +847,14 @@ const result = await graph.run();
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":mapNode.bypassAgent"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":mapNode.bypassAgent"
+        ]
+      }
     }
   }
 }
@@ -843,23 +884,31 @@ const result = await graph.run();
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ]
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": [
+                ":row"
+              ]
+            }
           },
           "bypassAgent2": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":bypassAgent.$0"
-            ]
+            "params": {
+              "namedKey": "text"
+            },
+            "inputs": {
+              "text": ":bypassAgent"
+            }
           },
           "bypassAgent3": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":bypassAgent2.$0"
-            ],
             "params": {
-              "firstElement": true
+              "namedKey": "text"
+            },
+            "inputs": {
+              "text": ":bypassAgent2.$0"
             },
             "isResult": true
           }
@@ -872,11 +921,11 @@ const result = await graph.run();
     "bypassAgent4": {
       "agent": "bypassAgent",
       "params": {
-        "firstElement": true
+        "namedKey": "text"
       },
-      "inputs": [
-        ":mapNode.bypassAgent3"
-      ]
+      "inputs": {
+        "text": ":mapNode.bypassAgent3"
+      }
     }
   }
 }
@@ -906,16 +955,24 @@ const result = await graph.run();
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ]
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            }
           },
           "bypassAgent2": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":bypassAgent.$0",
-              ":row"
-            ],
+            "params": {
+              "namedKey": "array"
+            },
+            "inputs": {
+              "array": [
+                ":bypassAgent",
+                ":row"
+              ]
+            },
             "isResult": true
           }
         }
@@ -926,11 +983,11 @@ const result = await graph.run();
     },
     "bypassAgent3": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":mapNode.bypassAgent2"
-      ],
       "params": {
-        "firstElement": true
+        "namedKey": "text"
+      },
+      "inputs": {
+        "text": ":mapNode.bypassAgent2"
       }
     }
   }
@@ -950,25 +1007,40 @@ const result = await graph.run();
     },
     "bypassAgent": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":echo",
-        ":echo",
-        ":echo"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":echo",
+          ":echo",
+          ":echo"
+        ]
+      }
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":bypassAgent",
-        ":bypassAgent"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":bypassAgent",
+          ":bypassAgent"
+        ]
+      }
     },
     "bypassAgent3": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":bypassAgent2",
-        ":bypassAgent2"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":bypassAgent2",
+          ":bypassAgent2"
+        ]
+      }
     }
   }
 }

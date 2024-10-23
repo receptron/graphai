@@ -134,16 +134,17 @@ nodes:
         node2:
           agent: stringTemplateAgent
           params:
-            template: I love ${0}.
+            template: I love ${m}.
           inputs:
-            - :row
+            m: :row
           isResult: true
     params:
       compositeResult: true
   result:
     agent: sleeperAgent
     inputs:
-      - :nestedNode.node2
+      array:
+        - :nestedNode.node2
     isResult: true
 
 ```
@@ -165,15 +166,20 @@ nodes:
       nodes:
         node1:
           agent: bypassAgent
+          params:
+            namedKey: row
           inputs:
-            - :row
+            row: :row
           isResult: true
     params:
       compositeResult: true
   result:
     agent: bypassAgent
+    params:
+      namedKey: result
     inputs:
-      - :nestedNode.node1
+      result:
+        - :nestedNode.node1
     isResult: true
 
 ```
@@ -195,17 +201,19 @@ nodes:
       nodes:
         node1:
           agent: bypassAgent
+          params:
+            namedKey: row
           inputs:
-            - :row
+            row: :row
           isResult: true
     params:
       compositeResult: true
   result:
     agent: bypassAgent
     params:
-      flat: 1
+      namedKey: result
     inputs:
-      - :nestedNode.node1
+      result: :nestedNode.node1
 
 ```
 
@@ -226,8 +234,10 @@ nodes:
       nodes:
         node1:
           agent: bypassAgent
+          params:
+            namedKey: row
           inputs:
-            - :row
+            row: :row
           isResult: true
     params:
       compositeResult: true
@@ -235,8 +245,9 @@ nodes:
     agent: bypassAgent
     params:
       flat: 2
+      namedKey: res
     inputs:
-      - :nestedNode.node1
+      res: :nestedNode.node1
 
 ```
 
@@ -414,18 +425,23 @@ nodes:
         forked:
           agent: sleeperAgent
           inputs:
-            - :row.level1
+            array:
+              - :row.level1
         forked2:
           agent: sleeperAgent
           inputs:
-            - :forked
+            array:
+              - :forked
           isResult: true
     params:
       compositeResult: true
   bypassAgent:
     agent: bypassAgent
+    params:
+      namedKey: result
     inputs:
-      - :mapNode
+      result:
+        - :mapNode
 
 ```
 
@@ -439,12 +455,18 @@ nodes:
       message: hello
   bypassAgent:
     agent: bypassAgent
+    params:
+      namedKey: text
     inputs:
-      - :echo
+      text:
+        - :echo
   bypassAgent2:
     agent: bypassAgent
+    params:
+      namedKey: text
     inputs:
-      - :bypassAgent.$0
+      text:
+        - :bypassAgent.$0
 
 ```
 
@@ -467,17 +489,20 @@ nodes:
       nodes:
         bypassAgent:
           agent: bypassAgent
-          inputs:
-            - :row
-          isResult: true
           params:
-            firstElement: true
+            namedKey: row
+          inputs:
+            row: :row
+          isResult: true
     params:
       compositeResult: true
   bypassAgent2:
     agent: bypassAgent
+    params:
+      namedKey: array
     inputs:
-      - :mapNode.bypassAgent
+      array:
+        - :mapNode.bypassAgent
 
 ```
 
@@ -500,27 +525,32 @@ nodes:
       nodes:
         bypassAgent:
           agent: bypassAgent
+          params:
+            namedKey: row
           inputs:
-            - :row
+            row:
+              - :row
         bypassAgent2:
           agent: bypassAgent
+          params:
+            namedKey: text
           inputs:
-            - :bypassAgent.$0
+            text: :bypassAgent
         bypassAgent3:
           agent: bypassAgent
-          inputs:
-            - :bypassAgent2.$0
           params:
-            firstElement: true
+            namedKey: text
+          inputs:
+            text: :bypassAgent2.$0
           isResult: true
     params:
       compositeResult: true
   bypassAgent4:
     agent: bypassAgent
     params:
-      firstElement: true
+      namedKey: text
     inputs:
-      - :mapNode.bypassAgent3
+      text: :mapNode.bypassAgent3
 
 ```
 
@@ -543,22 +573,27 @@ nodes:
       nodes:
         bypassAgent:
           agent: bypassAgent
+          params:
+            namedKey: row
           inputs:
-            - :row
+            row: :row
         bypassAgent2:
           agent: bypassAgent
+          params:
+            namedKey: array
           inputs:
-            - :bypassAgent.$0
-            - :row
+            array:
+              - :bypassAgent
+              - :row
           isResult: true
     params:
       compositeResult: true
   bypassAgent3:
     agent: bypassAgent
-    inputs:
-      - :mapNode.bypassAgent2
     params:
-      firstElement: true
+      namedKey: text
+    inputs:
+      text: :mapNode.bypassAgent2
 
 ```
 
@@ -572,19 +607,28 @@ nodes:
       message: hello
   bypassAgent:
     agent: bypassAgent
+    params:
+      namedKey: array
     inputs:
-      - :echo
-      - :echo
-      - :echo
+      array:
+        - :echo
+        - :echo
+        - :echo
   bypassAgent2:
     agent: bypassAgent
+    params:
+      namedKey: array
     inputs:
-      - :bypassAgent
-      - :bypassAgent
+      array:
+        - :bypassAgent
+        - :bypassAgent
   bypassAgent3:
     agent: bypassAgent
+    params:
+      namedKey: array
     inputs:
-      - :bypassAgent2
-      - :bypassAgent2
+      array:
+        - :bypassAgent2
+        - :bypassAgent2
 
 ```
