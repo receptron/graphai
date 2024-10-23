@@ -14,9 +14,9 @@ test("test map_agent", async () => {
         node2: {
           agent: "stringTemplateAgent",
           params: {
-            template: "I love ${0}.",
+            template: "I love ${item}.",
           },
-          inputs: [":row.fruit"],
+          inputs: { item: ":row.fruit" },
           isResult: true,
         },
       },
@@ -42,9 +42,9 @@ test("test map_agent 2", async () => {
         node2: {
           agent: "stringTemplateAgent",
           params: {
-            template: "I love ${0}.",
+            template: "I love ${item}.",
           },
-          inputs: [":row"],
+          inputs: { item: ":row" },
           isResult: true,
         },
       },
@@ -70,9 +70,9 @@ test("test map_agent 3", async () => {
         node2: {
           agent: "stringTemplateAgent",
           params: {
-            template: "${1} ${2} ${0}.",
+            template: "${b} ${c} ${a}.",
           },
-          inputs: [":row", ":name", ":verb"],
+          inputs: { a: ":row", b: ":name", c: ":verb" },
           isResult: true,
         },
       },
