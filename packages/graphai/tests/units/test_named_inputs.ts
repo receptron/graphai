@@ -12,11 +12,6 @@ const graph_data = {
     message: {
       value: "Hello World",
     },
-    result: {
-      agent: (input: string) => input,
-      inputs: [":message"],
-      isResult: true,
-    },
     namedResult: {
       agent: (object: { input: string }) => object.input,
       inputs: { input: ":message" },
@@ -34,11 +29,6 @@ const graph_data_array_named_input = {
     message2: {
       value: "Hello World2",
     },
-    result: {
-      agent: (input: string) => input,
-      inputs: [":message"],
-      isResult: true,
-    },
     namedResult: {
       agent: (object: { input: string }) => object.input,
       inputs: { input: [":message", ":message2"] },
@@ -55,11 +45,6 @@ const graph_data_nested_array_named_input = {
     },
     message2: {
       value: "Hello World2",
-    },
-    result: {
-      agent: (input: string) => input,
-      inputs: [":message"],
-      isResult: true,
     },
     namedResult: {
       agent: (object: { input: string }) => object.input,
@@ -181,19 +166,19 @@ const graph_data_deep_and_any_nested_named_input = {
 test("test named inputs", async () => {
   const graph = new GraphAI(graph_data, {}, {});
   const result = await graph.run();
-  assert.deepStrictEqual(result, { result: "Hello World", namedResult: "Hello World" });
+  assert.deepStrictEqual(result, { namedResult: "Hello World" });
 });
 
 test("test named inputs array", async () => {
   const graph = new GraphAI(graph_data_array_named_input, {}, {});
   const result = await graph.run();
-  assert.deepStrictEqual(result, { result: "Hello World", namedResult: ["Hello World", "Hello World2"] });
+  assert.deepStrictEqual(result, { namedResult: ["Hello World", "Hello World2"] });
 });
 
 test("test nested named inputs array", async () => {
   const graph = new GraphAI(graph_data_nested_array_named_input, {}, {});
   const result = await graph.run();
-  assert.deepStrictEqual(result, { result: "Hello World", namedResult: [[["Hello World"], "Hello World2"]] });
+  assert.deepStrictEqual(result, { namedResult: [[["Hello World"], "Hello World2"]] });
 });
 
 test("test nested named inputs", async () => {
