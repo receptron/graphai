@@ -40,7 +40,7 @@ test("test validate filter int input error", async () => {
       },
       pop: {
         agent: "popAgent",
-        inputs: [":inputs"],
+        inputs: {pop: ":inputs"},
       },
     },
   };
@@ -63,7 +63,7 @@ test("test validate filter array input error", async () => {
       },
       pop: {
         agent: "popAgent",
-        inputs: [":inputs"],
+        inputs: {pop: ":inputs"},
       },
     },
   };
@@ -77,7 +77,7 @@ test("test validate filter array input error", async () => {
   );
 });
 
-test("test validate filter array input error", async () => {
+test("test validate filter array input valid", async () => {
   const graph_data = {
     version: 0.5,
     nodes: {
