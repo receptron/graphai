@@ -16,7 +16,7 @@ const copy2ArrayAgentInfo = {
     mock: exports.copy2ArrayAgent,
     samples: [
         {
-            inputs: [{ message: "hello" }],
+            inputs: { item: { message: "hello" } },
             params: { count: 10 },
             result: [
                 { message: "hello" },

@@ -29,36 +29,20 @@ const bypassAgentInfo: AgentFunctionInfo = {
   mock: bypassAgent,
   samples: [
     {
-      inputs: [{ a: "123" }],
+      inputs: { a: "123" },
       params: {},
-      result: [{ a: "123" }],
+      result: { a: "123" },
     },
     {
-      inputs: [
+      inputs: {array: [
         [{ a: "123" }, { b: "abc" }],
         [{ c: "987" }, { d: "xyz" }],
-      ],
+      ]},
       params: {},
-      result: [
+      result: {array: [
         [{ a: "123" }, { b: "abc" }],
         [{ c: "987" }, { d: "xyz" }],
-      ],
-    },
-    {
-      inputs: [
-        [{ a: "123" }, { b: "abc" }],
-        [{ c: "987" }, { d: "xyz" }],
-      ],
-      params: { firstElement: true },
-      result: [{ a: "123" }, { b: "abc" }],
-    },
-    {
-      inputs: [
-        [{ a: "123" }, { b: "abc" }],
-        [{ c: "987" }, { d: "xyz" }],
-      ],
-      params: { flat: 1 },
-      result: [{ a: "123" }, { b: "abc" }, { c: "987" }, { d: "xyz" }],
+      ]},
     },
     // named
     {

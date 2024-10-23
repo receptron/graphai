@@ -44,7 +44,6 @@ export const stringTemplateAgent: AgentFunction<
   }, params.template);
 };
 
-const sampleInput = ["hello", "test"];
 const sampleNamedInput = { message1: "hello", message2: "test" };
 
 // for test and document
@@ -53,31 +52,6 @@ const stringTemplateAgentInfo: AgentFunctionInfo = {
   agent: stringTemplateAgent,
   mock: stringTemplateAgent,
   samples: [
-    {
-      inputs: sampleInput,
-      params: { template: "${0}: ${1}" },
-      result: "hello: test",
-    },
-    {
-      inputs: sampleInput,
-      params: { template: ["${0}: ${1}", "${1}: ${0}"] },
-      result: ["hello: test", "test: hello"],
-    },
-    {
-      inputs: sampleInput,
-      params: { template: { apple: "${0}", lemon: "${1}" } },
-      result: { apple: "hello", lemon: "test" },
-    },
-    {
-      inputs: sampleInput,
-      params: { template: [{ apple: "${0}", lemon: "${1}" }] },
-      result: [{ apple: "hello", lemon: "test" }],
-    },
-    {
-      inputs: sampleInput,
-      params: { template: { apple: "${0}", lemon: ["${1}"] } },
-      result: { apple: "hello", lemon: ["test"] },
-    },
     // named
     {
       inputs: sampleNamedInput,
