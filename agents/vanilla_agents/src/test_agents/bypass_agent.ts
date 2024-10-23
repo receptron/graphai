@@ -34,15 +34,19 @@ const bypassAgentInfo: AgentFunctionInfo = {
       result: { a: "123" },
     },
     {
-      inputs: {array: [
-        [{ a: "123" }, { b: "abc" }],
-        [{ c: "987" }, { d: "xyz" }],
-      ]},
+      inputs: {
+        array: [
+          [{ a: "123" }, { b: "abc" }],
+          [{ c: "987" }, { d: "xyz" }],
+        ],
+      },
       params: {},
-      result: {array: [
-        [{ a: "123" }, { b: "abc" }],
-        [{ c: "987" }, { d: "xyz" }],
-      ]},
+      result: {
+        array: [
+          [{ a: "123" }, { b: "abc" }],
+          [{ c: "987" }, { d: "xyz" }],
+        ],
+      },
     },
     // named
     {

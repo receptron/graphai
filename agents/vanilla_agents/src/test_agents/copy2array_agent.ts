@@ -15,7 +15,7 @@ const copy2ArrayAgentInfo: AgentFunctionInfo = {
   mock: copy2ArrayAgent,
   samples: [
     {
-      inputs: {item: { message: "hello" }},
+      inputs: { item: { message: "hello" } },
       params: { count: 10 },
       result: [
         { message: "hello" },
