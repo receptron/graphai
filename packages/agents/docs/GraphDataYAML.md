@@ -10,17 +10,17 @@ nodes:
   step1:
     agent: stringTemplateAgent
     params:
-      template: ${0}, ${1}, ${2}.
+      template: ${a}, ${b}, ${c}.
     inputs:
-      - :source
-      - orange
-      - null
+      a: :source
+      b: orange
     isResult: true
   step2:
     agent: sleeperAgent
     inputs:
-      - :source2
-      - lemon: yellow
+      array:
+        - :source2
+        - lemon: yellow
     isResult: true
 
 ```
@@ -40,10 +40,11 @@ nodes:
   total:
     agent: sleeperAgent
     inputs:
-      - :apple
-      - :lemon
-      - :apple.fruits
-      - :lemon.fruits
+      array:
+        - :apple
+        - :lemon
+        - :apple.fruits
+        - :lemon.fruits
 
 ```
 
@@ -58,13 +59,15 @@ nodes:
     anyInput: true
     isResult: true
     inputs:
-      - :source.yes
+      array:
+        - :source.yes
   negative:
     agent: sleeperAgent
     anyInput: true
     isResult: true
     inputs:
-      - :source.no
+      array:
+        - :source.no
 
 ```
 
@@ -84,21 +87,24 @@ nodes:
       duration: 10
     isResult: true
     inputs:
-      - :source1
+      array:
+        - :source1
   router2:
     agent: sleeperAgent
     params:
       duration: 100
     isResult: true
     inputs:
-      - :source2
+      array:
+        - :source2
   receiver:
     agent: sleeperAgent
     anyInput: true
     isResult: true
     inputs:
-      - :router1
-      - :router2
+      array:
+        - :router1
+        - :router2
 
 ```
 

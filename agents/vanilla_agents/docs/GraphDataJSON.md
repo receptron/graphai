@@ -178,11 +178,11 @@
           "node2": {
             "agent": "stringTemplateAgent",
             "params": {
-              "template": "I love ${0}."
+              "template": "I love ${m}."
             },
-            "inputs": [
-              ":row"
-            ],
+            "inputs": {
+              "m": ":row"
+            },
             "isResult": true
           }
         }
@@ -193,9 +193,11 @@
     },
     "result": {
       "agent": "sleeperAgent",
-      "inputs": [
-        ":nestedNode.node2"
-      ],
+      "inputs": {
+        "array": [
+          ":nestedNode.node2"
+        ]
+      },
       "isResult": true
     }
   }
@@ -223,9 +225,12 @@
         "nodes": {
           "node1": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
             "isResult": true
           }
         }
@@ -236,9 +241,14 @@
     },
     "result": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":nestedNode.node1"
-      ],
+      "params": {
+        "namedKey": "result"
+      },
+      "inputs": {
+        "result": [
+          ":nestedNode.node1"
+        ]
+      },
       "isResult": true
     }
   }
@@ -266,9 +276,12 @@
         "nodes": {
           "node1": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
             "isResult": true
           }
         }
@@ -280,11 +293,11 @@
     "result": {
       "agent": "bypassAgent",
       "params": {
-        "flat": 1
+        "namedKey": "result"
       },
-      "inputs": [
-        ":nestedNode.node1"
-      ]
+      "inputs": {
+        "result": ":nestedNode.node1"
+      }
     }
   }
 }
@@ -311,9 +324,12 @@
         "nodes": {
           "node1": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
             "isResult": true
           }
         }
@@ -325,11 +341,12 @@
     "result": {
       "agent": "bypassAgent",
       "params": {
-        "flat": 2
+        "flat": 2,
+        "namedKey": "res"
       },
-      "inputs": [
-        ":nestedNode.node1"
-      ]
+      "inputs": {
+        "res": ":nestedNode.node1"
+      }
     }
   }
 }
@@ -579,15 +596,19 @@
           },
           "forked": {
             "agent": "sleeperAgent",
-            "inputs": [
-              ":row.level1"
-            ]
+            "inputs": {
+              "array": [
+                ":row.level1"
+              ]
+            }
           },
           "forked2": {
             "agent": "sleeperAgent",
-            "inputs": [
-              ":forked"
-            ],
+            "inputs": {
+              "array": [
+                ":forked"
+              ]
+            },
             "isResult": true
           }
         }
@@ -598,9 +619,14 @@
     },
     "bypassAgent": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":mapNode"
-      ]
+      "params": {
+        "namedKey": "result"
+      },
+      "inputs": {
+        "result": [
+          ":mapNode"
+        ]
+      }
     }
   }
 }
@@ -619,15 +645,25 @@
     },
     "bypassAgent": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":echo"
-      ]
+      "params": {
+        "namedKey": "text"
+      },
+      "inputs": {
+        "text": [
+          ":echo"
+        ]
+      }
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":bypassAgent.$0"
-      ]
+      "params": {
+        "namedKey": "text"
+      },
+      "inputs": {
+        "text": [
+          ":bypassAgent.$0"
+        ]
+      }
     }
   }
 }
@@ -657,13 +693,13 @@
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ],
-            "isResult": true,
             "params": {
-              "firstElement": true
-            }
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            },
+            "isResult": true
           }
         }
       },
@@ -673,9 +709,14 @@
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":mapNode.bypassAgent"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":mapNode.bypassAgent"
+        ]
+      }
     }
   }
 }
@@ -705,23 +746,31 @@
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ]
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": [
+                ":row"
+              ]
+            }
           },
           "bypassAgent2": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":bypassAgent.$0"
-            ]
+            "params": {
+              "namedKey": "text"
+            },
+            "inputs": {
+              "text": ":bypassAgent"
+            }
           },
           "bypassAgent3": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":bypassAgent2.$0"
-            ],
             "params": {
-              "firstElement": true
+              "namedKey": "text"
+            },
+            "inputs": {
+              "text": ":bypassAgent2.$0"
             },
             "isResult": true
           }
@@ -734,11 +783,11 @@
     "bypassAgent4": {
       "agent": "bypassAgent",
       "params": {
-        "firstElement": true
+        "namedKey": "text"
       },
-      "inputs": [
-        ":mapNode.bypassAgent3"
-      ]
+      "inputs": {
+        "text": ":mapNode.bypassAgent3"
+      }
     }
   }
 }
@@ -768,16 +817,24 @@
         "nodes": {
           "bypassAgent": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":row"
-            ]
+            "params": {
+              "namedKey": "row"
+            },
+            "inputs": {
+              "row": ":row"
+            }
           },
           "bypassAgent2": {
             "agent": "bypassAgent",
-            "inputs": [
-              ":bypassAgent.$0",
-              ":row"
-            ],
+            "params": {
+              "namedKey": "array"
+            },
+            "inputs": {
+              "array": [
+                ":bypassAgent",
+                ":row"
+              ]
+            },
             "isResult": true
           }
         }
@@ -788,11 +845,11 @@
     },
     "bypassAgent3": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":mapNode.bypassAgent2"
-      ],
       "params": {
-        "firstElement": true
+        "namedKey": "text"
+      },
+      "inputs": {
+        "text": ":mapNode.bypassAgent2"
       }
     }
   }
@@ -812,25 +869,40 @@
     },
     "bypassAgent": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":echo",
-        ":echo",
-        ":echo"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":echo",
+          ":echo",
+          ":echo"
+        ]
+      }
     },
     "bypassAgent2": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":bypassAgent",
-        ":bypassAgent"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":bypassAgent",
+          ":bypassAgent"
+        ]
+      }
     },
     "bypassAgent3": {
       "agent": "bypassAgent",
-      "inputs": [
-        ":bypassAgent2",
-        ":bypassAgent2"
-      ]
+      "params": {
+        "namedKey": "array"
+      },
+      "inputs": {
+        "array": [
+          ":bypassAgent2",
+          ":bypassAgent2"
+        ]
+      }
     }
   }
 }

@@ -46,23 +46,24 @@ const result = await graph.run();
     "step1": {
       "agent": "stringTemplateAgent",
       "params": {
-        "template": "${0}, ${1}, ${2}."
+        "template": "${a}, ${b}, ${c}."
       },
-      "inputs": [
-        ":source",
-        "orange",
-        null
-      ],
+      "inputs": {
+        "a": ":source",
+        "b": "orange"
+      },
       "isResult": true
     },
     "step2": {
       "agent": "sleeperAgent",
-      "inputs": [
-        ":source2",
-        {
-          "lemon": "yellow"
-        }
-      ],
+      "inputs": {
+        "array": [
+          ":source2",
+          {
+            "lemon": "yellow"
+          }
+        ]
+      },
       "isResult": true
     }
   }
@@ -90,12 +91,14 @@ const result = await graph.run();
     },
     "total": {
       "agent": "sleeperAgent",
-      "inputs": [
-        ":apple",
-        ":lemon",
-        ":apple.fruits",
-        ":lemon.fruits"
-      ]
+      "inputs": {
+        "array": [
+          ":apple",
+          ":lemon",
+          ":apple.fruits",
+          ":lemon.fruits"
+        ]
+      }
     }
   }
 }
@@ -113,17 +116,21 @@ const result = await graph.run();
       "agent": "sleeperAgent",
       "anyInput": true,
       "isResult": true,
-      "inputs": [
-        ":source.yes"
-      ]
+      "inputs": {
+        "array": [
+          ":source.yes"
+        ]
+      }
     },
     "negative": {
       "agent": "sleeperAgent",
       "anyInput": true,
       "isResult": true,
-      "inputs": [
-        ":source.no"
-      ]
+      "inputs": {
+        "array": [
+          ":source.no"
+        ]
+      }
     }
   }
 }
@@ -150,9 +157,11 @@ const result = await graph.run();
         "duration": 10
       },
       "isResult": true,
-      "inputs": [
-        ":source1"
-      ]
+      "inputs": {
+        "array": [
+          ":source1"
+        ]
+      }
     },
     "router2": {
       "agent": "sleeperAgent",
@@ -160,18 +169,22 @@ const result = await graph.run();
         "duration": 100
       },
       "isResult": true,
-      "inputs": [
-        ":source2"
-      ]
+      "inputs": {
+        "array": [
+          ":source2"
+        ]
+      }
     },
     "receiver": {
       "agent": "sleeperAgent",
       "anyInput": true,
       "isResult": true,
-      "inputs": [
-        ":router1",
-        ":router2"
-      ]
+      "inputs": {
+        "array": [
+          ":router1",
+          ":router2"
+        ]
+      }
     }
   }
 }
