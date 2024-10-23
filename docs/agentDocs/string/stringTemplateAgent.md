@@ -11,67 +11,29 @@ Template agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
+  "type": "object",
+  "properties": {
+    "message1": {
+      "type": "string",
+      "minLength": 1
+    },
+    "message2": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "message1",
+    "message2"
+  ]
 }
 
 ````
 
 ## Input example of the next node
 
-```json
-
-[
-  ":agentId"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$1"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.$0",
-  ":agentId.$0.apple",
-  ":agentId.$0.lemon"
-]
-
-````
-```json
-
-[
-  ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon",
-  ":agentId.lemon.$0"
-]
-
-````
 ```json
 
 [
@@ -142,162 +104,6 @@ Template agent
 
 ```json
 
-[
-  "hello",
-  "test"
-]
-
-````
-
-#### params
-
-```json
-
-{"template":"${0}: ${1}"}
-
-````
-
-#### result
-
-```json
-
-"hello: test"
-
-````
-### Sample1
-
-#### inputs
-
-```json
-
-[
-  "hello",
-  "test"
-]
-
-````
-
-#### params
-
-```json
-
-{"template":["${0}: ${1}","${1}: ${0}"]}
-
-````
-
-#### result
-
-```json
-
-[
-  "hello: test",
-  "test: hello"
-]
-
-````
-### Sample2
-
-#### inputs
-
-```json
-
-[
-  "hello",
-  "test"
-]
-
-````
-
-#### params
-
-```json
-
-{"template":{"apple":"${0}","lemon":"${1}"}}
-
-````
-
-#### result
-
-```json
-
-{
-  "apple": "hello",
-  "lemon": "test"
-}
-
-````
-### Sample3
-
-#### inputs
-
-```json
-
-[
-  "hello",
-  "test"
-]
-
-````
-
-#### params
-
-```json
-
-{"template":[{"apple":"${0}","lemon":"${1}"}]}
-
-````
-
-#### result
-
-```json
-
-[
-  {
-    "apple": "hello",
-    "lemon": "test"
-  }
-]
-
-````
-### Sample4
-
-#### inputs
-
-```json
-
-[
-  "hello",
-  "test"
-]
-
-````
-
-#### params
-
-```json
-
-{"template":{"apple":"${0}","lemon":["${1}"]}}
-
-````
-
-#### result
-
-```json
-
-{
-  "apple": "hello",
-  "lemon": [
-    "test"
-  ]
-}
-
-````
-### Sample5
-
-#### inputs
-
-```json
-
 {
   "message1": "hello",
   "message2": "test"
@@ -320,7 +126,7 @@ Template agent
 "hello: test"
 
 ````
-### Sample6
+### Sample1
 
 #### inputs
 
@@ -351,7 +157,7 @@ Template agent
 ]
 
 ````
-### Sample7
+### Sample2
 
 #### inputs
 
@@ -382,7 +188,7 @@ Template agent
 }
 
 ````
-### Sample8
+### Sample3
 
 #### inputs
 
@@ -415,7 +221,7 @@ Template agent
 ]
 
 ````
-### Sample9
+### Sample4
 
 #### inputs
 
@@ -448,7 +254,7 @@ Template agent
 }
 
 ````
-### Sample10
+### Sample5
 
 #### inputs
 
