@@ -14,7 +14,7 @@ test("test nest agent", async () => {
       nodes: {
         node1: {
           agent: "sleeperAgent",
-          inputs: [":prop1", ":prop2", ":prop3"],
+          inputs: { array: [":prop1", ":prop2", ":prop3"] },
           isResult: true,
         },
       },
