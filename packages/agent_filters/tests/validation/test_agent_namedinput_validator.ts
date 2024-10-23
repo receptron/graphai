@@ -40,7 +40,7 @@ test("test validate filter int input error", async () => {
       },
       pop: {
         agent: "popAgent",
-        inputs: {pop: ":inputs"},
+        inputs: { pop: ":inputs" },
       },
     },
   };
@@ -63,7 +63,7 @@ test("test validate filter array input error", async () => {
       },
       pop: {
         agent: "popAgent",
-        inputs: {pop: ":inputs"},
+        inputs: { pop: ":inputs" },
       },
     },
   };
