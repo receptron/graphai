@@ -15,7 +15,7 @@ const copyMessageAgentInfo: AgentFunctionInfo = {
   mock: copyMessageAgent,
   samples: [
     {
-      inputs: [],
+      inputs: {},
       params: { count: 4, message: "hello" },
       result: { messages: ["hello", "hello", "hello", "hello"] },
     },

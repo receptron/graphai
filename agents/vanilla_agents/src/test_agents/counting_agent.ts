@@ -15,7 +15,7 @@ const countingAgentInfo: AgentFunctionInfo = {
   mock: countingAgent,
   samples: [
     {
-      inputs: [],
+      inputs: {},
       params: { count: 4 },
       result: { list: [0, 1, 2, 3] },
     },

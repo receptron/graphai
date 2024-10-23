@@ -14,12 +14,12 @@ const echoAgentInfo: AgentFunctionInfo = {
   mock: echoAgent,
   samples: [
     {
-      inputs: [],
+      inputs: {},
       params: { message: "this is test" },
       result: { message: "this is test" },
     },
     {
-      inputs: [],
+      inputs: {},
       params: {
         message: "If you add filterParams option, it will respond to filterParams",
         filterParams: true,
