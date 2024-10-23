@@ -31,15 +31,19 @@ const bypassAgentInfo = {
             result: { a: "123" },
         },
         {
-            inputs: { array: [
+            inputs: {
+                array: [
                     [{ a: "123" }, { b: "abc" }],
                     [{ c: "987" }, { d: "xyz" }],
-                ] },
+                ],
+            },
             params: {},
-            result: { array: [
+            result: {
+                array: [
                     [{ a: "123" }, { b: "abc" }],
                     [{ c: "987" }, { d: "xyz" }],
-                ] },
+                ],
+            },
         },
         // named
         {
