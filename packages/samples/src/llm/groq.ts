@@ -19,8 +19,9 @@ const graph_data = {
       },
     },
     answer: {
-      agent: "sleeperAgent",
-      inputs: { array: [":query.choices.$0.message"] },
+      agent: "copyAgent",
+      params: { namedKey: "text" },
+      inputs: { text: ":query.text" },
     },
   },
 };
