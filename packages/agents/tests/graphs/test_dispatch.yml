@@ -5,7 +5,7 @@ nodes:
       duration: 500
       value:
         node1: output
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
   node2:
     params:
       duration: 100
@@ -19,7 +19,7 @@ nodes:
         node3: output
     inputs:
       array: [:node1, :node2.port1]
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
   node4:
     params:
       duration: 100
@@ -27,7 +27,7 @@ nodes:
         node4: output
     inputs:
       array: [:node3]
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
   node5:
     params:
       duration: 500
@@ -35,4 +35,4 @@ nodes:
         node5: output
     inputs:
       array: [:node2.port1, :node4]
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent

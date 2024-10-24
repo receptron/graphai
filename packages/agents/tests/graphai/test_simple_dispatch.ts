@@ -25,7 +25,7 @@ const dispatchGraph = {
       agent: "dispatchAgent",
     },
     ghost: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 20,
       },
@@ -79,7 +79,7 @@ const dispatchGraph2 = {
       agent: "dispatchAgent",
     },
     ghost1: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 20,
       },
@@ -87,7 +87,7 @@ const dispatchGraph2 = {
       anyInput: true,
     },
     ghost2: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 20,
       },
@@ -95,7 +95,7 @@ const dispatchGraph2 = {
       anyInput: true,
     },
     ghost3: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 20,
       },

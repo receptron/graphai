@@ -1,8 +1,8 @@
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as vanilla_agents from "@/index";
-import { sleeperAgent } from "@graphai/sleeper_agents";
+import { sleepAndMergeAgent } from "@graphai/sleeper_agents";
 const agents = {
-  sleeperAgent,
+  sleepAndMergeAgent,
   ...vanilla_agents,
 };
 

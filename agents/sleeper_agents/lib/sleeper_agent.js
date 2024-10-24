@@ -26,7 +26,7 @@ const sleeperAgentInfo = {
             inputs: { array: [{ a: 1 }, { b: 2 }] },
             params: { duration: 1 },
             result: {
-                array: [{ a: 1 }, { b: 2 }]
+                array: [{ a: 1 }, { b: 2 }],
             },
         },
     ],

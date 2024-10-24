@@ -11,7 +11,7 @@ const graphdata_child = {
       update: ":reducer",
     },
     item: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 10,
         value: "hello",
@@ -156,7 +156,7 @@ export const graphDataMap1 = {
       },
     },
     result: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       inputs: { array: [":nestedNode.node2"] },
       isResult: true,
     },
@@ -284,7 +284,7 @@ export const graphDataPush = {
       update: ":reducer",
     },
     item: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 10,
         value: "hello",
@@ -345,7 +345,7 @@ export const graphDataNested = {
             update: ":reducer",
           },
           item: {
-            agent: "sleeperAgent",
+            agent: "sleepAndMergeAgent",
             params: {
               duration: 10,
               value: ":source",
@@ -420,7 +420,7 @@ export const graphDataNestedInjection = {
             update: ":reducer",
           },
           item: {
-            agent: "sleeperAgent",
+            agent: "sleepAndMergeAgent",
             params: {
               duration: 10,
               value: ":inner_source",
@@ -454,11 +454,11 @@ export const forkGraph = {
             value: {},
           },
           forked: {
-            agent: "sleeperAgent",
+            agent: "sleepAndMergeAgent",
             inputs: { array: [":row.level1"] },
           },
           forked2: {
-            agent: "sleeperAgent",
+            agent: "sleepAndMergeAgent",
             inputs: { array: [":forked"] },
             isResult: true,
           },

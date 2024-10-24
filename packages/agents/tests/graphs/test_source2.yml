@@ -7,7 +7,7 @@ nodes:
     value:
       node2: preset
   node3:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     params:
       duration: 500
       value:
@@ -15,7 +15,7 @@ nodes:
     inputs:
       array: [:node1, :node2]
   node4:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     params:
       duration: 100
       value:
@@ -23,7 +23,7 @@ nodes:
     inputs:
       array: [:node3]
   node5:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     params:
       duration: 500
       value:
