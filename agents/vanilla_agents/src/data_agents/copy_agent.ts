@@ -1,9 +1,14 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
 
-export const copyAgent: AgentFunction = async ({ namedInputs }) => {
+export const copyAgent: AgentFunction<{
+  namedKey?: string;
+}> = async ({ namedInputs, params }) => {
+  const { namedKey } = params;
   assert(isNamedInputs(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
-
+  if (namedKey) {
+    return namedInputs[namedKey];
+  }
   return namedInputs;
 };
 
@@ -27,6 +32,11 @@ const copyAgentInfo: AgentFunctionInfo = {
       inputs: { array: ["Hello World", "Discarded"] },
       params: {},
       result: { array: ["Hello World", "Discarded"] },
+    },
+    {
+      inputs: { color: "red", model: "Model 3" },
+      params: { namedKey: "color" },
+      result: "red",
     },
   ],
   description: "Returns namedInputs",
