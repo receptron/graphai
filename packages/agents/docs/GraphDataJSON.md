@@ -25,7 +25,7 @@
       "isResult": true
     },
     "step2": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "inputs": {
         "array": [
           ":source2",
@@ -60,7 +60,7 @@
       }
     },
     "total": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "inputs": {
         "array": [
           ":apple",
@@ -83,7 +83,7 @@
       "value": {}
     },
     "positive": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "anyInput": true,
       "isResult": true,
       "inputs": {
@@ -93,7 +93,7 @@
       }
     },
     "negative": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "anyInput": true,
       "isResult": true,
       "inputs": {
@@ -122,7 +122,7 @@
       }
     },
     "router1": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "params": {
         "duration": 10
       },
@@ -134,7 +134,7 @@
       }
     },
     "router2": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "params": {
         "duration": 100
       },
@@ -146,7 +146,7 @@
       }
     },
     "receiver": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "anyInput": true,
       "isResult": true,
       "inputs": {

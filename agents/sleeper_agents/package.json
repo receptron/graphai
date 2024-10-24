@@ -1,6 +1,6 @@
 {
   "name": "@graphai/sleeper_agents",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Sleeper agents for GraphAI.",
   "main": "lib/index.js",
   "files": [

@@ -17,7 +17,7 @@
             "update": ":reducer"
           },
           "item": {
-            "agent": "sleeperAgent",
+            "agent": "sleepAndMergeAgent",
             "params": {
               "duration": 10,
               "value": "hello"
@@ -49,7 +49,7 @@
   "version": 0.5,
   "nodes": {
     "source": {
-      "value": "{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer\"},\"item\":{\"agent\":\"sleeperAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}"
+      "value": "{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer\"},\"item\":{\"agent\":\"sleepAndMergeAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}"
     },
     "parser": {
       "agent": "jsonParserAgent",
@@ -72,7 +72,7 @@
   "version": 0.5,
   "nodes": {
     "source": {
-      "value": "```json\n{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer\"},\"item\":{\"agent\":\"sleeperAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}\n```\n"
+      "value": "```json\n{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer\"},\"item\":{\"agent\":\"sleepAndMergeAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}\n```\n"
     },
     "parser": {
       "agent": "jsonParserAgent",
@@ -192,7 +192,7 @@
       }
     },
     "result": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "inputs": {
         "array": [
           ":nestedNode.node2"
@@ -365,7 +365,7 @@
       "update": ":reducer"
     },
     "item": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "params": {
         "duration": 10,
         "value": "hello"
@@ -444,7 +444,7 @@
             "update": ":reducer"
           },
           "item": {
-            "agent": "sleeperAgent",
+            "agent": "sleepAndMergeAgent",
             "params": {
               "duration": 10,
               "value": ":source"
@@ -541,7 +541,7 @@
             "update": ":reducer"
           },
           "item": {
-            "agent": "sleeperAgent",
+            "agent": "sleepAndMergeAgent",
             "params": {
               "duration": 10,
               "value": ":inner_source"
@@ -595,7 +595,7 @@
             "value": {}
           },
           "forked": {
-            "agent": "sleeperAgent",
+            "agent": "sleepAndMergeAgent",
             "inputs": {
               "array": [
                 ":row.level1"
@@ -603,7 +603,7 @@
             }
           },
           "forked2": {
-            "agent": "sleeperAgent",
+            "agent": "sleepAndMergeAgent",
             "inputs": {
               "array": [
                 ":forked"

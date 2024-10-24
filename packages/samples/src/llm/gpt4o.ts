@@ -54,8 +54,9 @@ const graph_data = {
       inputs: { messages: ":messages" },
     },
     answer: {
-      agent: "sleeperAgent",
-      inputs: { array: [":query.choices.$0.message"] },
+      agent: "copyAgent",
+      params: { namedKey: "text" },
+      inputs: { text: ":query.text" },
       isResult: true,
     },
   },

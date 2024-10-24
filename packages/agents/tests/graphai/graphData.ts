@@ -18,7 +18,7 @@ export const graphDataLiteral = {
       isResult: true,
     },
     step2: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       inputs: { array: [":source2", { lemon: "yellow" }] },
       isResult: true,
     },
@@ -36,7 +36,7 @@ export const graphDataInputs = {
       value: { fruits: { lemon: "yellow" } },
     },
     total: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       inputs: { array: [":apple", ":lemon", ":apple.fruits", ":lemon.fruits"] },
     },
   },
@@ -50,13 +50,13 @@ export const graphDataAny = {
       value: {},
     },
     positive: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       anyInput: true,
       isResult: true,
       inputs: { array: [":source.yes"] },
     },
     negative: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       anyInput: true,
       isResult: true,
       inputs: { array: [":source.no"] },
@@ -74,7 +74,7 @@ export const graphDataAny2 = {
       value: { lemon: "yellow" },
     },
     router1: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 10,
       },
@@ -82,7 +82,7 @@ export const graphDataAny2 = {
       inputs: { array: [":source1"] },
     },
     router2: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       params: {
         duration: 100,
       },
@@ -90,7 +90,7 @@ export const graphDataAny2 = {
       inputs: { array: [":source2"] },
     },
     receiver: {
-      agent: "sleeperAgent",
+      agent: "sleepAndMergeAgent",
       anyInput: true,
       isResult: true,
       inputs: { array: [":router1", ":router2"] },

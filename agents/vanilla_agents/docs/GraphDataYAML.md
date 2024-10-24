@@ -12,7 +12,7 @@ nodes:
           value: []
           update: :reducer
         item:
-          agent: sleeperAgent
+          agent: sleepAndMergeAgent
           params:
             duration: 10
             value: hello
@@ -34,7 +34,7 @@ nodes:
 version: 0.5
 nodes:
   source:
-    value: '{"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer"},"item":{"agent":"sleeperAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}'
+    value: '{"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer"},"item":{"agent":"sleepAndMergeAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}'
   parser:
     agent: jsonParserAgent
     inputs:
@@ -54,7 +54,7 @@ nodes:
     value: >
       ```json
 
-      {"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer"},"item":{"agent":"sleeperAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}
+      {"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer"},"item":{"agent":"sleepAndMergeAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}
 
       ```
   parser:
@@ -141,7 +141,7 @@ nodes:
     params:
       compositeResult: true
   result:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     inputs:
       array:
         - :nestedNode.node2
@@ -261,7 +261,7 @@ nodes:
     value: []
     update: :reducer
   item:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     params:
       duration: 10
       value: hello
@@ -320,7 +320,7 @@ nodes:
           value: []
           update: :reducer
         item:
-          agent: sleeperAgent
+          agent: sleepAndMergeAgent
           params:
             duration: 10
             value: :source
@@ -389,7 +389,7 @@ nodes:
           value: []
           update: :reducer
         item:
-          agent: sleeperAgent
+          agent: sleepAndMergeAgent
           params:
             duration: 10
             value: :inner_source
@@ -423,12 +423,12 @@ nodes:
         workingMemory:
           value: {}
         forked:
-          agent: sleeperAgent
+          agent: sleepAndMergeAgent
           inputs:
             array:
               - :row.level1
         forked2:
-          agent: sleeperAgent
+          agent: sleepAndMergeAgent
           inputs:
             array:
               - :forked
