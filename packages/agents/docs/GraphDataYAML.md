@@ -16,7 +16,7 @@ nodes:
       b: orange
     isResult: true
   step2:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     inputs:
       array:
         - :source2
@@ -38,7 +38,7 @@ nodes:
       fruits:
         lemon: yellow
   total:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     inputs:
       array:
         - :apple
@@ -55,14 +55,14 @@ nodes:
   source:
     value: {}
   positive:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     anyInput: true
     isResult: true
     inputs:
       array:
         - :source.yes
   negative:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     anyInput: true
     isResult: true
     inputs:
@@ -82,7 +82,7 @@ nodes:
     value:
       lemon: yellow
   router1:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     params:
       duration: 10
     isResult: true
@@ -90,7 +90,7 @@ nodes:
       array:
         - :source1
   router2:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     params:
       duration: 100
     isResult: true
@@ -98,7 +98,7 @@ nodes:
       array:
         - :source2
   receiver:
-    agent: sleeperAgent
+    agent: sleepAndMergeAgent
     anyInput: true
     isResult: true
     inputs:
