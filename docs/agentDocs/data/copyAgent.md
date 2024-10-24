@@ -73,6 +73,13 @@ Returns namedInputs
 ]
 
 ````
+```json
+
+[
+  ":agentId"
+]
+
+````
 
 ## Samples
 
@@ -140,6 +147,34 @@ Returns namedInputs
     "Discarded"
   ]
 }
+
+````
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "color": "red",
+  "model": "Model 3"
+}
+
+````
+
+#### params
+
+```json
+
+{"namedKey":"color"}
+
+````
+
+#### result
+
+```json
+
+"red"
 
 ````
 

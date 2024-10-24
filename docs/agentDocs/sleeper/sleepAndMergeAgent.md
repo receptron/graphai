@@ -1,8 +1,8 @@
-# sleeperAgent
+# sleepAndMergeAgent
 
 ## Description
 
-sleeper Agent
+sleeper and merge Agent
 
 ## Schema
 
@@ -32,7 +32,9 @@ sleeper Agent
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.a",
+  ":agentId.b"
 ]
 
 ````
@@ -40,11 +42,8 @@ sleeper Agent
 
 [
   ":agentId",
-  ":agentId.array",
-  ":agentId.array.$0",
-  ":agentId.array.$0.a",
-  ":agentId.array.$1",
-  ":agentId.array.$1.b"
+  ":agentId.a",
+  ":agentId.b"
 ]
 
 ````
@@ -105,7 +104,10 @@ sleeper Agent
 
 ```json
 
-{}
+{
+  "a": 1,
+  "b": 2
+}
 
 ````
 ### Sample2
@@ -140,14 +142,8 @@ sleeper Agent
 ```json
 
 {
-  "array": [
-    {
-      "a": 1
-    },
-    {
-      "b": 2
-    }
-  ]
+  "a": 1,
+  "b": 2
 }
 
 ````

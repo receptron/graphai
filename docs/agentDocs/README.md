@@ -23,8 +23,9 @@
 ### [vanillaFetchAgent](./service/vanillaFetchAgent.md)
 
 ## sleeper
-### [sleeperAgent](./sleeper/sleeperAgent.md)
+### [sleepAndMergeAgent](./sleeper/sleepAndMergeAgent.md)
 ### [sleeperAgentDebug](./sleeper/sleeperAgentDebug.md)
+### [sleeperAgent](./sleeper/sleeperAgent.md)
 
 ## embedding
 ### [stringEmbeddingsAgent](./embedding/stringEmbeddingsAgent.md)
