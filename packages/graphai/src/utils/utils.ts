@@ -38,7 +38,9 @@ export const isNull = (data: unknown) => {
 };
 
 const getNestedData = (result: ResultData, propId: string) => {
+  // for array.
   if (Array.isArray(result)) {
+    // $0, $1. array value.
     const regex = /^\$(\d+)$/;
     const match = propId.match(regex);
     if (match) {
@@ -54,9 +56,13 @@ const getNestedData = (result: ResultData, propId: string) => {
     if (propId === "flat()") {
       return result.flat();
     }
-    const matchJoin = propId.match(/^join\(([,-])\)$/);
+    if (propId === "toJSON()") {
+      return JSON.stringify(result);
+    }
+    // array join
+    const matchJoin = propId.match(/^join\(([,-]?)\)$/);
     if (matchJoin && Array.isArray(matchJoin)) {
-      return result.join(matchJoin[1]);
+      return result.join(matchJoin[1] ?? "");
     }
     // flat, join
   } else if (isObject(result)) {
@@ -66,10 +72,25 @@ const getNestedData = (result: ResultData, propId: string) => {
     if (propId === "values()") {
       return Object.values(result);
     }
-    return (result as Record<string, any>)[propId];
+    if (propId === "toJSON()") {
+      return JSON.stringify(result);
+    }
+    if (propId in result) {
+      return result[propId];
+    }
   } else if (typeof result === "string") {
     if (propId === "jsonParse()") {
       return JSON.parse(result);
+    }
+    if (propId === "toNumber()") {
+      const ret = Number(result);
+      if (!isNaN(ret)) {
+        return ret;
+      }
+    }
+  } else if (Number.isFinite(result)) {
+    if (propId === "toString()") {
+      return String(result);
     }
   }
   return undefined;
@@ -79,6 +100,9 @@ const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefine
   if (result && propIds && propIds.length > 0) {
     const propId = propIds[0];
     const ret = getNestedData(result, propId);
+    if (ret === undefined) {
+      console.error(`prop: ${propIds.join(".")} is not hit`);
+    }
     if (propIds.length > 1) {
       return innerGetDataFromSource(ret, propIds.slice(1));
     }
