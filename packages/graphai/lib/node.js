@@ -14,6 +14,7 @@ class Node {
         this.nodeId = nodeId;
         this.graph = graph;
         this.log = new transaction_log_1.TransactionLog(nodeId);
+        this.console = {};
     }
     asString() {
         return `${this.nodeId}: ${this.state} ${[...this.waitlist]}`;
@@ -28,6 +29,14 @@ class Node {
                 this.graph.pushQueueIfReadyAndRunning(waitingNode);
             }
         });
+    }
+    afterConsoleLog(result) {
+        if (this.console.after === true) {
+            console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
+        }
+        else if (this.console.after) {
+            console.log(this.console.after);
+        }
     }
 }
 exports.Node = Node;
@@ -324,14 +333,6 @@ class ComputedNode extends Node {
             console.log(this.console.before);
         }
     }
-    afterConsoleLog(result) {
-        if (this.console.after === true) {
-            console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
-        }
-        else if (this.console.after) {
-            console.log(this.console.after);
-        }
-    }
 }
 exports.ComputedNode = ComputedNode;
 class StaticNode extends Node {
@@ -342,12 +343,16 @@ class StaticNode extends Node {
         this.value = data.value;
         this.update = data.update ? (0, utils_2.parseNodeName)(data.update) : undefined;
         this.isResult = data.isResult ?? false;
+        this.console = data.console ?? {};
     }
     injectValue(value, injectFrom) {
         this.state = type_1.NodeState.Injected;
         this.result = value;
         this.log.onInjected(this, this.graph, injectFrom);
         this.onSetResult();
+    }
+    consoleLog() {
+        this.afterConsoleLog(this.result);
     }
 }
 exports.StaticNode = StaticNode;
