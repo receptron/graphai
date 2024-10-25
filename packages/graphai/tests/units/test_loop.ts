@@ -16,12 +16,12 @@ const graph_data = {
     data: {
       value: 1,
       update: ":add",
-      console: { after: true},
+      console: { after: true },
     },
     add: {
-      inputs: {counter: ":data"},
+      inputs: { counter: ":data.add(1)" },
       agent: async (namedInputs: any) => {
-        return namedInputs.counter + 1;
+        return namedInputs.counter;
       },
       isResult: true,
     },
