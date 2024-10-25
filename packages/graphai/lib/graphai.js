@@ -45,7 +45,7 @@ class GraphAI {
         return (0, utils_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source);
     }
     // for static
-    initializeStaticNodes() {
+    initializeStaticNodes(enableConsoleLog = false) {
         // If the result property is specified, inject it.
         // If the previousResults exists (indicating we are in a loop),
         // process the update property (nodeId or nodeId.propId).
@@ -56,10 +56,13 @@ class GraphAI {
                 if (value !== undefined) {
                     this.injectValue(nodeId, value, nodeId);
                 }
+                if (enableConsoleLog) {
+                    node.consoleLog();
+                }
             }
         });
     }
-    updateStaticNodes(previousResults) {
+    updateStaticNodes(previousResults, enableConsoleLog = false) {
         // If the result property is specified, inject it.
         // If the previousResults exists (indicating we are in a loop),
         // process the update property (nodeId or nodeId.propId).
@@ -70,6 +73,9 @@ class GraphAI {
                 if (update && previousResults) {
                     const result = this.getValueFromResults(update, previousResults);
                     this.injectValue(nodeId, result, update.nodeId);
+                }
+                if (enableConsoleLog) {
+                    node.consoleLog();
                 }
             }
         });
@@ -106,7 +112,7 @@ class GraphAI {
         };
         (0, validator_1.validateGraphData)(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
         this.nodes = this.createNodes(data);
-        this.initializeStaticNodes();
+        this.initializeStaticNodes(true);
     }
     getAgentFunctionInfo(agentId) {
         if (agentId && this.agentFunctionInfoDictionary[agentId]) {
@@ -237,7 +243,7 @@ class GraphAI {
             }
             this.nodes = this.createNodes(this.data);
             this.initializeStaticNodes();
-            this.updateStaticNodes(previousResults);
+            this.updateStaticNodes(previousResults, true);
             this.pushReadyNodesIntoQueue();
             return true; // Indicating that we are going to continue.
         }

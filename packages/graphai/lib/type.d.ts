@@ -27,6 +27,7 @@ export type StaticNodeData = {
     value: ResultData;
     update?: string;
     isResult?: boolean;
+    console?: Record<string, string | boolean>;
 };
 export type AgentAnonymousFunction = (...params: any[]) => unknown;
 export type AgentFilterParams = Record<string, any>;
