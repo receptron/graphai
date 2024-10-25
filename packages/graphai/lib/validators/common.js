@@ -18,7 +18,7 @@ exports.computedNodeAttributeKeys = [
     "console",
     "passThrough",
 ];
-exports.staticNodeAttributeKeys = ["value", "update", "isResult"];
+exports.staticNodeAttributeKeys = ["value", "update", "isResult", "console"];
 class ValidationError extends Error {
     constructor(message) {
         super(`\x1b[41m${message}\x1b[0m`); // Pass the message to the base Error class

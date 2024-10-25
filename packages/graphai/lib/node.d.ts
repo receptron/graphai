@@ -8,9 +8,11 @@ export declare class Node {
     result: ResultData | undefined;
     protected graph: GraphAI;
     protected log: TransactionLog;
+    protected console: Record<string, string | boolean>;
     constructor(nodeId: string, graph: GraphAI);
     asString(): string;
     protected onSetResult(): void;
+    protected afterConsoleLog(result: ResultData): void;
 }
 export declare class ComputedNode extends Node {
     readonly graphId: string;
@@ -35,7 +37,6 @@ export declare class ComputedNode extends Node {
     pendings: Set<string>;
     private ifSource?;
     private unlessSource?;
-    private console;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
@@ -59,7 +60,6 @@ export declare class ComputedNode extends Node {
     private getResult;
     private getDebugInfo;
     private beforeConsoleLog;
-    private afterConsoleLog;
 }
 export declare class StaticNode extends Node {
     value?: ResultData;
@@ -69,5 +69,6 @@ export declare class StaticNode extends Node {
     readonly isComputedNode = false;
     constructor(nodeId: string, data: StaticNodeData, graph: GraphAI);
     injectValue(value: ResultData, injectFrom?: string): void;
+    consoleLog(): void;
 }
 export type GraphNodes = Record<string, ComputedNode | StaticNode>;
