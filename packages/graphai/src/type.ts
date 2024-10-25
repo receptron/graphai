@@ -33,6 +33,7 @@ export type StaticNodeData = {
   value: ResultData; // initial value for static node.
   update?: string; // nodeId (+.propId) to get value after a loop
   isResult?: boolean;
+  console?: Record<string, string | boolean>;
 };
 export type AgentAnonymousFunction = (...params: any[]) => unknown;
 

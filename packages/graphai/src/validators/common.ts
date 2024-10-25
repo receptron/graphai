@@ -16,7 +16,7 @@ export const computedNodeAttributeKeys = [
   "console",
   "passThrough",
 ];
-export const staticNodeAttributeKeys = ["value", "update", "isResult"];
+export const staticNodeAttributeKeys = ["value", "update", "isResult", "console"];
 
 export class ValidationError extends Error {
   constructor(message: string) {

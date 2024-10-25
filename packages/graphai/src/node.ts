@@ -28,11 +28,13 @@ export class Node {
 
   protected graph: GraphAI;
   protected log: TransactionLog;
+  protected console: Record<string, string | boolean>; // console output option (before and/or after)
 
   constructor(nodeId: string, graph: GraphAI) {
     this.nodeId = nodeId;
     this.graph = graph;
     this.log = new TransactionLog(nodeId);
+    this.console = {};
   }
 
   public asString() {
@@ -49,6 +51,14 @@ export class Node {
         this.graph.pushQueueIfReadyAndRunning(waitingNode);
       }
     });
+  }
+
+  protected afterConsoleLog(result: ResultData) {
+    if (this.console.after === true) {
+      console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
+    } else if (this.console.after) {
+      console.log(this.console.after);
+    }
   }
 }
 
@@ -76,7 +86,6 @@ export class ComputedNode extends Node {
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
-  private console: Record<string, string | boolean>; // console output option (before and/or after)
 
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
@@ -400,14 +409,6 @@ export class ComputedNode extends Node {
       console.log(this.console.before);
     }
   }
-
-  private afterConsoleLog(result: ResultData) {
-    if (this.console.after === true) {
-      console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
-    } else if (this.console.after) {
-      console.log(this.console.after);
-    }
-  }
 }
 
 export class StaticNode extends Node {
@@ -422,6 +423,7 @@ export class StaticNode extends Node {
     this.value = data.value;
     this.update = data.update ? parseNodeName(data.update) : undefined;
     this.isResult = data.isResult ?? false;
+    this.console = data.console ?? {};
   }
 
   public injectValue(value: ResultData, injectFrom?: string) {
@@ -429,6 +431,10 @@ export class StaticNode extends Node {
     this.result = value;
     this.log.onInjected(this, this.graph, injectFrom);
     this.onSetResult();
+  }
+
+  public consoleLog() {
+    this.afterConsoleLog(this.result);
   }
 }
 

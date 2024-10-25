@@ -77,7 +77,7 @@ export class GraphAI {
   }
 
   // for static
-  private initializeStaticNodes() {
+  private initializeStaticNodes(enableConsoleLog: boolean = false) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
@@ -88,11 +88,14 @@ export class GraphAI {
         if (value !== undefined) {
           this.injectValue(nodeId, value, nodeId);
         }
+        if (enableConsoleLog) {
+          node.consoleLog();
+        }
       }
     });
   }
 
-  private updateStaticNodes(previousResults?: ResultDataDictionary<DefaultResultData>) {
+  private updateStaticNodes(previousResults?: ResultDataDictionary<DefaultResultData>, enableConsoleLog: boolean = false) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
@@ -103,6 +106,9 @@ export class GraphAI {
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
           this.injectValue(nodeId, result, update.nodeId);
+        }
+        if (enableConsoleLog) {
+          node.consoleLog();
         }
       }
     });
@@ -142,7 +148,7 @@ export class GraphAI {
     validateGraphData(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
 
     this.nodes = this.createNodes(data);
-    this.initializeStaticNodes();
+    this.initializeStaticNodes(true);
   }
 
   public getAgentFunctionInfo(agentId?: string) {
@@ -290,7 +296,7 @@ export class GraphAI {
       }
       this.nodes = this.createNodes(this.data);
       this.initializeStaticNodes();
-      this.updateStaticNodes(previousResults);
+      this.updateStaticNodes(previousResults, true);
 
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.
