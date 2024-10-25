@@ -102,7 +102,7 @@ const getNestedData = (result: ResultData, propId: string) => {
 };
 
 const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
-  if (result && propIds && propIds.length > 0) {
+  if (!isNull(result) && propIds && propIds.length > 0) {
     const propId = propIds[0];
     const ret = getNestedData(result, propId);
     if (ret === undefined) {
