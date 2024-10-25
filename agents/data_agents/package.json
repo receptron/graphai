@@ -1,6 +1,6 @@
 {
   "name": "@graphai/data_agents",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Data agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
