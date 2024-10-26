@@ -59,6 +59,9 @@ const getNestedData = (result: ResultData, propId: string) => {
     if (propId === "toJSON()") {
       return JSON.stringify(result);
     }
+    if (propId === "isEmpty()") {
+      return result.length === 0;
+    }
     // array join
     const matchJoin = propId.match(/^join\(([,-]?)\)$/);
     if (matchJoin && Array.isArray(matchJoin)) {
@@ -96,6 +99,10 @@ const getNestedData = (result: ResultData, propId: string) => {
     const match = propId.match(regex);
     if (match) {
       return Number(result) + Number(match[1]);
+    }
+  } else if (typeof result === "boolean") {
+    if (propId === "not()") {
+      return !result;
     }
   }
   return undefined;
