@@ -226,6 +226,30 @@ test("test getDataFromSource array to_json", async () => {
   assert.deepStrictEqual(res, data);
 });
 
+test("test getDataFromSource array isEmpty", async () => {
+  const inputId = ":node1.data.isEmpty()";
+  const result = { data: [0, 1, 2] };
+  const data = false;
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "isEmpty()"] });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource array isEmpty2", async () => {
+  const inputId = ":node1.data.isEmpty()";
+  const result = { data: [] };
+  const data = true;
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "isEmpty()"] });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
 // text function
 test("test getDataFromSource string json", async () => {
   const inputId = ":node1.data.jsonParse()";
@@ -321,6 +345,31 @@ test("test getDataFromSource number", async () => {
 
   const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "toString()"] });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+// boolean function
+test("test getDataFromSource boolean not", async () => {
+  const inputId = ":node1.data.not()";
+  const result = { data: true };
+  const data = false;
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "not()"] });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource boolean not", async () => {
+  const inputId = ":node1.data.not()";
+  const result = { data: false };
+  const data = true;
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "not()"] });
 
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
