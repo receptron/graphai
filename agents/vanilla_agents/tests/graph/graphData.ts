@@ -89,7 +89,7 @@ export const nestedGraphData = {
       isResult: true,
       graph: {
         nodes: {
-          result: {
+          resultInner: {
             agent: "copyAgent",
             inputs: { text: ":inner0" },
             isResult: true,

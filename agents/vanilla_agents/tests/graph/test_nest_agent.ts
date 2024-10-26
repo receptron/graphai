@@ -1,3 +1,4 @@
+import { GraphAI } from "graphai";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
@@ -10,7 +11,7 @@ test("test nested agent", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, nestedGraphData, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     nestedNode: {
-      result: {
+      resultInner: {
         text: "Hello World",
       },
     },
@@ -26,4 +27,16 @@ test("test nested agent 2", async () => {
       },
     },
   });
+});
+
+test("test nested agent 3", async () => {
+  const logIds: string[] = [];
+  const graph = new GraphAI(nestedGraphData, agents);
+  graph.onLogCallback = (log, flag) => {
+    logIds.push(log.nodeId);
+  };
+  await graph.run();
+  // console.log(logIds);
+
+  assert.deepStrictEqual(logIds, ["nestedNode", "nestedNode", "resultInner", "resultInner", "resultInner", "nestedNode"]);
 });

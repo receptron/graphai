@@ -1,6 +1,6 @@
 import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
 
-export const nestedAgent: AgentFunction = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config }) => {
+export const nestedAgent: AgentFunction = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback }) => {
   if (taskManager) {
     const status = taskManager.getStatus(false);
     assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -32,6 +32,10 @@ export const nestedAgent: AgentFunction = async ({ namedInputs, agents, log, tas
       agentFilters,
       config,
     });
+    // for backward compatibility. Remove 'if' later
+    if (onLogCallback) {
+      graphAI.onLogCallback = onLogCallback;
+    }
 
     const results = await graphAI.run(false);
     log?.push(...graphAI.transactionLogs());
