@@ -88,16 +88,21 @@ const getNestedData = (result: ResultData, propId: string) => {
         return ret;
       }
     }
-  } else if (Number.isFinite(result)) {
+  } else if (result !== undefined && Number.isFinite(result)) {
     if (propId === "toString()") {
       return String(result);
+    }
+    const regex = /^add\((-?\d+)\)$/;
+    const match = propId.match(regex);
+    if (match) {
+      return Number(result) + Number(match[1]);
     }
   }
   return undefined;
 };
 
 const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
-  if (result && propIds && propIds.length > 0) {
+  if (!isNull(result) && propIds && propIds.length > 0) {
     const propId = propIds[0];
     const ret = getNestedData(result, propId);
     if (ret === undefined) {
