@@ -3,12 +3,13 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import * as llm_agents from "@graphai/llm_agents";
 import * as agents from "@graphai/agents";
 
-const system_interviewer =
-  "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
-
 export const graph_data = {
   version: 0.5,
   nodes: {
+    system_interviewer: {
+      value:
+        "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.",
+    },
     name: {
       // Asks the user to enter the name of the person to interview.
       agent: "textInputAgent",
@@ -18,46 +19,35 @@ export const graph_data = {
     },
     context: {
       // prepares the context for this interview.
-      agent: "stringTemplateAgent",
-      params: {
-        template: {
-          person0: {
-            name: "Interviewer",
-            system: system_interviewer,
-          },
-          person1: {
-            name: "${name}",
-            system: "You are ${name}.",
-            greeting: "Hi, I'm ${name}",
-          },
+      agent: "copyAgent",
+      inputs: {
+        person0: {
+          name: "Interviewer",
+          system: ":system_interviewer",
+        },
+        person1: {
+          name: ":name",
+          system: "You are ${:name}.",
+          greeting: "Hi, I'm ${:name}",
         },
       },
-      inputs: { name: ":name" },
     },
-    messages: {
-      // Prepares the conversation with one system message and one user message
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            index: 0,
-            propId: "content",
-            from: 1,
-          },
-          {
-            index: 1,
-            propId: "content",
-            from: 2,
-          },
-        ],
-      },
-      inputs: { array: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
-    },
-
     chat: {
       // performs the conversation using nested graph
       agent: "nestedAgent",
-      inputs: { messages: ":messages", context: ":context" },
+      inputs: {
+        messages: [
+          {
+            role: "system",
+            content: ":context.person0.system",
+          },
+          {
+            role: "user",
+            content: ":context.person1.greeting",
+          },
+        ],
+        context: ":context",
+      },
       isResult: true,
       graph: {
         loop: {
@@ -101,7 +91,7 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: { message: ":translate.choices.$0.message.content", name: ":context.person1.name" },
+            inputs: { message: ":translate.text", name: ":context.person1.name" },
           },
           reducer: {
             // Append the responce to the messages.
