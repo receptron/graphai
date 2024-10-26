@@ -79,6 +79,12 @@ const getNestedData = (result: ResultData, propId: string) => {
       return result[propId];
     }
   } else if (typeof result === "string") {
+    if (propId === "codeBlock()") {
+      const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+      if (match) {
+        return match[1];
+      }
+    }
     if (propId === "jsonParse()") {
       return JSON.parse(result);
     }

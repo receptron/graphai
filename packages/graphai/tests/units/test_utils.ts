@@ -275,6 +275,18 @@ test("test getDataFromSource string number", async () => {
   assert.deepStrictEqual(res, data);
 });
 
+test("test getDataFromSource string codeBlack", async () => {
+  const inputId = ":node1.text.codeBlock()";
+  const result = { text: '```\nimport * as a from "aa";\n\nconsole.log("hello");\n```\n\n' };
+  const data = '\nimport * as a from "aa";\n\nconsole.log("hello");';
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["text", "codeBlock()"] });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});
+
 // no default yaml parser on Node.js
 /*
 test("test getDataFromSource array flat", async () => {
