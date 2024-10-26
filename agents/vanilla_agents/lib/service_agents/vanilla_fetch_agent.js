@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.vanillaFetchAgent = void 0;
 const vanillaFetchAgent = async ({ namedInputs, params }) => {
     const { url, method, queryParams, headers, body } = namedInputs;
+    const throwError = params.throwError ?? false;
     const url0 = new URL(url);
     const headers0 = headers ? { ...headers } : {};
     if (queryParams) {
@@ -30,6 +31,9 @@ const vanillaFetchAgent = async ({ namedInputs, params }) => {
         const status = response.status;
         const type = params?.type ?? "json";
         const error = type === "json" ? await response.json() : await response.text();
+        if (throwError) {
+            throw new Error(`HTTP error: ${status}`);
+        }
         return {
             onError: {
                 message: `HTTP error: ${status}`,

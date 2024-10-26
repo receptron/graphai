@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nestedAgent = void 0;
 const graphai_1 = require("graphai");
-const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback, params }) => {
+const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback, params, }) => {
     const throwError = params.throwError ?? false;
     if (taskManager) {
         const status = taskManager.getStatus(false);
@@ -43,7 +43,6 @@ const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, a
     }
     catch (error) {
         if (error instanceof Error && !throwError) {
-            console.log("AAA", throwError);
             return {
                 onError: {
                     message: error.message,

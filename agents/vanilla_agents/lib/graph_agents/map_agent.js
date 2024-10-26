@@ -14,6 +14,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
         rows.length = params.limit; // trim
     }
     const resultAll = params.resultAll ?? false;
+    const throwError = params.throwError ?? false;
     const { nodes } = graphData;
     const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai_1.graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
@@ -72,7 +73,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
         return results;
     }
     catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof Error && !throwError) {
             return {
                 onError: {
                     message: error.message,
