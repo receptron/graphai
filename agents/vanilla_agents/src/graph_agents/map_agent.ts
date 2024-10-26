@@ -5,6 +5,7 @@ export const mapAgent: AgentFunction<
     limit?: number;
     resultAll?: boolean;
     compositeResult?: boolean;
+    throwError?: boolean;
   },
   Record<string, any>,
   any
@@ -22,6 +23,7 @@ export const mapAgent: AgentFunction<
     rows.length = params.limit; // trim
   }
   const resultAll = params.resultAll ?? false;
+  const throwError = params.throwError ?? false;
 
   const { nodes } = graphData;
   const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
@@ -84,7 +86,7 @@ export const mapAgent: AgentFunction<
     }
     return results;
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof Error && !throwError) {
       return {
         onError: {
           message: error.message,
