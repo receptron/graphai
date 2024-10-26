@@ -42,7 +42,6 @@ test("test nested agent 3", async () => {
 });
 
 test("test nested agent 4", async () => {
-  const logIds: string[] = [];
   const graph = new GraphAI(nestedGraphDataError, agents);
   await assert.rejects(
     async () => {
