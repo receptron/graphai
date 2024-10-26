@@ -15,18 +15,6 @@ export const graph_data = {
         message: "Question:",
       },
     },
-    userMessage: {
-      agent: "propertyFilterAgent",
-      inputs: {
-        array: [
-          {
-            role: "user",
-          },
-          ":userInput",
-        ],
-      },
-      params: { inject: [{ propId: "content", from: 1 }] },
-    },
     messages: {
       agent: "pushAgent",
       inputs: {
@@ -53,7 +41,10 @@ export const graph_data = {
               }
             `,
           },
-          ":userMessage",
+          {
+            role: "user",
+            content: ":userInput",
+          },
           {
             role: "assistant",
             content: "Thank you! I will now think step by step following my instructions, starting at the beginning after decomposing the problem.",
@@ -89,18 +80,14 @@ export const graph_data = {
             },
             inputs: { messages: ":messages" },
           },
-          message: {
-            agent: "copyAgent",
-            inputs: {
-              role: "assistant",
-              content: ":llm.text",
-            },
-          },
           updatedMessages: {
             agent: "pushAgent",
             inputs: {
               array: ":messages",
-              item: ":message",
+              item: {
+                role: "assistant",
+                content: ":llm.text",
+              },
             },
           },
           parser: {
@@ -120,17 +107,11 @@ export const graph_data = {
               content: ":parser.content",
             },
           },
-          hack: {
-            agent: "pushAgent",
-            inputs: {
-              array: [{}],
-              item: ":parser.next_action",
-            },
-          },
           evaluator: {
+            // console: {after: true, before: true},
             agent: "propertyFilterAgent",
             inputs: {
-              array: ":hack",
+              array: [{}, ":parser.next_action"],
             },
             params: {
               inspect: [{ propId: "continue", equal: "continue", from: 1 }],
