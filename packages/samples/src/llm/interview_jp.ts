@@ -3,12 +3,13 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import * as llm_agents from "@graphai/llm_agents";
 import * as agents from "@graphai/agents";
 
-const system_interviewer =
-  "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.";
-
 export const graph_data = {
   version: 0.5,
   nodes: {
+    system_interviewer: {
+      value:
+        "You are a professional interviewer. It is your job to dig into the personality of the person, making some tough questions. In order to engage the audience, ask questions one by one, and respond to the answer before moving to the next topic.",
+    },
     name: {
       // Asks the user to enter the name of the person to interview.
       agent: "textInputAgent",
@@ -22,10 +23,10 @@ export const graph_data = {
       inputs: {
         person0: {
           name: "Interviewer",
-          system: system_interviewer,
+          system: ":system_interviewer",
         },
         person1: {
-          name: "${:name}",
+          name: ":name",
           system: "You are ${:name}.",
           greeting: "Hi, I'm ${:name}",
         },
