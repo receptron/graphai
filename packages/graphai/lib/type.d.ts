@@ -83,6 +83,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     graphData?: GraphData;
     agents?: AgentFunctionInfoDictionary;
     taskManager?: TaskManager;
+    onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
     filterParams: AgentFilterParams;
     agentFilters?: AgentFilterInfo[];
     log?: TransactionLog[];
