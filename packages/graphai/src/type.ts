@@ -96,6 +96,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
   graphData?: GraphData; // nested graph
   agents?: AgentFunctionInfoDictionary; // for nested graph
   taskManager?: TaskManager; // for nested graph
+  onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
   filterParams: AgentFilterParams; // agent filter
   agentFilters?: AgentFilterInfo[];
   log?: TransactionLog[];

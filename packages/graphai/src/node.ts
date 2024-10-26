@@ -282,6 +282,7 @@ export class ComputedNode extends Node {
       if (this.nestedGraph) {
         this.graph.taskManager.prepareForNesting();
         context.taskManager = this.graph.taskManager;
+        context.onLogCallback = this.graph.onLogCallback;
         if ("nodes" in this.nestedGraph) {
           context.graphData = this.nestedGraph;
         } else {

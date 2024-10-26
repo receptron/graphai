@@ -8,7 +8,7 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config }) => {
+> = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback }) => {
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -49,6 +49,10 @@ export const mapAgent: AgentFunction<
         config,
       });
       graphAI.injectValue("row", row, "__mapAgent_inputs__");
+      // for backward compatibility. Remove 'if' later
+      if (onLogCallback) {
+        graphAI.onLogCallback = onLogCallback;
+      }
       return graphAI;
     });
 
