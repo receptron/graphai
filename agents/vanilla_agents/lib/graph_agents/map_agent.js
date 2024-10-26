@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
-const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config }) => {
+const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback }) => {
     if (taskManager) {
         const status = taskManager.getStatus();
         (0, graphai_1.assert)(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -39,6 +39,10 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
                 config,
             });
             graphAI.injectValue("row", row, "__mapAgent_inputs__");
+            // for backward compatibility. Remove 'if' later
+            if (onLogCallback) {
+                graphAI.onLogCallback = onLogCallback;
+            }
             return graphAI;
         });
         const runs = graphs.map((graph) => {
