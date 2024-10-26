@@ -123,6 +123,32 @@ export const nestedGraphData2 = {
   },
 };
 
+export const nestedGraphDataError = {
+  version: 0.5,
+  nodes: {
+    source: {
+      value: "Hello World",
+    },
+    nestedNode: {
+      agent: "nestedAgent",
+      inputs: { source: ":source" },
+      params: {
+        throwError: true,
+      },
+      isResult: true,
+      graph: {
+        nodes: {
+          result: {
+            agent: "copyAgent",
+            inputs: { text: ":soi_source" },
+            isResult: true,
+          },
+        },
+      },
+    },
+  },
+};
+
 // test_map
 
 export const graphDataMap1 = {
