@@ -18,46 +18,35 @@ export const graph_data = {
     },
     context: {
       // prepares the context for this interview.
-      agent: "stringTemplateAgent",
-      params: {
-        template: {
-          person0: {
-            name: "Interviewer",
-            system: system_interviewer,
-          },
-          person1: {
-            name: "${name}",
-            system: "You are ${name}.",
-            greeting: "Hi, I'm ${name}",
-          },
+      agent: "copyAgent",
+      inputs: {
+        person0: {
+          name: "Interviewer",
+          system: system_interviewer,
+        },
+        person1: {
+          name: "${:name}",
+          system: "You are ${:name}.",
+          greeting: "Hi, I'm ${:name}",
         },
       },
-      inputs: { name: ":name" },
     },
-    messages: {
-      // Prepares the conversation with one system message and one user message
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            index: 0,
-            propId: "content",
-            from: 1,
-          },
-          {
-            index: 1,
-            propId: "content",
-            from: 2,
-          },
-        ],
-      },
-      inputs: { array: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
-    },
-
     chat: {
       // performs the conversation using nested graph
       agent: "nestedAgent",
-      inputs: { messages: ":messages", context: ":context" },
+      inputs: {
+        messages: [
+          {
+            role: "system",
+            content: ":context.person0.system",
+          },
+          {
+            role: "user",
+            content: ":context.person1.greeting",
+          },
+        ],
+        context: ":context",
+      },
       isResult: true,
       graph: {
         loop: {
@@ -101,7 +90,7 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: { message: ":translate.choices.$0.message.content", name: ":context.person1.name" },
+            inputs: { message: ":translate.text", name: ":context.person1.name" },
           },
           reducer: {
             // Append the responce to the messages.
