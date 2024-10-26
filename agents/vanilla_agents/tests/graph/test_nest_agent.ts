@@ -32,7 +32,7 @@ test("test nested agent 2", async () => {
 test("test nested agent 3", async () => {
   const logIds: string[] = [];
   const graph = new GraphAI(nestedGraphData, agents);
-  graph.onLogCallback = (log, flag) => {
+  graph.onLogCallback = (log, __flag) => {
     logIds.push(log.nodeId);
   };
   await graph.run();
