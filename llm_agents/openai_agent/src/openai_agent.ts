@@ -262,7 +262,7 @@ const openaiAgentInfo: AgentFunctionInfo = {
         },
         name: {
           type: "string",
-        }
+        },
       },
       message: {
         type: "object",

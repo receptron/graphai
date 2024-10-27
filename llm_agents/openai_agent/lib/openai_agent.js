@@ -28,6 +28,7 @@ const convertOpenAIChatCompletion = (response) => {
         ...response,
         text,
         tool,
+        message,
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
@@ -212,6 +213,29 @@ const openaiAgentInfo = {
                     },
                 },
                 required: ["prompt_tokens", "completion_tokens", "total_tokens"],
+            },
+            text: {
+                type: "string",
+            },
+            tool: {
+                arguments: {
+                    type: "object",
+                },
+                name: {
+                    type: "string",
+                }
+            },
+            message: {
+                type: "object",
+                properties: {
+                    content: {
+                        type: "string",
+                    },
+                    role: {
+                        type: "string",
+                    },
+                },
+                required: ["content", "role"],
             },
         },
         required: ["id", "object", "created", "model", "choices", "usage"],
