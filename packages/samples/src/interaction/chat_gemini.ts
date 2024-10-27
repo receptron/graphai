@@ -12,7 +12,7 @@ export const graph_data = {
     // Holds a boolean value, which specifies if we need to contine or not.
     continue: {
       value: true,
-      update: ":checkInput.continue",
+      update: ":checkInput",
     },
     messages: {
       // Holds the conversation, the array of messages.
@@ -30,16 +30,8 @@ export const graph_data = {
     },
     checkInput: {
       // Checks if the user wants to terminate the chat or not.
-      agent: "propertyFilterAgent",
-      params: {
-        inspect: [
-          {
-            propId: "continue",
-            notEqual: "/bye",
-          },
-        ],
-      },
-      inputs: { array: [{}, ":userInput"] },
+      agent: "compareAgent",
+      inputs: { array: [":userInput", "!=", "/bye"] },
     },
     userMessage: {
       // Generates an message object with the user input.
