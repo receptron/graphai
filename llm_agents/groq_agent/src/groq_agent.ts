@@ -65,6 +65,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion) => {
     ...response,
     text,
     tool,
+    message,
   };
 };
 

@@ -90,7 +90,7 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
         }
       : undefined;
 
-  return { choices: [{ message }], text, tool };
+  return { choices: [{ message }], text, tool, message };
 };
 
 const geminiAgentInfo: AgentFunctionInfo = {
