@@ -1,4 +1,4 @@
-import { DataSource, ResultData, AgentFunction, DefaultInputData } from "@/type";
+import { DataSource, AgentFunction, DefaultInputData } from "@/type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));

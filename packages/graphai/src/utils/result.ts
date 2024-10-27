@@ -1,6 +1,6 @@
-import { DataSource, ResultData } from "./type";
+import { DataSource, ResultData } from "@/type";
 
-import { GraphNodes } from "./node";
+import { GraphNodes } from "@/node";
 
 import { parseNodeName, isNamedInputs, isObject, isNull } from "@/utils/utils";
 import { getDataFromSource } from "@/utils/data_source";

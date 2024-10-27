@@ -18,7 +18,7 @@ import { getDataFromSource } from "@/utils/data_source";
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
-import { resultsOf, resultOf, cleanResult } from "./result";
+import { resultsOf, resultOf, cleanResult } from "@/utils/result";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
