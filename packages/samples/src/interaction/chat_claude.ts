@@ -43,7 +43,7 @@ export const graph_data = {
     appendedMessages: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: { array: ":messages", item: { role: "user", content: ":userInput"} },
+      inputs: { array: ":messages", item: { role: "user", content: ":userInput" } },
     },
     llm: {
       // Sends those messages to LLM to get a response.
