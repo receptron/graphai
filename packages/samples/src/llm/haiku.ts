@@ -38,22 +38,6 @@ const graph_data = {
         message: "含めたいトピック（複数可）を入力してください:",
       },
     },
-    messages: {
-      agent: "stringTemplateAgent",
-      params: {
-        template: [
-          {
-            role: "system",
-            content: haiku_prompt,
-          },
-          {
-            role: "user",
-            content: "${topic}",
-          },
-        ],
-      },
-      inputs: { topic: ":topic" },
-    },
     query: {
       agent: "openAIAgent",
       params: {
@@ -62,23 +46,18 @@ const graph_data = {
         temperature: 0.5,
         tool_choice: { type: "function", function: { name: "generated" } },
       },
-      inputs: { messages: ":messages" },
-    },
-    messages2: {
-      agent: "stringTemplateAgent",
-      params: {
-        template: [
+      inputs: {
+        messages: [
           {
             role: "system",
-            content: review_prompt,
+            content: haiku_prompt,
           },
           {
             role: "user",
-            content: "${args}",
+            content: ":topic",
           },
         ],
       },
-      inputs: { args: ":query.choices.$0.message.tool_calls.$0.function.arguments" },
     },
     query2: {
       agent: "openAIAgent",
@@ -87,11 +66,23 @@ const graph_data = {
         tools: tools_haiku,
         tool_choice: { type: "function", function: { name: "generated" } },
       },
-      inputs: { messages: ":messages2" },
+      inputs: {
+        messages: [
+          {
+            role: "system",
+            content: review_prompt,
+          },
+          {
+            role: "user",
+            content: ":query.tool.arguments.toJSON()",
+          },
+        ],
+      },
     },
     parser: {
-      agent: "jsonParserAgent",
-      inputs: { text: ":query2.choices.$0.message.tool_calls.$0.function.arguments" },
+      agent: "copyAgent",
+      params: { namedKey: "data" },
+      inputs: { data: ":query2.tool.arguments" },
       isResult: true,
     },
   },
