@@ -29,16 +29,8 @@ export const graph_data = {
     },
     checkInput: {
       // Checks if the user wants to terminate the chat or not.
-      agent: "propertyFilterAgent",
-      params: {
-        inspect: [
-          {
-            propId: "continue",
-            notEqual: "/bye",
-          },
-        ],
-      },
-      inputs: { array: [{}, ":userInput"] },
+      agent: "compareAgent",
+      inputs: { array: [":userInput", "!=", "/bye"] },
     },
     appendedMessages: {
       // Appends it to the conversation
