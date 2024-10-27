@@ -105,7 +105,7 @@
       "isResult": true,
       "graph": {
         "nodes": {
-          "result": {
+          "resultInner": {
             "agent": "copyAgent",
             "inputs": {
               "text": ":inner0"

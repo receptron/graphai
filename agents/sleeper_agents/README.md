@@ -14,20 +14,20 @@ yarn add @graphai/sleeper_agents
 
 ```typescript
 import { GraphAI } from "graphai";
-import { sleeperAgent, sleeperAgentDebug } from "@graphai/sleeper_agents";
+import { sleepAndMergeAgent, sleeperAgentDebug } from "@graphai/sleeper_agents";
 
-const agents = { sleeperAgent, sleeperAgentDebug };
+const agents = { sleepAndMergeAgent, sleeperAgentDebug };
 
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
 ```
 
 ### Agents description
-- sleeperAgent - sleeper Agent
+- sleepAndMergeAgent - sleeper and merge Agent
 - sleeperAgentDebug - sleeper debug Agent
 
 ### Input/Output/Params Schema & samples
- - [sleeperAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleeperAgent.md)
+ - [sleepAndMergeAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleepAndMergeAgent.md)
  - [sleeperAgentDebug](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleeperAgentDebug.md)
 
 
