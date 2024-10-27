@@ -44,18 +44,11 @@ const graph_tool = {
       agent: "jsonParserAgent",
       inputs: { text: ":tool_calls.$0.function.arguments" },
     },
-    urlPoints: {
-      // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
-      agent: "stringTemplateAgent",
-      params: {
-        template: "https://api.weather.gov/points/${lat},${lng}",
-      },
-      inputs: { lat: ":parser.latitude", lng: ":parser.longitude" },
-    },
     fetchPoints: {
       // Fetches the "grid location" from the URL.
       agent: "fetchAgent",
-      inputs: { url: ":urlPoints", headers: { "User-Agent": "(receptron.org)" } },
+      // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
+      inputs: { url: "https://api.weather.gov/points/${:parser.latitude},${:parser.longitude}", headers: { "User-Agent": "(receptron.org)" } },
     },
     fetchForecast: {
       // Fetches the weather forecast for that location.
@@ -81,31 +74,18 @@ const graph_tool = {
       anyInput: true,
       inputs: { array: [":fetchForecast", ":extractError"] },
     },
-    toolMessage: {
-      // Creates a tool message as the return value of the tool call.
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            propId: "tool_call_id",
-            from: 1,
-          },
-          {
-            propId: "name",
-            from: 2,
-          },
-          {
-            propId: "content",
-            from: 3,
-          },
-        ],
-      },
-      inputs: { array: [{ role: "tool" }, ":tool_calls.$0.id", ":tool_calls.$0.function.name", ":responseText.array"] },
-    },
     messagesWithToolRes: {
       // Appends that message to the messages.
       agent: "pushAgent",
-      inputs: { array: ":messages", item: ":toolMessage" },
+      inputs: {
+        array: ":messages",
+        item: {
+          role: "tool",
+          tool_call_id: ":tool_calls.$0.id",
+          name: ":tool_calls.$0.function.name",
+          content: ":responseText.array",
+        },
+      },
       console: { after: true },
     },
     llmCall: {
@@ -122,7 +102,7 @@ const graph_tool = {
       console: {
         after: true,
       },
-      inputs: { m: ":llmCall.choices.$0.message.content" },
+      inputs: { m: ":llmCall.text" },
     },
     messagesWithSecondRes: {
       // Appends the response to the messages.
@@ -170,32 +150,14 @@ export const graph_data = {
       },
       inputs: { array: [{}, ":userInput"] },
     },
-    userMessage: {
-      // Generates an message object with the user input.
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            propId: "content",
-            from: 1,
-          },
-        ],
-      },
-      inputs: { array: [{ role: "user" }, ":userInput"] },
-    },
-    messagesWithUserInput: {
-      // Appends it to the conversation
-      agent: "pushAgent",
-      inputs: { array: ":messages", item: ":userMessage" },
-      if: ":checkInput.continue",
-    },
     llmCall: {
       // Sends those messages to LLM to get the answer.
       agent: "openAIAgent",
       params: {
         tools,
       },
-      inputs: { messages: ":messagesWithUserInput" },
+      inputs: { messages: ":messages", prompt: ":userInput" },
+      if: ":checkInput.continue",
       console: {
         before: true,
         after: true,
@@ -210,13 +172,16 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: { m: ":llmCall.choices.$0.message.content" },
-      if: ":llmCall.choices.$0.message.content",
+      inputs: { m: ":llmCall.text" },
+      if: ":llmCall.text",
     },
     messagesWithFirstRes: {
       // Appends the response to the messages.
       agent: "pushAgent",
-      inputs: { array: ":messagesWithUserInput", item: ":llmCall.choices.$0.message" },
+      inputs: {
+        array: ":messages",
+        items: [{ role: "user", content: ":userInput" }, ":llmCall.choices.$0.message"],
+      },
     },
     tool_calls: {
       // This node is activated if the LLM requests a tool call.

@@ -24,32 +24,7 @@ export const graph_data = {
       params: {
         type: "text",
       },
-      inputs: { url: "https://raw.githubusercontent.com/receptron/graphai/main/packages/samples/data/reception2.json" },
-    },
-    messages: {
-      agent: "stringTemplateAgent",
-      params: {
-        template: [
-          {
-            // System message, which gives the specification of GraphAI, and instruct to generate a graphAI graph dynamically.
-            role: "system",
-            content:
-              "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
-              "[documation of GraphAI]\n${doc}",
-          },
-          {
-            // Sample question, which specifies which information we need to get from the user.
-            role: "user",
-            content: "Name, Date of Birth and Gendar",
-          },
-          {
-            // Sample AI agent graph, which acquires those information from the user.
-            role: "assistant",
-            content: "```json\n${graph}\n```\n",
-          },
-        ],
-      },
-      inputs: { doc: ":document", graph: ":sampleGraph" },
+      inputs: { url: "https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/graph_data/reception.json" },
     },
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.
@@ -60,17 +35,34 @@ export const graph_data = {
       params: {
         model: "gpt-4o",
       },
-      inputs: { prompt: "Name, Address and Phone Number", messages: ":messages" },
-    },
-    parser: {
-      // Parses the JSON data in the returned message
-      agent: "jsonParserAgent",
-      inputs: { text: ":graphGenerator.choices.$0.message.content" },
+      inputs: {
+        prompt: "Name, Address and Phone Number",
+        messages: [
+          {
+            // System message, which gives the specification of GraphAI, and instruct to generate a graphAI graph dynamically.
+            role: "system",
+            content:
+              "You an expert in GraphAI programming. You are responsible in generating a graphAI graph to get required information from the user.\n" +
+              "graphAI graph outputs in json format\n" +
+              "[documation of GraphAI]\n${:document}",
+          },
+          {
+            // Sample question, which specifies which information we need to get from the user.
+            role: "user",
+            content: "Name, Date of Birth and Gendar",
+          },
+          {
+            // Sample AI agent graph, which acquires those information from the user.
+            role: "assistant",
+            content: "```json\n${:sampleGraph}\n```\n",
+          },
+        ],
+      },
     },
     executer: {
       // Execute that AI Agent
       agent: "nestedAgent",
-      graph: ":parser",
+      graph: ":graphGenerator.text.codeBlock().jsonParse()",
       isResult: true,
     },
   },
