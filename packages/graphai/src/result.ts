@@ -2,7 +2,8 @@ import { DataSource, ResultData } from "./type";
 
 import { GraphNodes } from "./node";
 
-import { getDataFromSource, parseNodeName, isNamedInputs, isObject, isNull } from "@/utils/utils";
+import { parseNodeName, isNamedInputs, isObject, isNull } from "@/utils/utils";
+import { getDataFromSource } from "@/utils/data_source";
 
 const resultsOfInner = (input: any, nodes: GraphNodes): ResultData => {
   if (Array.isArray(input)) {
