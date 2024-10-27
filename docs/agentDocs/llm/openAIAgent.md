@@ -156,6 +156,32 @@ OpenAI Agent
         "completion_tokens",
         "total_tokens"
       ]
+    },
+    "text": {
+      "type": "string"
+    },
+    "tool": {
+      "arguments": {
+        "type": "object"
+      },
+      "name": {
+        "type": "string"
+      }
+    },
+    "message": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "role"
+      ]
     }
   },
   "required": [
