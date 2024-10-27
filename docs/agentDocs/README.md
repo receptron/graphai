@@ -59,3 +59,6 @@
 ### [nestedAgent](./graph/nestedAgent.md)
 ### [mapAgent](./graph/mapAgent.md)
 ### [workerAgent](./graph/workerAgent.md)
+
+## compare
+### [compareAgent](./compare/compareAgent.md)
