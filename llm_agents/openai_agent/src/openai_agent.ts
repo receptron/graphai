@@ -41,6 +41,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion) => {
     ...response,
     text,
     tool,
+    message,
   };
 };
 
@@ -251,6 +252,29 @@ const openaiAgentInfo: AgentFunctionInfo = {
           },
         },
         required: ["prompt_tokens", "completion_tokens", "total_tokens"],
+      },
+      text: {
+        type: "string",
+      },
+      tool: {
+        arguments: {
+          type: "object",
+        },
+        name: {
+          type: "string",
+        }
+      },
+      message: {
+        type: "object",
+        properties: {
+          content: {
+            type: "string",
+          },
+          role: {
+            type: "string",
+          },
+        },
+        required: ["content", "role"],
       },
     },
     required: ["id", "object", "created", "model", "choices", "usage"],

@@ -55,7 +55,7 @@ const result = await graph.run();
       "isResult": true
     },
     "step2": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "inputs": {
         "array": [
           ":source2",
@@ -90,7 +90,7 @@ const result = await graph.run();
       }
     },
     "total": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "inputs": {
         "array": [
           ":apple",
@@ -113,7 +113,7 @@ const result = await graph.run();
       "value": {}
     },
     "positive": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "anyInput": true,
       "isResult": true,
       "inputs": {
@@ -123,7 +123,7 @@ const result = await graph.run();
       }
     },
     "negative": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "anyInput": true,
       "isResult": true,
       "inputs": {
@@ -152,7 +152,7 @@ const result = await graph.run();
       }
     },
     "router1": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "params": {
         "duration": 10
       },
@@ -164,7 +164,7 @@ const result = await graph.run();
       }
     },
     "router2": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "params": {
         "duration": 100
       },
@@ -176,7 +176,7 @@ const result = await graph.run();
       }
     },
     "receiver": {
-      "agent": "sleeperAgent",
+      "agent": "sleepAndMergeAgent",
       "anyInput": true,
       "isResult": true,
       "inputs": {

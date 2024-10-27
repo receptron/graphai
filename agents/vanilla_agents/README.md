@@ -18,6 +18,7 @@ import {
   arrayFlatAgent,
   arrayJoinAgent,
   bypassAgent,
+  compareAgent,
   copy2ArrayAgent,
   copyAgent,
   copyMessageAgent,
@@ -33,6 +34,7 @@ import {
   propertyFilterAgent,
   pushAgent,
   shiftAgent,
+  sleeperAgent,
   sortByValuesAgent,
   streamMockAgent,
   stringEmbeddingsAgent,
@@ -47,6 +49,7 @@ const agents = {
   arrayFlatAgent,
   arrayJoinAgent,
   bypassAgent,
+  compareAgent,
   copy2ArrayAgent,
   copyAgent,
   copyMessageAgent,
@@ -62,6 +65,7 @@ const agents = {
   propertyFilterAgent,
   pushAgent,
   shiftAgent,
+  sleeperAgent,
   sortByValuesAgent,
   streamMockAgent,
   stringEmbeddingsAgent,
@@ -80,6 +84,7 @@ const result = await graph.run();
 - arrayFlatAgent - Array Flat Agent
 - arrayJoinAgent - Array Join Agent
 - bypassAgent - bypass agent
+- compareAgent - compare
 - copy2ArrayAgent - Copy2Array agent
 - copyAgent - Returns namedInputs
 - copyMessageAgent - CopyMessage agent
@@ -95,6 +100,7 @@ const result = await graph.run();
 - propertyFilterAgent - Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
 - pushAgent - push Agent
 - shiftAgent - shift Agent
+- sleeperAgent - sleeper Agent
 - sortByValuesAgent - sortByValues Agent
 - streamMockAgent - Stream mock agent
 - stringEmbeddingsAgent - Embeddings Agent
@@ -108,6 +114,7 @@ const result = await graph.run();
  - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
  - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
  - [bypassAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/bypassAgent.md)
+ - [compareAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/compare/compareAgent.md)
  - [copy2ArrayAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copy2ArrayAgent.md)
  - [copyAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/copyAgent.md)
  - [copyMessageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copyMessageAgent.md)
@@ -123,6 +130,7 @@ const result = await graph.run();
  - [propertyFilterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/propertyFilterAgent.md)
  - [pushAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/pushAgent.md)
  - [shiftAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/shiftAgent.md)
+ - [sleeperAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleeperAgent.md)
  - [sortByValuesAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/sortByValuesAgent.md)
  - [streamMockAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/streamMockAgent.md)
  - [stringEmbeddingsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/embedding/stringEmbeddingsAgent.md)
@@ -243,7 +251,7 @@ const result = await graph.run();
       "isResult": true,
       "graph": {
         "nodes": {
-          "result": {
+          "resultInner": {
             "agent": "copyAgent",
             "inputs": {
               "text": ":inner0"
