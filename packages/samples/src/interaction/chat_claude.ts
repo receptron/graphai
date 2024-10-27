@@ -12,7 +12,7 @@ export const graph_data = {
     // Holds a boolean value, which specifies if we need to contine or not.
     continue: {
       value: true,
-      update: ":checkInput.continue",
+      update: ":checkInput",
     },
     messages: {
       // Holds the conversation, the array of messages.
