@@ -54,7 +54,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":messages", items: [{ role: "user", content: ":userInput" }, ":llm.choices.$0.message"] },
+      inputs: { array: ":messages", items: [{ role: "user", content: ":userInput" }, ":llm.message"] },
     },
   },
 };

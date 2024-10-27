@@ -43,11 +43,6 @@ const language_detection_graph = {
       },
       inputs: { prompt: ":topic" },
     },
-    parser: {
-      // Parses the arguments
-      agent: "jsonParserAgent",
-      inputs: { text: ":identifier.choices.$0.message.tool_calls.$0.function.arguments" },
-    },
     extractor: {
       // Creates a language context
       agent: "stringTemplateAgent",
@@ -57,7 +52,7 @@ const language_detection_graph = {
           text: "${text}",
         },
       },
-      inputs: { lang: ":parser.language", text: ":parser.englishTranslation" },
+      inputs: { lang: ":identifier.tool.arguments.language", text: ":identifier.tool.arguments.englishTranslation" },
     },
     result: {
       // Sets the isEnglish flag to the context.
