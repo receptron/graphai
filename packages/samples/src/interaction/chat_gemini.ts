@@ -73,7 +73,7 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: { message: ":groq.choices.$0.message.content" },
+      inputs: { message: ":groq.text" },
     },
     reducer: {
       // Appends the responce to the messages.
