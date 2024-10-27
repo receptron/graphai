@@ -57,7 +57,7 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: { message: ":llm.choices.$0.message.content" },
+      inputs: { message: ":llm.text" },
     },
     reducer: {
       // Appends the responce to the messages.

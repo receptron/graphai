@@ -40,23 +40,10 @@ export const graph_data = {
       },
       inputs: { array: [{}, ":userInput"] },
     },
-    userMessage: {
-      // Generates an message object with the user input.
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            propId: "content",
-            from: 1,
-          },
-        ],
-      },
-      inputs: { array: [{ role: "user" }, ":userInput"] },
-    },
     appendedMessages: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: { array: ":messages", item: ":userMessage" },
+      inputs: { array: ":messages", item: { role: "user", content: ":userInput"} },
     },
     llm: {
       // Sends those messages to LLM to get a response.
@@ -72,7 +59,7 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: { message: ":llm.choices.$0.message.content" },
+      inputs: { message: ":llm.text" },
     },
     reducer: {
       // Appends the responce to the messages.
