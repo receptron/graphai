@@ -28,10 +28,11 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
         max_tokens: max_tokens ?? 1024,
     };
     if (!stream) {
-        const message = await anthropic.messages.create(opt);
+        const messageResponse = await anthropic.messages.create(opt);
         // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
-        const content = message.content[0].text;
-        return { choices: [{ message: { role: message.role, content } }], text: content };
+        const content = messageResponse.content[0].text;
+        const message = { role: messageResponse.role, content };
+        return { choices: [{ message }], text: content, message };
     }
     const chatStream = await anthropic.messages.create({
         ...opt,
@@ -48,7 +49,9 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
             }
         }
     }
-    return { choices: [{ message: { role: "assistant", content: contents.join("") } }], text: contents.join("") };
+    const content = contents.join("");
+    const message = { role: "assistant", content: content };
+    return { choices: [{ message }], text: content, message };
 };
 exports.anthropicAgent = anthropicAgent;
 const anthropicAgentInfo = {

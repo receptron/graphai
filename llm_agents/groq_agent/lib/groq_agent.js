@@ -44,6 +44,7 @@ const convertOpenAIChatCompletion = (response) => {
         ...response,
         text,
         tool,
+        message,
     };
 };
 const groqAgent = async ({ params, namedInputs, filterParams }) => {

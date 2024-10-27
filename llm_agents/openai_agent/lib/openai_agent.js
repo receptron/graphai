@@ -223,7 +223,7 @@ const openaiAgentInfo = {
                 },
                 name: {
                     type: "string",
-                }
+                },
             },
             message: {
                 type: "object",

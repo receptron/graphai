@@ -16,7 +16,8 @@ const replicateAgent = async ({ params, namedInputs, }) => {
     const replicate = new replicate_1.default();
     const output = await replicate.run(params.model, { input: { prompt: userPrompt } });
     const content = output.join("");
-    return { choices: [{ message: { role: "assistant", content } }], text: content };
+    const message = { role: "assistant", content };
+    return { choices: [{ message }], text: content, message };
 };
 exports.replicateAgent = replicateAgent;
 const replicateAgentInfo = {
