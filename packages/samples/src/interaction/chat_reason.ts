@@ -90,12 +90,6 @@ export const graph_data = {
               },
             },
           },
-          parser: {
-            agent: "jsonParserAgent",
-            inputs: {
-              text: ":llm.text",
-            },
-          },
           output: {
             agent: "stringTemplateAgent",
             console: {
@@ -103,15 +97,15 @@ export const graph_data = {
             },
             params: { template: "\n[${title}]\n${content}" },
             inputs: {
-              title: ":parser.title",
-              content: ":parser.content",
+              title: ":llm.text.jsonParse().title",
+              content: ":llm.text.jsonParse().content",
             },
           },
           evaluator: {
             // console: {after: true, before: true},
             agent: "propertyFilterAgent",
             inputs: {
-              array: [{}, ":parser.next_action"],
+              array: [{}, ":llm.text.jsonParse().next_action"],
             },
             params: {
               inspect: [{ propId: "continue", equal: "continue", from: 1 }],
