@@ -28,5 +28,6 @@ __exportStar(require("./graph_agents"), exports);
 __exportStar(require("./data_agents"), exports);
 __exportStar(require("./service_agents"), exports);
 __exportStar(require("./sleeper_agents"), exports);
+__exportStar(require("./compare_agents"), exports);
 const embedding_agent_1 = __importDefault(require("./embedding_agent"));
 exports.stringEmbeddingsAgent = embedding_agent_1.default;
