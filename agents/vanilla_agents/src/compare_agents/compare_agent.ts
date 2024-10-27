@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 type CompareDataItem = string | number | boolean | CompareData;
-interface CompareData extends Array<CompareDataItem> {}
+type CompareData = CompareDataItem[];
 
 const compare = (_array: CompareData): boolean => {
   if (_array.length !== 3) {
@@ -39,7 +39,7 @@ const compare = (_array: CompareData): boolean => {
     return !!a && !!b;
   }
   if (operator === "XOR") {
-    return !!a === !!!b;
+    return !!a === !b;
   }
   throw new Error(`unknown compare operator`);
 };
