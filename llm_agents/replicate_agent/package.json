@@ -1,6 +1,6 @@
 {
   "name": "@graphai/replicate_agent",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Replicate agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -28,7 +28,7 @@
   "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/replicate_agent/README.md",
   "dependencies": {
     "@graphai/llm_utils": "^0.0.2",
-    "replicate": "^0.34.0",
+    "replicate": "^1.0.1",
     "tiktoken": "^1.0.17"
   },
   "devDependencies": {},
