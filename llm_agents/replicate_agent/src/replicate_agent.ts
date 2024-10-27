@@ -29,7 +29,8 @@ export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> 
   const output = await replicate.run(params.model as any, { input: { prompt: userPrompt as any } });
 
   const content = (output as string[]).join("");
-  return { choices: [{ message: { role: "assistant", content } }], text: content };
+  const message = { role: "assistant", content };
+  return { choices: [{ message }], text: content, message };
 };
 
 const replicateAgentInfo: AgentFunctionInfo = {
