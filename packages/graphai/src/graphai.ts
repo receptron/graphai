@@ -12,11 +12,13 @@ import {
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode, GraphNodes } from "@/node";
-import { parseNodeName, assert, getDataFromSource, isLogicallyTrue } from "@/utils/utils";
+import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
+import { getDataFromSource } from "@/utils/data_source";
+
 import { validateGraphData } from "@/validator";
 import { TaskManager } from "./task_manager";
 
-import { resultsOf, resultOf, cleanResult } from "./result";
+import { resultsOf, resultOf, cleanResult } from "@/utils/result";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;

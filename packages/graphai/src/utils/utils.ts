@@ -1,4 +1,4 @@
-import { DataSource, ResultData, AgentFunction, DefaultInputData } from "@/type";
+import { DataSource, AgentFunction, DefaultInputData } from "@/type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -35,105 +35,6 @@ export const isObject = (x: unknown) => {
 
 export const isNull = (data: unknown) => {
   return data === null || data === undefined;
-};
-
-const getNestedData = (result: ResultData, propId: string) => {
-  // for array.
-  if (Array.isArray(result)) {
-    // $0, $1. array value.
-    const regex = /^\$(\d+)$/;
-    const match = propId.match(regex);
-    if (match) {
-      const index = parseInt(match[1], 10);
-      return result[index];
-    }
-    if (propId === "$last") {
-      return result[result.length - 1];
-    }
-    if (propId === "length()") {
-      return result.length;
-    }
-    if (propId === "flat()") {
-      return result.flat();
-    }
-    if (propId === "toJSON()") {
-      return JSON.stringify(result);
-    }
-    if (propId === "isEmpty()") {
-      return result.length === 0;
-    }
-    // array join
-    const matchJoin = propId.match(/^join\(([,-]?)\)$/);
-    if (matchJoin && Array.isArray(matchJoin)) {
-      return result.join(matchJoin[1] ?? "");
-    }
-    // flat, join
-  } else if (isObject(result)) {
-    if (propId === "keys()") {
-      return Object.keys(result);
-    }
-    if (propId === "values()") {
-      return Object.values(result);
-    }
-    if (propId === "toJSON()") {
-      return JSON.stringify(result);
-    }
-    if (propId in result) {
-      return result[propId];
-    }
-  } else if (typeof result === "string") {
-    if (propId === "codeBlock()") {
-      const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
-      if (match) {
-        return match[1];
-      }
-    }
-    if (propId === "jsonParse()") {
-      return JSON.parse(result);
-    }
-    if (propId === "toNumber()") {
-      const ret = Number(result);
-      if (!isNaN(ret)) {
-        return ret;
-      }
-    }
-  } else if (result !== undefined && Number.isFinite(result)) {
-    if (propId === "toString()") {
-      return String(result);
-    }
-    const regex = /^add\((-?\d+)\)$/;
-    const match = propId.match(regex);
-    if (match) {
-      return Number(result) + Number(match[1]);
-    }
-  } else if (typeof result === "boolean") {
-    if (propId === "not()") {
-      return !result;
-    }
-  }
-  return undefined;
-};
-
-const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
-  if (!isNull(result) && propIds && propIds.length > 0) {
-    const propId = propIds[0];
-    const ret = getNestedData(result, propId);
-    if (ret === undefined) {
-      console.error(`prop: ${propIds.join(".")} is not hit`);
-    }
-    if (propIds.length > 1) {
-      return innerGetDataFromSource(ret, propIds.slice(1));
-    }
-    return ret;
-  }
-  return result;
-};
-
-export const getDataFromSource = (result: ResultData | undefined, source: DataSource): ResultData | undefined => {
-  if (!source.nodeId) {
-    return source.value;
-  }
-  return innerGetDataFromSource(result, source.propIds);
 };
 
 export const strIntentionalError = "Intentional Error for Debugging";

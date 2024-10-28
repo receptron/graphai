@@ -1,6 +1,6 @@
 import { graphDataLatestVersion } from "~/common";
 import { StaticNode, ComputedNode } from "@/node";
-import { resultsOf, cleanResult } from "@/result";
+import { resultsOf, cleanResult } from "@/utils/result";
 import { TaskManager } from "@/task_manager";
 import { GraphAI } from "@/graphai";
 
