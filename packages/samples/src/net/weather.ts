@@ -31,13 +31,10 @@ const graph_tool = {
     outputFetching: {
       // Displays the fetching message.
       agent: "stringTemplateAgent",
-      params: {
-        template: "... fetching weather info: ${a}",
-      },
+      inputs: { text: "... fetching weather info: ${:tool.arguments.latitude}, ${:tool.arguments.longitude}" },
       console: {
         after: true,
       },
-      inputs: { a: "${:tool.arguments.latitude}, ${:tool.arguments.longitude}" },
     },
     fetchPoints: {
       // Fetches the "grid location" from the URL.
