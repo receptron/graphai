@@ -1,10 +1,9 @@
 import { ResultData, DataSource } from "@/type";
 import { isObject, isNull } from "./utils";
-import { propFunction } from "./prop_function";
+import { propFunctionRegex, propFunction } from "./prop_function";
 
 const getNestedData = (result: ResultData, propId: string) => {
-  const regex = /^[a-zA-Z]+\([^)]*\)$/;
-  const match = propId.match(regex);
+  const match = propId.match(propFunctionRegex);
   if (match) {
     return propFunction(result, propId);
   }
