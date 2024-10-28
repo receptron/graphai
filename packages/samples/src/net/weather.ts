@@ -54,10 +54,7 @@ const graph_tool = {
     extractError: {
       // Extract error title and detail
       agent: "stringTemplateAgent",
-      params: {
-        template: "${title}: ${error}",
-      },
-      inputs: { title: ":fetchPoints.onError.error.title", error: ":fetchPoints.onError.error.detail" },
+      inputs: { text: "${:fetchPoints.onError.error.title}: ${:fetchPoints.onError.error.detail}" },
       if: ":fetchPoints.onError",
     },
     responseText: {
@@ -88,13 +85,10 @@ const graph_tool = {
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
-      params: {
-        template: "Weather: ${m}",
-      },
+      inputs: { text: "Weather: ${:llmCall.text}" },
       console: {
         after: true,
       },
-      inputs: { m: ":llmCall.text" },
     },
     messagesWithSecondRes: {
       // Appends the response to the messages.
@@ -146,13 +140,10 @@ export const graph_data = {
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
-      params: {
-        template: "Weather: ${m}",
-      },
+      inputs: { text: "Weather: ${:llmCall.text}" },
       console: {
         after: true,
       },
-      inputs: { m: ":llmCall.text" },
       if: ":llmCall.text",
     },
     messagesWithFirstRes: {
