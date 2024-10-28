@@ -32,23 +32,23 @@ const graph_tool = {
       // Displays the fetching message.
       agent: "stringTemplateAgent",
       params: {
-        template: "... fetching weather info: ${m}",
+        template: "... fetching weather info: ${a.latitude}, ${a.longitude}",
       },
       console: {
+        before: true,
         after: true,
       },
-      inputs: { m: ":tool_calls.$0.function.arguments" },
-    },
-    parser: {
-      // Parse the arguments to the function
-      agent: "jsonParserAgent",
-      inputs: { text: ":tool_calls.$0.function.arguments" },
+      inputs: { a: ":tool.arguments" },
     },
     fetchPoints: {
       // Fetches the "grid location" from the URL.
       agent: "fetchAgent",
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
-      inputs: { url: "https://api.weather.gov/points/${:parser.latitude},${:parser.longitude}", headers: { "User-Agent": "(receptron.org)" } },
+      inputs: { url: "https://api.weather.gov/points/${:tool.arguments.latitude},${:tool.arguments.longitude}", headers: { "User-Agent": "(receptron.org)" } },
+      console: {
+        before: true,
+        after: true,
+      },
     },
     fetchForecast: {
       // Fetches the weather forecast for that location.
@@ -83,7 +83,7 @@ const graph_tool = {
           role: "tool",
           tool_call_id: ":tool_calls.$0.id",
           name: ":tool_calls.$0.function.name",
-          content: ":responseText.array",
+          content: ":responseText.array.$0",
         },
       },
       console: { after: true },
@@ -107,7 +107,7 @@ const graph_tool = {
     messagesWithSecondRes: {
       // Appends the response to the messages.
       agent: "pushAgent",
-      inputs: { array: ":messagesWithToolRes", item: ":llmCall.choices.$0.message" },
+      inputs: { array: ":messagesWithToolRes", item: ":llmCall.message" },
       isResult: true,
     },
   },
@@ -122,12 +122,12 @@ export const graph_data = {
     continue: {
       // Holds a boolean data if we need to continue this chat or not.
       value: true,
-      update: ":checkInput.continue",
+      update: ":checkInput",
     },
     messages: {
       // Holds the conversation, array of messages.
       value: [{ role: "system", content: "You are a meteorologist. Use getWeather API, only when the user ask for the weather information." }],
-      update: ":reducer.array",
+      update: ":reducer.array.$0",
       isResult: true,
     },
     userInput: {
@@ -139,16 +139,8 @@ export const graph_data = {
     },
     checkInput: {
       // Checks if the user wants to terminate the chat or not.
-      agent: "propertyFilterAgent",
-      params: {
-        inspect: [
-          {
-            propId: "continue",
-            notEqual: "/bye",
-          },
-        ],
-      },
-      inputs: { array: [{}, ":userInput"] },
+      agent: "compareAgent",
+      inputs: { array: [":userInput", "!=", "/bye"] },
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
@@ -157,11 +149,7 @@ export const graph_data = {
         tools,
       },
       inputs: { messages: ":messages", prompt: ":userInput" },
-      if: ":checkInput.continue",
-      console: {
-        before: true,
-        after: true,
-      },
+      if: ":checkInput",
     },
     output: {
       // Displays the response to the user.
@@ -180,24 +168,20 @@ export const graph_data = {
       agent: "pushAgent",
       inputs: {
         array: ":messages",
-        items: [{ role: "user", content: ":userInput" }, ":llmCall.choices.$0.message"],
+        items: [{ role: "user", content: ":userInput" }, ":llmCall.message"],
       },
     },
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: { tool_calls: ":llmCall.choices.$0.message.tool_calls", messages: ":messagesWithFirstRes" },
-      if: ":llmCall.choices.$0.message.tool_calls",
-      console: {
-        before: true,
-        after: true,
-      },
+      inputs: { tool_calls: ":llmCall.choices.$0.message.tool_calls", messages: ":messagesWithFirstRes", tool: ":llmCall.tool" },
+      if: ":llmCall.tool",
       graph: graph_tool,
     },
     no_tool_calls: {
       // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
-      unless: ":llmCall.choices.$0.message.tool_calls",
+      unless: ":llmCall.tool",
       inputs: { result: ":messagesWithFirstRes" },
     },
     reducer: {
