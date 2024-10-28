@@ -31,19 +31,16 @@ const graph_tool = {
     outputFetching: {
       // Displays the fetching message.
       agent: "stringTemplateAgent",
-      params: {
-        template: "... fetching weather info: ${a}",
-      },
+      inputs: { text: "... fetching weather info: ${:parant_tool.arguments.latitude}, ${:parant_tool.arguments.longitude}" },
       console: {
         after: true,
       },
-      inputs: { a: "${:tool.arguments.latitude}, ${:tool.arguments.longitude}" },
     },
     fetchPoints: {
       // Fetches the "grid location" from the URL.
       agent: "fetchAgent",
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
-      inputs: { url: "https://api.weather.gov/points/${:tool.arguments.latitude},${:tool.arguments.longitude}", headers: { "User-Agent": "(receptron.org)" } },
+      inputs: { url: "https://api.weather.gov/points/${:parant_tool.arguments.latitude},${:parant_tool.arguments.longitude}", headers: { "User-Agent": "(receptron.org)" } },
     },
     fetchForecast: {
       // Fetches the weather forecast for that location.
@@ -57,10 +54,7 @@ const graph_tool = {
     extractError: {
       // Extract error title and detail
       agent: "stringTemplateAgent",
-      params: {
-        template: "${title}: ${error}",
-      },
-      inputs: { title: ":fetchPoints.onError.error.title", error: ":fetchPoints.onError.error.detail" },
+      inputs: { text: "${:fetchPoints.onError.error.title}: ${:fetchPoints.onError.error.detail}" },
       if: ":fetchPoints.onError",
     },
     responseText: {
@@ -73,11 +67,11 @@ const graph_tool = {
       // Appends that message to the messages.
       agent: "pushAgent",
       inputs: {
-        array: ":messages",
+        array: ":parent_messages",
         item: {
           role: "tool",
-          tool_call_id: ":tool.id",
-          name: ":tool.name",
+          tool_call_id: ":parant_tool.id",
+          name: ":parant_tool.name",
           content: ":responseText.array.$0",
         },
       },
@@ -91,13 +85,10 @@ const graph_tool = {
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
-      params: {
-        template: "Weather: ${m}",
-      },
+      inputs: { text: "Weather: ${:llmCall.text}" },
       console: {
         after: true,
       },
-      inputs: { m: ":llmCall.text" },
     },
     messagesWithSecondRes: {
       // Appends the response to the messages.
@@ -149,13 +140,10 @@ export const graph_data = {
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
-      params: {
-        template: "Weather: ${m}",
-      },
+      inputs: { text: "Weather: ${:llmCall.text}" },
       console: {
         after: true,
       },
-      inputs: { m: ":llmCall.text" },
       if: ":llmCall.text",
     },
     messagesWithFirstRes: {
@@ -169,7 +157,7 @@ export const graph_data = {
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: { messages: ":messagesWithFirstRes", tool: ":llmCall.tool" },
+      inputs: { parent_messages: ":messagesWithFirstRes", parant_tool: ":llmCall.tool" },
       if: ":llmCall.tool",
       graph: graph_tool,
     },
