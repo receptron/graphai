@@ -80,13 +80,7 @@ const propBooleanFunction = (result, propId) => {
     }
     return undefined;
 };
-exports.propFunctions = [
-    propArrayFunction,
-    propObjectFunction,
-    propStringFunction,
-    propNumberFunction,
-    propBooleanFunction,
-];
+exports.propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
 const propFunction = (result, propId) => {
     if (Array.isArray(result)) {
         // flat, join
