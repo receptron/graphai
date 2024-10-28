@@ -1,9 +1,9 @@
-import { ResultData } from "@/type";
+import { PropFunction } from "@/type";
 import { isObject } from "./utils";
 
 export const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
 
-export const propFunction = (result: ResultData, propId: string) => {
+const propArrayFunction: PropFunction = (result, propId) => {
   if (Array.isArray(result)) {
     if (propId === "length()") {
       return result.length;
@@ -22,8 +22,12 @@ export const propFunction = (result: ResultData, propId: string) => {
     if (matchJoin && Array.isArray(matchJoin)) {
       return result.join(matchJoin[1] ?? "");
     }
-    // flat, join
-  } else if (isObject(result)) {
+  }
+  return undefined;
+};
+
+const propObjectFunction: PropFunction = (result, propId) => {
+  if (isObject(result)) {
     if (propId === "keys()") {
       return Object.keys(result);
     }
@@ -33,7 +37,12 @@ export const propFunction = (result: ResultData, propId: string) => {
     if (propId === "toJSON()") {
       return JSON.stringify(result);
     }
-  } else if (typeof result === "string") {
+  }
+  return undefined;
+};
+
+const propStringFunction: PropFunction = (result, propId) => {
+  if (typeof result === "string") {
     if (propId === "codeBlock()") {
       const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
       if (match) {
@@ -49,7 +58,11 @@ export const propFunction = (result: ResultData, propId: string) => {
         return ret;
       }
     }
-  } else if (result !== undefined && Number.isFinite(result)) {
+  }
+  return undefined;
+};
+const propNumberFunction: PropFunction = (result, propId) => {
+  if (result !== undefined && Number.isFinite(result)) {
     if (propId === "toString()") {
       return String(result);
     }
@@ -58,10 +71,38 @@ export const propFunction = (result: ResultData, propId: string) => {
     if (match) {
       return Number(result) + Number(match[1]);
     }
-  } else if (typeof result === "boolean") {
+  }
+  return undefined;
+};
+const propBooleanFunction: PropFunction = (result, propId) => {
+  if (typeof result === "boolean") {
     if (propId === "not()") {
       return !result;
     }
+  }
+  return undefined;
+};
+
+export const propFunctions = [
+  propArrayFunction,
+  propObjectFunction,
+  propStringFunction,
+  propNumberFunction,
+  propBooleanFunction,
+]
+
+export const propFunction: PropFunction = (result, propId) => {
+  if (Array.isArray(result)) {
+    // flat, join
+    return propArrayFunction(result, propId);
+  } else if (isObject(result)) {
+    return propObjectFunction(result, propId);
+  } else if (typeof result === "string") {
+    return propStringFunction(result, propId);
+  } else if (result !== undefined && Number.isFinite(result)) {
+    return propNumberFunction(result, propId);
+  } else if (typeof result === "boolean") {
+    return propBooleanFunction(result, propId);
   }
   return undefined;
 };

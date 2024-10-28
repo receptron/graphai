@@ -1,11 +1,16 @@
-import { ResultData, DataSource } from "@/type";
+import { ResultData, DataSource, PropFunction } from "@/type";
 import { isObject, isNull } from "./utils";
-import { propFunctionRegex, propFunction } from "./prop_function";
+import { propFunctionRegex } from "./prop_function";
 
-const getNestedData = (result: ResultData, propId: string) => {
+const getNestedData = (result: ResultData, propId: string, propFunctions: PropFunction[]) => {
   const match = propId.match(propFunctionRegex);
   if (match) {
-    return propFunction(result, propId);
+    for (const propFunction of propFunctions) {
+      const ret = propFunction(result, propId);
+      if (!isNull(ret)) {
+        return ret;
+      }
+    }
   }
 
   // for array.
@@ -28,24 +33,24 @@ const getNestedData = (result: ResultData, propId: string) => {
   return undefined;
 };
 
-const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined): ResultData | undefined => {
+const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined, propFunctions: PropFunction[]): ResultData | undefined => {
   if (!isNull(result) && propIds && propIds.length > 0) {
     const propId = propIds[0];
-    const ret = getNestedData(result, propId);
+    const ret = getNestedData(result, propId, propFunctions);
     if (ret === undefined) {
       console.error(`prop: ${propIds.join(".")} is not hit`);
     }
     if (propIds.length > 1) {
-      return innerGetDataFromSource(ret, propIds.slice(1));
+      return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
     }
     return ret;
   }
   return result;
 };
 
-export const getDataFromSource = (result: ResultData | undefined, source: DataSource): ResultData | undefined => {
+export const getDataFromSource = (result: ResultData | undefined, source: DataSource, propFunctions: PropFunction[]): ResultData | undefined => {
   if (!source.nodeId) {
     return source.value;
   }
-  return innerGetDataFromSource(result, source.propIds);
+  return innerGetDataFromSource(result, source.propIds, propFunctions);
 };

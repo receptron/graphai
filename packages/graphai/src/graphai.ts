@@ -8,17 +8,19 @@ import {
   ResultData,
   DefaultResultData,
   GraphOptions,
+  PropFunction,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode, GraphNodes } from "@/node";
+
+import { resultsOf, resultOf, cleanResult } from "@/utils/result";
+import { propFunctions } from "@/utils/prop_function";
 import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
 import { getDataFromSource } from "@/utils/data_source";
 
 import { validateGraphData } from "@/validator";
-import { TaskManager } from "./task_manager";
-
-import { resultsOf, resultOf, cleanResult } from "@/utils/result";
+import { TaskManager } from "@/task_manager";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -35,7 +37,8 @@ export class GraphAI {
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
   public readonly retryLimit?: number;
-
+  private readonly propFunctions: PropFunction[];
+  
   public nodes: GraphNodes;
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   public verbose: boolean; // REVIEW: Do we need this?
@@ -75,7 +78,7 @@ export class GraphAI {
   }
 
   private getValueFromResults(source: DataSource, results: ResultDataDictionary<DefaultResultData>) {
-    return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source);
+    return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source, this.propFunctions);
   }
 
   // for static
@@ -137,6 +140,7 @@ export class GraphAI {
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
     this.data = data;
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
+    this.propFunctions = propFunctions;
     this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
     this.bypassAgentIds = options.bypassAgentIds ?? [];
@@ -336,13 +340,13 @@ export class GraphAI {
   }
 
   public resultsOf(inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
-    const results = resultsOf(inputs ?? [], this.nodes);
+    const results = resultsOf(inputs ?? [], this.nodes, this.propFunctions);
     if (anyInput) {
       return cleanResult(results);
     }
     return results;
   }
   public resultOf(source: DataSource) {
-    return resultOf(source, this.nodes);
+    return resultOf(source, this.nodes, this.propFunctions);
   }
 }
