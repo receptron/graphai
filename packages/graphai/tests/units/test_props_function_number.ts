@@ -1,4 +1,5 @@
 import { parseNodeName } from "@/utils/utils";
+import { propFunction } from "@/utils/prop_function";
 import { getDataFromSource } from "@/utils/data_source";
 
 import test from "node:test";
@@ -13,6 +14,6 @@ test("test getDataFromSource number", async () => {
   const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "toString()"] });
 
-  const res = getDataFromSource(result, source);
+  const res = getDataFromSource(result, source, propFunction);
   assert.deepStrictEqual(res, data);
 });

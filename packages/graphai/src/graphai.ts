@@ -12,13 +12,14 @@ import {
 import { TransactionLog } from "@/transaction_log";
 
 import { ComputedNode, StaticNode, GraphNodes } from "@/node";
+
+import { resultsOf, resultOf, cleanResult } from "@/utils/result";
+import { propFunction } from "@/utils/prop_function";
 import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
 import { getDataFromSource } from "@/utils/data_source";
 
 import { validateGraphData } from "@/validator";
-import { TaskManager } from "./task_manager";
-
-import { resultsOf, resultOf, cleanResult } from "@/utils/result";
+import { TaskManager } from "@/task_manager";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -75,7 +76,7 @@ export class GraphAI {
   }
 
   private getValueFromResults(source: DataSource, results: ResultDataDictionary<DefaultResultData>) {
-    return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source);
+    return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source, propFunction);
   }
 
   // for static
@@ -336,13 +337,13 @@ export class GraphAI {
   }
 
   public resultsOf(inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
-    const results = resultsOf(inputs ?? [], this.nodes);
+    const results = resultsOf(inputs ?? [], this.nodes, propFunction);
     if (anyInput) {
       return cleanResult(results);
     }
     return results;
   }
   public resultOf(source: DataSource) {
-    return resultOf(source, this.nodes);
+    return resultOf(source, this.nodes, propFunction);
   }
 }

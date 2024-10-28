@@ -1,9 +1,9 @@
-import { ResultData } from "@/type";
+import { PropFunction } from "@/type";
 import { isObject } from "./utils";
 
 export const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
 
-export const propFunction = (result: ResultData, propId: string) => {
+export const propFunction: PropFunction = (result, propId) => {
   if (Array.isArray(result)) {
     if (propId === "length()") {
       return result.length;
