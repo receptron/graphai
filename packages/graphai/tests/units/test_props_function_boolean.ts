@@ -14,7 +14,7 @@ test("test getDataFromSource boolean not", async () => {
   const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "not()"] });
 
-  const res = getDataFromSource(result, source, propFunction);
+  const res = getDataFromSource(result, source, [propFunction]);
   assert.deepStrictEqual(res, data);
 });
 
@@ -26,6 +26,6 @@ test("test getDataFromSource boolean not", async () => {
   const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "not()"] });
 
-  const res = getDataFromSource(result, source, propFunction);
+  const res = getDataFromSource(result, source, [propFunction]);
   assert.deepStrictEqual(res, data);
 });

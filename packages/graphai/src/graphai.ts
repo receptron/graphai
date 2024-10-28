@@ -76,7 +76,7 @@ export class GraphAI {
   }
 
   private getValueFromResults(source: DataSource, results: ResultDataDictionary<DefaultResultData>) {
-    return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source, propFunction);
+    return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source, [propFunction]);
   }
 
   // for static
@@ -337,13 +337,13 @@ export class GraphAI {
   }
 
   public resultsOf(inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
-    const results = resultsOf(inputs ?? [], this.nodes, propFunction);
+    const results = resultsOf(inputs ?? [], this.nodes, [propFunction]);
     if (anyInput) {
       return cleanResult(results);
     }
     return results;
   }
   public resultOf(source: DataSource) {
-    return resultOf(source, this.nodes, propFunction);
+    return resultOf(source, this.nodes, [propFunction]);
   }
 }

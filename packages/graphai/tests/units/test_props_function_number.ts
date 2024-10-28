@@ -14,6 +14,6 @@ test("test getDataFromSource number", async () => {
   const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "toString()"] });
 
-  const res = getDataFromSource(result, source, propFunction);
+  const res = getDataFromSource(result, source, [propFunction]);
   assert.deepStrictEqual(res, data);
 });

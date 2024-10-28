@@ -73,21 +73,21 @@ const getComputedNode = (nodeId: string) => {
 
 test("test result", async () => {
   const node = getStaticNode("message", "123");
-  const result = resultsOf({ text: [":message"] }, { message: node }, propFunction);
+  const result = resultsOf({ text: [":message"] }, { message: node }, [propFunction]);
   assert.deepStrictEqual(result, { text: ["123"] });
 });
 
 test("test result for anyInput", async () => {
   const node1 = getStaticNode("message1", "123");
   const node2 = getStaticNode("message2");
-  const result = resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, propFunction);
+  const result = resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, [propFunction]);
   assert.deepStrictEqual(result, { text: ["123", undefined] });
 });
 
 test("test result for anyInput", async () => {
   const node1 = getStaticNode("message1", "123");
   const node2 = getStaticNode("message2");
-  const result = cleanResult(resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, propFunction));
+  const result = cleanResult(resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, [propFunction]));
   assert.deepStrictEqual(result, { text: ["123"] });
 });
 
@@ -95,6 +95,6 @@ test("test computed node result", async () => {
   const node1 = getComputedNode("message1");
   const node2 = getComputedNode("message2");
   await node1.execute();
-  const result = resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, propFunction);
+  const result = resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, [propFunction]);
   assert.deepStrictEqual(result, { text: [{ message: "hello" }, undefined] });
 });
