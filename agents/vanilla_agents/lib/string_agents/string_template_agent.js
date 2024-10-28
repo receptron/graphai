@@ -22,6 +22,9 @@ const processTemplate = (template, match, input) => {
 };
 const stringTemplateAgent = async ({ params, inputs, namedInputs }) => {
     if (params.template === undefined) {
+        if (namedInputs.text) {
+            return namedInputs.text;
+        }
         console.warn("warning: stringTemplateAgent no template");
     }
     if (inputs && inputs.length > 0) {
