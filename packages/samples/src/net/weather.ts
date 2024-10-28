@@ -76,8 +76,8 @@ const graph_tool = {
         array: ":messages",
         item: {
           role: "tool",
-          tool_call_id: ":tool_calls.$0.id",
-          name: ":tool_calls.$0.function.name",
+          tool_call_id: ":tool.id",
+          name: ":tool.name",
           content: ":responseText.array.$0",
         },
       },
@@ -169,7 +169,7 @@ export const graph_data = {
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: { tool_calls: ":llmCall.choices.$0.message.tool_calls", messages: ":messagesWithFirstRes", tool: ":llmCall.tool" },
+      inputs: { messages: ":messagesWithFirstRes", tool: ":llmCall.tool" },
       if: ":llmCall.tool",
       graph: graph_tool,
     },
@@ -183,7 +183,7 @@ export const graph_data = {
       // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
-      inputs: { array: [":no_tool_calls.result", ":tool_calls.messagesWithSecondRes"] },
+      inputs: { array: [":no_tool_calls.result", ":tool_calls.messages"] },
     },
   },
 };
