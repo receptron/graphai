@@ -27,9 +27,9 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion) => {
 
   const tool = functionResponse
     ? {
-      id: functionResponse.id,
-      name: functionResponse?.function?.name,
-      arguments: (() => {
+        id: functionResponse.id,
+        name: functionResponse?.function?.name,
+        arguments: (() => {
           try {
             return JSON.parse(functionResponse?.function?.arguments);
           } catch (__e) {
