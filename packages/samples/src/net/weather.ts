@@ -31,7 +31,7 @@ const graph_tool = {
     outputFetching: {
       // Displays the fetching message.
       agent: "stringTemplateAgent",
-      inputs: { text: "... fetching weather info: ${:parant_tool.arguments.latitude}, ${:parant_tool.arguments.longitude}" },
+      inputs: { text: "... fetching weather info: ${:parent_tool.arguments.latitude}, ${:parent_tool.arguments.longitude}" },
       console: {
         after: true,
       },
@@ -41,7 +41,7 @@ const graph_tool = {
       agent: "fetchAgent",
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
       inputs: {
-        url: "https://api.weather.gov/points/${:parant_tool.arguments.latitude},${:parant_tool.arguments.longitude}",
+        url: "https://api.weather.gov/points/${:parent_tool.arguments.latitude},${:parent_tool.arguments.longitude}",
         headers: { "User-Agent": "(receptron.org)" },
       },
     },
@@ -73,8 +73,8 @@ const graph_tool = {
         array: ":parent_messages",
         item: {
           role: "tool",
-          tool_call_id: ":parant_tool.id",
-          name: ":parant_tool.name",
+          tool_call_id: ":parent_tool.id",
+          name: ":parent_tool.name",
           content: ":responseText.array.$0",
         },
       },
@@ -160,7 +160,7 @@ export const graph_data = {
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: { parent_messages: ":messagesWithFirstRes", parant_tool: ":llmCall.tool" },
+      inputs: { parent_messages: ":messagesWithFirstRes", parent_tool: ":llmCall.tool" },
       if: ":llmCall.tool",
       graph: graph_tool,
     },
@@ -174,7 +174,7 @@ export const graph_data = {
       // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
-      inputs: { array: [":no_tool_calls.result", ":tool_calls.messages"] },
+      inputs: { array: [":no_tool_calls.result", ":tool_calls.messagesWithSecondRes"] },
     },
   },
 };
