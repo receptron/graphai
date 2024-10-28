@@ -124,3 +124,4 @@ export type AgentFunctionInfo = {
     npms?: string[];
 };
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
+export type PropFunction = (result: ResultData, propId: string) => ResultData;

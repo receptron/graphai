@@ -1,3 +1,4 @@
-import { ResultData } from "../type";
+import { PropFunction } from "../type";
 export declare const propFunctionRegex: RegExp;
-export declare const propFunction: (result: ResultData, propId: string) => any;
+export declare const propFunctions: PropFunction[];
+export declare const propFunction: PropFunction;

@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GraphAI = exports.graphDataLatestVersion = exports.defaultConcurrency = void 0;
 const node_1 = require("./node");
+const result_1 = require("./utils/result");
+const prop_function_1 = require("./utils/prop_function");
 const utils_1 = require("./utils/utils");
 const data_source_1 = require("./utils/data_source");
 const validator_1 = require("./validator");
 const task_manager_1 = require("./task_manager");
-const result_1 = require("./utils/result");
 exports.defaultConcurrency = 8;
 exports.graphDataLatestVersion = 0.5;
 class GraphAI {
@@ -43,7 +44,7 @@ class GraphAI {
         return nodes;
     }
     getValueFromResults(source, results) {
-        return (0, data_source_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source);
+        return (0, data_source_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source, this.propFunctions);
     }
     // for static
     initializeStaticNodes(enableConsoleLog = false) {
@@ -102,6 +103,7 @@ class GraphAI {
         this.graphId = URL.createObjectURL(new Blob()).slice(-36);
         this.data = data;
         this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
+        this.propFunctions = prop_function_1.propFunctions;
         this.taskManager = options.taskManager ?? new task_manager_1.TaskManager(data.concurrency ?? exports.defaultConcurrency);
         this.agentFilters = options.agentFilters ?? [];
         this.bypassAgentIds = options.bypassAgentIds ?? [];
@@ -276,14 +278,14 @@ class GraphAI {
         }
     }
     resultsOf(inputs, anyInput = false) {
-        const results = (0, result_1.resultsOf)(inputs ?? [], this.nodes);
+        const results = (0, result_1.resultsOf)(inputs ?? [], this.nodes, this.propFunctions);
         if (anyInput) {
             return (0, result_1.cleanResult)(results);
         }
         return results;
     }
     resultOf(source) {
-        return (0, result_1.resultOf)(source, this.nodes);
+        return (0, result_1.resultOf)(source, this.nodes, this.propFunctions);
     }
 }
 exports.GraphAI = GraphAI;

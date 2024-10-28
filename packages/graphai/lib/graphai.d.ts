@@ -16,6 +16,7 @@ export declare class GraphAI {
     readonly taskManager: TaskManager;
     readonly agentFilters: AgentFilterInfo[];
     readonly retryLimit?: number;
+    private readonly propFunctions;
     nodes: GraphNodes;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
     verbose: boolean;
