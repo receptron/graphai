@@ -32,23 +32,18 @@ const graph_tool = {
       // Displays the fetching message.
       agent: "stringTemplateAgent",
       params: {
-        template: "... fetching weather info: ${a.latitude}, ${a.longitude}",
+        template: "... fetching weather info: ${a}",
       },
       console: {
-        before: true,
         after: true,
       },
-      inputs: { a: ":tool.arguments" },
+      inputs: { a: "${:tool.arguments.latitude}, ${:tool.arguments.longitude}" },
     },
     fetchPoints: {
       // Fetches the "grid location" from the URL.
       agent: "fetchAgent",
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
       inputs: { url: "https://api.weather.gov/points/${:tool.arguments.latitude},${:tool.arguments.longitude}", headers: { "User-Agent": "(receptron.org)" } },
-      console: {
-        before: true,
-        after: true,
-      },
     },
     fetchForecast: {
       // Fetches the weather forecast for that location.
@@ -86,7 +81,7 @@ const graph_tool = {
           content: ":responseText.array.$0",
         },
       },
-      console: { after: true },
+      // console: { after: true },
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
