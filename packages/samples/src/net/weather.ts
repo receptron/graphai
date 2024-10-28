@@ -40,7 +40,10 @@ const graph_tool = {
       // Fetches the "grid location" from the URL.
       agent: "fetchAgent",
       // Builds a URL to fetch the "grid location" from the spcified latitude and longitude
-      inputs: { url: "https://api.weather.gov/points/${:parant_tool.arguments.latitude},${:parant_tool.arguments.longitude}", headers: { "User-Agent": "(receptron.org)" } },
+      inputs: {
+        url: "https://api.weather.gov/points/${:parant_tool.arguments.latitude},${:parant_tool.arguments.longitude}",
+        headers: { "User-Agent": "(receptron.org)" },
+      },
     },
     fetchForecast: {
       // Fetches the weather forecast for that location.
