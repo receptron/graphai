@@ -38,7 +38,7 @@ export class GraphAI {
   public readonly agentFilters: AgentFilterInfo[];
   public readonly retryLimit?: number;
   private readonly propFunctions: PropFunction[];
-  
+
   public nodes: GraphNodes;
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   public verbose: boolean; // REVIEW: Do we need this?

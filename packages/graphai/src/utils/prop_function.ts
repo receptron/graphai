@@ -83,13 +83,7 @@ const propBooleanFunction: PropFunction = (result, propId) => {
   return undefined;
 };
 
-export const propFunctions = [
-  propArrayFunction,
-  propObjectFunction,
-  propStringFunction,
-  propNumberFunction,
-  propBooleanFunction,
-]
+export const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
 
 export const propFunction: PropFunction = (result, propId) => {
   if (Array.isArray(result)) {
