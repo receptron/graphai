@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GraphAI = exports.graphDataLatestVersion = exports.defaultConcurrency = void 0;
 const node_1 = require("./node");
 const utils_1 = require("./utils/utils");
+const data_source_1 = require("./utils/data_source");
 const validator_1 = require("./validator");
 const task_manager_1 = require("./task_manager");
-const result_1 = require("./result");
+const result_1 = require("./utils/result");
 exports.defaultConcurrency = 8;
 exports.graphDataLatestVersion = 0.5;
 class GraphAI {
@@ -42,7 +43,7 @@ class GraphAI {
         return nodes;
     }
     getValueFromResults(source, results) {
-        return (0, utils_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source);
+        return (0, data_source_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source);
     }
     // for static
     initializeStaticNodes(enableConsoleLog = false) {

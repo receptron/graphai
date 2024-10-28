@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.getDataFromSource = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
+exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
 exports.assert = assert;
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -38,107 +38,6 @@ const isNull = (data) => {
     return data === null || data === undefined;
 };
 exports.isNull = isNull;
-const getNestedData = (result, propId) => {
-    // for array.
-    if (Array.isArray(result)) {
-        // $0, $1. array value.
-        const regex = /^\$(\d+)$/;
-        const match = propId.match(regex);
-        if (match) {
-            const index = parseInt(match[1], 10);
-            return result[index];
-        }
-        if (propId === "$last") {
-            return result[result.length - 1];
-        }
-        if (propId === "length()") {
-            return result.length;
-        }
-        if (propId === "flat()") {
-            return result.flat();
-        }
-        if (propId === "toJSON()") {
-            return JSON.stringify(result);
-        }
-        if (propId === "isEmpty()") {
-            return result.length === 0;
-        }
-        // array join
-        const matchJoin = propId.match(/^join\(([,-]?)\)$/);
-        if (matchJoin && Array.isArray(matchJoin)) {
-            return result.join(matchJoin[1] ?? "");
-        }
-        // flat, join
-    }
-    else if ((0, exports.isObject)(result)) {
-        if (propId === "keys()") {
-            return Object.keys(result);
-        }
-        if (propId === "values()") {
-            return Object.values(result);
-        }
-        if (propId === "toJSON()") {
-            return JSON.stringify(result);
-        }
-        if (propId in result) {
-            return result[propId];
-        }
-    }
-    else if (typeof result === "string") {
-        if (propId === "codeBlock()") {
-            const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
-            if (match) {
-                return match[1];
-            }
-        }
-        if (propId === "jsonParse()") {
-            return JSON.parse(result);
-        }
-        if (propId === "toNumber()") {
-            const ret = Number(result);
-            if (!isNaN(ret)) {
-                return ret;
-            }
-        }
-    }
-    else if (result !== undefined && Number.isFinite(result)) {
-        if (propId === "toString()") {
-            return String(result);
-        }
-        const regex = /^add\((-?\d+)\)$/;
-        const match = propId.match(regex);
-        if (match) {
-            return Number(result) + Number(match[1]);
-        }
-    }
-    else if (typeof result === "boolean") {
-        if (propId === "not()") {
-            return !result;
-        }
-    }
-    return undefined;
-};
-const innerGetDataFromSource = (result, propIds) => {
-    if (!(0, exports.isNull)(result) && propIds && propIds.length > 0) {
-        const propId = propIds[0];
-        const ret = getNestedData(result, propId);
-        if (ret === undefined) {
-            console.error(`prop: ${propIds.join(".")} is not hit`);
-        }
-        if (propIds.length > 1) {
-            return innerGetDataFromSource(ret, propIds.slice(1));
-        }
-        return ret;
-    }
-    return result;
-};
-const getDataFromSource = (result, source) => {
-    if (!source.nodeId) {
-        return source.value;
-    }
-    return innerGetDataFromSource(result, source.propIds);
-};
-exports.getDataFromSource = getDataFromSource;
 exports.strIntentionalError = "Intentional Error for Debugging";
 exports.defaultAgentInfo = {
     name: "defaultAgentInfo",

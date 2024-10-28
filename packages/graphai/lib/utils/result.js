@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
-const utils_1 = require("./utils/utils");
+const utils_1 = require("../utils/utils");
+const data_source_1 = require("../utils/data_source");
 const resultsOfInner = (input, nodes) => {
     if (Array.isArray(input)) {
         return input.map((inp) => resultsOfInner(inp, nodes));
@@ -37,7 +38,7 @@ const resultsOf = (inputs, nodes) => {
 exports.resultsOf = resultsOf;
 const resultOf = (source, nodes) => {
     const { result } = source.nodeId ? nodes[source.nodeId] : { result: undefined };
-    return (0, utils_1.getDataFromSource)(result, source);
+    return (0, data_source_1.getDataFromSource)(result, source);
 };
 exports.resultOf = resultOf;
 // clean up object for anyInput
