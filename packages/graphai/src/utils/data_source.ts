@@ -10,7 +10,7 @@ const getNestedData = (result: ResultData, propId: string, propFunctions: PropFu
       if (!isNull(ret)) {
         return ret;
       }
-    };
+    }
   }
 
   // for array.
