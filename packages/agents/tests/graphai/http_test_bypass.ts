@@ -5,11 +5,11 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const httpAgent: AgentFunction = async ({ inputs, params }) => {
+const httpAgent: AgentFunction = async ({ inputs, params, namedInputs }) => {
   const { agent, params: postParams } = params;
   const url = "http://localhost:8085/agents/" + agent;
 
-  const postData = { inputs, params: postParams };
+  const postData = { inputs, params: postParams, namedInputs };
 
   const response = await fetch(url, {
     method: "post",
@@ -22,7 +22,7 @@ const httpAgent: AgentFunction = async ({ inputs, params }) => {
   return result;
 };
 
-test("test bypass1", async () => {
+test("test copy1", async () => {
   const graph_data = {
     version: 0.5,
     nodes: {
@@ -35,34 +35,30 @@ test("test bypass1", async () => {
           },
         },
       },
-      bypassAgent: {
+      copyAgent: {
         agent: "httpAgent",
-        inputs: [":echo"],
+        inputs: { message: ":echo.message" },
         params: {
-          agent: "bypassAgent",
+          agent: "copyAgent",
         },
       },
-      bypassAgent2: {
+      copyAgent2: {
         agent: "httpAgent",
-        inputs: [":bypassAgent.$0"],
+        inputs: { message: ":copyAgent.message" },
         params: {
-          agent: "bypassAgent",
+          agent: "copyAgent",
         },
       },
     },
   };
   const result = await graphDataTestRunner(__dirname, __filename, graph_data, { httpAgent: agentInfoWrapper(httpAgent) });
   assert.deepStrictEqual(result, {
-    bypassAgent2: [
-      {
-        message: "hello",
-      },
-    ],
-    bypassAgent: [
-      {
-        message: "hello",
-      },
-    ],
+    copyAgent2: {
+      message: "hello",
+    },
+    copyAgent: {
+      message: "hello",
+    },
     echo: {
       message: "hello",
     },
@@ -70,7 +66,7 @@ test("test bypass1", async () => {
   // console.log("COMPLETE 1");
 });
 
-test("test bypass2", async () => {
+test("test copy2", async () => {
   const graph_data = {
     version: 0.5,
     nodes: {
@@ -92,40 +88,60 @@ test("test bypass2", async () => {
         graph: {
           version: 0.5,
           nodes: {
-            bypassAgent: {
+            copyAgent: {
               agent: "httpAgent",
               params: {
-                agent: "bypassAgent",
+                agent: "copyAgent",
                 params: {
                   firstElement: true,
                 },
               },
-              inputs: [":row"],
+              inputs: { row: ":row" },
               isResult: true,
             },
           },
         },
       },
-      bypassAgent2: {
+      copyAgent2: {
         agent: "httpAgent",
         params: {
-          agent: "bypassAgent",
+          agent: "copyAgent",
         },
-        inputs: [":mapNode.bypassAgent"],
+        inputs: { rows: ":mapNode.copyAgent" },
       },
     },
   };
   const result = await graphDataTestRunner(__dirname, __filename, graph_data, { httpAgent: agentInfoWrapper(httpAgent) });
-  // console.log(result);
+  // console.log(JSON.stringify(result, null, 2));
   assert.deepStrictEqual(result, {
-    echo: { message: ["hello", "hello"] },
-    mapNode: { bypassAgent: ["hello", "hello"] },
-    bypassAgent2: [["hello", "hello"]],
+    echo: {
+      message: ["hello", "hello"],
+    },
+    mapNode: {
+      copyAgent: [
+        {
+          row: "hello",
+        },
+        {
+          row: "hello",
+        },
+      ],
+    },
+    copyAgent2: {
+      rows: [
+        {
+          row: "hello",
+        },
+        {
+          row: "hello",
+        },
+      ],
+    },
   });
   // console.log("COMPLETE 1");
 });
 
-test("test bypass3", async () => {
+test("test copy3", async () => {
   const graph_data = {
     version: 0.5,
     nodes: {
@@ -147,57 +163,53 @@ test("test bypass3", async () => {
         graph: {
           version: 0.5,
           nodes: {
-            bypassAgent: {
+            copyAgent: {
               agent: "httpAgent",
               params: {
-                agent: "bypassAgent",
+                agent: "copyAgent",
               },
-              inputs: [":row"],
+              inputs: { item: ":row" },
             },
-            bypassAgent2: {
+            copyAgent2: {
               agent: "httpAgent",
               params: {
-                agent: "bypassAgent",
+                agent: "copyAgent",
               },
-              inputs: [":bypassAgent.$0"],
+              inputs: { item: ":copyAgent.item" },
             },
-            bypassAgent3: {
+            copyAgent3: {
               agent: "httpAgent",
               params: {
-                agent: "bypassAgent",
-                params: {
-                  firstElement: true,
-                },
+                agent: "copyAgent",
               },
-              inputs: [":bypassAgent2.$0"],
+              inputs: { item: ":copyAgent2.item" },
               isResult: true,
             },
           },
         },
       },
-      bypassAgent4: {
+      copyAgent4: {
         agent: "httpAgent",
         params: {
-          agent: "bypassAgent",
-          params: {
-            firstElement: true,
-          },
+          agent: "copyAgent",
         },
-        inputs: [":mapNode.bypassAgent3"],
+        inputs: { data: ":mapNode.copyAgent3" },
       },
     },
   };
-  const result = await graphDataTestRunner(__dirname, "http_test_bypass_3", graph_data, { httpAgent: agentInfoWrapper(httpAgent) });
+  const result = await graphDataTestRunner(__dirname, "http_test_copy_3", graph_data, { httpAgent: agentInfoWrapper(httpAgent) });
   // console.log(result);
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
-    mapNode: { bypassAgent3: ["hello", "hello"] },
-    bypassAgent4: ["hello", "hello"],
+    mapNode: { copyAgent3: [{ item: "hello" }, { item: "hello" }] },
+    copyAgent4: {
+      data: [{ item: "hello" }, { item: "hello" }],
+    },
   });
   // console.log("COMPLETE 1");
 });
 
-test("test bypass4", async () => {
+test("test copy4", async () => {
   const graph_data = {
     version: 0.5,
     nodes: {
@@ -222,31 +234,30 @@ test("test bypass4", async () => {
             memory: {
               value: {},
             },
-            bypassAgent: {
+            copyAgent: {
               agent: "httpAgent",
               params: {
-                agent: "bypassAgent",
+                agent: "copyAgent",
               },
-              inputs: [":row"],
+              inputs: { row: ":row" },
             },
-            bypassAgent2: {
+            copyAgent2: {
               agent: "httpAgent",
               params: {
-                agent: "bypassAgent",
+                agent: "copyAgent",
               },
-              inputs: [":bypassAgent.$0", ":row"],
+              inputs: { a: ":copyAgent.row", b: ":row" },
               isResult: true,
             },
           },
         },
       },
-      bypassAgent3: {
+      copyAgent3: {
         agent: "httpAgent",
         params: {
-          agent: "bypassAgent",
-          firstElement: true,
+          agent: "copyAgent",
         },
-        inputs: [":mapNode.bypassAgent2"],
+        inputs: { data: ":mapNode.copyAgent2" },
       },
     },
   };
@@ -254,17 +265,17 @@ test("test bypass4", async () => {
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
     mapNode: {
-      bypassAgent2: [
-        ["hello", "hello"],
-        ["hello", "hello"],
+      copyAgent2: [
+        { a: "hello", b: "hello" },
+        { a: "hello", b: "hello" },
       ],
     },
-    bypassAgent3: [
-      [
-        ["hello", "hello"],
-        ["hello", "hello"],
+    copyAgent3: {
+      data: [
+        { a: "hello", b: "hello" },
+        { a: "hello", b: "hello" },
       ],
-    ],
+    },
   });
   // console.log("COMPLETE 1");
 });
