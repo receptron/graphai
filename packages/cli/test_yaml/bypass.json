@@ -7,16 +7,16 @@
         "message": "hello"
       }
     },
-    "bypassAgent": {
-      "agent": "bypassAgent",
+    "copyAgent": {
+      "agent": "copyAgent",
       "params": { "namedKey": "item" },
       "inputs": { "item": [":echo"] }
     },
-    "bypassAgent2": {
-      "agent": "bypassAgent",
+    "copyAgent2": {
+      "agent": "copyAgent",
       "isResult": true,
       "params": { "namedKey": "item" },
-      "inputs": { "item": [":bypassAgent"] }
+      "inputs": { "item": [":copyAgent"] }
     }
   }
 }

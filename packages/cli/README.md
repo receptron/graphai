@@ -45,7 +45,6 @@ graphai -l
 Available Agents
 * anthropicAgent - Anthropic Agent
 * arrayFlatAgent - Array Flat Agent
-* bypassAgent - bypass agent
 * copy2ArrayAgent - Copy2Array agent
 * copyAgent - Returns inputs[0]
 * copyMessageAgent - CopyMessage agent
