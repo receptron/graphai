@@ -14,15 +14,15 @@ const graph_data = {
         message: "hello",
       },
     },
-    bypassAgent: {
-      agent: "bypassAgent",
+    copyAgent: {
+      agent: "copyAgent",
       params: { namedKey: "item" },
       inputs: { item: [":echo"] },
     },
-    bypassAgent2: {
-      agent: "bypassAgent",
+    copyAgent2: {
+      agent: "copyAgent",
       params: { namedKey: "item" },
-      inputs: { item: [":bypassAgent"] },
+      inputs: { item: [":copyAgent"] },
     },
   },
 };
@@ -33,14 +33,14 @@ const graph_injection_data = {
     echo: {
       agent: "echoAgent",
     },
-    bypassAgent: {
+    copyAgent: {
       agent: "injectAgent",
       inputs: { item: [":echo"] },
     },
-    bypassAgent2: {
-      agent: "bypassAgent",
+    copyAgent2: {
+      agent: "copyAgent",
       params: { namedKey: "item" },
-      inputs: { item: [":bypassAgent"] },
+      inputs: { item: [":copyAgent"] },
     },
   },
 };
@@ -48,12 +48,12 @@ const graph_injection_data = {
 test("test graph", async () => {
   const graph = new GraphAI(graph_data, agents);
   const asString = graph.asString();
-  assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
+  assert.deepStrictEqual(asString, ["echo: waiting copyAgent", "copyAgent: waiting copyAgent2", "copyAgent2: waiting "].join("\n"));
 
   const beforeResult = graph.results(true);
   assert.deepStrictEqual(beforeResult, {});
 
-  const beforeResultOf = graph.resultOf({ nodeId: "bypassAgent" });
+  const beforeResultOf = graph.resultOf({ nodeId: "copyAgent" });
   assert.deepStrictEqual(beforeResultOf, undefined);
 
   await graph.run(true);
@@ -61,11 +61,11 @@ test("test graph", async () => {
   const afterResult = graph.results(true);
   assert.deepStrictEqual(afterResult, {
     echo: { message: "hello" },
-    bypassAgent: [{ message: "hello" }],
-    bypassAgent2: [[{ message: "hello" }]],
+    copyAgent: [{ message: "hello" }],
+    copyAgent2: [[{ message: "hello" }]],
   });
 
-  const afterResultOf = graph.resultOf({ nodeId: "bypassAgent" });
+  const afterResultOf = graph.resultOf({ nodeId: "copyAgent" });
   assert.deepStrictEqual(afterResultOf, [{ message: "hello" }]);
 });
 
@@ -99,12 +99,12 @@ test("test injection", async () => {
 
   const graph = new GraphAI(graph_injection_data, { ...agents, injectAgent });
   const asString = graph.asString();
-  assert.deepStrictEqual(asString, ["echo: waiting bypassAgent", "bypassAgent: waiting bypassAgent2", "bypassAgent2: waiting "].join("\n"));
+  assert.deepStrictEqual(asString, ["echo: waiting copyAgent", "copyAgent: waiting copyAgent2", "copyAgent2: waiting "].join("\n"));
 
   const beforeResult = graph.results(true);
   assert.deepStrictEqual(beforeResult, {});
 
-  const beforeResultOf = graph.resultOf({ nodeId: "bypassAgent" });
+  const beforeResultOf = graph.resultOf({ nodeId: "copyAgent" });
   assert.deepStrictEqual(beforeResultOf, undefined);
 
   (async () => {
@@ -113,11 +113,11 @@ test("test injection", async () => {
     const afterResult = graph.results(true);
     assert.deepStrictEqual(afterResult, {
       echo: {},
-      bypassAgent: { message: "inject" },
-      bypassAgent2: [{ message: "inject" }],
+      copyAgent: { message: "inject" },
+      copyAgent2: [{ message: "inject" }],
     });
 
-    const afterResultOf = graph.resultOf({ nodeId: "bypassAgent" });
+    const afterResultOf = graph.resultOf({ nodeId: "copyAgent" });
     assert.deepStrictEqual(afterResultOf, { message: "inject" });
   })();
 
