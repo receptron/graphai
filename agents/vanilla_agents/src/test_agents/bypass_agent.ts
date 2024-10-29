@@ -6,6 +6,7 @@ export const bypassAgent: AgentFunction<{
   firstElement?: boolean;
   namedKey?: string;
 }> = async ({ params, inputs, namedInputs }) => {
+  console.warn(`bypassAgent have been deprecated. replace bypassAgent to copyAgent`);
   const { flat, firstElement, namedKey } = params;
   if (isNamedInputs(namedInputs)) {
     if (namedKey) {
