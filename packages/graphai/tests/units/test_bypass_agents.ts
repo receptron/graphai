@@ -14,13 +14,13 @@ test("test graph", async () => {
     {},
     {
       agentFilters: [{ name: "", agent }],
-      bypassAgentIds: ["echoAgent", "bypassAgent"],
+      bypassAgentIds: ["echoAgent", "copyAgent"],
     },
   );
   const ret = await graph.run(true);
   assert.deepStrictEqual(ret, {
     echo: { message: "agentFilter" },
-    bypassAgent: { message: "agentFilter" },
-    bypassAgent2: { message: "agentFilter" },
+    copyAgent: { message: "agentFilter" },
+    copyAgent2: { message: "agentFilter" },
   });
 });

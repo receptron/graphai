@@ -20,8 +20,8 @@ test("test filterParams on agent filter", async () => {
           filterParams: true,
         },
       },
-      bypassAgent: {
-        agent: "bypassAgent",
+      copyAgent: {
+        agent: "copyAgent",
         params: { namedKey: "text" },
         inputs: { text: [":echo"] },
         isResult: true,
@@ -46,7 +46,7 @@ test("test filterParams on agent filter", async () => {
 
   const result = await graph.run();
   // console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, { bypassAgent: [{ agentServer: { baseUrl: "http://localhost:8085/agentFilters/", stream: true } }] });
+  assert.deepStrictEqual(result, { copyAgent: [{ agentServer: { baseUrl: "http://localhost:8085/agentFilters/", stream: true } }] });
 });
 
 test("test filterParams on node", async () => {
@@ -64,8 +64,8 @@ test("test filterParams on node", async () => {
           },
         },
       },
-      bypassAgent: {
-        agent: "bypassAgent",
+      copyAgent: {
+        agent: "copyAgent",
         params: { namedKey: "text" },
         inputs: { text: [":echo"] },
         isResult: true,
@@ -84,7 +84,7 @@ test("test filterParams on node", async () => {
 
   const result = await graph.run();
   // console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, { bypassAgent: [{ agentServer: { baseUrl: "http://localhost:8081/nodeParameter/" } }] });
+  assert.deepStrictEqual(result, { copyAgent: [{ agentServer: { baseUrl: "http://localhost:8081/nodeParameter/" } }] });
 });
 
 test("test filterParams on agent filter and node. Then node.ts use filterParams on node", async () => {
@@ -102,8 +102,8 @@ test("test filterParams on agent filter and node. Then node.ts use filterParams 
           },
         },
       },
-      bypassAgent: {
-        agent: "bypassAgent",
+      copyAgent: {
+        agent: "copyAgent",
         params: { namedKey: "text" },
         inputs: { text: [":echo"] },
         isResult: true,
@@ -128,7 +128,7 @@ test("test filterParams on agent filter and node. Then node.ts use filterParams 
 
   const result = await graph.run();
   console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, { bypassAgent: [{ agentServer: { baseUrl: "http://localhost:8081/nodeParameter/" } }] });
+  assert.deepStrictEqual(result, { copyAgent: [{ agentServer: { baseUrl: "http://localhost:8081/nodeParameter/" } }] });
 });
 
 test("test filterParams on each agent", async () => {
@@ -157,8 +157,8 @@ test("test filterParams on each agent", async () => {
           },
         },
       },
-      bypassAgent: {
-        agent: "bypassAgent",
+      copyAgent: {
+        agent: "copyAgent",
         params: { namedKey: "array" },
         inputs: { array: [":echo", ":echo2"] },
         isResult: true,
@@ -178,7 +178,7 @@ test("test filterParams on each agent", async () => {
   const result = await graph.run();
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
-    bypassAgent: [{ agentServer: { baseUrl: "http://localhost:8081/nodeParameter/" } }, { agentServer: { baseUrl: "http://localhost:8081/nodeParameter2/" } }],
+    copyAgent: [{ agentServer: { baseUrl: "http://localhost:8081/nodeParameter/" } }, { agentServer: { baseUrl: "http://localhost:8081/nodeParameter2/" } }],
   });
 });
 
@@ -192,8 +192,8 @@ test("test filterParams on agent filter", async () => {
           filterParams: true,
         },
       },
-      bypassAgent: {
-        agent: "bypassAgent",
+      copyAgent: {
+        agent: "copyAgent",
         params: { namedKey: "text" },
         inputs: { text: [":echo"] },
         isResult: true,
@@ -229,5 +229,5 @@ test("test filterParams on agent filter", async () => {
 
   const result = await graph.run();
   // console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, { bypassAgent: [{ agentServer: { baseUrl: "http://localhost:8085/agentFilters/", stream: true } }] });
+  assert.deepStrictEqual(result, { copyAgent: [{ agentServer: { baseUrl: "http://localhost:8085/agentFilters/", stream: true } }] });
 });

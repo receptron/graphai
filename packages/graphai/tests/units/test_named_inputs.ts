@@ -81,7 +81,7 @@ const graph_data_any_named_inputs = {
       value: [1, 1],
     },
     reducer: {
-      agent: "bypassAgent",
+      agent: "copyAgent",
       anyInput: true,
       isResult: true,
       inputs: {
@@ -101,7 +101,7 @@ const graph_data_any_named_inputs2 = {
       value: [1, 1],
     },
     reducer: {
-      agent: "bypassAgent",
+      agent: "copyAgent",
       anyInput: true,
       isResult: true,
       inputs: {

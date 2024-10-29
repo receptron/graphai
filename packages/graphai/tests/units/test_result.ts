@@ -28,16 +28,16 @@ export const graph_data = {
       params: {
         message: "hello",
       },
-      inputs: { test: [":data1", ":bypassAgent"] },
+      inputs: { test: [":data1", ":copyAgent"] },
       anyInput: true,
     },
-    bypassAgent: {
-      agent: "bypassAgent",
+    copyAgent: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
       inputs: { text: ":message1" },
     },
-    bypassAgent2: {
-      agent: "bypassAgent",
+    copyAgent2: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
       inputs: { text: ":message2" },
     },
