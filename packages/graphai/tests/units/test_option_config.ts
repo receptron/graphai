@@ -42,8 +42,8 @@ const nested_graph_data = {
       graph: {
         version: 0.5,
         nodes: {
-          bypass: {
-            agent: "bypassAgent",
+          copy: {
+            agent: "copyAgent",
             params: { namedKey: "text" },
             inputs: { text: [":message"] },
             isResult: true,
@@ -73,7 +73,7 @@ test("test graphai nested config option", async () => {
   const result = await graph.run();
   assert.deepStrictEqual(result, {
     nested: {
-      bypass: ["Hello World"],
+      copy: ["Hello World"],
       test: { message: "hello config" },
     },
     result: {},

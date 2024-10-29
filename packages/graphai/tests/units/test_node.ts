@@ -8,7 +8,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 test("test static node injection", async () => {
-  const graph = new GraphAI(graph_data, {}, { bypassAgentIds: ["echoAgent", "bypassAgent"] });
+  const graph = new GraphAI(graph_data, {}, { bypassAgentIds: ["echoAgent", "copyAgent"] });
   const nodeId = "nodeId";
   const node = new StaticNode(nodeId, { value: { data: "123" } }, graph);
   assert.deepStrictEqual(node.value, { data: "123" });

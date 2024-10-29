@@ -52,8 +52,8 @@ test("test nested agent filter", async () => {
                 filterParams: true,
               },
             },
-            bypassAgent: {
-              agent: "bypassAgent",
+            copyAgent: {
+              agent: "copyAgent",
               params: { namedKey: "text" },
               inputs: { text: [":echo"] },
               isResult: true,
@@ -68,7 +68,7 @@ test("test nested agent filter", async () => {
   const graph = new GraphAI({ ...graph_data }, { ...agents }, { agentFilters });
   const result = await graph.run();
   // console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, { nested1: { bypassAgent: [{ simple: ["1", "2"] }] } });
+  assert.deepStrictEqual(result, { nested1: { copyAgent: [{ simple: ["1", "2"] }] } });
 });
 
 test("test map agent filter", async () => {
@@ -91,8 +91,8 @@ test("test map agent filter", async () => {
                 filterParams: true,
               },
             },
-            bypassAgent: {
-              agent: "bypassAgent",
+            copyAgent: {
+              agent: "copyAgent",
               params: { namedKey: "text" },
               inputs: { text: [":echo"] },
               isResult: true,
@@ -107,5 +107,5 @@ test("test map agent filter", async () => {
   const graph = new GraphAI({ ...graph_data }, { ...agents }, { agentFilters });
   const result = await graph.run();
   // console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, { nested1: { bypassAgent: [[{ simple: ["1", "2"] }], [{ simple: ["1", "2"] }]] } });
+  assert.deepStrictEqual(result, { nested1: { copyAgent: [[{ simple: ["1", "2"] }], [{ simple: ["1", "2"] }]] } });
 });

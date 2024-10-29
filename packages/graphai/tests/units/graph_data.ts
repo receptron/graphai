@@ -9,15 +9,15 @@ export const graph_data = {
         message: "hello",
       },
     },
-    bypassAgent: {
-      agent: "bypassAgent",
+    copyAgent: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
       inputs: { text: ":echo" },
     },
-    bypassAgent2: {
-      agent: "bypassAgent",
+    copyAgent2: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
-      inputs: { text: ":bypassAgent" },
+      inputs: { text: ":copyAgent" },
     },
   },
 };
@@ -31,19 +31,19 @@ export const graph_data_passthrough = {
         message: "hello",
       },
     },
-    bypassAgent: {
+    copyAgent: {
       isResult: true,
-      agent: "bypassAgent",
+      agent: "copyAgent",
       params: { namedKey: "text" },
       inputs: { text: [":echo"] },
       passThrough: {
         type: "bypass1",
       },
     },
-    bypassAgent2: {
+    copyAgent2: {
       isResult: true,
-      agent: "bypassAgent",
-      inputs: { text: ":bypassAgent" },
+      agent: "copyAgent",
+      inputs: { text: ":copyAgent" },
       params: { namedKey: "text" },
       passThrough: {
         type: "bypass2",
@@ -61,18 +61,18 @@ export const graph_data_passthrough2 = {
         message: "hello",
       },
     },
-    bypassAgent: {
+    copyAgent: {
       isResult: true,
-      agent: "bypassNamedAgent",
+      agent: "copyAgent",
       inputs: { echo: ":echo" },
       passThrough: {
         type: "bypass1",
       },
     },
-    bypassAgent2: {
+    copyAgent2: {
       isResult: true,
-      agent: "bypassNamedAgent",
-      inputs: { bypass: ":bypassAgent" },
+      agent: "copyAgent",
+      inputs: { bypass: ":copyAgent" },
       passThrough: {
         type: "bypass2",
       },
