@@ -1,7 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "@/index";
-import { isNamedInputs } from "@graphai/agent_utils";
 
-export const copyAgent: AgentFunction<{ flat?: number; firstElement?: boolean; namedKey?: string }> = async ({ params, inputs, namedInputs }) => {
+export const copyAgent: AgentFunction<{ namedKey?: string }> = async ({ params, namedInputs }) => {
   const { namedKey } = params;
   if (namedKey) {
     return namedInputs[namedKey];
