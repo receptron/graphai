@@ -29,7 +29,7 @@ const graph_data = {
       params: {
         url: "http://127.0.0.1:8080/llm2.json",
       },
-      inputs: [":node1"],
+      inputs: { text: ":node1" },
       agent: "httpClientAgent",
     },
   },

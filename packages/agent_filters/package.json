@@ -12,7 +12,7 @@
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "doc": "echo nothing",
-    "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
+    "http_server": "npx ts-node -r tsconfig-paths/register tests/express/server.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {

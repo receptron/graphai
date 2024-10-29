@@ -7,7 +7,7 @@ import { AgentFunctionContext, AgentFunctionInfoDictionary } from "graphai";
 export const agentDispatcher = async (req: express.Request, res: express.Response) => {
   const { params } = req;
   const { agentId } = params; // from url
-  const { nodeId, retry, params: agentParams, inputs } = req.body; // post body
+  const { nodeId, retry, params: agentParams, inputs, namedInputs } = req.body; // post body
   const agentInfo = (agents as any)[agentId];
   const stream = agentParams?.stream || false;
 
@@ -17,8 +17,8 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
 
   const context = {
     params: agentParams || {},
-    inputs,
-    namedInputs: {},
+    inputs: inputs ?? [],
+    namedInputs: namedInputs ?? {},
     debugInfo: {
       nodeId,
       retry,
