@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bypassAgent = void 0;
 const agent_utils_1 = require("@graphai/agent_utils");
 const bypassAgent = async ({ params, inputs, namedInputs }) => {
+    console.warn(`bypassAgent have been deprecated. replace bypassAgent to copyAgent`);
     const { flat, firstElement, namedKey } = params;
     if ((0, agent_utils_1.isNamedInputs)(namedInputs)) {
         if (namedKey) {
