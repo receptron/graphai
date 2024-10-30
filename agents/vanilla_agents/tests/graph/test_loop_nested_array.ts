@@ -15,7 +15,7 @@ test("test nested loop & $0", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graphDataNested, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
-      reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+      reducer: {array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"]},
     },
   });
 });
@@ -33,7 +33,7 @@ test("test nested loop & injection", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graphDataNestedInjection, agents, () => {}, false);
   assert.deepStrictEqual(result, {
     parent: {
-      reducer: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
+      reducer: {array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"]},
     },
   });
 });

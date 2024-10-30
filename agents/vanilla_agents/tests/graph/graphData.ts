@@ -8,7 +8,7 @@ const graphdata_child = {
   nodes: {
     array: {
       value: [],
-      update: ":reducer",
+      update: ":reducer.array",
     },
     item: {
       agent: "sleepAndMergeAgent",
@@ -307,7 +307,7 @@ export const graphDataPush = {
   nodes: {
     array: {
       value: [],
-      update: ":reducer",
+      update: ":reducer.array",
     },
     item: {
       agent: "sleepAndMergeAgent",
@@ -336,7 +336,7 @@ export const graphDataPop = {
     },
     result: {
       value: [],
-      update: ":reducer",
+      update: ":reducer.array",
     },
     popper: {
       inputs: { array: ":source" },
@@ -368,7 +368,7 @@ export const graphDataNested = {
         nodes: {
           array: {
             value: [],
-            update: ":reducer",
+            update: ":reducer.array",
           },
           item: {
             agent: "sleepAndMergeAgent",
@@ -409,7 +409,7 @@ export const graphDataNestedPop = {
           },
           result: {
             value: [],
-            update: ":reducer",
+            update: ":reducer.array",
             isResult: true,
           },
           popper: {
@@ -443,7 +443,7 @@ export const graphDataNestedInjection = {
         nodes: {
           array: {
             value: [],
-            update: ":reducer",
+            update: ":reducer.array",
           },
           item: {
             agent: "sleepAndMergeAgent",
