@@ -99,7 +99,7 @@ const mapAgentInfo = {
             graph: {
                 nodes: {
                     test: {
-                        agent: "bypassAgent",
+                        agent: "copyAgent",
                         params: { namedKey: "rows" },
                         inputs: { rows: [":row"] },
                         isResult: true,
@@ -194,7 +194,7 @@ const mapAgentInfo = {
             graph: {
                 nodes: {
                     test: {
-                        agent: "bypassAgent",
+                        agent: "copyAgent",
                         params: { namedKey: "rows" },
                         inputs: { rows: [":row"] },
                     },
@@ -237,7 +237,7 @@ const mapAgentInfo = {
             graph: {
                 nodes: {
                     test: {
-                        agent: "bypassAgent",
+                        agent: "copyAgent",
                         params: { namedKey: "row" },
                         inputs: { row: ":row" },
                     },
@@ -248,7 +248,7 @@ const mapAgentInfo = {
                             nodes: {
                                 test: {
                                     isResult: true,
-                                    agent: "bypassAgent",
+                                    agent: "copyAgent",
                                     params: { namedKey: "row" },
                                     inputs: { row: ":row" },
                                 },
@@ -272,7 +272,7 @@ const mapAgentInfo = {
             graph: {
                 nodes: {
                     test: {
-                        agent: "bypassAgent",
+                        agent: "copyAgent",
                         params: { namedKey: "rows" },
                         inputs: { rows: [":row"] },
                         isResult: true,
@@ -318,7 +318,7 @@ const mapAgentInfo = {
             graph: {
                 nodes: {
                     test: {
-                        agent: "bypassAgent",
+                        agent: "copyAgent",
                         params: { namedKey: "rows" },
                         inputs: { rows: [":row"] },
                     },
@@ -348,7 +348,7 @@ const mapAgentInfo = {
             graph: {
                 nodes: {
                     test: {
-                        agent: "bypassAgent",
+                        agent: "copyAgent",
                         params: { namedKey: "rows" },
                         inputs: { rows: [":row"] },
                     },
@@ -362,7 +362,7 @@ const mapAgentInfo = {
                             nodes: {
                                 test: {
                                     isResult: true,
-                                    agent: "bypassAgent",
+                                    agent: "copyAgent",
                                     params: { namedKey: "rows" },
                                     inputs: { rows: [":row"] },
                                 },

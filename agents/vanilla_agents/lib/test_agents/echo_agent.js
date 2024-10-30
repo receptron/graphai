@@ -16,13 +16,13 @@ const echoAgentInfo = {
     samples: [
         {
             inputs: {},
-            params: { message: "this is test" },
-            result: { message: "this is test" },
+            params: { text: "this is test" },
+            result: { text: "this is test" },
         },
         {
             inputs: {},
             params: {
-                message: "If you add filterParams option, it will respond to filterParams",
+                text: "If you add filterParams option, it will respond to filterParams",
                 filterParams: true,
             },
             result: {},

@@ -70,7 +70,7 @@ const nestedAgentInfo = {
             graph: {
                 nodes: {
                     test: {
-                        agent: "bypassAgent",
+                        agent: "copyAgent",
                         params: { namedKey: "messages" },
                         inputs: { messages: [":message"] },
                         isResult: true,
