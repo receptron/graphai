@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
 
-export const pushAgent: AgentFunction<null, Array<unknown>, null, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({
+export const pushAgent: AgentFunction<null, { array: Array<unknown> }, null, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({
   namedInputs,
 }) => {
   assert(isNamedInputs(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
@@ -17,7 +17,9 @@ export const pushAgent: AgentFunction<null, Array<unknown>, null, { array: Array
       array.push(item);
     });
   }
-  return array;
+  return {
+    array,
+  };
 };
 
 const pushAgentInfo: AgentFunctionInfo = {
@@ -43,23 +45,28 @@ const pushAgentInfo: AgentFunctionInfo = {
     required: ["array"],
   },
   output: {
-    type: "array",
+    type: "object",
+    properties: {
+      array: {
+        type: "array",
+      },
+    },
   },
   samples: [
     {
       inputs: { array: [1, 2], item: 3 },
       params: {},
-      result: [1, 2, 3],
+      result: { array: [1, 2, 3] },
     },
     {
       inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
       params: {},
-      result: [{ apple: 1 }, { lemon: 2 }],
+      result: { array: [{ apple: 1 }, { lemon: 2 }] },
     },
     {
       inputs: { array: [{ apple: 1 }], items: [{ lemon: 2 }, { banana: 3 }] },
       params: {},
-      result: [{ apple: 1 }, { lemon: 2 }, { banana: 3 }],
+      result: { array: [{ apple: 1 }, { lemon: 2 }, { banana: 3 }] },
     },
   ],
   description: "push Agent",
