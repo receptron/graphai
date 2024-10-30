@@ -83,7 +83,7 @@ const graph_tool = {
     llmCall: {
       // Sends those messages to LLM to get the answer.
       agent: "openAIAgent",
-      inputs: { messages: ":messagesWithToolRes" },
+      inputs: { messages: ":messagesWithToolRes.array" },
     },
     output: {
       // Displays the response to the user.
@@ -96,7 +96,7 @@ const graph_tool = {
     messagesWithSecondRes: {
       // Appends the response to the messages.
       agent: "pushAgent",
-      inputs: { array: ":messagesWithToolRes", item: ":llmCall.message" },
+      inputs: { array: ":messagesWithToolRes.array", item: ":llmCall.message" },
       isResult: true,
     },
   },
@@ -160,7 +160,7 @@ export const graph_data = {
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: { parent_messages: ":messagesWithFirstRes", parent_tool: ":llmCall.tool" },
+      inputs: { parent_messages: ":messagesWithFirstRes.array", parent_tool: ":llmCall.tool" },
       if: ":llmCall.tool",
       graph: graph_tool,
     },
@@ -168,13 +168,13 @@ export const graph_data = {
       // This node is activated only if this is a normal response (not a tool call).
       agent: "copyAgent",
       unless: ":llmCall.tool",
-      inputs: { result: ":messagesWithFirstRes" },
+      inputs: { result: ":messagesWithFirstRes.array" },
     },
     reducer: {
       // Receives messages from either case.
       agent: "copyAgent",
       anyInput: true,
-      inputs: { array: [":no_tool_calls.result", ":tool_calls.messagesWithSecondRes"] },
+      inputs: { array: [":no_tool_calls.result", ":tool_calls.messagesWithSecondRes.array"] },
     },
   },
 };

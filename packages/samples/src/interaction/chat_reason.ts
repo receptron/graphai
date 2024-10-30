@@ -55,7 +55,7 @@ export const graph_data = {
     subGraph: {
       agent: "nestedAgent",
       inputs: {
-        messages: ":messages",
+        messages: ":messages.array",
       },
       graph: {
         loop: {
@@ -64,7 +64,7 @@ export const graph_data = {
         nodes: {
           messages: {
             value: [],
-            update: ":updatedMessages",
+            update: ":updatedMessages.array",
           },
           continue: {
             value: true,

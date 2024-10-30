@@ -52,7 +52,7 @@ const graph_data = {
           // This node accumurate asnwers for each question in the dataset.
           answers: {
             value: [],
-            update: ":reducer",
+            update: ":reducer.array",
             isResult: true,
           },
           // This node takes the first item from the array from node "$0".

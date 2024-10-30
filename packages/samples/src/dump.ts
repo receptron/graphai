@@ -15,7 +15,7 @@ const graph_data = {
     messages: {
       // Holds the conversation, the array of messages.
       value: [],
-      update: ":reducer",
+      update: ":reducer.array",
       isResult: true,
     },
     userInput: {
@@ -62,7 +62,7 @@ const graph_data = {
       params: {
         model: "Llama3-8b-8192",
       },
-      inputs: { messages: ":appendedMessages" },
+      inputs: { messages: ":appendedMessages.array" },
     },
     output: {
       // Displays the response to the user.

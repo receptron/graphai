@@ -17,7 +17,7 @@ export const graph_data = {
     messages: {
       // Holds the conversation, the array of messages.
       value: [],
-      update: ":reducer",
+      update: ":reducer.array",
       isResult: true,
     },
     userInput: {
