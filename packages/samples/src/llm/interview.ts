@@ -38,8 +38,14 @@ export const graph_data = {
       agent: "nestedAgent",
       inputs: {
         messages: [
-          { role: "system", content: ":context.person0.system" },
-          { role: "user", content: ":context.person1.greeting" },
+          {
+            role: "system",
+            content: ":context.person0.system",
+          },
+          {
+            role: "user",
+            content: ":context.person1.greeting",
+          },
         ],
         context: ":context",
       },
