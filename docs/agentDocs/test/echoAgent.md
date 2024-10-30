@@ -26,7 +26,7 @@ Echo agent
 
 [
   ":agentId",
-  ":agentId.message"
+  ":agentId.text"
 ]
 
 ````
@@ -54,7 +54,7 @@ Echo agent
 
 ```json
 
-{"message":"this is test"}
+{"text":"this is test"}
 
 ````
 
@@ -63,7 +63,7 @@ Echo agent
 ```json
 
 {
-  "message": "this is test"
+  "text": "this is test"
 }
 
 ````
@@ -81,7 +81,7 @@ Echo agent
 
 ```json
 
-{"message":"If you add filterParams option, it will respond to filterParams","filterParams":true}
+{"text":"If you add filterParams option, it will respond to filterParams","filterParams":true}
 
 ````
 
