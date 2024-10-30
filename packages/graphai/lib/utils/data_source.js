@@ -47,7 +47,7 @@ const innerGetDataFromSource = (result, propIds, propFunctions) => {
     }
     return result;
 };
-const getDataFromSource = (result, source, propFunctions) => {
+const getDataFromSource = (result, source, propFunctions = []) => {
     if (!source.nodeId) {
         return source.value;
     }

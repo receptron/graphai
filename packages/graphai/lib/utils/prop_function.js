@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.propFunction = exports.propFunctions = exports.propFunctionRegex = void 0;
+exports.propFunctions = exports.propFunctionRegex = void 0;
 const utils_1 = require("./utils");
 exports.propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
 const propArrayFunction = (result, propId) => {
@@ -81,23 +81,3 @@ const propBooleanFunction = (result, propId) => {
     return undefined;
 };
 exports.propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
-const propFunction = (result, propId) => {
-    if (Array.isArray(result)) {
-        // flat, join
-        return propArrayFunction(result, propId);
-    }
-    else if ((0, utils_1.isObject)(result)) {
-        return propObjectFunction(result, propId);
-    }
-    else if (typeof result === "string") {
-        return propStringFunction(result, propId);
-    }
-    else if (result !== undefined && Number.isFinite(result)) {
-        return propNumberFunction(result, propId);
-    }
-    else if (typeof result === "boolean") {
-        return propBooleanFunction(result, propId);
-    }
-    return undefined;
-};
-exports.propFunction = propFunction;
