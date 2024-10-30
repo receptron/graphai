@@ -10,7 +10,7 @@ nodes:
       nodes:
         array:
           value: []
-          update: :reducer
+          update: :reducer.array
         item:
           agent: sleepAndMergeAgent
           params:
@@ -34,7 +34,7 @@ nodes:
 version: 0.5
 nodes:
   source:
-    value: '{"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer"},"item":{"agent":"sleepAndMergeAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}'
+    value: '{"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer.array"},"item":{"agent":"sleepAndMergeAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}'
   parser:
     agent: jsonParserAgent
     inputs:
@@ -54,7 +54,7 @@ nodes:
     value: >
       ```json
 
-      {"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer"},"item":{"agent":"sleepAndMergeAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}
+      {"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer.array"},"item":{"agent":"sleepAndMergeAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}
 
       ```
   parser:
@@ -259,7 +259,7 @@ loop:
 nodes:
   array:
     value: []
-    update: :reducer
+    update: :reducer.array
   item:
     agent: sleepAndMergeAgent
     params:
@@ -288,7 +288,7 @@ nodes:
     update: :popper.array
   result:
     value: []
-    update: :reducer
+    update: :reducer.array
   popper:
     inputs:
       array: :source
@@ -318,7 +318,7 @@ nodes:
       nodes:
         array:
           value: []
-          update: :reducer
+          update: :reducer.array
         item:
           agent: sleepAndMergeAgent
           params:
@@ -356,7 +356,7 @@ nodes:
           update: :popper.array
         result:
           value: []
-          update: :reducer
+          update: :reducer.array
           isResult: true
         popper:
           inputs:
@@ -387,7 +387,7 @@ nodes:
       nodes:
         array:
           value: []
-          update: :reducer
+          update: :reducer.array
         item:
           agent: sleepAndMergeAgent
           params:
