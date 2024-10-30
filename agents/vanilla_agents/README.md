@@ -160,7 +160,7 @@ const result = await graph.run();
         "nodes": {
           "array": {
             "value": [],
-            "update": ":reducer"
+            "update": ":reducer.array"
           },
           "item": {
             "agent": "sleepAndMergeAgent",
@@ -195,7 +195,7 @@ const result = await graph.run();
   "version": 0.5,
   "nodes": {
     "source": {
-      "value": "{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer\"},\"item\":{\"agent\":\"sleepAndMergeAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}"
+      "value": "{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer.array\"},\"item\":{\"agent\":\"sleepAndMergeAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}"
     },
     "parser": {
       "agent": "jsonParserAgent",
@@ -218,7 +218,7 @@ const result = await graph.run();
   "version": 0.5,
   "nodes": {
     "source": {
-      "value": "```json\n{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer\"},\"item\":{\"agent\":\"sleepAndMergeAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}\n```\n"
+      "value": "```json\n{\"version\":0.5,\"loop\":{\"count\":5},\"nodes\":{\"array\":{\"value\":[],\"update\":\":reducer.array\"},\"item\":{\"agent\":\"sleepAndMergeAgent\",\"params\":{\"duration\":10,\"value\":\"hello\"}},\"reducer\":{\"isResult\":true,\"agent\":\"pushAgent\",\"inputs\":{\"array\":\":array\",\"item\":\":item\"}}}}\n```\n"
     },
     "parser": {
       "agent": "jsonParserAgent",
@@ -508,7 +508,7 @@ const result = await graph.run();
   "nodes": {
     "array": {
       "value": [],
-      "update": ":reducer"
+      "update": ":reducer.array"
     },
     "item": {
       "agent": "sleepAndMergeAgent",
@@ -547,7 +547,7 @@ const result = await graph.run();
     },
     "result": {
       "value": [],
-      "update": ":reducer"
+      "update": ":reducer.array"
     },
     "popper": {
       "inputs": {
@@ -587,7 +587,7 @@ const result = await graph.run();
         "nodes": {
           "array": {
             "value": [],
-            "update": ":reducer"
+            "update": ":reducer.array"
           },
           "item": {
             "agent": "sleepAndMergeAgent",
@@ -640,7 +640,7 @@ const result = await graph.run();
           },
           "result": {
             "value": [],
-            "update": ":reducer",
+            "update": ":reducer.array",
             "isResult": true
           },
           "popper": {
@@ -684,7 +684,7 @@ const result = await graph.run();
         "nodes": {
           "array": {
             "value": [],
-            "update": ":reducer"
+            "update": ":reducer.array"
           },
           "item": {
             "agent": "sleepAndMergeAgent",
