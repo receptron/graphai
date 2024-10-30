@@ -26,9 +26,8 @@ export const graph_data = {
         message: "You:",
       },
       pushTo: {
-        message: { role: "user", content: ":self" }
-      }
-      
+        message: { role: "user", content: ":self" },
+      },
     },
     checkInput: {
       // Checks if the user wants to terminate the chat or not.
