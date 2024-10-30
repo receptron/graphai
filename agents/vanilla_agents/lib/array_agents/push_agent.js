@@ -17,7 +17,9 @@ const pushAgent = async ({ namedInputs, }) => {
             array.push(item);
         });
     }
-    return array;
+    return {
+        array,
+    };
 };
 exports.pushAgent = pushAgent;
 const pushAgentInfo = {
@@ -43,23 +45,28 @@ const pushAgentInfo = {
         required: ["array"],
     },
     output: {
-        type: "array",
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+            },
+        },
     },
     samples: [
         {
             inputs: { array: [1, 2], item: 3 },
             params: {},
-            result: [1, 2, 3],
+            result: { array: [1, 2, 3] },
         },
         {
             inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
             params: {},
-            result: [{ apple: 1 }, { lemon: 2 }],
+            result: { array: [{ apple: 1 }, { lemon: 2 }] },
         },
         {
             inputs: { array: [{ apple: 1 }], items: [{ lemon: 2 }, { banana: 3 }] },
             params: {},
-            result: [{ apple: 1 }, { lemon: 2 }, { banana: 3 }],
+            result: { array: [{ apple: 1 }, { lemon: 2 }, { banana: 3 }] },
         },
     ],
     description: "push Agent",

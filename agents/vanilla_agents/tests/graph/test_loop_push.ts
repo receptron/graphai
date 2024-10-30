@@ -16,7 +16,7 @@ test("test loop & push", async () => {
   assert.deepStrictEqual(result, {
     // array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"],
     // item: "hello",
-    reducer: {array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"]},
+    reducer: { array: ["hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello", "hello"] },
   });
 });
 
