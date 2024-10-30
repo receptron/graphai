@@ -32,33 +32,17 @@ export const graph_data = {
         },
       },
       inputs: { name: [":name"] },
-      console: {
-        after: true,
-      },
-    },
-    messages: {
-      // Prepares the conversation with one system message and one user message
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            index: 0,
-            propId: "content",
-            from: 1,
-          },
-          {
-            index: 1,
-            propId: "content",
-            from: 2,
-          },
-        ],
-      },
-      inputs: { array: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
     },
     chat: {
       // performs the conversation using nested graph
       agent: "nestedAgent",
-      inputs: { messages: ":messages", context: ":context" },
+      inputs: {
+        messages: [
+          { role: "system", content: ":context.person0.system" },
+          { role: "user", content: ":context.person1.greeting" },
+        ],
+        context: ":context",
+      },
       isResult: true,
       graph: {
         loop: {
@@ -87,18 +71,15 @@ export const graph_data = {
           output: {
             // Displays the response to the user.
             agent: "stringTemplateAgent",
-            params: {
-              template: "\x1b[32m${name}:\x1b[0m ${message}\n",
-            },
             console: {
               after: true,
             },
-            inputs: { message: ":groq.choices.$0.message.content", name: ":context.person0.name" },
+            inputs: { text: "\x1b[32m${:context.person0.name}:\x1b[0m ${:groq.text}\n" },
           },
           reducer: {
             // Appends the response to the messages.
             agent: "pushAgent",
-            inputs: { array: ":messages", item: ":groq.choices.$0.message" },
+            inputs: { array: ":messages", item: ":groq.message" },
           },
           swappedContext: {
             // Swaps the context
