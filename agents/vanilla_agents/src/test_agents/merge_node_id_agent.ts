@@ -24,7 +24,7 @@ const mergeNodeIdAgentInfo: AgentFunctionInfo = {
   mock: mergeNodeIdAgent,
   samples: [
     {
-      inputs: [{ message: "hello" }],
+      inputs: { array: [{ message: "hello" }] },
       params: {},
       result: {
         message: "hello",
