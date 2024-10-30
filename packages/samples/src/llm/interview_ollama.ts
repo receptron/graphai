@@ -32,27 +32,21 @@ export const graph_data = {
       },
       inputs: { name: ":name" },
     },
-    messages: {
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            index: 0,
-            propId: "content",
-            from: 1,
-          },
-          {
-            index: 1,
-            propId: "content",
-            from: 2,
-          },
-        ],
-      },
-      inputs: { array: [[{ role: "system" }, { role: "user" }], ":context.person0.system", ":context.person1.greeting"] },
-    },
     chat: {
       agent: "nestedAgent",
-      inputs: { messages: ":messages", context: ":context" },
+      inputs: {
+        messages: [
+          {
+            role: "system",
+            content: ":context.person0.system",
+          },
+          {
+            role: "user",
+            content: ":context.person1.greeting",
+          },
+        ],
+        context: ":context",
+      },
       isResult: true,
       graph: {
         loop: {

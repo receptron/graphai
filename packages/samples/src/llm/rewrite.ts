@@ -16,19 +16,13 @@ const graph_data = {
   nodes: {
     document: {
       value: document,
-      update: ":reviewer.choices.$0.message.content",
+      update: ":reviewer.text",
     },
     review: {
       agent: "copyAgent",
       console: {
         before: true,
       },
-      /*
-      agent: (input: unknown) => {
-        console.log(input);
-        return input;
-      },
-      */
       inputs: { document: ":document" },
     },
     textInputAgent: {
@@ -36,25 +30,16 @@ const graph_data = {
       params: {
         message: "この文章に対して指示をしてください",
       },
-      // inputs: [":review"],
-    },
-    prompt: {
-      agent: "stringTemplateAgent",
-      params: {
-        template: "${name}\n----------\n${message}\n${document}",
-      },
-      inputs: { name: ":textInputAgent", message: "ユーザの書いた文章は以下です. \n", document: ":document" },
     },
     reviewer: {
       agent: "openAIAgent",
       params: {
         verbose: true,
-        // model: "gpt-4o",
-        model: "gpt-3.5-turbo-0125",
+        model: "gpt-4o",
         system:
           "あなたは敏腕編集者です。ユーザの指示に従い、文章を修正してください。修正後の結果の文章だけ提示し、他に余計なことは言わないでください。質問がある場合でも質問をしないで修正をしてください",
       },
-      inputs: { prompt: ":prompt" },
+      inputs: { prompt: "${:textInputAgent}\n----------\nユーザの書いた文章は以下です. \n\n${:document}" },
     },
   },
 };
