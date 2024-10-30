@@ -25,7 +25,7 @@
     "copyAgent2": {
       "agent": "copyAgent",
       "params": { "namedKey": "item" },
-      "inputs": { "item": [":mapNode.copyAgent"] },
+      "inputs": { "item": [":mapNode"] },
       "isResult": true
     }
   }

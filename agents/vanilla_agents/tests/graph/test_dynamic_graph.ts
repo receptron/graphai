@@ -11,7 +11,7 @@ test("test dynamic graph", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, dynamicGraphData, { ...agents, sleepAndMergeAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
-      reducer: ["hello", "hello", "hello", "hello", "hello"],
+      reducer: {array: ["hello", "hello", "hello", "hello", "hello"]},
     },
   });
 });
@@ -20,7 +20,7 @@ test("test dynamic graph parser", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, dynamicGraphData2, { ...agents, sleepAndMergeAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
-      reducer: ["hello", "hello", "hello", "hello", "hello"],
+      reducer: {array: ["hello", "hello", "hello", "hello", "hello"]},
     },
   });
 });
@@ -29,7 +29,7 @@ test("test dynamic graph parser extra", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, dynamicGraphData3, { ...agents, sleepAndMergeAgent }, () => {}, false);
   assert.deepStrictEqual(result, {
     nested: {
-      reducer: ["hello", "hello", "hello", "hello", "hello"],
+      reducer: {array: ["hello", "hello", "hello", "hello", "hello"]},
     },
   });
 });
