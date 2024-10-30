@@ -121,7 +121,7 @@ export const graph_data = {
                 },
               },
             },
-            inputs: { array: [":reducer", ":swappedContext.person0.system"] },
+            inputs: { array: [":reducer.array", ":swappedContext.person0.system"] },
           },
         },
       },

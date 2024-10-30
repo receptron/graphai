@@ -15,7 +15,7 @@ const graph_data = {
     },
     result: {
       value: [],
-      update: ":reducer2",
+      update: ":reducer2.array",
     },
     retriever: {
       agent: "shiftAgent",

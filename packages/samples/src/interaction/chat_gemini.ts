@@ -17,7 +17,7 @@ export const graph_data = {
     messages: {
       // Holds the conversation, the array of messages.
       value: [],
-      update: ":reducer",
+      update: ":reducer.array",
       isResult: true,
     },
     userInput: {
@@ -54,7 +54,7 @@ export const graph_data = {
     groq: {
       // Sends those messages to LLM to get a response.
       agent: "geminiAgent",
-      inputs: { messages: ":appendedMessages" },
+      inputs: { messages: ":appendedMessages.array" },
     },
     output: {
       // Displays the response to the user.
@@ -70,7 +70,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages", item: ":groq.choices.$0.message" },
+      inputs: { array: ":appendedMessages.array", item: ":groq.choices.$0.message" },
     },
   },
 };

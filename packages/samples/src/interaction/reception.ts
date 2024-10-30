@@ -62,7 +62,7 @@ export const graph_data = {
             "When you get all the information from the user, call the function 'report'.\n",
         },
       ],
-      update: ":reducer",
+      update: ":reducer.array",
     },
     userInput: {
       // Receives an input from the user.

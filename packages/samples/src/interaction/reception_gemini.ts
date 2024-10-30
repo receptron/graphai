@@ -62,7 +62,7 @@ export const graph_data = {
             "When you get all the information from the user, call the function 'report'.\n",
         },
       ],
-      update: ":reducer",
+      update: ":reducer.array",
     },
     userInput: {
       // Receives an input from the user.
@@ -95,7 +95,7 @@ export const graph_data = {
       params: {
         tools,
       },
-      inputs: { messages: ":appendedMessages" },
+      inputs: { messages: ":appendedMessages.array" },
     },
     argumentsParser: {
       // Parses the function arguments
@@ -118,7 +118,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages", item: ":llm.choices.$0.message" },
+      inputs: { array: ":appendedMessages.array", item: ":llm.choices.$0.message" },
     },
   },
 };
