@@ -31,7 +31,7 @@ export const graph_data = {
     checkInput: {
       // Checks if the user wants to terminate the chat or not.
       agent: "compareAgent",
-      inputs: { array: [":userInput", "!=", "/bye"] },
+      inputs: { array: [":userInput.text", "!=", "/bye"] },
     },
     userMessage: {
       // Generates an message object with the user input.
@@ -44,7 +44,7 @@ export const graph_data = {
           },
         ],
       },
-      inputs: { array: [{ role: "user" }, ":userInput"] },
+      inputs: { array: [{ role: "user" }, ":userInput.text"] },
     },
     appendedMessages: {
       // Appends it to the conversation

@@ -26,9 +26,9 @@ export const graph_data = {
           system: ":system_interviewer",
         },
         person1: {
-          name: ":name",
-          system: "You are ${:name}.",
-          greeting: "Hi, I'm ${:name}",
+          name: ":name.text",
+          system: "You are ${:name.text}.",
+          greeting: "Hi, I'm ${:name.text}",
         },
       },
     },

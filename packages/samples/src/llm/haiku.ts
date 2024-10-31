@@ -54,7 +54,7 @@ const graph_data = {
           },
           {
             role: "user",
-            content: ":topic",
+            content: ":topic.text",
           },
         ],
       },

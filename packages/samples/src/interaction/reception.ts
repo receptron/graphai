@@ -78,7 +78,7 @@ export const graph_data = {
         model: "gpt-4o",
         tools,
       },
-      inputs: { messages: ":messages", prompt: ":userInput" },
+      inputs: { messages: ":messages", prompt: ":userInput.text" },
     },
     output: {
       // Displays the response to the user.
@@ -95,7 +95,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":messages", items: [{ role: "user", content: ":userInput" }, ":llm.choices.$0.message"] },
+      inputs: { array: ":messages", items: [":userInput.message", ":llm.choices.$0.message"] },
     },
   },
 };

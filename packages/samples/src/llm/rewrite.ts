@@ -39,7 +39,7 @@ const graph_data = {
         system:
           "あなたは敏腕編集者です。ユーザの指示に従い、文章を修正してください。修正後の結果の文章だけ提示し、他に余計なことは言わないでください。質問がある場合でも質問をしないで修正をしてください",
       },
-      inputs: { prompt: "${:textInputAgent}\n----------\nユーザの書いた文章は以下です. \n\n${:document}" },
+      inputs: { prompt: "${:textInputAgent.text}\n----------\nユーザの書いた文章は以下です. \n\n${:document}" },
     },
   },
 };

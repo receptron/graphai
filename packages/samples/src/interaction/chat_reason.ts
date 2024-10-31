@@ -43,7 +43,7 @@ export const graph_data = {
           },
           {
             role: "user",
-            content: ":userInput",
+            content: ":userInput.text",
           },
           {
             role: "assistant",

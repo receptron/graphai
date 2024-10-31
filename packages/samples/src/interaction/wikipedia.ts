@@ -10,7 +10,7 @@ const graph_data = {
       agent: "textInputAgent",
     },
     wikipedia: {
-      inputs: { query: ":interactiveInputAgent" },
+      inputs: { query: ":interactiveInputAgent.text" },
       agent: "wikipediaAgent",
       params: {
         lang: "ja",

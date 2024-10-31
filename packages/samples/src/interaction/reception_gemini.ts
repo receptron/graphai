@@ -41,12 +41,12 @@ export const graph_data = {
     // Holds a boolean value, which specifies if we need to contine or not.
     continue: {
       value: true,
-      update: ":llm.choices.$0.message.content",
+      update: ":llm.text",
     },
     information: {
       // Holds the information acquired from the user at the end of this chat.
       value: {},
-      update: ":argumentsParser",
+      update: ":llm.tool.arguments",
       isResult: true,
     },
     messages: {
@@ -71,23 +71,10 @@ export const graph_data = {
         message: "You:",
       },
     },
-    userMessage: {
-      // Generates an message object with the user input.
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            propId: "content",
-            from: 1,
-          },
-        ],
-      },
-      inputs: { array: [{ role: "user" }, ":userInput"] },
-    },
     appendedMessages: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: { array: ":messages", item: ":userMessage" },
+      inputs: { array: ":messages", item: ":userInput.message" },
     },
     llm: {
       // Sends those messages to LLM to get a response.
@@ -96,12 +83,6 @@ export const graph_data = {
         tools,
       },
       inputs: { messages: ":appendedMessages.array" },
-    },
-    argumentsParser: {
-      // Parses the function arguments
-      agent: "jsonParserAgent",
-      inputs: { text: [":llm.choices.$0.message.tool_calls.$0.function.arguments"] },
-      if: ":llm.choices.$0.message.tool_calls",
     },
     output: {
       // Displays the response to the user.
@@ -112,13 +93,13 @@ export const graph_data = {
       console: {
         after: true,
       },
-      inputs: { message: ":llm.choices.$0.message.content" },
-      if: ":llm.choices.$0.message.content",
+      inputs: { message: ":llm.text" },
+      if: ":llm.text",
     },
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages.array", item: ":llm.choices.$0.message" },
+      inputs: { array: ":appendedMessages.array", item: ":llm.message" },
     },
   },
 };
