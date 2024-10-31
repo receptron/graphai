@@ -11,16 +11,11 @@ Text Input Agent
 ```json
 
 {
-  "type": "array",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
-  "minItems": 1,
-  "uniqueItems": true,
-  "items": {
-    "type": "object",
-    "required": [],
-    "properties": {}
-  }
+  "type": "object",
+  "properties": {},
+  "required": []
 }
 
 ````
@@ -30,7 +25,22 @@ Text Input Agent
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.text",
+  ":agentId.content",
+  ":agentId.content.role",
+  ":agentId.content.content"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.text",
+  ":agentId.content",
+  ":agentId.content.role",
+  ":agentId.content.content"
 ]
 
 ````
@@ -43,7 +53,7 @@ Text Input Agent
 
 ```json
 
-[]
+{}
 
 ````
 
@@ -59,7 +69,44 @@ Text Input Agent
 
 ```json
 
-"message from the user"
+{
+  "text": "message from the user",
+  "content": {
+    "role": "user",
+    "content": "message from the user"
+  }
+}
+
+````
+### Sample1
+
+#### inputs
+
+```json
+
+{}
+
+````
+
+#### params
+
+```json
+
+{"message":"Enter your message to AI.","role":"system"}
+
+````
+
+#### result
+
+```json
+
+{
+  "text": "message from the user",
+  "content": {
+    "role": "system",
+    "content": "message from the user"
+  }
+}
 
 ````
 
