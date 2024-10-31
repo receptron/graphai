@@ -88,7 +88,7 @@ export const graph_data = {
             console: {
               after: true,
             },
-            inputs: { text:  "\x1b[32m${:context.person1.name}:\x1b[0m ${:translate.text}\n" }
+            inputs: { text: "\x1b[32m${:context.person1.name}:\x1b[0m ${:translate.text}\n" },
           },
           reducer: {
             // Append the responce to the messages.
