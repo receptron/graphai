@@ -33,23 +33,10 @@ export const graph_data = {
       agent: "compareAgent",
       inputs: { array: [":userInput.text", "!=", "/bye"] },
     },
-    userMessage: {
-      // Generates an message object with the user input.
-      agent: "propertyFilterAgent",
-      params: {
-        inject: [
-          {
-            propId: "content",
-            from: 1,
-          },
-        ],
-      },
-      inputs: { array: [{ role: "user" }, ":userInput.text"] },
-    },
     appendedMessages: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: { array: ":messages", item: ":userMessage" },
+      inputs: { array: ":messages", item: ":userInput.message" },
     },
     groq: {
       // Sends those messages to LLM to get a response.
@@ -70,7 +57,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages.array", item: ":groq.choices.$0.message" },
+      inputs: { array: ":appendedMessages.array", item: ":groq.message" },
     },
   },
 };
