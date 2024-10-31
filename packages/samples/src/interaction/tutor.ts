@@ -60,7 +60,7 @@ export const graph_data = {
       params: {
         model: "gpt-4o",
         system:
-          "与えられた英単語をと類似するいくつか英単語を並べて、日本語で違いを説明して。フォーマットはJSONで、以下のフォーマットで。\n" +
+          "与えられた英単語と類似するいくつか英単語を並べて、日本語で違いを説明して。フォーマットはJSONで、以下のフォーマットで。\n" +
           "```json\n[{word:'Awesome.', jp:'本当に素晴らしいことを強調したい時に使います。']\n```",
       },
       inputs: { prompt: ":word.text" },
