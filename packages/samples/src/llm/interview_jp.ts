@@ -65,7 +65,7 @@ export const graph_data = {
             value: {}, // te be mfilled with inputs[1]
             update: ":swappedContext",
           },
-          groq: {
+          llm: {
             // Sends those messages to the LLM to get a response.
             agent: "openAIAgent",
             params: {
@@ -85,18 +85,15 @@ export const graph_data = {
           output: {
             // Displays the response to the user.
             agent: "stringTemplateAgent",
-            params: {
-              template: "\x1b[32m${name}:\x1b[0m ${message}\n",
-            },
             console: {
               after: true,
             },
-            inputs: { message: ":translate.text", name: ":context.person1.name" },
+            inputs: { text:  "\x1b[32m${:context.person1.name}:\x1b[0m ${:translate.text}\n" }
           },
           reducer: {
             // Append the responce to the messages.
             agent: "pushAgent",
-            inputs: { array: ":messages", item: ":groq.choices.$0.message" },
+            inputs: { array: ":messages", item: ":llm.message" },
           },
           swappedContext: {
             // Swaps the context
@@ -134,7 +131,7 @@ export const graph_data = {
       },
     },
     translate: {
-      // This node sends those messages to Llama3 on groq to get the answer.
+      // This node sends those messages to Llama3 on llm to get the answer.
       agent: "openAIAgent",
       params: {
         system: "この文章を日本語に訳して。出来るだけ自然な口語に。余計なことは書かずに、翻訳の結果だけ返して。",
@@ -144,13 +141,10 @@ export const graph_data = {
     output: {
       // This node displays the responce to the user.
       agent: "stringTemplateAgent",
-      params: {
-        template: "\x1b[32m${1}:\x1b[0m ${0}\n",
-      },
       console: {
         after: true,
       },
-      inputs: { message: ":translate.choices.$0.message.content", name: ":chat.swappedContext.person1.name" },
+      inputs: { text: "\x1b[32m${:chat.swappedContext.person1.name}:\x1b[0m ${:translate.text}\n" },
     },
   },
 };
