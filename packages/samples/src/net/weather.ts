@@ -129,7 +129,7 @@ export const graph_data = {
     checkInput: {
       // Checks if the user wants to terminate the chat or not.
       agent: "compareAgent",
-      inputs: { array: [":userInput", "!=", "/bye"] },
+      inputs: { array: [":userInput.text", "!=", "/bye"] },
     },
     llmCall: {
       // Sends those messages to LLM to get the answer.
@@ -137,7 +137,7 @@ export const graph_data = {
       params: {
         tools,
       },
-      inputs: { messages: ":messages", prompt: ":userInput" },
+      inputs: { messages: ":messages", prompt: ":userInput.text" },
       if: ":checkInput",
     },
     output: {
@@ -154,7 +154,7 @@ export const graph_data = {
       agent: "pushAgent",
       inputs: {
         array: ":messages",
-        items: [{ role: "user", content: ":userInput" }, ":llmCall.message"],
+        items: [":userInput.message", ":llmCall.message"],
       },
     },
     tool_calls: {
