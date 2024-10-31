@@ -8,7 +8,7 @@ import * as agents from "@graphai/agents";
 const photoGraph = {
   version: 0.5,
   loop: {
-    while: ":userInput.text",
+    while: ":checkInput",
   },
   nodes: {
     userInput: {
@@ -17,6 +17,12 @@ const photoGraph = {
       params: {
         message: "写真を見るループ",
       },
+    },
+    checkInput: {
+      // Checks if the user wants to terminate the chat or not.
+      agent: "compareAgent",
+      inputs: { array: [":userInput.text", "!=", "/bye"] },
+      console: { after: true },
     },
   },
 };
@@ -54,7 +60,7 @@ const tools = [
 const graph_data = {
   version: 0.5,
   loop: {
-    while: ":llm.text",
+    while: ":checkInput",
   },
   nodes: {
     userInput: {
@@ -63,6 +69,11 @@ const graph_data = {
       params: {
         message: "何をしたいですか？",
       },
+    },
+    checkInput: {
+      // Checks if the user wants to terminate the chat or not.
+      agent: "compareAgent",
+      inputs: { array: [":userInput.text", "!=", "/bye"] },
     },
     llm: {
       agent: "openAIAgent",
@@ -78,14 +89,12 @@ const graph_data = {
     },
     debug: {
       agent: "copyAgent",
-      console: { after: true },
       inputs: { tools: ":llm.tool", text: ":llm.text" },
     },
     workflow: {
       agent: (namedInputs: { workflow_name: string }) => {
         const { workflow_name } = namedInputs;
         const workFlow = workflowGraphs[workflow_name as string];
-        console.log(workFlow);
         return {
           graph: workFlow,
         };
@@ -95,6 +104,7 @@ const graph_data = {
     workflowGraph: {
       agent: "nestedAgent",
       graph: ":workflow.graph",
+      if: ":workflow.graph",
     },
   },
 };
