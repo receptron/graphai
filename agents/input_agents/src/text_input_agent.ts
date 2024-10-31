@@ -1,14 +1,23 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import input from "@inquirer/input";
 
-export const textInputAgent: AgentFunction<{ message?: string; required: boolean }, string | { [x: string]: string }> = async ({ params }) => {
-  const { message, required } = params;
+export const textInputAgent: AgentFunction<
+  { message?: string; required?: boolean; role?: string },
+  { text: string; message: { role: string; content: string } }
+> = async ({ params }) => {
+  const { message, required, role } = params;
 
   while (true) {
-    const result = await input({ message: message ?? "Enter" });
-    // console.log(!required,  (result ?? '' !== ''), required);
-    if (!required || (result ?? "") !== "") {
-      return result;
+    const text = await input({ message: message ?? "Enter" });
+    // console.log(!required,  (text ?? '' !== ''), required);
+    if (!required || (text ?? "") !== "") {
+      return {
+        text,
+        message: {
+          role: role ?? "user",
+          content: text,
+        },
+      };
     }
   }
 };
@@ -19,9 +28,26 @@ const textInputAgentInfo: AgentFunctionInfo = {
   mock: textInputAgent,
   samples: [
     {
-      inputs: [],
+      inputs: {},
       params: { message: "Enter your message to AI." },
-      result: "message from the user",
+      result: {
+        text: "message from the user",
+        content: {
+          role: "user",
+          content: "message from the user",
+        },
+      },
+    },
+    {
+      inputs: {},
+      params: { message: "Enter your message to AI.", role: "system" },
+      result: {
+        text: "message from the user",
+        content: {
+          role: "system",
+          content: "message from the user",
+        },
+      },
     },
   ],
   description: "Text Input Agent",

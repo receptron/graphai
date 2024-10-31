@@ -163,7 +163,7 @@ export const graph_data = {
       console: {
         before: "Detecting language...",
       },
-      inputs: { topic: ":topic" },
+      inputs: { topic: ":topic.text" },
       graph: language_detection_graph,
       isResult: true,
     },

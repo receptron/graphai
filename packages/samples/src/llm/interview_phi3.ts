@@ -29,7 +29,7 @@ export const graph_data = {
           },
         },
       },
-      inputs: { name: ":name" },
+      inputs: { name: ":name.text" },
     },
     chat: {
       agent: "nestedAgent",

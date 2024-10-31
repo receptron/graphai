@@ -30,12 +30,12 @@ export const graph_data = {
     checkInput: {
       // Checks if the user wants to terminate the chat or not.
       agent: "compareAgent",
-      inputs: { array: [":userInput", "!=", "/bye"] },
+      inputs: { array: [":userInput.text", "!=", "/bye"] },
     },
     appendedMessages: {
       // Appends it to the conversation
       agent: "pushAgent",
-      inputs: { array: ":messages", item: { role: "user", content: ":userInput" } },
+      inputs: { array: ":messages", item: ":userInput.message" },
     },
     llm: {
       // Sends those messages to LLM to get a response.
@@ -56,7 +56,7 @@ export const graph_data = {
     reducer: {
       // Appends the responce to the messages.
       agent: "pushAgent",
-      inputs: { array: ":appendedMessages.array", item: ":llm.choices.$0.message" },
+      inputs: { array: ":appendedMessages.array", item: ":llm.message" },
     },
   },
 };
