@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import { graph_data as graph_data_wearther } from "../net/weather";
+import { graph_data as graph_data_reception } from "../interaction/reception";
 
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
@@ -22,7 +23,6 @@ const photoGraph = {
       // Checks if the user wants to terminate the chat or not.
       agent: "compareAgent",
       inputs: { array: [":userInput.text", "!=", "/bye"] },
-      console: { after: true },
     },
   },
 };
@@ -30,11 +30,13 @@ const photoGraph = {
 const workflowList = [
   { name: "weather", description: "今日の天気を知る" },
   { name: "photo", description: "今日のすすめ写真を取得" },
+  { name: "reception", description: "受付として情報をあつめます" },
 ];
 
 const workflowGraphs: Record<string, unknown> = {
   weather: graph_data_wearther,
   photo: photoGraph,
+  reception: graph_data_reception,
 };
 
 const tools = [
