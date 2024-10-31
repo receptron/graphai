@@ -38,9 +38,6 @@ export const graph_data = {
         model: "Llama3-8b-8192",
       },
       inputs: { messages: ":messages", prompt: ":userInput.text" },
-      pushTo: {
-        message: ":self.message",
-      },
     },
     output: {
       // Displays the response to the user.
