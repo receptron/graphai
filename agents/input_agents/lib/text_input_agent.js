@@ -6,12 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.textInputAgent = void 0;
 const input_1 = __importDefault(require("@inquirer/input"));
 const textInputAgent = async ({ params }) => {
-    const { message, required } = params;
+    const { message, required, role } = params;
     while (true) {
-        const result = await (0, input_1.default)({ message: message ?? "Enter" });
-        // console.log(!required,  (result ?? '' !== ''), required);
-        if (!required || (result ?? "") !== "") {
-            return result;
+        const text = await (0, input_1.default)({ message: message ?? "Enter" });
+        // console.log(!required,  (text ?? '' !== ''), required);
+        if (!required || (text ?? "") !== "") {
+            return {
+                text,
+                message: {
+                    role: role ?? "user",
+                    content: text,
+                },
+            };
         }
     }
 };
@@ -22,9 +28,26 @@ const textInputAgentInfo = {
     mock: exports.textInputAgent,
     samples: [
         {
-            inputs: [],
+            inputs: {},
             params: { message: "Enter your message to AI." },
-            result: "message from the user",
+            result: {
+                text: "message from the user",
+                content: {
+                    role: "user",
+                    content: "message from the user",
+                },
+            },
+        },
+        {
+            inputs: {},
+            params: { message: "Enter your message to AI.", role: "system" },
+            result: {
+                text: "message from the user",
+                content: {
+                    role: "system",
+                    content: "message from the user",
+                },
+            },
         },
     ],
     description: "Text Input Agent",
