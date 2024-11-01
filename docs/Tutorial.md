@@ -20,7 +20,7 @@ nodes:
     console:
       after: true
     inputs:
-      - :llm.choices.$0.message.content
+      text: :llm.text
 ```
 
 It has two nodes:
@@ -73,7 +73,7 @@ nodes:
     console:
       after: true
     inputs:
-      - :llm.choices.$0.message.content
+      text: :llm.text
 ```
 
 ## Loop
@@ -92,7 +92,7 @@ nodes:
     update: :shift.array
   result:
     value: []
-    update: :reducer
+    update: :reducer.array
     isResult: true
   shift:
     agent: shiftAgent
@@ -101,8 +101,9 @@ nodes:
   prompt:
     agent: stringTemplateAgent
     params:
-      template: What is the typical color of ${0}? Just answer the color.
-    inputs: [:shift.item]
+      template: What is the typical color of ${item}? Just answer the color.
+    inputs:
+      item: :shift.item
   llm:
     agent: openAIAgent
     params:
@@ -113,7 +114,7 @@ nodes:
     agent: pushAgent
     inputs:
       array: :result
-      item: :llm.choices.$0.message.content
+      item: :llm.text
 ```
 
 1. **fruits**: This static node holds the list of fruits at the begining but updated with the array property of **shift** node after each iteration.
@@ -144,8 +145,9 @@ nodes:
         prompt:
           agent: stringTemplateAgent
           params:
-            template: What is the typical color of ${0}? Just answer the color.
-          inputs: [:row]
+            template: What is the typical color of ${item}? Just answer the color.
+          inputs:
+            item: :row
         llm:
           agent: openAIAgent
           params:
@@ -154,7 +156,8 @@ nodes:
             prompt: :prompt
         result:
           agent: copyAgent
-          inputs: [:llm.choices.$0.message.content]
+          inputs:
+            text: :llm.text
           isResult: true
 ```
 
@@ -177,54 +180,43 @@ loop:
 nodes:
   continue:
     value: true
-    update: :checkInput.continue
+    update: :checkInput
   messages:
     value: []
-    update: :reducer
+    update: :reducer.array
   userInput:
     agent: textInputAgent
     params:
       message: "You:"
   checkInput:
-    agent: propertyFilterAgent
-    params:
-      inspect:
-        - propId: continue
-          notEqual: /bye
+    agent: compareAgent
     inputs:
-      - {}
-      - :userInput
-  userMessage:
-    agent: propertyFilterAgent
-    params:
-      inject:
-        - propId: content
-          from: 1
-    inputs:
-      - role: user
-      - :userInput
+      array:
+        - ":userInput.text"
+        - "!="
+        - "/bye"
   appendedMessages:
     agent: pushAgent
     inputs:
       array: :messages
-      item: :userMessage
+      item: :userInput.message
   llm:
     agent: openAIAgent
     inputs:
-      messages: :appendedMessages
+      messages: :appendedMessages.array
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mLLM\e[0m: ${0}"
+      template: "\e[32mLLM\e[0m: ${text}"
     console:
       after: true
     inputs:
-      - :llm.choices.$0.message.content
+      text: :llm.text
   reducer:
     agent: pushAgent
     inputs:
-      array: :appendedMessages
-      item: :llm.choices.$0.message
+      array: :appendedMessages.array
+      item: :llm.message
 ```
 
 1. The user is prompted to input a message with "You:".
@@ -248,42 +240,31 @@ loop:
 nodes:
   continue:
     value: true
-    update: :checkInput.continue
+    update: :checkInput
   messages:
     value:
       - role: system
         content: You are a meteorologist. Use getWeather API, only when the user ask for
           the weather information.
-    update: :reducer
+    update: :reducer.array.$0
     isResult: true
   userInput:
     agent: textInputAgent
     params:
       message: "Location:"
   checkInput:
-    agent: propertyFilterAgent
-    params:
-      inspect:
-        - propId: continue
-          notEqual: /bye
+    agent: compareAgent
     inputs:
-      - {}
-      - :userInput
-  userMessage:
-    agent: propertyFilterAgent
-    params:
-      inject:
-        - propId: content
-          from: 1
-    inputs:
-      - role: user
-      - :userInput
+      array:
+        - ":userInput.text"
+        - "!="
+        - "/bye"
   messagesWithUserInput:
     agent: pushAgent
     inputs:
       array: :messages
-      item: :userMessage
-    if: :checkInput.continue
+      item: :userInput.message
+    if: :checkInput
   llmCall:
     agent: openAIAgent
     params:
@@ -305,7 +286,7 @@ nodes:
                 - latitude
                 - longitude
     inputs:
-      messages: :messagesWithUserInput
+      messages: :messagesWithUserInput.array
   output:
     agent: stringTemplateAgent
     params:
@@ -318,39 +299,29 @@ nodes:
   messagesWithFirstRes:
     agent: pushAgent
     inputs:
-      array: :messagesWithUserInput
-      item: :llmCall.choices.$0.message
+      array: :messagesWithUserInput.array
+      item: :llmCall.message
   tool_calls:
     agent: nestedAgent
     inputs:
-      tool_calls: :llmCall.choices.$0.message.tool_calls
-      messagesWithFirstRes: :messagesWithFirstRes
-    if: :llmCall.choices.$0.message.tool_calls
+      tool_calls: :llmCall.tool
+      messagesWithFirstRes: :messagesWithFirstRes.array
+    if: :llmCall.tool
     graph:
       nodes:
         outputFetching:
           agent: stringTemplateAgent
           params:
-            template: "... fetching weather info: ${0}"
+            template: "... fetching weather info: ${latitude}, ${longitude}"
           console:
             after: true
           inputs:
-            - :tool_calls.$0.function.arguments
-        parser:
-          agent: jsonParserAgent
-          inputs:
-            - :tool_calls.$0.function.arguments
-        urlPoints:
-          agent: stringTemplateAgent
-          params:
-            template: https://api.weather.gov/points/${0},${1}
-          inputs:
-            - :parser.latitude
-            - :parser.longitude
+            latitude: :tool_calls.arguments.latitude
+            longitude: :tool_calls.arguments.longitude
         fetchPoints:
           agent: fetchAgent
           inputs:
-            url: :urlPoints
+            url: "https://api.weather.gov/points/${:tool_calls.arguments.latitude},${:tool_calls.arguments.longitude}"
             headers:
               User-Agent: (receptron.org)
         fetchForecast:
@@ -364,67 +335,53 @@ nodes:
           unless: :fetchPoints.onError
         extractError:
           agent: stringTemplateAgent
-          params:
-            template: "${0}: ${1}"
           inputs:
-            - :fetchPoints.onError.error.title
-            - :fetchPoints.onError.error.detail
+            text: "${:fetchPoints.onError.error.title}: ${:fetchPoints.onError.error.detail}"
           if: :fetchPoints.onError
         responseText:
           agent: copyAgent
           anyInput: true
           inputs:
-            - :fetchForecast
-            - :extractError
-        toolMessage:
-          agent: propertyFilterAgent
-          params:
-            inject:
-              - propId: tool_call_id
-                from: 1
-              - propId: name
-                from: 2
-              - propId: content
-                from: 3
-          inputs:
-            - role: tool
-            - :tool_calls.$0.id
-            - :tool_calls.$0.function.name
-            - :responseText
+            array:
+              - :fetchForecast
+              - :extractError
         messagesWithToolRes:
           agent: pushAgent
           inputs:
             array: :messagesWithFirstRes
-            item: :toolMessage
+            item:
+              role: "tool"
+              tool_call_id: ":tool_calls.id"
+              name: ":tool_calls.name"
+              content: ":responseText.array.$0"
         llmCall:
           agent: openAIAgent
           inputs:
-            messages: :messagesWithToolRes
+            messages: :messagesWithToolRes.array
         output:
           agent: stringTemplateAgent
-          params:
-            template: "Weather: ${0}"
           console:
             after: true
           inputs:
-            - :llmCall.choices.$0.message.content
+            text: "Weather: ${:llmCall.text}"
         messagesWithSecondRes:
           agent: pushAgent
           inputs:
-            array: :messagesWithToolRes
-            item: :llmCall.choices.$0.message
+            array: :messagesWithToolRes.array
+            item: :llmCall.message
           isResult: true
   no_tool_calls:
     agent: copyAgent
-    unless: :llmCall.choices.$0.message.tool_calls
+    unless: :llmCall.tool
     inputs:
-      - :messagesWithFirstRes
+      result: :messagesWithFirstRes.array
   reducer:
     agent: copyAgent
     anyInput: true
     inputs:
-      - :no_tool_calls
-      - :tool_calls.messagesWithSecondRes
+      array:
+        - :no_tool_calls.result
+        - :tool_calls.messagesWithSecondRes.array
 ```
 
 1. **Loop Execution**: The graph loops continuously until the condition specified by the `continue` node is false.
