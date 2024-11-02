@@ -1,0 +1,51 @@
+version: 0.5
+nodes:
+  document:
+    agent: fetchAgent
+    console:
+      before: ...fetching document
+    params:
+      type: text
+    inputs:
+      url: https://raw.githubusercontent.com/receptron/graphai/main/packages/graphai/README.md
+  sampleGraph:
+    agent: fetchAgent
+    console:
+      before: ...fetching sample graph
+    params:
+      type: text
+    inputs:
+      url: https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/graph_data/reception.json
+  graphGenerator:
+    agent: geminiAgent
+    console:
+      before: ...generating a new graph
+    params: {}
+    inputs:
+      prompt: Name, Address and Phone Number
+      messages:
+        "0":
+          role: system
+          content: >-
+            You an expert in GraphAI programming. You are responsible in
+            generating a graphAI graph to get required information from the
+            user.
+
+            graphAI graph outputs in json format
+
+            [documation of GraphAI]
+
+            ${:document}
+        "1":
+          role: user
+          content: Name, Date of Birth and Gendar
+        "2":
+          role: assistant
+          content: |
+            ```json
+            ${:sampleGraph}
+            ```
+  executer:
+    agent: nestedAgent
+    graph: :graphGenerator.text.codeBlock().jsonParse()
+    isResult: true

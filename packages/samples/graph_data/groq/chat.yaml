@@ -1,0 +1,44 @@
+version: 0.5
+loop:
+  while: :continue
+nodes:
+  continue:
+    value: true
+    update: :checkInput
+  messages:
+    value: {}
+    update: :reducer.array
+    isResult: true
+  userInput:
+    agent: textInputAgent
+    params:
+      message: "You:"
+      required: true
+  checkInput:
+    agent: compareAgent
+    inputs:
+      array:
+        "0": :userInput.text
+        "1": "!="
+        "2": /bye
+  llm:
+    agent: geminiAgent
+    params: {}
+    inputs:
+      messages: :messages
+      prompt: :userInput.text
+  output:
+    agent: stringTemplateAgent
+    params:
+      template: "\e[32mAgent\e[0m: ${message}"
+    console:
+      after: true
+    inputs:
+      message: :llm.text
+  reducer:
+    agent: pushAgent
+    inputs:
+      array: :messages
+      items:
+        "0": :userInput.message
+        "1": :llm.message

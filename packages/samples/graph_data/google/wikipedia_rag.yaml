@@ -1,0 +1,81 @@
+version: 0.5
+nodes:
+  source:
+    value:
+      name: Sam Bankman-Fried
+      topic: sentence by the court
+      query: describe the final sentence by the court for Sam Bank-Fried
+  wikipedia:
+    console:
+      before: ...fetching data from wikkpedia
+    agent: wikipediaAgent
+    inputs:
+      query: :source.name
+    params:
+      lang: en
+  chunks:
+    console:
+      before: ...splitting the article into chunks
+    agent: stringSplitterAgent
+    inputs:
+      text: :wikipedia.content
+  embeddings:
+    console:
+      before: ...fetching embeddings for chunks
+    agent: stringEmbeddingsAgent
+    inputs:
+      item: :chunks.contents
+  topicEmbedding:
+    console:
+      before: ...fetching embedding for the topic
+    agent: stringEmbeddingsAgent
+    inputs:
+      item: :source.topic
+  similarityCheck:
+    agent: dotProductAgent
+    inputs:
+      matrix: :embeddings
+      vector: :topicEmbedding.$0
+  sortedChunks:
+    agent: sortByValuesAgent
+    inputs:
+      array: :chunks.contents
+      values: :similarityCheck
+  referenceText:
+    agent: tokenBoundStringsAgent
+    inputs:
+      chunks: :sortedChunks
+    params:
+      limit: 5000
+  prompt:
+    agent: stringTemplateAgent
+    inputs:
+      q: :source.query
+      c: :referenceText.content
+    params:
+      template: |-
+        Using the following document, ${c}
+
+        ${q}
+  RagQuery:
+    console:
+      before: ...performing the RAG query
+    agent: geminiAgent
+    inputs:
+      prompt: :prompt
+    params: {}
+  OneShotQuery:
+    agent: geminiAgent
+    inputs:
+      prompt: :source.query
+    params: {}
+  RagResult:
+    agent: copyAgent
+    inputs:
+      result: :RagQuery.choices.$0.message.content
+    isResult: true
+  OneShotResult:
+    agent: copyAgent
+    inputs:
+      result: :OneShotQuery.choices.$0.message.content
+    isResult: true
