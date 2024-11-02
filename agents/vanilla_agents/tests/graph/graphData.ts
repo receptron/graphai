@@ -204,7 +204,7 @@ export const graphDataMap3 = {
         version: 0.5,
         nodes: {
           node1: {
-            agent: "bypassAgent",
+            agent: "copyAgent",
             params: { namedKey: "row" },
             inputs: { row: ":row" },
             isResult: true,
@@ -216,7 +216,7 @@ export const graphDataMap3 = {
       },
     },
     result: {
-      agent: "bypassAgent",
+      agent: "copyAgent",
       params: { namedKey: "result" },
       inputs: { result: [":nestedNode.node1"] },
       isResult: true,
@@ -239,7 +239,7 @@ export const graphDataMap4 = {
         version: 0.5,
         nodes: {
           node1: {
-            agent: "bypassAgent",
+            agent: "copyAgent",
             params: { namedKey: "row" },
             inputs: { row: ":row" },
             isResult: true,
@@ -251,7 +251,7 @@ export const graphDataMap4 = {
       },
     },
     result: {
-      agent: "bypassAgent",
+      agent: "copyAgent",
       params: {
         namedKey: "result",
       },
@@ -275,7 +275,7 @@ export const graphDataMap5 = {
         version: 0.5,
         nodes: {
           node1: {
-            agent: "bypassAgent",
+            agent: "copyAgent",
             params: { namedKey: "row" },
             inputs: { row: ":row" },
             isResult: true,
@@ -287,7 +287,7 @@ export const graphDataMap5 = {
       },
     },
     result: {
-      agent: "bypassAgent",
+      agent: "copyAgent",
       params: {
         flat: 2,
         namedKey: "res",
@@ -494,8 +494,8 @@ export const forkGraph = {
         compositeResult: true,
       },
     },
-    bypassAgent: {
-      agent: "bypassAgent",
+    copyAgent: {
+      agent: "copyAgent",
       params: { namedKey: "result" },
       inputs: { result: [":mapNode"] },
     },
@@ -512,15 +512,15 @@ export const graphDataBypass = {
         message: "hello",
       },
     },
-    bypassAgent: {
-      agent: "bypassAgent",
+    copyAgent: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
       inputs: { text: [":echo"] },
     },
-    bypassAgent2: {
-      agent: "bypassAgent",
+    copyAgent2: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
-      inputs: { text: [":bypassAgent.$0"] },
+      inputs: { text: [":copyAgent.$0"] },
     },
   },
 };
@@ -540,8 +540,8 @@ export const graphDataBypass2 = {
       graph: {
         version: 0.5,
         nodes: {
-          bypassAgent: {
-            agent: "bypassAgent",
+          copyAgent: {
+            agent: "copyAgent",
             params: { namedKey: "row" },
             inputs: { row: ":row" },
             isResult: true,
@@ -552,10 +552,10 @@ export const graphDataBypass2 = {
         compositeResult: true,
       },
     },
-    bypassAgent2: {
-      agent: "bypassAgent",
+    copyAgent2: {
+      agent: "copyAgent",
       params: { namedKey: "array" },
-      inputs: { array: [":mapNode.bypassAgent"] },
+      inputs: { array: [":mapNode.copyAgent"] },
     },
   },
 };
@@ -575,20 +575,20 @@ export const graphDataBypass3 = {
       graph: {
         version: 0.5,
         nodes: {
-          bypassAgent: {
-            agent: "bypassAgent",
+          copyAgent: {
+            agent: "copyAgent",
             params: { namedKey: "row" },
             inputs: { row: [":row"] },
           },
-          bypassAgent2: {
-            agent: "bypassAgent",
+          copyAgent2: {
+            agent: "copyAgent",
             params: { namedKey: "text" },
-            inputs: { text: ":bypassAgent" },
+            inputs: { text: ":copyAgent" },
           },
-          bypassAgent3: {
-            agent: "bypassAgent",
+          copyAgent3: {
+            agent: "copyAgent",
             params: { namedKey: "text" },
-            inputs: { text: ":bypassAgent2.$0" },
+            inputs: { text: ":copyAgent2.$0" },
             isResult: true,
           },
         },
@@ -597,10 +597,10 @@ export const graphDataBypass3 = {
         compositeResult: true,
       },
     },
-    bypassAgent4: {
-      agent: "bypassAgent",
+    copyAgent4: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
-      inputs: { text: ":mapNode.bypassAgent3" },
+      inputs: { text: ":mapNode.copyAgent3" },
     },
   },
 };
@@ -619,15 +619,15 @@ export const graphDataBypass4 = {
       graph: {
         version: 0.5,
         nodes: {
-          bypassAgent: {
-            agent: "bypassAgent",
+          copyAgent: {
+            agent: "copyAgent",
             params: { namedKey: "row" },
             inputs: { row: ":row" },
           },
-          bypassAgent2: {
-            agent: "bypassAgent",
+          copyAgent2: {
+            agent: "copyAgent",
             params: { namedKey: "array" },
-            inputs: { array: [":bypassAgent", ":row"] },
+            inputs: { array: [":copyAgent", ":row"] },
             isResult: true,
           },
         },
@@ -636,10 +636,10 @@ export const graphDataBypass4 = {
         compositeResult: true,
       },
     },
-    bypassAgent3: {
-      agent: "bypassAgent",
+    copyAgent3: {
+      agent: "copyAgent",
       params: { namedKey: "text" },
-      inputs: { text: ":mapNode.bypassAgent2" },
+      inputs: { text: ":mapNode.copyAgent2" },
     },
   },
 };
@@ -653,20 +653,20 @@ export const graphDataBypass5 = {
         message: "hello",
       },
     },
-    bypassAgent: {
-      agent: "bypassAgent",
+    copyAgent: {
+      agent: "copyAgent",
       params: { namedKey: "array" },
       inputs: { array: [":echo", ":echo", ":echo"] },
     },
-    bypassAgent2: {
-      agent: "bypassAgent",
+    copyAgent2: {
+      agent: "copyAgent",
       params: { namedKey: "array" },
-      inputs: { array: [":bypassAgent", ":bypassAgent"] },
+      inputs: { array: [":copyAgent", ":copyAgent"] },
     },
-    bypassAgent3: {
-      agent: "bypassAgent",
+    copyAgent3: {
+      agent: "copyAgent",
       params: { namedKey: "array" },
-      inputs: { array: [":bypassAgent2", ":bypassAgent2"] },
+      inputs: { array: [":copyAgent2", ":copyAgent2"] },
     },
   },
 };

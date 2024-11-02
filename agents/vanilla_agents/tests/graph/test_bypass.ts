@@ -10,12 +10,12 @@ test("test bypass1", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graphDataBypass, agents);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
-    bypassAgent2: [
+    copyAgent2: [
       {
         message: "hello",
       },
     ],
-    bypassAgent: [
+    copyAgent: [
       {
         message: "hello",
       },
@@ -31,8 +31,8 @@ test("test bypass2", async () => {
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
-    mapNode: { bypassAgent: ["hello", "hello"] },
-    bypassAgent2: [["hello", "hello"]],
+    mapNode: { copyAgent: ["hello", "hello"] },
+    copyAgent2: [["hello", "hello"]],
   });
 });
 
@@ -41,8 +41,8 @@ test("test bypass3", async () => {
   // console.log( JSON.stringify(result));
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
-    mapNode: { bypassAgent3: ["hello", "hello"] },
-    bypassAgent4: ["hello", "hello"],
+    mapNode: { copyAgent3: ["hello", "hello"] },
+    copyAgent4: ["hello", "hello"],
   });
 });
 
@@ -52,12 +52,12 @@ test("test bypass4", async () => {
   assert.deepStrictEqual(result, {
     echo: { message: ["hello", "hello"] },
     mapNode: {
-      bypassAgent2: [
+      copyAgent2: [
         ["hello", "hello"],
         ["hello", "hello"],
       ],
     },
-    bypassAgent3: [
+    copyAgent3: [
       ["hello", "hello"],
       ["hello", "hello"],
     ],
@@ -69,12 +69,12 @@ test("test bypass 5", async () => {
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, {
     echo: { message: "hello" },
-    bypassAgent: [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
-    bypassAgent2: [
+    copyAgent: [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
+    copyAgent2: [
       [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
       [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
     ],
-    bypassAgent3: [
+    copyAgent3: [
       [
         [{ message: "hello" }, { message: "hello" }, { message: "hello" }],
         [{ message: "hello" }, { message: "hello" }, { message: "hello" }],

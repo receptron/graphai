@@ -419,7 +419,7 @@ nodes:
       before: ...fetching data from wikipedia
     agent: wikipediaAgent
     inputs:
-      - :source.name
+      query: :source.name
     params:
       lang: en
   chunks:
@@ -433,13 +433,13 @@ nodes:
       before: ...fetching embeddings for chunks
     agent: stringEmbeddingsAgent
     inputs:
-      - :chunks.contents
+      array: :chunks.contents
   topicEmbedding:
     console:
       before: ...fetching embedding for the topic
     agent: stringEmbeddingsAgent
     inputs:
-      - :source.topic
+      item: :source.topic
   similarityCheck:
     agent: dotProductAgent
     inputs:
@@ -459,13 +459,13 @@ nodes:
   prompt:
     agent: stringTemplateAgent
     inputs:
-      - :source.query
-      - :referenceText.content
+      a: :source.query
+      b: :referenceText.content
     params:
       template: |-
-        Using the following document, ${0}
+        Using the following document, ${a}
 
-        ${1}
+        ${b}
   RagQuery:
     console:
       before: ...performing the RAG query
@@ -479,11 +479,11 @@ nodes:
   RagResult:
     agent: copyAgent
     inputs:
-      - :RagQuery.choices.$0.message.content
+      text: :RagQuery.choices.$0.message.content
     isResult: true
   OneShotResult:
     agent: copyAgent
     inputs:
-      - :OneShotQuery.choices.$0.message.content
+      text: :OneShotQuery.choices.$0.message.content
     isResult: true
 ```
