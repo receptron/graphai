@@ -48,7 +48,6 @@
 
 ## test
 ### [echoAgent](./test/echoAgent.md)
-### [bypassAgent](./test/bypassAgent.md)
 ### [countingAgent](./test/countingAgent.md)
 ### [copyMessageAgent](./test/copyMessageAgent.md)
 ### [copy2ArrayAgent](./test/copy2ArrayAgent.md)
@@ -58,7 +57,6 @@
 ## graph
 ### [nestedAgent](./graph/nestedAgent.md)
 ### [mapAgent](./graph/mapAgent.md)
-### [workerAgent](./graph/workerAgent.md)
 
 ## compare
 ### [compareAgent](./compare/compareAgent.md)
