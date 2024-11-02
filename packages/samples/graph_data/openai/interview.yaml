@@ -20,16 +20,14 @@ nodes:
           greeting: Hi, I'm ${name}
     inputs:
       name:
-        "0": :name.text
+        - :name.text
   chat:
     agent: nestedAgent
     inputs:
       messages:
-        "0":
-          role: system
+        - role: system
           content: :context.person0.system
-        "1":
-          role: user
+        - role: user
           content: :context.person1.greeting
       context: :context
     isResult: true
@@ -38,7 +36,7 @@ nodes:
         count: 6
       nodes:
         messages:
-          value: {}
+          value: []
           update: :swappedMessages
           isResult: true
         context:
@@ -71,8 +69,7 @@ nodes:
           agent: propertyFilterAgent
           params:
             inject:
-              "0":
-                propId: content
+              - propId: content
                 index: 0
                 from: 1
             alter:
@@ -81,5 +78,5 @@ nodes:
                 user: assistant
           inputs:
             array:
-              "0": :reducer.array
-              "1": :swappedContext.person0.system
+              - :reducer.array
+              - :swappedContext.person0.system

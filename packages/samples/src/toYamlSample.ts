@@ -19,9 +19,9 @@ const updateAgent = (agentData: Record<string, any>, llmAgent: string) => {
   return agentData;
 };
 
-const update = (graph_data: any, llmAgent: string) => {
+const update = (graph_data: any, llmAgent: string): any => {
   if (Array.isArray(graph_data)) {
-    graph_data.map(g => update(g, llmAgent));
+    return graph_data.map(g => update(g, llmAgent));
   }
   if (isObject(graph_data)) {
     return Object.keys(graph_data).reduce((tmp: Record<string, any>, key: string) => {
@@ -40,6 +40,7 @@ const write = (graph_data: any, llmAgent: string, dirname: string, filename: str
   // console.log(graph_data, __dirname);
 
   const path = __dirname + "/../graph_data/" + dirname + "/" + filename;
+  console.log(JSON.stringify(graph_data, null, 2));
   const yamlStr = stringify(graph_data);
   writeFileSync(path, yamlStr, "utf8");
 };

@@ -7,8 +7,7 @@ nodes:
     update: :checkInput
   messages:
     value:
-      "0":
-        role: system
+      - role: system
         content: You are a meteorologist. Use getWeather API, only when the user ask for
           the weather information.
     update: :reducer.array.$0
@@ -21,9 +20,9 @@ nodes:
     agent: compareAgent
     inputs:
       array:
-        "0": :userInput.text
-        "1": "!="
-        "2": /bye
+        - :userInput.text
+        - "!="
+        - /bye
   llmCall:
     agent: openAIAgent
     params: {}
@@ -43,8 +42,8 @@ nodes:
     inputs:
       array: :messages
       items:
-        "0": :userInput.message
-        "1": :llmCall.message
+        - :userInput.message
+        - :llmCall.message
   tool_calls:
     agent: nestedAgent
     inputs:
@@ -86,8 +85,8 @@ nodes:
           anyInput: true
           inputs:
             array:
-              "0": :fetchForecast
-              "1": :extractError
+              - :fetchForecast
+              - :extractError
         messagesWithToolRes:
           agent: pushAgent
           inputs:
@@ -124,5 +123,5 @@ nodes:
     anyInput: true
     inputs:
       array:
-        "0": :no_tool_calls.result
-        "1": :tool_calls.messagesWithSecondRes.array
+        - :no_tool_calls.result
+        - :tool_calls.messagesWithSecondRes.array

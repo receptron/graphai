@@ -6,7 +6,7 @@ nodes:
     value: true
     update: :checkInput
   messages:
-    value: {}
+    value: []
     update: :reducer.array
     isResult: true
   userInput:
@@ -18,9 +18,9 @@ nodes:
     agent: compareAgent
     inputs:
       array:
-        "0": :userInput.text
-        "1": "!="
-        "2": /bye
+        - :userInput.text
+        - "!="
+        - /bye
   llm:
     agent: geminiAgent
     params: {}
@@ -40,5 +40,5 @@ nodes:
     inputs:
       array: :messages
       items:
-        "0": :userInput.message
-        "1": :llm.message
+        - :userInput.message
+        - :llm.message

@@ -11,8 +11,7 @@ nodes:
     isResult: true
   messages:
     value:
-      "0":
-        role: system
+      - role: system
         content: >
           You are responsible in retrieving following information from the user.
 
@@ -43,12 +42,12 @@ nodes:
       after: true
     inputs:
       message:
-        "0": :llm.text
+        - :llm.text
     if: :llm.text
   reducer:
     agent: pushAgent
     inputs:
       array: :messages
       items:
-        "0": :userInput.message
-        "1": :llm.choices.$0.message
+        - :userInput.message
+        - :llm.choices.$0.message
