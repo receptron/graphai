@@ -136,7 +136,7 @@ export const groqAgent: AgentFunction<
     lastMessage = _message as any;
   }
   const text = contents.join("");
-  const message = { role: "assistant", content: text }
+  const message = { role: "assistant", content: text };
   if (lastMessage) {
     lastMessage.choices[0]["message"] = message;
   }
