@@ -416,10 +416,10 @@ nodes:
     value:
       name: Sam Bankman-Fried
       topic: sentence by the court
-      query: describe the final sentence by the court for Sam Bankman-Fried
+      query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia:
     console:
-      before: ...fetching data from wikipedia
+      before: ...fetching data from wikkpedia
     agent: wikipediaAgent
     inputs:
       query: :source.name
@@ -431,7 +431,7 @@ nodes:
     agent: stringSplitterAgent
     inputs:
       text: :wikipedia.content
-  embeddings:
+  chunkEmbeddings:
     console:
       before: ...fetching embeddings for chunks
     agent: stringEmbeddingsAgent
@@ -443,16 +443,16 @@ nodes:
     agent: stringEmbeddingsAgent
     inputs:
       item: :source.topic
-  similarityCheck:
+  similarities:
     agent: dotProductAgent
     inputs:
-      matrix: :embeddings
+      matrix: :chunkEmbeddings
       vector: :topicEmbedding.$0
   sortedChunks:
     agent: sortByValuesAgent
     inputs:
       array: :chunks.contents
-      values: :similarityCheck
+      values: :similarities
   referenceText:
     agent: tokenBoundStringsAgent
     inputs:
@@ -462,31 +462,36 @@ nodes:
   prompt:
     agent: stringTemplateAgent
     inputs:
-      a: :source.query
-      b: :referenceText.content
+      prompt: :source.query
+      text: :referenceText.content
     params:
       template: |-
-        Using the following document, ${a}
+        Using the following document, ${text}
 
-        ${b}
+        ${prompt}
   RagQuery:
     console:
       before: ...performing the RAG query
     agent: openAIAgent
     inputs:
       prompt: :prompt
+    params:
+      model: gpt-4o
   OneShotQuery:
     agent: openAIAgent
     inputs:
       prompt: :source.query
+    params:
+      model: gpt-4o
   RagResult:
     agent: copyAgent
     inputs:
-      text: :RagQuery.choices.$0.message.content
+      result: :RagQuery.text
     isResult: true
   OneShotResult:
     agent: copyAgent
     inputs:
-      text: :OneShotQuery.choices.$0.message.content
+      result: :OneShotQuery.text
     isResult: true
+
 ```
