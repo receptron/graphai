@@ -22,8 +22,9 @@ nodes:
         - "!="
         - /bye
   llm:
-    agent: geminiAgent
-    params: {}
+    agent: groqAgent
+    params:
+      model: Llama3-8b-8192
     inputs:
       messages: :messages
       prompt: :userInput.text

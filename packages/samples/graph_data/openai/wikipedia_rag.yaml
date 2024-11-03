@@ -63,12 +63,14 @@ nodes:
     agent: openAIAgent
     inputs:
       prompt: :prompt
-    params: {}
+    params:
+      model: gpt-4o
   OneShotQuery:
     agent: openAIAgent
     inputs:
       prompt: :source.query
-    params: {}
+    params:
+      model: gpt-4o
   RagResult:
     agent: copyAgent
     inputs:

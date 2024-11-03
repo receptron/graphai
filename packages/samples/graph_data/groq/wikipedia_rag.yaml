@@ -60,15 +60,17 @@ nodes:
   RagQuery:
     console:
       before: ...performing the RAG query
-    agent: geminiAgent
+    agent: groqAgent
     inputs:
       prompt: :prompt
-    params: {}
+    params:
+      model: Llama3-8b-8192
   OneShotQuery:
-    agent: geminiAgent
+    agent: groqAgent
     inputs:
       prompt: :source.query
-    params: {}
+    params:
+      model: Llama3-8b-8192
   RagResult:
     agent: copyAgent
     inputs:

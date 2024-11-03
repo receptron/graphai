@@ -29,8 +29,33 @@ nodes:
     params:
       message: "You:"
   llm:
-    agent: geminiAgent
-    params: {}
+    agent: groqAgent
+    params:
+      tools:
+        - type: function
+          function:
+            name: report
+            description: Report the information acquired from the user
+            parameters:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: the name of the patient (first and last)
+                sex:
+                  type: string
+                  description: Gender of the patient.
+                  enum:
+                    - male
+                    - female
+                dob:
+                  type: string
+                  description: Patient's date of birth.
+              required:
+                - name
+                - sex
+                - dob
+      model: Llama3-8b-8192
     inputs:
       messages: :messages
       prompt: :userInput.text

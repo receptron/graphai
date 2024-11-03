@@ -25,7 +25,25 @@ nodes:
         - /bye
   llmCall:
     agent: openAIAgent
-    params: {}
+    params:
+      tools:
+        - type: function
+          function:
+            name: getWeather
+            description: get wether information of the specified location
+            parameters:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                  description: The latitude of the location.
+                longitude:
+                  type: number
+                  description: The longitude of the location.
+              required:
+                - latitude
+                - longitude
+      model: gpt-4o
     inputs:
       messages: :messages
       prompt: :userInput.text
@@ -100,7 +118,8 @@ nodes:
           agent: openAIAgent
           inputs:
             messages: :messagesWithToolRes.array
-          params: {}
+          params:
+            model: gpt-4o
         output:
           agent: stringTemplateAgent
           inputs:

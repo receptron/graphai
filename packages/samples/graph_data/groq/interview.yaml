@@ -43,8 +43,9 @@ nodes:
           value: {}
           update: :swappedContext
         groq:
-          agent: geminiAgent
-          params: {}
+          agent: groqAgent
+          params:
+            model: Llama3-8b-8192
           inputs:
             messages: :messages
         output:

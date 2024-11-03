@@ -17,10 +17,11 @@ nodes:
     inputs:
       url: https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/graph_data/reception.json
   graphGenerator:
-    agent: geminiAgent
+    agent: groqAgent
     console:
       before: ...generating a new graph
-    params: {}
+    params:
+      model: Llama3-8b-8192
     inputs:
       prompt: Name, Address and Phone Number
       messages:

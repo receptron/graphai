@@ -20,7 +20,8 @@ nodes:
     agent: openAIAgent
     console:
       before: ...generating a new graph
-    params: {}
+    params:
+      model: gpt-4o
     inputs:
       prompt: Name, Address and Phone Number
       messages:

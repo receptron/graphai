@@ -44,7 +44,8 @@ nodes:
           update: :swappedContext
         groq:
           agent: openAIAgent
-          params: {}
+          params:
+            model: gpt-4o
           inputs:
             messages: :messages
         output:

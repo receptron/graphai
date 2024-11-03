@@ -23,7 +23,8 @@ nodes:
         - /bye
   llm:
     agent: openAIAgent
-    params: {}
+    params:
+      model: gpt-4o
     inputs:
       messages: :messages
       prompt: :userInput.text

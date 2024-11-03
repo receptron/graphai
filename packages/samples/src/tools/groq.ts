@@ -52,6 +52,9 @@ const graph_data = {
             },
             retry: 1,
             inputs: { prompt: ":row" },
+            console: {
+              after: true
+            },
           },
           parser: {
             agent: (namedInputs: { food: string; args: string }) => {
