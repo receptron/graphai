@@ -33,13 +33,13 @@ export const graph_data = {
       agent: "stringSplitterAgent",
       inputs: { text: ":wikipedia.content" },
     },
-    embeddings: {
+    chunkEmbeddings: {
       // Get embedding vectors of those chunks
       console: {
         before: "...fetching embeddings for chunks",
       },
       agent: "stringEmbeddingsAgent",
-      inputs: { item: ":chunks.contents" },
+      inputs: { array: ":chunks.contents" },
     },
     topicEmbedding: {
       // Get embedding vector of the topic
@@ -49,15 +49,15 @@ export const graph_data = {
       agent: "stringEmbeddingsAgent",
       inputs: { item: ":source.topic" },
     },
-    similarityCheck: {
+    similarities: {
       // Get the cosine similarities of those vectors
       agent: "dotProductAgent",
-      inputs: { matrix: ":embeddings", vector: ":topicEmbedding.$0" },
+      inputs: { matrix: ":chunkEmbeddings", vector: ":topicEmbedding.$0" },
     },
     sortedChunks: {
       // Sort chunks based on those similarities
       agent: "sortByValuesAgent",
-      inputs: { array: ":chunks.contents", values: ":similarityCheck" },
+      inputs: { array: ":chunks.contents", values: ":similarities" },
     },
     referenceText: {
       // Generate reference text from those chunks (token limited)
@@ -90,12 +90,12 @@ export const graph_data = {
     },
     RagResult: {
       agent: "copyAgent",
-      inputs: { result: ":RagQuery.choices.$0.message.content" },
+      inputs: { result: ":RagQuery.text" },
       isResult: true,
     },
     OneShotResult: {
       agent: "copyAgent",
-      inputs: { result: ":OneShotQuery.choices.$0.message.content" },
+      inputs: { result: ":OneShotQuery.text" },
       isResult: true,
     },
   },
