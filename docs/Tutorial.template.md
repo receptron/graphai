@@ -7,20 +7,7 @@ GraphAI (https://github.com/receptron/graphai) is an open source project, which 
 Here is the "Hello World" of GraphAI. 
 
 ```YAML
-version: 0.5
-nodes:
-  llm:
-    agent: openAIAgent
-    params:
-      model: gpt-4o
-    inputs:
-      prompt: Explain ML's transformer in 100 words.
-  output:
-    agent: copyAgent
-    console:
-      after: true
-    inputs:
-      text: :llm.text
+${packages/samples/graph_data/openai/simple.yaml}
 ```
 
 It has two nodes:

@@ -17,10 +17,13 @@ nodes:
       prompt: Explain ML's transformer in 100 words.
   output:
     agent: copyAgent
+    params:
+      namedKey: item
     console:
       after: true
     inputs:
-      text: :llm.text
+      item: :llm.text
+
 ```
 
 It has two nodes:
