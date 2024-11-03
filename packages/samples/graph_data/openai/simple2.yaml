@@ -11,8 +11,8 @@ nodes:
   output:
     agent: copyAgent
     params:
-      namedKey: item
+      namedKey: text
     console:
       after: true
     inputs:
-      item: :llm.text
+      text: :llm.text
