@@ -73,10 +73,13 @@ nodes:
       prompt: :prompt
   output:
     agent: copyAgent
+    params:
+      namedKey: text
     console:
       after: true
     inputs:
       text: :llm.text
+
 ```
 
 ## Loop

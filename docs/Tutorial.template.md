@@ -45,22 +45,7 @@ A *static nodes* is a place holder of a value, just like a *variable* in compute
 The example below performs the same operation, but uses one *static node*, **prompt**, which holds the value "Explain ML's transformer in 100 words".
 
 ```YAML
-version: 0.5
-nodes:
-  prompt:
-    value: Explain ML's transformer in 100 words.
-  llm:
-    agent: openAIAgent
-    params:
-      model: gpt-4o
-    inputs:
-      prompt: :prompt
-  output:
-    agent: copyAgent
-    console:
-      after: true
-    inputs:
-      text: :llm.text
+${packages/samples/graph_data/openai/simple2.yaml}
 ```
 
 ## Loop
