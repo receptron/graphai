@@ -1,5 +1,5 @@
-import { stringify } from "yaml";
-import { writeFileSync } from "fs";
+import { stringify, parse } from "yaml";
+import { writeFileSync, readFileSync } from "fs";
 
 import { graph_data as chat } from "./interaction/chat";
 import { graph_data as metachat } from "./interaction/metachat";
@@ -48,10 +48,22 @@ const write = (graph_data: any, toLlmAgent: string, dirname: string, filename: s
   graph_data.nodes = update(graph_data.nodes, toLlmAgent);
 
   const path = __dirname + "/../graph_data/" + dirname + "/" + filename;
-  console.log(JSON.stringify(graph_data, null, 2));
+  // console.log(JSON.stringify(graph_data, null, 2));
   const yamlStr = stringify(graph_data);
   writeFileSync(path, yamlStr, "utf8");
 };
+
+const readYaml = (filename: string) => {
+  const path = __dirname + "/simple/" + filename;
+  const yamlStr = readFileSync(path, "utf8");
+  const graph = parse(yamlStr);
+  return graph;
+};
+
+const loop = readYaml("loop.yaml");
+const map = readYaml("map.yaml");
+const simple = readYaml("simple.yaml");
+const simple2 = readYaml("simple2.yaml");
 
 [
   ["openAIAgent", "openai"],
@@ -63,10 +75,23 @@ const write = (graph_data: any, toLlmAgent: string, dirname: string, filename: s
   write(weather, agent, dir, "weather.yaml");
   write(interview, agent, dir, "interview.yaml");
   write(wikipedia, agent, dir, "wikipedia_rag.yaml");
+  //
+  write(loop, agent, dir, "loop.yaml");
+  write(map, agent, dir, "map.yaml");
+  write(simple, agent, dir, "simple.yaml");
+  write(simple2, agent, dir, "simple2.yaml");
+  
 });
 
 [["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
   write(chat, agent, dir, "chat.yaml");
+
+  //
+  write(loop, agent, dir, "loop.yaml");
+  write(map, agent, dir, "map.yaml");
+  write(simple, agent, dir, "simple.yaml");
+  write(simple2, agent, dir, "simple2.yaml");
+
 });
 
 [
@@ -78,4 +103,11 @@ const write = (graph_data: any, toLlmAgent: string, dirname: string, filename: s
   write(weather, agent, dir, "weather.yaml");
   write(interview, agent, dir, "interview.yaml");
   write(wikipedia, agent, dir, "wikipedia_rag.yaml");
+
+  //
+  write(loop, agent, dir, "loop.yaml");
+  write(map, agent, dir, "map.yaml");
+  write(simple, agent, dir, "simple.yaml");
+  write(simple2, agent, dir, "simple2.yaml");
+
 });

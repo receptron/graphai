@@ -1,0 +1,26 @@
+version: 0.5
+nodes:
+  fruits:
+    value:
+      - apple
+      - lemomn
+      - banana
+  map:
+    agent: mapAgent
+    inputs:
+      rows: :fruits
+    isResult: true
+    graph:
+      nodes:
+        llm:
+          agent: anthropicAgent
+          params: {}
+          inputs:
+            prompt: What is the typical color of ${:row}? Just answer the color.
+        result:
+          agent: copyAgent
+          params:
+            namedKey: item
+          inputs:
+            item: :llm.text
+          isResult: true

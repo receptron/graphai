@@ -1,0 +1,18 @@
+version: 0.5
+nodes:
+  prompt:
+    value: Explain ML's transformer in 100 words.
+  llm:
+    agent: groqAgent
+    params:
+      model: Llama3-8b-8192
+    inputs:
+      prompt: :prompt
+  output:
+    agent: copyAgent
+    params:
+      namedKey: item
+    console:
+      after: true
+    inputs:
+      item: :llm.text

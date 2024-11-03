@@ -1,0 +1,29 @@
+version: 0.5
+loop:
+  while: :fruits
+nodes:
+  fruits:
+    value:
+      - apple
+      - lemomn
+      - banana
+    update: :shift.array
+  result:
+    value: []
+    update: :reducer.array
+    isResult: true
+  shift:
+    agent: shiftAgent
+    inputs:
+      array: :fruits
+  llm:
+    agent: groqAgent
+    params:
+      model: Llama3-8b-8192
+    inputs:
+      prompt: What is the typical color of ${:shift.item}? Just answer the color.
+  reducer:
+    agent: pushAgent
+    inputs:
+      array: :result
+      item: :llm.text

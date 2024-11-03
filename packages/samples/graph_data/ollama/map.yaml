@@ -1,0 +1,28 @@
+version: 0.5
+nodes:
+  fruits:
+    value:
+      - apple
+      - lemomn
+      - banana
+  map:
+    agent: mapAgent
+    inputs:
+      rows: :fruits
+    isResult: true
+    graph:
+      nodes:
+        llm:
+          agent: openAIAgent
+          params:
+            model: llama3
+            baseURL: http://127.0.0.1:11434/v1
+          inputs:
+            prompt: What is the typical color of ${:row}? Just answer the color.
+        result:
+          agent: copyAgent
+          params:
+            namedKey: item
+          inputs:
+            item: :llm.text
+          isResult: true
