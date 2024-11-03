@@ -71,7 +71,7 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   ["openAIAgent", "openai"],
   ["geminiAgent", "google"],
   ["groqAgent", "groq"],
-  ["ollamaAgent", "ollama"]
+  ["ollamaAgent", "ollama"],
 ].forEach(([agent, dir]) => {
   write(chat, agent, dir, "chat.yaml");
   if (dir === "openai") {
@@ -89,7 +89,6 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   write(simple, agent, dir, "simple.yaml");
   write(simple2, agent, dir, "simple2.yaml");
   write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
-  
 });
 
 [["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
@@ -100,6 +99,4 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   write(map, agent, dir, "map.yaml");
   write(simple, agent, dir, "simple.yaml");
   write(simple2, agent, dir, "simple2.yaml");
-
 });
-
