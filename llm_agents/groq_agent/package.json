@@ -1,6 +1,6 @@
 {
   "name": "@graphai/groq_agent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Groq agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
