@@ -19,28 +19,28 @@ nodes:
     agent: stringSplitterAgent
     inputs:
       text: :wikipedia.content
-  embeddings:
+  chunkEmbeddings:
     console:
       before: ...fetching embeddings for chunks
     agent: stringEmbeddingsAgent
     inputs:
-      item: :chunks.contents
+      array: :chunks.contents
   topicEmbedding:
     console:
       before: ...fetching embedding for the topic
     agent: stringEmbeddingsAgent
     inputs:
       item: :source.topic
-  similarityCheck:
+  similarities:
     agent: dotProductAgent
     inputs:
-      matrix: :embeddings
+      matrix: :chunkEmbeddings
       vector: :topicEmbedding.$0
   sortedChunks:
     agent: sortByValuesAgent
     inputs:
       array: :chunks.contents
-      values: :similarityCheck
+      values: :similarities
   referenceText:
     agent: tokenBoundStringsAgent
     inputs:
@@ -50,13 +50,13 @@ nodes:
   prompt:
     agent: stringTemplateAgent
     inputs:
-      q: :source.query
-      c: :referenceText.content
+      prompt: :source.query
+      text: :referenceText.content
     params:
       template: |-
-        Using the following document, ${c}
+        Using the following document, ${text}
 
-        ${q}
+        ${prompt}
   RagQuery:
     console:
       before: ...performing the RAG query
@@ -72,10 +72,10 @@ nodes:
   RagResult:
     agent: copyAgent
     inputs:
-      result: :RagQuery.choices.$0.message.content
+      result: :RagQuery.text
     isResult: true
   OneShotResult:
     agent: copyAgent
     inputs:
-      result: :OneShotQuery.choices.$0.message.content
+      result: :OneShotQuery.text
     isResult: true

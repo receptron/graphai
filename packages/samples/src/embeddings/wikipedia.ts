@@ -70,9 +70,9 @@ export const graph_data = {
     prompt: {
       // Generate a prompt with that reference text
       agent: "stringTemplateAgent",
-      inputs: { q: ":source.query", c: ":referenceText.content" },
+      inputs: { prompt: ":source.query", text: ":referenceText.content" },
       params: {
-        template: "Using the following document, ${c}\n\n${q}",
+        template: "Using the following document, ${text}\n\n${prompt}",
       },
     },
     RagQuery: {
