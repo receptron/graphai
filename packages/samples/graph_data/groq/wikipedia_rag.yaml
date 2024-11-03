@@ -6,20 +6,28 @@ nodes:
       topic: sentence by the court
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia:
+    console:
+      before: ...fetching data from wikkpedia
     agent: wikipediaAgent
     inputs:
       query: :source.name
     params:
       lang: en
   chunks:
+    console:
+      before: ...splitting the article into chunks
     agent: stringSplitterAgent
     inputs:
       text: :wikipedia.content
   embeddings:
+    console:
+      before: ...fetching embeddings for chunks
     agent: stringEmbeddingsAgent
     inputs:
       item: :chunks.contents
   topicEmbedding:
+    console:
+      before: ...fetching embedding for the topic
     agent: stringEmbeddingsAgent
     inputs:
       item: :source.topic
@@ -32,7 +40,7 @@ nodes:
     agent: sortByValuesAgent
     inputs:
       array: :chunks.contents
-      value: :similarityCheck
+      values: :similarityCheck
   referenceText:
     agent: tokenBoundStringsAgent
     inputs:
@@ -42,18 +50,34 @@ nodes:
   prompt:
     agent: stringTemplateAgent
     inputs:
-      a: :source.query
-      b: :referenceText.content
+      q: :source.query
+      c: :referenceText.content
     params:
       template: |-
-        Using the following document, ${a}
+        Using the following document, ${c}
 
-        ${b}
+        ${q}
   RagQuery:
-    agent: slashGPTAgent
+    console:
+      before: ...performing the RAG query
+    agent: groqAgent
     inputs:
-      array: [:prompt]
+      prompt: :prompt
+    params:
+      model: Llama3-8b-8192
   OneShotQuery:
-    agent: slashGPTAgent
+    agent: groqAgent
     inputs:
-      array: [:source.query]
+      prompt: :source.query
+    params:
+      model: Llama3-8b-8192
+  RagResult:
+    agent: copyAgent
+    inputs:
+      result: :RagQuery.choices.$0.message.content
+    isResult: true
+  OneShotResult:
+    agent: copyAgent
+    inputs:
+      result: :OneShotQuery.choices.$0.message.content
+    isResult: true

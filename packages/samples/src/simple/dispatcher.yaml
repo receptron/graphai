@@ -28,12 +28,12 @@ nodes:
                   description: "The user name"
             required: ["eventType"]
     inputs:
-      prompt: :textInput
+      prompt: :textInput.text
       messages: :history
   messageData:
     agent: "stringTemplateAgent"
     inputs:
-      user: :textInput
+      user: :textInput.text
       assistant: :llm.text
     params:
       template:

@@ -4,17 +4,16 @@ loop:
 nodes:
   continue:
     value: true
-    update: :llm.choices.$0.message.content
+    update: :llm.text
   information:
     value: {}
-    update: :argumentsParser
+    update: :llm.tool.arguments
     isResult: true
   messages:
     value:
       - role: system
         content: >
-          You  are responsible in retrieving following information from the
-          user.
+          You are responsible in retrieving following information from the user.
 
           name: both first and last name
 
@@ -24,26 +23,11 @@ nodes:
 
           When you get all the information from the user, call the function
           'report'.
-    update: :reducer
+    update: :reducer.array
   userInput:
     agent: textInputAgent
     params:
       message: "You:"
-  userMessage:
-    agent: propertyFilterAgent
-    params:
-      inject:
-        - propId: content
-          from: 1
-    inputs:
-      array:
-        - role: user
-        - :userInput
-  appendedMessages:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      item: :userMessage
   llm:
     agent: openAIAgent
     params:
@@ -73,23 +57,22 @@ nodes:
                 - sex
                 - dob
     inputs:
-      messages: :appendedMessages
-  argumentsParser:
-    agent: jsonParserAgent
-    inputs:
-      text: :llm.choices.$0.message.tool_calls.$0.function.arguments
-    if: :llm.choices.$0.message.tool_calls
+      messages: :messages
+      prompt: :userInput.text
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mOpenAI\e[0m: ${content}"
+      template: "\e[32mAgent\e[0m: ${message}"
     console:
       after: true
     inputs:
-      content: :llm.choices.$0.message.content
-    if: :llm.choices.$0.message.content
+      message:
+        - :llm.text
+    if: :llm.text
   reducer:
     agent: pushAgent
     inputs:
-      array: :appendedMessages
-      item: :llm.choices.$0.message
+      array: :messages
+      items:
+        - :userInput.message
+        - :llm.choices.$0.message

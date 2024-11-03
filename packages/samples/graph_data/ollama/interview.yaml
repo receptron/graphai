@@ -19,27 +19,16 @@ nodes:
           system: You are ${name}.
           greeting: Hi, I'm ${name}
     inputs:
-      name: :name
-  messages:
-    agent: propertyFilterAgent
-    params:
-      inject:
-        - index: 0
-          propId: content
-          from: 1
-        - index: 1
-          propId: content
-          from: 2
-    inputs:
-      array:
-        - - role: system
-          - role: user
-        - :context.person0.system
-        - :context.person1.greeting
+      name:
+        - :name.text
   chat:
     agent: nestedAgent
     inputs:
-      messages: :messages
+      messages:
+        - role: system
+          content: :context.person0.system
+        - role: user
+          content: :context.person1.greeting
       context: :context
     isResult: true
     graph:
@@ -54,33 +43,30 @@ nodes:
           value: {}
           update: :swappedContext
         groq:
-          agent: groqAgent
+          agent: openAIAgent
           params:
-            model: Llama3-8b-8192
+            model: llama3
+            baseURL: http://127.0.0.1:11434/v1
           inputs:
             messages: :messages
         output:
           agent: stringTemplateAgent
-          params:
-            template: "\e[32m${name}:\e[0m ${content}\n"
           console:
             after: true
           inputs:
-            content: :groq.choices.$0.message.content
-            name: :context.person0.name
+            text: "\e[32m${:context.person0.name}:\e[0m ${:groq.text}\n"
         reducer:
           agent: pushAgent
           inputs:
             array: :messages
-            item: :groq.choices.$0.message
+            item: :groq.message
         swappedContext:
           agent: propertyFilterAgent
           params:
             swap:
               person0: person1
           inputs:
-            array:
-              - :context
+            item: :context
         swappedMessages:
           agent: propertyFilterAgent
           params:
@@ -94,5 +80,5 @@ nodes:
                 user: assistant
           inputs:
             array:
-              - :reducer
+              - :reducer.array
               - :swappedContext.person0.system

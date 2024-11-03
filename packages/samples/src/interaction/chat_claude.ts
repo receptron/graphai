@@ -25,6 +25,7 @@ export const graph_data = {
       agent: "textInputAgent",
       params: {
         message: "You:",
+        required: true,
       },
     },
     checkInput: {
@@ -46,7 +47,7 @@ export const graph_data = {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
       params: {
-        template: "\x1b[32mLLM\x1b[0m: ${message}",
+        template: "\x1b[32mAgent\x1b[0m: ${message}",
       },
       console: {
         after: true,

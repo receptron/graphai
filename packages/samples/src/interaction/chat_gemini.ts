@@ -46,13 +46,10 @@ export const graph_data = {
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
-      params: {
-        template: "\x1b[32mGemini\x1b[0m: ${message}",
-      },
       console: {
         after: true,
       },
-      inputs: { message: ":groq.text" },
+      inputs: { text: "\x1b[32mAgent\x1b[0m: ${:groq.text}" },
     },
     reducer: {
       // Appends the responce to the messages.

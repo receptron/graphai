@@ -1,0 +1,146 @@
+version: 0.5
+loop:
+  while: :continue
+nodes:
+  continue:
+    value: true
+    update: :checkInput
+  messages:
+    value:
+      - role: system
+        content: You are a meteorologist. Use getWeather API, only when the user ask for
+          the weather information.
+    update: :reducer.array.$0
+    isResult: true
+  userInput:
+    agent: textInputAgent
+    params:
+      message: "Location:"
+  checkInput:
+    agent: compareAgent
+    inputs:
+      array:
+        - :userInput.text
+        - "!="
+        - /bye
+  llmCall:
+    agent: groqAgent
+    params:
+      tools:
+        - type: function
+          function:
+            name: getWeather
+            description: get wether information of the specified location
+            parameters:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                  description: The latitude of the location.
+                longitude:
+                  type: number
+                  description: The longitude of the location.
+              required:
+                - latitude
+                - longitude
+      model: Llama3-8b-8192
+    inputs:
+      messages: :messages
+      prompt: :userInput.text
+    if: :checkInput
+  output:
+    agent: stringTemplateAgent
+    inputs:
+      text: "Weather: ${:llmCall.text}"
+    console:
+      after: true
+    if: :llmCall.text
+  messagesWithFirstRes:
+    agent: pushAgent
+    inputs:
+      array: :messages
+      items:
+        - :userInput.message
+        - :llmCall.message
+  tool_calls:
+    agent: nestedAgent
+    inputs:
+      parent_messages: :messagesWithFirstRes.array
+      parent_tool: :llmCall.tool
+    if: :llmCall.tool
+    graph:
+      nodes:
+        outputFetching:
+          agent: stringTemplateAgent
+          inputs:
+            text: "... fetching weather info: ${:parent_tool.arguments.latitude},
+              ${:parent_tool.arguments.longitude}"
+          console:
+            after: true
+        fetchPoints:
+          agent: fetchAgent
+          inputs:
+            url: https://api.weather.gov/points/${:parent_tool.arguments.latitude},${:parent_tool.arguments.longitude}
+            headers:
+              User-Agent: (receptron.org)
+        fetchForecast:
+          agent: fetchAgent
+          params:
+            type: text
+          inputs:
+            url: :fetchPoints.properties.forecast
+            headers:
+              User-Agent: (receptron.org)
+          unless: :fetchPoints.onError
+        extractError:
+          agent: stringTemplateAgent
+          inputs:
+            text: "${:fetchPoints.onError.error.title}:
+              ${:fetchPoints.onError.error.detail}"
+          if: :fetchPoints.onError
+        responseText:
+          agent: copyAgent
+          anyInput: true
+          inputs:
+            array:
+              - :fetchForecast
+              - :extractError
+        messagesWithToolRes:
+          agent: pushAgent
+          inputs:
+            array: :parent_messages
+            item:
+              role: tool
+              tool_call_id: :parent_tool.id
+              name: :parent_tool.name
+              content: :responseText.array.$0
+        llmCall:
+          agent: groqAgent
+          inputs:
+            messages: :messagesWithToolRes.array
+          params:
+            model: Llama3-8b-8192
+        output:
+          agent: stringTemplateAgent
+          inputs:
+            text: "Weather: ${:llmCall.text}"
+          console:
+            after: true
+        messagesWithSecondRes:
+          agent: pushAgent
+          inputs:
+            array: :messagesWithToolRes.array
+            item: :llmCall.message
+          isResult: true
+  no_tool_calls:
+    agent: copyAgent
+    unless: :llmCall.tool
+    inputs:
+      result: :messagesWithFirstRes.array
+  reducer:
+    agent: copyAgent
+    anyInput: true
+    inputs:
+      array:
+        - :no_tool_calls.result
+        - :tool_calls.messagesWithSecondRes.array

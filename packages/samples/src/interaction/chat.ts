@@ -17,6 +17,7 @@ export const graph_data = {
     messages: {
       // Holds the conversation, the array of messages.
       value: [],
+      update: ":reducer.array",
       isResult: true,
     },
     userInput: {
@@ -24,6 +25,7 @@ export const graph_data = {
       agent: "textInputAgent",
       params: {
         message: "You:",
+        required: true,
       },
     },
     checkInput: {
@@ -49,6 +51,11 @@ export const graph_data = {
         after: true,
       },
       inputs: { message: ":llm.text" },
+    },
+    reducer: {
+      // Appends the responce to the messages.
+      agent: "pushAgent",
+      inputs: { array: ":messages", items: [":userInput.message", ":llm.message"] },
     },
   },
 };
