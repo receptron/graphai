@@ -64,6 +64,8 @@ const loop = readYaml("loop.yaml");
 const map = readYaml("map.yaml");
 const simple = readYaml("simple.yaml");
 const simple2 = readYaml("simple2.yaml");
+const dispatcher = readYaml("dispatcher.yaml");
+const business_idea_jp = readYaml("business_idea_jp.yaml");
 
 [
   ["openAIAgent", "openai"],
@@ -80,6 +82,8 @@ const simple2 = readYaml("simple2.yaml");
   write(map, agent, dir, "map.yaml");
   write(simple, agent, dir, "simple.yaml");
   write(simple2, agent, dir, "simple2.yaml");
+  // write(dispatcher, agent, dir, "dispatcher.yaml");
+  write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
   
 });
 
@@ -109,5 +113,6 @@ const simple2 = readYaml("simple2.yaml");
   write(map, agent, dir, "map.yaml");
   write(simple, agent, dir, "simple.yaml");
   write(simple2, agent, dir, "simple2.yaml");
+  write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
 
 });
