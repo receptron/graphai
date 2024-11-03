@@ -12,12 +12,14 @@ const isObject = (x: unknown): x is Record<string, any> => {
   return x !== null && typeof x === "object";
 };
 const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
-  agentData.agent = toLlmAgent;
+  agentData.agent = toLlmAgent === "ollamaAgent" ? "openAIAgent" : toLlmAgent;
   const params = agentData.params ?? {};
   if (toLlmAgent === "groqAgent") {
     agentData.params = { ...params, model: "Llama3-8b-8192" };
   } else if (toLlmAgent === "openAIAgent") {
-    agentData.params = { ...params, model: "gpt-4o"};
+    agentData.params = { ...params, model: "gpt-4o" };
+  } else if (toLlmAgent === "ollamaAgent") {
+    agentData.params = { ...params, model: "llama3", baseURL: "http://127.0.0.1:11434/v1" };
   } else if (["anthropicAgent", "geminiAgent"].includes(toLlmAgent)) {
     delete params.model;
     agentData.params = params;
@@ -27,7 +29,7 @@ const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
 
 const update = (graph_data: any, toLlmAgent: string): any => {
   if (Array.isArray(graph_data)) {
-    return graph_data.map(g => update(g, toLlmAgent));
+    return graph_data.map((g) => update(g, toLlmAgent));
   }
   if (isObject(graph_data)) {
     return Object.keys(graph_data).reduce((tmp: Record<string, any>, key: string) => {
@@ -54,7 +56,6 @@ const write = (graph_data: any, toLlmAgent: string, dirname: string, filename: s
 [
   ["openAIAgent", "openai"],
   ["geminiAgent", "google"],
-  ["groqAgent", "groq"],
 ].forEach(([agent, dir]) => {
   write(chat, agent, dir, "chat.yaml");
   write(metachat, agent, dir, "metachat.yaml");
@@ -64,9 +65,17 @@ const write = (graph_data: any, toLlmAgent: string, dirname: string, filename: s
   write(wikipedia, agent, dir, "wikipedia_rag.yaml");
 });
 
+[["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
+  write(chat, agent, dir, "chat.yaml");
+});
 
 [
-  ["anthropicAgent", "anthropic"],
+  ["groqAgent", "groq"],
+  ["ollamaAgent", "ollama"]
 ].forEach(([agent, dir]) => {
   write(chat, agent, dir, "chat.yaml");
+  write(reception, agent, dir, "reception.yaml");
+  write(weather, agent, dir, "weather.yaml");
+  write(interview, agent, dir, "interview.yaml");
+  write(wikipedia, agent, dir, "wikipedia_rag.yaml");
 });

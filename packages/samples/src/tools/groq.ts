@@ -53,7 +53,7 @@ const graph_data = {
             retry: 1,
             inputs: { prompt: ":row" },
             console: {
-              after: true
+              after: true,
             },
           },
           parser: {
