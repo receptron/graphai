@@ -137,7 +137,10 @@ Here is a simple application, which uses **map**.
 version: 0.5
 nodes:
   fruits:
-    value: [apple, lemon, banana]
+    value:
+      - apple
+      - lemomn
+      - banana
   map:
     agent: mapAgent
     inputs:
@@ -145,23 +148,20 @@ nodes:
     isResult: true
     graph:
       nodes:
-        prompt:
-          agent: stringTemplateAgent
-          params:
-            template: What is the typical color of ${item}? Just answer the color.
-          inputs:
-            item: :row
         llm:
           agent: openAIAgent
           params:
             model: gpt-4o
-          inputs: 
-            prompt: :prompt
+          inputs:
+            prompt: What is the typical color of ${:row}? Just answer the color.
         result:
           agent: copyAgent
+          params:
+            namedKey: item
           inputs:
-            text: :llm.text
+            item: :llm.text
           isResult: true
+
 ```
 
 1. **fruits**: This static node holds the list of fruits.
@@ -228,12 +228,10 @@ nodes:
 1. The user is prompted to input a message with "You:".
 2. `userInput` captures the user's input.
 3. `checkInput` evaluates if the input is "/bye". If it is, `continue` is set to `false`, stopping the loop.
-4. `userMessage` formats the user's input as a message with the role "user".
-5. `appendedMessages` appends the user's message to the existing messages array.
-6. `llm` uses the updated messages array to generate a response from the AI model.
-7. `output` formats the AI agent's response and prints it to the console.
-8. `reducer` appends the AI agent's response to the messages array.
-9. The loop continues as long as `continue` is `true`.
+4. `llm` uses the updated messages array to generate a response from the AI model.
+5. `output` formats the AI agent's response and prints it to the console.
+6. `reducer` appends the AI agent's response to the messages array.
+7. The loop continues as long as `continue` is `true`.
 
 ## Weather: Function Call and nested graph
 

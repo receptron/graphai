@@ -71,41 +71,13 @@ Please notice that each item in the array will be processed sequentially. To pro
 Here is a simple application, which uses **map**.
 
 ```YAML
-version: 0.5
-nodes:
-  fruits:
-    value: [apple, lemon, banana]
-  map:
-    agent: mapAgent
-    inputs:
-      rows: :fruits
-    isResult: true
-    graph:
-      nodes:
-        prompt:
-          agent: stringTemplateAgent
-          params:
-            template: What is the typical color of ${item}? Just answer the color.
-          inputs:
-            item: :row
-        llm:
-          agent: openAIAgent
-          params:
-            model: gpt-4o
-          inputs: 
-            prompt: :prompt
-        result:
-          agent: copyAgent
-          inputs:
-            text: :llm.text
-          isResult: true
+${packages/samples/graph_data/openai/map.yaml}
 ```
 
 1. **fruits**: This static node holds the list of fruits.
 2. **map**: This node is associated with **mapAgent**, which performs the mapping, by executing the nested graph for each item for the value of **fruits** node, and outputs the combined results.
-3. **prompt**: This node creates a prompt by filling the `${0}` of the template string with each item of the value of **fruits** node.
-4. **llm**: This node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
-5. **result**: This node retrieves the content property from the output of **llm** node.
+3. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:row}? Just answer the color." by applying the item property from  the value of **fruits** node. It then passes this prompt to gpt-4o to obtain the generated result.
+4. **result**: This node retrieves the content property from the output of **llm** node.
 
 Please notice that each item in the array will be processed concurrently.
 
