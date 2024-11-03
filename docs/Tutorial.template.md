@@ -55,46 +55,14 @@ The dataflow graph needs to be acyclic by design, but we added a few control flo
 Here is a simple application, which uses **loop**.
 
 ```YAML
-version: 0.5
-loop:
-  while: :fruits
-nodes:
-  fruits:
-    value: [apple, lemon, banana]
-    update: :shift.array
-  result:
-    value: []
-    update: :reducer.array
-    isResult: true
-  shift:
-    agent: shiftAgent
-    inputs: 
-      array: :fruits
-  prompt:
-    agent: stringTemplateAgent
-    params:
-      template: What is the typical color of ${item}? Just answer the color.
-    inputs:
-      item: :shift.item
-  llm:
-    agent: openAIAgent
-    params:
-      model: gpt-4o
-    inputs: 
-      prompt: :prompt
-  reducer:
-    agent: pushAgent
-    inputs:
-      array: :result
-      item: :llm.text
+${packages/samples/graph_data/openai/loop.yaml}
 ```
 
 1. **fruits**: This static node holds the list of fruits at the begining but updated with the array property of **shift** node after each iteration.
 2. **result**: This static node starts with an empty array, but updated with the value of **reducer** node after each iteration.
 3. **shift**: This node takes the first item from the value from **fruits** node, and output the remaining array and item as properties.
-4. **prompt**: This node creates a prompt by filling the `${0}` of the template string with the item property of the output of **shift** node.
-5. **llm**: This computed node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
-6. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
+4. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:shift.item}? Just answer the color." by applying the item property from the shift node's output. It then passes this prompt to gpt-4o to obtain the generated result.
+5. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
 
 Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below. 
 
