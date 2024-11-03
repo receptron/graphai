@@ -7,7 +7,7 @@ const tools = [
     type: "function",
     function: {
       name: "getWeather",
-      description: "get wether information of the specified location",
+      description: "get weather information of the specified location",
       parameters: {
         type: "object",
         properties: {

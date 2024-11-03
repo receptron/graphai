@@ -7,7 +7,9 @@
     "build": "yarn workspaces run build",
     "eslint": "yarn workspaces run eslint",
     "format": "yarn workspaces run format",
+    "format_top": "prettier --write src/*.ts",
     "doc": "yarn workspaces run doc",
+    "markdown": "npx tsx src/markdown.ts",
     "sample": "npx ts-node docs/async/sample1.ts"
   },
   "private": true,

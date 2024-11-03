@@ -17,10 +17,13 @@ nodes:
       prompt: Explain ML's transformer in 100 words.
   output:
     agent: copyAgent
+    params:
+      namedKey: text
     console:
       after: true
     inputs:
       text: :llm.text
+
 ```
 
 It has two nodes:
@@ -70,10 +73,13 @@ nodes:
       prompt: :prompt
   output:
     agent: copyAgent
+    params:
+      namedKey: text
     console:
       after: true
     inputs:
       text: :llm.text
+
 ```
 
 ## Loop
@@ -88,7 +94,10 @@ loop:
   while: :fruits
 nodes:
   fruits:
-    value: [apple, lemon, banana]
+    value:
+      - apple
+      - lemomn
+      - banana
     update: :shift.array
   result:
     value: []
@@ -96,33 +105,27 @@ nodes:
     isResult: true
   shift:
     agent: shiftAgent
-    inputs: 
-      array: :fruits
-  prompt:
-    agent: stringTemplateAgent
-    params:
-      template: What is the typical color of ${item}? Just answer the color.
     inputs:
-      item: :shift.item
+      array: :fruits
   llm:
     agent: openAIAgent
     params:
       model: gpt-4o
-    inputs: 
-      prompt: :prompt
+    inputs:
+      prompt: What is the typical color of ${:shift.item}? Just answer the color.
   reducer:
     agent: pushAgent
     inputs:
       array: :result
       item: :llm.text
+
 ```
 
 1. **fruits**: This static node holds the list of fruits at the begining but updated with the array property of **shift** node after each iteration.
 2. **result**: This static node starts with an empty array, but updated with the value of **reducer** node after each iteration.
 3. **shift**: This node takes the first item from the value from **fruits** node, and output the remaining array and item as properties.
-4. **prompt**: This node creates a prompt by filling the `${0}` of the template string with the item property of the output of **shift** node.
-5. **llm**: This computed node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
-6. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
+4. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:shift.item}? Just answer the color." by applying the item property from the shift node's output. It then passes this prompt to gpt-4o to obtain the generated result.
+5. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
 
 Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below. 
 
@@ -184,39 +187,42 @@ nodes:
   messages:
     value: []
     update: :reducer.array
+    isResult: true
   userInput:
     agent: textInputAgent
     params:
       message: "You:"
+      required: true
   checkInput:
     agent: compareAgent
     inputs:
       array:
-        - ":userInput.text"
+        - :userInput.text
         - "!="
-        - "/bye"
-  appendedMessages:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      item: :userInput.message
+        - /bye
   llm:
     agent: openAIAgent
+    params:
+      model: gpt-4o
     inputs:
-      messages: :appendedMessages.array
+      messages: :messages
+      prompt: :userInput.text
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mLLM\e[0m: ${text}"
+      template: "\e[32mAgent\e[0m: ${message}"
     console:
       after: true
     inputs:
-      text: :llm.text
+      message: :llm.text
   reducer:
     agent: pushAgent
     inputs:
-      array: :appendedMessages.array
-      item: :llm.message
+      array: :messages
+      items:
+        - :userInput.message
+        - :llm.message
+
 ```
 
 1. The user is prompted to input a message with "You:".
@@ -256,15 +262,9 @@ nodes:
     agent: compareAgent
     inputs:
       array:
-        - ":userInput.text"
+        - :userInput.text
         - "!="
-        - "/bye"
-  messagesWithUserInput:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      item: :userInput.message
-    if: :checkInput
+        - /bye
   llmCall:
     agent: openAIAgent
     params:
@@ -285,43 +285,44 @@ nodes:
               required:
                 - latitude
                 - longitude
+      model: gpt-4o
     inputs:
-      messages: :messagesWithUserInput.array
+      messages: :messages
+      prompt: :userInput.text
+    if: :checkInput
   output:
     agent: stringTemplateAgent
-    params:
-      template: "Weather: ${0}"
+    inputs:
+      text: "Weather: ${:llmCall.text}"
     console:
       after: true
-    inputs:
-      - :llmCall.choices.$0.message.content
-    if: :llmCall.choices.$0.message.content
+    if: :llmCall.text
   messagesWithFirstRes:
     agent: pushAgent
     inputs:
-      array: :messagesWithUserInput.array
-      item: :llmCall.message
+      array: :messages
+      items:
+        - :userInput.message
+        - :llmCall.message
   tool_calls:
     agent: nestedAgent
     inputs:
-      tool_calls: :llmCall.tool
-      messagesWithFirstRes: :messagesWithFirstRes.array
+      parent_messages: :messagesWithFirstRes.array
+      parent_tool: :llmCall.tool
     if: :llmCall.tool
     graph:
       nodes:
         outputFetching:
           agent: stringTemplateAgent
-          params:
-            template: "... fetching weather info: ${latitude}, ${longitude}"
+          inputs:
+            text: "... fetching weather info: ${:parent_tool.arguments.latitude},
+              ${:parent_tool.arguments.longitude}"
           console:
             after: true
-          inputs:
-            latitude: :tool_calls.arguments.latitude
-            longitude: :tool_calls.arguments.longitude
         fetchPoints:
           agent: fetchAgent
           inputs:
-            url: "https://api.weather.gov/points/${:tool_calls.arguments.latitude},${:tool_calls.arguments.longitude}"
+            url: https://api.weather.gov/points/${:parent_tool.arguments.latitude},${:parent_tool.arguments.longitude}
             headers:
               User-Agent: (receptron.org)
         fetchForecast:
@@ -336,7 +337,8 @@ nodes:
         extractError:
           agent: stringTemplateAgent
           inputs:
-            text: "${:fetchPoints.onError.error.title}: ${:fetchPoints.onError.error.detail}"
+            text: "${:fetchPoints.onError.error.title}:
+              ${:fetchPoints.onError.error.detail}"
           if: :fetchPoints.onError
         responseText:
           agent: copyAgent
@@ -348,22 +350,24 @@ nodes:
         messagesWithToolRes:
           agent: pushAgent
           inputs:
-            array: :messagesWithFirstRes
+            array: :parent_messages
             item:
-              role: "tool"
-              tool_call_id: ":tool_calls.id"
-              name: ":tool_calls.name"
-              content: ":responseText.array.$0"
+              role: tool
+              tool_call_id: :parent_tool.id
+              name: :parent_tool.name
+              content: :responseText.array.$0
         llmCall:
           agent: openAIAgent
           inputs:
             messages: :messagesWithToolRes.array
+          params:
+            model: gpt-4o
         output:
           agent: stringTemplateAgent
-          console:
-            after: true
           inputs:
             text: "Weather: ${:llmCall.text}"
+          console:
+            after: true
         messagesWithSecondRes:
           agent: pushAgent
           inputs:
@@ -382,6 +386,7 @@ nodes:
       array:
         - :no_tool_calls.result
         - :tool_calls.messagesWithSecondRes.array
+
 ```
 
 1. **Loop Execution**: The graph loops continuously until the condition specified by the `continue` node is false.
@@ -413,10 +418,10 @@ nodes:
     value:
       name: Sam Bankman-Fried
       topic: sentence by the court
-      query: describe the final sentence by the court for Sam Bankman-Fried
+      query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia:
     console:
-      before: ...fetching data from wikipedia
+      before: ...fetching data from wikkpedia
     agent: wikipediaAgent
     inputs:
       query: :source.name
@@ -428,7 +433,7 @@ nodes:
     agent: stringSplitterAgent
     inputs:
       text: :wikipedia.content
-  embeddings:
+  chunkEmbeddings:
     console:
       before: ...fetching embeddings for chunks
     agent: stringEmbeddingsAgent
@@ -440,16 +445,16 @@ nodes:
     agent: stringEmbeddingsAgent
     inputs:
       item: :source.topic
-  similarityCheck:
+  similarities:
     agent: dotProductAgent
     inputs:
-      matrix: :embeddings
+      matrix: :chunkEmbeddings
       vector: :topicEmbedding.$0
   sortedChunks:
     agent: sortByValuesAgent
     inputs:
       array: :chunks.contents
-      values: :similarityCheck
+      values: :similarities
   referenceText:
     agent: tokenBoundStringsAgent
     inputs:
@@ -459,31 +464,36 @@ nodes:
   prompt:
     agent: stringTemplateAgent
     inputs:
-      a: :source.query
-      b: :referenceText.content
+      prompt: :source.query
+      text: :referenceText.content
     params:
       template: |-
-        Using the following document, ${a}
+        Using the following document, ${text}
 
-        ${b}
+        ${prompt}
   RagQuery:
     console:
       before: ...performing the RAG query
     agent: openAIAgent
     inputs:
       prompt: :prompt
+    params:
+      model: gpt-4o
   OneShotQuery:
     agent: openAIAgent
     inputs:
       prompt: :source.query
+    params:
+      model: gpt-4o
   RagResult:
     agent: copyAgent
     inputs:
-      text: :RagQuery.choices.$0.message.content
+      result: :RagQuery.text
     isResult: true
   OneShotResult:
     agent: copyAgent
     inputs:
-      text: :OneShotQuery.choices.$0.message.content
+      result: :OneShotQuery.text
     isResult: true
+
 ```
