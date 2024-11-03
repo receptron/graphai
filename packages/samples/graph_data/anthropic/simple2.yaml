@@ -4,7 +4,8 @@ nodes:
     value: Explain ML's transformer in 100 words.
   llm:
     agent: anthropicAgent
-    params: {}
+    params:
+      baseURL: http://127.0.0.1:11434/v1
     inputs:
       prompt: :prompt
   output:

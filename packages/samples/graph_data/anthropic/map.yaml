@@ -14,7 +14,8 @@ nodes:
       nodes:
         llm:
           agent: anthropicAgent
-          params: {}
+          params:
+            baseURL: http://127.0.0.1:11434/v1
           inputs:
             prompt: What is the typical color of ${:row}? Just answer the color.
         result:

@@ -70,9 +70,15 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
 [
   ["openAIAgent", "openai"],
   ["geminiAgent", "google"],
+  ["groqAgent", "groq"],
+  ["ollamaAgent", "ollama"]
 ].forEach(([agent, dir]) => {
   write(chat, agent, dir, "chat.yaml");
-  write(metachat, agent, dir, "metachat.yaml");
+  if (dir === "openai") {
+    write(metachat, agent, dir, "metachat.yaml");
+    write(dispatcher, agent, dir, "dispatcher.yaml");
+  }
+
   write(reception, agent, dir, "reception.yaml");
   write(weather, agent, dir, "weather.yaml");
   write(interview, agent, dir, "interview.yaml");
@@ -82,7 +88,6 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   write(map, agent, dir, "map.yaml");
   write(simple, agent, dir, "simple.yaml");
   write(simple2, agent, dir, "simple2.yaml");
-  // write(dispatcher, agent, dir, "dispatcher.yaml");
   write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
   
 });
@@ -98,21 +103,3 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
 
 });
 
-[
-  ["groqAgent", "groq"],
-  ["ollamaAgent", "ollama"]
-].forEach(([agent, dir]) => {
-  write(chat, agent, dir, "chat.yaml");
-  write(reception, agent, dir, "reception.yaml");
-  write(weather, agent, dir, "weather.yaml");
-  write(interview, agent, dir, "interview.yaml");
-  write(wikipedia, agent, dir, "wikipedia_rag.yaml");
-
-  //
-  write(loop, agent, dir, "loop.yaml");
-  write(map, agent, dir, "map.yaml");
-  write(simple, agent, dir, "simple.yaml");
-  write(simple2, agent, dir, "simple2.yaml");
-  write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
-
-});
