@@ -14,8 +14,8 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "@types/node": "^22.8.4",
-    "eslint": "^9.13.0",
+    "@types/node": "^22.8.6",
+    "eslint": "^9.14.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.11.0",
     "prettier": "^3.3.2",

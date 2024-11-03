@@ -1,6 +1,6 @@
 {
   "name": "@graphai/llm_agents",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "LLM agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -29,8 +29,8 @@
   "dependencies": {
     "@graphai/anthropic_agent": "^0.1.0",
     "@graphai/gemini_agent": "^0.1.0",
-    "@graphai/groq_agent": "^0.1.0",
-    "@graphai/openai_agent": "^0.1.0",
+    "@graphai/groq_agent": "^0.1.1",
+    "@graphai/openai_agent": "^0.1.1",
     "@graphai/replicate_agent": "^0.1.0",
     "@graphai/slashgpt_agent": "^0.0.5",
     "tiktoken": "^1.0.17"

@@ -26,13 +26,14 @@ const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.en
 const convertOpenAIChatCompletion = (response) => {
     const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = message && message.content ? message.content : null;
-    const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.function : null;
+    const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
     const tool = functionResponse
         ? {
-            name: functionResponse.name,
+            id: functionResponse.id,
+            name: functionResponse?.function?.name,
             arguments: (() => {
                 try {
-                    return JSON.parse(functionResponse?.arguments);
+                    return JSON.parse(functionResponse?.function?.arguments);
                 }
                 catch (__e) {
                     return undefined;
@@ -90,23 +91,26 @@ const groqAgent = async ({ params, namedInputs, filterParams }) => {
     const pipe = await groq.chat.completions.create(options);
     let lastMessage = null;
     const contents = [];
-    for await (const message of pipe) {
-        const token = message.choices[0].delta.content;
+    for await (const _message of pipe) {
+        const token = _message.choices[0].delta.content;
         if (token) {
             if (filterParams && filterParams.streamTokenCallback) {
                 filterParams.streamTokenCallback(token);
             }
             contents.push(token);
         }
-        lastMessage = message;
+        lastMessage = _message;
     }
+    const text = contents.join("");
+    const message = { role: "assistant", content: text };
     if (lastMessage) {
-        lastMessage.choices[0]["message"] = { role: "assistant", content: contents.join("") };
+        lastMessage.choices[0]["message"] = message;
     }
     // maybe not suppor tool when streaming
     return {
         ...lastMessage,
-        text: contents.join(""),
+        text,
+        message,
     };
 };
 exports.groqAgent = groqAgent;
