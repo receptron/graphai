@@ -187,39 +187,42 @@ nodes:
   messages:
     value: []
     update: :reducer.array
+    isResult: true
   userInput:
     agent: textInputAgent
     params:
       message: "You:"
+      required: true
   checkInput:
     agent: compareAgent
     inputs:
       array:
-        - ":userInput.text"
+        - :userInput.text
         - "!="
-        - "/bye"
-  appendedMessages:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      item: :userInput.message
+        - /bye
   llm:
     agent: openAIAgent
+    params:
+      model: gpt-4o
     inputs:
-      messages: :appendedMessages.array
+      messages: :messages
+      prompt: :userInput.text
   output:
     agent: stringTemplateAgent
     params:
-      template: "\e[32mLLM\e[0m: ${text}"
+      template: "\e[32mAgent\e[0m: ${message}"
     console:
       after: true
     inputs:
-      text: :llm.text
+      message: :llm.text
   reducer:
     agent: pushAgent
     inputs:
-      array: :appendedMessages.array
-      item: :llm.message
+      array: :messages
+      items:
+        - :userInput.message
+        - :llm.message
+
 ```
 
 1. The user is prompted to input a message with "You:".

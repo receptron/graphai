@@ -114,60 +114,16 @@ Please notice that each item in the array will be processed concurrently.
 Here is a chatbot application using the loop, which allows the user to talk to the LLM until she/he types "/bye".
 
 ```YAML
-version: 0.5
-loop:
-  while: :continue
-nodes:
-  continue:
-    value: true
-    update: :checkInput
-  messages:
-    value: []
-    update: :reducer.array
-  userInput:
-    agent: textInputAgent
-    params:
-      message: "You:"
-  checkInput:
-    agent: compareAgent
-    inputs:
-      array:
-        - ":userInput.text"
-        - "!="
-        - "/bye"
-  appendedMessages:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      item: :userInput.message
-  llm:
-    agent: openAIAgent
-    inputs:
-      messages: :appendedMessages.array
-  output:
-    agent: stringTemplateAgent
-    params:
-      template: "\e[32mLLM\e[0m: ${text}"
-    console:
-      after: true
-    inputs:
-      text: :llm.text
-  reducer:
-    agent: pushAgent
-    inputs:
-      array: :appendedMessages.array
-      item: :llm.message
+${packages/samples/graph_data/openai/chat.yaml}
 ```
 
 1. The user is prompted to input a message with "You:".
 2. `userInput` captures the user's input.
 3. `checkInput` evaluates if the input is "/bye". If it is, `continue` is set to `false`, stopping the loop.
-4. `userMessage` formats the user's input as a message with the role "user".
-5. `appendedMessages` appends the user's message to the existing messages array.
-6. `llm` uses the updated messages array to generate a response from the AI model.
-7. `output` formats the AI agent's response and prints it to the console.
-8. `reducer` appends the AI agent's response to the messages array.
-9. The loop continues as long as `continue` is `true`.
+4. `llm` uses the updated messages array to generate a response from the AI model.
+5. `output` formats the AI agent's response and prints it to the console.
+6. `reducer` appends the AI agent's response to the messages array.
+7. The loop continues as long as `continue` is `true`.
 
 ## Weather: Function Call and nested graph
 
