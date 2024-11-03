@@ -259,15 +259,9 @@ nodes:
     agent: compareAgent
     inputs:
       array:
-        - ":userInput.text"
+        - :userInput.text
         - "!="
-        - "/bye"
-  messagesWithUserInput:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      item: :userInput.message
-    if: :checkInput
+        - /bye
   llmCall:
     agent: openAIAgent
     params:
@@ -288,43 +282,44 @@ nodes:
               required:
                 - latitude
                 - longitude
+      model: gpt-4o
     inputs:
-      messages: :messagesWithUserInput.array
+      messages: :messages
+      prompt: :userInput.text
+    if: :checkInput
   output:
     agent: stringTemplateAgent
-    params:
-      template: "Weather: ${0}"
+    inputs:
+      text: "Weather: ${:llmCall.text}"
     console:
       after: true
-    inputs:
-      - :llmCall.choices.$0.message.content
-    if: :llmCall.choices.$0.message.content
+    if: :llmCall.text
   messagesWithFirstRes:
     agent: pushAgent
     inputs:
-      array: :messagesWithUserInput.array
-      item: :llmCall.message
+      array: :messages
+      items:
+        - :userInput.message
+        - :llmCall.message
   tool_calls:
     agent: nestedAgent
     inputs:
-      tool_calls: :llmCall.tool
-      messagesWithFirstRes: :messagesWithFirstRes.array
+      parent_messages: :messagesWithFirstRes.array
+      parent_tool: :llmCall.tool
     if: :llmCall.tool
     graph:
       nodes:
         outputFetching:
           agent: stringTemplateAgent
-          params:
-            template: "... fetching weather info: ${latitude}, ${longitude}"
+          inputs:
+            text: "... fetching weather info: ${:parent_tool.arguments.latitude},
+              ${:parent_tool.arguments.longitude}"
           console:
             after: true
-          inputs:
-            latitude: :tool_calls.arguments.latitude
-            longitude: :tool_calls.arguments.longitude
         fetchPoints:
           agent: fetchAgent
           inputs:
-            url: "https://api.weather.gov/points/${:tool_calls.arguments.latitude},${:tool_calls.arguments.longitude}"
+            url: https://api.weather.gov/points/${:parent_tool.arguments.latitude},${:parent_tool.arguments.longitude}
             headers:
               User-Agent: (receptron.org)
         fetchForecast:
@@ -339,7 +334,8 @@ nodes:
         extractError:
           agent: stringTemplateAgent
           inputs:
-            text: "${:fetchPoints.onError.error.title}: ${:fetchPoints.onError.error.detail}"
+            text: "${:fetchPoints.onError.error.title}:
+              ${:fetchPoints.onError.error.detail}"
           if: :fetchPoints.onError
         responseText:
           agent: copyAgent
@@ -351,22 +347,24 @@ nodes:
         messagesWithToolRes:
           agent: pushAgent
           inputs:
-            array: :messagesWithFirstRes
+            array: :parent_messages
             item:
-              role: "tool"
-              tool_call_id: ":tool_calls.id"
-              name: ":tool_calls.name"
-              content: ":responseText.array.$0"
+              role: tool
+              tool_call_id: :parent_tool.id
+              name: :parent_tool.name
+              content: :responseText.array.$0
         llmCall:
           agent: openAIAgent
           inputs:
             messages: :messagesWithToolRes.array
+          params:
+            model: gpt-4o
         output:
           agent: stringTemplateAgent
-          console:
-            after: true
           inputs:
             text: "Weather: ${:llmCall.text}"
+          console:
+            after: true
         messagesWithSecondRes:
           agent: pushAgent
           inputs:
@@ -385,6 +383,7 @@ nodes:
       array:
         - :no_tool_calls.result
         - :tool_calls.messagesWithSecondRes.array
+
 ```
 
 1. **Loop Execution**: The graph loops continuously until the condition specified by the `continue` node is false.
