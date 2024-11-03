@@ -61,7 +61,7 @@ nodes:
       array: :messages
       items:
         - :userInput.message
-        - :llmCall.choices.$0.message
+        - :llmCall.message
   tool_calls:
     agent: nestedAgent
     inputs:
@@ -130,8 +130,8 @@ nodes:
           agent: pushAgent
           inputs:
             array: :messagesWithToolRes.array
-            item: :llmCall.choices.$0.message
-            isResult: true
+            item: :llmCall.message
+          isResult: true
   no_tool_calls:
     agent: copyAgent
     unless: :llmCall.tool
