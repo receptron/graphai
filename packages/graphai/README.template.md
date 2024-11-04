@@ -207,7 +207,7 @@ Here is an example, which performs an LLM query for each person in the list and 
 
 The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous itelation. This loop continues until the value of "people" node become an empty array.
 
-```
+```YAML
 ${packages/samples/graph_data/test/loop.yaml}
 ```
 
@@ -235,21 +235,8 @@ After the completion of all of instances, the mapAgent returns an array of resul
 
 The following graph will generate the same result (an array of answers) as the sample graph for the *loop*, but three queries will be issued concurretly. 
 
-```
-nodes:
-  people:
-    value: [Steve Jobs, Elon Musk, Nikola Tesla]
-  retriever:
-    agent: "mapAgent"
-    inputs: { rows: ":people" }
-    graph:
-      nodes:
-        query:
-          agent: slashgpt
-          params:
-            manifest:
-              prompt: Describe about the person in less than 100 words
-          inputs: [":row"]
+```YAML
+${packages/samples/src/simple/map_people.yaml}
 ```
 
 Here is the conceptual representation of this operation.
