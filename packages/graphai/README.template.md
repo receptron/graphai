@@ -189,8 +189,8 @@ Here is the diagram of the child graph. Notice that two phantom nodes are automa
 
 ```mermaid
 flowchart LR
- $0 --> ...
- $1 --> schema(schema)
+ :question --> ...
+ :projectId --> schema(schema)
  schema --> ...(...)
  ... --> query(query)
 ```
