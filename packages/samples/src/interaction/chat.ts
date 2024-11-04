@@ -44,13 +44,12 @@ export const graph_data = {
     output: {
       // Displays the response to the user.
       agent: "stringTemplateAgent",
-      params: {
-        template: "\x1b[32mAgent\x1b[0m: ${message}",
-      },
       console: {
         after: true,
       },
-      inputs: { message: ":llm.text" },
+      inputs: {
+        text: "\x1b[32mAgent\x1b[0m: ${:llm.text}"
+      },
     },
   },
 };
