@@ -73,6 +73,7 @@ nodes:
   source: # (1)
     value:
       name: Sam Bankman-Fried
+      topic: sentence by the court
       query: describe the final sentence by the court for Sam Bankman-Fried
   wikipedia: # (2)
     agentId: wikipediaAgent
@@ -81,25 +82,25 @@ nodes:
   chunks: # (3) 
     agentId: stringSplitterAgent
     inputs:
-      text: :wikipedia
+      text: :wikipedia.content
   chunkEmbeddings: # (4)
     agentId: stringEmbeddingsAgent
     inputs:
-      array: :chunks
+      array: :chunks.contents
   topicEmbedding: # (5) 
     agentId: stringEmbeddingsAgent
-    inputs: 
-      item: :source.query
+    inputs:
+      item: :source.topic
   similarities: # (6)
     agentId: dotProductAgent
     inputs:
       matrix: :chunkEmbeddings
-      vector: :topicEmbedding.$0]
+      vector: :topicEmbedding.$0
   sortedChunks: # (7) 
     agentId: sortByValuesAgent
     inputs:
-      array: :chunks
-      values: :similarities]
+      array: :chunks.contents
+      values: :similarities
   referenceText: # (8) 
     agentId: tokenBoundStringsAgent
     inputs:
@@ -118,7 +119,7 @@ nodes:
   query: # (10)
     agentId: openAIAgent
     params:
-      model: gpt-3.5-turbo
+      model: gpt-4o
     isResult: true # indicating this is the final result
     inputs:
       prompt: :prompt
