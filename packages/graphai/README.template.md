@@ -149,7 +149,7 @@ nodes:
   projectId: // identifies the projectId from the question
     agent: identifierAgent
     inputs: 
-      id: :source
+      id: :question
   database:
     agent: "nestedAgent"
     inputs:
