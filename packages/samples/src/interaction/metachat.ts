@@ -24,7 +24,7 @@ export const graph_data = {
       params: {
         type: "text",
       },
-      inputs: { url: "https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/graph_data/reception.json" },
+      inputs: { url: "https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/graph_data/openai/reception.yaml" },
     },
     graphGenerator: {
       // Generates a graph for an AI agent to acquire specified information from the user.
