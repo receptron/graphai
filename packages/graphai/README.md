@@ -113,7 +113,7 @@ flowchart TD
  sortedChunks --> referenceText(resourceText)
  source -- query --> prompt(prompt)
  referenceText --> prompt
- prompt --> query(query)
+ prompt --> RagQuery(query)
 ```
 
 Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
@@ -232,7 +232,7 @@ nodes:
   projectId: // identifies the projectId from the question
     agent: identifierAgent
     inputs: 
-      id: :source
+      id: :question
   database:
     agent: "nestedAgent"
     inputs:
@@ -242,7 +242,8 @@ nodes:
       nodes:
         schema: // retrieves the database schema for the apecified projectId
           agent: "schemaAgent"
-          inputs: [":projectId"]
+          inputs:
+            projectId: :projectId
         ... // issue query to the database and build an appropriate prompt with it.
         query: // send the generated prompt to the LLM
           agent: "llama3Agent"
@@ -255,7 +256,7 @@ nodes:
       text: :database.query.$last.content
 ```
 
-The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, "$0" and "$1". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
+The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node and "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, ":question" and ":projectId". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
 
 Here is the diagram of the parent graph.
 
@@ -271,8 +272,8 @@ Here is the diagram of the child graph. Notice that two phantom nodes are automa
 
 ```mermaid
 flowchart LR
- $0 --> ...
- $1 --> schema(schema)
+ :question --> ...
+ :projectId --> schema(schema)
  schema --> ...(...)
  ... --> query(query)
 ```
@@ -394,8 +395,9 @@ For example, the following node will be executed only if the *tool_calls* proper
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: [":groq.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
-      if: ":groq.choices.$0.message.tool_calls",
+      inputs:
+        array: [":groq.tool", ":messagesWithFirstRes"],
+      if: ":groq.tool",
       graph: {
         // This graph is nested only for the readability.
 ```
