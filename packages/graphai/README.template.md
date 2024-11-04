@@ -265,8 +265,9 @@ For example, the following node will be executed only if the *tool_calls* proper
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: [":groq.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
-      if: ":groq.choices.$0.message.tool_calls",
+      inputs:
+        array: [":groq.tool", ":messagesWithFirstRes"],
+      if: ":groq.tool",
       graph: {
         // This graph is nested only for the readability.
 ```
