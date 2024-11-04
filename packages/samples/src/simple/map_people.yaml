@@ -1,0 +1,17 @@
+version: 0.5
+nodes:
+  people:
+    value: [Steve Jobs, Elon Musk, Nikola Tesla]
+  retriever:
+    agent: "mapAgent"
+    inputs: { rows: ":people" }
+    isResult: true
+    graph:
+      nodes:
+        query:
+          agent: openAIAgent
+          params:
+            system: Describe about the person in less than 100 words
+          inputs:
+            prompt: ":row"
+          isResult: true

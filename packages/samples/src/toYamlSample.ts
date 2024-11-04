@@ -8,6 +8,8 @@ import { graph_data as weather } from "./net/weather";
 import { graph_data as interview } from "./llm/interview";
 import { graph_data as wikipedia } from "./embeddings/wikipedia";
 
+import { graph_data as loop_people } from "./test/loop";
+
 const isObject = (x: unknown): x is Record<string, any> => {
   return x !== null && typeof x === "object";
 };
@@ -100,3 +102,5 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   write(simple, agent, dir, "simple.yaml");
   write(simple2, agent, dir, "simple2.yaml");
 });
+
+write(loop_people, "openAIAgent", "test", "loop.yaml");

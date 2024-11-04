@@ -30,7 +30,7 @@ flowchart TD
  sortedChunks --> referenceText(resourceText)
  source -- query --> prompt(prompt)
  referenceText --> prompt
- prompt --> query(query)
+ prompt --> RagQuery(query)
 ```
 
 Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
@@ -149,7 +149,7 @@ nodes:
   projectId: // identifies the projectId from the question
     agent: identifierAgent
     inputs: 
-      id: :source
+      id: :question
   database:
     agent: "nestedAgent"
     inputs:
@@ -159,7 +159,8 @@ nodes:
       nodes:
         schema: // retrieves the database schema for the apecified projectId
           agent: "schemaAgent"
-          inputs: [":projectId"]
+          inputs:
+            projectId: :projectId
         ... // issue query to the database and build an appropriate prompt with it.
         query: // send the generated prompt to the LLM
           agent: "llama3Agent"
@@ -172,7 +173,7 @@ nodes:
       text: :database.query.$last.content
 ```
 
-The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, "$0" and "$1". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
+The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node and "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, ":question" and ":projectId". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
 
 Here is the diagram of the parent graph.
 
@@ -188,8 +189,8 @@ Here is the diagram of the child graph. Notice that two phantom nodes are automa
 
 ```mermaid
 flowchart LR
- $0 --> ...
- $1 --> schema(schema)
+ :question --> ...
+ :projectId --> schema(schema)
  schema --> ...(...)
  ... --> query(query)
 ```
@@ -207,32 +208,8 @@ Here is an example, which performs an LLM query for each person in the list and 
 
 The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous itelation. This loop continues until the value of "people" node become an empty array.
 
-```
-loop:
-  while: :people
-nodes:
-  people:
-    value: [Steve Jobs, Elon Musk, Nikola Tesla]
-    update: :retriever.array
-  result:
-    value: []
-    update: :reducer
-    isResult: true
-  retriever:
-    agent: shift
-    inputs:
-      array: :people
-  query:
-    agent: slashgpt
-    params:
-      manifest:
-        prompt: Describe about the person in less than 100 words
-    inputs: [:retriever.item]
-  reducer:
-    agent: push
-    inputs:
-      array: :result
-      item: :query.content
+```YAML
+${packages/samples/graph_data/test/loop.yaml}
 ```
 
 ```mermaid
@@ -259,21 +236,8 @@ After the completion of all of instances, the mapAgent returns an array of resul
 
 The following graph will generate the same result (an array of answers) as the sample graph for the *loop*, but three queries will be issued concurretly. 
 
-```
-nodes:
-  people:
-    value: [Steve Jobs, Elon Musk, Nikola Tesla]
-  retriever:
-    agent: "mapAgent"
-    inputs: { rows: ":people" }
-    graph:
-      nodes:
-        query:
-          agent: slashgpt
-          params:
-            manifest:
-              prompt: Describe about the person in less than 100 words
-          inputs: [":row"]
+```YAML
+${packages/samples/src/simple/map_people.yaml}
 ```
 
 Here is the conceptual representation of this operation.
@@ -301,8 +265,9 @@ For example, the following node will be executed only if the *tool_calls* proper
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs: [":groq.choices.$0.message.tool_calls", ":messagesWithFirstRes"],
-      if: ":groq.choices.$0.message.tool_calls",
+      inputs:
+        array: [":groq.tool", ":messagesWithFirstRes"],
+      if: ":groq.tool",
       graph: {
         // This graph is nested only for the readability.
 ```

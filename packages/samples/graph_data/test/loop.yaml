@@ -1,0 +1,30 @@
+version: 0.5
+loop:
+  while: :people
+nodes:
+  people:
+    value:
+      - Steve Jobs
+      - Elon Musk
+      - Nikola Tesla
+    update: :retriever.array
+  result:
+    value: []
+    update: :reducer.array
+    isResult: true
+  retriever:
+    agent: shiftAgent
+    inputs:
+      array: :people
+  query:
+    agent: openAIAgent
+    params:
+      system: Describe about the person in less than 100 words
+      model: gpt-4o
+    inputs:
+      prompt: :retriever.item
+  reducer:
+    agent: pushAgent
+    inputs:
+      array: :result
+      item: :query.text

@@ -3,7 +3,7 @@ import "dotenv/config";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
-const graph_data = {
+export const graph_data = {
   version: 0.5,
   loop: {
     while: ":people",
@@ -15,28 +15,25 @@ const graph_data = {
     },
     result: {
       value: [],
-      update: ":reducer2.array",
+      update: ":reducer.array",
+      isResult: true,
     },
     retriever: {
       agent: "shiftAgent",
       inputs: { array: ":people" },
     },
     query: {
-      agent: "slashGPTAgent",
+      agent: "openAIAgent",
       params: {
-        manifest: {
-          prompt: "Describe about the person in less than 100 words",
-        },
+        system: "Describe about the person in less than 100 words",
       },
-      inputs: { array: [":retriever.item"] },
+      inputs: {
+        prompt: ":retriever.item",
+      },
     },
-    reducer1: {
-      agent: "popAgent",
-      inputs: { array: ":query" },
-    },
-    reducer2: {
+    reducer: {
       agent: "pushAgent",
-      inputs: { array: ":result", item: ":reducer1.item" },
+      inputs: { array: ":result", item: ":query.text" },
     },
   },
 };

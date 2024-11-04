@@ -137,7 +137,10 @@ Here is a simple application, which uses **map**.
 version: 0.5
 nodes:
   fruits:
-    value: [apple, lemon, banana]
+    value:
+      - apple
+      - lemomn
+      - banana
   map:
     agent: mapAgent
     inputs:
@@ -145,30 +148,26 @@ nodes:
     isResult: true
     graph:
       nodes:
-        prompt:
-          agent: stringTemplateAgent
-          params:
-            template: What is the typical color of ${item}? Just answer the color.
-          inputs:
-            item: :row
         llm:
           agent: openAIAgent
           params:
             model: gpt-4o
-          inputs: 
-            prompt: :prompt
+          inputs:
+            prompt: What is the typical color of ${:row}? Just answer the color.
         result:
           agent: copyAgent
+          params:
+            namedKey: item
           inputs:
-            text: :llm.text
+            item: :llm.text
           isResult: true
+
 ```
 
 1. **fruits**: This static node holds the list of fruits.
 2. **map**: This node is associated with **mapAgent**, which performs the mapping, by executing the nested graph for each item for the value of **fruits** node, and outputs the combined results.
-3. **prompt**: This node creates a prompt by filling the `${0}` of the template string with each item of the value of **fruits** node.
-4. **llm**: This node gives the generated text by the **prompt** node to `gpt-4o` and outputs the result.
-5. **result**: This node retrieves the content property from the output of **llm** node.
+3. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:row}? Just answer the color." by applying the item property from  the value of **fruits** node. It then passes this prompt to gpt-4o to obtain the generated result.
+4. **result**: This node retrieves the content property from the output of **llm** node.
 
 Please notice that each item in the array will be processed concurrently.
 
@@ -228,12 +227,10 @@ nodes:
 1. The user is prompted to input a message with "You:".
 2. `userInput` captures the user's input.
 3. `checkInput` evaluates if the input is "/bye". If it is, `continue` is set to `false`, stopping the loop.
-4. `userMessage` formats the user's input as a message with the role "user".
-5. `appendedMessages` appends the user's message to the existing messages array.
-6. `llm` uses the updated messages array to generate a response from the AI model.
-7. `output` formats the AI agent's response and prints it to the console.
-8. `reducer` appends the AI agent's response to the messages array.
-9. The loop continues as long as `continue` is `true`.
+4. `llm` uses the updated messages array to generate a response from the AI model.
+5. `output` formats the AI agent's response and prints it to the console.
+6. `reducer` appends the AI agent's response to the messages array.
+7. The loop continues as long as `continue` is `true`.
 
 ## Weather: Function Call and nested graph
 
