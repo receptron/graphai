@@ -291,31 +291,37 @@ Here is an example, which performs an LLM query for each person in the list and 
 The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous itelation. This loop continues until the value of "people" node become an empty array.
 
 ```
+version: 0.5
 loop:
   while: :people
 nodes:
   people:
-    value: [Steve Jobs, Elon Musk, Nikola Tesla]
+    value:
+      - Steve Jobs
+      - Elon Musk
+      - Nikola Tesla
     update: :retriever.array
   result:
     value: []
-    update: :reducer
+    update: :reducer.array
     isResult: true
   retriever:
-    agent: shift
+    agent: shiftAgent
     inputs:
       array: :people
   query:
-    agent: slashgpt
+    agent: openAIAgent
     params:
-      manifest:
-        prompt: Describe about the person in less than 100 words
-    inputs: [:retriever.item]
+      system: Describe about the person in less than 100 words
+      model: gpt-4o
+    inputs:
+      prompt: :retriever.item
   reducer:
-    agent: push
+    agent: pushAgent
     inputs:
       array: :result
-      item: :query.content
+      item: :query.text
+
 ```
 
 ```mermaid

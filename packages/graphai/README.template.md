@@ -208,31 +208,7 @@ Here is an example, which performs an LLM query for each person in the list and 
 The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous itelation. This loop continues until the value of "people" node become an empty array.
 
 ```
-loop:
-  while: :people
-nodes:
-  people:
-    value: [Steve Jobs, Elon Musk, Nikola Tesla]
-    update: :retriever.array
-  result:
-    value: []
-    update: :reducer
-    isResult: true
-  retriever:
-    agent: shift
-    inputs:
-      array: :people
-  query:
-    agent: slashgpt
-    params:
-      manifest:
-        prompt: Describe about the person in less than 100 words
-    inputs: [:retriever.item]
-  reducer:
-    agent: push
-    inputs:
-      array: :result
-      item: :query.content
+${packages/samples/graph_data/test/loop.yaml}
 ```
 
 ```mermaid
