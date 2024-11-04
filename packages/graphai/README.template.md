@@ -159,7 +159,8 @@ nodes:
       nodes:
         schema: // retrieves the database schema for the apecified projectId
           agent: "schemaAgent"
-          inputs: [":projectId"]
+          inputs:
+            projectId: :projectId
         ... // issue query to the database and build an appropriate prompt with it.
         query: // send the generated prompt to the LLM
           agent: "llama3Agent"
@@ -172,7 +173,7 @@ nodes:
       text: :database.query.$last.content
 ```
 
-The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node abd "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, "$0" and "$1". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
+The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node and "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, ":question" and ":projectId". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
 
 Here is the diagram of the parent graph.
 
