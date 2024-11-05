@@ -21,8 +21,8 @@ ${packages/samples/graph_data/openai/wikipedia_rag.yaml}
 ```mermaid
 flowchart TD
  source -- name --> wikipedia(wikipedia)
- source -- query --> topicEmbedding(topicEmbedding)
- wikipedia --> chunks(chunks)
+ source -- topic --> topicEmbedding(topicEmbedding)
+ wikipedia -- content --> chunks(chunks)
  chunks --> chunkEmbeddings(chunkEmbeddings)
  chunkEmbeddings --> similarities(similarities)
  topicEmbedding --> similarities
