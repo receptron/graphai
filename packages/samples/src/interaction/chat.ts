@@ -48,7 +48,7 @@ export const graph_data = {
         after: true,
       },
       inputs: {
-        text: "\x1b[32mAgent\x1b[0m: ${:llm.text}"
+        text: "\x1b[32mAgent\x1b[0m: ${:llm.text}",
       },
     },
   },

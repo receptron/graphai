@@ -64,7 +64,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
       }
     : undefined;
   if (message) {
-    messages.push(message)
+    messages.push(message);
   }
   return {
     ...response,
