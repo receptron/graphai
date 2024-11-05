@@ -32,7 +32,8 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
         // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
         const content = messageResponse.content[0].text;
         const message = { role: messageResponse.role, content };
-        return { choices: [{ message }], text: content, message };
+        messagesCopy.push(message);
+        return { choices: [{ message }], text: content, message, messages: messagesCopy };
     }
     const chatStream = await anthropic.messages.create({
         ...opt,
@@ -51,7 +52,8 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, }) => {
     }
     const content = contents.join("");
     const message = { role: "assistant", content: content };
-    return { choices: [{ message }], text: content, message };
+    messagesCopy.push(message);
+    return { choices: [{ message }], text: content, message, messages: messagesCopy };
 };
 exports.anthropicAgent = anthropicAgent;
 const anthropicAgentInfo = {

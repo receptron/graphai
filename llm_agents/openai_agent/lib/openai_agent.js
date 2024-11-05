@@ -7,7 +7,7 @@ exports.openAIMockAgent = exports.openAIAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const graphai_1 = require("graphai");
 const llm_utils_1 = require("@graphai/llm_utils");
-const convertOpenAIChatCompletion = (response) => {
+const convertOpenAIChatCompletion = (response, messages) => {
     const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = message && message.content ? message.content : null;
     const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
@@ -26,11 +26,15 @@ const convertOpenAIChatCompletion = (response) => {
             })(),
         }
         : undefined;
+    if (message) {
+        messages.push(message);
+    }
     return {
         ...response,
         text,
         tool,
         message,
+        messages,
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
@@ -79,7 +83,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
     };
     if (!stream) {
         const result = await openai.chat.completions.create(chatParams);
-        return convertOpenAIChatCompletion(result);
+        return convertOpenAIChatCompletion(result, messagesCopy);
     }
     const chatStream = openai.beta.chat.completions.stream({
         ...chatParams,
@@ -93,7 +97,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
         }
     }
     const chatCompletion = await chatStream.finalChatCompletion();
-    return convertOpenAIChatCompletion(chatCompletion);
+    return convertOpenAIChatCompletion(chatCompletion, messagesCopy);
 };
 exports.openAIAgent = openAIAgent;
 const input_sample = "this is response result";

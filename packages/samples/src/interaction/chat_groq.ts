@@ -35,9 +35,9 @@ export const graph_data = {
     },
     llm: {
       // Sends those messages to LLM to get a response.
-      agent: "openAIAgent",
+      agent: "groqAgent",
       params: {
-        model: "gpt-4o",
+        model: "Llama3-8b-8192",
       },
       inputs: { messages: ":messages", prompt: ":userInput.text" },
     },

@@ -23,7 +23,7 @@ const groq = process.env.GROQ_API_KEY ? new groq_sdk_1.Groq({ apiKey: process.en
 //
 // https://console.groq.com/docs/quickstart
 //
-const convertOpenAIChatCompletion = (response) => {
+const convertOpenAIChatCompletion = (response, messages) => {
     const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = message && message.content ? message.content : null;
     const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
@@ -41,11 +41,15 @@ const convertOpenAIChatCompletion = (response) => {
             })(),
         }
         : undefined;
+    if (message) {
+        messages.push(message);
+    }
     return {
         ...response,
         text,
         tool,
         message,
+        messages,
     };
 };
 const groqAgent = async ({ params, namedInputs, filterParams }) => {
@@ -85,7 +89,7 @@ const groqAgent = async ({ params, namedInputs, filterParams }) => {
     }
     if (!options.stream) {
         const result = await groq.chat.completions.create(options);
-        return convertOpenAIChatCompletion(result);
+        return convertOpenAIChatCompletion(result, messagesCopy);
     }
     // streaming
     const pipe = await groq.chat.completions.create(options);
@@ -107,10 +111,12 @@ const groqAgent = async ({ params, namedInputs, filterParams }) => {
         lastMessage.choices[0]["message"] = message;
     }
     // maybe not suppor tool when streaming
+    messagesCopy.push(message);
     return {
         ...lastMessage,
         text,
         message,
+        messages: messagesCopy,
     };
 };
 exports.groqAgent = groqAgent;

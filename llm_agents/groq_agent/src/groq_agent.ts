@@ -6,6 +6,7 @@ import {
   ChatCompletionCreateParamsStreaming,
   ChatCompletionTool,
   ChatCompletionMessageParam,
+  ChatCompletionAssistantMessageParam,
   ChatCompletionToolChoiceOption,
   ChatCompletion,
 } from "groq-sdk/resources/chat/completions";
@@ -43,7 +44,7 @@ type GroqInputs = {
 // https://console.groq.com/docs/quickstart
 //
 
-const convertOpenAIChatCompletion = (response: ChatCompletion) => {
+const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCompletionMessageParam[]) => {
   const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
   const text = message && message.content ? message.content : null;
 
@@ -62,11 +63,15 @@ const convertOpenAIChatCompletion = (response: ChatCompletion) => {
         })(),
       }
     : undefined;
+  if (message) {
+    messages.push(message)
+  }
   return {
     ...response,
     text,
     tool,
     message,
+    messages,
   };
 };
 
@@ -119,7 +124,7 @@ export const groqAgent: AgentFunction<
   if (!options.stream) {
     const result = await groq.chat.completions.create(options);
 
-    return convertOpenAIChatCompletion(result);
+    return convertOpenAIChatCompletion(result, messagesCopy);
   }
   // streaming
   const pipe = await groq.chat.completions.create(options);
@@ -136,15 +141,17 @@ export const groqAgent: AgentFunction<
     lastMessage = _message as any;
   }
   const text = contents.join("");
-  const message = { role: "assistant", content: text };
+  const message: ChatCompletionAssistantMessageParam = { role: "assistant", content: text };
   if (lastMessage) {
     lastMessage.choices[0]["message"] = message;
   }
   // maybe not suppor tool when streaming
+  messagesCopy.push(message);
   return {
     ...lastMessage,
     text,
     message,
+    messages: messagesCopy,
   };
 };
 

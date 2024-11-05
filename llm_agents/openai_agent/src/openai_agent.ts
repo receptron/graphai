@@ -18,7 +18,7 @@ type OpenAIInputs = {
   response_format?: any;
 } & GraphAILLMInputBase;
 
-const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion) => {
+const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[]) => {
   const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
   const text = message && message.content ? message.content : null;
 
@@ -39,11 +39,15 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion) => {
       }
     : undefined;
 
+  if (message) {
+    messages.push(message);
+  }
   return {
     ...response,
     text,
     tool,
     message,
+    messages,
   };
 };
 
@@ -105,7 +109,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
 
   if (!stream) {
     const result = await openai.chat.completions.create(chatParams);
-    return convertOpenAIChatCompletion(result);
+    return convertOpenAIChatCompletion(result, messagesCopy);
   }
   const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
@@ -121,7 +125,7 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
   }
 
   const chatCompletion = await chatStream.finalChatCompletion();
-  return convertOpenAIChatCompletion(chatCompletion);
+  return convertOpenAIChatCompletion(chatCompletion, messagesCopy);
 };
 
 const input_sample = "this is response result";

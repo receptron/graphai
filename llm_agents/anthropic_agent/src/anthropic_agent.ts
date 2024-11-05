@@ -48,7 +48,8 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
     // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
     const content = (messageResponse.content[0] as Anthropic.TextBlock).text;
     const message = { role: messageResponse.role, content };
-    return { choices: [{ message }], text: content, message };
+    messagesCopy.push(message);
+    return { choices: [{ message }], text: content, message, messages: messagesCopy };
   }
   const chatStream = await anthropic.messages.create({
     ...opt,
@@ -67,7 +68,8 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
   }
   const content = contents.join("");
   const message = { role: "assistant", content: content };
-  return { choices: [{ message }], text: content, message };
+  messagesCopy.push(message);
+  return { choices: [{ message }], text: content, message, messages: messagesCopy };
 };
 
 const anthropicAgentInfo: AgentFunctionInfo = {
