@@ -21,16 +21,19 @@ ${packages/samples/graph_data/openai/wikipedia_rag.yaml}
 ```mermaid
 flowchart TD
  source -- name --> wikipedia(wikipedia)
- source -- topic --> topicEmbedding(topicEmbedding)
  wikipedia -- content --> chunks(chunks)
- chunks --> chunkEmbeddings(chunkEmbeddings)
+ chunks -- contents --> chunkEmbeddings(chunkEmbeddings)
+ source -- topic --> topicEmbedding(topicEmbedding)
  chunkEmbeddings --> similarities(similarities)
- topicEmbedding --> similarities
+ topicEmbedding -- $0 --> similarities
  similarities --> sortedChunks(sortedChunks)
  sortedChunks --> referenceText(resourceText)
+ referenceText -- content --> prompt
  source -- query --> prompt(prompt)
- referenceText --> prompt
- prompt --> RagQuery(query)
+ prompt --> RagQuery(RagQuery)
+ source -- query --> OnShotResult(OneShotResult)
+ RagQuery -- text --> RagResult(RagResult)
+ OneShotQuery -- text --> OneShotResult(OneShotResult)
 ```
 
 Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
