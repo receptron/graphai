@@ -52,24 +52,24 @@ yarn add graphai
 
 ## Data Flow Graph
 
-A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is typically described in YAML file and loaded at runtime.
+A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is described in YAML or JSON and loaded at runtime.
 
 A DFG consists of a collection of [nodes](#node), which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (such as params, inputs, and value) that dictate the node's behavior and its relationship with other nodes. There are two types of nodes, [computed nodes](#computed-node) and [static nodes](#static-node), which are described below.
 
 ### Data Source
 
-Connections between nodes will be established by references from one node to another, using either its "inputs", "update", "if" or "while" property. The values of those properties are *data sources*. A *data souce* is specified by either the ":" + nodeId (e.g., ":node1"), or ":" + nodeId + propertyId (e.g., ":node1.item"), index (e.g., ":node1.$0", ":node2.$last") or combinations (e.g., ":node1.messages.$0.content").
+Connections between nodes will be established by references from one node to another, using either its "inputs", "update", "if", "unless" or "while" property. The values of those properties are *data sources*. A *data souce* is specified by either the ":" + nodeId (e.g., ":node1"), or ":" + nodeId + propertyId (e.g., ":node1.item"), index (e.g., ":node1.$0", ":node2.$last") or combinations (e.g., ```:node1.messages.$0.content```).
 
 ### DFG Structure
 
-- *version*: GraphAI version, *required*. The latest version is 0.3.
+- *version*: GraphAI version, required. The latest version is 0.3.
 - *nodes*: A list of node. Required.
 - *concurrency*: An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
 - *loop*: An optional property, which specifies if the graph needs to be executed multiple times (iterations). See the [Loop section below](#loop) for details.
 
 ## Agent
 
-An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM call (such as GPT-4), a media generator, a database access, or a REST API over HTTP. A node associated with an agent (specified by the *agent*'* property) is called [computed node](#computed-node), which takes a set of *inputs* from *data sources*, asks the *agent function* to process it, and makes the returned value available to other nodes.
+An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM call (such as GPT-4), a media generator, a database access, or a REST API over HTTP. A node associated with an agent (specified by the *agent*'* property) is called [computed node](#computed-node), which takes a set of *inputs* from *data sources*, asks the *agent function* to process it, and makes the returned value available to other nodes as its output.
 
 ### Agent function
 
@@ -89,18 +89,19 @@ There are additional optional parameters for developers of nested agents and age
 
 ### Inline Agent Function
 
-An *inline agent function* is a simplified version of *agent function*, which is embedded in the graph (available only when the graph was described in TypeScript). An *inline agent function* receives only the *inputs* paramter as a variable length arguments.
+An *inline agent function* is a simplified version of *agent function*, which is embedded in the graph (available only when the graph was described in TypeScript). An *inline agent function* receives the *inputs* paramter as its only argument.
 
-Here is an examnple (from [weather chat](https://github.com/receptron/graphai/blob/main/samples/sample_weather.ts)):
+Here is an examnple:
 
 ```typescript
     messagesWithUserInput: {
       // Appends the user's input to the messages.
-      agent: ({ messages: Array<any>, content: string }) => [...messages, { role: "user", content }],
+      agent: ({ messages: Array<any>, content: string }) => { 
+        return { array:[...messages, { role: "user", content }] };
+      },
       inputs:
-        messages: ":messages"
-        content: ":userInput"
-      if: "checkInput",
+        messages: ":messages.array"
+        content: ":userInput.text"
     },
 ```
 
