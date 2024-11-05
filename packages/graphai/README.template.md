@@ -31,7 +31,7 @@ flowchart TD
  referenceText -- content --> prompt
  source -- query --> prompt(prompt)
  prompt --> RagQuery(RagQuery)
- source -- query --> OnShotResult(OneShotResult)
+ source -- query --> OnShotQuery(OneShotQuery)
  RagQuery -- text --> RagResult(RagResult)
  OneShotQuery -- text --> OneShotResult(OneShotResult)
 ```
