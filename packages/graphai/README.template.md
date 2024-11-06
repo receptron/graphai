@@ -100,9 +100,10 @@ Here is an examnple:
       agent: ({ messages: Array<any>, content: string }) => { 
         return { array:[...messages, { role: "user", content }] };
       },
-      inputs:
+      inputs: {
         messages: ":messages.array"
         content: ":userInput.text"
+      }
     },
 ```
 
@@ -270,8 +271,9 @@ For example, the following node will be executed only if the *tool_calls* proper
     tool_calls: {
       // This node is activated if the LLM requests a tool call.
       agent: "nestedAgent",
-      inputs:
-        array: [":groq.tool", ":messagesWithFirstRes"],
+      inputs: {
+        array: [":groq.tool", ":messagesWithFirstRes"]
+      },
       if: ":groq.tool",
       graph: {
         // This graph is nested only for the readability.
