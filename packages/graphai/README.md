@@ -120,7 +120,7 @@ flowchart TD
  OneShotQuery -- text --> OneShotResult(OneShotResult)
 ```
 
-Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *dataflow programming* style is much better alternative.
+Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programming* is very difficult in traditional programming style, and GraphAI's *dataflow programming* style is much better alternative.
 
 ## Quick Install
 
@@ -175,7 +175,7 @@ There are additional optional parameters for developers of nested agents and age
 
 An *inline agent function* is a simplified version of *agent function*, which is embedded in the graph (available only when the graph was described in TypeScript). An *inline agent function* receives the *inputs* paramter as its only argument.
 
-Here is an examnple:
+Here is an example:
 
 ```typescript
     messagesWithUserInput: {
@@ -204,14 +204,14 @@ A *computed node* has following properties.
 
 - *agent*: An **required** property, which specifies the id of the *agent function*, or an *inline agent function* (NOTE: this is not possible in JSON or YAML).
 - *params*: An optional agent-specific property to control the behavior of the associated agent function. The top level property may reference a *data source*.
-- *inputs*: An optional list of *data sources* that the current node receives the data from. This establishes a dataflow where the current node can only be executed after the completion of the nodes listed under *inputs*. If this list is empty, the associated *agent function* will be immediatley executed. 
-- *anyInput*: An optiona boolean flag (default is false), which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise (default), it will wait until all the data became available.
+- *inputs*: An optional list of *data sources* that the current node receives the data from. This establishes a dataflow where the current node can only be executed after the completion of the nodes listed under *inputs*. If this list is empty, the associated *agent function* will be immediately executed. 
+- *anyInput*: An optional boolean flag (default is false), which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise (default), it will wait until all the data became available.
 - *retry*: An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, the error will be recorded.
 - *timeout*: An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded.
 - *isResult*: An optional boolean value, which indicates that the return value of this node, should be included as a property of the return value from the run() method of the GraphUI instance.
 - *priority*: An optional number, which specifies the priority of the execution of the associated agent (the task). Default is 0, which means "neutral". Negative numbers are allowed as well.
 - *if*: An optional data source property. The node will be activated only if the value from the data source is truthy. 
-- *unless*: An optional data source property. The node will be activated only if the value from the data source is falty (including empty array). 
+- *unless*: An optional data source property. The node will be activated only if the value from the data source is falsy (including empty array). 
 - *graph*: An optional property for nested agents, which specifies the inner graph. This value can be a graph itself or the data souce, whose value is a graph.
 
 ### Static Node
@@ -223,7 +223,7 @@ A *static* node has following properties.
 
 ## Flow Control
 
-Since the dataflow graph must be asyclic by design, we added a few mechanisms to control dataflows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [conditional flow](#conditional-flow).
+Since the dataflow graph must be acyclic by design, we added a few mechanisms to control dataflows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [conditional flow](#conditional-flow).
 
 ### Nested Graph
 
@@ -246,7 +246,7 @@ nodes:
       projectId: ":projectId"
     graph:
       nodes:
-        schema: // retrieves the database schema for the apecified projectId
+        schema: // retrieves the database schema for the specified projectId
           agent: "schemaAgent"
           inputs:
             projectId: :projectId
@@ -284,7 +284,7 @@ flowchart LR
  ... --> query(query)
 ```
 
-This mechanism does not only allow devleoper to reuse code, but also make it possible to execute the child graph on another machine using a "remote" agent, enabling the *distributed execution* of nested graphs. 
+This mechanism does not only allow developer to reuse code, but also make it possible to execute the child graph on another machine using a "remote" agent, enabling the *distributed execution* of nested graphs. 
 
 ### Loop
 
@@ -295,7 +295,7 @@ The loop is an optional property of a graph, which has two optional properties.
 
 Here is an example, which performs an LLM query for each person in the list and create the list of answers. The "people" node (static), is initialized with an array of names, and the "retriever" node (computed) retrieves one name at a time, and sends it to the "query" node (computed) to perform an LLM query. The "reducer" append it the array retrieved form the "result" node (static node, which is initialized as an empty array). 
 
-The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous itelation. This loop continues until the value of "people" node become an empty array.
+The "update" property of two static nodes ("people" and "result"), updates those properties based on the results from the previous iteration. This loop continues until the value of "people" node become an empty array.
 
 ```YAML
 version: 0.5
