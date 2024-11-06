@@ -185,7 +185,7 @@ nodes:
     update: :checkInput
   messages:
     value: []
-    update: :reducer.array
+    update: :llm.messages
     isResult: true
   userInput:
     agent: textInputAgent
@@ -214,14 +214,6 @@ nodes:
       after: true
     inputs:
       message: :llm.text
-  reducer:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      items:
-        - :userInput.message
-        - :llm.message
-
 ```
 
 1. The user is prompted to input a message with "You:".
