@@ -257,7 +257,7 @@ flowchart LR
 ```
 ### Conditional Flow
 
-GraphAI provides mechanisms to control the flow of data based on certain conditions. This is achieved through the *if* and *anyInput* properties.
+GraphAI provides mechanisms to control the flow of data based on certain conditions. This is achieved through the *if*, *unless* and *anyInput* properties.
 
 #### If/Unless Property
 
