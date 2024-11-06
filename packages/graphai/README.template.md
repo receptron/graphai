@@ -221,7 +221,7 @@ flowchart LR
  result --> reducer(reducer)
  people --> retriever(retriever)
  retriever -- item --> query(query)
- query -- content --> reducer
+ query -- text --> reducer
  retriever -. array .-> people
  reducer -.-> result
 ```
