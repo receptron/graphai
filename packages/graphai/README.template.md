@@ -174,7 +174,7 @@ nodes:
   response: // Deliver the answer
     agent: "deliveryAgent"      
     inputs:
-      text: :database.query.$last.content
+      text: :database.query.text
 ```
 
 The databaseQuery node (which is associated "nestedAgent") takes the data from "question" node and "projectId" node, and make them available to inner nodes (nodes of the child graph) via phantom node, ":question" and ":projectId". After the completion of the child graph, the data from "query" node (which has "isResult" property) becomes available as a property of the output of "database" node.
@@ -186,7 +186,7 @@ flowchart LR
  question --> projectId(projectId)
  question --> database
  projectId --> database
- database[[database]] -- query --> response(response)
+ database[[database]] -- query.text --> response(response)
 ```
 
 Here is the diagram of the child graph. Notice that two phantom nodes are automatically created to allow inner nodes to access input data from the parent graph.
@@ -199,7 +199,7 @@ flowchart LR
  ... --> query(query)
 ```
 
-This mechanism does not only allows devleoper to reuse code, but also makes it possible to execute the child graph on another machine using a "remote" agent (which will be released later), enabling the *distributed execution* of nested graphs. 
+This mechanism does not only allow devleoper to reuse code, but also make it possible to execute the child graph on another machine using a "remote" agent, enabling the *distributed execution* of nested graphs. 
 
 ### Loop
 
