@@ -7,7 +7,7 @@ nodes:
     update: :checkInput
   messages:
     value: []
-    update: :reducer.array
+    update: :llm.messages
     isResult: true
   userInput:
     agent: textInputAgent
@@ -31,16 +31,7 @@ nodes:
       prompt: :userInput.text
   output:
     agent: stringTemplateAgent
-    params:
-      template: "\e[32mAgent\e[0m: ${message}"
     console:
       after: true
     inputs:
-      message: :llm.text
-  reducer:
-    agent: pushAgent
-    inputs:
-      array: :messages
-      items:
-        - :userInput.message
-        - :llm.message
+      text: "\e[32mAgent\e[0m: ${:llm.text}"

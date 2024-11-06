@@ -208,12 +208,11 @@ nodes:
       prompt: :userInput.text
   output:
     agent: stringTemplateAgent
-    params:
-      template: "\e[32mAgent\e[0m: ${message}"
     console:
       after: true
     inputs:
-      message: :llm.text
+      text: "\e[32mAgent\e[0m: ${:llm.text}"
+
 ```
 
 1. The user is prompted to input a message with "You:".
