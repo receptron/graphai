@@ -2,15 +2,15 @@
 
 ## Overview
 
-GraphAI is an asynchronous data flow execution engine, which allows developers to build *agentic applications* by describing *agent workflows* as declarative data flow graphs in YAML or JSON. 
+GraphAI is an asynchronous dataflow execution engine, which allows developers to build *agentic applications* by describing *agent workflows* as declarative dataflow graphs in YAML or JSON. 
 
 As Andrew Ng has described in his article, "[The batch: Issue 242](https://www.deeplearning.ai/the-batch/issue-242/)", better results can often be achieved by making multiple calls to a Large Language Model (LLM) and allowing it to incrementally build towards a higher-quality output. Dr. Ng refers to this approach as 'agentic workflows.' 
 
 Such *agentic applications* require making multiple asynchronous API calls (e.g., OpenAI's chat-completion API, database queries, web searches) and managing data dependencies among them. As the complexity of the application increases, managing these dependencies in a traditional programming style becomes challenging due to the asynchronous nature of the APIs.
 
-GraphAI allows developers to describe dependencies among those agents (asynchronous API calls) in a data flow graph in YAML or JSON, which is called *declarative data flow programming* . The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, task priority management, map-reduce processing, error handling, retries and logging. 
+GraphAI allows developers to describe dependencies among those agents (asynchronous API calls) in a dataflow graph in YAML or JSON, which is called *declarative dataflow programming* . The GraphAI engine will take care of all the complexity of concurrent asynchronous calls, data dependency management, task priority management, map-reduce processing, error handling, retries and logging. 
 
-## Declarative Data Flow Programming
+## Declarative Dataflow Programming
 
 Here is a simple example, which uses the Wikipedia as the data source and perform an in-memory RAG (Retrieval-Augmented Generation).
 
@@ -119,7 +119,7 @@ flowchart TD
  OneShotQuery -- text --> OneShotResult(OneShotResult)
 ```
 
-Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *data flow programming* style is much better alternative.
+Notice that the conversion of the query text into an embedding vector and text chunks into an array of embedding vectors can be done concurrently because there is no dependency between them. GraphAI will automatically recognize it and execute them concurrently. This kind of *concurrent programing* is very difficult in traditional programming style, and GraphAI's *dataflow programming* style is much better alternative.
 
 ## Quick Install
 
@@ -133,11 +133,11 @@ or
 yarn add graphai
 ```
 
-## Data Flow Graph
+## Dataflow Graph
 
-A Data Flow Graph (DFG) is a JavaScript object, which defines the flow of data. It is described in YAML or JSON and loaded at runtime.
+A Dataflow Graph (DFG) is a JavaScript object, which defines the flow of data. It is described in YAML or JSON and loaded at runtime.
 
-A DFG consists of a collection of [nodes](#node), which contains a series of nested properties representing individual nodes in the data flow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (such as params, inputs, and value) that dictate the node's behavior and its relationship with other nodes. There are two types of nodes, [computed nodes](#computed-node) and [static nodes](#static-node), which are described below.
+A DFG consists of a collection of [nodes](#node), which contains a series of nested properties representing individual nodes in the dataflow. Each node is identified by a unique key, *nodeId* (e.g., node1, node2) and can contain several predefined properties (such as params, inputs, and value) that dictate the node's behavior and its relationship with other nodes. There are two types of nodes, [computed nodes](#computed-node) and [static nodes](#static-node), which are described below.
 
 ### Data Source
 
@@ -154,7 +154,7 @@ Connections between nodes will be established by references from one node to ano
 
 An *agent* is an abstract object which takes some inputs and generates an output asynchronously. It could be an LLM call (such as GPT-4), a media generator, a database access, or a REST API over HTTP. A node associated with an agent (specified by the *agent*'* property) is called [computed node](#computed-node), which takes a set of *inputs* from *data sources*, asks the *agent function* to process it, and makes the returned value available to other nodes as its output.
 
-### Agent function
+### Agent Function
 
 An *agent function* is a TypeScript function, which implements a particular *agent*, performing some computations for the associated *computed node*. An *agent function* receives a *context* (type AgentFunctionContext), which has following properties:
 
@@ -202,7 +202,7 @@ A *computed node* has following properties.
 
 - *agent*: An **required** property, which specifies the id of the *agent function*, or an *inline agent function* (NOTE: this is not possible in JSON or YAML).
 - *params*: An optional agent-specific property to control the behavior of the associated agent function. The top level property may reference a *data source*.
-- *inputs*: An optional list of *data sources* that the current node receives the data from. This establishes a data flow where the current node can only be executed after the completion of the nodes listed under *inputs*. If this list is empty, the associated *agent function* will be immediatley executed. 
+- *inputs*: An optional list of *data sources* that the current node receives the data from. This establishes a dataflow where the current node can only be executed after the completion of the nodes listed under *inputs*. If this list is empty, the associated *agent function* will be immediatley executed. 
 - *anyInput*: An optiona boolean flag (default is false), which indicates that the associated *agent function* will be called when at least one of input data became available. Otherwise (default), it will wait until all the data became available.
 - *retry*: An optional number, which specifies the maximum number of retries to be made. If the last attempt fails, the error will be recorded.
 - *timeout*: An optional number, which specifies the maximum waittime in msec. If the associated agent function does not return the value in time, the "Timeout" error will be recorded. The returned value received after the time out will be discarded.
@@ -221,7 +221,7 @@ A *static* node has following properties.
 
 ## Flow Control
 
-Since the data-flow graph must be asyclic by design, we added a few mechanisms to control data flows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [conditional flow](#conditional-flow).
+Since the dataflow graph must be asyclic by design, we added a few mechanisms to control dataflows, [nesting](#nesting), [loop](#loop), [mapping](#mapping) and [conditional flow](#conditional-flow).
 
 ### Nested Graph
 
@@ -341,7 +341,7 @@ flowchart LR
 
 The *loop* mechanism is often used with a nested graph, which receives an array of data from a node of the parent graph and performs the "reduction" process of a *map-reduce* operation, just like the *reduce* method of JavaScript.
 
-Please notice that each iteration will be done sequencially unlike the *mapping* described below.
+Please notice that each iteration will be done sequentially unlike the *mapping* described below.
 
 ### Mapping
 
@@ -351,7 +351,7 @@ If the size of array is N, the mapAgent creates N instances of GraphAI object, a
 
 After the completion of all of instances, the mapAgent returns an array of results, just like the map function of JavaScript. 
 
-The following graph will generate the same result (an array of answers) as the sample graph for the *loop*, but three queries will be issued concurretly. 
+The following graph will generate the same result (an array of answers) as the sample graph for the *loop*, but three queries will be issued concurrently. 
 
 ```YAML
 version: 0.5
@@ -410,7 +410,7 @@ It is recommended to use the *if* property in conjunction with nested graphs for
 
 #### AnyInput Property
 
-The *anyInput* property (boolean) allows you to merge multiple data flow paths into a single node. When set to *true*, the agent function associated with the node will be executed as soon as data becomes available from any of the specified input data sources.
+The *anyInput* property (boolean) allows you to merge multiple dataflow paths into a single node. When set to *true*, the agent function associated with the node will be executed as soon as data becomes available from any of the specified input data sources.
 
 This property is particularly useful when you want to continue the flow regardless of which path the data comes from. In the weather chat sample application, it is used to continue the chat iteration whether a tool was requested by the LLM or not:
 
