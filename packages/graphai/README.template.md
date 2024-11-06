@@ -27,11 +27,12 @@ flowchart TD
  chunkEmbeddings --> similarities(similarities)
  topicEmbedding -- $0 --> similarities
  similarities --> sortedChunks(sortedChunks)
+ chunks -- contents --> sortedChunks
  sortedChunks --> referenceText(resourceText)
  referenceText -- content --> prompt
  source -- query --> prompt(prompt)
  prompt --> RagQuery(RagQuery)
- source -- query --> OnShotQuery(OneShotQuery)
+ source -- query --> OneShotQuery(OneShotQuery)
  RagQuery -- text --> RagResult(RagResult)
  OneShotQuery -- text --> OneShotResult(OneShotResult)
 ```
@@ -62,7 +63,7 @@ Connections between nodes will be established by references from one node to ano
 
 ### DFG Structure
 
-- *version*: GraphAI version, required. The latest version is 0.3.
+- *version*: GraphAI version, required. The latest version is 0.5.
 - *nodes*: A list of node. Required.
 - *concurrency*: An optional property, which specifies the maximum number of concurrent operations (agent functions to be executed at the same time). The default is 8.
 - *loop*: An optional property, which specifies if the graph needs to be executed multiple times (iterations). See the [Loop section below](#loop) for details.
