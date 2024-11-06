@@ -228,7 +228,7 @@ flowchart LR
 
 The *loop* mechanism is often used with a nested graph, which receives an array of data from a node of the parent graph and performs the "reduction" process of a *map-reduce* operation, just like the *reduce* method of JavaScript.
 
-Please notice that each iteration will be done sequencially unlike the *mapping* described below.
+Please notice that each iteration will be done sequentially unlike the *mapping* described below.
 
 ### Mapping
 
@@ -238,7 +238,7 @@ If the size of array is N, the mapAgent creates N instances of GraphAI object, a
 
 After the completion of all of instances, the mapAgent returns an array of results, just like the map function of JavaScript. 
 
-The following graph will generate the same result (an array of answers) as the sample graph for the *loop*, but three queries will be issued concurretly. 
+The following graph will generate the same result (an array of answers) as the sample graph for the *loop*, but three queries will be issued concurrently. 
 
 ```YAML
 ${packages/samples/src/simple/map_people.yaml}
