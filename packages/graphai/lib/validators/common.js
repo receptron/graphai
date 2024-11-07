@@ -10,6 +10,7 @@ exports.computedNodeAttributeKeys = [
     "timeout",
     "agent",
     "graph",
+    "graphLoader",
     "isResult",
     "priority",
     "if",

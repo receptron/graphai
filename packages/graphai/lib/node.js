@@ -76,6 +76,9 @@ class ComputedNode extends Node {
         if (data.graph) {
             this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
         }
+        if (data.graphLoader && graph.graphLoader) {
+            this.nestedGraph = graph.graphLoader(data.graphLoader);
+        }
         if (data.if) {
             this.ifSource = this.addPendingNode(data.if);
         }

@@ -87,6 +87,7 @@ class GraphAI {
         agentFilters: [],
         bypassAgentIds: [],
         config: {},
+        graphLoader: undefined,
     }) {
         this.logs = [];
         this.config = {};
@@ -108,6 +109,7 @@ class GraphAI {
         this.agentFilters = options.agentFilters ?? [];
         this.bypassAgentIds = options.bypassAgentIds ?? [];
         this.config = options.config;
+        this.graphLoader = options.graphLoader;
         this.loop = data.loop;
         this.verbose = data.verbose === true;
         this.onComplete = () => {

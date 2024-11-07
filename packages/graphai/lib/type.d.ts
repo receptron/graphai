@@ -31,6 +31,10 @@ export type StaticNodeData = {
 };
 export type AgentAnonymousFunction = (...params: any[]) => unknown;
 export type AgentFilterParams = Record<string, any>;
+export type GraphDataLoaderOption = {
+    fileName: string;
+    option?: any;
+};
 export type ComputedNodeData = {
     agent: string | AgentAnonymousFunction;
     inputs?: Array<any> | Record<string, any>;
@@ -42,6 +46,7 @@ export type ComputedNodeData = {
     if?: string;
     unless?: string;
     graph?: GraphData | string;
+    graphLoader?: GraphDataLoaderOption;
     isResult?: boolean;
     priority?: number;
     passThrough?: PassThrough;
@@ -61,11 +66,13 @@ export type GraphData = {
     retry?: number;
     metadata?: any;
 };
+export type GraphDataLoader = (loaderOption: GraphDataLoaderOption) => GraphData;
 export type GraphOptions = {
     agentFilters?: AgentFilterInfo[] | undefined;
     taskManager?: TaskManager | undefined;
     bypassAgentIds?: string[] | undefined;
     config?: Record<string, unknown>;
+    graphLoader?: GraphDataLoader;
 };
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
     params: NodeDataParams<ParamsType>;

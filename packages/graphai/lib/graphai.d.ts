@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions } from "./type";
+import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions, GraphDataLoader } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, GraphNodes } from "./node";
 import { TaskManager } from "./task_manager";
@@ -17,6 +17,7 @@ export declare class GraphAI {
     readonly agentFilters: AgentFilterInfo[];
     readonly retryLimit?: number;
     private readonly propFunctions;
+    readonly graphLoader?: GraphDataLoader;
     nodes: GraphNodes;
     onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
     verbose: boolean;
