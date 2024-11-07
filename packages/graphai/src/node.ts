@@ -119,7 +119,7 @@ export class ComputedNode extends Node {
       this.agentFunction = this.isNamedInputs ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
     }
     if (data.graph) {
-      this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
+      this.nestedGraph = this.getNestedGraph(data.graph, graph);
     }
     if (data.if) {
       this.ifSource = this.addPendingNode(data.if);
@@ -138,6 +138,19 @@ export class ComputedNode extends Node {
     }, {});
 
     this.log.initForComputedNode(this, graph);
+  }
+
+  private getNestedGraph(graph: GraphData | string | { fileName: string }, graphai: GraphAI) {
+    if (typeof graph === "string") {
+      return this.addPendingNode(graph);
+    }
+    if ("fileName" in graph) {
+      if (graphai.graphReader) {
+        return graphai.graphReader(graph.fileName);
+      }
+      throw new Error("No graph reader");
+    }
+    return graph;
   }
 
   public getAgentId() {

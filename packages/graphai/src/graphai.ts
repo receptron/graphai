@@ -9,6 +9,7 @@ import {
   DefaultResultData,
   GraphOptions,
   PropFunction,
+  GraphDataReader,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
@@ -38,6 +39,7 @@ export class GraphAI {
   public readonly agentFilters: AgentFilterInfo[];
   public readonly retryLimit?: number;
   private readonly propFunctions: PropFunction[];
+  public readonly graphReader?: GraphDataReader;
 
   public nodes: GraphNodes;
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
@@ -127,6 +129,7 @@ export class GraphAI {
       agentFilters: [],
       bypassAgentIds: [],
       config: {},
+      graphReader: undefined,
     },
   ) {
     if (!data.version && !options.taskManager) {
@@ -145,6 +148,7 @@ export class GraphAI {
     this.agentFilters = options.agentFilters ?? [];
     this.bypassAgentIds = options.bypassAgentIds ?? [];
     this.config = options.config;
+    this.graphReader = options.graphReader;
     this.loop = data.loop;
     this.verbose = data.verbose === true;
     this.onComplete = () => {

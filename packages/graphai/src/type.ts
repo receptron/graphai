@@ -49,7 +49,7 @@ export type ComputedNodeData = {
   timeout?: number; // msec
   if?: string; // conditional execution
   unless?: string; // conditional execution
-  graph?: GraphData | string;
+  graph?: GraphData | string | { fileName: string };
   isResult?: boolean;
   priority?: number; // The default is 0.
   passThrough?: PassThrough; // data that pass trough to result
@@ -73,11 +73,14 @@ export type GraphData = {
   metadata?: any; // Stores information about GraphData. GraphAI itself is not used this data.
 };
 
+export type GraphDataReader = (fileName: string) => GraphData;
+
 export type GraphOptions = {
   agentFilters?: AgentFilterInfo[] | undefined;
   taskManager?: TaskManager | undefined;
   bypassAgentIds?: string[] | undefined;
   config?: Record<string, unknown>;
+  graphReader?: GraphDataReader;
 };
 
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
