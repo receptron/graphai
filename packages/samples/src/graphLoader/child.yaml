@@ -1,0 +1,7 @@
+version: 0.5
+nodes:
+  test: 
+    agent: "stringTemplateAgent"
+    inputs:
+      text: "this is a pen ${:data}"
+    isResult: true
