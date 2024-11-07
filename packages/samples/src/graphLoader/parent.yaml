@@ -1,0 +1,16 @@
+version: 0.5
+nodes:
+  inputs:
+    value: "fromParent"
+  fromParent:
+    agent: "nestedAgent"
+    graphLoader:
+      fileName: "child.yaml"
+    inputs:
+      data: ":inputs"
+  setting:
+    agent: "nestedAgent"
+    graphLoader:
+      fileName: "child.yaml"
+      option:
+        setting: "setting.yaml"
