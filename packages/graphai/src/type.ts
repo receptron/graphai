@@ -39,7 +39,7 @@ export type AgentAnonymousFunction = (...params: any[]) => unknown;
 
 export type AgentFilterParams = Record<string, any>;
 
-export type GraphDataReaderOption = { fileName: string; option?: any };
+export type GraphDataLoaderOption = { fileName: string; option?: any };
 
 export type ComputedNodeData = {
   agent: string | AgentAnonymousFunction;
@@ -51,7 +51,8 @@ export type ComputedNodeData = {
   timeout?: number; // msec
   if?: string; // conditional execution
   unless?: string; // conditional execution
-  graph?: GraphData | string | GraphDataReaderOption;
+  graph?: GraphData | string;
+  graphLoader?: GraphDataLoaderOption;
   isResult?: boolean;
   priority?: number; // The default is 0.
   passThrough?: PassThrough; // data that pass trough to result
@@ -75,14 +76,14 @@ export type GraphData = {
   metadata?: any; // Stores information about GraphData. GraphAI itself is not used this data.
 };
 
-export type GraphDataReader = (readerOption: GraphDataReaderOption) => GraphData;
+export type GraphDataLoader = (readerOption: GraphDataLoaderOption) => GraphData;
 
 export type GraphOptions = {
   agentFilters?: AgentFilterInfo[] | undefined;
   taskManager?: TaskManager | undefined;
   bypassAgentIds?: string[] | undefined;
   config?: Record<string, unknown>;
-  graphReader?: GraphDataReader;
+  graphLoader?: GraphDataLoader;
 };
 
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {

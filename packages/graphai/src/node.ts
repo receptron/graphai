@@ -16,7 +16,6 @@ import {
   DefaultParamsType,
   DefaultInputData,
   PassThrough,
-  GraphDataReaderOption,
 } from "@/type";
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
@@ -120,7 +119,10 @@ export class ComputedNode extends Node {
       this.agentFunction = this.isNamedInputs ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
     }
     if (data.graph) {
-      this.nestedGraph = this.getNestedGraph(data.graph, graph);
+      this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
+    }
+    if (data.graphLoader && graph.graphLoader) {
+      this.nestedGraph = graph.graphLoader(data.graphLoader);
     }
     if (data.if) {
       this.ifSource = this.addPendingNode(data.if);
@@ -139,19 +141,6 @@ export class ComputedNode extends Node {
     }, {});
 
     this.log.initForComputedNode(this, graph);
-  }
-
-  private getNestedGraph(graph: GraphData | string | GraphDataReaderOption, graphai: GraphAI) {
-    if (typeof graph === "string") {
-      return this.addPendingNode(graph);
-    }
-    if ("fileName" in graph) {
-      if (graphai.graphReader) {
-        return graphai.graphReader(graph);
-      }
-      throw new Error("No graph reader");
-    }
-    return graph;
   }
 
   public getAgentId() {

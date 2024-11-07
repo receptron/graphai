@@ -1,7 +1,7 @@
 import { GraphAI } from "@/index";
 import { graphDataLatestVersion } from "~/common";
 import * as agents from "~/test_agents";
-import { GraphDataReaderOption } from "@/type";
+import { GraphDataLoaderOption } from "@/type";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -14,7 +14,7 @@ const graph_data = {
     },
     namedResult: {
       agent: "nestedAgent",
-      graph: {
+      graphLoader: {
         fileName: "fileName",
         option: {
           meta: 123,
@@ -25,7 +25,7 @@ const graph_data = {
 };
 
 test("test graph", async () => {
-  const graphReader = (readerOption: GraphDataReaderOption) => {
+  const graphLoader = (readerOption: GraphDataLoaderOption) => {
     assert.equal(readerOption.fileName, "fileName");
     const graph_data = {
       version: graphDataLatestVersion,
@@ -47,7 +47,7 @@ test("test graph", async () => {
     return graph_data;
   };
 
-  const graph = new GraphAI(graph_data, agents, { graphReader });
+  const graph = new GraphAI(graph_data, agents, { graphLoader });
   const result = await graph.run(true);
   assert.deepStrictEqual(result, {
     message: "Hello World",

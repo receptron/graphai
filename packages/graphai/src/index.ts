@@ -18,8 +18,8 @@ export {
   DefaultResultData,
   DefaultInputData,
   DefaultParamsType,
-  GraphDataReaderOption,
-  GraphDataReader,
+  GraphDataLoaderOption,
+  GraphDataLoader,
 } from "@/type";
 
 export type { TransactionLog } from "./transaction_log";
