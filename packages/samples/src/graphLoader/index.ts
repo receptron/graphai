@@ -4,33 +4,6 @@ import * as agents from "@graphai/vanilla";
 import { parse } from "yaml";
 import { readFileSync } from "fs";
 
-const baseGraph = {
-  version: 0.5,
-  nodes: {
-    inputs: {
-      value: "fromParent",
-    },
-    fromParent: {
-      agent: "nestedAgent",
-      graphLoader: {
-        fileName: "child.yaml",
-      },
-      inputs: {
-        data: ":inputs",
-      },
-    },
-    setting: {
-      agent: "nestedAgent",
-      graphLoader: {
-        fileName: "child.yaml",
-        option: {
-          setting: "setting.yaml",
-        },
-      },
-    },
-  },
-};
-
 const readYaml = (fileName: string) => {
   const path = __dirname + "/" + fileName;
   const yamlStr = readFileSync(path, "utf8");
@@ -48,6 +21,7 @@ export const main = async () => {
     }
     return graphData as GraphData;
   };
+  const baseGraph = readYaml("parent.yaml");
   const graph = new GraphAI(baseGraph, agents, { graphLoader });
   const result = await graph.run(true);
   console.log(result);
