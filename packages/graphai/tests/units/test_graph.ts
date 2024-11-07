@@ -1,6 +1,7 @@
 import { GraphAI } from "@/index";
 import { graphDataLatestVersion } from "~/common";
 import * as agents from "~/test_agents";
+import { GraphDataReaderOption } from "@/type";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -15,14 +16,17 @@ const graph_data = {
       agent: "nestedAgent",
       graph: {
         fileName: "fileName",
+        option: {
+          meta: 123,
+        },
       },
     },
   },
 };
 
 test("test graph", async () => {
-  const graphReader = (fileName: string) => {
-    assert.equal(fileName, fileName);
+  const graphReader = (readerOption: GraphDataReaderOption) => {
+    assert.equal(readerOption.fileName, "fileName");
     const graph_data = {
       version: graphDataLatestVersion,
       nodes: {

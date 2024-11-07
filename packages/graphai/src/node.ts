@@ -16,6 +16,7 @@ import {
   DefaultParamsType,
   DefaultInputData,
   PassThrough,
+  GraphDataReaderOption,
 } from "@/type";
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
@@ -140,13 +141,13 @@ export class ComputedNode extends Node {
     this.log.initForComputedNode(this, graph);
   }
 
-  private getNestedGraph(graph: GraphData | string | { fileName: string }, graphai: GraphAI) {
+  private getNestedGraph(graph: GraphData | string | GraphDataReaderOption, graphai: GraphAI) {
     if (typeof graph === "string") {
       return this.addPendingNode(graph);
     }
     if ("fileName" in graph) {
       if (graphai.graphReader) {
-        return graphai.graphReader(graph.fileName);
+        return graphai.graphReader(graph);
       }
       throw new Error("No graph reader");
     }
