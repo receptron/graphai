@@ -76,7 +76,7 @@ export type GraphData = {
   metadata?: any; // Stores information about GraphData. GraphAI itself is not used this data.
 };
 
-export type GraphDataLoader = (readerOption: GraphDataLoaderOption) => GraphData;
+export type GraphDataLoader = (loaderOption: GraphDataLoaderOption) => GraphData;
 
 export type GraphOptions = {
   agentFilters?: AgentFilterInfo[] | undefined;

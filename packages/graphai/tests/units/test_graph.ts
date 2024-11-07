@@ -25,13 +25,13 @@ const graph_data = {
 };
 
 test("test graph", async () => {
-  const graphLoader = (readerOption: GraphDataLoaderOption) => {
-    assert.equal(readerOption.fileName, "fileName");
+  const graphLoader = (loaderOption: GraphDataLoaderOption) => {
+    assert.equal(loaderOption.fileName, "fileName");
     const graph_data = {
       version: graphDataLatestVersion,
       nodes: {
         message: {
-          value: "Hello World from reader",
+          value: "Hello World from loader",
         },
         template: {
           agent: "copyAgent",
@@ -52,7 +52,7 @@ test("test graph", async () => {
   assert.deepStrictEqual(result, {
     message: "Hello World",
     namedResult: {
-      template: "Hello World from reader",
+      template: "Hello World from loader",
     },
   });
 });
