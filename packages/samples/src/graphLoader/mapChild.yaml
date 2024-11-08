@@ -1,0 +1,9 @@
+version: 0.5
+nodes:
+  data:
+    value: "child"
+  test:
+    agent: "stringTemplateAgent"
+    inputs:
+      text: "this is a pen ${:data}"
+    isResult: true
