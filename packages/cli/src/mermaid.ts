@@ -1,5 +1,16 @@
-import { GraphData } from "graphai";
-import { parseNodeName } from "graphai/lib/utils/utils";
+import { GraphData, inputs2dataSources } from "graphai";
+
+const mapData = (nodeId: string, inputs: any) => {
+  inputs2dataSources(inputs).map((source) => {
+    if (source.nodeId) {
+      if (source.propIds) {
+        console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
+      } else {
+        console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
+      }
+    }
+  });
+};
 
 export const mermaid = (graphData: GraphData) => {
   console.log("flowchart TD");
@@ -8,32 +19,11 @@ export const mermaid = (graphData: GraphData) => {
     // label / name
     if ("agent" in node) {
       if (node.inputs) {
-        if (Array.isArray(node.inputs)) {
-          node.inputs.forEach((input) => {
-            const source = parseNodeName(input);
-            if (source.propIds) {
-              console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
-            } else {
-              console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
-            }
-          });
-        } else {
-          // LATER: Display the inputName as well.
-          const inputNames = Object.keys(node.inputs);
-          inputNames.forEach((inputName) => {
-            const input = (node.inputs as Record<string, any>)[inputName];
-            const source = parseNodeName(input);
-            if (source.propIds) {
-              console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
-            } else {
-              console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
-            }
-          });
-        }
+        mapData(nodeId, node.inputs);
       }
     }
-    if ("value" in node) {
-      // console.log(node.value);
+    if ("update" in node) {
+      mapData(nodeId, { update: node.update });
     }
   });
 };
