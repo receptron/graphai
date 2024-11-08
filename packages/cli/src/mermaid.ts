@@ -1,5 +1,4 @@
 import { GraphData, inputs2dataSources } from "graphai";
-import { parseNodeName } from "graphai/lib/utils/utils";
 
 const mapData = (nodeId: string, inputs: any) => {
   inputs2dataSources(inputs).map((source) => {

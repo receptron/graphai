@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mermaid = void 0;
 const graphai_1 = require("graphai");
 const mapData = (nodeId, inputs) => {
-    (0, graphai_1.inputs2dataSources)(inputs).map(source => {
+    (0, graphai_1.inputs2dataSources)(inputs).map((source) => {
         if (source.nodeId) {
             if (source.propIds) {
                 console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
