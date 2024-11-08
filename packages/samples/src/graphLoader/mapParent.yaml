@@ -1,0 +1,18 @@
+version: 0.5
+nodes:
+  inputs:
+    value: "fromParent"
+  fromParent:
+    agent: "mapAgent"
+    graphLoader:
+      fileName: "mapChild.yaml"
+    inputs:
+      rows: [":inputs", ":inputs", ":inputs"]
+  setting:
+    agent: "mapAgent"
+    inputs:
+      rows: [":inputs"]
+    graphLoader:
+      fileName: "mapChild.yaml"
+      option:
+        setting: "setting.yaml"
