@@ -1,7 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mermaid = void 0;
-const utils_1 = require("graphai/lib/utils/utils");
+const graphai_1 = require("graphai");
+const mapData = (nodeId, inputs) => {
+    (0, graphai_1.inputs2dataSources)(inputs).map(source => {
+        if (source.nodeId) {
+            if (source.propIds) {
+                console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
+            }
+            else {
+                console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
+            }
+        }
+    });
+};
 const mermaid = (graphData) => {
     console.log("flowchart TD");
     Object.keys(graphData.nodes).forEach((nodeId) => {
@@ -9,35 +21,11 @@ const mermaid = (graphData) => {
         // label / name
         if ("agent" in node) {
             if (node.inputs) {
-                if (Array.isArray(node.inputs)) {
-                    node.inputs.forEach((input) => {
-                        const source = (0, utils_1.parseNodeName)(input);
-                        if (source.propIds) {
-                            console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
-                        }
-                        else {
-                            console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
-                        }
-                    });
-                }
-                else {
-                    // LATER: Display the inputName as well.
-                    const inputNames = Object.keys(node.inputs);
-                    inputNames.forEach((inputName) => {
-                        const input = node.inputs[inputName];
-                        const source = (0, utils_1.parseNodeName)(input);
-                        if (source.propIds) {
-                            console.log(` ${source.nodeId}(${source.nodeId}) -- ${source.propIds.join(".")} --> ${nodeId}`);
-                        }
-                        else {
-                            console.log(` ${source.nodeId}(${source.nodeId}) --> ${nodeId}`);
-                        }
-                    });
-                }
+                mapData(nodeId, node.inputs);
             }
         }
-        if ("value" in node) {
-            // console.log(node.value);
+        if ("update" in node) {
+            mapData(nodeId, { update: node.update });
         }
     });
 };
