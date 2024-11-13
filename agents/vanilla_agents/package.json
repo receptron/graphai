@@ -7,12 +7,11 @@
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && tsc-alias",
+    "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
     "eslint": "eslint",
     "doc": "npm run examplesDoc && npx agentdoc",
     "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/graph/examples.ts",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
-    "rollup": "npx rollup -c",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
