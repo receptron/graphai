@@ -31,4 +31,17 @@ export default [{
     commonjs(),
     pluginTypescript(),
   ],
+},{
+  input: './src/index.ts',
+  output: {
+    name: 'vanilla_agents',
+    file: './lib/bundle.umd.mjs',
+    format: 'umd',
+    sourcemap: true,
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
+    pluginTypescript(),
+  ],
 }];
