@@ -1,10 +1,10 @@
 import pluginTypescript from "@rollup/plugin-typescript";
 import terser from '@rollup/plugin-terser';
 
-export default {
+export default [{
   input: './src/index.ts',
   output: {
-    file: './lib/bundle.js',
+    file: './lib/bundle.min.mjs',
     format: 'esm',
     sourcemap: true,
   },
@@ -13,4 +13,15 @@ export default {
     pluginTypescript(),
     terser(),
   ],
-};
+},{
+  input: './src/index.ts',
+  output: {
+    file: './lib/bundle.mjs',
+    format: 'esm',
+    sourcemap: true,
+  },
+
+  plugins: [
+    pluginTypescript(),
+  ],
+}];
