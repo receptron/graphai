@@ -1,5 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { isObject } from "graphai/lib/utils/utils";
+import { AgentFunction, AgentFunctionInfo, isObject } from "graphai";
 
 type StringTemplate = string | Record<string, string>;
 type StringTemplateObject = StringTemplate | StringTemplate[] | Record<string, StringTemplate>;
