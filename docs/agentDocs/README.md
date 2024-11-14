@@ -3,10 +3,10 @@
 
 ## data
 ### [dataObjectMergeTemplateAgent](./data/dataObjectMergeTemplateAgent.md)
-### [totalAgent](./data/totalAgent.md)
+### [copyAgent](./data/copyAgent.md)
 ### [dataSumTemplateAgent](./data/dataSumTemplateAgent.md)
 ### [propertyFilterAgent](./data/propertyFilterAgent.md)
-### [copyAgent](./data/copyAgent.md)
+### [totalAgent](./data/totalAgent.md)
 
 ## llm
 ### [anthropicAgent](./llm/anthropicAgent.md)
@@ -27,36 +27,36 @@
 ### [sleeperAgentDebug](./sleeper/sleeperAgentDebug.md)
 ### [sleeperAgent](./sleeper/sleeperAgent.md)
 
-## embedding
-### [stringEmbeddingsAgent](./embedding/stringEmbeddingsAgent.md)
-
-## string
-### [stringSplitterAgent](./string/stringSplitterAgent.md)
-### [stringTemplateAgent](./string/stringTemplateAgent.md)
-### [jsonParserAgent](./string/jsonParserAgent.md)
-
 ## array
-### [pushAgent](./array/pushAgent.md)
-### [popAgent](./array/popAgent.md)
-### [shiftAgent](./array/shiftAgent.md)
 ### [arrayFlatAgent](./array/arrayFlatAgent.md)
 ### [arrayJoinAgent](./array/arrayJoinAgent.md)
+### [popAgent](./array/popAgent.md)
+### [pushAgent](./array/pushAgent.md)
+### [shiftAgent](./array/shiftAgent.md)
+
+## compare
+### [compareAgent](./compare/compareAgent.md)
+
+## test
+### [copy2ArrayAgent](./test/copy2ArrayAgent.md)
+### [copyMessageAgent](./test/copyMessageAgent.md)
+### [countingAgent](./test/countingAgent.md)
+### [echoAgent](./test/echoAgent.md)
+### [mergeNodeIdAgent](./test/mergeNodeIdAgent.md)
+### [streamMockAgent](./test/streamMockAgent.md)
 
 ## matrix
 ### [dotProductAgent](./matrix/dotProductAgent.md)
 ### [sortByValuesAgent](./matrix/sortByValuesAgent.md)
 
-## test
-### [echoAgent](./test/echoAgent.md)
-### [countingAgent](./test/countingAgent.md)
-### [copyMessageAgent](./test/copyMessageAgent.md)
-### [copy2ArrayAgent](./test/copy2ArrayAgent.md)
-### [mergeNodeIdAgent](./test/mergeNodeIdAgent.md)
-### [streamMockAgent](./test/streamMockAgent.md)
+## string
+### [jsonParserAgent](./string/jsonParserAgent.md)
+### [stringSplitterAgent](./string/stringSplitterAgent.md)
+### [stringTemplateAgent](./string/stringTemplateAgent.md)
 
 ## graph
-### [nestedAgent](./graph/nestedAgent.md)
 ### [mapAgent](./graph/mapAgent.md)
+### [nestedAgent](./graph/nestedAgent.md)
 
-## compare
-### [compareAgent](./compare/compareAgent.md)
+## embedding
+### [stringEmbeddingsAgent](./embedding/stringEmbeddingsAgent.md)
