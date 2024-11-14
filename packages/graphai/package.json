@@ -2,7 +2,9 @@
   "name": "graphai",
   "version": "0.5.16",
   "description": "Asynchronous data flow execution engine for agentic AI apps.",
-  "main": "lib/index.js",
+  "main": "lib/bundle.cjs.js",
+  "module": "lib/bundle.esm.js",
+  "browser": "lib/bundle.umd.js",
   "files": [
     "./lib"
   ],

@@ -1327,4 +1327,4 @@
     exports.strIntentionalError = strIntentionalError;
 
 }));
-//# sourceMappingURL=bundle.umd.mjs.map
+//# sourceMappingURL=bundle.umd.js.map
