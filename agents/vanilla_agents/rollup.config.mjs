@@ -52,7 +52,7 @@ export default [
       format: "umd",
       sourcemap: true,
       globals: {
-        graphai: 'graphai'
+        graphai: "graphai",
       },
     },
     external: ["graphai"],
