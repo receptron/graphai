@@ -29,8 +29,7 @@
   "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/README.md",
   "dependencies": {
     "@graphai/llm_utils": "^0.0.2",
-    "openai": "^4.71.1",
-    "tiktoken": "^1.0.17"
+    "openai": "^4.72.0"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
