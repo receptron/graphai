@@ -1,0 +1,39 @@
+{
+  "name": "@graphai/openai_fetch_agent",
+  "version": "0.1.0",
+  "description": "OpenAI fetch agents for GraphAI and browser.",
+  "main": "lib/index.js",
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
+    "eslint": "eslint",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "doc": "npm run examplesDoc && npx agentdoc",
+    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/examples.ts",
+    "test": "echo nothing",
+    "test_run": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/run_*.ts # just run locally",
+    "chat": "node -r tsconfig-paths/register -r ts-node/register ./tests/chat_dispatch.ts",
+    "b": "yarn run format && yarn run eslint && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "author": "Satoshi Nakajima, Isamu Arimoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/openai_fetch_agent/README.md",
+  "dependencies": {
+    "@graphai/llm_utils": "^0.0.2",
+    "openai": "^4.71.1"
+  },
+  "devDependencies": {},
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  }
+}
