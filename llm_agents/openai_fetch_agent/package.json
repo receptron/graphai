@@ -2,7 +2,9 @@
   "name": "@graphai/openai_fetch_agent",
   "version": "0.1.0",
   "description": "OpenAI fetch agents for GraphAI and browser.",
-  "main": "lib/index.js",
+  "main": "lib/bundle.cjs.js",
+  "module": "lib/bundle.esm.js",
+  "browser": "lib/bundle.umd.js",
   "files": [
     "./lib"
   ],
@@ -28,8 +30,7 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/openai_fetch_agent/README.md",
   "dependencies": {
-    "@graphai/llm_utils": "^0.0.2",
-    "openai": "^4.71.1"
+    "@graphai/llm_utils": "^0.0.2"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",

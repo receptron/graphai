@@ -11,7 +11,7 @@ export default [
       format: "cjs",
       sourcemap: true,
     },
-    external: ["openai"],
+    external: ["graphai"],
     plugins: [resolve(), commonjs(), pluginTypescript()],
   },
   {
@@ -21,7 +21,7 @@ export default [
       format: "cjs",
       sourcemap: true,
     },
-    external: ["openai"],
+    external: ["graphai"],
     plugins: [resolve(), commonjs(), pluginTypescript(), terser()],
   },
   {
@@ -31,7 +31,7 @@ export default [
       format: "esm",
       sourcemap: true,
     },
-    external: ["openai"],
+    external: ["graphai"],
     plugins: [resolve(), commonjs(), pluginTypescript()],
   },
   {
@@ -41,21 +41,21 @@ export default [
       format: "esm",
       sourcemap: true,
     },
-    external: ["openai"],
+    external: ["graphai"],
     plugins: [resolve(), commonjs(), pluginTypescript(), terser()],
   },
   {
     input: "./src/index.ts",
     output: {
-      name: "openai_agent",
+      name: "openai_fetch_agent",
       file: "./lib/bundle.umd.js",
       format: "umd",
       sourcemap: true,
       globals: {
-        openai: 'openai'
+        graphai: "graphai",
       },
     },
-    external: ["openai"],
+    external: ["graphai"],
     plugins: [resolve(), commonjs(), pluginTypescript()],
   },
 ];
