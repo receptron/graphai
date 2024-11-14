@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringTemplateAgent = void 0;
-const utils_1 = require("graphai/lib/utils/utils");
+const graphai_1 = require("graphai");
 const processTemplate = (template, match, input) => {
     if (typeof template === "string") {
         if (template === match) {
@@ -12,7 +12,7 @@ const processTemplate = (template, match, input) => {
     else if (Array.isArray(template)) {
         return template.map((item) => processTemplate(item, match, input));
     }
-    if ((0, utils_1.isObject)(template)) {
+    if ((0, graphai_1.isObject)(template)) {
         return Object.keys(template).reduce((tmp, key) => {
             tmp[key] = processTemplate(template[key], match, input);
             return tmp;

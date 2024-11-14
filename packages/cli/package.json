@@ -32,7 +32,6 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^26.0.1",
     "@types/json-schema-generator": "^2.0.3",
     "@types/yargs": "^17.0.33"
   },
