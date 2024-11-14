@@ -4,174 +4,107 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.vanilla_agents = {}));
 })(this, (function (exports) { 'use strict';
 
-    var lib$1 = {};
+    const sleep = async (milliseconds) => {
+        return await new Promise((resolve) => setTimeout(resolve, milliseconds));
+    };
+    const parseNodeName = (inputNodeId) => {
+        if (typeof inputNodeId === "string") {
+            const regex = /^:(.*)$/;
+            const match = inputNodeId.match(regex);
+            if (!match) {
+                return { value: inputNodeId }; // string literal
+            }
+            const parts = match[1].split(".");
+            if (parts.length == 1) {
+                return { nodeId: parts[0] };
+            }
+            return { nodeId: parts[0], propIds: parts.slice(1) };
+        }
+        return { value: inputNodeId }; // non-string literal
+    };
+    function assert(condition, message, isWarn = false) {
+        if (!condition) {
+            if (!isWarn) {
+                throw new Error(message);
+            }
+            console.warn("warn: " + message);
+        }
+    }
+    const isObject = (x) => {
+        return x !== null && typeof x === "object";
+    };
+    const isNull = (data) => {
+        return data === null || data === undefined;
+    };
+    const strIntentionalError = "Intentional Error for Debugging";
+    const objectToKeyArray = (innerData) => {
+        const ret = [];
+        Object.keys(innerData).forEach((key) => {
+            ret.push([key]);
+            if (Object.keys(innerData[key]).length > 0) {
+                objectToKeyArray(innerData[key]).forEach((tmp) => {
+                    ret.push([key, ...tmp]);
+                });
+            }
+        });
+        return ret;
+    };
+    const debugResultKey = (agentId, result) => {
+        return objectToKeyArray({ [agentId]: debugResultKeyInner(result) }).map((objectKeys) => {
+            return ":" + objectKeys.join(".");
+        });
+    };
+    const debugResultKeyInner = (result) => {
+        if (result === null || result === undefined) {
+            return {};
+        }
+        if (typeof result === "string") {
+            return {};
+        }
+        if (Array.isArray(result)) {
+            return Array.from(result.keys()).reduce((tmp, index) => {
+                tmp["$" + String(index)] = debugResultKeyInner(result[index]);
+                return tmp;
+            }, {});
+        }
+        return Object.keys(result).reduce((tmp, key) => {
+            tmp[key] = debugResultKeyInner(result[key]);
+            return tmp;
+        }, {});
+    };
+    const isLogicallyTrue = (value) => {
+        // Notice that empty aray is not true under GraphAI
+        if (Array.isArray(value) ? value.length === 0 : !value) {
+            return false;
+        }
+        return true;
+    };
+    const isNamedInputs$1 = (namedInputs) => {
+        return isObject(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
+    };
 
-    var graphai = {};
+    // for dataSource
+    const inputs2dataSources = (inputs) => {
+        if (Array.isArray(inputs)) {
+            return inputs.map((inp) => inputs2dataSources(inp)).flat();
+        }
+        if (isObject(inputs)) {
+            return Object.values(inputs)
+                .map((input) => inputs2dataSources(input))
+                .flat();
+        }
+        if (typeof inputs === "string") {
+            const templateMatch = [...inputs.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+            if (templateMatch.length > 0) {
+                return inputs2dataSources(templateMatch);
+            }
+        }
+        return parseNodeName(inputs);
+    };
+    const dataSourceNodeIds = (sources) => {
+        return sources.filter((source) => source.nodeId).map((source) => source.nodeId);
+    };
 
-    var node = {};
-
-    var utils = {};
-
-    (function (exports) {
-    	Object.defineProperty(exports, "__esModule", { value: true });
-    	exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
-    	exports.assert = assert;
-    	const sleep = async (milliseconds) => {
-    	    return await new Promise((resolve) => setTimeout(resolve, milliseconds));
-    	};
-    	exports.sleep = sleep;
-    	const parseNodeName = (inputNodeId) => {
-    	    if (typeof inputNodeId === "string") {
-    	        const regex = /^:(.*)$/;
-    	        const match = inputNodeId.match(regex);
-    	        if (!match) {
-    	            return { value: inputNodeId }; // string literal
-    	        }
-    	        const parts = match[1].split(".");
-    	        if (parts.length == 1) {
-    	            return { nodeId: parts[0] };
-    	        }
-    	        return { nodeId: parts[0], propIds: parts.slice(1) };
-    	    }
-    	    return { value: inputNodeId }; // non-string literal
-    	};
-    	exports.parseNodeName = parseNodeName;
-    	function assert(condition, message, isWarn = false) {
-    	    if (!condition) {
-    	        if (!isWarn) {
-    	            throw new Error(message);
-    	        }
-    	        console.warn("warn: " + message);
-    	    }
-    	}
-    	const isObject = (x) => {
-    	    return x !== null && typeof x === "object";
-    	};
-    	exports.isObject = isObject;
-    	const isNull = (data) => {
-    	    return data === null || data === undefined;
-    	};
-    	exports.isNull = isNull;
-    	exports.strIntentionalError = "Intentional Error for Debugging";
-    	exports.defaultAgentInfo = {
-    	    name: "defaultAgentInfo",
-    	    samples: [
-    	        {
-    	            inputs: [],
-    	            params: {},
-    	            result: {},
-    	        },
-    	    ],
-    	    description: "",
-    	    category: [],
-    	    author: "",
-    	    repository: "",
-    	    license: "",
-    	};
-    	const agentInfoWrapper = (agent) => {
-    	    return {
-    	        agent,
-    	        mock: agent,
-    	        ...exports.defaultAgentInfo,
-    	    };
-    	};
-    	exports.agentInfoWrapper = agentInfoWrapper;
-    	const objectToKeyArray = (innerData) => {
-    	    const ret = [];
-    	    Object.keys(innerData).forEach((key) => {
-    	        ret.push([key]);
-    	        if (Object.keys(innerData[key]).length > 0) {
-    	            objectToKeyArray(innerData[key]).forEach((tmp) => {
-    	                ret.push([key, ...tmp]);
-    	            });
-    	        }
-    	    });
-    	    return ret;
-    	};
-    	const debugResultKey = (agentId, result) => {
-    	    return objectToKeyArray({ [agentId]: debugResultKeyInner(result) }).map((objectKeys) => {
-    	        return ":" + objectKeys.join(".");
-    	    });
-    	};
-    	exports.debugResultKey = debugResultKey;
-    	const debugResultKeyInner = (result) => {
-    	    if (result === null || result === undefined) {
-    	        return {};
-    	    }
-    	    if (typeof result === "string") {
-    	        return {};
-    	    }
-    	    if (Array.isArray(result)) {
-    	        return Array.from(result.keys()).reduce((tmp, index) => {
-    	            tmp["$" + String(index)] = debugResultKeyInner(result[index]);
-    	            return tmp;
-    	        }, {});
-    	    }
-    	    return Object.keys(result).reduce((tmp, key) => {
-    	        tmp[key] = debugResultKeyInner(result[key]);
-    	        return tmp;
-    	    }, {});
-    	};
-    	const isLogicallyTrue = (value) => {
-    	    // Notice that empty aray is not true under GraphAI
-    	    if (Array.isArray(value) ? value.length === 0 : !value) {
-    	        return false;
-    	    }
-    	    return true;
-    	};
-    	exports.isLogicallyTrue = isLogicallyTrue;
-    	exports.defaultTestContext = {
-    	    debugInfo: {
-    	        nodeId: "test",
-    	        retry: 0,
-    	        verbose: true,
-    	    },
-    	    params: {},
-    	    filterParams: {},
-    	    agents: {},
-    	    log: [],
-    	};
-    	const isNamedInputs = (namedInputs) => {
-    	    return (0, exports.isObject)(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
-    	};
-    	exports.isNamedInputs = isNamedInputs; 
-    } (utils));
-
-    var nodeUtils = {};
-
-    (function (exports) {
-    	Object.defineProperty(exports, "__esModule", { value: true });
-    	exports.dataSourceNodeIds = exports.inputs2dataSources = void 0;
-    	const utils_1 = utils;
-    	// for dataSource
-    	const inputs2dataSources = (inputs) => {
-    	    if (Array.isArray(inputs)) {
-    	        return inputs.map((inp) => (0, exports.inputs2dataSources)(inp)).flat();
-    	    }
-    	    if ((0, utils_1.isObject)(inputs)) {
-    	        return Object.values(inputs)
-    	            .map((input) => (0, exports.inputs2dataSources)(input))
-    	            .flat();
-    	    }
-    	    if (typeof inputs === "string") {
-    	        const templateMatch = [...inputs.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
-    	        if (templateMatch.length > 0) {
-    	            return (0, exports.inputs2dataSources)(templateMatch);
-    	        }
-    	    }
-    	    return (0, utils_1.parseNodeName)(inputs);
-    	};
-    	exports.inputs2dataSources = inputs2dataSources;
-    	const dataSourceNodeIds = (sources) => {
-    	    return sources.filter((source) => source.nodeId).map((source) => source.nodeId);
-    	};
-    	exports.dataSourceNodeIds = dataSourceNodeIds; 
-    } (nodeUtils));
-
-    var type = {};
-
-    Object.defineProperty(type, "__esModule", { value: true });
-    type.NodeState = void 0;
     var NodeState;
     (function (NodeState) {
         NodeState["Waiting"] = "waiting";
@@ -183,19 +116,12 @@
         NodeState["Completed"] = "completed";
         NodeState["Injected"] = "injected";
         NodeState["Skipped"] = "skipped";
-    })(NodeState || (type.NodeState = NodeState = {}));
+    })(NodeState || (NodeState = {}));
 
-    var transaction_log = {};
-
-    Object.defineProperty(transaction_log, "__esModule", { value: true });
-    transaction_log.TransactionLog = void 0;
-    const type_1$1 = type;
-    const utils_1$5 = utils;
-    const nodeUtils_1$2 = nodeUtils;
     class TransactionLog {
         constructor(nodeId) {
             this.nodeId = nodeId;
-            this.state = type_1$1.NodeState.Waiting;
+            this.state = NodeState.Waiting;
         }
         initForComputedNode(node, graph) {
             this.agentId = node.getAgentId();
@@ -219,7 +145,7 @@
         }
         onComplete(node, graph, localLog) {
             this.result = node.result;
-            this.resultKeys = (0, utils_1$5.debugResultKey)(this.agentId || "", node.result);
+            this.resultKeys = debugResultKey(this.agentId || "", node.result);
             this.state = node.state;
             this.endTime = Date.now();
             graph.setLoopLog(this);
@@ -232,7 +158,7 @@
             this.state = node.state;
             this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
             this.startTime = transactionId;
-            this.inputs = (0, nodeUtils_1$2.dataSourceNodeIds)(node.dataSources);
+            this.inputs = dataSourceNodeIds(node.dataSources);
             this.inputsData = inputs.length > 0 ? inputs : undefined;
             graph.setLoopLog(this);
             graph.appendLog(this);
@@ -255,23 +181,15 @@
             graph.updateLog(this);
         }
     }
-    transaction_log.TransactionLog = TransactionLog;
 
-    Object.defineProperty(node, "__esModule", { value: true });
-    node.StaticNode = node.ComputedNode = node.Node = void 0;
-    const utils_1$4 = utils;
-    const nodeUtils_1$1 = nodeUtils;
-    const type_1 = type;
-    const utils_2 = utils;
-    const transaction_log_1 = transaction_log;
     class Node {
         constructor(nodeId, graph) {
             this.waitlist = new Set(); // List of nodes which need data from this node.
-            this.state = type_1.NodeState.Waiting;
+            this.state = NodeState.Waiting;
             this.result = undefined;
             this.nodeId = nodeId;
             this.graph = graph;
-            this.log = new transaction_log_1.TransactionLog(nodeId);
+            this.log = new TransactionLog(nodeId);
             this.console = {};
         }
         asString() {
@@ -297,7 +215,6 @@
             }
         }
     }
-    node.Node = Node;
     class ComputedNode extends Node {
         constructor(graphId, nodeId, data, graph) {
             super(nodeId, graph);
@@ -317,13 +234,13 @@
             this.priority = data.priority ?? 0;
             this.anyInput = data.anyInput ?? false;
             this.inputs = data.inputs;
-            this.isNamedInputs = (0, utils_2.isObject)(data.inputs) && !Array.isArray(data.inputs);
-            this.dataSources = data.inputs ? (0, nodeUtils_1$1.inputs2dataSources)(data.inputs).flat(10) : [];
+            this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
+            this.dataSources = data.inputs ? inputs2dataSources(data.inputs).flat(10) : [];
             if (data.inputs && !this.isNamedInputs) {
                 console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
             }
-            this.pendings = new Set((0, nodeUtils_1$1.dataSourceNodeIds)(this.dataSources));
-            (0, utils_2.assert)(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
+            this.pendings = new Set(dataSourceNodeIds(this.dataSources));
+            assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
             if (typeof data.agent === "string") {
                 this.agentId = data.agent;
             }
@@ -344,9 +261,9 @@
                 this.unlessSource = this.addPendingNode(data.unless);
             }
             this.dynamicParams = Object.keys(this.params).reduce((tmp, key) => {
-                const dataSource = (0, utils_2.parseNodeName)(this.params[key]);
+                const dataSource = parseNodeName(this.params[key]);
                 if (dataSource.nodeId) {
-                    (0, utils_2.assert)(!this.anyInput, "Dynamic params are not supported with anyInput");
+                    assert(!this.anyInput, "Dynamic params are not supported with anyInput");
                     tmp[key] = dataSource;
                     this.pendings.add(dataSource.nodeId);
                 }
@@ -358,18 +275,18 @@
             return this.agentId ?? "__custom__function"; // only for display purpose in the log.
         }
         addPendingNode(nodeId) {
-            const source = (0, utils_2.parseNodeName)(nodeId);
-            (0, utils_2.assert)(!!source.nodeId, `Invalid data source ${nodeId}`);
+            const source = parseNodeName(nodeId);
+            assert(!!source.nodeId, `Invalid data source ${nodeId}`);
             this.pendings.add(source.nodeId);
             return source;
         }
         isReadyNode() {
-            if (this.state !== type_1.NodeState.Waiting || this.pendings.size !== 0) {
+            if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
                 return false;
             }
-            if ((this.ifSource && !(0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.ifSource))) ||
-                (this.unlessSource && (0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.unlessSource)))) {
-                this.state = type_1.NodeState.Skipped;
+            if ((this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) ||
+                (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)))) {
+                this.state = NodeState.Skipped;
                 this.log.onSkipped(this, this.graph);
                 return false;
             }
@@ -399,7 +316,7 @@
         }
         // This method is called right before the Graph add this node to the task manager.
         beforeAddTask() {
-            this.state = type_1.NodeState.Queued;
+            this.state = NodeState.Queued;
             this.log.beforeAddTask(this, this.graph);
         }
         // This method is called when the data became available on one of nodes,
@@ -421,9 +338,9 @@
         // the timer came before the completion of agent function call, record it
         // and attempt to retry (if specified).
         executeTimeout(transactionId) {
-            if (this.state === type_1.NodeState.Executing && this.isCurrentTransaction(transactionId)) {
+            if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
                 console.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
-                this.retry(type_1.NodeState.TimedOut, Error("Timeout"));
+                this.retry(NodeState.TimedOut, Error("Timeout"));
             }
         }
         // Check if we need to apply this filter to this node or not.
@@ -500,7 +417,7 @@
                     console.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                     return;
                 }
-                this.state = type_1.NodeState.Completed;
+                this.state = NodeState.Completed;
                 this.result = this.getResult(result);
                 this.log.onComplete(this, this.graph, localLog);
                 this.onSetResult();
@@ -513,7 +430,7 @@
         // This private method (called only by execute()) prepares the ComputedNode object
         // for execution, and create a new transaction to record it.
         prepareExecute(transactionId, inputs) {
-            this.state = type_1.NodeState.Executing;
+            this.state = NodeState.Executing;
             this.log.beforeExecute(this, this.graph, transactionId, inputs);
             this.transactionId = transactionId;
         }
@@ -521,7 +438,7 @@
         // the agent function. It records the error in the transaction log and handles
         // the retry if specified.
         errorProcess(error, transactionId, namedInputs) {
-            if (error instanceof Error && error.message !== utils_1$4.strIntentionalError) {
+            if (error instanceof Error && error.message !== strIntentionalError) {
                 console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
                 console.error({ namedInputs });
                 console.error(error);
@@ -532,11 +449,11 @@
                 return;
             }
             if (error instanceof Error) {
-                this.retry(type_1.NodeState.Failed, error);
+                this.retry(NodeState.Failed, error);
             }
             else {
                 console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
-                this.retry(type_1.NodeState.Failed, Error("Unknown"));
+                this.retry(NodeState.Failed, Error("Unknown"));
             }
         }
         getParams() {
@@ -568,11 +485,11 @@
         }
         getResult(result) {
             if (result && this.passThrough) {
-                if ((0, utils_2.isObject)(result) && !Array.isArray(result)) {
+                if (isObject(result) && !Array.isArray(result)) {
                     return { ...result, ...this.passThrough };
                 }
                 else if (Array.isArray(result)) {
-                    return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+                    return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
                 }
             }
             return result;
@@ -596,19 +513,18 @@
             }
         }
     }
-    node.ComputedNode = ComputedNode;
     class StaticNode extends Node {
         constructor(nodeId, data, graph) {
             super(nodeId, graph);
             this.isStaticNode = true;
             this.isComputedNode = false;
             this.value = data.value;
-            this.update = data.update ? (0, utils_2.parseNodeName)(data.update) : undefined;
+            this.update = data.update ? parseNodeName(data.update) : undefined;
             this.isResult = data.isResult ?? false;
             this.console = data.console ?? {};
         }
         injectValue(value, injectFrom) {
-            this.state = type_1.NodeState.Injected;
+            this.state = NodeState.Injected;
             this.result = value;
             this.log.onInjected(this, this.graph, injectFrom);
             this.onSetResult();
@@ -617,18 +533,8 @@
             this.afterConsoleLog(this.result);
         }
     }
-    node.StaticNode = StaticNode;
 
-    var result = {};
-
-    var data_source = {};
-
-    var prop_function = {};
-
-    Object.defineProperty(prop_function, "__esModule", { value: true });
-    prop_function.propFunctions = prop_function.propFunctionRegex = void 0;
-    const utils_1$3 = utils;
-    prop_function.propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
+    const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
     const propArrayFunction = (result, propId) => {
         if (Array.isArray(result)) {
             if (propId === "length()") {
@@ -652,7 +558,7 @@
         return undefined;
     };
     const propObjectFunction = (result, propId) => {
-        if ((0, utils_1$3.isObject)(result)) {
+        if (isObject(result)) {
             if (propId === "keys()") {
                 return Object.keys(result);
             }
@@ -706,18 +612,14 @@
         }
         return undefined;
     };
-    prop_function.propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+    const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
 
-    Object.defineProperty(data_source, "__esModule", { value: true });
-    data_source.getDataFromSource = void 0;
-    const utils_1$2 = utils;
-    const prop_function_1 = prop_function;
     const getNestedData = (result, propId, propFunctions) => {
-        const match = propId.match(prop_function_1.propFunctionRegex);
+        const match = propId.match(propFunctionRegex);
         if (match) {
             for (const propFunction of propFunctions) {
                 const ret = propFunction(result, propId);
-                if (!(0, utils_1$2.isNull)(ret)) {
+                if (!isNull(ret)) {
                     return ret;
                 }
             }
@@ -735,7 +637,7 @@
                 return result[result.length - 1];
             }
         }
-        else if ((0, utils_1$2.isObject)(result)) {
+        else if (isObject(result)) {
             if (propId in result) {
                 return result[propId];
             }
@@ -743,7 +645,7 @@
         return undefined;
     };
     const innerGetDataFromSource = (result, propIds, propFunctions) => {
-        if (!(0, utils_1$2.isNull)(result) && propIds && propIds.length > 0) {
+        if (!isNull(result) && propIds && propIds.length > 0) {
             const propId = propIds[0];
             const ret = getNestedData(result, propId, propFunctions);
             if (ret === undefined) {
@@ -762,90 +664,71 @@
         }
         return innerGetDataFromSource(result, source.propIds, propFunctions);
     };
-    data_source.getDataFromSource = getDataFromSource;
 
-    (function (exports) {
-    	Object.defineProperty(exports, "__esModule", { value: true });
-    	exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
-    	const utils_1 = utils;
-    	const data_source_1 = data_source;
-    	const resultsOfInner = (input, nodes, propFunctions) => {
-    	    if (Array.isArray(input)) {
-    	        return input.map((inp) => resultsOfInner(inp, nodes, propFunctions));
-    	    }
-    	    if ((0, utils_1.isNamedInputs)(input)) {
-    	        return (0, exports.resultsOf)(input, nodes, propFunctions);
-    	    }
-    	    if (typeof input === "string") {
-    	        const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
-    	        if (templateMatch.length > 0) {
-    	            const results = resultsOfInner(templateMatch, nodes, propFunctions);
-    	            return Array.from(templateMatch.keys()).reduce((tmp, key) => {
-    	                return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
-    	            }, input);
-    	        }
-    	    }
-    	    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input), nodes, propFunctions);
-    	};
-    	const resultsOf = (inputs, nodes, propFunctions) => {
-    	    // for inputs. TODO remove if array input is not supported
-    	    if (Array.isArray(inputs)) {
-    	        return inputs.reduce((tmp, key) => {
-    	            tmp[key] = resultsOfInner(key, nodes, propFunctions);
-    	            return tmp;
-    	        }, {});
-    	    }
-    	    return Object.keys(inputs).reduce((tmp, key) => {
-    	        const input = inputs[key];
-    	        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);
-    	        return tmp;
-    	    }, {});
-    	};
-    	exports.resultsOf = resultsOf;
-    	const resultOf = (source, nodes, propFunctions) => {
-    	    const { result } = source.nodeId ? nodes[source.nodeId] : { result: undefined };
-    	    return (0, data_source_1.getDataFromSource)(result, source, propFunctions);
-    	};
-    	exports.resultOf = resultOf;
-    	// clean up object for anyInput
-    	const cleanResultInner = (results) => {
-    	    if (Array.isArray(results)) {
-    	        return results.map((result) => (0, exports.cleanResultInner)(result)).filter((result) => !(0, utils_1.isNull)(result));
-    	    }
-    	    if ((0, utils_1.isObject)(results)) {
-    	        return Object.keys(results).reduce((tmp, key) => {
-    	            const value = (0, exports.cleanResultInner)(results[key]);
-    	            if (!(0, utils_1.isNull)(value)) {
-    	                tmp[key] = value;
-    	            }
-    	            return tmp;
-    	        }, {});
-    	    }
-    	    return results;
-    	};
-    	exports.cleanResultInner = cleanResultInner;
-    	const cleanResult = (results) => {
-    	    return Object.keys(results).reduce((tmp, key) => {
-    	        const value = (0, exports.cleanResultInner)(results[key]);
-    	        if (!(0, utils_1.isNull)(value)) {
-    	            tmp[key] = value;
-    	        }
-    	        return tmp;
-    	    }, {});
-    	};
-    	exports.cleanResult = cleanResult; 
-    } (result));
+    const resultsOfInner = (input, nodes, propFunctions) => {
+        if (Array.isArray(input)) {
+            return input.map((inp) => resultsOfInner(inp, nodes, propFunctions));
+        }
+        if (isNamedInputs$1(input)) {
+            return resultsOf(input, nodes, propFunctions);
+        }
+        if (typeof input === "string") {
+            const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+            if (templateMatch.length > 0) {
+                const results = resultsOfInner(templateMatch, nodes, propFunctions);
+                return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+                    return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
+                }, input);
+            }
+        }
+        return resultOf(parseNodeName(input), nodes, propFunctions);
+    };
+    const resultsOf = (inputs, nodes, propFunctions) => {
+        // for inputs. TODO remove if array input is not supported
+        if (Array.isArray(inputs)) {
+            return inputs.reduce((tmp, key) => {
+                tmp[key] = resultsOfInner(key, nodes, propFunctions);
+                return tmp;
+            }, {});
+        }
+        return Object.keys(inputs).reduce((tmp, key) => {
+            const input = inputs[key];
+            tmp[key] = isNamedInputs$1(input) ? resultsOf(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);
+            return tmp;
+        }, {});
+    };
+    const resultOf = (source, nodes, propFunctions) => {
+        const { result } = source.nodeId ? nodes[source.nodeId] : { result: undefined };
+        return getDataFromSource(result, source, propFunctions);
+    };
+    // clean up object for anyInput
+    const cleanResultInner = (results) => {
+        if (Array.isArray(results)) {
+            return results.map((result) => cleanResultInner(result)).filter((result) => !isNull(result));
+        }
+        if (isObject(results)) {
+            return Object.keys(results).reduce((tmp, key) => {
+                const value = cleanResultInner(results[key]);
+                if (!isNull(value)) {
+                    tmp[key] = value;
+                }
+                return tmp;
+            }, {});
+        }
+        return results;
+    };
+    const cleanResult = (results) => {
+        return Object.keys(results).reduce((tmp, key) => {
+            const value = cleanResultInner(results[key]);
+            if (!isNull(value)) {
+                tmp[key] = value;
+            }
+            return tmp;
+        }, {});
+    };
 
-    var validator = {};
-
-    var graph_data_validator = {};
-
-    var common = {};
-
-    Object.defineProperty(common, "__esModule", { value: true });
-    common.ValidationError = common.staticNodeAttributeKeys = common.computedNodeAttributeKeys = common.graphDataAttributeKeys = void 0;
-    common.graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version"];
-    common.computedNodeAttributeKeys = [
+    const graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version"];
+    const computedNodeAttributeKeys = [
         "inputs",
         "anyInput",
         "params",
@@ -862,7 +745,7 @@
         "console",
         "passThrough",
     ];
-    common.staticNodeAttributeKeys = ["value", "update", "isResult", "console"];
+    const staticNodeAttributeKeys = ["value", "update", "isResult", "console"];
     class ValidationError extends Error {
         constructor(message) {
             super(`\x1b[41m${message}\x1b[0m`); // Pass the message to the base Error class
@@ -870,104 +753,73 @@
             Object.setPrototypeOf(this, ValidationError.prototype);
         }
     }
-    common.ValidationError = ValidationError;
 
-    Object.defineProperty(graph_data_validator, "__esModule", { value: true });
-    graph_data_validator.graphDataValidator = graph_data_validator.graphNodesValidator = void 0;
-    const common_1$5 = common;
     const graphNodesValidator = (data) => {
         if (data.nodes === undefined) {
-            throw new common_1$5.ValidationError("Invalid Graph Data: no nodes");
+            throw new ValidationError("Invalid Graph Data: no nodes");
         }
         if (typeof data.nodes !== "object") {
-            throw new common_1$5.ValidationError("Invalid Graph Data: invalid nodes");
+            throw new ValidationError("Invalid Graph Data: invalid nodes");
         }
         if (Array.isArray(data.nodes)) {
-            throw new common_1$5.ValidationError("Invalid Graph Data: nodes must be object");
+            throw new ValidationError("Invalid Graph Data: nodes must be object");
         }
         if (Object.keys(data.nodes).length === 0) {
-            throw new common_1$5.ValidationError("Invalid Graph Data: nodes is empty");
+            throw new ValidationError("Invalid Graph Data: nodes is empty");
         }
         Object.keys(data).forEach((key) => {
-            if (!common_1$5.graphDataAttributeKeys.includes(key)) {
-                throw new common_1$5.ValidationError("Graph Data does not allow " + key);
+            if (!graphDataAttributeKeys.includes(key)) {
+                throw new ValidationError("Graph Data does not allow " + key);
             }
         });
     };
-    graph_data_validator.graphNodesValidator = graphNodesValidator;
     const graphDataValidator = (data) => {
         if (data.loop) {
             if (data.loop.count === undefined && data.loop.while === undefined) {
-                throw new common_1$5.ValidationError("Loop: Either count or while is required in loop");
+                throw new ValidationError("Loop: Either count or while is required in loop");
             }
             if (data.loop.count !== undefined && data.loop.while !== undefined) {
-                throw new common_1$5.ValidationError("Loop: Both count and while cannot be set");
+                throw new ValidationError("Loop: Both count and while cannot be set");
             }
         }
         if (data.concurrency !== undefined) {
             if (!Number.isInteger(data.concurrency)) {
-                throw new common_1$5.ValidationError("Concurrency must be an integer");
+                throw new ValidationError("Concurrency must be an integer");
             }
             if (data.concurrency < 1) {
-                throw new common_1$5.ValidationError("Concurrency must be a positive integer");
+                throw new ValidationError("Concurrency must be a positive integer");
             }
         }
     };
-    graph_data_validator.graphDataValidator = graphDataValidator;
 
-    var nodeValidator$1 = {};
-
-    Object.defineProperty(nodeValidator$1, "__esModule", { value: true });
-    nodeValidator$1.nodeValidator = void 0;
-    const common_1$4 = common;
     const nodeValidator = (nodeData) => {
         if (nodeData.agent && nodeData.value) {
-            throw new common_1$4.ValidationError("Cannot set both agent and value");
+            throw new ValidationError("Cannot set both agent and value");
         }
         if (!("agent" in nodeData) && !("value" in nodeData)) {
-            throw new common_1$4.ValidationError("Either agent or value is required");
+            throw new ValidationError("Either agent or value is required");
         }
         return true;
     };
-    nodeValidator$1.nodeValidator = nodeValidator;
 
-    var static_node_validator = {};
-
-    Object.defineProperty(static_node_validator, "__esModule", { value: true });
-    static_node_validator.staticNodeValidator = void 0;
-    const common_1$3 = common;
     const staticNodeValidator = (nodeData) => {
         Object.keys(nodeData).forEach((key) => {
-            if (!common_1$3.staticNodeAttributeKeys.includes(key)) {
-                throw new common_1$3.ValidationError("Static node does not allow " + key);
+            if (!staticNodeAttributeKeys.includes(key)) {
+                throw new ValidationError("Static node does not allow " + key);
             }
         });
         return true;
     };
-    static_node_validator.staticNodeValidator = staticNodeValidator;
 
-    var computed_node_validator = {};
-
-    Object.defineProperty(computed_node_validator, "__esModule", { value: true });
-    computed_node_validator.computedNodeValidator = void 0;
-    const common_1$2 = common;
     const computedNodeValidator = (nodeData) => {
         Object.keys(nodeData).forEach((key) => {
-            if (!common_1$2.computedNodeAttributeKeys.includes(key)) {
-                throw new common_1$2.ValidationError("Computed node does not allow " + key);
+            if (!computedNodeAttributeKeys.includes(key)) {
+                throw new ValidationError("Computed node does not allow " + key);
             }
         });
         return true;
     };
-    computed_node_validator.computedNodeValidator = computedNodeValidator;
 
-    var relation_validator = {};
-
-    Object.defineProperty(relation_validator, "__esModule", { value: true });
-    relation_validator.relationValidator = void 0;
-    const utils_1$1 = utils;
-    const common_1$1 = common;
-    const nodeUtils_1 = nodeUtils;
     const relationValidator = (data, staticNodeIds, computedNodeIds) => {
         const nodeIds = new Set(Object.keys(data.nodes));
         const pendings = {};
@@ -980,7 +832,7 @@
                 sourceNodeIds.forEach((sourceNodeId) => {
                     if (sourceNodeId) {
                         if (!nodeIds.has(sourceNodeId)) {
-                            throw new common_1$1.ValidationError(`${sourceType} not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
+                            throw new ValidationError(`${sourceType} not match: NodeId ${computedNodeId}, Inputs: ${sourceNodeId}`);
                         }
                         waitlist[sourceNodeId] === undefined && (waitlist[sourceNodeId] = new Set());
                         pendings[computedNodeId].add(sourceNodeId);
@@ -990,19 +842,19 @@
             };
             if ("agent" in nodeData && nodeData) {
                 if (nodeData.inputs) {
-                    const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)(nodeData.inputs));
+                    const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
                     dataSourceValidator("Inputs", sourceNodeIds);
                 }
                 if (nodeData.if) {
-                    const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)({ if: nodeData.if }));
+                    const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ if: nodeData.if }));
                     dataSourceValidator("If", sourceNodeIds);
                 }
                 if (nodeData.unless) {
-                    const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)({ unless: nodeData.unless }));
+                    const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ unless: nodeData.unless }));
                     dataSourceValidator("Unless", sourceNodeIds);
                 }
                 if (nodeData.graph && typeof nodeData?.graph === "string") {
-                    const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)({ graph: nodeData.graph }));
+                    const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ graph: nodeData.graph }));
                     dataSourceValidator("Graph", sourceNodeIds);
                 }
             }
@@ -1012,12 +864,12 @@
             const nodeData = data.nodes[staticNodeId];
             if ("value" in nodeData && nodeData.update) {
                 const update = nodeData.update;
-                const updateNodeId = (0, utils_1$1.parseNodeName)(update).nodeId;
+                const updateNodeId = parseNodeName(update).nodeId;
                 if (!updateNodeId) {
-                    throw new common_1$1.ValidationError("Update it a literal");
+                    throw new ValidationError("Update it a literal");
                 }
                 if (!nodeIds.has(updateNodeId)) {
-                    throw new common_1$1.ValidationError(`Update not match: NodeId ${staticNodeId}, update: ${update}`);
+                    throw new ValidationError(`Update not match: NodeId ${staticNodeId}, update: ${update}`);
                 }
             }
         });
@@ -1038,65 +890,44 @@
         };
         let runningQueue = cycle(staticNodeIds);
         if (runningQueue.length === 0) {
-            throw new common_1$1.ValidationError("No Initial Runnning Node");
+            throw new ValidationError("No Initial Runnning Node");
         }
         do {
             runningQueue = cycle(runningQueue);
         } while (runningQueue.length > 0);
         if (Object.keys(pendings).length > 0) {
-            throw new common_1$1.ValidationError("Some nodes are not executed: " + Object.keys(pendings).join(", "));
+            throw new ValidationError("Some nodes are not executed: " + Object.keys(pendings).join(", "));
         }
     };
-    relation_validator.relationValidator = relationValidator;
 
-    var agent_validator = {};
-
-    Object.defineProperty(agent_validator, "__esModule", { value: true });
-    agent_validator.agentValidator = void 0;
-    const common_1 = common;
     const agentValidator = (graphAgentIds, agentIds) => {
         graphAgentIds.forEach((agentId) => {
             if (!agentIds.has(agentId)) {
-                throw new common_1.ValidationError("Invalid Agent : " + agentId + " is not in AgentFunctionInfoDictionary.");
+                throw new ValidationError("Invalid Agent : " + agentId + " is not in AgentFunctionInfoDictionary.");
             }
         });
         return true;
     };
-    agent_validator.agentValidator = agentValidator;
 
-    Object.defineProperty(validator, "__esModule", { value: true });
-    validator.validateGraphData = void 0;
-    const graph_data_validator_1 = graph_data_validator;
-    const nodeValidator_1 = nodeValidator$1;
-    const static_node_validator_1 = static_node_validator;
-    const computed_node_validator_1 = computed_node_validator;
-    const relation_validator_1 = relation_validator;
-    const agent_validator_1 = agent_validator;
     const validateGraphData = (data, agentIds) => {
-        (0, graph_data_validator_1.graphNodesValidator)(data);
-        (0, graph_data_validator_1.graphDataValidator)(data);
+        graphNodesValidator(data);
+        graphDataValidator(data);
         const computedNodeIds = [];
         const staticNodeIds = [];
         const graphAgentIds = new Set();
         Object.keys(data.nodes).forEach((nodeId) => {
             const node = data.nodes[nodeId];
             const isStaticNode = "value" in node;
-            (0, nodeValidator_1.nodeValidator)(node);
+            nodeValidator(node);
             const agentId = isStaticNode ? "" : node.agent;
-            isStaticNode && (0, static_node_validator_1.staticNodeValidator)(node) && staticNodeIds.push(nodeId);
-            !isStaticNode && (0, computed_node_validator_1.computedNodeValidator)(node) && computedNodeIds.push(nodeId) && typeof agentId === "string" && graphAgentIds.add(agentId);
+            isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);
+            !isStaticNode && computedNodeValidator(node) && computedNodeIds.push(nodeId) && typeof agentId === "string" && graphAgentIds.add(agentId);
         });
-        (0, agent_validator_1.agentValidator)(graphAgentIds, new Set(agentIds));
-        (0, relation_validator_1.relationValidator)(data, staticNodeIds, computedNodeIds);
+        agentValidator(graphAgentIds, new Set(agentIds));
+        relationValidator(data, staticNodeIds, computedNodeIds);
         return true;
     };
-    validator.validateGraphData = validateGraphData;
 
-    var task_manager = {};
-
-    Object.defineProperty(task_manager, "__esModule", { value: true });
-    task_manager.TaskManager = void 0;
-    const utils_1 = utils;
     // TaskManage object controls the concurrency of ComputedNode execution.
     //
     // NOTE: A TaskManager instance will be shared between parent graph and its children
@@ -1126,7 +957,7 @@
             const count = this.taskQueue.filter((task) => {
                 return task.node.priority >= node.priority;
             }).length;
-            (0, utils_1.assert)(count <= this.taskQueue.length, "TaskManager.addTask: Something is really wrong.");
+            assert(count <= this.taskQueue.length, "TaskManager.addTask: Something is really wrong.");
             this.taskQueue.splice(count, 0, { node, graphId, callback });
             this.dequeueTaskIfPossible();
         }
@@ -1139,7 +970,7 @@
         // Node MUST call this method once the execution of agent function is completed
         // either successfully or not.
         onComplete(node) {
-            (0, utils_1.assert)(this.runningNodes.has(node), `TaskManager.onComplete node(${node.nodeId}) is not in list`);
+            assert(this.runningNodes.has(node), `TaskManager.onComplete node(${node.nodeId}) is not in list`);
             this.runningNodes.delete(node);
             this.dequeueTaskIfPossible();
         }
@@ -1164,326 +995,289 @@
             };
         }
     }
-    task_manager.TaskManager = TaskManager;
 
-    (function (exports) {
-    	Object.defineProperty(exports, "__esModule", { value: true });
-    	exports.GraphAI = exports.graphDataLatestVersion = exports.defaultConcurrency = void 0;
-    	const node_1 = node;
-    	const result_1 = result;
-    	const prop_function_1 = prop_function;
-    	const utils_1 = utils;
-    	const data_source_1 = data_source;
-    	const validator_1 = validator;
-    	const task_manager_1 = task_manager;
-    	exports.defaultConcurrency = 8;
-    	exports.graphDataLatestVersion = 0.5;
-    	class GraphAI {
-    	    // This method is called when either the GraphAI obect was created,
-    	    // or we are about to start n-th iteration (n>2).
-    	    createNodes(data) {
-    	        const nodes = Object.keys(data.nodes).reduce((_nodes, nodeId) => {
-    	            const nodeData = data.nodes[nodeId];
-    	            if ("value" in nodeData) {
-    	                _nodes[nodeId] = new node_1.StaticNode(nodeId, nodeData, this);
-    	            }
-    	            else if ("agent" in nodeData) {
-    	                _nodes[nodeId] = new node_1.ComputedNode(this.graphId, nodeId, nodeData, this);
-    	            }
-    	            else {
-    	                throw new Error("Unknown node type (neither value nor agent): " + nodeId);
-    	            }
-    	            return _nodes;
-    	        }, {});
-    	        // Generate the waitlist for each node.
-    	        Object.keys(nodes).forEach((nodeId) => {
-    	            const node = nodes[nodeId];
-    	            if (node.isComputedNode) {
-    	                node.pendings.forEach((pending) => {
-    	                    if (nodes[pending]) {
-    	                        nodes[pending].waitlist.add(nodeId); // previousNode
-    	                    }
-    	                    else {
-    	                        throw new Error(`createNode: invalid input ${pending} for node, ${nodeId}`);
-    	                    }
-    	                });
-    	            }
-    	        });
-    	        return nodes;
-    	    }
-    	    getValueFromResults(source, results) {
-    	        return (0, data_source_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source, this.propFunctions);
-    	    }
-    	    // for static
-    	    initializeStaticNodes(enableConsoleLog = false) {
-    	        // If the result property is specified, inject it.
-    	        // If the previousResults exists (indicating we are in a loop),
-    	        // process the update property (nodeId or nodeId.propId).
-    	        Object.keys(this.data.nodes).forEach((nodeId) => {
-    	            const node = this.nodes[nodeId];
-    	            if (node?.isStaticNode) {
-    	                const value = node?.value;
-    	                if (value !== undefined) {
-    	                    this.injectValue(nodeId, value, nodeId);
-    	                }
-    	                if (enableConsoleLog) {
-    	                    node.consoleLog();
-    	                }
-    	            }
-    	        });
-    	    }
-    	    updateStaticNodes(previousResults, enableConsoleLog = false) {
-    	        // If the result property is specified, inject it.
-    	        // If the previousResults exists (indicating we are in a loop),
-    	        // process the update property (nodeId or nodeId.propId).
-    	        Object.keys(this.data.nodes).forEach((nodeId) => {
-    	            const node = this.nodes[nodeId];
-    	            if (node?.isStaticNode) {
-    	                const update = node?.update;
-    	                if (update && previousResults) {
-    	                    const result = this.getValueFromResults(update, previousResults);
-    	                    this.injectValue(nodeId, result, update.nodeId);
-    	                }
-    	                if (enableConsoleLog) {
-    	                    node.consoleLog();
-    	                }
-    	            }
-    	        });
-    	    }
-    	    constructor(data, agentFunctionInfoDictionary, options = {
-    	        taskManager: undefined,
-    	        agentFilters: [],
-    	        bypassAgentIds: [],
-    	        config: {},
-    	        graphLoader: undefined,
-    	    }) {
-    	        this.logs = [];
-    	        this.config = {};
-    	        this.onLogCallback = (__log, __isUpdate) => { };
-    	        this.repeatCount = 0;
-    	        if (!data.version && !options.taskManager) {
-    	            console.warn("------------ missing version number");
-    	        }
-    	        this.version = data.version ?? exports.graphDataLatestVersion;
-    	        if (this.version < exports.graphDataLatestVersion) {
-    	            console.warn(`------------ upgrade to ${exports.graphDataLatestVersion}!`);
-    	        }
-    	        this.retryLimit = data.retry; // optional
-    	        this.graphId = URL.createObjectURL(new Blob()).slice(-36);
-    	        this.data = data;
-    	        this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
-    	        this.propFunctions = prop_function_1.propFunctions;
-    	        this.taskManager = options.taskManager ?? new task_manager_1.TaskManager(data.concurrency ?? exports.defaultConcurrency);
-    	        this.agentFilters = options.agentFilters ?? [];
-    	        this.bypassAgentIds = options.bypassAgentIds ?? [];
-    	        this.config = options.config;
-    	        this.graphLoader = options.graphLoader;
-    	        this.loop = data.loop;
-    	        this.verbose = data.verbose === true;
-    	        this.onComplete = () => {
-    	            throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
-    	        };
-    	        (0, validator_1.validateGraphData)(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
-    	        this.nodes = this.createNodes(data);
-    	        this.initializeStaticNodes(true);
-    	    }
-    	    getAgentFunctionInfo(agentId) {
-    	        if (agentId && this.agentFunctionInfoDictionary[agentId]) {
-    	            return this.agentFunctionInfoDictionary[agentId];
-    	        }
-    	        if (agentId && this.bypassAgentIds.includes(agentId)) {
-    	            return {
-    	                agent: async () => {
-    	                    return null;
-    	                },
-    	                inputs: null,
-    	            };
-    	        }
-    	        // We are not supposed to hit this error because the validator will catch it.
-    	        throw new Error("No agent: " + agentId);
-    	    }
-    	    asString() {
-    	        return Object.values(this.nodes)
-    	            .map((node) => node.asString())
-    	            .join("\n");
-    	    }
-    	    // Public API
-    	    results(all) {
-    	        return Object.keys(this.nodes)
-    	            .filter((nodeId) => all || this.nodes[nodeId].isResult)
-    	            .reduce((results, nodeId) => {
-    	            const node = this.nodes[nodeId];
-    	            if (node.result !== undefined) {
-    	                results[nodeId] = node.result;
-    	            }
-    	            return results;
-    	        }, {});
-    	    }
-    	    // Public API
-    	    errors() {
-    	        return Object.keys(this.nodes).reduce((errors, nodeId) => {
-    	            const node = this.nodes[nodeId];
-    	            if (node.isComputedNode) {
-    	                if (node.error !== undefined) {
-    	                    errors[nodeId] = node.error;
-    	                }
-    	            }
-    	            return errors;
-    	        }, {});
-    	    }
-    	    pushReadyNodesIntoQueue() {
-    	        // Nodes without pending data should run immediately.
-    	        Object.keys(this.nodes).forEach((nodeId) => {
-    	            const node = this.nodes[nodeId];
-    	            if (node.isComputedNode) {
-    	                this.pushQueueIfReady(node);
-    	            }
-    	        });
-    	    }
-    	    pushQueueIfReady(node) {
-    	        if (node.isReadyNode()) {
-    	            this.pushQueue(node);
-    	        }
-    	    }
-    	    pushQueueIfReadyAndRunning(node) {
-    	        if (this.isRunning()) {
-    	            this.pushQueueIfReady(node);
-    	        }
-    	    }
-    	    // for computed
-    	    pushQueue(node) {
-    	        node.beforeAddTask();
-    	        this.taskManager.addTask(node, this.graphId, (_node) => {
-    	            (0, utils_1.assert)(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
-    	            node.execute();
-    	        });
-    	    }
-    	    // Public API
-    	    async run(all = false) {
-    	        if (this.isRunning()) {
-    	            throw new Error("This GraphUI instance is already running");
-    	        }
-    	        this.pushReadyNodesIntoQueue();
-    	        if (!this.isRunning()) {
-    	            console.warn("-- nothing to execute");
-    	            return {};
-    	        }
-    	        return new Promise((resolve, reject) => {
-    	            this.onComplete = () => {
-    	                const errors = this.errors();
-    	                const nodeIds = Object.keys(errors);
-    	                if (nodeIds.length > 0) {
-    	                    reject(errors[nodeIds[0]]);
-    	                }
-    	                else {
-    	                    resolve(this.results(all));
-    	                }
-    	            };
-    	        });
-    	    }
-    	    // Public only for testing
-    	    isRunning() {
-    	        return this.taskManager.isRunning(this.graphId);
-    	    }
-    	    // callback from execute
-    	    onExecutionComplete(node) {
-    	        this.taskManager.onComplete(node);
-    	        if (this.isRunning() || this.processLoopIfNecessary()) {
-    	            return; // continue running
-    	        }
-    	        this.onComplete(); // Nothing to run. Finish it.
-    	    }
-    	    // Must be called only from onExecutionComplete righ after removeRunning
-    	    // Check if there is any running computed nodes.
-    	    // In case of no running computed note, start the another iteration if ncessary (loop)
-    	    processLoopIfNecessary() {
-    	        this.repeatCount++;
-    	        const loop = this.loop;
-    	        if (!loop) {
-    	            return false;
-    	        }
-    	        // We need to update static nodes, before checking the condition
-    	        const previousResults = this.results(true); // results from previous loop
-    	        this.updateStaticNodes(previousResults);
-    	        if (loop.count === undefined || this.repeatCount < loop.count) {
-    	            if (loop.while) {
-    	                const source = (0, utils_1.parseNodeName)(loop.while);
-    	                const value = this.getValueFromResults(source, this.results(true));
-    	                // NOTE: We treat an empty array as false.
-    	                if (!(0, utils_1.isLogicallyTrue)(value)) {
-    	                    return false; // while condition is not met
-    	                }
-    	            }
-    	            this.nodes = this.createNodes(this.data);
-    	            this.initializeStaticNodes();
-    	            this.updateStaticNodes(previousResults, true);
-    	            this.pushReadyNodesIntoQueue();
-    	            return true; // Indicating that we are going to continue.
-    	        }
-    	        return false;
-    	    }
-    	    setLoopLog(log) {
-    	        log.isLoop = !!this.loop;
-    	        log.repeatCount = this.repeatCount;
-    	    }
-    	    appendLog(log) {
-    	        this.logs.push(log);
-    	        this.onLogCallback(log, false);
-    	    }
-    	    updateLog(log) {
-    	        this.onLogCallback(log, true);
-    	    }
-    	    // Public API
-    	    transactionLogs() {
-    	        return this.logs;
-    	    }
-    	    // Public API
-    	    injectValue(nodeId, value, injectFrom) {
-    	        const node = this.nodes[nodeId];
-    	        if (node && node.isStaticNode) {
-    	            node.injectValue(value, injectFrom);
-    	        }
-    	        else {
-    	            throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
-    	        }
-    	    }
-    	    resultsOf(inputs, anyInput = false) {
-    	        const results = (0, result_1.resultsOf)(inputs ?? [], this.nodes, this.propFunctions);
-    	        if (anyInput) {
-    	            return (0, result_1.cleanResult)(results);
-    	        }
-    	        return results;
-    	    }
-    	    resultOf(source) {
-    	        return (0, result_1.resultOf)(source, this.nodes, this.propFunctions);
-    	    }
-    	}
-    	exports.GraphAI = GraphAI; 
-    } (graphai));
-
-    (function (exports) {
-    	Object.defineProperty(exports, "__esModule", { value: true });
-    	exports.ValidationError = exports.inputs2dataSources = exports.parseNodeName = exports.isObject = exports.sleep = exports.assert = exports.strIntentionalError = exports.defaultTestContext = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.NodeState = exports.graphDataLatestVersion = exports.defaultConcurrency = exports.GraphAI = void 0;
-    	var graphai_1 = graphai;
-    	Object.defineProperty(exports, "GraphAI", { enumerable: true, get: function () { return graphai_1.GraphAI; } });
-    	Object.defineProperty(exports, "defaultConcurrency", { enumerable: true, get: function () { return graphai_1.defaultConcurrency; } });
-    	Object.defineProperty(exports, "graphDataLatestVersion", { enumerable: true, get: function () { return graphai_1.graphDataLatestVersion; } });
-    	var type_1 = type;
-    	Object.defineProperty(exports, "NodeState", { enumerable: true, get: function () { return type_1.NodeState; } });
-    	var utils_1 = utils;
-    	Object.defineProperty(exports, "defaultAgentInfo", { enumerable: true, get: function () { return utils_1.defaultAgentInfo; } });
-    	Object.defineProperty(exports, "agentInfoWrapper", { enumerable: true, get: function () { return utils_1.agentInfoWrapper; } });
-    	Object.defineProperty(exports, "defaultTestContext", { enumerable: true, get: function () { return utils_1.defaultTestContext; } });
-    	Object.defineProperty(exports, "strIntentionalError", { enumerable: true, get: function () { return utils_1.strIntentionalError; } });
-    	Object.defineProperty(exports, "assert", { enumerable: true, get: function () { return utils_1.assert; } });
-    	Object.defineProperty(exports, "sleep", { enumerable: true, get: function () { return utils_1.sleep; } });
-    	Object.defineProperty(exports, "isObject", { enumerable: true, get: function () { return utils_1.isObject; } });
-    	Object.defineProperty(exports, "parseNodeName", { enumerable: true, get: function () { return utils_1.parseNodeName; } });
-    	var nodeUtils_1 = nodeUtils;
-    	Object.defineProperty(exports, "inputs2dataSources", { enumerable: true, get: function () { return nodeUtils_1.inputs2dataSources; } });
-    	var common_1 = common;
-    	Object.defineProperty(exports, "ValidationError", { enumerable: true, get: function () { return common_1.ValidationError; } }); 
-    } (lib$1));
+    const defaultConcurrency = 8;
+    const graphDataLatestVersion = 0.5;
+    class GraphAI {
+        // This method is called when either the GraphAI obect was created,
+        // or we are about to start n-th iteration (n>2).
+        createNodes(data) {
+            const nodes = Object.keys(data.nodes).reduce((_nodes, nodeId) => {
+                const nodeData = data.nodes[nodeId];
+                if ("value" in nodeData) {
+                    _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
+                }
+                else if ("agent" in nodeData) {
+                    _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
+                }
+                else {
+                    throw new Error("Unknown node type (neither value nor agent): " + nodeId);
+                }
+                return _nodes;
+            }, {});
+            // Generate the waitlist for each node.
+            Object.keys(nodes).forEach((nodeId) => {
+                const node = nodes[nodeId];
+                if (node.isComputedNode) {
+                    node.pendings.forEach((pending) => {
+                        if (nodes[pending]) {
+                            nodes[pending].waitlist.add(nodeId); // previousNode
+                        }
+                        else {
+                            throw new Error(`createNode: invalid input ${pending} for node, ${nodeId}`);
+                        }
+                    });
+                }
+            });
+            return nodes;
+        }
+        getValueFromResults(source, results) {
+            return getDataFromSource(source.nodeId ? results[source.nodeId] : undefined, source, this.propFunctions);
+        }
+        // for static
+        initializeStaticNodes(enableConsoleLog = false) {
+            // If the result property is specified, inject it.
+            // If the previousResults exists (indicating we are in a loop),
+            // process the update property (nodeId or nodeId.propId).
+            Object.keys(this.data.nodes).forEach((nodeId) => {
+                const node = this.nodes[nodeId];
+                if (node?.isStaticNode) {
+                    const value = node?.value;
+                    if (value !== undefined) {
+                        this.injectValue(nodeId, value, nodeId);
+                    }
+                    if (enableConsoleLog) {
+                        node.consoleLog();
+                    }
+                }
+            });
+        }
+        updateStaticNodes(previousResults, enableConsoleLog = false) {
+            // If the result property is specified, inject it.
+            // If the previousResults exists (indicating we are in a loop),
+            // process the update property (nodeId or nodeId.propId).
+            Object.keys(this.data.nodes).forEach((nodeId) => {
+                const node = this.nodes[nodeId];
+                if (node?.isStaticNode) {
+                    const update = node?.update;
+                    if (update && previousResults) {
+                        const result = this.getValueFromResults(update, previousResults);
+                        this.injectValue(nodeId, result, update.nodeId);
+                    }
+                    if (enableConsoleLog) {
+                        node.consoleLog();
+                    }
+                }
+            });
+        }
+        constructor(data, agentFunctionInfoDictionary, options = {
+            taskManager: undefined,
+            agentFilters: [],
+            bypassAgentIds: [],
+            config: {},
+            graphLoader: undefined,
+        }) {
+            this.logs = [];
+            this.config = {};
+            this.onLogCallback = (__log, __isUpdate) => { };
+            this.repeatCount = 0;
+            if (!data.version && !options.taskManager) {
+                console.warn("------------ missing version number");
+            }
+            this.version = data.version ?? graphDataLatestVersion;
+            if (this.version < graphDataLatestVersion) {
+                console.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
+            }
+            this.retryLimit = data.retry; // optional
+            this.graphId = URL.createObjectURL(new Blob()).slice(-36);
+            this.data = data;
+            this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
+            this.propFunctions = propFunctions;
+            this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
+            this.agentFilters = options.agentFilters ?? [];
+            this.bypassAgentIds = options.bypassAgentIds ?? [];
+            this.config = options.config;
+            this.graphLoader = options.graphLoader;
+            this.loop = data.loop;
+            this.verbose = data.verbose === true;
+            this.onComplete = () => {
+                throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
+            };
+            validateGraphData(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
+            this.nodes = this.createNodes(data);
+            this.initializeStaticNodes(true);
+        }
+        getAgentFunctionInfo(agentId) {
+            if (agentId && this.agentFunctionInfoDictionary[agentId]) {
+                return this.agentFunctionInfoDictionary[agentId];
+            }
+            if (agentId && this.bypassAgentIds.includes(agentId)) {
+                return {
+                    agent: async () => {
+                        return null;
+                    },
+                    inputs: null,
+                };
+            }
+            // We are not supposed to hit this error because the validator will catch it.
+            throw new Error("No agent: " + agentId);
+        }
+        asString() {
+            return Object.values(this.nodes)
+                .map((node) => node.asString())
+                .join("\n");
+        }
+        // Public API
+        results(all) {
+            return Object.keys(this.nodes)
+                .filter((nodeId) => all || this.nodes[nodeId].isResult)
+                .reduce((results, nodeId) => {
+                const node = this.nodes[nodeId];
+                if (node.result !== undefined) {
+                    results[nodeId] = node.result;
+                }
+                return results;
+            }, {});
+        }
+        // Public API
+        errors() {
+            return Object.keys(this.nodes).reduce((errors, nodeId) => {
+                const node = this.nodes[nodeId];
+                if (node.isComputedNode) {
+                    if (node.error !== undefined) {
+                        errors[nodeId] = node.error;
+                    }
+                }
+                return errors;
+            }, {});
+        }
+        pushReadyNodesIntoQueue() {
+            // Nodes without pending data should run immediately.
+            Object.keys(this.nodes).forEach((nodeId) => {
+                const node = this.nodes[nodeId];
+                if (node.isComputedNode) {
+                    this.pushQueueIfReady(node);
+                }
+            });
+        }
+        pushQueueIfReady(node) {
+            if (node.isReadyNode()) {
+                this.pushQueue(node);
+            }
+        }
+        pushQueueIfReadyAndRunning(node) {
+            if (this.isRunning()) {
+                this.pushQueueIfReady(node);
+            }
+        }
+        // for computed
+        pushQueue(node) {
+            node.beforeAddTask();
+            this.taskManager.addTask(node, this.graphId, (_node) => {
+                assert(node.nodeId === _node.nodeId, "GraphAI.pushQueue node mismatch");
+                node.execute();
+            });
+        }
+        // Public API
+        async run(all = false) {
+            if (this.isRunning()) {
+                throw new Error("This GraphUI instance is already running");
+            }
+            this.pushReadyNodesIntoQueue();
+            if (!this.isRunning()) {
+                console.warn("-- nothing to execute");
+                return {};
+            }
+            return new Promise((resolve, reject) => {
+                this.onComplete = () => {
+                    const errors = this.errors();
+                    const nodeIds = Object.keys(errors);
+                    if (nodeIds.length > 0) {
+                        reject(errors[nodeIds[0]]);
+                    }
+                    else {
+                        resolve(this.results(all));
+                    }
+                };
+            });
+        }
+        // Public only for testing
+        isRunning() {
+            return this.taskManager.isRunning(this.graphId);
+        }
+        // callback from execute
+        onExecutionComplete(node) {
+            this.taskManager.onComplete(node);
+            if (this.isRunning() || this.processLoopIfNecessary()) {
+                return; // continue running
+            }
+            this.onComplete(); // Nothing to run. Finish it.
+        }
+        // Must be called only from onExecutionComplete righ after removeRunning
+        // Check if there is any running computed nodes.
+        // In case of no running computed note, start the another iteration if ncessary (loop)
+        processLoopIfNecessary() {
+            this.repeatCount++;
+            const loop = this.loop;
+            if (!loop) {
+                return false;
+            }
+            // We need to update static nodes, before checking the condition
+            const previousResults = this.results(true); // results from previous loop
+            this.updateStaticNodes(previousResults);
+            if (loop.count === undefined || this.repeatCount < loop.count) {
+                if (loop.while) {
+                    const source = parseNodeName(loop.while);
+                    const value = this.getValueFromResults(source, this.results(true));
+                    // NOTE: We treat an empty array as false.
+                    if (!isLogicallyTrue(value)) {
+                        return false; // while condition is not met
+                    }
+                }
+                this.nodes = this.createNodes(this.data);
+                this.initializeStaticNodes();
+                this.updateStaticNodes(previousResults, true);
+                this.pushReadyNodesIntoQueue();
+                return true; // Indicating that we are going to continue.
+            }
+            return false;
+        }
+        setLoopLog(log) {
+            log.isLoop = !!this.loop;
+            log.repeatCount = this.repeatCount;
+        }
+        appendLog(log) {
+            this.logs.push(log);
+            this.onLogCallback(log, false);
+        }
+        updateLog(log) {
+            this.onLogCallback(log, true);
+        }
+        // Public API
+        transactionLogs() {
+            return this.logs;
+        }
+        // Public API
+        injectValue(nodeId, value, injectFrom) {
+            const node = this.nodes[nodeId];
+            if (node && node.isStaticNode) {
+                node.injectValue(value, injectFrom);
+            }
+            else {
+                throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
+            }
+        }
+        resultsOf(inputs, anyInput = false) {
+            const results = resultsOf(inputs ?? [], this.nodes, this.propFunctions);
+            if (anyInput) {
+                return cleanResult(results);
+            }
+            return results;
+        }
+        resultOf(source) {
+            return resultOf(source, this.nodes, this.propFunctions);
+        }
+    }
 
     // This agent strip one long string into chunks using following parameters
     //
@@ -1495,7 +1289,7 @@
     //
     const defaultChunkSize = 2048;
     const stringSplitterAgent = async ({ params, namedInputs }) => {
-        lib$1.assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
+        assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
         const source = namedInputs.text;
         const chunkSize = params.chunkSize ?? defaultChunkSize;
         const overlap = params.overlap ?? Math.floor(chunkSize / 8);
@@ -1588,7 +1382,7 @@
         else if (Array.isArray(template)) {
             return template.map((item) => processTemplate(item, match, input));
         }
-        if (lib$1.isObject(template)) {
+        if (isObject(template)) {
             return Object.keys(template).reduce((tmp, key) => {
                 tmp[key] = processTemplate(template[key], match, input);
                 return tmp;
@@ -1786,10 +1580,10 @@
     isNamedInputs_1 = lib.isNamedInputs = isNamedInputs;
 
     const pushAgent = async ({ namedInputs, }) => {
-        lib$1.assert(isNamedInputs_1(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+        assert(isNamedInputs_1(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
         const { item, items } = namedInputs;
-        lib$1.assert(!!namedInputs.array, "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
-        lib$1.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+        assert(!!namedInputs.array, "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+        assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
         const array = namedInputs.array.map((item) => item); // shallow copy
         if (item) {
             array.push(item);
@@ -1858,8 +1652,8 @@
     };
 
     const popAgent = async ({ namedInputs }) => {
-        lib$1.assert(isNamedInputs_1(namedInputs), "popAgent: namedInputs is UNDEFINED!");
-        lib$1.assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
+        assert(isNamedInputs_1(namedInputs), "popAgent: namedInputs is UNDEFINED!");
+        assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
         const array = namedInputs.array.map((item) => item); // shallow copy
         const item = array.pop();
         return { array, item };
@@ -1928,7 +1722,7 @@
     };
 
     const shiftAgent = async ({ namedInputs }) => {
-        lib$1.assert(!!namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
+        assert(!!namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
         const array = namedInputs.array.map((item) => item); // shallow copy
         const item = array.shift();
         return { array, item };
@@ -1986,7 +1780,7 @@
     };
 
     const arrayFlatAgent = async ({ namedInputs, params, }) => {
-        lib$1.assert(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
+        assert(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
         const depth = params.depth ?? 1;
         const array = namedInputs.array.map((item) => item); // shallow copy
         return { array: array.flat(depth) };
@@ -2061,8 +1855,8 @@
     };
 
     const arrayJoinAgent = async ({ namedInputs, params, }) => {
-        lib$1.assert(!!namedInputs, "arrayJoinAgent: namedInputs is UNDEFINED!");
-        lib$1.assert(!!namedInputs.array, "arrayJoinAgent: namedInputs.array is UNDEFINED!");
+        assert(!!namedInputs, "arrayJoinAgent: namedInputs is UNDEFINED!");
+        assert(!!namedInputs.array, "arrayJoinAgent: namedInputs.array is UNDEFINED!");
         const separator = params.separator ?? "";
         const { flat } = params;
         const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);
@@ -2178,7 +1972,7 @@
     // Outputs:
     //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
     const dotProductAgent = async ({ namedInputs, }) => {
-        lib$1.assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+        assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
         const matrix = namedInputs.matrix;
         const vector = namedInputs.vector;
         if (matrix[0].length != vector.length) {
@@ -2263,9 +2057,9 @@
     //  values: Array<number>; // array of numbers for sorting
     //
     const sortByValuesAgent = async ({ params, namedInputs }) => {
-        lib$1.assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
-        lib$1.assert(!!namedInputs.array, "sortByValue: namedInputs.array is UNDEFINED!");
-        lib$1.assert(!!namedInputs.values, "sortByValue: namedInputs.values is UNDEFINED!");
+        assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
+        assert(!!namedInputs.array, "sortByValue: namedInputs.array is UNDEFINED!");
+        assert(!!namedInputs.values, "sortByValue: namedInputs.values is UNDEFINED!");
         const direction = (params?.assendant ?? false) ? -1 : 1;
         const array = namedInputs.array;
         const values = namedInputs.values;
@@ -2506,7 +2300,7 @@
             if (filterParams.streamTokenCallback) {
                 filterParams.streamTokenCallback(token);
             }
-            await lib$1.sleep(params.sleep || 100);
+            await sleep(params.sleep || 100);
         }
         return { message };
     };
@@ -2555,11 +2349,11 @@
         const throwError = params.throwError ?? false;
         if (taskManager) {
             const status = taskManager.getStatus(false);
-            lib$1.assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
+            assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
         }
-        lib$1.assert(!!graphData, "nestedAgent: graph is required");
+        assert(!!graphData, "nestedAgent: graph is required");
         const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: lib$1.graphDataLatestVersion }; // deep enough copy
+        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
         const nodeIds = Object.keys(namedInputs);
         if (nodeIds.length > 0) {
             nodeIds.forEach((nodeId) => {
@@ -2577,7 +2371,7 @@
             if (nestedGraphData.version === undefined && debugInfo.version) {
                 nestedGraphData.version = debugInfo.version;
             }
-            const graphAI = new lib$1.GraphAI(nestedGraphData, agents || {}, {
+            const graphAI = new GraphAI(nestedGraphData, agents || {}, {
                 taskManager,
                 agentFilters,
                 config,
@@ -2637,10 +2431,10 @@
     const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback }) => {
         if (taskManager) {
             const status = taskManager.getStatus();
-            lib$1.assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
+            assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
         }
-        lib$1.assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
-        lib$1.assert(!!graphData, "mapAgent: graph is required");
+        assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
+        assert(!!graphData, "mapAgent: graph is required");
         const rows = namedInputs.rows.map((item) => item);
         if (params.limit && params.limit < rows.length) {
             rows.length = params.limit; // trim
@@ -2648,7 +2442,7 @@
         const resultAll = params.resultAll ?? false;
         const throwError = params.throwError ?? false;
         const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: lib$1.graphDataLatestVersion }; // deep enough copy
+        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
         const nodeIds = Object.keys(namedInputs);
         nodeIds.forEach((nodeId) => {
             const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
@@ -2666,7 +2460,7 @@
                 nestedGraphData.version = debugInfo.version;
             }
             const graphs = rows.map((row) => {
-                const graphAI = new lib$1.GraphAI(nestedGraphData, agents || {}, {
+                const graphAI = new GraphAI(nestedGraphData, agents || {}, {
                     taskManager,
                     agentFilters: agentFilters || [],
                     config,
@@ -3012,8 +2806,8 @@
     };
 
     const totalAgent = async ({ namedInputs }) => {
-        lib$1.assert(isNamedInputs_1(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-        lib$1.assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        assert(isNamedInputs_1(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
         return namedInputs.array.reduce((result, input) => {
             const inputArray = Array.isArray(input) ? input : [input];
             inputArray.forEach((innerInput) => {
@@ -3099,8 +2893,8 @@
     };
 
     const dataSumTemplateAgent = async ({ namedInputs }) => {
-        lib$1.assert(isNamedInputs_1(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-        lib$1.assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        assert(isNamedInputs_1(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
         return namedInputs.array.reduce((tmp, input) => {
             return tmp + input;
         }, 0);
@@ -3410,7 +3204,7 @@
 
     const copyAgent = async ({ namedInputs, params }) => {
         const { namedKey } = params;
-        lib$1.assert(isNamedInputs_1(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
+        assert(isNamedInputs_1(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
         if (namedKey) {
             return namedInputs[namedKey];
         }
@@ -3574,7 +3368,7 @@
     };
 
     const sleeperAgent = async ({ params, namedInputs }) => {
-        await lib$1.sleep(params?.duration ?? 10);
+        await sleep(params?.duration ?? 10);
         return namedInputs;
     };
     const sleeperAgentInfo = {
@@ -3924,4 +3718,4 @@
     exports.vanillaFetchAgent = vanillaFetchAgentInfo;
 
 }));
-//# sourceMappingURL=bundle.umd.mjs.map
+//# sourceMappingURL=bundle.umd.js.map

@@ -1,4 +1,6 @@
-import { assert, isObject, sleep, graphDataLatestVersion, GraphAI } from 'graphai';
+'use strict';
+
+var graphai = require('graphai');
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -10,7 +12,7 @@ import { assert, isObject, sleep, graphDataLatestVersion, GraphAI } from 'grapha
 //
 const defaultChunkSize = 2048;
 const stringSplitterAgent = async ({ params, namedInputs }) => {
-    assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
+    graphai.assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
     const source = namedInputs.text;
     const chunkSize = params.chunkSize ?? defaultChunkSize;
     const overlap = params.overlap ?? Math.floor(chunkSize / 8);
@@ -103,7 +105,7 @@ const processTemplate = (template, match, input) => {
     else if (Array.isArray(template)) {
         return template.map((item) => processTemplate(item, match, input));
     }
-    if (isObject(template)) {
+    if (graphai.isObject(template)) {
         return Object.keys(template).reduce((tmp, key) => {
             tmp[key] = processTemplate(template[key], match, input);
             return tmp;
@@ -301,10 +303,10 @@ const isNamedInputs = (namedInputs) => {
 isNamedInputs_1 = lib.isNamedInputs = isNamedInputs;
 
 const pushAgent = async ({ namedInputs, }) => {
-    assert(isNamedInputs_1(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    graphai.assert(isNamedInputs_1(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
     const { item, items } = namedInputs;
-    assert(!!namedInputs.array, "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
-    assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    graphai.assert(!!namedInputs.array, "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    graphai.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
     const array = namedInputs.array.map((item) => item); // shallow copy
     if (item) {
         array.push(item);
@@ -373,8 +375,8 @@ const pushAgentInfo = {
 };
 
 const popAgent = async ({ namedInputs }) => {
-    assert(isNamedInputs_1(namedInputs), "popAgent: namedInputs is UNDEFINED!");
-    assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
+    graphai.assert(isNamedInputs_1(namedInputs), "popAgent: namedInputs is UNDEFINED!");
+    graphai.assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };
@@ -443,7 +445,7 @@ const popAgentInfo = {
 };
 
 const shiftAgent = async ({ namedInputs }) => {
-    assert(!!namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
+    graphai.assert(!!namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.shift();
     return { array, item };
@@ -501,7 +503,7 @@ const shiftAgentInfo = {
 };
 
 const arrayFlatAgent = async ({ namedInputs, params, }) => {
-    assert(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
+    graphai.assert(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
     const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy
     return { array: array.flat(depth) };
@@ -576,8 +578,8 @@ const arrayFlatAgentInfo = {
 };
 
 const arrayJoinAgent = async ({ namedInputs, params, }) => {
-    assert(!!namedInputs, "arrayJoinAgent: namedInputs is UNDEFINED!");
-    assert(!!namedInputs.array, "arrayJoinAgent: namedInputs.array is UNDEFINED!");
+    graphai.assert(!!namedInputs, "arrayJoinAgent: namedInputs is UNDEFINED!");
+    graphai.assert(!!namedInputs.array, "arrayJoinAgent: namedInputs.array is UNDEFINED!");
     const separator = params.separator ?? "";
     const { flat } = params;
     const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);
@@ -693,7 +695,7 @@ const arrayJoinAgentInfo = {
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
 const dotProductAgent = async ({ namedInputs, }) => {
-    assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+    graphai.assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
     const matrix = namedInputs.matrix;
     const vector = namedInputs.vector;
     if (matrix[0].length != vector.length) {
@@ -778,9 +780,9 @@ const dotProductAgentInfo = {
 //  values: Array<number>; // array of numbers for sorting
 //
 const sortByValuesAgent = async ({ params, namedInputs }) => {
-    assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
-    assert(!!namedInputs.array, "sortByValue: namedInputs.array is UNDEFINED!");
-    assert(!!namedInputs.values, "sortByValue: namedInputs.values is UNDEFINED!");
+    graphai.assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
+    graphai.assert(!!namedInputs.array, "sortByValue: namedInputs.array is UNDEFINED!");
+    graphai.assert(!!namedInputs.values, "sortByValue: namedInputs.values is UNDEFINED!");
     const direction = (params?.assendant ?? false) ? -1 : 1;
     const array = namedInputs.array;
     const values = namedInputs.values;
@@ -1021,7 +1023,7 @@ const streamMockAgent = async ({ params, filterParams, namedInputs }) => {
         if (filterParams.streamTokenCallback) {
             filterParams.streamTokenCallback(token);
         }
-        await sleep(params.sleep || 100);
+        await graphai.sleep(params.sleep || 100);
     }
     return { message };
 };
@@ -1070,11 +1072,11 @@ const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, a
     const throwError = params.throwError ?? false;
     if (taskManager) {
         const status = taskManager.getStatus(false);
-        assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
+        graphai.assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
     }
-    assert(!!graphData, "nestedAgent: graph is required");
+    graphai.assert(!!graphData, "nestedAgent: graph is required");
     const { nodes } = graphData;
-    const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
+    const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
     if (nodeIds.length > 0) {
         nodeIds.forEach((nodeId) => {
@@ -1092,7 +1094,7 @@ const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, a
         if (nestedGraphData.version === undefined && debugInfo.version) {
             nestedGraphData.version = debugInfo.version;
         }
-        const graphAI = new GraphAI(nestedGraphData, agents || {}, {
+        const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, {
             taskManager,
             agentFilters,
             config,
@@ -1152,10 +1154,10 @@ const nestedAgentInfo = {
 const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback }) => {
     if (taskManager) {
         const status = taskManager.getStatus();
-        assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
+        graphai.assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
     }
-    assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
-    assert(!!graphData, "mapAgent: graph is required");
+    graphai.assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
+    graphai.assert(!!graphData, "mapAgent: graph is required");
     const rows = namedInputs.rows.map((item) => item);
     if (params.limit && params.limit < rows.length) {
         rows.length = params.limit; // trim
@@ -1163,7 +1165,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
     const resultAll = params.resultAll ?? false;
     const throwError = params.throwError ?? false;
     const { nodes } = graphData;
-    const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
+    const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
     nodeIds.forEach((nodeId) => {
         const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
@@ -1181,7 +1183,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
             nestedGraphData.version = debugInfo.version;
         }
         const graphs = rows.map((row) => {
-            const graphAI = new GraphAI(nestedGraphData, agents || {}, {
+            const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, {
                 taskManager,
                 agentFilters: agentFilters || [],
                 config,
@@ -1527,8 +1529,8 @@ const mapAgentInfo = {
 };
 
 const totalAgent = async ({ namedInputs }) => {
-    assert(isNamedInputs_1(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-    assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    graphai.assert(isNamedInputs_1(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    graphai.assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     return namedInputs.array.reduce((result, input) => {
         const inputArray = Array.isArray(input) ? input : [input];
         inputArray.forEach((innerInput) => {
@@ -1614,8 +1616,8 @@ const totalAgentInfo = {
 };
 
 const dataSumTemplateAgent = async ({ namedInputs }) => {
-    assert(isNamedInputs_1(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-    assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    graphai.assert(isNamedInputs_1(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    graphai.assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     return namedInputs.array.reduce((tmp, input) => {
         return tmp + input;
     }, 0);
@@ -1925,7 +1927,7 @@ const propertyFilterAgentInfo = {
 
 const copyAgent = async ({ namedInputs, params }) => {
     const { namedKey } = params;
-    assert(isNamedInputs_1(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
+    graphai.assert(isNamedInputs_1(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
     if (namedKey) {
         return namedInputs[namedKey];
     }
@@ -2089,7 +2091,7 @@ const vanillaFetchAgentInfo = {
 };
 
 const sleeperAgent = async ({ params, namedInputs }) => {
-    await sleep(params?.duration ?? 10);
+    await graphai.sleep(params?.duration ?? 10);
     return namedInputs;
 };
 const sleeperAgentInfo = {
@@ -2411,5 +2413,30 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
-//# sourceMappingURL=bundle.mjs.map
+exports.arrayFlatAgent = arrayFlatAgentInfo;
+exports.arrayJoinAgent = arrayJoinAgentInfo;
+exports.compareAgent = compareAgentInfo;
+exports.copy2ArrayAgent = copy2ArrayAgentInfo;
+exports.copyAgent = copyAgentInfo;
+exports.copyMessageAgent = copyMessageAgentInfo;
+exports.countingAgent = countingAgentInfo;
+exports.dataSumTemplateAgent = dataSumTemplateAgentInfo;
+exports.dotProductAgent = dotProductAgentInfo;
+exports.echoAgent = echoAgentInfo;
+exports.jsonParserAgent = jsonParserAgentInfo;
+exports.mapAgent = mapAgentInfo;
+exports.mergeNodeIdAgent = mergeNodeIdAgentInfo;
+exports.nestedAgent = nestedAgentInfo;
+exports.popAgent = popAgentInfo;
+exports.propertyFilterAgent = propertyFilterAgentInfo;
+exports.pushAgent = pushAgentInfo;
+exports.shiftAgent = shiftAgentInfo;
+exports.sleeperAgent = sleeperAgentInfo;
+exports.sortByValuesAgent = sortByValuesAgentInfo;
+exports.streamMockAgent = streamMockAgentInfo;
+exports.stringEmbeddingsAgent = stringEmbeddingsAgentInfo;
+exports.stringSplitterAgent = stringSplitterAgentInfo;
+exports.stringTemplateAgent = stringTemplateAgentInfo;
+exports.totalAgent = totalAgentInfo;
+exports.vanillaFetchAgent = vanillaFetchAgentInfo;
+//# sourceMappingURL=bundle.cjs.js.map
