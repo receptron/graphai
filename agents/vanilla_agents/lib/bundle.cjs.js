@@ -262,48 +262,57 @@ const jsonParserAgentInfo = {
 
 var lib = {};
 
-Object.defineProperty(lib, "__esModule", { value: true });
-var isNamedInputs_1 = lib.isNamedInputs = lib.sample2GraphData = void 0;
-const sample2GraphData = (sample, agentName) => {
-    const nodes = {};
-    const inputs = (() => {
-        if (Array.isArray(sample.inputs)) {
-            Array.from(sample.inputs.keys()).forEach((key) => {
-                nodes["sampleInput" + key] = {
-                    value: sample.inputs[key],
-                };
-            });
-            return Object.keys(nodes).map((k) => ":" + k);
-        }
-        nodes["sampleInput"] = {
-            value: sample.inputs,
-        };
-        return Object.keys(sample.inputs).reduce((tmp, key) => {
-            tmp[key] = `:sampleInput.` + key;
-            return tmp;
-        }, {});
-    })();
-    nodes["node"] = {
-        isResult: true,
-        agent: agentName,
-        params: sample.params,
-        inputs: inputs,
-        graph: sample.graph,
-    };
-    const graphData = {
-        version: 0.5,
-        nodes,
-    };
-    return graphData;
-};
-lib.sample2GraphData = sample2GraphData;
-const isNamedInputs = (namedInputs) => {
-    return Object.keys(namedInputs || {}).length > 0;
-};
-isNamedInputs_1 = lib.isNamedInputs = isNamedInputs;
+var hasRequiredLib;
+
+function requireLib () {
+	if (hasRequiredLib) return lib;
+	hasRequiredLib = 1;
+	Object.defineProperty(lib, "__esModule", { value: true });
+	lib.isNamedInputs = lib.sample2GraphData = void 0;
+	const sample2GraphData = (sample, agentName) => {
+	    const nodes = {};
+	    const inputs = (() => {
+	        if (Array.isArray(sample.inputs)) {
+	            Array.from(sample.inputs.keys()).forEach((key) => {
+	                nodes["sampleInput" + key] = {
+	                    value: sample.inputs[key],
+	                };
+	            });
+	            return Object.keys(nodes).map((k) => ":" + k);
+	        }
+	        nodes["sampleInput"] = {
+	            value: sample.inputs,
+	        };
+	        return Object.keys(sample.inputs).reduce((tmp, key) => {
+	            tmp[key] = `:sampleInput.` + key;
+	            return tmp;
+	        }, {});
+	    })();
+	    nodes["node"] = {
+	        isResult: true,
+	        agent: agentName,
+	        params: sample.params,
+	        inputs: inputs,
+	        graph: sample.graph,
+	    };
+	    const graphData = {
+	        version: 0.5,
+	        nodes,
+	    };
+	    return graphData;
+	};
+	lib.sample2GraphData = sample2GraphData;
+	const isNamedInputs = (namedInputs) => {
+	    return Object.keys(namedInputs || {}).length > 0;
+	};
+	lib.isNamedInputs = isNamedInputs;
+	return lib;
+}
+
+var libExports = requireLib();
 
 const pushAgent = async ({ namedInputs, }) => {
-    graphai.assert(isNamedInputs_1(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    graphai.assert(libExports.isNamedInputs(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
     const { item, items } = namedInputs;
     graphai.assert(!!namedInputs.array, "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
     graphai.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
@@ -375,7 +384,7 @@ const pushAgentInfo = {
 };
 
 const popAgent = async ({ namedInputs }) => {
-    graphai.assert(isNamedInputs_1(namedInputs), "popAgent: namedInputs is UNDEFINED!");
+    graphai.assert(libExports.isNamedInputs(namedInputs), "popAgent: namedInputs is UNDEFINED!");
     graphai.assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
@@ -932,7 +941,7 @@ const copyMessageAgentInfo = {
 };
 
 const copy2ArrayAgent = async ({ inputs, namedInputs, params }) => {
-    const input = isNamedInputs_1(namedInputs) ? (namedInputs.item ? namedInputs.item : namedInputs) : inputs[0];
+    const input = libExports.isNamedInputs(namedInputs) ? (namedInputs.item ? namedInputs.item : namedInputs) : inputs[0];
     return new Array(params.count).fill(undefined).map(() => {
         return input;
     });
@@ -990,7 +999,7 @@ const copy2ArrayAgentInfo = {
 
 const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, inputs, namedInputs, }) => {
     // console.log("executing", nodeId);
-    const dataSet = isNamedInputs_1(namedInputs) ? namedInputs.array : inputs;
+    const dataSet = libExports.isNamedInputs(namedInputs) ? namedInputs.array : inputs;
     return dataSet.reduce((tmp, input) => {
         return { ...tmp, ...input };
     }, { [nodeId]: "hello" });
@@ -1529,7 +1538,7 @@ const mapAgentInfo = {
 };
 
 const totalAgent = async ({ namedInputs }) => {
-    graphai.assert(isNamedInputs_1(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    graphai.assert(libExports.isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     graphai.assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     return namedInputs.array.reduce((result, input) => {
         const inputArray = Array.isArray(input) ? input : [input];
@@ -1616,7 +1625,7 @@ const totalAgentInfo = {
 };
 
 const dataSumTemplateAgent = async ({ namedInputs }) => {
-    graphai.assert(isNamedInputs_1(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    graphai.assert(libExports.isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     graphai.assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     return namedInputs.array.reduce((tmp, input) => {
         return tmp + input;
@@ -1927,7 +1936,7 @@ const propertyFilterAgentInfo = {
 
 const copyAgent = async ({ namedInputs, params }) => {
     const { namedKey } = params;
-    graphai.assert(isNamedInputs_1(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
+    graphai.assert(libExports.isNamedInputs(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
     if (namedKey) {
         return namedInputs[namedKey];
     }
