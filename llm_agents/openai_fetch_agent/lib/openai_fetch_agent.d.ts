@@ -9,9 +9,7 @@ type OpenAIInputs = {
     max_tokens?: number;
     verbose?: boolean;
     temperature?: number;
-    baseURL?: string;
     apiKey?: string;
-    stream?: boolean;
     messages?: Array<OpenAI.ChatCompletionMessageParam>;
     forWeb?: boolean;
     response_format?: any;

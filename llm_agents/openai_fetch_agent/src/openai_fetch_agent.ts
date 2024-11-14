@@ -10,9 +10,9 @@ type OpenAIInputs = {
   max_tokens?: number;
   verbose?: boolean;
   temperature?: number;
-  baseURL?: string;
+  // baseURL?: string;
   apiKey?: string;
-  stream?: boolean;
+  // stream?: boolean;
   messages?: Array<OpenAI.ChatCompletionMessageParam>;
   forWeb?: boolean;
   response_format?: any;
@@ -52,11 +52,10 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
 };
 
 export const openAIFetchAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
-  filterParams,
   params,
   namedInputs,
 }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb, response_format } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, /* baseURL, stream, */ apiKey, prompt, messages, response_format } = {
     ...params,
     ...namedInputs,
   };
@@ -113,9 +112,9 @@ export const openAIFetchAgent: AgentFunction<OpenAIInputs, Record<string, any> |
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
+      Authorization: `Bearer ${apiKey}`,
     },
-    body: JSON.stringify(chatParams)
+    body: JSON.stringify(chatParams),
   });
 
   if (response.status === 200) {
@@ -180,11 +179,11 @@ const openAIFetchAgentInfo: AgentFunctionInfo = {
       max_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
-      baseURL: { type: "string" },
+      // baseURL: { type: "string" },
       apiKey: {
         anyOf: [{ type: "string" }, { type: "object" }],
       },
-      stream: { type: "boolean" },
+      // stream: { type: "boolean" },
       prompt: {
         type: "string",
         description: "query string",
@@ -292,9 +291,9 @@ const openAIFetchAgentInfo: AgentFunctionInfo = {
       max_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
-      baseURL: { type: "string" },
+      // baseURL: { type: "string" },
       apiKey: { anyOf: [{ type: "string" }, { type: "object" }] },
-      stream: { type: "boolean" },
+      // stream: { type: "boolean" },
       prompt: { type: "string", description: "query string" },
       messages: { anyOf: [{ type: "string" }, { type: "object" }, { type: "array" }], description: "chat messages" },
     },
@@ -317,7 +316,7 @@ const openAIFetchAgentInfo: AgentFunctionInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
-  stream: true,
+  stream: false,
   npms: ["openai"],
 };
 
