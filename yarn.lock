@@ -1841,10 +1841,10 @@ groq-sdk@^0.5.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-groq-sdk@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.7.0.tgz#30ac2fa5073f9368e22c78309e5b6154741788eb"
-  integrity sha512-OgPqrRtti5MjEVclR8sgBHrhSkTLdFCmi47yrEF29uJZaiCkX3s7bXpnMhq8Lwoe1f4AwgC0qGOeHXpeSgu5lg==
+groq-sdk@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.8.0.tgz#c02a4443dd319c29ec699a96733a4f037475aa29"
+  integrity sha512-hSgCjZCkoM4CY/TWfsaNlh512svWRR2td4HGpmEV8MbVEVrxZARJq5BHt8gbEF9Gex092/X7VJvaQpha0dIC8g==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -2932,7 +2932,7 @@ statuses@2.0.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
-string-width@4.2.3, string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
