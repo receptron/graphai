@@ -12,6 +12,7 @@ export default [{
   plugins: [
     pluginTypescript(),
     commonjs(),
+    terser(),
   ],
 }, {
   input: './src/index.ts',
@@ -35,5 +36,6 @@ export default [{
 
   plugins: [
     pluginTypescript(),
+    terser(),
   ],
 }];
