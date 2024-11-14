@@ -51,7 +51,11 @@ export default [
       file: "./lib/bundle.umd.js",
       format: "umd",
       sourcemap: true,
+      globals: {
+        graphai: 'graphai'
+      },
     },
+    external: ["graphai"],
     plugins: [resolve(), commonjs(), pluginTypescript()],
   },
 ];
