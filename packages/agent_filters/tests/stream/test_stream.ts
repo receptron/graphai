@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunctionContext } from "graphai";
+import { GraphAI, AgentFunctionContext, graphDataLatestVersion } from "graphai";
 import * as agents from "@graphai/agents";
 import { streamAgentFilterGenerator } from "@/index";
 
@@ -20,7 +20,7 @@ const agentFilters = [
 ];
 
 const graph_data = {
-  version: 0.3,
+  version: graphDataLatestVersion,
   nodes: {
     echo: {
       agent: "echoAgent",
@@ -34,7 +34,6 @@ const graph_data = {
         message: "this is streaming test1",
         sleep: 10,
       },
-      //inputs: [],
       isResult: true,
     },
     streamMockAgent2: {
