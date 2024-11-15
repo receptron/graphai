@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.5.12/dist/vue.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/graphai@0.5.18/lib/bundle.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@graphai/vanilla@0.1.8/lib/bundle.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/klayjs@0.4.1/klay.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.3/dist/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-klay@3.1.4/cytoscape-klay.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@receptron/graphai_vue_cytoscape@0.0.12/lib/bundle.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@graphai/openai_fetch_agent@0.1.0/lib/bundle.umd.js"></script>
+  </head>
+  <body>
+    <div id="app">
+        Result:
+        {{ result }}
+      <button type="button" @click="runGraphAI">run</button>
+      <div ref="cytoscapeRef" style="width:100%; height: 600px;"></div>
+    </div>
+  </body>
+
+  <script type="module">
+const { createApp, ref, computed } = Vue;
+
+// update here    
+const openApiKey = "sk-xxxxx";
+    
+const graph_data = {
+  version: 0.5,
+  nodes: {
+    test: {
+      agent: "echoAgent",
+      params: {
+        text: "hello, let me know 1 + 1"
+      },
+      isResult: true,
+    },
+    test2: {
+      agent: "copyAgent",
+      inputs: { text: ":test.text" }
+    },
+    openai: {
+      agent: "openAIFetchAgent",
+      params: {
+        apiKey: openApiKey,
+      },
+      inputs: { prompt: ":test2.text" }
+    },
+    output: {
+      agent: "stringTemplateAgent",
+      inputs: { text: ":openai.text" },
+      isResult: true,
+    },
+  }
+};
+
+const app = createApp({
+  setup() {
+    const gl = computed(() => {
+      return graph_data;
+    });
+    const { GraphAI } = graphai;
+    const { useCytoscape } = vue_cytoscape;
+    const { updateCytoscape, cytoscapeRef } = useCytoscape(gl);
+
+    const result = ref("");
+    const runGraphAI = async () => {
+      const graph = new GraphAI(graph_data, {...vanilla_agents, ...openai_fetch_agent});
+      graph.onLogCallback = async ({ nodeId, state }) => {
+        updateCytoscape(nodeId, state);
+        console.log(nodeId, state);
+      };
+      const res = await graph.run();
+      result.value = JSON.stringify(res);
+    };
+
+    return {
+      cytoscapeRef,
+      result,
+      runGraphAI
+    };
+  }
+});
+
+app.mount("#app");
+  </script>
+
+</html>
