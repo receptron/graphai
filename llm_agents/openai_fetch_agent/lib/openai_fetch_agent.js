@@ -33,8 +33,8 @@ const convertOpenAIChatCompletion = (response, messages) => {
         messages,
     };
 };
-const openAIFetchAgent = async ({ params, namedInputs, }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, /* baseURL, stream, */ apiKey, prompt, messages, response_format } = {
+const openAIFetchAgent = async ({ filterParams, params, namedInputs, }) => {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, /* baseURL, */ stream, apiKey, prompt, messages, response_format } = {
         ...params,
         ...namedInputs,
     };
@@ -77,6 +77,7 @@ const openAIFetchAgent = async ({ params, namedInputs, }) => {
         tool_choice,
         max_tokens,
         temperature: temperature ?? 0.7,
+        stream: !!stream,
         response_format,
     };
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -87,11 +88,68 @@ const openAIFetchAgent = async ({ params, namedInputs, }) => {
         },
         body: JSON.stringify(chatParams),
     });
-    if (response.status === 200) {
-        const result = await response.json();
-        return convertOpenAIChatCompletion(result, messagesCopy);
+    if (!stream) {
+        if (response.status === 200) {
+            const result = await response.json();
+            return convertOpenAIChatCompletion(result, messagesCopy);
+        }
+        throw new Error("OPENAI API Error");
     }
-    throw new Error("OPENAI API Error");
+    // streaming
+    const reader = response.body?.getReader();
+    if (response.status !== 200 || !reader) {
+        throw new Error("Request failed");
+    }
+    const decoder = new TextDecoder("utf-8");
+    let done = false;
+    const buffer = [];
+    let text_buffer = "";
+    while (!done) {
+        const { done: readDone, value } = await reader.read();
+        if (readDone) {
+            done = readDone;
+            reader.releaseLock();
+        }
+        else {
+            const text = decoder.decode(value, { stream: true });
+            text_buffer = text + text_buffer;
+            const lines = text_buffer.split(/\n+/);
+            const next_buff = [];
+            for (const line of lines) {
+                try {
+                    const json_text = line.replace(/^data:\s*/, "");
+                    if (json_text === "[DONE]") {
+                        break;
+                    }
+                    else if (json_text) {
+                        const data = JSON.parse(json_text);
+                        const token = data.choices[0].delta.content;
+                        if (token) {
+                            buffer.push(token);
+                            if (filterParams && filterParams.streamTokenCallback && token) {
+                                filterParams.streamTokenCallback(token);
+                            }
+                        }
+                    }
+                }
+                catch (__error) {
+                    next_buff.push(line);
+                }
+            }
+            text_buffer = next_buff.join("\n");
+        }
+    }
+    return convertOpenAIChatCompletion({
+        choices: [
+            {
+                message: {
+                    role: "assistant",
+                    content: buffer.join(""),
+                    refusal: "",
+                },
+            },
+        ],
+    }, messagesCopy);
 };
 exports.openAIFetchAgent = openAIFetchAgent;
 const input_sample = "this is response result";
@@ -142,7 +200,7 @@ const openAIFetchAgentInfo = {
             apiKey: {
                 anyOf: [{ type: "string" }, { type: "object" }],
             },
-            // stream: { type: "boolean" },
+            stream: { type: "boolean" },
             prompt: {
                 type: "string",
                 description: "query string",
@@ -252,7 +310,7 @@ const openAIFetchAgentInfo = {
             temperature: { type: "number" },
             // baseURL: { type: "string" },
             apiKey: { anyOf: [{ type: "string" }, { type: "object" }] },
-            // stream: { type: "boolean" },
+            stream: { type: "boolean" },
             prompt: { type: "string", description: "query string" },
             messages: { anyOf: [{ type: "string" }, { type: "object" }, { type: "array" }], description: "chat messages" },
         },
@@ -275,7 +333,7 @@ const openAIFetchAgentInfo = {
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
-    stream: false,
+    stream: true,
     npms: ["openai"],
 };
 exports.default = openAIFetchAgentInfo;
