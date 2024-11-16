@@ -1,6 +1,6 @@
 {
   "name": "@graphai/openai_fetch_agent",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "OpenAI fetch agents for GraphAI and browser.",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
