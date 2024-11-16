@@ -10,7 +10,7 @@
     "build": "echo nothing",
     "eslint": "eslint",
     "test": "echo hello",
-    "format": "prettier --write 'src/**/*.ts' graph_data/**/*.{json,yaml}",
+    "format": "prettier --write 'src/**/*.ts' graph_data/**/*.{json,yaml} htmlSample/*.html",
     "b": "yarn run format && yarn run eslint && yarn run build",
     "doc": "yarn run sample src/toYamlSample.ts",
     "samples": "npx ts-node  -r tsconfig-paths/register src/sample_runner.ts",

@@ -1,0 +1,160 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.5.12/dist/vue.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/graphai@0.5.18/lib/bundle.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@graphai/vanilla@0.1.8/lib/bundle.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/klayjs@0.4.1/klay.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.3/dist/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-klay@3.1.4/cytoscape-klay.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@receptron/graphai_vue_cytoscape@0.0.12/lib/bundle.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@graphai/openai_fetch_agent@0.1.0/lib/bundle.umd.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input v-model="userInput" @keyup.enter="submit" />
+      <button type="button" @click="submit">submit</button>
+
+      <div v-for="(m, k) in messages" :key="k">
+        <div v-if="m.role === 'user'" class="mr-8">👱{{ m.content }}</div>
+        <div class="ml-20" v-else>🤖{{ m.content }}</div>
+      </div>
+
+      <div ref="cytoscapeRef" style="width: 100%; height: 600px"></div>
+    </div>
+  </body>
+
+  <script type="module">
+    // import
+    const { createApp, ref, computed } = Vue;
+    const { GraphAI, sleep, agentInfoWrapper } = graphai;
+    const { useCytoscape } = vue_cytoscape;
+
+    const openApiKey = "sk-xxxx";
+    const graph_data = {
+      version: 0.5,
+      loop: {
+        while: ":continue",
+      },
+      nodes: {
+        continue: {
+          value: true,
+          update: ":checkInput",
+        },
+        messages: {
+          value: [],
+          update: ":reducer.array",
+        },
+        userInput: {
+          agent: "textInputAgent",
+          params: {
+            message: "You:",
+          },
+        },
+        checkInput: {
+          // Checks if the user wants to terminate the chat or not.
+          agent: "compareAgent",
+          inputs: { array: [":userInput.text", "!=", "/bye"] },
+        },
+        llm: {
+          agent: "openAIFetchAgent",
+          params: {
+            apiKey: openApiKey,
+          },
+          inputs: { messages: ":messages", prompt: ":userInput.text" },
+        },
+        output: {
+          agent: "stringTemplateAgent",
+          console: {
+            after: true,
+          },
+          inputs: {
+            text: "\x1b[32mAgent\x1b[0m: ${:llm.text}",
+          },
+        },
+        reducer: {
+          agent: "pushAgent",
+          inputs: { array: ":messages", items: [":userInput.message", { content: ":llm.text", role: "assistant" }] },
+        },
+      },
+    };
+
+    const app = createApp({
+      setup() {
+        const gl = computed(() => {
+          return graph_data;
+        });
+
+        // input
+        const userInput = ref("");
+        const inputPromise = ref([]);
+        const submit = () => {
+          if (inputPromise.value.length > 0) {
+            const task = inputPromise.value.shift();
+            if (task) {
+              task(userInput.value);
+              userInput.value = "";
+            }
+          }
+        };
+        const textPromise = () => {
+          return new Promise((resolved) => {
+            const task = (message) => {
+              resolved(message);
+            };
+            inputPromise.value.push(task);
+          });
+        };
+
+        const textInputAgent = async (__context) => {
+          const result = await textPromise();
+          console.log(result);
+          return {
+            text: result,
+            message: { role: "user", content: result },
+          };
+        };
+        // end of input
+        const { updateCytoscape, cytoscapeRef } = useCytoscape(gl);
+
+        const messages = ref([]);
+
+        const result = ref("");
+        const runGraphAI = async () => {
+          const graph = new GraphAI(graph_data, {
+            ...vanilla_agents,
+            ...openai_fetch_agent,
+            textInputAgent: agentInfoWrapper(textInputAgent),
+          });
+          graph.onLogCallback = async ({ nodeId, state, result }) => {
+            updateCytoscape(nodeId, state);
+            if (state === "completed" && result) {
+              console.log(result);
+              if (nodeId === "llm") {
+                // isStreaming.value = false;
+                messages.value.push(result.message);
+              }
+              if (nodeId === "userInput") {
+                messages.value.push(result.message);
+              }
+            }
+          };
+          const res = await graph.run();
+          result.value = JSON.stringify(res);
+        };
+        runGraphAI();
+
+        return {
+          cytoscapeRef,
+          result,
+          runGraphAI,
+
+          userInput,
+          messages,
+          submit,
+        };
+      },
+    });
+
+    app.mount("#app");
+  </script>
+</html>
