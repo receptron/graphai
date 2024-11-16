@@ -19,7 +19,9 @@
         <div v-if="m.role === 'user'" class="mr-8">👱{{ m.content }}</div>
         <div class="ml-20" v-else>🤖{{ m.content }}</div>
       </div>
-      {{ streamText }}
+      <div>
+        🤖{{ streamText }}
+      </div>
       <div ref="cytoscapeRef" style="width: 100%; height: 600px"></div>
     </div>
   </body>
