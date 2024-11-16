@@ -62,7 +62,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
     };
 };
 const openAIFetchAgent = async ({ filterParams, params, namedInputs, }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, /* baseURL, */ stream, apiKey, prompt, messages, response_format } = {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, stream, apiKey, prompt, messages, response_format } = {
         ...params,
         ...namedInputs,
     };
@@ -108,7 +108,8 @@ const openAIFetchAgent = async ({ filterParams, params, namedInputs, }) => {
         stream: !!stream,
         response_format,
     };
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const urlPrefix = baseURL ?? "https://api.openai.com/v1";
+    const response = await fetch(urlPrefix + "/chat/completions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -222,7 +223,7 @@ const openAIFetchAgentInfo = {
             max_tokens: { type: "number" },
             verbose: { type: "boolean" },
             temperature: { type: "number" },
-            // baseURL: { type: "string" },
+            baseURL: { type: "string" },
             apiKey: {
                 anyOf: [{ type: "string" }, { type: "object" }],
             },
@@ -334,7 +335,7 @@ const openAIFetchAgentInfo = {
             max_tokens: { type: "number" },
             verbose: { type: "boolean" },
             temperature: { type: "number" },
-            // baseURL: { type: "string" },
+            baseURL: { type: "string" },
             apiKey: { anyOf: [{ type: "string" }, { type: "object" }] },
             stream: { type: "boolean" },
             prompt: { type: "string", description: "query string" },
