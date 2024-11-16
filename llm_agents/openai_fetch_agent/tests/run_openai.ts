@@ -18,6 +18,30 @@ test("test openai", async () => {
   assert.deepStrictEqual(true, true);
 });
 
+test("test openai streaming", async () => {
+  const namedInputs = { prompt: ["let me know world history"] };
+
+  const params = {
+    apiKey: process.env["OPENAI_API_KEY"],
+    stream: true,
+  };
+  const streamTokenCallback = (token: string) => {
+    console.log(token);
+  };
+  const res = (await openAIFetchAgent({
+    inputs: [],
+    namedInputs,
+    params,
+    filterParams: { streamTokenCallback },
+    debugInfo: { verbose: false, nodeId: "test", retry: 5 },
+  })) as any;
+
+  if (res) {
+    console.log(res.choices[0].message["content"]);
+  }
+  assert.deepStrictEqual(true, true);
+});
+
 test("test openai tools", async () => {
   const namedInputs = { prompt: ["I would like to return the item, what should I do?"] };
 
