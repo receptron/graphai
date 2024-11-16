@@ -3,11 +3,12 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3.5.12/dist/vue.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/graphai@0.5.18/lib/bundle.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@graphai/vanilla@0.1.8/lib/bundle.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@graphai/agent_filters@0.0.8/lib/bundle.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/klayjs@0.4.1/klay.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.3/dist/cytoscape.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cytoscape-klay@3.1.4/cytoscape-klay.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@receptron/graphai_vue_cytoscape@0.0.12/lib/bundle.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@graphai/openai_fetch_agent@0.1.0/lib/bundle.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@graphai/openai_fetch_agent@0.1.2/lib/bundle.umd.js"></script>
   </head>
   <body>
     <div id="app">
@@ -18,7 +19,9 @@
         <div v-if="m.role === 'user'" class="mr-8">👱{{ m.content }}</div>
         <div class="ml-20" v-else>🤖{{ m.content }}</div>
       </div>
-
+      <div v-if="streamText !== ''">
+        🤖{{ streamText }}
+      </div>
       <div ref="cytoscapeRef" style="width: 100%; height: 600px"></div>
     </div>
   </body>
@@ -28,6 +31,7 @@
     const { createApp, ref, computed } = Vue;
     const { GraphAI, sleep, agentInfoWrapper } = graphai;
     const { useCytoscape } = vue_cytoscape;
+    const { streamAgentFilterGenerator } = graphai_agent_filters;
 
     const openApiKey = "sk-xxxx";
     const graph_data = {
@@ -59,7 +63,9 @@
           agent: "openAIFetchAgent",
           params: {
             apiKey: openApiKey,
+            stream: true,
           },
+          isResult: true,
           inputs: { messages: ":messages", prompt: ":userInput.text" },
         },
         output: {
@@ -116,21 +122,36 @@
         // end of input
         const { updateCytoscape, cytoscapeRef } = useCytoscape(gl);
 
+        // agent filters
+        const streamText = ref("");
+        const outSideFunciton = (context, data) => {
+          streamText.value = streamText.value + data;
+        };
+        const agentFilters = [
+          {
+            name: "streamAgentFilter",
+            agent: streamAgentFilterGenerator(outSideFunciton),
+          },
+        ];
+
         const messages = ref([]);
 
         const result = ref("");
         const runGraphAI = async () => {
-          const graph = new GraphAI(graph_data, {
-            ...vanilla_agents,
-            ...openai_fetch_agent,
-            textInputAgent: agentInfoWrapper(textInputAgent),
-          });
+          const graph = new GraphAI(
+            graph_data,
+            {
+              ...vanilla_agents,
+              ...openai_fetch_agent,
+              textInputAgent: agentInfoWrapper(textInputAgent),
+            },
+            { agentFilters },
+          );
           graph.onLogCallback = async ({ nodeId, state, result }) => {
             updateCytoscape(nodeId, state);
             if (state === "completed" && result) {
-              console.log(result);
               if (nodeId === "llm") {
-                // isStreaming.value = false;
+                streamText.value = "";
                 messages.value.push(result.message);
               }
               if (nodeId === "userInput") {
@@ -151,6 +172,7 @@
           userInput,
           messages,
           submit,
+          streamText,
         };
       },
     });
