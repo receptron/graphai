@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
-const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback }) => {
+const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
+    (0, graphai_1.assert)(!!forNestedGraph, "update graphai");
+    const { agents, graphData, graphOptions } = forNestedGraph;
+    const { taskManager } = graphOptions;
     if (taskManager) {
         const status = taskManager.getStatus();
         (0, graphai_1.assert)(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -34,11 +37,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
             nestedGraphData.version = debugInfo.version;
         }
         const graphs = rows.map((row) => {
-            const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, {
-                taskManager,
-                agentFilters: agentFilters || [],
-                config,
-            });
+            const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, graphOptions);
             graphAI.injectValue("row", row, "__mapAgent_inputs__");
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {

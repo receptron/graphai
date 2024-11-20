@@ -1077,7 +1077,10 @@ const streamMockAgentInfo = {
     stream: true,
 };
 
-const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback, params, }) => {
+const nestedAgent = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph, }) => {
+    graphai.assert(!!forNestedGraph, "update graphai");
+    const { agents, graphData, graphOptions } = forNestedGraph;
+    const { taskManager, } = graphOptions;
     const throwError = params.throwError ?? false;
     if (taskManager) {
         const status = taskManager.getStatus(false);
@@ -1103,11 +1106,7 @@ const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, a
         if (nestedGraphData.version === undefined && debugInfo.version) {
             nestedGraphData.version = debugInfo.version;
         }
-        const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, {
-            taskManager,
-            agentFilters,
-            config,
-        });
+        const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
         // for backward compatibility. Remove 'if' later
         if (onLogCallback) {
             graphAI.onLogCallback = onLogCallback;
@@ -1160,7 +1159,10 @@ const nestedAgentInfo = {
     license: "MIT",
 };
 
-const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback }) => {
+const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
+    graphai.assert(!!forNestedGraph, "update graphai");
+    const { agents, graphData, graphOptions } = forNestedGraph;
+    const { taskManager } = graphOptions;
     if (taskManager) {
         const status = taskManager.getStatus();
         graphai.assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
@@ -1192,11 +1194,7 @@ const mapAgent = async ({ params, namedInputs, agents, log, taskManager, graphDa
             nestedGraphData.version = debugInfo.version;
         }
         const graphs = rows.map((row) => {
-            const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, {
-                taskManager,
-                agentFilters: agentFilters || [],
-                config,
-            });
+            const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
             graphAI.injectValue("row", row, "__mapAgent_inputs__");
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {

@@ -431,6 +431,17 @@ class ComputedNode extends Node {
                     context.graphData = this.graph.resultOf(this.nestedGraph); // HACK: compiler work-around
                 }
                 context.agents = this.graph.agentFunctionInfoDictionary;
+                context.forNestedGraph = {
+                    graphData: context.graphData,
+                    agents: context.agents,
+                    graphOptions: {
+                        agentFilters: this.graph.agentFilters,
+                        taskManager: this.graph.taskManager,
+                        bypassAgentIds: this.graph.bypassAgentIds,
+                        config: this.graph.config,
+                        graphLoader: this.graph.graphLoader,
+                    },
+                };
             }
             this.beforeConsoleLog(context);
             const result = await this.agentFilterHandler(context, agentFunction);
