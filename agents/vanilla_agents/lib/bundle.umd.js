@@ -1080,7 +1080,7 @@
     };
 
     const nestedAgent = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph, }) => {
-        graphai.assert(!!forNestedGraph, "update graphai");
+        graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
         const { agents, graphData, graphOptions } = forNestedGraph;
         const { taskManager, } = graphOptions;
         const throwError = params.throwError ?? false;
@@ -1162,7 +1162,7 @@
     };
 
     const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
-        graphai.assert(!!forNestedGraph, "update graphai");
+        graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
         const { agents, graphData, graphOptions } = forNestedGraph;
         const { taskManager } = graphOptions;
         if (taskManager) {

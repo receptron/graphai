@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.nestedAgent = void 0;
 const graphai_1 = require("graphai");
 const nestedAgent = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph, }) => {
-    (0, graphai_1.assert)(!!forNestedGraph, "update graphai");
+    (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
     const { agents, graphData, graphOptions } = forNestedGraph;
     const { taskManager, } = graphOptions;
     const throwError = params.throwError ?? false;
