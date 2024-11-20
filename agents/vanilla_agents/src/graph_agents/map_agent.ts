@@ -10,7 +10,7 @@ export const mapAgent: AgentFunction<
   Record<string, any>,
   any
 > = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
-  assert(!!forNestedGraph, "update graphai")
+  assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher")
 
   const {
     agents,

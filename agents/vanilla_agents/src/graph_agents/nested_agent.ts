@@ -8,7 +8,7 @@ export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async ({
   params,
   forNestedGraph,
 }) => {
-  assert(!!forNestedGraph, "update graphai")
+  assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher")
 
   const {
     agents,
