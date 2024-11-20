@@ -99,10 +99,16 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
     version?: number;
     isResult?: boolean;
   };
-  graphData?: GraphData; // nested graph
-  agents?: AgentFunctionInfoDictionary; // for nested graph
-  taskManager?: TaskManager; // for nested graph
-  onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
+  graphData?: GraphData; // for nested graph. TODO remove next version.
+  agents?: AgentFunctionInfoDictionary; // for nested graph. TODO remove next version.
+  taskManager?: TaskManager; // for nested graph. TODO remove next version.
+  forNestedGraph?: {
+    graphData: GraphData; // nested graph
+    agents: AgentFunctionInfoDictionary; // for nested graph
+    graphOptions: GraphOptions;
+    onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
+  };
+  onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void; // TODO remove next version.
   filterParams: AgentFilterParams; // agent filter
   agentFilters?: AgentFilterInfo[];
   log?: TransactionLog[];

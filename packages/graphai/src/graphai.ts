@@ -32,7 +32,7 @@ export class GraphAI {
   private readonly data: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
-  private readonly bypassAgentIds: string[];
+  public readonly bypassAgentIds: string[];
   public readonly config?: Record<string, unknown> = {};
   public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
   public readonly taskManager: TaskManager;
