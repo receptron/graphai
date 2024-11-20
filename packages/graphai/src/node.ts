@@ -302,7 +302,7 @@ export class ComputedNode extends Node {
             config: this.graph.config,
             graphLoader: this.graph.graphLoader,
           },
-        }
+        };
       }
 
       this.beforeConsoleLog(context);

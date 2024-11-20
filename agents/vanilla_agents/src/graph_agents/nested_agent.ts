@@ -1,23 +1,10 @@
 import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
 
-export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async ({
-  namedInputs,
-  log,
-  debugInfo,
-  onLogCallback,
-  params,
-  forNestedGraph,
-}) => {
-  assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher")
+export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph }) => {
+  assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
 
-  const {
-    agents,
-    graphData,
-    graphOptions
-  } = forNestedGraph;
-  const {
-    taskManager,
-  } = graphOptions;
+  const { agents, graphData, graphOptions } = forNestedGraph;
+  const { taskManager } = graphOptions;
   const throwError = params.throwError ?? false;
   if (taskManager) {
     const status = taskManager.getStatus(false);

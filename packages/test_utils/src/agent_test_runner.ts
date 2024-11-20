@@ -23,11 +23,13 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
           inputs: flatInputs,
           inputSchema,
           namedInputs,
-          forNestedGraph: graph ? {
-            graphData: graph,
-            agents,
-            graphOptions: {},
-          }: undefined,
+          forNestedGraph: graph
+            ? {
+                graphData: graph,
+                agents,
+                graphOptions: {},
+              }
+            : undefined,
         });
         assert.deepStrictEqual(actual, result);
       });

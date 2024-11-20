@@ -10,15 +10,11 @@ export const mapAgent: AgentFunction<
   Record<string, any>,
   any
 > = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
-  assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher")
+  assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
 
-  const {
-    agents,
-    graphData,
-    graphOptions
-  } = forNestedGraph;
+  const { agents, graphData, graphOptions } = forNestedGraph;
   const { taskManager } = graphOptions;
-  
+
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
