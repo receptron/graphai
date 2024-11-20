@@ -2,16 +2,22 @@ import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, grap
 
 export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async ({
   namedInputs,
-  agents,
   log,
-  taskManager,
-  graphData,
-  agentFilters,
   debugInfo,
-  config,
   onLogCallback,
   params,
+  forNestedGraph,
 }) => {
+  assert(!!forNestedGraph, "update graphai")
+
+  const {
+    agents,
+    graphData,
+    graphOptions
+  } = forNestedGraph;
+  const {
+    taskManager,
+  } = graphOptions;
   const throwError = params.throwError ?? false;
   if (taskManager) {
     const status = taskManager.getStatus(false);
@@ -39,11 +45,7 @@ export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async ({
     if (nestedGraphData.version === undefined && debugInfo.version) {
       nestedGraphData.version = debugInfo.version;
     }
-    const graphAI = new GraphAI(nestedGraphData, agents || {}, {
-      taskManager,
-      agentFilters,
-      config,
-    });
+    const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
     // for backward compatibility. Remove 'if' later
     if (onLogCallback) {
       graphAI.onLogCallback = onLogCallback;

@@ -7,19 +7,22 @@ import assert from "node:assert";
 test("test map_agent", async () => {
   const result = await mapAgent.agent({
     ...defaultTestContext,
-    agents: { mapAgent, stringTemplateAgent },
-    graphData: {
-      version: 0.5,
-      nodes: {
-        node2: {
-          agent: "stringTemplateAgent",
-          params: {
-            template: "I love ${item}.",
+    forNestedGraph: {
+      agents: { mapAgent, stringTemplateAgent },
+      graphData: {
+        version: 0.5,
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${item}.",
+            },
+            inputs: { item: ":row.fruit" },
+            isResult: true,
           },
-          inputs: { item: ":row.fruit" },
-          isResult: true,
         },
       },
+      graphOptions: {},
     },
     inputs: [],
     params: {
@@ -35,19 +38,22 @@ test("test map_agent", async () => {
 test("test map_agent 2", async () => {
   const result = await mapAgent.agent({
     ...defaultTestContext,
-    agents: { mapAgent, stringTemplateAgent },
-    graphData: {
-      version: 0.5,
-      nodes: {
-        node2: {
-          agent: "stringTemplateAgent",
-          params: {
-            template: "I love ${item}.",
+    forNestedGraph: {
+      agents: { mapAgent, stringTemplateAgent },
+      graphData: {
+        version: 0.5,
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "I love ${item}.",
+            },
+            inputs: { item: ":row" },
+            isResult: true,
           },
-          inputs: { item: ":row" },
-          isResult: true,
         },
       },
+      graphOptions: {},
     },
     inputs: [],
     params: {
@@ -63,19 +69,22 @@ test("test map_agent 2", async () => {
 test("test map_agent 3", async () => {
   const result = await mapAgent.agent({
     ...defaultTestContext,
-    agents: { mapAgent, stringTemplateAgent },
-    graphData: {
-      version: 0.5,
-      nodes: {
-        node2: {
-          agent: "stringTemplateAgent",
-          params: {
-            template: "${b} ${c} ${a}.",
+    forNestedGraph: {
+      agents: { mapAgent, stringTemplateAgent },
+      graphData: {
+        version: 0.5,
+        nodes: {
+          node2: {
+            agent: "stringTemplateAgent",
+            params: {
+              template: "${b} ${c} ${a}.",
+            },
+            inputs: { a: ":row", b: ":name", c: ":verb" },
+            isResult: true,
           },
-          inputs: { a: ":row", b: ":name", c: ":verb" },
-          isResult: true,
         },
       },
+      graphOptions: {},
     },
     inputs: [],
     params: {
