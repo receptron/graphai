@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nestedAgent = void 0;
 const graphai_1 = require("graphai");
-const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config, onLogCallback, params, }) => {
+const nestedAgent = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph, }) => {
+    (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
+    const { agents, graphData, graphOptions } = forNestedGraph;
+    const { taskManager, } = graphOptions;
     const throwError = params.throwError ?? false;
     if (taskManager) {
         const status = taskManager.getStatus(false);
@@ -28,11 +31,7 @@ const nestedAgent = async ({ namedInputs, agents, log, taskManager, graphData, a
         if (nestedGraphData.version === undefined && debugInfo.version) {
             nestedGraphData.version = debugInfo.version;
         }
-        const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, {
-            taskManager,
-            agentFilters,
-            config,
-        });
+        const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, graphOptions);
         // for backward compatibility. Remove 'if' later
         if (onLogCallback) {
             graphAI.onLogCallback = onLogCallback;

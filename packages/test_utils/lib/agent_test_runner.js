@@ -49,8 +49,11 @@ const agentTestRunner = async (agentInfo) => {
                     inputs: flatInputs,
                     inputSchema,
                     namedInputs,
-                    graphData: graph,
-                    agents,
+                    forNestedGraph: graph ? {
+                        graphData: graph,
+                        agents,
+                        graphOptions: {},
+                    } : undefined,
                 });
                 node_assert_1.default.deepStrictEqual(actual, result);
             });
