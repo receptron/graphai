@@ -1,9 +1,8 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { isNamedInputs } from "@graphai/agent_utils";
+import { arrayValidate } from "./common";
 
 export const popAgent: AgentFunction<null, { array: Array<unknown>; item: unknown }, null, { array: Array<unknown> }> = async ({ namedInputs }) => {
-  assert(isNamedInputs(namedInputs), "popAgent: namedInputs is UNDEFINED!");
-  assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
+  arrayValidate("popAgent", namedInputs);
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   const item = array.pop();

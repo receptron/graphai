@@ -1,12 +1,11 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import { arrayValidate } from "./common";
 
 export const arrayJoinAgent: AgentFunction<{ separator?: string; flat?: number }, { text: string }, Array<never>, { array: Array<unknown> }> = async ({
   namedInputs,
   params,
 }) => {
-  assert(!!namedInputs, "arrayJoinAgent: namedInputs is UNDEFINED!");
-  assert(!!namedInputs.array, "arrayJoinAgent: namedInputs.array is UNDEFINED!");
-
+  arrayValidate("arrayJoinAgent", namedInputs);
   const separator = params.separator ?? "";
   const { flat } = params;
 

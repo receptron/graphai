@@ -1,7 +1,9 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import { arrayValidate } from "./common";
 
-export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>> = async ({ namedInputs }) => {
-  assert(!!namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
+export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, { array: Array<unknown> }> = async ({ namedInputs }) => {
+  arrayValidate("shiftAgent", namedInputs);
+
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   const item = array.shift();
   return { array, item };
