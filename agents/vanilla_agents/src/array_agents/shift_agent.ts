@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { arrayValidate } from "./common";
 
 export const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, Array<any>, { array: Array<unknown> }> = async ({ namedInputs }) => {
