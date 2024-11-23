@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayFlatAgent = void 0;
-const graphai_1 = require("graphai");
+const common_1 = require("./common");
 const arrayFlatAgent = async ({ namedInputs, params, }) => {
-    (0, graphai_1.assert)(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
+    (0, common_1.arrayValidate)("arrayFlatAgent", namedInputs);
     const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy
     return { array: array.flat(depth) };

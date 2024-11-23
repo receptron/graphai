@@ -311,11 +311,17 @@ function requireLib () {
 
 var libExports = requireLib();
 
+const arrayValidate = (agentName, namedInputs, extra_message = "") => {
+    graphai.assert(libExports.isNamedInputs(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
+    graphai.assert(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
+    graphai.assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
+};
+
 const pushAgent = async ({ namedInputs, }) => {
-    graphai.assert(libExports.isNamedInputs(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
+    arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    graphai.assert(!!namedInputs.array, "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
-    graphai.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    graphai.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
     const array = namedInputs.array.map((item) => item); // shallow copy
     if (item) {
         array.push(item);
@@ -384,8 +390,7 @@ const pushAgentInfo = {
 };
 
 const popAgent = async ({ namedInputs }) => {
-    graphai.assert(libExports.isNamedInputs(namedInputs), "popAgent: namedInputs is UNDEFINED!");
-    graphai.assert(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
+    arrayValidate("popAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };
@@ -454,7 +459,7 @@ const popAgentInfo = {
 };
 
 const shiftAgent = async ({ namedInputs }) => {
-    graphai.assert(!!namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
+    arrayValidate("shiftAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.shift();
     return { array, item };
@@ -512,7 +517,7 @@ const shiftAgentInfo = {
 };
 
 const arrayFlatAgent = async ({ namedInputs, params, }) => {
-    graphai.assert(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
+    arrayValidate("arrayFlatAgent", namedInputs);
     const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy
     return { array: array.flat(depth) };
@@ -587,8 +592,7 @@ const arrayFlatAgentInfo = {
 };
 
 const arrayJoinAgent = async ({ namedInputs, params, }) => {
-    graphai.assert(!!namedInputs, "arrayJoinAgent: namedInputs is UNDEFINED!");
-    graphai.assert(!!namedInputs.array, "arrayJoinAgent: namedInputs.array is UNDEFINED!");
+    arrayValidate("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;
     const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);

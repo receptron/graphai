@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayJoinAgent = void 0;
-const graphai_1 = require("graphai");
+const common_1 = require("./common");
 const arrayJoinAgent = async ({ namedInputs, params, }) => {
-    (0, graphai_1.assert)(!!namedInputs, "arrayJoinAgent: namedInputs is UNDEFINED!");
-    (0, graphai_1.assert)(!!namedInputs.array, "arrayJoinAgent: namedInputs.array is UNDEFINED!");
+    (0, common_1.arrayValidate)("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;
     const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);

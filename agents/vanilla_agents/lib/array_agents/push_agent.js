@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pushAgent = void 0;
 const graphai_1 = require("graphai");
-const agent_utils_1 = require("@graphai/agent_utils");
+const common_1 = require("./common");
 const pushAgent = async ({ namedInputs, }) => {
-    (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "pushAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
+    (0, common_1.arrayValidate)("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    (0, graphai_1.assert)(!!namedInputs.array, "pushAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
-    (0, graphai_1.assert)(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }");
+    (0, graphai_1.assert)(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
     const array = namedInputs.array.map((item) => item); // shallow copy
     if (item) {
         array.push(item);

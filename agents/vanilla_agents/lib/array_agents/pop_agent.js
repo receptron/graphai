@@ -1,11 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.popAgent = void 0;
-const graphai_1 = require("graphai");
-const agent_utils_1 = require("@graphai/agent_utils");
+const common_1 = require("./common");
 const popAgent = async ({ namedInputs }) => {
-    (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "popAgent: namedInputs is UNDEFINED!");
-    (0, graphai_1.assert)(!!namedInputs.array, "popAgent: namedInputs.array is UNDEFINED!");
+    (0, common_1.arrayValidate)("popAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shiftAgent = void 0;
-const graphai_1 = require("graphai");
+const common_1 = require("./common");
 const shiftAgent = async ({ namedInputs }) => {
-    (0, graphai_1.assert)(!!namedInputs, "shiftAgent: namedInputs is UNDEFINED!");
+    (0, common_1.arrayValidate)("shiftAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.shift();
     return { array, item };
