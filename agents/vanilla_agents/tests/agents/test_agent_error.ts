@@ -49,6 +49,34 @@ test("test pop_agent error", async () => {
       name: "Error",
     },
   );
+  await assert.rejects(
+    async () => {
+      await popAgent.agent({
+        ...defaultTestContext,
+        inputs: [],
+        params: {},
+        namedInputs: { array: "123" },
+      });
+    },
+    {
+      message: "popAgent: namedInputs.array is not Array.",
+      name: "Error",
+    },
+  );
+  await assert.rejects(
+    async () => {
+      await popAgent.agent({
+        ...defaultTestContext,
+        inputs: [],
+        params: {},
+        namedInputs: { array: true },
+      });
+    },
+    {
+      message: "popAgent: namedInputs.array is not Array.",
+      name: "Error",
+    },
+  );
 });
 
 test("test push_agent error", async () => {

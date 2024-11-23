@@ -1,10 +1,11 @@
-import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { arrayValidate } from "./common";
 
 export const arrayFlatAgent: AgentFunction<{ depth?: number }, { array: Array<unknown> }, Array<never>, { array: Array<unknown> }> = async ({
   namedInputs,
   params,
 }) => {
-  assert(!!namedInputs, "arrayFlatAgent: namedInputs is UNDEFINED!");
+  arrayValidate("arrayFlatAgent", namedInputs);
   const depth = params.depth ?? 1;
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
