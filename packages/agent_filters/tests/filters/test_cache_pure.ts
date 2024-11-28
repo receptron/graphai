@@ -1,4 +1,4 @@
-import { AgentFilterFunction, defaultTestContext } from "graphai";
+import { defaultTestContext } from "graphai";
 import { echoAgent } from "@graphai/vanilla";
 
 import { agentFilterRunnerBuilder, cacheAgentFilterGenerator } from "@/index";

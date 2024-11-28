@@ -7,7 +7,7 @@ type CacheAgentFilterGetCache = (key: string) => Promise<any>;
 //  - pureAgent whose results are always the same for each input
 //  - impureAgent with different results for the same inputs. For example, reading a file.
 // pureAgent performs caching within agent filter. impureAgent with different results for the same inputs. For example, reading a file.
-impureAgent implements a cache mechanism on the agent side.
+// impureAgent implements a cache mechanism on the agent side.
 // Actual cache reading/writing function is given to cacheAgentFilterGenerator
 
 export const cacheAgentFilterGenerator = (cacheRepository: { setCache: CacheAgentFilterSetCache; getCache: CacheAgentFilterGetCache }) => {

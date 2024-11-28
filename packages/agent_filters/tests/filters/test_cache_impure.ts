@@ -1,4 +1,4 @@
-import { AgentFilterFunction, AgentFunction, defaultTestContext } from "graphai";
+import { AgentFunction, defaultTestContext } from "graphai";
 
 import { agentFilterRunnerBuilder, cacheAgentFilterGenerator } from "@/index";
 
@@ -39,7 +39,7 @@ const getCache = async (key: string) => {
   return null;
 };
 
-test("test cache impureAgent cache hit", async () => {
+atest("test cache impureAgent cache hit", async () => {
   const cacheAgentFilter = cacheAgentFilterGenerator({ getCache, setCache });
   const agentFilters = [
     {
