@@ -39,7 +39,7 @@ const getCache = async (key: string) => {
   return null;
 };
 
-atest("test cache impureAgent cache hit", async () => {
+test("test cache impureAgent cache hit", async () => {
   const cacheAgentFilter = cacheAgentFilterGenerator({ getCache, setCache });
   const agentFilters = [
     {
