@@ -39,7 +39,7 @@ const getCache = async (key: string) => {
   return null;
 };
 
-test("test cache pureAgent cache hit", async () => {
+test("test cache impureAgent cache hit", async () => {
   const cacheAgentFilter = cacheAgentFilterGenerator({ getCache, setCache });
   const agentFilters = [
     {
@@ -57,7 +57,7 @@ test("test cache pureAgent cache hit", async () => {
   assert.deepStrictEqual(result, "123");
 });
 
-test("test cache pureAgent cache not hit", async () => {
+test("test cache impureAgent cache not hit", async () => {
   const cacheAgentFilter = cacheAgentFilterGenerator({ getCache, setCache });
   const agentFilters = [
     {

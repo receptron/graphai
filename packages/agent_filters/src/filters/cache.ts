@@ -5,8 +5,9 @@ type CacheAgentFilterGetCache = (key: string) => Promise<any>;
 
 // There are two types of cache
 //  - pureAgent whose results are always the same for each input
-//  - impureAgent with different results for inputs. For example, reading a file.
-// pureAgent performs caching within agent filter. impureAgent implements a cache mechanism on the agent side.
+//  - impureAgent with different results for the same inputs. For example, reading a file.
+// pureAgent performs caching within agent filter. impureAgent with different results for the same inputs. For example, reading a file.
+impureAgent implements a cache mechanism on the agent side.
 // Actual cache reading/writing function is given to cacheAgentFilterGenerator
 
 export const cacheAgentFilterGenerator = (cacheRepository: { setCache: CacheAgentFilterSetCache; getCache: CacheAgentFilterGetCache }) => {
