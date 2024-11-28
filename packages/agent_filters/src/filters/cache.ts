@@ -1,9 +1,15 @@
 import { AgentFilterFunction } from "graphai";
 
-type SetCache = (key: string, data: any) => Promise<void>;
-type GetCache = (key: string) => Promise<any>;
+type CacheAgentFilterSetCache = (key: string, data: any) => Promise<void>;
+type CacheAgentFilterGetCache = (key: string) => Promise<any>;
 
-export const cacheAgentFilterGenerator = (cacheRepository: { setCache: SetCache; getCache: GetCache }) => {
+// There are two types of cache
+//  - pureAgent whose results are always the same for each input
+//  - impureAgent with different results for inputs. For example, reading a file.
+// pureAgent performs caching within agent filter. impureAgent implements a cache mechanism on the agent side.
+// Actual cache reading/writing function is given to cacheAgentFilterGenerator
+
+export const cacheAgentFilterGenerator = (cacheRepository: { setCache: CacheAgentFilterSetCache; getCache: CacheAgentFilterGetCache }) => {
   const { getCache, setCache } = cacheRepository;
   const cacheAgentFilter: AgentFilterFunction = async (context, next) => {
     const { namedInputs, params } = context;
@@ -20,13 +26,10 @@ export const cacheAgentFilterGenerator = (cacheRepository: { setCache: SetCache;
 
     if (context.cacheType === "impureAgent") {
       context.filterParams.cache = {
-        getCache: (key: string) => {
-          return;
-        },
-        setCache: (key: string, data: any) => {},
+        getCache,
+        setCache,
       };
     }
-    // console.log(context);
     return next(context);
   };
   return cacheAgentFilter;

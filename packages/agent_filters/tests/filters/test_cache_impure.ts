@@ -10,8 +10,8 @@ const fileSampleAgent: AgentFunction = async ({ namedInputs, filterParams }) => 
   // cache process.
   const { message } = namedInputs;
   const fileKey = message;
+
   if (filterParams.cache) {
-    console.log("CACHE");
     const cacheData = await filterParams.cache.getCache(fileKey);
     if (cacheData) {
       return cacheData;
@@ -52,6 +52,7 @@ test("test cache pureAgent cache hit", async () => {
     { ...defaultTestContext, inputs: [], namedInputs: { message: "123" }, params: {}, cacheType: "impureAgent" },
     fileSampleAgent,
   );
+  // console.log(JSON.stringify(result));
   console.log(result);
   assert.deepStrictEqual(result, "123");
 });
@@ -70,7 +71,5 @@ test("test cache pureAgent cache not hit", async () => {
     fileSampleAgent,
   );
   // console.log(JSON.stringify(result));
-  console.log(result);
-
   assert.deepStrictEqual(result, "abc");
 });
