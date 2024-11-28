@@ -1,7 +1,23 @@
-import { AgentFilterFunction } from "graphai";
+import { AgentFilterFunction, isObject } from "graphai";
 
 type CacheAgentFilterSetCache = (key: string, data: any) => Promise<void>;
 type CacheAgentFilterGetCache = (key: string) => Promise<any>;
+
+// for cache key, sort object key
+export const sortObjectKeys = (data: any[] | Record<string, any> | string | number | boolean): any => {
+  if (Array.isArray(data)) {
+    return data.map((d) => sortObjectKeys(d));
+  }
+  if (isObject(data)) {
+    return Object.keys(data)
+      .sort()
+      .reduce((tmp: Record<string, any>, key: string) => {
+        tmp[key] = data[key];
+        return tmp;
+      }, {});
+  }
+  return data;
+};
 
 // There are two types of cache
 //  - pureAgent whose results are always the same for each input
@@ -13,15 +29,16 @@ type CacheAgentFilterGetCache = (key: string) => Promise<any>;
 export const cacheAgentFilterGenerator = (cacheRepository: { setCache: CacheAgentFilterSetCache; getCache: CacheAgentFilterGetCache }) => {
   const { getCache, setCache } = cacheRepository;
   const cacheAgentFilter: AgentFilterFunction = async (context, next) => {
-    const { namedInputs, params } = context;
+    const { namedInputs, params, debugInfo } = context;
     if (context.cacheType === "pureAgent") {
-      const cacheKey = JSON.stringify({ namedInputs, params });
+      const { agentId } = debugInfo;
+      const cacheKey = JSON.stringify(sortObjectKeys({ namedInputs, params, agentId }));
       const cache = await getCache(cacheKey);
       if (cache) {
         return cache;
       }
       const result = await next(context);
-      await setCache(cacheKey, result);
+      await setCache(cacheKey, JSON.stringify(result));
       return result;
     }
 
