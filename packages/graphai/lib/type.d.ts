@@ -96,6 +96,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
         graphOptions: GraphOptions;
         onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
     };
+    cacheType?: "pureAgent" | "impureAgent";
     onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
     filterParams: AgentFilterParams;
     agentFilters?: AgentFilterInfo[];
