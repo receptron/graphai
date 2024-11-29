@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import { isObject } from 'graphai';
 
 const streamAgentFilterGenerator = (callback) => {
     const streamAgentFilter = async (context, next) => {
@@ -114,6 +115,53 @@ const httpAgentFilter = async (context, next) => {
     return next(context);
 };
 
+// for cache key, sort object key
+const sortObjectKeys = (data) => {
+    if (Array.isArray(data)) {
+        return data.map((d) => sortObjectKeys(d));
+    }
+    if (isObject(data)) {
+        return Object.keys(data)
+            .sort()
+            .reduce((tmp, key) => {
+            tmp[key] = data[key];
+            return tmp;
+        }, {});
+    }
+    return data;
+};
+// There are two types of cache
+//  - pureAgent whose results are always the same for each input
+//  - impureAgent with different results for the same inputs. For example, reading a file.
+// pureAgent performs caching within agent filter. impureAgent with different results for the same inputs. For example, reading a file.
+// impureAgent implements a cache mechanism on the agent side.
+// Actual cache reading/writing function is given to cacheAgentFilterGenerator
+const cacheAgentFilterGenerator = (cacheRepository) => {
+    const { getCache, setCache } = cacheRepository;
+    const cacheAgentFilter = async (context, next) => {
+        const { namedInputs, params, debugInfo } = context;
+        if (context.cacheType === "pureAgent") {
+            const { agentId } = debugInfo;
+            const cacheKey = JSON.stringify(sortObjectKeys({ namedInputs, params, agentId }));
+            const cache = await getCache(cacheKey);
+            if (cache) {
+                return cache;
+            }
+            const result = await next(context);
+            await setCache(cacheKey, JSON.stringify(result));
+            return result;
+        }
+        if (context.cacheType === "impureAgent") {
+            context.filterParams.cache = {
+                getCache,
+                setCache,
+            };
+        }
+        return next(context);
+    };
+    return cacheAgentFilter;
+};
+
 // for test and server.
 const agentFilterRunnerBuilder = (__agentFilters) => {
     const agentFilters = __agentFilters;
@@ -131,5 +179,5 @@ const agentFilterRunnerBuilder = (__agentFilters) => {
     return agentFilterRunner;
 };
 
-export { agentFilterRunnerBuilder, agentInputValidator, httpAgentFilter, namedInputValidatorFilter, streamAgentFilterGenerator };
+export { agentFilterRunnerBuilder, agentInputValidator, cacheAgentFilterGenerator, httpAgentFilter, namedInputValidatorFilter, sortObjectKeys, streamAgentFilterGenerator };
 //# sourceMappingURL=bundle.esm.js.map

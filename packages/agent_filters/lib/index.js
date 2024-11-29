@@ -17,4 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./filters/stream"), exports);
 __exportStar(require("./filters/namedinput_validator"), exports);
 __exportStar(require("./filters/http_client"), exports);
+__exportStar(require("./filters/cache"), exports);
 __exportStar(require("./utils/runner"), exports);
