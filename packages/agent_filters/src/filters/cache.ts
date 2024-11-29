@@ -50,7 +50,7 @@ export const cacheAgentFilterGenerator = (cacheRepository: {
         return cache;
       }
       const result = await next(context);
-      await setCache(cacheKey, JSON.stringify(result));
+      await setCache(cacheKey, result);
       return result;
     }
 
