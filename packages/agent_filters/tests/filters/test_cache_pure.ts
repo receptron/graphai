@@ -8,7 +8,7 @@ import assert from "node:assert";
 
 const setCache = async (key: string, data: any) => {
   assert.equal(key, "Z41LG2CuJPBVJeMA6AlwMVCjWaUR2wmP02ZaBxn+evA=");
-  assert.deepStrictEqual(data, {"test":"123"});
+  assert.deepStrictEqual(data, { test: "123" });
   return;
 };
 const getCache = async (key: string) => {
