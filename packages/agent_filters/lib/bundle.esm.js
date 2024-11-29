@@ -1,5 +1,6 @@
 import Ajv from 'ajv';
 import { isObject } from 'graphai';
+import { sha256 } from '@noble/hashes/sha2';
 
 const streamAgentFilterGenerator = (callback) => {
     const streamAgentFilter = async (context, next) => {
@@ -130,6 +131,13 @@ const sortObjectKeys = (data) => {
     }
     return data;
 };
+const getDefaultCacheKey = (context) => {
+    const { namedInputs, params, debugInfo } = context;
+    const { agentId } = debugInfo;
+    const cacheKeySeed = sha256(JSON.stringify(sortObjectKeys({ namedInputs, params, agentId })));
+    const cacheKey = btoa(String.fromCharCode(...cacheKeySeed));
+    return cacheKey;
+};
 // There are two types of cache
 //  - pureAgent whose results are always the same for each input
 //  - impureAgent with different results for the same inputs. For example, reading a file.
@@ -137,24 +145,23 @@ const sortObjectKeys = (data) => {
 // impureAgent implements a cache mechanism on the agent side.
 // Actual cache reading/writing function is given to cacheAgentFilterGenerator
 const cacheAgentFilterGenerator = (cacheRepository) => {
-    const { getCache, setCache } = cacheRepository;
+    const { getCache, setCache, getCacheKey } = cacheRepository;
     const cacheAgentFilter = async (context, next) => {
-        const { namedInputs, params, debugInfo } = context;
         if (context.cacheType === "pureAgent") {
-            const { agentId } = debugInfo;
-            const cacheKey = JSON.stringify(sortObjectKeys({ namedInputs, params, agentId }));
+            const cacheKey = getCacheKey ? getCacheKey(context) : getDefaultCacheKey(context);
             const cache = await getCache(cacheKey);
             if (cache) {
                 return cache;
             }
             const result = await next(context);
-            await setCache(cacheKey, JSON.stringify(result));
+            await setCache(cacheKey, result);
             return result;
         }
         if (context.cacheType === "impureAgent") {
             context.filterParams.cache = {
                 getCache,
                 setCache,
+                getCacheKey: getDefaultCacheKey,
             };
         }
         return next(context);
