@@ -1,7 +1,9 @@
-import { AgentFilterFunction, isObject } from "graphai";
+import { AgentFilterFunction, AgentFunctionContext, isObject } from "graphai";
+import { sha256 } from "@noble/hashes/sha2";
 
 type CacheAgentFilterSetCache = (key: string, data: any) => Promise<void>;
 type CacheAgentFilterGetCache = (key: string) => Promise<any>;
+type CacheAgentFilterGetCacheKey = (context: AgentFunctionContext) => string;
 
 // for cache key, sort object key
 export const sortObjectKeys = (data: any[] | Record<string, any> | string | number | boolean): any => {
@@ -19,6 +21,14 @@ export const sortObjectKeys = (data: any[] | Record<string, any> | string | numb
   return data;
 };
 
+const getDefaultCacheKey = (context: AgentFunctionContext) => {
+  const { namedInputs, params, debugInfo } = context;
+  const { agentId } = debugInfo;
+  const cacheKeySeed = sha256(JSON.stringify(sortObjectKeys({ namedInputs, params, agentId })));
+  const cacheKey = btoa(String.fromCharCode(...cacheKeySeed));
+  return cacheKey;
+};
+
 // There are two types of cache
 //  - pureAgent whose results are always the same for each input
 //  - impureAgent with different results for the same inputs. For example, reading a file.
@@ -26,13 +36,15 @@ export const sortObjectKeys = (data: any[] | Record<string, any> | string | numb
 // impureAgent implements a cache mechanism on the agent side.
 // Actual cache reading/writing function is given to cacheAgentFilterGenerator
 
-export const cacheAgentFilterGenerator = (cacheRepository: { setCache: CacheAgentFilterSetCache; getCache: CacheAgentFilterGetCache }) => {
-  const { getCache, setCache } = cacheRepository;
+export const cacheAgentFilterGenerator = (cacheRepository: {
+  setCache: CacheAgentFilterSetCache;
+  getCache: CacheAgentFilterGetCache;
+  getCacheKey?: CacheAgentFilterGetCacheKey;
+}) => {
+  const { getCache, setCache, getCacheKey } = cacheRepository;
   const cacheAgentFilter: AgentFilterFunction = async (context, next) => {
-    const { namedInputs, params, debugInfo } = context;
     if (context.cacheType === "pureAgent") {
-      const { agentId } = debugInfo;
-      const cacheKey = JSON.stringify(sortObjectKeys({ namedInputs, params, agentId }));
+      const cacheKey = getCacheKey ? getCacheKey(context) : getDefaultCacheKey(context);
       const cache = await getCache(cacheKey);
       if (cache) {
         return cache;
@@ -46,6 +58,7 @@ export const cacheAgentFilterGenerator = (cacheRepository: { setCache: CacheAgen
       context.filterParams.cache = {
         getCache,
         setCache,
+        getCacheKey: getDefaultCacheKey,
       };
     }
     return next(context);

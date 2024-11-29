@@ -11,7 +11,7 @@ const setCache = async (key: string, data: any) => {
   return;
 };
 const getCache = async (key: string) => {
-  if (key === '{"namedInputs":{"message":"123"},"params":{}}') {
+  if (key === "7Kt65Cn3am8B/qWZdUQbzhr3VyEX/9bQRyBjZNaWXdo=") {
     return { result: "fromCache" };
   }
   return null;
