@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('graphai')) :
     typeof define === 'function' && define.amd ? define(['exports', 'graphai'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.vanilla_agents = {}, global.graphai));
-})(this, (function (exports, graphai) { 'use strict';
+})(this, (function (exports, require$$0) { 'use strict';
 
     // This agent strip one long string into chunks using following parameters
     //
@@ -14,7 +14,7 @@
     //
     const defaultChunkSize = 2048;
     const stringSplitterAgent = async ({ params, namedInputs }) => {
-        graphai.assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
+        require$$0.assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
         const source = namedInputs.text;
         const chunkSize = params.chunkSize ?? defaultChunkSize;
         const overlap = params.overlap ?? Math.floor(chunkSize / 8);
@@ -107,7 +107,7 @@
         else if (Array.isArray(template)) {
             return template.map((item) => processTemplate(item, match, input));
         }
-        if (graphai.isObject(template)) {
+        if (require$$0.isObject(template)) {
             return Object.keys(template).reduce((tmp, key) => {
                 tmp[key] = processTemplate(template[key], match, input);
                 return tmp;
@@ -269,61 +269,70 @@
     function requireLib () {
     	if (hasRequiredLib) return lib;
     	hasRequiredLib = 1;
-    	Object.defineProperty(lib, "__esModule", { value: true });
-    	lib.isNamedInputs = lib.sample2GraphData = void 0;
-    	const sample2GraphData = (sample, agentName) => {
-    	    const nodes = {};
-    	    const inputs = (() => {
-    	        if (Array.isArray(sample.inputs)) {
-    	            Array.from(sample.inputs.keys()).forEach((key) => {
-    	                nodes["sampleInput" + key] = {
-    	                    value: sample.inputs[key],
-    	                };
-    	            });
-    	            return Object.keys(nodes).map((k) => ":" + k);
-    	        }
-    	        nodes["sampleInput"] = {
-    	            value: sample.inputs,
-    	        };
-    	        return Object.keys(sample.inputs).reduce((tmp, key) => {
-    	            tmp[key] = `:sampleInput.` + key;
-    	            return tmp;
-    	        }, {});
-    	    })();
-    	    nodes["node"] = {
-    	        isResult: true,
-    	        agent: agentName,
-    	        params: sample.params,
-    	        inputs: inputs,
-    	        graph: sample.graph,
-    	    };
-    	    const graphData = {
-    	        version: 0.5,
-    	        nodes,
-    	    };
-    	    return graphData;
-    	};
-    	lib.sample2GraphData = sample2GraphData;
-    	const isNamedInputs = (namedInputs) => {
-    	    return Object.keys(namedInputs || {}).length > 0;
-    	};
-    	lib.isNamedInputs = isNamedInputs;
+    	(function (exports) {
+    		Object.defineProperty(exports, "__esModule", { value: true });
+    		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
+    		const graphai_1 = require$$0;
+    		const sample2GraphData = (sample, agentName) => {
+    		    const nodes = {};
+    		    const inputs = (() => {
+    		        if (Array.isArray(sample.inputs)) {
+    		            Array.from(sample.inputs.keys()).forEach((key) => {
+    		                nodes["sampleInput" + key] = {
+    		                    value: sample.inputs[key],
+    		                };
+    		            });
+    		            return Object.keys(nodes).map((k) => ":" + k);
+    		        }
+    		        nodes["sampleInput"] = {
+    		            value: sample.inputs,
+    		        };
+    		        return Object.keys(sample.inputs).reduce((tmp, key) => {
+    		            tmp[key] = `:sampleInput.` + key;
+    		            return tmp;
+    		        }, {});
+    		    })();
+    		    nodes["node"] = {
+    		        isResult: true,
+    		        agent: agentName,
+    		        params: sample.params,
+    		        inputs: inputs,
+    		        graph: sample.graph,
+    		    };
+    		    const graphData = {
+    		        version: 0.5,
+    		        nodes,
+    		    };
+    		    return graphData;
+    		};
+    		exports.sample2GraphData = sample2GraphData;
+    		const isNamedInputs = (namedInputs) => {
+    		    return Object.keys(namedInputs || {}).length > 0;
+    		};
+    		exports.isNamedInputs = isNamedInputs;
+    		const arrayValidate = (agentName, namedInputs, extra_message = "") => {
+    		    (0, graphai_1.assert)((0, exports.isNamedInputs)(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
+    		    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
+    		    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
+    		};
+    		exports.arrayValidate = arrayValidate; 
+    	} (lib));
     	return lib;
     }
 
     var libExports = requireLib();
 
     const arrayValidate = (agentName, namedInputs, extra_message = "") => {
-        graphai.assert(libExports.isNamedInputs(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
-        graphai.assert(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
-        graphai.assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
+        require$$0.assert(libExports.isNamedInputs(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
+        require$$0.assert(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
+        require$$0.assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
     };
 
     const pushAgent = async ({ namedInputs, }) => {
         const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
         arrayValidate("pushAgent", namedInputs, extra_message);
         const { item, items } = namedInputs;
-        graphai.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
+        require$$0.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
         const array = namedInputs.array.map((item) => item); // shallow copy
         if (item) {
             array.push(item);
@@ -710,7 +719,7 @@
     // Outputs:
     //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
     const dotProductAgent = async ({ namedInputs, }) => {
-        graphai.assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
+        require$$0.assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");
         const matrix = namedInputs.matrix;
         const vector = namedInputs.vector;
         if (matrix[0].length != vector.length) {
@@ -795,9 +804,9 @@
     //  values: Array<number>; // array of numbers for sorting
     //
     const sortByValuesAgent = async ({ params, namedInputs }) => {
-        graphai.assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
-        graphai.assert(!!namedInputs.array, "sortByValue: namedInputs.array is UNDEFINED!");
-        graphai.assert(!!namedInputs.values, "sortByValue: namedInputs.values is UNDEFINED!");
+        require$$0.assert(!!namedInputs, "sortByValue: namedInputs is UNDEFINED!");
+        require$$0.assert(!!namedInputs.array, "sortByValue: namedInputs.array is UNDEFINED!");
+        require$$0.assert(!!namedInputs.values, "sortByValue: namedInputs.values is UNDEFINED!");
         const direction = (params?.assendant ?? false) ? -1 : 1;
         const array = namedInputs.array;
         const values = namedInputs.values;
@@ -1038,7 +1047,7 @@
             if (filterParams.streamTokenCallback) {
                 filterParams.streamTokenCallback(token);
             }
-            await graphai.sleep(params.sleep || 100);
+            await require$$0.sleep(params.sleep || 100);
         }
         return { message };
     };
@@ -1084,17 +1093,17 @@
     };
 
     const nestedAgent = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph }) => {
-        graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
+        require$$0.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
         const { agents, graphData, graphOptions } = forNestedGraph;
         const { taskManager } = graphOptions;
         const throwError = params.throwError ?? false;
         if (taskManager) {
             const status = taskManager.getStatus(false);
-            graphai.assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
+            require$$0.assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
         }
-        graphai.assert(!!graphData, "nestedAgent: graph is required");
+        require$$0.assert(!!graphData, "nestedAgent: graph is required");
         const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
+        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: require$$0.graphDataLatestVersion }; // deep enough copy
         const nodeIds = Object.keys(namedInputs);
         if (nodeIds.length > 0) {
             nodeIds.forEach((nodeId) => {
@@ -1112,7 +1121,7 @@
             if (nestedGraphData.version === undefined && debugInfo.version) {
                 nestedGraphData.version = debugInfo.version;
             }
-            const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
+            const graphAI = new require$$0.GraphAI(nestedGraphData, agents || {}, graphOptions);
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {
                 graphAI.onLogCallback = onLogCallback;
@@ -1166,15 +1175,15 @@
     };
 
     const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
-        graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
+        require$$0.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
         const { agents, graphData, graphOptions } = forNestedGraph;
         const { taskManager } = graphOptions;
         if (taskManager) {
             const status = taskManager.getStatus();
-            graphai.assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
+            require$$0.assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
         }
-        graphai.assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
-        graphai.assert(!!graphData, "mapAgent: graph is required");
+        require$$0.assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
+        require$$0.assert(!!graphData, "mapAgent: graph is required");
         const rows = namedInputs.rows.map((item) => item);
         if (params.limit && params.limit < rows.length) {
             rows.length = params.limit; // trim
@@ -1182,7 +1191,7 @@
         const resultAll = params.resultAll ?? false;
         const throwError = params.throwError ?? false;
         const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
+        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: require$$0.graphDataLatestVersion }; // deep enough copy
         const nodeIds = Object.keys(namedInputs);
         nodeIds.forEach((nodeId) => {
             const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
@@ -1200,7 +1209,7 @@
                 nestedGraphData.version = debugInfo.version;
             }
             const graphs = rows.map((row) => {
-                const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
+                const graphAI = new require$$0.GraphAI(nestedGraphData, agents || {}, graphOptions);
                 graphAI.injectValue("row", row, "__mapAgent_inputs__");
                 // for backward compatibility. Remove 'if' later
                 if (onLogCallback) {
@@ -1542,8 +1551,8 @@
     };
 
     const totalAgent = async ({ namedInputs }) => {
-        graphai.assert(libExports.isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-        graphai.assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        require$$0.assert(libExports.isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        require$$0.assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
         return namedInputs.array.reduce((result, input) => {
             const inputArray = Array.isArray(input) ? input : [input];
             inputArray.forEach((innerInput) => {
@@ -1629,8 +1638,8 @@
     };
 
     const dataSumTemplateAgent = async ({ namedInputs }) => {
-        graphai.assert(libExports.isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-        graphai.assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        require$$0.assert(libExports.isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+        require$$0.assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
         return namedInputs.array.reduce((tmp, input) => {
             return tmp + input;
         }, 0);
@@ -1940,7 +1949,7 @@
 
     const copyAgent = async ({ namedInputs, params }) => {
         const { namedKey } = params;
-        graphai.assert(libExports.isNamedInputs(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
+        require$$0.assert(libExports.isNamedInputs(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
         if (namedKey) {
             return namedInputs[namedKey];
         }
@@ -2104,7 +2113,7 @@
     };
 
     const sleeperAgent = async ({ params, namedInputs }) => {
-        await graphai.sleep(params?.duration ?? 10);
+        await require$$0.sleep(params?.duration ?? 10);
         return namedInputs;
     };
     const sleeperAgentInfo = {
@@ -2374,6 +2383,148 @@
         license: "MIT",
     };
 
+    // https://platform.openai.com/docs/guides/vision
+    const getImageUrl = (data, imageType, detail) => {
+        if (imageType === "http") {
+            return {
+                url: data,
+            };
+        }
+        const dataUrl = `data:image/${imageType};base64,${data}`;
+        return {
+            url: dataUrl,
+            detail: detail ?? "auto",
+        };
+    };
+    const images2messageAgent = async ({ namedInputs, params }) => {
+        const { imageType, detail } = params;
+        const { array, prompt } = namedInputs;
+        arrayValidate("images2messageAgent", namedInputs);
+        require$$0.assert(!!imageType, "images2messageAgent: params.imageType is UNDEFINED! Set Type: png, jpg...");
+        const contents = array.map((base64ImageData) => {
+            const image_url = getImageUrl(base64ImageData, imageType, detail);
+            return {
+                type: "image_url",
+                image_url,
+            };
+        });
+        if (prompt) {
+            contents.unshift({ type: "text", text: prompt });
+        }
+        return {
+            message: {
+                role: "user",
+                content: contents,
+            },
+        };
+    };
+    const images2messageAgentInfo = {
+        name: "images2messageAgent",
+        agent: images2messageAgent,
+        mock: images2messageAgent,
+        inputs: {
+            type: "object",
+            properties: {
+                array: {
+                    type: "array",
+                    description: "the array of base64 image data",
+                },
+                prompt: {
+                    type: "string",
+                    description: "prompt message",
+                },
+            },
+            required: ["array"],
+        },
+        output: {
+            type: "object",
+        },
+        samples: [
+            {
+                inputs: { array: ["abcabc", "122123"] },
+                params: { imageType: "png" },
+                result: {
+                    message: {
+                        content: [
+                            {
+                                image_url: {
+                                    detail: "auto",
+                                    url: "data:image/png;base64,abcabc",
+                                },
+                                type: "image_url",
+                            },
+                            {
+                                image_url: {
+                                    detail: "auto",
+                                    url: "data:image/png;base64,122123",
+                                },
+                                type: "image_url",
+                            },
+                        ],
+                        role: "user",
+                    },
+                },
+            },
+            {
+                inputs: { array: ["abcabc", "122123"], prompt: "hello" },
+                params: { imageType: "jpg", detail: "high" },
+                result: {
+                    message: {
+                        content: [
+                            {
+                                type: "text",
+                                text: "hello",
+                            },
+                            {
+                                image_url: {
+                                    detail: "high",
+                                    url: "data:image/jpg;base64,abcabc",
+                                },
+                                type: "image_url",
+                            },
+                            {
+                                image_url: {
+                                    detail: "high",
+                                    url: "data:image/jpg;base64,122123",
+                                },
+                                type: "image_url",
+                            },
+                        ],
+                        role: "user",
+                    },
+                },
+            },
+            {
+                inputs: { array: ["http://example.com/1.jpg", "http://example.com/2.jpg"] },
+                params: { imageType: "http" },
+                result: {
+                    message: {
+                        content: [
+                            {
+                                image_url: {
+                                    url: "http://example.com/1.jpg",
+                                },
+                                type: "image_url",
+                            },
+                            {
+                                image_url: {
+                                    url: "http://example.com/2.jpg",
+                                },
+                                type: "image_url",
+                            },
+                        ],
+                        role: "user",
+                    },
+                },
+            },
+        ],
+        description: "Returns the message data for llm include image",
+        category: ["image"],
+        author: "Receptron team",
+        repository: "https://github.com/snakajima/graphai",
+        license: "MIT",
+    };
+
     const defaultEmbeddingModel = "text-embedding-3-small";
     const OpenAI_embedding_API = "https://api.openai.com/v1/embeddings";
     // This agent retrieves embedding vectors for an array of strings using OpenAI's API
@@ -2436,6 +2587,7 @@
     exports.dataSumTemplateAgent = dataSumTemplateAgentInfo;
     exports.dotProductAgent = dotProductAgentInfo;
     exports.echoAgent = echoAgentInfo;
+    exports.images2messageAgent = images2messageAgentInfo;
     exports.jsonParserAgent = jsonParserAgentInfo;
     exports.mapAgent = mapAgentInfo;
     exports.mergeNodeIdAgent = mergeNodeIdAgentInfo;
