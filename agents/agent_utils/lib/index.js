@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNamedInputs = exports.sample2GraphData = void 0;
+exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
+const graphai_1 = require("graphai");
 const sample2GraphData = (sample, agentName) => {
     const nodes = {};
     const inputs = (() => {
@@ -38,3 +39,9 @@ const isNamedInputs = (namedInputs) => {
     return Object.keys(namedInputs || {}).length > 0;
 };
 exports.isNamedInputs = isNamedInputs;
+const arrayValidate = (agentName, namedInputs, extra_message = "") => {
+    (0, graphai_1.assert)((0, exports.isNamedInputs)(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
+    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
+    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
+};
+exports.arrayValidate = arrayValidate;
