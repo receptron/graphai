@@ -11,8 +11,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
     "eslint": "eslint",
-    "doc": "npm run examplesDoc && npx agentdoc",
-    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/graph/examples.ts",
+    "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
