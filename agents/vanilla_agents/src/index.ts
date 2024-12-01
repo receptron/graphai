@@ -11,6 +11,7 @@ export * from "./data_agents";
 export * from "./service_agents";
 export * from "./sleeper_agents";
 export * from "./compare_agents";
+export * from "./images_agents";
 
 import stringEmbeddingsAgent from "./embedding_agent";
 

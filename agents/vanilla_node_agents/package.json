@@ -1,7 +1,7 @@
 {
-  "name": "@graphai/vanilla",
-  "version": "0.1.10",
-  "description": "Vanilla agents for GraphAI.",
+  "name": "@graphai/vanilla_node_agents",
+  "version": "0.1.0",
+  "description": "Vanilla node agents for GraphAI.",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
   "browser": "lib/bundle.umd.js",
@@ -11,8 +11,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
     "eslint": "eslint",
-    "doc": "npm run examplesDoc && npx agentdoc",
-    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/graph/examples.ts",
+    "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
@@ -32,7 +31,7 @@
   "dependencies": {
     "@graphai/agent_utils": "0.0.3"
   },
-  "homepage": "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/README.md",
+  "homepage": "https://github.com/receptron/graphai/blob/main/agents/vanilla_node_agents/README.md",
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
