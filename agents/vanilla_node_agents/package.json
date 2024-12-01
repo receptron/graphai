@@ -1,5 +1,5 @@
 {
-  "name": "@graphai/vanilla_node",
+  "name": "@graphai/vanilla_node_agents",
   "version": "0.1.0",
   "description": "Vanilla node agents for GraphAI.",
   "main": "lib/bundle.cjs.js",
