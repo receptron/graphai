@@ -17,7 +17,6 @@ import { GraphAI } from "graphai";
 import { 
   arrayFlatAgent,
   arrayJoinAgent,
-  bypassAgent,
   compareAgent,
   copy2ArrayAgent,
   copyAgent,
@@ -26,6 +25,7 @@ import {
   dataSumTemplateAgent,
   dotProductAgent,
   echoAgent,
+  images2messageAgent,
   jsonParserAgent,
   mapAgent,
   mergeNodeIdAgent,
@@ -41,14 +41,12 @@ import {
   stringSplitterAgent,
   stringTemplateAgent,
   totalAgent,
-  vanillaFetchAgent,
-  workerAgent
+  vanillaFetchAgent
  } from "@graphai/vanilla";
 
 const agents = { 
   arrayFlatAgent,
   arrayJoinAgent,
-  bypassAgent,
   compareAgent,
   copy2ArrayAgent,
   copyAgent,
@@ -57,6 +55,7 @@ const agents = {
   dataSumTemplateAgent,
   dotProductAgent,
   echoAgent,
+  images2messageAgent,
   jsonParserAgent,
   mapAgent,
   mergeNodeIdAgent,
@@ -72,8 +71,7 @@ const agents = {
   stringSplitterAgent,
   stringTemplateAgent,
   totalAgent,
-  vanillaFetchAgent,
-  workerAgent
+  vanillaFetchAgent
  };
 
 const graph = new GraphAI(graph_data, agents);
@@ -83,7 +81,6 @@ const result = await graph.run();
 ### Agents description
 - arrayFlatAgent - Array Flat Agent
 - arrayJoinAgent - Array Join Agent
-- bypassAgent - bypass agent
 - compareAgent - compare
 - copy2ArrayAgent - Copy2Array agent
 - copyAgent - Returns namedInputs
@@ -92,6 +89,7 @@ const result = await graph.run();
 - dataSumTemplateAgent - Returns the sum of input values
 - dotProductAgent - dotProduct Agent
 - echoAgent - Echo agent
+- images2messageAgent - Returns the message data for llm include image
 - jsonParserAgent - Template agent
 - mapAgent - Map Agent
 - mergeNodeIdAgent - merge node id agent
@@ -108,12 +106,10 @@ const result = await graph.run();
 - stringTemplateAgent - Template agent
 - totalAgent - Returns the sum of input values
 - vanillaFetchAgent - Retrieves JSON data from the specified URL
-- workerAgent - Map Agent
 
 ### Input/Output/Params Schema & samples
  - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
  - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
- - [bypassAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/bypassAgent.md)
  - [compareAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/compare/compareAgent.md)
  - [copy2ArrayAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copy2ArrayAgent.md)
  - [copyAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/copyAgent.md)
@@ -122,6 +118,7 @@ const result = await graph.run();
  - [dataSumTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/dataSumTemplateAgent.md)
  - [dotProductAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/dotProductAgent.md)
  - [echoAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/echoAgent.md)
+ - [images2messageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/image/images2messageAgent.md)
  - [jsonParserAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/jsonParserAgent.md)
  - [mapAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/mapAgent.md)
  - [mergeNodeIdAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/mergeNodeIdAgent.md)
@@ -138,7 +135,6 @@ const result = await graph.run();
  - [stringTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringTemplateAgent.md)
  - [totalAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/totalAgent.md)
  - [vanillaFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/vanillaFetchAgent.md)
- - [workerAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/workerAgent.md)
 
 
 
@@ -370,7 +366,7 @@ const result = await graph.run();
         "version": 0.5,
         "nodes": {
           "node1": {
-            "agent": "bypassAgent",
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -386,7 +382,7 @@ const result = await graph.run();
       }
     },
     "result": {
-      "agent": "bypassAgent",
+      "agent": "copyAgent",
       "params": {
         "namedKey": "result"
       },
@@ -421,7 +417,7 @@ const result = await graph.run();
         "version": 0.5,
         "nodes": {
           "node1": {
-            "agent": "bypassAgent",
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -437,7 +433,7 @@ const result = await graph.run();
       }
     },
     "result": {
-      "agent": "bypassAgent",
+      "agent": "copyAgent",
       "params": {
         "namedKey": "result"
       },
@@ -469,7 +465,7 @@ const result = await graph.run();
         "version": 0.5,
         "nodes": {
           "node1": {
-            "agent": "bypassAgent",
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -485,7 +481,7 @@ const result = await graph.run();
       }
     },
     "result": {
-      "agent": "bypassAgent",
+      "agent": "copyAgent",
       "params": {
         "flat": 2,
         "namedKey": "res"
@@ -763,8 +759,8 @@ const result = await graph.run();
         "compositeResult": true
       }
     },
-    "bypassAgent": {
-      "agent": "bypassAgent",
+    "copyAgent": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "result"
       },
@@ -789,8 +785,8 @@ const result = await graph.run();
         "message": "hello"
       }
     },
-    "bypassAgent": {
-      "agent": "bypassAgent",
+    "copyAgent": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
@@ -800,14 +796,14 @@ const result = await graph.run();
         ]
       }
     },
-    "bypassAgent2": {
-      "agent": "bypassAgent",
+    "copyAgent2": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
       "inputs": {
         "text": [
-          ":bypassAgent.$0"
+          ":copyAgent.$0"
         ]
       }
     }
@@ -837,8 +833,8 @@ const result = await graph.run();
       "graph": {
         "version": 0.5,
         "nodes": {
-          "bypassAgent": {
-            "agent": "bypassAgent",
+          "copyAgent": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -853,14 +849,14 @@ const result = await graph.run();
         "compositeResult": true
       }
     },
-    "bypassAgent2": {
-      "agent": "bypassAgent",
+    "copyAgent2": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
       "inputs": {
         "array": [
-          ":mapNode.bypassAgent"
+          ":mapNode.copyAgent"
         ]
       }
     }
@@ -890,8 +886,8 @@ const result = await graph.run();
       "graph": {
         "version": 0.5,
         "nodes": {
-          "bypassAgent": {
-            "agent": "bypassAgent",
+          "copyAgent": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -901,22 +897,22 @@ const result = await graph.run();
               ]
             }
           },
-          "bypassAgent2": {
-            "agent": "bypassAgent",
+          "copyAgent2": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "text"
             },
             "inputs": {
-              "text": ":bypassAgent"
+              "text": ":copyAgent"
             }
           },
-          "bypassAgent3": {
-            "agent": "bypassAgent",
+          "copyAgent3": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "text"
             },
             "inputs": {
-              "text": ":bypassAgent2.$0"
+              "text": ":copyAgent2.$0"
             },
             "isResult": true
           }
@@ -926,13 +922,13 @@ const result = await graph.run();
         "compositeResult": true
       }
     },
-    "bypassAgent4": {
-      "agent": "bypassAgent",
+    "copyAgent4": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
       "inputs": {
-        "text": ":mapNode.bypassAgent3"
+        "text": ":mapNode.copyAgent3"
       }
     }
   }
@@ -961,8 +957,8 @@ const result = await graph.run();
       "graph": {
         "version": 0.5,
         "nodes": {
-          "bypassAgent": {
-            "agent": "bypassAgent",
+          "copyAgent": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -970,14 +966,14 @@ const result = await graph.run();
               "row": ":row"
             }
           },
-          "bypassAgent2": {
-            "agent": "bypassAgent",
+          "copyAgent2": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "array"
             },
             "inputs": {
               "array": [
-                ":bypassAgent",
+                ":copyAgent",
                 ":row"
               ]
             },
@@ -989,13 +985,13 @@ const result = await graph.run();
         "compositeResult": true
       }
     },
-    "bypassAgent3": {
-      "agent": "bypassAgent",
+    "copyAgent3": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
       "inputs": {
-        "text": ":mapNode.bypassAgent2"
+        "text": ":mapNode.copyAgent2"
       }
     }
   }
@@ -1013,8 +1009,8 @@ const result = await graph.run();
         "message": "hello"
       }
     },
-    "bypassAgent": {
-      "agent": "bypassAgent",
+    "copyAgent": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
@@ -1026,27 +1022,27 @@ const result = await graph.run();
         ]
       }
     },
-    "bypassAgent2": {
-      "agent": "bypassAgent",
+    "copyAgent2": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
       "inputs": {
         "array": [
-          ":bypassAgent",
-          ":bypassAgent"
+          ":copyAgent",
+          ":copyAgent"
         ]
       }
     },
-    "bypassAgent3": {
-      "agent": "bypassAgent",
+    "copyAgent3": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
       "inputs": {
         "array": [
-          ":bypassAgent2",
-          ":bypassAgent2"
+          ":copyAgent2",
+          ":copyAgent2"
         ]
       }
     }
