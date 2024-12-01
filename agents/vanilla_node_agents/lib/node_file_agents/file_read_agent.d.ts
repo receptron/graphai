@@ -3,7 +3,7 @@ export declare const fileReadAgent: AgentFunction<{
     basePath: string;
     outputType?: string;
 }, {
-    array: string | any;
+    array: string[] | unknown[];
 }, Array<never>, {
     array: string[];
 }>;
