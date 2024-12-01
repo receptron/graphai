@@ -8,7 +8,7 @@ export const fileReadAgent: AgentFunction<
     outputType?: string;
   },
   {
-    array: string | any;
+    array: string[] | unknown[];
   },
   Array<never>,
   {
