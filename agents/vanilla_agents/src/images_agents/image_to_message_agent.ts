@@ -22,7 +22,12 @@ export const images2messageAgent: AgentFunction<
     imageType: string;
     detail?: string;
   },
-  any,
+  {
+    message: {
+      role: "user";
+      content: Content[];
+    };
+  },
   Array<never>,
   {
     array: string[];
