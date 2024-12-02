@@ -71,6 +71,7 @@ const pushAgentInfo: AgentFunctionInfo = {
   ],
   description: "push Agent",
   category: ["array"],
+  cacheType: "pureAgent",
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

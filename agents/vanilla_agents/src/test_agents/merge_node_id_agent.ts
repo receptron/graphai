@@ -1,13 +1,13 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { isNamedInputs } from "@graphai/agent_utils";
+import { arrayValidate } from "@graphai/agent_utils";
 
 export const mergeNodeIdAgent: AgentFunction<null, Record<string, unknown>, Record<string, unknown>, { array: Record<string, unknown>[] }> = async ({
   debugInfo: { nodeId },
-  inputs,
   namedInputs,
 }) => {
-  // console.log("executing", nodeId);
-  const dataSet = isNamedInputs(namedInputs) ? namedInputs.array : inputs;
+  arrayValidate("popAgent", namedInputs);
+
+  const dataSet = namedInputs.array;
 
   return dataSet.reduce(
     (tmp, input) => {

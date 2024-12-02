@@ -1,8 +1,9 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
 
-export const copy2ArrayAgent: AgentFunction<{ count: number }> = async ({ inputs, namedInputs, params }) => {
-  const input = isNamedInputs(namedInputs) ? (namedInputs.item ? namedInputs.item : namedInputs) : inputs[0];
+export const copy2ArrayAgent: AgentFunction<{ count: number }> = async ({ namedInputs, params }) => {
+  assert(isNamedInputs(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
+  const input = (namedInputs.item ? namedInputs.item : namedInputs);
   return new Array(params.count).fill(undefined).map(() => {
     return input;
   });
@@ -54,6 +55,7 @@ const copy2ArrayAgentInfo: AgentFunctionInfo = {
   ],
   description: "Copy2Array agent",
   category: ["test"],
+  cacheType: "pureAgent",
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

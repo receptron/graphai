@@ -29,6 +29,7 @@ const echoAgentInfo: AgentFunctionInfo = {
   ],
   description: "Echo agent",
   category: ["test"],
+  cacheType: "pureAgent",
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

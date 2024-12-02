@@ -110,6 +110,7 @@ const arrayJoinAgentInfo: AgentFunctionInfo = {
   ],
   description: "Array Join Agent",
   category: ["array"],
+  cacheType: "pureAgent",
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

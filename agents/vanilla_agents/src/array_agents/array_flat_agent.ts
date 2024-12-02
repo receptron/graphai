@@ -78,6 +78,7 @@ const arrayFlatAgentInfo: AgentFunctionInfo = {
   category: ["array"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  cacheType: "pureAgent",
   license: "MIT",
 };
 export default arrayFlatAgentInfo;
