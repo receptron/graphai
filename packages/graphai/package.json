@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
-    "typedoc": "^0.26.11"
+    "typedoc": "^0.27.2"
   },
   "types": "./lib/index.d.ts",
   "directories": {
