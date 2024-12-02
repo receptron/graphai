@@ -1,25 +1,10 @@
 import { GraphAI } from "graphai";
 import * as agents from "@graphai/agents";
 
-const graph_data = {
-  version: 0.5,
-  nodes: {
-    name: {
-      value: "hello",
-    },
-    test: {
-      agent: (inputs:any) => { console.log(inputs) },
-      isResult: true,
-      inputs: {
-        name: ":name"
-      }
-    }
-  }
-}
-
 import {
     CallToolResultSchema,
     ListResourcesResultSchema,
+    ListToolsResultSchema,
     ReadResourceResultSchema,
   } from "@modelcontextprotocol/sdk/types.js";
   
@@ -74,6 +59,28 @@ import {
       CallToolResultSchema,
     );
     console.log(resourceContent);
+
+    const graph_data = {
+      version: 0.5,
+      nodes: {
+        name: {
+          value: "hello",
+        },
+        test: {
+          agent: async (inputs:any) => { 
+            const result = await client.request(
+              { method: "tools/list" },
+              ListToolsResultSchema,
+            );
+            return result.tools;
+          },
+          isResult: true,
+          inputs: {
+            name: ":name"
+          }
+        }
+      }
+    };
 
     const graph = new GraphAI(graph_data, { ...agents });
     const results = await graph.run();
