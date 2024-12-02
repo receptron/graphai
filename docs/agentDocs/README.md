@@ -49,6 +49,9 @@
 ### [dotProductAgent](./matrix/dotProductAgent.md)
 ### [sortByValuesAgent](./matrix/sortByValuesAgent.md)
 
+## image
+### [images2messageAgent](./image/images2messageAgent.md)
+
 ## string
 ### [jsonParserAgent](./string/jsonParserAgent.md)
 ### [stringSplitterAgent](./string/stringSplitterAgent.md)

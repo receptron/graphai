@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { arrayValidate } from "./common";
+import { arrayValidate } from "@graphai/agent_utils";
 
 export const pushAgent: AgentFunction<null, { array: Array<unknown> }, null, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({
   namedInputs,
@@ -71,6 +71,7 @@ const pushAgentInfo: AgentFunctionInfo = {
   ],
   description: "push Agent",
   category: ["array"],
+  cacheType: "pureAgent",
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",

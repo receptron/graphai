@@ -71,7 +71,7 @@ class ComputedNode extends Node {
         }
         else {
             const agent = data.agent;
-            this.agentFunction = this.isNamedInputs ? async ({ namedInputs }) => agent(namedInputs) : async ({ inputs }) => agent(...inputs);
+            this.agentFunction = this.isNamedInputs ? async ({ namedInputs, params }) => agent(namedInputs, params) : async ({ inputs }) => agent(...inputs);
         }
         if (data.graph) {
             this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
@@ -312,6 +312,7 @@ class ComputedNode extends Node {
             namedInputs: this.isNamedInputs ? previousResults : {},
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
             debugInfo: this.getDebugInfo(),
+            cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.cacheType,
             filterParams: this.filterParams,
             agentFilters: this.graph.agentFilters,
             config: this.graph.config,

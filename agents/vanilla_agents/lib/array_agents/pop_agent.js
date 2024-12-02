@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.popAgent = void 0;
-const common_1 = require("./common");
+const agent_utils_1 = require("@graphai/agent_utils");
 const popAgent = async ({ namedInputs }) => {
-    (0, common_1.arrayValidate)("popAgent", namedInputs);
+    (0, agent_utils_1.arrayValidate)("popAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };
@@ -67,6 +67,7 @@ const popAgentInfo = {
     ],
     description: "Pop Agent",
     category: ["array"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",

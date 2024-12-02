@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { arrayValidate } from "./common";
+import { arrayValidate } from "@graphai/agent_utils";
 
 export const arrayFlatAgent: AgentFunction<{ depth?: number }, { array: Array<unknown> }, Array<never>, { array: Array<unknown> }> = async ({
   namedInputs,
@@ -78,6 +78,7 @@ const arrayFlatAgentInfo: AgentFunctionInfo = {
   category: ["array"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  cacheType: "pureAgent",
   license: "MIT",
 };
 export default arrayFlatAgentInfo;

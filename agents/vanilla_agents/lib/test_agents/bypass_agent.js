@@ -55,6 +55,7 @@ const bypassAgentInfo = {
     ],
     description: "bypass agent",
     category: ["test"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",

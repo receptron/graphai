@@ -1,4 +1,4 @@
-import { assert, isObject, sleep, graphDataLatestVersion, GraphAI } from 'graphai';
+import require$$0, { assert, isObject, sleep, graphDataLatestVersion, GraphAI } from 'graphai';
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -265,59 +265,62 @@ var hasRequiredLib;
 function requireLib () {
 	if (hasRequiredLib) return lib;
 	hasRequiredLib = 1;
-	Object.defineProperty(lib, "__esModule", { value: true });
-	lib.isNamedInputs = lib.sample2GraphData = void 0;
-	const sample2GraphData = (sample, agentName) => {
-	    const nodes = {};
-	    const inputs = (() => {
-	        if (Array.isArray(sample.inputs)) {
-	            Array.from(sample.inputs.keys()).forEach((key) => {
-	                nodes["sampleInput" + key] = {
-	                    value: sample.inputs[key],
-	                };
-	            });
-	            return Object.keys(nodes).map((k) => ":" + k);
-	        }
-	        nodes["sampleInput"] = {
-	            value: sample.inputs,
-	        };
-	        return Object.keys(sample.inputs).reduce((tmp, key) => {
-	            tmp[key] = `:sampleInput.` + key;
-	            return tmp;
-	        }, {});
-	    })();
-	    nodes["node"] = {
-	        isResult: true,
-	        agent: agentName,
-	        params: sample.params,
-	        inputs: inputs,
-	        graph: sample.graph,
-	    };
-	    const graphData = {
-	        version: 0.5,
-	        nodes,
-	    };
-	    return graphData;
-	};
-	lib.sample2GraphData = sample2GraphData;
-	const isNamedInputs = (namedInputs) => {
-	    return Object.keys(namedInputs || {}).length > 0;
-	};
-	lib.isNamedInputs = isNamedInputs;
+	(function (exports) {
+		Object.defineProperty(exports, "__esModule", { value: true });
+		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
+		const graphai_1 = require$$0;
+		const sample2GraphData = (sample, agentName) => {
+		    const nodes = {};
+		    const inputs = (() => {
+		        if (Array.isArray(sample.inputs)) {
+		            Array.from(sample.inputs.keys()).forEach((key) => {
+		                nodes["sampleInput" + key] = {
+		                    value: sample.inputs[key],
+		                };
+		            });
+		            return Object.keys(nodes).map((k) => ":" + k);
+		        }
+		        nodes["sampleInput"] = {
+		            value: sample.inputs,
+		        };
+		        return Object.keys(sample.inputs).reduce((tmp, key) => {
+		            tmp[key] = `:sampleInput.` + key;
+		            return tmp;
+		        }, {});
+		    })();
+		    nodes["node"] = {
+		        isResult: true,
+		        agent: agentName,
+		        params: sample.params,
+		        inputs: inputs,
+		        graph: sample.graph,
+		    };
+		    const graphData = {
+		        version: 0.5,
+		        nodes,
+		    };
+		    return graphData;
+		};
+		exports.sample2GraphData = sample2GraphData;
+		const isNamedInputs = (namedInputs) => {
+		    return Object.keys(namedInputs || {}).length > 0;
+		};
+		exports.isNamedInputs = isNamedInputs;
+		const arrayValidate = (agentName, namedInputs, extra_message = "") => {
+		    (0, graphai_1.assert)((0, exports.isNamedInputs)(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
+		    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
+		    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
+		};
+		exports.arrayValidate = arrayValidate; 
+	} (lib));
 	return lib;
 }
 
 var libExports = requireLib();
 
-const arrayValidate = (agentName, namedInputs, extra_message = "") => {
-    assert(libExports.isNamedInputs(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
-    assert(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
-    assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
-};
-
 const pushAgent = async ({ namedInputs, }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
-    arrayValidate("pushAgent", namedInputs, extra_message);
+    libExports.arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
     assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
     const array = namedInputs.array.map((item) => item); // shallow copy
@@ -382,13 +385,14 @@ const pushAgentInfo = {
     ],
     description: "push Agent",
     category: ["array"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
 };
 
 const popAgent = async ({ namedInputs }) => {
-    arrayValidate("popAgent", namedInputs);
+    libExports.arrayValidate("popAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.pop();
     return { array, item };
@@ -451,13 +455,14 @@ const popAgentInfo = {
     ],
     description: "Pop Agent",
     category: ["array"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
 };
 
 const shiftAgent = async ({ namedInputs }) => {
-    arrayValidate("shiftAgent", namedInputs);
+    libExports.arrayValidate("shiftAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.shift();
     return { array, item };
@@ -509,13 +514,14 @@ const shiftAgentInfo = {
     ],
     description: "shift Agent",
     category: ["array"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
 };
 
 const arrayFlatAgent = async ({ namedInputs, params, }) => {
-    arrayValidate("arrayFlatAgent", namedInputs);
+    libExports.arrayValidate("arrayFlatAgent", namedInputs);
     const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy
     return { array: array.flat(depth) };
@@ -586,11 +592,12 @@ const arrayFlatAgentInfo = {
     category: ["array"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 
 const arrayJoinAgent = async ({ namedInputs, params, }) => {
-    arrayValidate("arrayJoinAgent", namedInputs);
+    libExports.arrayValidate("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;
     const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);
@@ -693,6 +700,7 @@ const arrayJoinAgentInfo = {
     ],
     description: "Array Join Agent",
     category: ["array"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
@@ -885,6 +893,7 @@ const echoAgentInfo = {
     ],
     description: "Echo agent",
     category: ["test"],
+    cacheType: "pureAgent",
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
@@ -911,6 +920,7 @@ const countingAgentInfo = {
     ],
     description: "Counting agent",
     category: ["test"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
@@ -937,13 +947,15 @@ const copyMessageAgentInfo = {
     ],
     description: "CopyMessage agent",
     category: ["test"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
 };
 
-const copy2ArrayAgent = async ({ inputs, namedInputs, params }) => {
-    const input = libExports.isNamedInputs(namedInputs) ? (namedInputs.item ? namedInputs.item : namedInputs) : inputs[0];
+const copy2ArrayAgent = async ({ namedInputs, params }) => {
+    assert(libExports.isNamedInputs(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
+    const input = (namedInputs.item ? namedInputs.item : namedInputs);
     return new Array(params.count).fill(undefined).map(() => {
         return input;
     });
@@ -994,14 +1006,15 @@ const copy2ArrayAgentInfo = {
     ],
     description: "Copy2Array agent",
     category: ["test"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
 };
 
-const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, inputs, namedInputs, }) => {
-    // console.log("executing", nodeId);
-    const dataSet = libExports.isNamedInputs(namedInputs) ? namedInputs.array : inputs;
+const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, namedInputs, }) => {
+    libExports.arrayValidate("mergeNodeIdAgent", namedInputs);
+    const dataSet = namedInputs.array;
     return dataSet.reduce((tmp, input) => {
         return { ...tmp, ...input };
     }, { [nodeId]: "hello" });
@@ -2370,6 +2383,148 @@ const compareAgentInfo = {
     license: "MIT",
 };
 
+// https://platform.openai.com/docs/guides/vision
+const getImageUrl = (data, imageType, detail) => {
+    if (imageType === "http") {
+        return {
+            url: data,
+        };
+    }
+    const dataUrl = `data:image/${imageType};base64,${data}`;
+    return {
+        url: dataUrl,
+        detail: detail ?? "auto",
+    };
+};
+const images2messageAgent = async ({ namedInputs, params }) => {
+    const { imageType, detail } = params;
+    const { array, prompt } = namedInputs;
+    libExports.arrayValidate("images2messageAgent", namedInputs);
+    assert(!!imageType, "images2messageAgent: params.imageType is UNDEFINED! Set Type: png, jpg...");
+    const contents = array.map((base64ImageData) => {
+        const image_url = getImageUrl(base64ImageData, imageType, detail);
+        return {
+            type: "image_url",
+            image_url,
+        };
+    });
+    if (prompt) {
+        contents.unshift({ type: "text", text: prompt });
+    }
+    return {
+        message: {
+            role: "user",
+            content: contents,
+        },
+    };
+};
+const images2messageAgentInfo = {
+    name: "images2messageAgent",
+    agent: images2messageAgent,
+    mock: images2messageAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "the array of base64 image data",
+            },
+            prompt: {
+                type: "string",
+                description: "prompt message",
+            },
+        },
+        required: ["array"],
+    },
+    output: {
+        type: "object",
+    },
+    samples: [
+        {
+            inputs: { array: ["abcabc", "122123"] },
+            params: { imageType: "png" },
+            result: {
+                message: {
+                    content: [
+                        {
+                            image_url: {
+                                detail: "auto",
+                                url: "data:image/png;base64,abcabc",
+                            },
+                            type: "image_url",
+                        },
+                        {
+                            image_url: {
+                                detail: "auto",
+                                url: "data:image/png;base64,122123",
+                            },
+                            type: "image_url",
+                        },
+                    ],
+                    role: "user",
+                },
+            },
+        },
+        {
+            inputs: { array: ["abcabc", "122123"], prompt: "hello" },
+            params: { imageType: "jpg", detail: "high" },
+            result: {
+                message: {
+                    content: [
+                        {
+                            type: "text",
+                            text: "hello",
+                        },
+                        {
+                            image_url: {
+                                detail: "high",
+                                url: "data:image/jpg;base64,abcabc",
+                            },
+                            type: "image_url",
+                        },
+                        {
+                            image_url: {
+                                detail: "high",
+                                url: "data:image/jpg;base64,122123",
+                            },
+                            type: "image_url",
+                        },
+                    ],
+                    role: "user",
+                },
+            },
+        },
+        {
+            inputs: { array: ["http://example.com/1.jpg", "http://example.com/2.jpg"] },
+            params: { imageType: "http" },
+            result: {
+                message: {
+                    content: [
+                        {
+                            image_url: {
+                                url: "http://example.com/1.jpg",
+                            },
+                            type: "image_url",
+                        },
+                        {
+                            image_url: {
+                                url: "http://example.com/2.jpg",
+                            },
+                            type: "image_url",
+                        },
+                    ],
+                    role: "user",
+                },
+            },
+        },
+    ],
+    description: "Returns the message data for llm include image",
+    category: ["image"],
+    author: "Receptron team",
+    repository: "https://github.com/snakajima/graphai",
+    license: "MIT",
+};
+
 const defaultEmbeddingModel = "text-embedding-3-small";
 const OpenAI_embedding_API = "https://api.openai.com/v1/embeddings";
 // This agent retrieves embedding vectors for an array of strings using OpenAI's API
@@ -2422,5 +2577,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map

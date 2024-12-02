@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayFlatAgent = void 0;
-const common_1 = require("./common");
+const agent_utils_1 = require("@graphai/agent_utils");
 const arrayFlatAgent = async ({ namedInputs, params, }) => {
-    (0, common_1.arrayValidate)("arrayFlatAgent", namedInputs);
+    (0, agent_utils_1.arrayValidate)("arrayFlatAgent", namedInputs);
     const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy
     return { array: array.flat(depth) };
@@ -75,6 +75,7 @@ const arrayFlatAgentInfo = {
     category: ["array"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 exports.default = arrayFlatAgentInfo;

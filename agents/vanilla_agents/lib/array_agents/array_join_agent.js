@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayJoinAgent = void 0;
-const common_1 = require("./common");
+const agent_utils_1 = require("@graphai/agent_utils");
 const arrayJoinAgent = async ({ namedInputs, params, }) => {
-    (0, common_1.arrayValidate)("arrayJoinAgent", namedInputs);
+    (0, agent_utils_1.arrayValidate)("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;
     const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);
@@ -107,6 +107,7 @@ const arrayJoinAgentInfo = {
     ],
     description: "Array Join Agent",
     category: ["array"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
