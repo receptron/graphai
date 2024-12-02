@@ -63,10 +63,7 @@ import {
     const graph_data = {
       version: 0.5,
       nodes: {
-        name: {
-          value: "hello",
-        },
-        test: {
+        tools: {
           agent: async (inputs:any) => { 
             const result = await client.request(
               { method: "tools/list" },
@@ -75,9 +72,6 @@ import {
             return result.tools;
           },
           isResult: true,
-          inputs: {
-            name: ":name"
-          }
         }
       }
     };
