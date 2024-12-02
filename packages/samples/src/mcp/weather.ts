@@ -1,3 +1,22 @@
+import { GraphAI } from "graphai";
+import * as agents from "@graphai/agents";
+
+const graph_data = {
+  version: 0.5,
+  nodes: {
+    name: {
+      value: "hello",
+    },
+    test: {
+      agent: (inputs:any) => { console.log(inputs) },
+      isResult: true,
+      inputs: {
+        name: ":name"
+      }
+    }
+  }
+}
+
 import {
     CallToolResultSchema,
     ListResourcesResultSchema,
@@ -55,6 +74,11 @@ import {
       CallToolResultSchema,
     );
     console.log(resourceContent);
+
+    const graph = new GraphAI(graph_data, { ...agents });
+    const results = await graph.run();
+    console.log(results);
+    client.close();
   };
   
   main();
