@@ -3,7 +3,7 @@ import { isNamedInputs } from "@graphai/agent_utils";
 
 export const copy2ArrayAgent: AgentFunction<{ count: number }> = async ({ namedInputs, params }) => {
   assert(isNamedInputs(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
-  const input = (namedInputs.item ? namedInputs.item : namedInputs);
+  const input = namedInputs.item ? namedInputs.item : namedInputs;
   return new Array(params.count).fill(undefined).map(() => {
     return input;
   });

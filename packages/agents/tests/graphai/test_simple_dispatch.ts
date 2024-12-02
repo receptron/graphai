@@ -34,7 +34,7 @@ const dispatchGraph = {
     },
     node: {
       agent: "mergeNodeIdAgent",
-      inputs: { array: []},
+      inputs: { array: [] },
     },
     merge: {
       inputs: { array: [":node", ":ghost"] },

@@ -23,6 +23,7 @@ const countingAgentInfo = {
     ],
     description: "Counting agent",
     category: ["test"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",

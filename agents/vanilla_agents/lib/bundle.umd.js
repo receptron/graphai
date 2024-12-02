@@ -322,15 +322,9 @@
 
     var libExports = requireLib();
 
-    const arrayValidate = (agentName, namedInputs, extra_message = "") => {
-        require$$0.assert(libExports.isNamedInputs(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
-        require$$0.assert(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
-        require$$0.assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
-    };
-
     const pushAgent = async ({ namedInputs, }) => {
         const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
-        arrayValidate("pushAgent", namedInputs, extra_message);
+        libExports.arrayValidate("pushAgent", namedInputs, extra_message);
         const { item, items } = namedInputs;
         require$$0.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
         const array = namedInputs.array.map((item) => item); // shallow copy
@@ -395,13 +389,14 @@
         ],
         description: "push Agent",
         category: ["array"],
+        cacheType: "pureAgent",
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
     };
 
     const popAgent = async ({ namedInputs }) => {
-        arrayValidate("popAgent", namedInputs);
+        libExports.arrayValidate("popAgent", namedInputs);
         const array = namedInputs.array.map((item) => item); // shallow copy
         const item = array.pop();
         return { array, item };
@@ -464,13 +459,14 @@
         ],
         description: "Pop Agent",
         category: ["array"],
+        cacheType: "pureAgent",
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
     };
 
     const shiftAgent = async ({ namedInputs }) => {
-        arrayValidate("shiftAgent", namedInputs);
+        libExports.arrayValidate("shiftAgent", namedInputs);
         const array = namedInputs.array.map((item) => item); // shallow copy
         const item = array.shift();
         return { array, item };
@@ -522,13 +518,14 @@
         ],
         description: "shift Agent",
         category: ["array"],
+        cacheType: "pureAgent",
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
     };
 
     const arrayFlatAgent = async ({ namedInputs, params, }) => {
-        arrayValidate("arrayFlatAgent", namedInputs);
+        libExports.arrayValidate("arrayFlatAgent", namedInputs);
         const depth = params.depth ?? 1;
         const array = namedInputs.array.map((item) => item); // shallow copy
         return { array: array.flat(depth) };
@@ -599,11 +596,12 @@
         category: ["array"],
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
+        cacheType: "pureAgent",
         license: "MIT",
     };
 
     const arrayJoinAgent = async ({ namedInputs, params, }) => {
-        arrayValidate("arrayJoinAgent", namedInputs);
+        libExports.arrayValidate("arrayJoinAgent", namedInputs);
         const separator = params.separator ?? "";
         const { flat } = params;
         const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);
@@ -706,6 +704,7 @@
         ],
         description: "Array Join Agent",
         category: ["array"],
+        cacheType: "pureAgent",
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
@@ -898,6 +897,7 @@
         ],
         description: "Echo agent",
         category: ["test"],
+        cacheType: "pureAgent",
         author: "Satoshi Nakajima",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
@@ -924,6 +924,7 @@
         ],
         description: "Counting agent",
         category: ["test"],
+        cacheType: "pureAgent",
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
@@ -950,13 +951,15 @@
         ],
         description: "CopyMessage agent",
         category: ["test"],
+        cacheType: "pureAgent",
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
     };
 
-    const copy2ArrayAgent = async ({ inputs, namedInputs, params }) => {
-        const input = libExports.isNamedInputs(namedInputs) ? (namedInputs.item ? namedInputs.item : namedInputs) : inputs[0];
+    const copy2ArrayAgent = async ({ namedInputs, params }) => {
+        require$$0.assert(libExports.isNamedInputs(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
+        const input = (namedInputs.item ? namedInputs.item : namedInputs);
         return new Array(params.count).fill(undefined).map(() => {
             return input;
         });
@@ -1007,14 +1010,15 @@
         ],
         description: "Copy2Array agent",
         category: ["test"],
+        cacheType: "pureAgent",
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
         license: "MIT",
     };
 
-    const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, inputs, namedInputs, }) => {
-        // console.log("executing", nodeId);
-        const dataSet = libExports.isNamedInputs(namedInputs) ? namedInputs.array : inputs;
+    const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, namedInputs, }) => {
+        libExports.arrayValidate("mergeNodeIdAgent", namedInputs);
+        const dataSet = namedInputs.array;
         return dataSet.reduce((tmp, input) => {
             return { ...tmp, ...input };
         }, { [nodeId]: "hello" });
@@ -2399,7 +2403,7 @@
     const images2messageAgent = async ({ namedInputs, params }) => {
         const { imageType, detail } = params;
         const { array, prompt } = namedInputs;
-        arrayValidate("images2messageAgent", namedInputs);
+        libExports.arrayValidate("images2messageAgent", namedInputs);
         require$$0.assert(!!imageType, "images2messageAgent: params.imageType is UNDEFINED! Set Type: png, jpg...");
         const contents = array.map((base64ImageData) => {
             const image_url = getImageUrl(base64ImageData, imageType, detail);

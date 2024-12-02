@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.copy2ArrayAgent = void 0;
+const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
-const copy2ArrayAgent = async ({ inputs, namedInputs, params }) => {
-    const input = (0, agent_utils_1.isNamedInputs)(namedInputs) ? (namedInputs.item ? namedInputs.item : namedInputs) : inputs[0];
+const copy2ArrayAgent = async ({ namedInputs, params }) => {
+    (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
+    const input = (namedInputs.item ? namedInputs.item : namedInputs);
     return new Array(params.count).fill(undefined).map(() => {
         return input;
     });
@@ -55,6 +57,7 @@ const copy2ArrayAgentInfo = {
     ],
     description: "Copy2Array agent",
     category: ["test"],
+    cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",

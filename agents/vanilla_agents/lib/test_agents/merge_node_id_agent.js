@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mergeNodeIdAgent = void 0;
 const agent_utils_1 = require("@graphai/agent_utils");
-const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, inputs, namedInputs, }) => {
-    // console.log("executing", nodeId);
-    const dataSet = (0, agent_utils_1.isNamedInputs)(namedInputs) ? namedInputs.array : inputs;
+const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, namedInputs, }) => {
+    (0, agent_utils_1.arrayValidate)("mergeNodeIdAgent", namedInputs);
+    const dataSet = namedInputs.array;
     return dataSet.reduce((tmp, input) => {
         return { ...tmp, ...input };
     }, { [nodeId]: "hello" });
