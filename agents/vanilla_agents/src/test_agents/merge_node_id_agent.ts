@@ -5,7 +5,7 @@ export const mergeNodeIdAgent: AgentFunction<null, Record<string, unknown>, Reco
   debugInfo: { nodeId },
   namedInputs,
 }) => {
-  arrayValidate("popAgent", namedInputs);
+  arrayValidate("mergeNodeIdAgent", namedInputs);
 
   const dataSet = namedInputs.array;
 
