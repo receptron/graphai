@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { arrayValidate } from "./common";
+import { arrayValidate } from "@graphai/agent_utils";
 
 export const arrayJoinAgent: AgentFunction<{ separator?: string; flat?: number }, { text: string }, Array<never>, { array: Array<unknown> }> = async ({
   namedInputs,

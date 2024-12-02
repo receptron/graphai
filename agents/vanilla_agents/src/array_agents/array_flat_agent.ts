@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { arrayValidate } from "./common";
+import { arrayValidate } from "@graphai/agent_utils";
 
 export const arrayFlatAgent: AgentFunction<{ depth?: number }, { array: Array<unknown> }, Array<never>, { array: Array<unknown> }> = async ({
   namedInputs,
