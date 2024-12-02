@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { arrayValidate } from "../array_agents/common";
+import { arrayValidate } from "@graphai/agent_utils";
 
 // https://platform.openai.com/docs/guides/vision
 const getImageUrl = (data: string, imageType: string, detail?: string) => {

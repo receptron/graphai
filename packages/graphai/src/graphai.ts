@@ -171,6 +171,7 @@ export class GraphAI {
           return null;
         },
         inputs: null,
+        cacheType: undefined, // for node.getContext
       };
     }
     // We are not supposed to hit this error because the validator will catch it.

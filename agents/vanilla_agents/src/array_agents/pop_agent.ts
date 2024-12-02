@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { arrayValidate } from "./common";
+import { arrayValidate } from "@graphai/agent_utils";
 
 export const popAgent: AgentFunction<null, { array: Array<unknown>; item: unknown }, null, { array: Array<unknown> }> = async ({ namedInputs }) => {
   arrayValidate("popAgent", namedInputs);
@@ -67,6 +67,7 @@ const popAgentInfo: AgentFunctionInfo = {
   ],
   description: "Pop Agent",
   category: ["array"],
+  cacheType: "pureAgent",
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
