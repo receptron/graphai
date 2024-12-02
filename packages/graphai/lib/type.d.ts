@@ -74,6 +74,7 @@ export type GraphOptions = {
     config?: Record<string, unknown>;
     graphLoader?: GraphDataLoader;
 };
+export type CacheTypes = "pureAgent" | "impureAgent";
 export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
     params: NodeDataParams<ParamsType>;
     inputs: Array<InputDataType>;
@@ -96,7 +97,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType =
         graphOptions: GraphOptions;
         onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
     };
-    cacheType?: "pureAgent" | "impureAgent";
+    cacheType?: CacheTypes;
     onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
     filterParams: AgentFilterParams;
     agentFilters?: AgentFilterInfo[];
@@ -132,6 +133,7 @@ export type AgentFunctionInfo = {
     author: string;
     repository: string;
     license: string;
+    cacheType?: CacheTypes;
     environmentVariables?: string[];
     stream?: boolean;
     apiKeys?: string[];
