@@ -31,6 +31,7 @@ export declare class GraphAI {
     getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo | {
         agent: () => Promise<null>;
         inputs: null;
+        cacheType: undefined;
     };
     asString(): string;
     results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T>;

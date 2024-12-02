@@ -312,6 +312,7 @@ class ComputedNode extends Node {
             namedInputs: this.isNamedInputs ? previousResults : {},
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
             debugInfo: this.getDebugInfo(),
+            cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.cacheType,
             filterParams: this.filterParams,
             agentFilters: this.graph.agentFilters,
             config: this.graph.config,
