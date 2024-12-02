@@ -1,6 +1,6 @@
-import { defaultTestContext, GraphAI, AgentFilterFunction } from "graphai";
+import { GraphAI } from "graphai";
 import * as vanilla_agents from "@graphai/vanilla";
-import { agentFilterRunnerBuilder, cacheAgentFilterGenerator } from "@graphai/agent_filters";
+import { cacheAgentFilterGenerator } from "@graphai/agent_filters";
 
 import sqlite3 from "sqlite3";
 
