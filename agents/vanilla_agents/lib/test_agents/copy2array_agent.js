@@ -5,7 +5,7 @@ const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
 const copy2ArrayAgent = async ({ namedInputs, params }) => {
     (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
-    const input = (namedInputs.item ? namedInputs.item : namedInputs);
+    const input = namedInputs.item ? namedInputs.item : namedInputs;
     return new Array(params.count).fill(undefined).map(() => {
         return input;
     });

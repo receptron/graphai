@@ -959,7 +959,7 @@
 
     const copy2ArrayAgent = async ({ namedInputs, params }) => {
         require$$0.assert(libExports.isNamedInputs(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
-        const input = (namedInputs.item ? namedInputs.item : namedInputs);
+        const input = namedInputs.item ? namedInputs.item : namedInputs;
         return new Array(params.count).fill(undefined).map(() => {
             return input;
         });
