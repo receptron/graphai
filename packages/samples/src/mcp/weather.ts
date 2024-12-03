@@ -117,7 +117,6 @@ import {
         messagesWithToolRes: {
           // Appends that message to the messages.
           agent: "pushAgent",
-          isResult: true,
           inputs: {
             array: ":llm_prompt.messages",
             item: {
@@ -128,21 +127,20 @@ import {
             },
           },
         },
-        debug: {
-          agent: "copyAgent",
-          params: {
-            namedInput: "debug"
-          },
-          //isResult: true,
-          inputs: {
-            debug: ":messagesWithToolRes.array.$2"
-          }
-        },
         llm_post_call: {
           agent: "openAIAgent",
-          isResult: true,
           inputs: {
             messages: ":messagesWithToolRes.array"
+          }
+        },
+        final_output: {
+          agent: "copyAgent",
+          params: {
+            namedInput: "text"
+          },
+          isResult: true,
+          inputs: {
+            text: ":llm_post_call.text"
           }
         }
       }
