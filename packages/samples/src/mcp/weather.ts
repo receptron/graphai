@@ -83,12 +83,11 @@ import {
           inputs: { tools: ":tools", prompt: ":request" },
         },
         tool_call: {
-          agent: async (input: any) => {
-            const tool = input.tool;
+          agent: async (inputs: any) => {
             const resourceContent = await client.request(
               {
                 method: "tools/call",
-                params: tool
+                params: inputs.tool
               },
               CallToolResultSchema,
             );
