@@ -95,7 +95,7 @@ import {
               },
               CallToolResultSchema,
             );
-            return resourceContent.content;
+            return resourceContent;
           },
           inputs: { tool: ":llm_prompt.tool" },
         },
@@ -108,7 +108,7 @@ import {
               role: "tool",
               tool_call_id: ":llm_prompt.tool.id",
               name: ":llm_prompt.tool.name",
-              content: ":tool_call.$0.text",
+              content: ":tool_call.content",
             },
           },
         },
