@@ -88,10 +88,7 @@ import {
             const resourceContent = await client.request(
               {
                 method: "tools/call",
-                params: {
-                  name: tool.name,
-                  arguments: tool.arguments
-                }
+                params: tool
               },
               CallToolResultSchema,
             );
