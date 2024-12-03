@@ -124,7 +124,7 @@ import {
               role: "tool",
               tool_call_id: ":llm_prompt.tool.id",
               name: ":llm_prompt.tool.name",
-              content: ":tool_call",
+              content: ":tool_call.$0.text",
             },
           },
         },
