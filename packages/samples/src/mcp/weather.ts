@@ -95,6 +95,14 @@ import {
           },
           inputs: { tool: ":llm_prompt.tool" },
         },
+        debug: {
+          agent: "copyAgent",
+          params: { namedKey: "key" },
+          console: {
+            after: true,
+          },
+          inputs: { key: ":tool_call.content.$0.text" },
+        },
         messagesWithToolRes: {
           // Appends that message to the messages.
           agent: "pushAgent",
