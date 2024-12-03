@@ -29,12 +29,14 @@ import {
     await client.connect(transport);
     
     // List available resources
+    /*
     const resources = await client.request(
       { method: "resources/list" },
       ListResourcesResultSchema
     );
   
-  //      console.log(resources);
+    console.log(resources);
+    */
 
     // Read a specific resource
     /*
@@ -49,19 +51,6 @@ import {
     );
     console.log(resourceContent);
     */
-    const resourceContent = await client.request(
-      {
-        method: "tools/call",
-        params: {
-          name: "get_forecast",
-          arguments: {
-            city: "kumamoto"
-          }
-        }
-      },
-      CallToolResultSchema,
-    );
-// console.log(resourceContent);
 
     const graph_data = {
       version: 0.5,
@@ -85,20 +74,17 @@ import {
               }
             }];
           },
-          isResult: true,
         },
         llm_prompt: {
           console: {
             before: true,
           },
           agent: "openAIAgent",
-          isResult: true,
           inputs: { tools: ":tools", prompt: ":request" },
         },
         tool_call: {
           agent: async (input: any) => {
             const tool = input.tool;
-            console.log("***", tool.arguments);
             const resourceContent = await client.request(
               {
                 method: "tools/call",
@@ -111,7 +97,6 @@ import {
             );
             return resourceContent.content;
           },
-          isResult: true,
           inputs: { tool: ":llm_prompt.tool" },
         },
         messagesWithToolRes: {
@@ -136,7 +121,7 @@ import {
         final_output: {
           agent: "copyAgent",
           params: {
-            namedInput: "text"
+            namedKey: "text"
           },
           isResult: true,
           inputs: {
