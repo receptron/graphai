@@ -92,7 +92,7 @@ import {
             before: true,
           },
           agent: "openAIAgent",
-          // isResult: true,
+          isResult: true,
           inputs: { tools: ":tools", prompt: ":request" },
         },
         tool_call: {
@@ -109,11 +109,42 @@ import {
               },
               CallToolResultSchema,
             );
-            return resourceContent.content[0];
+            return resourceContent.content;
           },
           isResult: true,
           inputs: { tool: ":llm_prompt.tool" },
         },
+        messagesWithToolRes: {
+          // Appends that message to the messages.
+          agent: "pushAgent",
+          isResult: true,
+          inputs: {
+            array: ":llm_prompt.messages",
+            item: {
+              role: "tool",
+              tool_call_id: ":llm_prompt.tool.id",
+              name: ":llm_prompt.tool.name",
+              content: ":tool_call",
+            },
+          },
+        },
+        debug: {
+          agent: "copyAgent",
+          params: {
+            namedInput: "debug"
+          },
+          //isResult: true,
+          inputs: {
+            debug: ":messagesWithToolRes.array.$2"
+          }
+        },
+        llm_post_call: {
+          agent: "openAIAgent",
+          isResult: true,
+          inputs: {
+            messages: ":messagesWithToolRes.array"
+          }
+        }
       }
     };
 
