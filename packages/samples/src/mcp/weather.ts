@@ -87,7 +87,7 @@ import {
           },
           isResult: true,
         },
-        llm: {
+        llm_prompt: {
           console: {
             before: true,
           },
@@ -95,7 +95,7 @@ import {
           // isResult: true,
           inputs: { tools: ":tools", prompt: ":request" },
         },
-        call: {
+        tool_call: {
           agent: async (input: any) => {
             const tool = input.tool;
             console.log("***", tool.arguments);
@@ -112,7 +112,7 @@ import {
             return resourceContent.content[0];
           },
           isResult: true,
-          inputs: { tool: ":llm.tool" },
+          inputs: { tool: ":llm_prompt.tool" },
         },
       }
     };
