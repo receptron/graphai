@@ -95,12 +95,24 @@ import {
           // isResult: true,
           inputs: { tools: ":tools", prompt: ":request" },
         },
-        debug: {
-          agent: "copyAgent",
-          params: {
+        call: {
+          agent: async (input: any) => {
+            const tool = input.tool;
+            console.log("***", tool.arguments);
+            const resourceContent = await client.request(
+              {
+                method: "tools/call",
+                params: {
+                  name: tool.name,
+                  arguments: tool.arguments
+                }
+              },
+              CallToolResultSchema,
+            );
+            return resourceContent.content[0];
           },
           isResult: true,
-          inputs: { llm: ":llm.message.tool_calls.$0" },
+          inputs: { tool: ":llm.tool" },
         },
       }
     };
