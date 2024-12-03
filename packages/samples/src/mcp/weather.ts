@@ -1,5 +1,7 @@
 import { GraphAI } from "graphai";
 import * as agents from "@graphai/agents";
+import dotenv from "dotenv";
+dotenv.config();
 
 import {
     CallToolResultSchema,
@@ -32,7 +34,8 @@ import {
       ListResourcesResultSchema
     );
   
-    console.log(resources);
+  //      console.log(resources);
+
     // Read a specific resource
     /*
     const resourceContent = await client.request(
@@ -58,21 +61,47 @@ import {
       },
       CallToolResultSchema,
     );
-    console.log(resourceContent);
+// console.log(resourceContent);
 
     const graph_data = {
       version: 0.5,
       nodes: {
+        request: {
+          value: "Tell me the weather in Kona tomorrow"
+        },
         tools: {
-          agent: async (inputs:any) => { 
+          agent: async () => { 
             const result = await client.request(
               { method: "tools/list" },
               ListToolsResultSchema,
             );
-            return result.tools;
+            const tool = result.tools[0];
+            return [{
+              type: "function",
+              function: {
+                name: tool.name,
+                description: tool.description,
+                parameters: tool.inputSchema
+              }
+            }];
           },
           isResult: true,
-        }
+        },
+        llm: {
+          console: {
+            before: true,
+          },
+          agent: "openAIAgent",
+          // isResult: true,
+          inputs: { tools: ":tools", prompt: ":request" },
+        },
+        debug: {
+          agent: "copyAgent",
+          params: {
+          },
+          isResult: true,
+          inputs: { llm: ":llm.message.tool_calls.$0" },
+        },
       }
     };
 
