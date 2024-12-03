@@ -5,9 +5,9 @@ dotenv.config();
 
 import {
     CallToolResultSchema,
-    ListResourcesResultSchema,
+    // ListResourcesResultSchema,
     ListToolsResultSchema,
-    ReadResourceResultSchema,
+    // ReadResourceResultSchema,
   } from "@modelcontextprotocol/sdk/types.js";
   
   import { Client } from "@modelcontextprotocol/sdk/client/index.js";
@@ -56,7 +56,7 @@ import {
       version: 0.5,
       nodes: {
         request: {
-          value: "Tell me the weather in Kona tomorrow"
+          value: "Tell me the weather in Kona Today"
         },
         tools: {
           agent: async () => { 
