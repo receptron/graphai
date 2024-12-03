@@ -56,7 +56,7 @@ import {
       version: 0.5,
       nodes: {
         request: {
-          value: "Tell me the weather in Kona Today"
+          value: "Tell me the weather in Kona Tomorrow. Today is " + new Date()
         },
         tools: {
           agent: async () => { 
