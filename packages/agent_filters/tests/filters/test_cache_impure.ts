@@ -49,7 +49,7 @@ test("test cache impureAgent cache hit", async () => {
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
   const result = await agentFilterRunner(
-    { ...defaultTestContext, inputs: [], namedInputs: { message: "123" }, params: {}, cacheType: "impureAgent" },
+    { ...defaultTestContext, namedInputs: { message: "123" }, params: {}, cacheType: "impureAgent" },
     fileSampleAgent,
   );
   // console.log(JSON.stringify(result));
@@ -67,7 +67,7 @@ test("test cache impureAgent cache not hit", async () => {
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
   const result = await agentFilterRunner(
-    { ...defaultTestContext, inputs: [], namedInputs: { message: "abc" }, params: {}, cacheType: "impureAgent" },
+    { ...defaultTestContext, namedInputs: { message: "abc" }, params: {}, cacheType: "impureAgent" },
     fileSampleAgent,
   );
   // console.log(JSON.stringify(result));
