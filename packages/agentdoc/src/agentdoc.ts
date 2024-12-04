@@ -74,14 +74,19 @@ const main = async () => {
     if (key === "examples") {
       const targets = agentKeys.filter((key) => agents[key].samples && agents[key].samples.length > 0);
       if (targets.length > 0) {
-        return ["### Input/Params example", targets.map((target) =>
-          [` - ${target}`, agents[target].samples.map((sample: any) => `\n\`\`\`typescript\n${JSON.stringify({inputs: sample.inputs, params: sample.params}, null, 2)}\n\`\`\`\n`)])
+        return [
+          "### Input/Params example",
+          targets.map((target) => [
+            ` - ${target}`,
+            agents[target].samples.map(
+              (sample: any) => `\n\`\`\`typescript\n${JSON.stringify({ inputs: sample.inputs, params: sample.params }, null, 2)}\n\`\`\`\n`,
+            ),
+          ]),
         ]
           .flat(4)
           .join("\n");
       }
       return "";
-
     }
   };
   const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
