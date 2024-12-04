@@ -139,6 +139,7 @@ const result = await graph.run();
 ### Input/Params example
  - arrayFlatAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -155,7 +156,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -174,7 +178,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -195,7 +202,10 @@ const result = await graph.run();
     "depth": 2
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -212,8 +222,11 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - arrayJoinAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -230,7 +243,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -249,7 +265,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -266,7 +285,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -285,7 +307,10 @@ const result = await graph.run();
     "separator": "|"
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -308,7 +333,10 @@ const result = await graph.run();
     "separator": "|"
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -332,7 +360,10 @@ const result = await graph.run();
     "flat": 1
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -358,7 +389,10 @@ const result = await graph.run();
     "flat": 1
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -384,8 +418,11 @@ const result = await graph.run();
     "flat": 2
   }
 }
+```
+
  - compareAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -396,7 +433,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -407,7 +447,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -418,7 +461,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -429,7 +475,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -440,7 +489,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -451,7 +503,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -462,7 +517,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -473,7 +531,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -484,7 +545,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -495,7 +559,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -506,7 +573,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -517,7 +587,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -528,7 +601,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -539,7 +615,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -550,7 +629,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -561,7 +643,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -572,7 +657,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -583,7 +671,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -594,7 +685,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -605,7 +699,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -616,7 +713,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -627,7 +727,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -638,7 +741,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -649,7 +755,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -660,7 +769,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -671,7 +783,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -682,7 +797,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -693,7 +811,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -704,7 +825,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -715,7 +839,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -726,7 +853,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -737,7 +867,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -756,7 +889,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -775,7 +911,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -802,8 +941,11 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - copy2ArrayAgent
 
+```typescript
 {
   "inputs": {
     "item": {
@@ -814,7 +956,10 @@ const result = await graph.run();
     "count": 10
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "message": "hello"
@@ -823,7 +968,10 @@ const result = await graph.run();
     "count": 10
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "item": "hello"
@@ -832,8 +980,11 @@ const result = await graph.run();
     "count": 10
   }
 }
+```
+
  - copyAgent
 
+```typescript
 {
   "inputs": {
     "color": "red",
@@ -841,7 +992,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -851,7 +1005,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "color": "red",
@@ -861,8 +1018,11 @@ const result = await graph.run();
     "namedKey": "color"
   }
 }
+```
+
  - copyMessageAgent
 
+```typescript
 {
   "inputs": {},
   "params": {
@@ -870,16 +1030,22 @@ const result = await graph.run();
     "message": "hello"
   }
 }
+```
+
  - countingAgent
 
+```typescript
 {
   "inputs": {},
   "params": {
     "count": 4
   }
 }
+```
+
  - dataSumTemplateAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -888,7 +1054,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -898,7 +1067,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -909,8 +1081,11 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - dotProductAgent
 
+```typescript
 {
   "inputs": {
     "matrix": [
@@ -934,7 +1109,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "matrix": [
@@ -954,15 +1132,21 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - echoAgent
 
+```typescript
 {
   "inputs": {},
   "params": {
     "text": "this is test"
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {},
   "params": {
@@ -970,8 +1154,11 @@ const result = await graph.run();
     "filterParams": true
   }
 }
+```
+
  - images2messageAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -983,7 +1170,10 @@ const result = await graph.run();
     "imageType": "png"
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -997,7 +1187,10 @@ const result = await graph.run();
     "detail": "high"
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1009,8 +1202,11 @@ const result = await graph.run();
     "imageType": "http"
   }
 }
+```
+
  - jsonParserAgent
 
+```typescript
 {
   "inputs": {
     "data": {
@@ -1020,36 +1216,51 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "text": "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "text": "```\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "text": "```json\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "text": "```JSON\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
   },
   "params": {}
 }
+```
+
  - mapAgent
 
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1059,7 +1270,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1074,7 +1288,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1088,7 +1305,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1104,7 +1324,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1116,7 +1339,10 @@ const result = await graph.run();
     "resultAll": true
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1128,7 +1354,10 @@ const result = await graph.run();
     "resultAll": true
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1140,7 +1369,10 @@ const result = await graph.run();
     "compositeResult": true
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1157,7 +1389,10 @@ const result = await graph.run();
     "compositeResult": true
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1170,7 +1405,10 @@ const result = await graph.run();
     "compositeResult": true
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "rows": [
@@ -1183,8 +1421,11 @@ const result = await graph.run();
     "compositeResult": true
   }
 }
+```
+
  - mergeNodeIdAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -1195,16 +1436,22 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - nestedAgent
 
+```typescript
 {
   "inputs": {
     "message": "hello"
   },
   "params": {}
 }
+```
+
  - popAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -1215,7 +1462,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1226,7 +1476,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1242,8 +1495,11 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - propertyFilterAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -1263,7 +1519,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "item": {
@@ -1281,7 +1540,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1311,7 +1573,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1341,7 +1606,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "item": {
@@ -1359,7 +1627,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1391,7 +1662,10 @@ const result = await graph.run();
     }
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "item": {
@@ -1411,7 +1685,10 @@ const result = await graph.run();
     }
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1440,7 +1717,10 @@ const result = await graph.run();
     }
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "item": {
@@ -1457,7 +1737,10 @@ const result = await graph.run();
     }
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1489,7 +1772,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1522,7 +1808,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1559,8 +1848,11 @@ const result = await graph.run();
     ]
   }
 }
+```
+
  - pushAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -1571,7 +1863,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1585,7 +1880,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1604,8 +1902,11 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - shiftAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -1616,7 +1917,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1627,15 +1931,21 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - sleeperAgent
 
+```typescript
 {
   "inputs": {},
   "params": {
     "duration": 1
   }
 }
+```
 
+
+```typescript
 {
   "inputs": [
     {
@@ -1649,7 +1959,10 @@ const result = await graph.run();
     "duration": 1
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1665,8 +1978,11 @@ const result = await graph.run();
     "duration": 1
   }
 }
+```
+
  - sortByValuesAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -1684,7 +2000,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1704,23 +2023,32 @@ const result = await graph.run();
     "assendant": true
   }
 }
+```
+
  - streamMockAgent
 
+```typescript
 {
   "inputs": {},
   "params": {
     "message": "this is params test"
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "message": "this is named inputs test"
   },
   "params": {}
 }
+```
+
  - stringSplitterAgent
 
+```typescript
 {
   "inputs": {
     "text": "Here's to the crazy ones, the misfits, the rebels, the troublemakers, the round pegs in the square holes ... the ones who see things differently -- they're not fond of rules, and they have no respect for the status quo. ... You can quote them, disagree with them, glorify or vilify them, but the only thing you can't do is ignore them because they change things. ... They push the human race forward, and while some may see them as the crazy ones, we see genius, because the people who are crazy enough to think that they can change the world, are the ones who do."
@@ -1729,8 +2057,11 @@ const result = await graph.run();
     "chunkSize": 64
   }
 }
+```
+
  - stringTemplateAgent
 
+```typescript
 {
   "inputs": {
     "message1": "hello",
@@ -1740,7 +2071,10 @@ const result = await graph.run();
     "template": "${message1}: ${message2}"
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "message1": "hello",
@@ -1753,7 +2087,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "message1": "hello",
@@ -1766,7 +2103,10 @@ const result = await graph.run();
     }
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "message1": "hello",
@@ -1781,7 +2121,10 @@ const result = await graph.run();
     ]
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "message1": "hello",
@@ -1796,7 +2139,10 @@ const result = await graph.run();
     }
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "agent": "openAiAgent",
@@ -1821,8 +2167,11 @@ const result = await graph.run();
     }
   }
 }
+```
+
  - totalAgent
 
+```typescript
 {
   "inputs": {
     "array": [
@@ -1839,7 +2188,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1871,7 +2223,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1882,7 +2237,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1896,7 +2254,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1913,7 +2274,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1933,7 +2297,10 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "array": [
@@ -1952,8 +2319,11 @@ const result = await graph.run();
   },
   "params": {}
 }
+```
+
  - vanillaFetchAgent
 
+```typescript
 {
   "inputs": {
     "url": "https://www.google.com",
@@ -1968,7 +2338,10 @@ const result = await graph.run();
     "debug": true
   }
 }
+```
 
+
+```typescript
 {
   "inputs": {
     "url": "https://www.google.com",
@@ -1980,6 +2353,8 @@ const result = await graph.run();
     "debug": true
   }
 }
+```
+
 
 
 
