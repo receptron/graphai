@@ -28,6 +28,30 @@ const result = await graph.run();
 ### Input/Output/Params Schema & samples
  - [textInputAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/input/textInputAgent.md)
 
+### Input/Params example
+ - textInputAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "message": "Enter your message to AI."
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "message": "Enter your message to AI.",
+    "role": "system"
+  }
+}
+```
+
+
 
 
 
