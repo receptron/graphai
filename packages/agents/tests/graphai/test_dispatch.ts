@@ -9,7 +9,7 @@ import assert from "node:assert";
 const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<string, any>, Record<string, any>> = async ({
   debugInfo: { nodeId, retry },
   params,
-  inputs,
+  namedInputs,
 }) => {
   await sleep(params.delay / (retry + 1));
 
@@ -18,7 +18,7 @@ const dispatchAgent: AgentFunction<{ delay: number; fail: boolean }, Record<stri
     console.log("failed (intentional)", nodeId, retry);
     throw new Error("Intentional Failure");
   } else {
-    const result = inputs.reduce(
+    const result = (namedInputs.array ?? []).reduce(
       (result: Record<string, any>, input: Record<string, any>) => {
         return { ...result, ...input };
       },
