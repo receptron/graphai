@@ -165,7 +165,7 @@ nodes:
       version: 0.5
       nodes:
         node1:
-          agent: bypassAgent
+          agent: copyAgent
           params:
             namedKey: row
           inputs:
@@ -174,7 +174,7 @@ nodes:
     params:
       compositeResult: true
   result:
-    agent: bypassAgent
+    agent: copyAgent
     params:
       namedKey: result
     inputs:
@@ -200,7 +200,7 @@ nodes:
       version: 0.5
       nodes:
         node1:
-          agent: bypassAgent
+          agent: copyAgent
           params:
             namedKey: row
           inputs:
@@ -209,7 +209,7 @@ nodes:
     params:
       compositeResult: true
   result:
-    agent: bypassAgent
+    agent: copyAgent
     params:
       namedKey: result
     inputs:
@@ -233,7 +233,7 @@ nodes:
       version: 0.5
       nodes:
         node1:
-          agent: bypassAgent
+          agent: copyAgent
           params:
             namedKey: row
           inputs:
@@ -242,7 +242,7 @@ nodes:
     params:
       compositeResult: true
   result:
-    agent: bypassAgent
+    agent: copyAgent
     params:
       flat: 2
       namedKey: res
@@ -435,8 +435,8 @@ nodes:
           isResult: true
     params:
       compositeResult: true
-  bypassAgent:
-    agent: bypassAgent
+  copyAgent:
+    agent: copyAgent
     params:
       namedKey: result
     inputs:
@@ -453,20 +453,20 @@ nodes:
     agent: echoAgent
     params:
       message: hello
-  bypassAgent:
-    agent: bypassAgent
+  copyAgent:
+    agent: copyAgent
     params:
       namedKey: text
     inputs:
       text:
         - :echo
-  bypassAgent2:
-    agent: bypassAgent
+  copyAgent2:
+    agent: copyAgent
     params:
       namedKey: text
     inputs:
       text:
-        - :bypassAgent.$0
+        - :copyAgent.$0
 
 ```
 
@@ -487,8 +487,8 @@ nodes:
     graph:
       version: 0.5
       nodes:
-        bypassAgent:
-          agent: bypassAgent
+        copyAgent:
+          agent: copyAgent
           params:
             namedKey: row
           inputs:
@@ -496,13 +496,13 @@ nodes:
           isResult: true
     params:
       compositeResult: true
-  bypassAgent2:
-    agent: bypassAgent
+  copyAgent2:
+    agent: copyAgent
     params:
       namedKey: array
     inputs:
       array:
-        - :mapNode.bypassAgent
+        - :mapNode.copyAgent
 
 ```
 
@@ -523,34 +523,34 @@ nodes:
     graph:
       version: 0.5
       nodes:
-        bypassAgent:
-          agent: bypassAgent
+        copyAgent:
+          agent: copyAgent
           params:
             namedKey: row
           inputs:
             row:
               - :row
-        bypassAgent2:
-          agent: bypassAgent
+        copyAgent2:
+          agent: copyAgent
           params:
             namedKey: text
           inputs:
-            text: :bypassAgent
-        bypassAgent3:
-          agent: bypassAgent
+            text: :copyAgent
+        copyAgent3:
+          agent: copyAgent
           params:
             namedKey: text
           inputs:
-            text: :bypassAgent2.$0
+            text: :copyAgent2.$0
           isResult: true
     params:
       compositeResult: true
-  bypassAgent4:
-    agent: bypassAgent
+  copyAgent4:
+    agent: copyAgent
     params:
       namedKey: text
     inputs:
-      text: :mapNode.bypassAgent3
+      text: :mapNode.copyAgent3
 
 ```
 
@@ -571,29 +571,29 @@ nodes:
     graph:
       version: 0.5
       nodes:
-        bypassAgent:
-          agent: bypassAgent
+        copyAgent:
+          agent: copyAgent
           params:
             namedKey: row
           inputs:
             row: :row
-        bypassAgent2:
-          agent: bypassAgent
+        copyAgent2:
+          agent: copyAgent
           params:
             namedKey: array
           inputs:
             array:
-              - :bypassAgent
+              - :copyAgent
               - :row
           isResult: true
     params:
       compositeResult: true
-  bypassAgent3:
-    agent: bypassAgent
+  copyAgent3:
+    agent: copyAgent
     params:
       namedKey: text
     inputs:
-      text: :mapNode.bypassAgent2
+      text: :mapNode.copyAgent2
 
 ```
 
@@ -605,8 +605,8 @@ nodes:
     agent: echoAgent
     params:
       message: hello
-  bypassAgent:
-    agent: bypassAgent
+  copyAgent:
+    agent: copyAgent
     params:
       namedKey: array
     inputs:
@@ -614,21 +614,21 @@ nodes:
         - :echo
         - :echo
         - :echo
-  bypassAgent2:
-    agent: bypassAgent
+  copyAgent2:
+    agent: copyAgent
     params:
       namedKey: array
     inputs:
       array:
-        - :bypassAgent
-        - :bypassAgent
-  bypassAgent3:
-    agent: bypassAgent
+        - :copyAgent
+        - :copyAgent
+  copyAgent3:
+    agent: copyAgent
     params:
       namedKey: array
     inputs:
       array:
-        - :bypassAgent2
-        - :bypassAgent2
+        - :copyAgent2
+        - :copyAgent2
 
 ```

@@ -224,7 +224,7 @@
         "version": 0.5,
         "nodes": {
           "node1": {
-            "agent": "bypassAgent",
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -240,7 +240,7 @@
       }
     },
     "result": {
-      "agent": "bypassAgent",
+      "agent": "copyAgent",
       "params": {
         "namedKey": "result"
       },
@@ -275,7 +275,7 @@
         "version": 0.5,
         "nodes": {
           "node1": {
-            "agent": "bypassAgent",
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -291,7 +291,7 @@
       }
     },
     "result": {
-      "agent": "bypassAgent",
+      "agent": "copyAgent",
       "params": {
         "namedKey": "result"
       },
@@ -323,7 +323,7 @@
         "version": 0.5,
         "nodes": {
           "node1": {
-            "agent": "bypassAgent",
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -339,7 +339,7 @@
       }
     },
     "result": {
-      "agent": "bypassAgent",
+      "agent": "copyAgent",
       "params": {
         "flat": 2,
         "namedKey": "res"
@@ -617,8 +617,8 @@
         "compositeResult": true
       }
     },
-    "bypassAgent": {
-      "agent": "bypassAgent",
+    "copyAgent": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "result"
       },
@@ -643,8 +643,8 @@
         "message": "hello"
       }
     },
-    "bypassAgent": {
-      "agent": "bypassAgent",
+    "copyAgent": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
@@ -654,14 +654,14 @@
         ]
       }
     },
-    "bypassAgent2": {
-      "agent": "bypassAgent",
+    "copyAgent2": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
       "inputs": {
         "text": [
-          ":bypassAgent.$0"
+          ":copyAgent.$0"
         ]
       }
     }
@@ -691,8 +691,8 @@
       "graph": {
         "version": 0.5,
         "nodes": {
-          "bypassAgent": {
-            "agent": "bypassAgent",
+          "copyAgent": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -707,14 +707,14 @@
         "compositeResult": true
       }
     },
-    "bypassAgent2": {
-      "agent": "bypassAgent",
+    "copyAgent2": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
       "inputs": {
         "array": [
-          ":mapNode.bypassAgent"
+          ":mapNode.copyAgent"
         ]
       }
     }
@@ -744,8 +744,8 @@
       "graph": {
         "version": 0.5,
         "nodes": {
-          "bypassAgent": {
-            "agent": "bypassAgent",
+          "copyAgent": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -755,22 +755,22 @@
               ]
             }
           },
-          "bypassAgent2": {
-            "agent": "bypassAgent",
+          "copyAgent2": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "text"
             },
             "inputs": {
-              "text": ":bypassAgent"
+              "text": ":copyAgent"
             }
           },
-          "bypassAgent3": {
-            "agent": "bypassAgent",
+          "copyAgent3": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "text"
             },
             "inputs": {
-              "text": ":bypassAgent2.$0"
+              "text": ":copyAgent2.$0"
             },
             "isResult": true
           }
@@ -780,13 +780,13 @@
         "compositeResult": true
       }
     },
-    "bypassAgent4": {
-      "agent": "bypassAgent",
+    "copyAgent4": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
       "inputs": {
-        "text": ":mapNode.bypassAgent3"
+        "text": ":mapNode.copyAgent3"
       }
     }
   }
@@ -815,8 +815,8 @@
       "graph": {
         "version": 0.5,
         "nodes": {
-          "bypassAgent": {
-            "agent": "bypassAgent",
+          "copyAgent": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "row"
             },
@@ -824,14 +824,14 @@
               "row": ":row"
             }
           },
-          "bypassAgent2": {
-            "agent": "bypassAgent",
+          "copyAgent2": {
+            "agent": "copyAgent",
             "params": {
               "namedKey": "array"
             },
             "inputs": {
               "array": [
-                ":bypassAgent",
+                ":copyAgent",
                 ":row"
               ]
             },
@@ -843,13 +843,13 @@
         "compositeResult": true
       }
     },
-    "bypassAgent3": {
-      "agent": "bypassAgent",
+    "copyAgent3": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "text"
       },
       "inputs": {
-        "text": ":mapNode.bypassAgent2"
+        "text": ":mapNode.copyAgent2"
       }
     }
   }
@@ -867,8 +867,8 @@
         "message": "hello"
       }
     },
-    "bypassAgent": {
-      "agent": "bypassAgent",
+    "copyAgent": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
@@ -880,27 +880,27 @@
         ]
       }
     },
-    "bypassAgent2": {
-      "agent": "bypassAgent",
+    "copyAgent2": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
       "inputs": {
         "array": [
-          ":bypassAgent",
-          ":bypassAgent"
+          ":copyAgent",
+          ":copyAgent"
         ]
       }
     },
-    "bypassAgent3": {
-      "agent": "bypassAgent",
+    "copyAgent3": {
+      "agent": "copyAgent",
       "params": {
         "namedKey": "array"
       },
       "inputs": {
         "array": [
-          ":bypassAgent2",
-          ":bypassAgent2"
+          ":copyAgent2",
+          ":copyAgent2"
         ]
       }
     }
