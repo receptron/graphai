@@ -136,6 +136,1851 @@ const result = await graph.run();
  - [totalAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/totalAgent.md)
  - [vanillaFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/vanillaFetchAgent.md)
 
+### Input/Params example
+ - arrayFlatAgent
+
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "depth": 2
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        "a"
+      ],
+      [
+        "b"
+      ],
+      [
+        "c"
+      ]
+    ]
+  },
+  "params": {}
+}
+ - arrayJoinAgent
+
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        "a"
+      ],
+      [
+        "b"
+      ],
+      [
+        "c"
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|"
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          1
+        ]
+      ],
+      [
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|"
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          1
+        ]
+      ],
+      [
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|",
+    "flat": 1
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|",
+    "flat": 1
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|",
+    "flat": 2
+  }
+}
+ - compareAgent
+
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "==",
+      "abc"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "==",
+      "abcd"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "!=",
+      "abc"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "!=",
+      "abcd"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">",
+      "5"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">",
+      "15"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      ">",
+      5
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      ">",
+      15
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">=",
+      "5"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">=",
+      "10"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">=",
+      "19"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      ">=",
+      5
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      ">=",
+      10
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      ">=",
+      19
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<",
+      "5"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<",
+      "15"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      "<",
+      5
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      "<",
+      15
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<=",
+      "5"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<=",
+      "10"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<=",
+      "19"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      "<=",
+      5
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      "<=",
+      10
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      10,
+      "<=",
+      19
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      true,
+      "||",
+      false
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      false,
+      "||",
+      false
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      true,
+      "&&",
+      false
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      true,
+      "&&",
+      true
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      true,
+      "XOR",
+      false
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      false,
+      "XOR",
+      true
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      false,
+      "XOR",
+      false
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      true,
+      "XOR",
+      true
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        "aaa",
+        "==",
+        "aaa"
+      ],
+      "||",
+      [
+        "aaa",
+        "==",
+        "bbb"
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        "aaa",
+        "==",
+        "aaa"
+      ],
+      "&&",
+      [
+        "aaa",
+        "==",
+        "bbb"
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          "aaa",
+          "==",
+          "aaa"
+        ],
+        "&&",
+        [
+          "bbb",
+          "==",
+          "bbb"
+        ]
+      ],
+      "||",
+      [
+        "aaa",
+        "&&",
+        "bbb"
+      ]
+    ]
+  },
+  "params": {}
+}
+ - copy2ArrayAgent
+
+{
+  "inputs": {
+    "item": {
+      "message": "hello"
+    }
+  },
+  "params": {
+    "count": 10
+  }
+}
+
+{
+  "inputs": {
+    "message": "hello"
+  },
+  "params": {
+    "count": 10
+  }
+}
+
+{
+  "inputs": {
+    "item": "hello"
+  },
+  "params": {
+    "count": 10
+  }
+}
+ - copyAgent
+
+{
+  "inputs": {
+    "color": "red",
+    "model": "Model 3"
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "Hello World",
+      "Discarded"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "color": "red",
+    "model": "Model 3"
+  },
+  "params": {
+    "namedKey": "color"
+  }
+}
+ - copyMessageAgent
+
+{
+  "inputs": {},
+  "params": {
+    "count": 4,
+    "message": "hello"
+  }
+}
+ - countingAgent
+
+{
+  "inputs": {},
+  "params": {
+    "count": 4
+  }
+}
+ - dataSumTemplateAgent
+
+{
+  "inputs": {
+    "array": [
+      1
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      1,
+      2
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ]
+  },
+  "params": {}
+}
+ - dotProductAgent
+
+{
+  "inputs": {
+    "matrix": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "vector": [
+      3,
+      2
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "matrix": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "vector": [
+      1,
+      2
+    ]
+  },
+  "params": {}
+}
+ - echoAgent
+
+{
+  "inputs": {},
+  "params": {
+    "text": "this is test"
+  }
+}
+
+{
+  "inputs": {},
+  "params": {
+    "text": "If you add filterParams option, it will respond to filterParams",
+    "filterParams": true
+  }
+}
+ - images2messageAgent
+
+{
+  "inputs": {
+    "array": [
+      "abcabc",
+      "122123"
+    ]
+  },
+  "params": {
+    "imageType": "png"
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      "abcabc",
+      "122123"
+    ],
+    "prompt": "hello"
+  },
+  "params": {
+    "imageType": "jpg",
+    "detail": "high"
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      "http://example.com/1.jpg",
+      "http://example.com/2.jpg"
+    ]
+  },
+  "params": {
+    "imageType": "http"
+  }
+}
+ - jsonParserAgent
+
+{
+  "inputs": {
+    "data": {
+      "apple": "red",
+      "lemon": "yellow"
+    }
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "text": "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "text": "```\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "text": "```json\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "text": "```JSON\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+  },
+  "params": {}
+}
+ - mapAgent
+
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "rows": [
+      "apple",
+      "orange",
+      "banana",
+      "lemon",
+      "melon",
+      "pineapple",
+      "tomato"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "rows": [
+      {
+        "fruit": "apple"
+      },
+      {
+        "fruit": "orange"
+      }
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "rows": [
+      {
+        "fruit": "apple"
+      },
+      {
+        "fruit": "orange"
+      }
+    ],
+    "name": "You",
+    "verb": "like"
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true
+  }
+}
+
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true
+  }
+}
+
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "compositeResult": true
+  }
+}
+
+{
+  "inputs": {
+    "rows": [
+      "apple",
+      "orange",
+      "banana",
+      "lemon",
+      "melon",
+      "pineapple",
+      "tomato"
+    ]
+  },
+  "params": {
+    "compositeResult": true
+  }
+}
+
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true,
+    "compositeResult": true
+  }
+}
+
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true,
+    "compositeResult": true
+  }
+}
+ - mergeNodeIdAgent
+
+{
+  "inputs": {
+    "array": [
+      {
+        "message": "hello"
+      }
+    ]
+  },
+  "params": {}
+}
+ - nestedAgent
+
+{
+  "inputs": {
+    "message": "hello"
+  },
+  "params": {}
+}
+ - popAgent
+
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ],
+    "array2": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "params": {}
+}
+ - propertyFilterAgent
+
+{
+  "inputs": {
+    "array": [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      }
+    ]
+  },
+  "params": {
+    "include": [
+      "color",
+      "model"
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "include": [
+      "color",
+      "model"
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "include": [
+      "color",
+      "model"
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "exclude": [
+      "color",
+      "model"
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "exclude": [
+      "color",
+      "model"
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "alter": {
+      "color": {
+        "red": "blue",
+        "blue": "red"
+      }
+    }
+  }
+}
+
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "alter": {
+      "color": {
+        "red": "blue",
+        "blue": "red"
+      }
+    }
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "swap": {
+      "maker": "model"
+    }
+  }
+}
+
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "swap": {
+      "maker": "model"
+    }
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "inject": [
+      {
+        "propId": "maker",
+        "from": 1
+      }
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "inject": [
+      {
+        "propId": "maker",
+        "from": 1,
+        "index": 0
+      }
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "inspect": [
+      {
+        "propId": "isTesla",
+        "equal": "Tesla Motors"
+      },
+      {
+        "propId": "isGM",
+        "notEqual": "Tesla Motors",
+        "from": 1
+      }
+    ]
+  }
+}
+ - pushAgent
+
+{
+  "inputs": {
+    "array": [
+      1,
+      2
+    ],
+    "item": 3
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "apple": 1
+      }
+    ],
+    "item": {
+      "lemon": 2
+    }
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "apple": 1
+      }
+    ],
+    "items": [
+      {
+        "lemon": 2
+      },
+      {
+        "banana": 3
+      }
+    ]
+  },
+  "params": {}
+}
+ - shiftAgent
+
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "params": {}
+}
+ - sleeperAgent
+
+{
+  "inputs": {},
+  "params": {
+    "duration": 1
+  }
+}
+
+{
+  "inputs": [
+    {
+      "a": 1
+    },
+    {
+      "b": 2
+    }
+  ],
+  "params": {
+    "duration": 1
+  }
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "b": 2
+      }
+    ]
+  },
+  "params": {
+    "duration": 1
+  }
+}
+ - sortByValuesAgent
+
+{
+  "inputs": {
+    "array": [
+      "banana",
+      "orange",
+      "lemon",
+      "apple"
+    ],
+    "values": [
+      2,
+      5,
+      6,
+      4
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      "banana",
+      "orange",
+      "lemon",
+      "apple"
+    ],
+    "values": [
+      2,
+      5,
+      6,
+      4
+    ]
+  },
+  "params": {
+    "assendant": true
+  }
+}
+ - streamMockAgent
+
+{
+  "inputs": {},
+  "params": {
+    "message": "this is params test"
+  }
+}
+
+{
+  "inputs": {
+    "message": "this is named inputs test"
+  },
+  "params": {}
+}
+ - stringSplitterAgent
+
+{
+  "inputs": {
+    "text": "Here's to the crazy ones, the misfits, the rebels, the troublemakers, the round pegs in the square holes ... the ones who see things differently -- they're not fond of rules, and they have no respect for the status quo. ... You can quote them, disagree with them, glorify or vilify them, but the only thing you can't do is ignore them because they change things. ... They push the human race forward, and while some may see them as the crazy ones, we see genius, because the people who are crazy enough to think that they can change the world, are the ones who do."
+  },
+  "params": {
+    "chunkSize": 64
+  }
+}
+ - stringTemplateAgent
+
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": "${message1}: ${message2}"
+  }
+}
+
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": [
+      "${message1}: ${message2}",
+      "${message2}: ${message1}"
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": {
+      "apple": "${message1}",
+      "lemon": "${message2}"
+    }
+  }
+}
+
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": [
+      {
+        "apple": "${message1}",
+        "lemon": "${message2}"
+      }
+    ]
+  }
+}
+
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": {
+      "apple": "${message1}",
+      "lemon": [
+        "${message2}"
+      ]
+    }
+  }
+}
+
+{
+  "inputs": {
+    "agent": "openAiAgent",
+    "row": "hello world",
+    "params": {
+      "text": "message"
+    }
+  },
+  "params": {
+    "template": {
+      "version": 0.5,
+      "nodes": {
+        "ai": {
+          "agent": "${agent}",
+          "isResult": true,
+          "params": "${params}",
+          "inputs": {
+            "prompt": "${row}"
+          }
+        }
+      }
+    }
+  }
+}
+ - totalAgent
+
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      },
+      {
+        "a": 3
+      }
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "a": 1,
+          "b": -1
+        },
+        {
+          "c": 10
+        }
+      ],
+      [
+        {
+          "a": 2,
+          "b": -1
+        }
+      ],
+      [
+        {
+          "a": 3,
+          "b": -2
+        },
+        {
+          "d": -10
+        }
+      ]
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      }
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      }
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      },
+      {
+        "a": 3
+      }
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1,
+        "b": 1
+      },
+      {
+        "a": 2,
+        "b": 2
+      },
+      {
+        "a": 3,
+        "b": 0
+      }
+    ]
+  },
+  "params": {}
+}
+
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2,
+        "b": 2
+      },
+      {
+        "a": 3,
+        "b": 0
+      }
+    ]
+  },
+  "params": {}
+}
+ - vanillaFetchAgent
+
+{
+  "inputs": {
+    "url": "https://www.google.com",
+    "queryParams": {
+      "foo": "bar"
+    },
+    "headers": {
+      "x-myHeader": "secret"
+    }
+  },
+  "params": {
+    "debug": true
+  }
+}
+
+{
+  "inputs": {
+    "url": "https://www.google.com",
+    "body": {
+      "foo": "bar"
+    }
+  },
+  "params": {
+    "debug": true
+  }
+}
+
 
 
 
