@@ -9,7 +9,7 @@
         // arrayValidate("fileReadAgent", namedInputs);
         graphai.assert(!!basePath, "fileReadAgent: params.basePath is UNDEFINED!");
         const fileToData = (fileName) => {
-            const file = path.resolve([basePath, fileName].join("/"));
+            const file = path.resolve(path.join(basePath, fileName));
             const buffer = fs.readFileSync(file);
             if (outputType && outputType === "base64") {
                 return buffer.toString("base64");
@@ -29,7 +29,7 @@
                 data: fileToData(namedInputs.file),
             };
         }
-        throw new Error("fileReadAgent: No file input provided in namedInputs");
+        throw new Error("fileReadAgent no file");
     };
     const fileReadAgentInfo = {
         name: "fileReadAgent",
