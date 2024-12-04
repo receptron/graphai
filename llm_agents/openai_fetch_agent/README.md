@@ -28,6 +28,19 @@ const result = await graph.run();
 ### Input/Output/Params Schema & samples
  - [openAIFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIFetchAgent.md)
 
+### Input/Params example
+ - openAIFetchAgent
+
+```typescript
+{
+  "inputs": {
+    "prompt": "this is response result"
+  },
+  "params": {}
+}
+```
+
+
 
 
 
