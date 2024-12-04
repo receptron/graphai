@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { isNamedInputs } from "@graphai/agent_utils";
+// import { isNamedInputs } from "@graphai/agent_utils";
 
 export const bypassAgent: AgentFunction<{
   namedKey?: string;
