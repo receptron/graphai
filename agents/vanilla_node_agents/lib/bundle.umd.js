@@ -29,7 +29,7 @@
                 data: fileToData(namedInputs.file),
             };
         }
-        throw new Error("fileReadAgent no file");
+        throw new Error("fileReadAgent: No file input provided in namedInputs");
     };
     const fileReadAgentInfo = {
         name: "fileReadAgent",
