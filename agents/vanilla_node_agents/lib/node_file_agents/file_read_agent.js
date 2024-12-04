@@ -6,14 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.fileReadAgent = void 0;
 const graphai_1 = require("graphai");
 const fs_1 = __importDefault(require("fs"));
-const agent_utils_1 = require("@graphai/agent_utils");
+const path_1 = __importDefault(require("path"));
 const fileReadAgent = async ({ namedInputs, params }) => {
     const { basePath, outputType } = params;
-    (0, agent_utils_1.arrayValidate)("fileReadAgent", namedInputs);
+    // arrayValidate("fileReadAgent", namedInputs);
     (0, graphai_1.assert)(!!basePath, "fileReadAgent: params.basePath is UNDEFINED!");
-    const files = namedInputs.array.map((file) => {
-        const path = basePath + file;
-        const buffer = fs_1.default.readFileSync(path);
+    const fileToData = (fileName) => {
+        const file = path_1.default.resolve([basePath, fileName].join("/"));
+        const buffer = fs_1.default.readFileSync(file);
         if (outputType && outputType === "base64") {
             return buffer.toString("base64");
         }
@@ -21,10 +21,18 @@ const fileReadAgent = async ({ namedInputs, params }) => {
             return new TextDecoder().decode(buffer);
         }
         return buffer;
-    });
-    return {
-        array: files,
     };
+    if (namedInputs.array) {
+        return {
+            array: namedInputs.array.map(fileToData),
+        };
+    }
+    if (namedInputs.file) {
+        return {
+            data: fileToData(namedInputs.file),
+        };
+    }
+    throw new Error("fileReadAgent no file");
 };
 exports.fileReadAgent = fileReadAgent;
 const fileReadAgentInfo = {
@@ -64,6 +72,13 @@ const fileReadAgentInfo = {
             params: { basePath: __dirname + "/../../tests/files/", outputType: "text" },
             result: {
                 array: ["hello\n"],
+            },
+        },
+        {
+            inputs: { file: "test.txt" },
+            params: { basePath: __dirname + "/../../tests/files/", outputType: "text" },
+            result: {
+                data: "hello\n",
             },
         },
     ],

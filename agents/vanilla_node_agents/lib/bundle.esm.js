@@ -1,73 +1,14 @@
-import require$$0, { assert } from 'graphai';
+import { assert } from 'graphai';
 import fs from 'fs';
-
-var lib = {};
-
-var hasRequiredLib;
-
-function requireLib () {
-	if (hasRequiredLib) return lib;
-	hasRequiredLib = 1;
-	(function (exports) {
-		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
-		const graphai_1 = require$$0;
-		const sample2GraphData = (sample, agentName) => {
-		    const nodes = {};
-		    const inputs = (() => {
-		        if (Array.isArray(sample.inputs)) {
-		            Array.from(sample.inputs.keys()).forEach((key) => {
-		                nodes["sampleInput" + key] = {
-		                    value: sample.inputs[key],
-		                };
-		            });
-		            return Object.keys(nodes).map((k) => ":" + k);
-		        }
-		        nodes["sampleInput"] = {
-		            value: sample.inputs,
-		        };
-		        return Object.keys(sample.inputs).reduce((tmp, key) => {
-		            tmp[key] = `:sampleInput.` + key;
-		            return tmp;
-		        }, {});
-		    })();
-		    nodes["node"] = {
-		        isResult: true,
-		        agent: agentName,
-		        params: sample.params,
-		        inputs: inputs,
-		        graph: sample.graph,
-		    };
-		    const graphData = {
-		        version: 0.5,
-		        nodes,
-		    };
-		    return graphData;
-		};
-		exports.sample2GraphData = sample2GraphData;
-		const isNamedInputs = (namedInputs) => {
-		    return Object.keys(namedInputs || {}).length > 0;
-		};
-		exports.isNamedInputs = isNamedInputs;
-		const arrayValidate = (agentName, namedInputs, extra_message = "") => {
-		    (0, graphai_1.assert)((0, exports.isNamedInputs)(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
-		    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
-		    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
-		};
-		exports.arrayValidate = arrayValidate; 
-	} (lib));
-	return lib;
-}
-
-var libExports = requireLib();
+import path from 'path';
 
 const fileReadAgent = async ({ namedInputs, params }) => {
     const { basePath, outputType } = params;
-    libExports.arrayValidate("fileReadAgent", namedInputs);
+    // arrayValidate("fileReadAgent", namedInputs);
     assert(!!basePath, "fileReadAgent: params.basePath is UNDEFINED!");
-    const files = namedInputs.array.map((file) => {
-        const path = basePath + file;
-        const buffer = fs.readFileSync(path);
+    const fileToData = (fileName) => {
+        const file = path.resolve([basePath, fileName].join("/"));
+        const buffer = fs.readFileSync(file);
         if (outputType && outputType === "base64") {
             return buffer.toString("base64");
         }
@@ -75,10 +16,18 @@ const fileReadAgent = async ({ namedInputs, params }) => {
             return new TextDecoder().decode(buffer);
         }
         return buffer;
-    });
-    return {
-        array: files,
     };
+    if (namedInputs.array) {
+        return {
+            array: namedInputs.array.map(fileToData),
+        };
+    }
+    if (namedInputs.file) {
+        return {
+            data: fileToData(namedInputs.file),
+        };
+    }
+    throw new Error("fileReadAgent no file");
 };
 const fileReadAgentInfo = {
     name: "fileReadAgent",
@@ -117,6 +66,13 @@ const fileReadAgentInfo = {
             params: { basePath: __dirname + "/../../tests/files/", outputType: "text" },
             result: {
                 array: ["hello\n"],
+            },
+        },
+        {
+            inputs: { file: "test.txt" },
+            params: { basePath: __dirname + "/../../tests/files/", outputType: "text" },
+            result: {
+                data: "hello\n",
             },
         },
     ],
