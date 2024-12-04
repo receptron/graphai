@@ -59,10 +59,10 @@ class ComputedNode extends Node {
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
-        this.isNamedInputs = (0, utils_2.isObject)(data.inputs) && !Array.isArray(data.inputs);
+        // this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
         this.dataSources = data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : [];
-        if (data.inputs && !this.isNamedInputs) {
-            console.warn(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
+        if (data.inputs && Array.isArray(data.inputs)) {
+            throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
         }
         this.pendings = new Set((0, nodeUtils_1.dataSourceNodeIds)(this.dataSources));
         (0, utils_2.assert)(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
@@ -71,7 +71,8 @@ class ComputedNode extends Node {
         }
         else {
             const agent = data.agent;
-            this.agentFunction = this.isNamedInputs ? async ({ namedInputs, params }) => agent(namedInputs, params) : async ({ inputs }) => agent(...inputs);
+            // this.agentFunction = this.isNamedInputs ? async ({ namedInputs, params }) => agent(namedInputs, params) : async ({ inputs }) => agent(...inputs);
+            this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
         }
         if (data.graph) {
             this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
@@ -299,17 +300,19 @@ class ComputedNode extends Node {
             return tmp;
         }, { ...this.params });
     }
-    getInputs(previousResults) {
-        if (Array.isArray(this.inputs)) {
-            return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
-        }
-        return [];
+    /*
+    private getInputs(previousResults: Record<string, ResultData | undefined>) {
+      if (Array.isArray(this.inputs)) {
+        return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
+      }
+      return [];
     }
+    */
     getContext(previousResults, localLog) {
         const context = {
             params: this.getParams(),
-            inputs: this.getInputs(previousResults),
-            namedInputs: this.isNamedInputs ? previousResults : {},
+            // inputs: this.getInputs(previousResults),
+            namedInputs: previousResults,
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
             debugInfo: this.getDebugInfo(),
             cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.cacheType,
@@ -343,7 +346,8 @@ class ComputedNode extends Node {
     }
     beforeConsoleLog(context) {
         if (this.console.before === true) {
-            console.log(JSON.stringify(this.isNamedInputs ? context.namedInputs : context.inputs, null, 2));
+            // console.log(JSON.stringify(this.isNamedInputs ? context.namedInputs : context.inputs, null, 2));
+            console.log(JSON.stringify(context.namedInputs, null, 2));
         }
         else if (this.console.before) {
             console.log(this.console.before);
