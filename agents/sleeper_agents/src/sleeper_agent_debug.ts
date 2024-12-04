@@ -12,7 +12,7 @@ export const sleeperAgentDebug: AgentFunction<{ duration: number; value?: Record
     // console.log("failed (intentional)", nodeId, retry);
     throw new Error(strIntentionalError);
   }
-  return namedInputs.array.reduce((result: Record<string, any>, input: Record<string, any>) => {
+  return (namedInputs.array ?? []).reduce((result: Record<string, any>, input: Record<string, any>) => {
     return deepmerge(result, input);
   }, params.value ?? {});
 };

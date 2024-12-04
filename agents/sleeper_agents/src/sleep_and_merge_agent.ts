@@ -4,7 +4,7 @@ import { isNamedInputs } from "@graphai/agent_utils";
 
 export const sleepAndMergeAgent: AgentFunction<{ duration?: number; value?: Record<string, any> }> = async ({ params, namedInputs }) => {
   await sleep(params?.duration ?? 10);
-  return namedInputs.array.reduce((result: Record<string, any>, input: Record<string, any>) => {
+  return (namedInputs.array ?? []).reduce((result: Record<string, any>, input: Record<string, any>) => {
     return deepmerge(result, input);
   }, params.value ?? {});
 };
