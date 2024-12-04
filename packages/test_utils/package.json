@@ -24,11 +24,13 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
+  "dependencies": {
+    "yaml": "^2.6.0"
+  },
   "devDependencies": {
     "@graphai/agent_filters": "^0.0.8",
     "@graphai/vanilla": "^0.1.9",
-    "graphai": "^0.5.19",
-    "yaml": "^2.6.0"
+    "graphai": "^0.5.19"
   },
   "types": "./lib/index.d.ts",
   "directories": {

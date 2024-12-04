@@ -40,6 +40,7 @@ exports.readTemplate = void 0;
 const utils_1 = require("graphai/lib/utils/utils");
 const json_schema_generator_1 = __importDefault(require("json-schema-generator"));
 const packages = __importStar(require("@graphai/agents"));
+const vanilla_node_agents_1 = require("@graphai/vanilla_node_agents");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const agentAttribute = (agentInfo, key) => {
@@ -120,7 +121,7 @@ const IndexMd = (ret) => {
 const main = () => {
     const ret = {};
     const base_path = __dirname + "/../../../docs/agentDocs/";
-    Object.values(packages).map((agent) => {
+    Object.values({ ...packages, fileReadAgent: vanilla_node_agents_1.fileReadAgent }).map((agent) => {
         const md = agentMd(agent);
         agent.category.map(async (cat) => {
             if (!ret[cat]) {

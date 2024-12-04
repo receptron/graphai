@@ -63,3 +63,6 @@
 
 ## embedding
 ### [stringEmbeddingsAgent](./embedding/stringEmbeddingsAgent.md)
+
+## fs
+### [fileReadAgent](./fs/fileReadAgent.md)

@@ -30,6 +30,19 @@ const result = await graph.run();
  - [openAIAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIAgent.md)
  - [openAIImageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIImageAgent.md)
 
+### Input/Params example
+ - openAIAgent
+
+```typescript
+{
+  "inputs": {
+    "prompt": "this is response result"
+  },
+  "params": {}
+}
+```
+
+
 ### Environment Variables
  - openAIAgent
    - OPENAI_API_KEY
