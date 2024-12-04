@@ -44,19 +44,22 @@ if (!isMainThread && parentPort) {
   });
 }
 
-export const workerAgent: AgentFunction<{ namedInputs?: Array<string> }, any, any> = async ({ inputs, params, /* agents, log, */ graphData }) => {
-  const namedInputs = params.namedInputs ?? inputs.map((__input, index) => `$${index}`);
+export const workerAgent: AgentFunction<{}, any, any> = async ({ namedInputs, params, /* agents, log, */ graphData }) => {
   assert(!!graphData, "required");
   assert(typeof graphData === "object", "required");
-  namedInputs.forEach((nodeId, index) => {
-    if (graphData.nodes[nodeId] === undefined) {
-      // If the input node does not exist, automatically create a static node
-      graphData.nodes[nodeId] = { value: inputs[index] };
-    } else {
-      // Otherwise, inject the proper data here (instead of calling injectTo method later)
-      (graphData.nodes[nodeId] as StaticNodeData)["value"] = inputs[index];
-    }
-  });
+
+  const nodeIds = Object.keys(namedInputs);
+  if (nodeIds.length > 0) {
+    nodeIds.forEach((nodeId) => {
+      if (graphData.nodes[nodeId] === undefined) {
+        // If the input node does not exist, automatically create a static node
+        graphData.nodes[nodeId] = { value: namedInputs[nodeId] };
+      } else {
+        // Otherwise, inject the proper data here (instead of calling injectTo method later)
+        (graphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+      }
+    });
+  };
 
   return new Promise((resolve, reject) => {
     const worker = new Worker(__dirname + "/worker_agent");
