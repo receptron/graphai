@@ -20,7 +20,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
         const actual = await agent({
           ...defaultTestContext,
           params,
-          inputs: flatInputs,
+          // inputs: flatInputs,
           inputSchema,
           namedInputs,
           forNestedGraph: graph
