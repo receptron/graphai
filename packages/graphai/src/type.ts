@@ -88,7 +88,8 @@ export type GraphOptions = {
 
 export type CacheTypes = "pureAgent" | "impureAgent";
 
-export type AgentFunctionContext<ParamsType = DefaultParamsType, InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
+
+export type AgentFunctionContext<ParamsType = DefaultParamsType, __InputDataType = DefaultInputData, NamedInputDataType = DefaultInputData> = {
   params: NodeDataParams<ParamsType>;
   // inputs: Array<InputDataType>;
   inputSchema?: any;
