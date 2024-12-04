@@ -1,8 +1,6 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import fs from "fs";
 import path from "path";
-import { arrayValidate } from "@graphai/agent_utils";
-
 
 export const fileReadAgent: AgentFunction<
   {
