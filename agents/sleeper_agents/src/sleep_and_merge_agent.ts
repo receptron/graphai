@@ -1,6 +1,6 @@
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 import deepmerge from "deepmerge";
-import { isNamedInputs } from "@graphai/agent_utils";
+// import { isNamedInputs } from "@graphai/agent_utils";
 
 export const sleepAndMergeAgent: AgentFunction<{ duration?: number; value?: Record<string, any> }> = async ({ params, namedInputs }) => {
   await sleep(params?.duration ?? 10);
