@@ -9,7 +9,7 @@ const fileReadAgent = async ({ namedInputs, params }) => {
     // arrayValidate("fileReadAgent", namedInputs);
     graphai.assert(!!basePath, "fileReadAgent: params.basePath is UNDEFINED!");
     const fileToData = (fileName) => {
-        const file = path.resolve([basePath, fileName].join("/"));
+        const file = path.resolve(path.join(basePath, fileName));
         const buffer = fs.readFileSync(file);
         if (outputType && outputType === "base64") {
             return buffer.toString("base64");
