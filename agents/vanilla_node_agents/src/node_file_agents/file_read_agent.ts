@@ -23,7 +23,7 @@ export const fileReadAgent: AgentFunction<
   assert(!!basePath, "fileReadAgent: params.basePath is UNDEFINED!");
 
   const fileToData = (fileName: string) => {
-    const file = path.resolve([basePath, fileName].join("/"));
+    const file = path.resolve(path.join(basePath, fileName));
     const buffer = fs.readFileSync(file);
     if (outputType && outputType === "base64") {
       return buffer.toString("base64");
