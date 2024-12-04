@@ -4,6 +4,7 @@ import { debugResultKey } from "graphai/lib/utils/utils";
 import jsonSchemaGenerator from "json-schema-generator";
 
 import * as packages from "@graphai/agents";
+import { fileReadAgent } from "@graphai/vanilla_node_agents";
 
 import fs from "fs";
 import path from "path";
@@ -87,7 +88,7 @@ const IndexMd = (ret: Record<string, Record<string, string>>) => {
 const main = () => {
   const ret: Record<string, Record<string, string>> = {};
   const base_path = __dirname + "/../../../docs/agentDocs/";
-  Object.values(packages).map((agent) => {
+  Object.values({...packages, fileReadAgent}).map((agent) => {
     const md = agentMd(agent);
     agent.category.map(async (cat: string) => {
       if (!ret[cat]) {
