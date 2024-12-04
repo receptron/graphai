@@ -28,14 +28,6 @@ const sleeperAgentDebugInfo: AgentFunctionInfo = {
       result: {},
     },
     {
-      inputs: [{ a: 1 }, { b: 2 }],
-      params: { duration: 1 },
-      result: {
-        a: 1,
-        b: 2,
-      },
-    },
-    {
       inputs: { array: [{ a: 1 }, { b: 2 }] },
       params: { duration: 1 },
       result: {
