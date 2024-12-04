@@ -30,6 +30,55 @@ const result = await graph.run();
  - [fetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/fetchAgent.md)
  - [wikipediaAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/wikipediaAgent.md)
 
+### Input/Params example
+ - fetchAgent
+
+```typescript
+{
+  "inputs": {
+    "url": "https://www.google.com",
+    "queryParams": {
+      "foo": "bar"
+    },
+    "headers": {
+      "x-myHeader": "secret"
+    }
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "url": "https://www.google.com",
+    "body": {
+      "foo": "bar"
+    }
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+ - wikipediaAgent
+
+```typescript
+{
+  "inputs": {
+    "query": "steve jobs"
+  },
+  "params": {
+    "lang": "ja"
+  }
+}
+```
+
+
 
 
 

@@ -136,6 +136,2226 @@ const result = await graph.run();
  - [totalAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/totalAgent.md)
  - [vanillaFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/vanillaFetchAgent.md)
 
+### Input/Params example
+ - arrayFlatAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "depth": 2
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        "a"
+      ],
+      [
+        "b"
+      ],
+      [
+        "c"
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+ - arrayJoinAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        "a"
+      ],
+      [
+        "b"
+      ],
+      [
+        "c"
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          1
+        ]
+      ],
+      [
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          1
+        ]
+      ],
+      [
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|",
+    "flat": 1
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|",
+    "flat": 1
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          [
+            1
+          ]
+        ],
+        [
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      ]
+    ]
+  },
+  "params": {
+    "separator": "|",
+    "flat": 2
+  }
+}
+```
+
+ - compareAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "==",
+      "abc"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "==",
+      "abcd"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "!=",
+      "abc"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "!=",
+      "abcd"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">",
+      "5"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">",
+      "15"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      ">",
+      5
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      ">",
+      15
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">=",
+      "5"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">=",
+      "10"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      ">=",
+      "19"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      ">=",
+      5
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      ">=",
+      10
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      ">=",
+      19
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<",
+      "5"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<",
+      "15"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      "<",
+      5
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      "<",
+      15
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<=",
+      "5"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<=",
+      "10"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "<=",
+      "19"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      "<=",
+      5
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      "<=",
+      10
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      "<=",
+      19
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      "||",
+      false
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      false,
+      "||",
+      false
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      "&&",
+      false
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      "&&",
+      true
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      "XOR",
+      false
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      false,
+      "XOR",
+      true
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      false,
+      "XOR",
+      false
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      "XOR",
+      true
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        "aaa",
+        "==",
+        "aaa"
+      ],
+      "||",
+      [
+        "aaa",
+        "==",
+        "bbb"
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        "aaa",
+        "==",
+        "aaa"
+      ],
+      "&&",
+      [
+        "aaa",
+        "==",
+        "bbb"
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        [
+          "aaa",
+          "==",
+          "aaa"
+        ],
+        "&&",
+        [
+          "bbb",
+          "==",
+          "bbb"
+        ]
+      ],
+      "||",
+      [
+        "aaa",
+        "&&",
+        "bbb"
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+ - copy2ArrayAgent
+
+```typescript
+{
+  "inputs": {
+    "item": {
+      "message": "hello"
+    }
+  },
+  "params": {
+    "count": 10
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "message": "hello"
+  },
+  "params": {
+    "count": 10
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "item": "hello"
+  },
+  "params": {
+    "count": 10
+  }
+}
+```
+
+ - copyAgent
+
+```typescript
+{
+  "inputs": {
+    "color": "red",
+    "model": "Model 3"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "Hello World",
+      "Discarded"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "color": "red",
+    "model": "Model 3"
+  },
+  "params": {
+    "namedKey": "color"
+  }
+}
+```
+
+ - copyMessageAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "count": 4,
+    "message": "hello"
+  }
+}
+```
+
+ - countingAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "count": 4
+  }
+}
+```
+
+ - dataSumTemplateAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ]
+  },
+  "params": {}
+}
+```
+
+ - dotProductAgent
+
+```typescript
+{
+  "inputs": {
+    "matrix": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "vector": [
+      3,
+      2
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "matrix": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "vector": [
+      1,
+      2
+    ]
+  },
+  "params": {}
+}
+```
+
+ - echoAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "text": "this is test"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "text": "If you add filterParams option, it will respond to filterParams",
+    "filterParams": true
+  }
+}
+```
+
+ - images2messageAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abcabc",
+      "122123"
+    ]
+  },
+  "params": {
+    "imageType": "png"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abcabc",
+      "122123"
+    ],
+    "prompt": "hello"
+  },
+  "params": {
+    "imageType": "jpg",
+    "detail": "high"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "http://example.com/1.jpg",
+      "http://example.com/2.jpg"
+    ]
+  },
+  "params": {
+    "imageType": "http"
+  }
+}
+```
+
+ - jsonParserAgent
+
+```typescript
+{
+  "inputs": {
+    "data": {
+      "apple": "red",
+      "lemon": "yellow"
+    }
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "text": "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "text": "```\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "text": "```json\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "text": "```JSON\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
+  },
+  "params": {}
+}
+```
+
+ - mapAgent
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      "apple",
+      "orange",
+      "banana",
+      "lemon",
+      "melon",
+      "pineapple",
+      "tomato"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      {
+        "fruit": "apple"
+      },
+      {
+        "fruit": "orange"
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      {
+        "fruit": "apple"
+      },
+      {
+        "fruit": "orange"
+      }
+    ],
+    "name": "You",
+    "verb": "like"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "compositeResult": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      "apple",
+      "orange",
+      "banana",
+      "lemon",
+      "melon",
+      "pineapple",
+      "tomato"
+    ]
+  },
+  "params": {
+    "compositeResult": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true,
+    "compositeResult": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "resultAll": true,
+    "compositeResult": true
+  }
+}
+```
+
+ - mergeNodeIdAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "message": "hello"
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+ - nestedAgent
+
+```typescript
+{
+  "inputs": {
+    "message": "hello"
+  },
+  "params": {}
+}
+```
+
+ - popAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ],
+    "array2": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "params": {}
+}
+```
+
+ - propertyFilterAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "color": "red",
+        "model": "Model 3",
+        "type": "EV",
+        "maker": "Tesla",
+        "range": 300
+      }
+    ]
+  },
+  "params": {
+    "include": [
+      "color",
+      "model"
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "include": [
+      "color",
+      "model"
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "include": [
+      "color",
+      "model"
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "exclude": [
+      "color",
+      "model"
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "exclude": [
+      "color",
+      "model"
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "alter": {
+      "color": {
+        "red": "blue",
+        "blue": "red"
+      }
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "alter": {
+      "color": {
+        "red": "blue",
+        "blue": "red"
+      }
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "swap": {
+      "maker": "model"
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "item": {
+      "color": "red",
+      "model": "Model 3",
+      "type": "EV",
+      "maker": "Tesla",
+      "range": 300
+    }
+  },
+  "params": {
+    "swap": {
+      "maker": "model"
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "inject": [
+      {
+        "propId": "maker",
+        "from": 1
+      }
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "inject": [
+      {
+        "propId": "maker",
+        "from": 1,
+        "index": 0
+      }
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "color": "red",
+          "model": "Model 3",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 300
+        },
+        {
+          "color": "blue",
+          "model": "Model Y",
+          "type": "EV",
+          "maker": "Tesla",
+          "range": 400
+        }
+      ],
+      "Tesla Motors"
+    ]
+  },
+  "params": {
+    "inspect": [
+      {
+        "propId": "isTesla",
+        "equal": "Tesla Motors"
+      },
+      {
+        "propId": "isGM",
+        "notEqual": "Tesla Motors",
+        "from": 1
+      }
+    ]
+  }
+}
+```
+
+ - pushAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2
+    ],
+    "item": 3
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "apple": 1
+      }
+    ],
+    "item": {
+      "lemon": 2
+    }
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "apple": 1
+      }
+    ],
+    "items": [
+      {
+        "lemon": 2
+      },
+      {
+        "banana": 3
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+ - shiftAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "params": {}
+}
+```
+
+ - sleeperAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "duration": 1
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": [
+    {
+      "a": 1
+    },
+    {
+      "b": 2
+    }
+  ],
+  "params": {
+    "duration": 1
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "b": 2
+      }
+    ]
+  },
+  "params": {
+    "duration": 1
+  }
+}
+```
+
+ - sortByValuesAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "banana",
+      "orange",
+      "lemon",
+      "apple"
+    ],
+    "values": [
+      2,
+      5,
+      6,
+      4
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "banana",
+      "orange",
+      "lemon",
+      "apple"
+    ],
+    "values": [
+      2,
+      5,
+      6,
+      4
+    ]
+  },
+  "params": {
+    "assendant": true
+  }
+}
+```
+
+ - streamMockAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "message": "this is params test"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "message": "this is named inputs test"
+  },
+  "params": {}
+}
+```
+
+ - stringSplitterAgent
+
+```typescript
+{
+  "inputs": {
+    "text": "Here's to the crazy ones, the misfits, the rebels, the troublemakers, the round pegs in the square holes ... the ones who see things differently -- they're not fond of rules, and they have no respect for the status quo. ... You can quote them, disagree with them, glorify or vilify them, but the only thing you can't do is ignore them because they change things. ... They push the human race forward, and while some may see them as the crazy ones, we see genius, because the people who are crazy enough to think that they can change the world, are the ones who do."
+  },
+  "params": {
+    "chunkSize": 64
+  }
+}
+```
+
+ - stringTemplateAgent
+
+```typescript
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": "${message1}: ${message2}"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": [
+      "${message1}: ${message2}",
+      "${message2}: ${message1}"
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": {
+      "apple": "${message1}",
+      "lemon": "${message2}"
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": [
+      {
+        "apple": "${message1}",
+        "lemon": "${message2}"
+      }
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "message1": "hello",
+    "message2": "test"
+  },
+  "params": {
+    "template": {
+      "apple": "${message1}",
+      "lemon": [
+        "${message2}"
+      ]
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "agent": "openAiAgent",
+    "row": "hello world",
+    "params": {
+      "text": "message"
+    }
+  },
+  "params": {
+    "template": {
+      "version": 0.5,
+      "nodes": {
+        "ai": {
+          "agent": "${agent}",
+          "isResult": true,
+          "params": "${params}",
+          "inputs": {
+            "prompt": "${row}"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+ - totalAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      },
+      {
+        "a": 3
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "a": 1,
+          "b": -1
+        },
+        {
+          "c": 10
+        }
+      ],
+      [
+        {
+          "a": 2,
+          "b": -1
+        }
+      ],
+      [
+        {
+          "a": 3,
+          "b": -2
+        },
+        {
+          "d": -10
+        }
+      ]
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      },
+      {
+        "a": 3
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1,
+        "b": 1
+      },
+      {
+        "a": 2,
+        "b": 2
+      },
+      {
+        "a": 3,
+        "b": 0
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2,
+        "b": 2
+      },
+      {
+        "a": 3,
+        "b": 0
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+ - vanillaFetchAgent
+
+```typescript
+{
+  "inputs": {
+    "url": "https://www.google.com",
+    "queryParams": {
+      "foo": "bar"
+    },
+    "headers": {
+      "x-myHeader": "secret"
+    }
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "url": "https://www.google.com",
+    "body": {
+      "foo": "bar"
+    }
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+
 
 
 

@@ -28,6 +28,8 @@ const result = await graph.run();
 ### Input/Output/Params Schema & samples
 {sample}
 
+{examples}
+
 {environmentVariables}
 
 {relatedAgents}
