@@ -70,6 +70,14 @@ Read data from file system and returns data
 ]
 
 ````
+```json
+
+[
+  ":agentId",
+  ":agentId.data"
+]
+
+````
 
 ## Samples
 
@@ -91,7 +99,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/../../tests/files/"}
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/"}
 
 ````
 
@@ -134,7 +142,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"base64"}
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"base64"}
 
 ````
 
@@ -167,7 +175,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"text"}
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"text"}
 
 ````
 
@@ -179,6 +187,35 @@ Read data from file system and returns data
   "array": [
     "hello\n"
   ]
+}
+
+````
+### Sample3
+
+#### inputs
+
+```json
+
+{
+  "file": "test.txt"
+}
+
+````
+
+#### params
+
+```json
+
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"text"}
+
+````
+
+#### result
+
+```json
+
+{
+  "data": "hello\n"
 }
 
 ````
