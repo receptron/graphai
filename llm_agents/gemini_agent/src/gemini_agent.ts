@@ -12,7 +12,7 @@ type GeminiInputs = {
   messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
 
-export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, string | Array<any>, GeminiInputs> = async ({ params, namedInputs }) => {
+export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, GeminiInputs> = async ({ params, namedInputs }) => {
   const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);

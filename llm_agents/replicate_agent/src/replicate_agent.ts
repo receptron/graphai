@@ -12,7 +12,7 @@ type ReplicateInputs = {
   forWeb?: boolean;
 } & GrapAILLMInputBase;
 
-export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> | string, string | Array<any>, ReplicateInputs> = async ({
+export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> | string, ReplicateInputs> = async ({
   params,
   namedInputs,
 }) => {
@@ -22,7 +22,6 @@ export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> 
   };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
-  // const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
   const replicate = new Replicate();
 

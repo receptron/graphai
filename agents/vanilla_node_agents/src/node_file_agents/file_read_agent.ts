@@ -11,7 +11,6 @@ export const fileReadAgent: AgentFunction<
     array?: string[] | unknown[];
     data?: string | unknown;
   },
-  null,
   {
     array?: string[];
     file?: string;

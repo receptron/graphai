@@ -1,6 +1,6 @@
 {
   "name": "@graphai/input_agents",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Input agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/input_agents/README.md",
   "dependencies": {
-    "@inquirer/prompts": "^7.0.1"
+    "@inquirer/prompts": "^7.1.0"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",

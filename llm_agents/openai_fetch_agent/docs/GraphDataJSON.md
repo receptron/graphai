@@ -9,33 +9,10 @@
       "value": "hello, let me know the answer 1 + 1"
     },
     "llm": {
-      "agent": "openAIAgent",
+      "agent": "openAIFetchAgent",
       "inputs": {
         "prompt": ":inputData"
       }
-    }
-  }
-}
-```
-
-#### graphDataOpenAIPaint
-```json
-{
-  "version": 0.5,
-  "nodes": {
-    "inputData": {
-      "value": "dragon flying in the sky"
-    },
-    "llm": {
-      "agent": "openAIImageAgent",
-      "inputs": {
-        "prompt": ":inputData"
-      },
-      "params": {
-        "system": "Generate user-specified image",
-        "model": "dall-e-3"
-      },
-      "isResult": true
     }
   }
 }
@@ -50,7 +27,7 @@
       "value": "what is this"
     },
     "llm": {
-      "agent": "openAIAgent",
+      "agent": "openAIFetchAgent",
       "inputs": {
         "prompt": ":inputData"
       },

@@ -12,7 +12,6 @@ const replicateAgent = async ({ params, namedInputs, }) => {
         ...namedInputs,
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
-    // const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
     const replicate = new replicate_1.default();
     const output = await replicate.run(params.model, { input: { prompt: userPrompt } });
     const content = output.join("");

@@ -7,6 +7,6 @@ type GeminiInputs = {
     tools?: Array<Record<string, any>>;
     messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
-export declare const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, string | Array<any>, GeminiInputs>;
+export declare const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, GeminiInputs>;
 declare const geminiAgentInfo: AgentFunctionInfo;
 export default geminiAgentInfo;

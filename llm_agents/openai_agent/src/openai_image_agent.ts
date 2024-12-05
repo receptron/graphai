@@ -10,7 +10,7 @@ type OpenAIInputs = {
   forWeb?: boolean;
 } & GraphAILLMInputBase;
 
-export const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
+export const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({
   params,
   namedInputs,
 }) => {

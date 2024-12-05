@@ -28,6 +28,66 @@ const result = await graph.run();
 ### Input/Output/Params Schema & samples
  - [fileReadAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileReadAgent.md)
 
+### Input/Params example
+ - fileReadAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "test.txt"
+    ]
+  },
+  "params": {
+    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "test.txt"
+    ]
+  },
+  "params": {
+    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "outputType": "base64"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "test.txt"
+    ]
+  },
+  "params": {
+    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "outputType": "text"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "file": "test.txt"
+  },
+  "params": {
+    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "outputType": "text"
+  }
+}
+```
+
+
 
 
 

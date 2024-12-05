@@ -7,7 +7,7 @@ import assert from "node:assert";
 test("test groq", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
   const params = { model: "llama3-8b-8192" };
-  const res = (await groqAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await groqAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);
@@ -44,7 +44,7 @@ test("test groq tools", async () => {
     ],
     model: "llama3-8b-8192",
   };
-  const res = (await groqAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await groqAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
 
   if (res) {
     console.log(res.tool);
@@ -55,7 +55,7 @@ test("test groq tools", async () => {
 test("test groq stream", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
   const params = { model: "llama3-8b-8192", stream: true };
-  const res = (await groqAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await groqAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);

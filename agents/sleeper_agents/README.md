@@ -30,6 +30,68 @@ const result = await graph.run();
  - [sleepAndMergeAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleepAndMergeAgent.md)
  - [sleeperAgentDebug](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleeperAgentDebug.md)
 
+### Input/Params example
+ - sleepAndMergeAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "duration": 1
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "b": 2
+      }
+    ]
+  },
+  "params": {
+    "duration": 1
+  }
+}
+```
+
+ - sleeperAgentDebug
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "duration": 1
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "b": 2
+      }
+    ]
+  },
+  "params": {
+    "duration": 1
+  }
+}
+```
+
+
 
 
 

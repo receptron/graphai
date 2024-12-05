@@ -13,7 +13,7 @@ type AnthropicInputs = {
   messages?: Array<Record<string, any>>;
 } & GraphAILLMInputBase;
 
-export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, string | Array<any>, AnthropicInputs> = async ({
+export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, AnthropicInputs> = async ({
   params,
   namedInputs,
   filterParams,

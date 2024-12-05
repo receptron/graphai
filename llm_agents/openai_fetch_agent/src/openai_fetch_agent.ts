@@ -51,7 +51,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
   };
 };
 
-export const openAIFetchAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs> = async ({
+export const openAIFetchAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({
   filterParams,
   params,
   namedInputs,

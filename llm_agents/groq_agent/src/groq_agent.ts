@@ -77,9 +77,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
 
 export const groqAgent: AgentFunction<
   GroqInputs & { model: string },
-  // Groq.Chat.ChatCompletion,
   any,
-  string | Array<ChatCompletionMessageParam>,
   GroqInputs
 > = async ({ params, namedInputs, filterParams }) => {
   assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");

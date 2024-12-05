@@ -2,7 +2,7 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 import deepmerge from "deepmerge";
 
 type MegeDataType = Record<string, unknown>;
-export const dataObjectMergeTemplateAgent: AgentFunction<null, MegeDataType, null, { array: MegeDataType[] }> = async ({ namedInputs }) => {
+export const dataObjectMergeTemplateAgent: AgentFunction<null, MegeDataType, { array: MegeDataType[] }> = async ({ namedInputs }) => {
   return namedInputs.array.reduce((tmp: MegeDataType, input: MegeDataType) => {
     return deepmerge(tmp, input);
   }, {});

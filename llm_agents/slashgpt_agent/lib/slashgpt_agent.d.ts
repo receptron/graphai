@@ -4,7 +4,7 @@ export declare const slashGPTAgent: AgentFunction<{
     manifest: ManifestData;
     query?: string;
     function_result?: boolean;
-}, ChatData[], null, {
+}, ChatData[], {
     array?: string[];
 }>;
 declare const slashGPTAgentInfo: AgentFunctionInfo;

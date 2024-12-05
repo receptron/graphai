@@ -42,6 +42,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "yaml": "^2.6.0"
+    "yaml": "^2.6.1"
   }
 }

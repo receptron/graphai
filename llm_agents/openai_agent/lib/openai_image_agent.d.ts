@@ -6,6 +6,6 @@ type OpenAIInputs = {
     apiKey?: string;
     forWeb?: boolean;
 } & GraphAILLMInputBase;
-export declare const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs>;
+export declare const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs>;
 declare const openAIImageAgentInfo: AgentFunctionInfo;
 export default openAIImageAgentInfo;

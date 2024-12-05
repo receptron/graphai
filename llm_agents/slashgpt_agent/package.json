@@ -1,6 +1,6 @@
 {
   "name": "@graphai/slashgpt_agent",
-  "version": "0.0.5",
+  "version": "0.2.0",
   "description": "SlashGPT agents for GraphAI.",
   "main": "lib/index.js",
   "files": [

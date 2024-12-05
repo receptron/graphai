@@ -10,7 +10,7 @@ test("test openai", async () => {
   const params = {
     apiKey: process.env["OPENAI_API_KEY"],
   };
-  const res = (await openAIFetchAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await openAIFetchAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);
@@ -29,7 +29,6 @@ test("test openai streaming", async () => {
     console.log(token);
   };
   const res = (await openAIFetchAgent({
-    inputs: [],
     namedInputs,
     params,
     filterParams: { streamTokenCallback },
@@ -71,7 +70,7 @@ test("test openai tools", async () => {
     ],
   };
 
-  const res = (await openAIFetchAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await openAIFetchAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
 
   if (res) {
     console.log(res.tool);
