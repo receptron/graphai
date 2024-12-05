@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, null, {
+export declare const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, {
     matrix: Array<Array<number>>;
     vector: Array<number>;
 }>;

@@ -113,17 +113,12 @@ const processTemplate = (template, match, input) => {
     }
     return template;
 };
-const stringTemplateAgent = async ({ params, inputs, namedInputs }) => {
+const stringTemplateAgent = async ({ params, namedInputs }) => {
     if (params.template === undefined) {
         if (namedInputs.text) {
             return namedInputs.text;
         }
         console.warn("warning: stringTemplateAgent no template");
-    }
-    if (inputs && inputs.length > 0) {
-        return inputs.reduce((template, input, index) => {
-            return processTemplate(template, "${" + index + "}", input);
-        }, params.template);
     }
     return Object.keys(namedInputs).reduce((template, key) => {
         return processTemplate(template, "${" + key + "}", namedInputs[key]);
@@ -2125,11 +2120,6 @@ const sleeperAgentInfo = {
     samples: [
         {
             inputs: {},
-            params: { duration: 1 },
-            result: {},
-        },
-        {
-            inputs: [{ a: 1 }, { b: 2 }],
             params: { duration: 1 },
             result: {},
         },

@@ -59,7 +59,7 @@ export const workerAgent: AgentFunction<null, any, any> = async ({ namedInputs, 
         (graphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
       }
     });
-  };
+  }
 
   return new Promise((resolve, reject) => {
     const worker = new Worker(__dirname + "/worker_agent");

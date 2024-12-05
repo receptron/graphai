@@ -88,7 +88,6 @@ export type GraphOptions = {
 
 export type CacheTypes = "pureAgent" | "impureAgent";
 
-
 export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataType = DefaultInputData> = {
   params: NodeDataParams<ParamsType>;
   inputSchema?: any;
@@ -123,7 +122,7 @@ export type AgentFunction<
   ResultType = DefaultResultData,
   InputDataType = DefaultInputData,
   NamedInputDataType = undefined,
-  > = NamedInputDataType extends undefined
+> = NamedInputDataType extends undefined
   ? (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>
   : (context: AgentFunctionContext<ParamsType, NamedInputDataType>) => Promise<ResultData<ResultType>>;
 
@@ -132,7 +131,7 @@ export type AgentFilterFunction<
   ResultType = DefaultResultData,
   InputDataType = DefaultInputData,
   NamedInputDataType = undefined,
-  > = NamedInputDataType extends undefined
+> = NamedInputDataType extends undefined
   ? (context: AgentFunctionContext<ParamsType, InputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>
   : (context: AgentFunctionContext<ParamsType, NamedInputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
 
