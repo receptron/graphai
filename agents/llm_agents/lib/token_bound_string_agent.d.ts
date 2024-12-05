@@ -5,7 +5,7 @@ export declare const tokenBoundStringsAgent: AgentFunction<{
     content: string;
     tokenCount: number;
     endIndex: number;
-}, null, {
+}, {
     chunks: Array<string>;
 }>;
 declare const tokenBoundStringsAgentInfo: AgentFunctionInfo;

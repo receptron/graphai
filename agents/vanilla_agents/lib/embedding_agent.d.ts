@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 export declare const stringEmbeddingsAgent: AgentFunction<{
     model?: string;
-}, number[][], null, {
+}, number[][], {
     array: Array<string>;
     item: string;
 }>;
