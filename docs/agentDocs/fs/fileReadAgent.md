@@ -99,7 +99,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/"}
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"}
 
 ````
 
@@ -142,7 +142,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"base64"}
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"base64"}
 
 ````
 
@@ -175,7 +175,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"text"}
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
 
 ````
 
@@ -206,7 +206,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/../../tests/files/","outputType":"text"}
+{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
 
 ````
 
