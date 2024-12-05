@@ -40,7 +40,7 @@
     "@graphai/agents": "^0.1.6",
     "@receptron/test_utils": "^0.0.8",
     "dotenv": "^16.4.5",
-    "graphai": "^0.5.19",
+    "graphai": "^0.6.2",
     "json-schema-generator": "^2.0.6",
     "yargs": "^17.7.2"
   },
