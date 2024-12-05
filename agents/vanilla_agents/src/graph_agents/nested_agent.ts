@@ -1,9 +1,9 @@
 import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
 
-export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph }) => {
+export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async ({ namedInputs, log, debugInfo, params, forNestedGraph }) => {
   assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
 
-  const { agents, graphData, graphOptions } = forNestedGraph;
+  const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
   const { taskManager } = graphOptions;
   const throwError = params.throwError ?? false;
   if (taskManager) {
