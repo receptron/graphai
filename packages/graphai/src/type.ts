@@ -100,9 +100,9 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
     version?: number;
     isResult?: boolean;
   };
-  graphData?: GraphData; // for nested graph. TODO remove next version.
-  agents?: AgentFunctionInfoDictionary; // for nested graph. TODO remove next version.
-  taskManager?: TaskManager; // for nested graph. TODO remove next version.
+  // graphData?: GraphData; // for nested graph. TODO remove next version.
+  // agents?: AgentFunctionInfoDictionary; // for nested graph. TODO remove next version.
+  // taskManager?: TaskManager; // for nested graph. TODO remove next version.
   forNestedGraph?: {
     graphData: GraphData; // nested graph
     agents: AgentFunctionInfoDictionary; // for nested graph

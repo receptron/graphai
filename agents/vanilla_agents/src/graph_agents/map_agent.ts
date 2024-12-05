@@ -8,10 +8,10 @@ export const mapAgent: AgentFunction<
     throwError?: boolean;
   },
   Record<string, any>
-> = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
+> = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
   assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
 
-  const { agents, graphData, graphOptions } = forNestedGraph;
+  const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
   const { taskManager } = graphOptions;
 
   if (taskManager) {
