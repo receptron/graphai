@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.replicateAgent = void 0;
 const replicate_1 = __importDefault(require("replicate"));
 const llm_utils_1 = require("@graphai/llm_utils");
-const replicateAgent = async ({ params, namedInputs, }) => {
+const replicateAgent = async ({ params, namedInputs }) => {
     const { prompt } = {
         ...params,
         ...namedInputs,

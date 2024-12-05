@@ -37,7 +37,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
         messages,
     };
 };
-const openAIAgent = async ({ filterParams, params, namedInputs, }) => {
+const openAIAgent = async ({ filterParams, params, namedInputs }) => {
     const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb, response_format } = {
         ...params,
         ...namedInputs,

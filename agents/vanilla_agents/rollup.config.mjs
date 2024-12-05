@@ -12,7 +12,7 @@ export default [
       sourcemap: true,
     },
     external: ["graphai"],
-    plugins: [commonjs({ignore: ['graphai']}), pluginTypescript()],
+    plugins: [commonjs({ ignore: ["graphai"] }), pluginTypescript()],
   },
   {
     input: "./src/index.ts",
@@ -22,7 +22,7 @@ export default [
       sourcemap: true,
     },
     external: ["graphai"],
-    plugins: [commonjs({ignore: ['graphai']}), pluginTypescript(), terser()],
+    plugins: [commonjs({ ignore: ["graphai"] }), pluginTypescript(), terser()],
   },
   {
     input: "./src/index.ts",
@@ -32,7 +32,7 @@ export default [
       sourcemap: true,
     },
     external: ["graphai"],
-    plugins: [commonjs({ignore: ['graphai']}), resolve(), pluginTypescript()],
+    plugins: [commonjs({ ignore: ["graphai"] }), resolve(), pluginTypescript()],
   },
   {
     input: "./src/index.ts",
@@ -42,7 +42,7 @@ export default [
       sourcemap: true,
     },
     external: ["graphai"],
-    plugins: [commonjs({ignore: ['graphai']}), pluginTypescript(), terser()],
+    plugins: [commonjs({ ignore: ["graphai"] }), pluginTypescript(), terser()],
   },
   {
     input: "./src/index.ts",
@@ -56,6 +56,6 @@ export default [
       },
     },
     external: ["graphai"],
-    plugins: [commonjs({ignore: ['graphai']}), pluginTypescript()],
+    plugins: [commonjs({ ignore: ["graphai"] }), pluginTypescript()],
   },
 ];

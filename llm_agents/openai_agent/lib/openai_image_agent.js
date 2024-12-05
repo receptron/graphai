@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.openAIImageAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const llm_utils_1 = require("@graphai/llm_utils");
-const openAIImageAgent = async ({ params, namedInputs, }) => {
+const openAIImageAgent = async ({ params, namedInputs }) => {
     const { system, baseURL, apiKey, prompt, forWeb } = { ...params, ...namedInputs };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
