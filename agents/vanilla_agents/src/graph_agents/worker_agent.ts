@@ -44,11 +44,11 @@ if (!isMainThread && parentPort) {
   });
 }
 
-export const workerAgent: AgentFunction<null, any, any> = async ({ namedInputs, /* agents, log, */ forNestedGraph }) => { 
+export const workerAgent: AgentFunction<null, any, any> = async ({ namedInputs, /* agents, log, */ forNestedGraph }) => {
   const { graphData } = forNestedGraph ?? {};
   assert(!!graphData, "required");
   assert(typeof graphData === "object", "required");
-  
+
   const nodeIds = Object.keys(namedInputs);
   if (nodeIds.length > 0) {
     nodeIds.forEach((nodeId) => {

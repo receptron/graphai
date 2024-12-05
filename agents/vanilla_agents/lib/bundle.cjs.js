@@ -1030,9 +1030,9 @@ const streamMockAgentInfo = {
     stream: true,
 };
 
-const nestedAgent = async ({ namedInputs, log, debugInfo, onLogCallback, params, forNestedGraph }) => {
+const nestedAgent = async ({ namedInputs, log, debugInfo, params, forNestedGraph }) => {
     graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { agents, graphData, graphOptions } = forNestedGraph;
+    const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
     const { taskManager } = graphOptions;
     const throwError = params.throwError ?? false;
     if (taskManager) {
@@ -1112,9 +1112,9 @@ const nestedAgentInfo = {
     license: "MIT",
 };
 
-const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
+const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { agents, graphData, graphOptions } = forNestedGraph;
+    const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
         const status = taskManager.getStatus();

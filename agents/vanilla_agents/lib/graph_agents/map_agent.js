@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
-const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
+const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { agents, graphData, graphOptions } = forNestedGraph;
+    const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
         const status = taskManager.getStatus();

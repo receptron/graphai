@@ -29,7 +29,8 @@ if (!worker_threads_1.isMainThread && worker_threads_1.parentPort) {
         port.postMessage(result);
     });
 }
-const workerAgent = async ({ namedInputs, /* agents, log, */ graphData }) => {
+const workerAgent = async ({ namedInputs, /* agents, log, */ forNestedGraph }) => {
+    const { graphData } = forNestedGraph ?? {};
     (0, graphai_1.assert)(!!graphData, "required");
     (0, graphai_1.assert)(typeof graphData === "object", "required");
     const nodeIds = Object.keys(namedInputs);
