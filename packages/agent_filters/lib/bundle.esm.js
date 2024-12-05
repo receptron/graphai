@@ -35,8 +35,8 @@ const namedInputValidatorFilter = async (context, next) => {
 };
 
 async function* streamChatCompletion(url, postData) {
-    const { params, inputs, namedInputs, debugInfo, filterParams } = postData;
-    const postBody = { params, inputs, debugInfo, filterParams, namedInputs };
+    const { params, namedInputs, debugInfo, filterParams } = postData;
+    const postBody = { params, debugInfo, filterParams, namedInputs };
     const completion = await fetch(url, {
         headers: {
             "Content-Type": "text/event-stream",
@@ -92,7 +92,7 @@ const httpRequest = async (url, postData) => {
     return await response.json();
 };
 const httpAgentFilter = async (context, next) => {
-    const { params, inputs, debugInfo, filterParams, namedInputs } = context;
+    const { params, debugInfo, filterParams, namedInputs } = context;
     if (filterParams?.server) {
         const { baseUrl, isDebug, serverAgentUrlDictionary } = filterParams.server;
         const agentId = debugInfo.agentId;
@@ -103,7 +103,6 @@ const httpAgentFilter = async (context, next) => {
         }
         const postData = {
             params,
-            inputs,
             debugInfo,
             filterParams,
             namedInputs,
