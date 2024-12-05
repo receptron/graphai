@@ -117,18 +117,14 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
   config?: Record<string, unknown>;
 };
 
-export type AgentFunction<
-  ParamsType = DefaultParamsType,
-  ResultType = DefaultResultData,
-  NamedInputDataType = DefaultInputData,
-> = (context: AgentFunctionContext<ParamsType, NamedInputDataType>) => Promise<ResultData<ResultType>>;
+export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, NamedInputDataType = DefaultInputData> = (
+  context: AgentFunctionContext<ParamsType, NamedInputDataType>,
+) => Promise<ResultData<ResultType>>;
 
-export type AgentFilterFunction<
-  ParamsType = DefaultParamsType,
-  ResultType = DefaultResultData,
-  NamedInputDataType = DefaultInputData,
-> = (context: AgentFunctionContext<ParamsType, NamedInputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
-
+export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, NamedInputDataType = DefaultInputData> = (
+  context: AgentFunctionContext<ParamsType, NamedInputDataType>,
+  agent: AgentFunction,
+) => Promise<ResultData<ResultType>>;
 
 export type AgentFilterInfo = {
   name: string;
