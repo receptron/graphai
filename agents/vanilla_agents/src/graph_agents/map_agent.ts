@@ -7,8 +7,7 @@ export const mapAgent: AgentFunction<
     compositeResult?: boolean;
     throwError?: boolean;
   },
-  Record<string, any>,
-  any
+  Record<string, any>
 > = async ({ params, namedInputs, log, debugInfo, forNestedGraph, onLogCallback }) => {
   assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
 

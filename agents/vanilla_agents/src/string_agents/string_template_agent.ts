@@ -27,7 +27,6 @@ export const stringTemplateAgent: AgentFunction<
     template: StringTemplateObject;
   },
   StringTemplateObject,
-  string,
   Record<string, string>
 > = async ({ params, namedInputs }) => {
   if (params.template === undefined) {

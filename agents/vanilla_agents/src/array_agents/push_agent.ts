@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { arrayValidate } from "@graphai/agent_utils";
 
-export const pushAgent: AgentFunction<null, { array: Array<unknown> }, null, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({
+export const pushAgent: AgentFunction<null, { array: Array<unknown> }, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({
   namedInputs,
 }) => {
   const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";

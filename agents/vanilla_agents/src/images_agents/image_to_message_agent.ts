@@ -28,7 +28,6 @@ export const images2messageAgent: AgentFunction<
       content: Content[];
     };
   },
-  Array<never>,
   {
     array: string[];
     prompt?: string;

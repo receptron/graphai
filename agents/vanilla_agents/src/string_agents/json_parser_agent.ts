@@ -3,7 +3,6 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 export const jsonParserAgent: AgentFunction<
   null,
   unknown,
-  null,
   {
     text: string;
     data: unknown;
