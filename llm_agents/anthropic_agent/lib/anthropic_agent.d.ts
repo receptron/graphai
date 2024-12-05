@@ -7,6 +7,6 @@ type AnthropicInputs = {
     stream?: boolean;
     messages?: Array<Record<string, any>>;
 } & GraphAILLMInputBase;
-export declare const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, string | Array<any>, AnthropicInputs>;
+export declare const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, AnthropicInputs>;
 declare const anthropicAgentInfo: AgentFunctionInfo;
 export default anthropicAgentInfo;
