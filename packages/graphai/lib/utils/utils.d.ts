@@ -30,8 +30,8 @@ export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any>) => 
     author: string;
     repository: string;
     license: string;
-    agent: (context: import("../type").AgentFunctionContext<any, any>) => Promise<any>;
-    mock: (context: import("../type").AgentFunctionContext<any, any>) => Promise<any>;
+    agent: AgentFunction<any, any, any>;
+    mock: AgentFunction<any, any, any>;
 };
 export declare const debugResultKey: (agentId: string, result: any) => string[];
 export declare const isLogicallyTrue: (value: any) => boolean;
