@@ -44,8 +44,8 @@ if (!isMainThread && parentPort) {
   });
 }
 
-export const workerAgent: AgentFunction<null, any, any> = async ({ namedInputs, /* agents, log, */ forNestedGraph }) => {
-  const { graphData } = forNestedGraph;
+export const workerAgent: AgentFunction<null, any, any> = async ({ namedInputs, /* agents, log, */ forNestedGraph }) => { 
+  const { graphData } = forNestedGraph ?? {};
   assert(!!graphData, "required");
   assert(typeof graphData === "object", "required");
   
