@@ -33,7 +33,6 @@ export declare class ComputedNode extends Node {
     readonly anyInput: boolean;
     dataSources: DataSource[];
     private inputs?;
-    isNamedInputs: boolean;
     pendings: Set<string>;
     private ifSource?;
     private unlessSource?;

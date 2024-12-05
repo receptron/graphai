@@ -45,7 +45,6 @@ class ComputedNode extends Node {
         super(nodeId, graph);
         this.retryCount = 0;
         this.dataSources = []; // no longer needed. This is for transaction log.
-        this.isNamedInputs = false;
         this.isStaticNode = false;
         this.isComputedNode = true;
         this.graphId = graphId;
@@ -59,7 +58,6 @@ class ComputedNode extends Node {
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
-        // this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
         this.dataSources = data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : [];
         if (data.inputs && Array.isArray(data.inputs)) {
             throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -71,7 +69,6 @@ class ComputedNode extends Node {
         }
         else {
             const agent = data.agent;
-            // this.agentFunction = this.isNamedInputs ? async ({ namedInputs, params }) => agent(namedInputs, params) : async ({ inputs }) => agent(...inputs);
             this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
         }
         if (data.graph) {
@@ -311,7 +308,6 @@ class ComputedNode extends Node {
     getContext(previousResults, localLog) {
         const context = {
             params: this.getParams(),
-            // inputs: this.getInputs(previousResults),
             namedInputs: previousResults,
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
             debugInfo: this.getDebugInfo(),
@@ -346,7 +342,6 @@ class ComputedNode extends Node {
     }
     beforeConsoleLog(context) {
         if (this.console.before === true) {
-            // console.log(JSON.stringify(this.isNamedInputs ? context.namedInputs : context.inputs, null, 2));
             console.log(JSON.stringify(context.namedInputs, null, 2));
         }
         else if (this.console.before) {
