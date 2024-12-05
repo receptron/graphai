@@ -1,4 +1,4 @@
-import require$$0, { assert, isObject, sleep, graphDataLatestVersion, GraphAI } from 'graphai';
+import { assert, isObject, sleep, graphDataLatestVersion, GraphAI } from 'graphai';
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -263,7 +263,7 @@ function requireLib () {
 	(function (exports) {
 		Object.defineProperty(exports, "__esModule", { value: true });
 		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
-		const graphai_1 = require$$0;
+		const graphai_1 = require("graphai");
 		const sample2GraphData = (sample, agentName) => {
 		    const nodes = {};
 		    const inputs = (() => {
