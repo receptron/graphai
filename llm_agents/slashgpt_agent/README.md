@@ -28,6 +28,19 @@ const result = await graph.run();
 ### Input/Output/Params Schema & samples
  - [slashGPTAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/slashGPTAgent.md)
 
+### Input/Params example
+ - slashGPTAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "query": "Come up with ten business ideas for AI startup"
+  }
+}
+```
+
+
 
 
 

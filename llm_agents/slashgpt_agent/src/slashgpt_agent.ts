@@ -11,7 +11,6 @@ export const slashGPTAgent: AgentFunction<
     function_result?: boolean;
   },
   ChatData[],
-  null,
   {
     array?: string[];
   }
