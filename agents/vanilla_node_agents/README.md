@@ -14,9 +14,9 @@ yarn add @graphai/vanilla_node_agents
 
 ```typescript
 import { GraphAI } from "graphai";
-import { fileReadAgent } from "@graphai/vanilla_node_agents";
+import { fileReadAgent, fileWriteAgent } from "@graphai/vanilla_node_agents";
 
-const agents = { fileReadAgent };
+const agents = { fileReadAgent, fileWriteAgent };
 
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
@@ -24,9 +24,11 @@ const result = await graph.run();
 
 ### Agents description
 - fileReadAgent - Read data from file system and returns data
+- fileWriteAgent - Write data to file system
 
 ### Input/Output/Params Schema & samples
  - [fileReadAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileReadAgent.md)
+ - [fileWriteAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileWriteAgent.md)
 
 ### Input/Params example
  - fileReadAgent
@@ -83,6 +85,20 @@ const result = await graph.run();
   "params": {
     "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
     "outputType": "text"
+  }
+}
+```
+
+ - fileWriteAgent
+
+```typescript
+{
+  "inputs": {
+    "fileName": "write.txt",
+    "text": "hello"
+  },
+  "params": {
+    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
   }
 }
 ```

@@ -1,2 +1,3 @@
 import fileReadAgent from "./file_read_agent";
-export { fileReadAgent };
+import fileWriteAgent from "./file_write_agent";
+export { fileReadAgent, fileWriteAgent };
