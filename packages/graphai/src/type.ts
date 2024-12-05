@@ -120,20 +120,15 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
 export type AgentFunction<
   ParamsType = DefaultParamsType,
   ResultType = DefaultResultData,
-  InputDataType = DefaultInputData,
-  NamedInputDataType = undefined,
-> = NamedInputDataType extends undefined
-  ? (context: AgentFunctionContext<ParamsType, InputDataType>) => Promise<ResultData<ResultType>>
-  : (context: AgentFunctionContext<ParamsType, NamedInputDataType>) => Promise<ResultData<ResultType>>;
+  NamedInputDataType = DefaultInputData,
+> = (context: AgentFunctionContext<ParamsType, NamedInputDataType>) => Promise<ResultData<ResultType>>;
 
 export type AgentFilterFunction<
   ParamsType = DefaultParamsType,
   ResultType = DefaultResultData,
-  InputDataType = DefaultInputData,
-  NamedInputDataType = undefined,
-> = NamedInputDataType extends undefined
-  ? (context: AgentFunctionContext<ParamsType, InputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>
-  : (context: AgentFunctionContext<ParamsType, NamedInputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
+  NamedInputDataType = DefaultInputData,
+> = (context: AgentFunctionContext<ParamsType, NamedInputDataType>, agent: AgentFunction) => Promise<ResultData<ResultType>>;
+
 
 export type AgentFilterInfo = {
   name: string;
