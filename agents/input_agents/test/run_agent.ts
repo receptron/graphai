@@ -5,7 +5,6 @@ const main = async () => {
   const res = await packages.textInputAgent.agent({
     ...defaultTestContext,
     namedInputs: {},
-    inputs: [],
     params: {
       // required: true
     }
