@@ -12,6 +12,6 @@ type GroqInputs = {
 } & GraphAILLMInputBase;
 export declare const groqAgent: AgentFunction<GroqInputs & {
     model: string;
-}, any, string | Array<ChatCompletionMessageParam>, GroqInputs>;
+}, any, GroqInputs>;
 declare const groqAgentInfo: AgentFunctionInfo;
 export default groqAgentInfo;
