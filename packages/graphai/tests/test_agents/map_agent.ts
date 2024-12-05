@@ -7,7 +7,9 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, namedInputs, agents, log, taskManager, graphData, agentFilters, debugInfo, config }) => {
+> = async ({ params, namedInputs, log, forNestedGraph, agentFilters, debugInfo, config }) => {
+  const { graphData, agents, graphOptions } = forNestedGraph ?? {};
+  const { taskManager } = graphOptions ?? {};
   if (taskManager) {
     const status = taskManager.getStatus();
     assert(status.concurrency > status.running, `mapAgent: Concurrency is too low: ${status.concurrency}`);
