@@ -229,7 +229,7 @@ class ComputedNode extends Node {
                 */
                 // context.agents = this.graph.agentFunctionInfoDictionary;
                 context.forNestedGraph = {
-                    graphData: ("nodes" in this.nestedGraph) ? this.nestedGraph : this.graph.resultOf(this.nestedGraph), // HACK: compiler work-around
+                    graphData: "nodes" in this.nestedGraph ? this.nestedGraph : this.graph.resultOf(this.nestedGraph), // HACK: compiler work-around
                     agents: this.graph.agentFunctionInfoDictionary,
                     graphOptions: {
                         agentFilters: this.graph.agentFilters,
