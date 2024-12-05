@@ -16,7 +16,7 @@ type OpenAIInputs = {
     forWeb?: boolean;
     response_format?: any;
 } & GraphAILLMInputBase;
-export declare const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, string | Array<any>, OpenAIInputs>;
+export declare const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;
     query?: string;

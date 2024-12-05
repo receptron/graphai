@@ -14,7 +14,7 @@ test("test oolama", async () => {
     model,
     apiKey: model,
   };
-  const res = (await openAIAgent({ inputs: [], namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await openAIAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
   if (res) {
     console.log(res.choices[0].message["content"]);
   }
