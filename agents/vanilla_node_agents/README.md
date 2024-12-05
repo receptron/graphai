@@ -41,7 +41,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
+    "basePath": "/tmp/tests/files/"
   }
 }
 ```
@@ -55,7 +55,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "basePath": "/tmp/tests/files/",
     "outputType": "base64"
   }
 }
@@ -70,7 +70,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "basePath": "/tmp/tests/files/",
     "outputType": "text"
   }
 }
@@ -83,7 +83,7 @@ const result = await graph.run();
     "file": "test.txt"
   },
   "params": {
-    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "basePath": "/tmp/tests/files/",
     "outputType": "text"
   }
 }
@@ -98,7 +98,7 @@ const result = await graph.run();
     "text": "hello"
   },
   "params": {
-    "basePath": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
+    "basePath": "/tmp/tests/files/"
   }
 }
 ```
