@@ -13,11 +13,7 @@ type AnthropicInputs = {
   messages?: Array<Record<string, any>>;
 } & GraphAILLMInputBase;
 
-export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, AnthropicInputs> = async ({
-  params,
-  namedInputs,
-  filterParams,
-}) => {
+export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, AnthropicInputs> = async ({ params, namedInputs, filterParams }) => {
   const { model, system, temperature, max_tokens, prompt, messages, stream } = { ...params, ...namedInputs };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);

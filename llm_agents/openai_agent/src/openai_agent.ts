@@ -51,11 +51,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
   };
 };
 
-export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({
-  filterParams,
-  params,
-  namedInputs,
-}) => {
+export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({ filterParams, params, namedInputs }) => {
   const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb, response_format } = {
     ...params,
     ...namedInputs,

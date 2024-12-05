@@ -10,10 +10,7 @@ type OpenAIInputs = {
   forWeb?: boolean;
 } & GraphAILLMInputBase;
 
-export const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({
-  params,
-  namedInputs,
-}) => {
+export const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({ params, namedInputs }) => {
   const { system, baseURL, apiKey, prompt, forWeb } = { ...params, ...namedInputs };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);

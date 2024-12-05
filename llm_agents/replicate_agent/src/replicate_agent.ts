@@ -12,10 +12,7 @@ type ReplicateInputs = {
   forWeb?: boolean;
 } & GrapAILLMInputBase;
 
-export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> | string, ReplicateInputs> = async ({
-  params,
-  namedInputs,
-}) => {
+export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> | string, ReplicateInputs> = async ({ params, namedInputs }) => {
   const { prompt } = {
     ...params,
     ...namedInputs,
