@@ -55,7 +55,6 @@ export declare class ComputedNode extends Node {
     private prepareExecute;
     private errorProcess;
     private getParams;
-    private getInputs;
     private getContext;
     private getResult;
     private getDebugInfo;

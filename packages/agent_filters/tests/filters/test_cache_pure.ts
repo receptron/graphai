@@ -28,7 +28,7 @@ test("test cache pureAgent cache hit", async () => {
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
   const result = await agentFilterRunner(
-    { ...defaultTestContext, inputs: [], namedInputs: { message: "123" }, params: {}, cacheType: "pureAgent" },
+    { ...defaultTestContext, namedInputs: { message: "123" }, params: {}, cacheType: "pureAgent" },
     echoAgent.agent,
   );
   assert.deepStrictEqual(result, { result: "fromCache" });
@@ -44,7 +44,7 @@ test("test cache pureAgent cache not hit", async () => {
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
   const result = await agentFilterRunner(
-    { ...defaultTestContext, inputs: [], namedInputs: { message: "abc" }, params: { test: "123" }, cacheType: "pureAgent" },
+    { ...defaultTestContext, namedInputs: { message: "abc" }, params: { test: "123" }, cacheType: "pureAgent" },
     echoAgent.agent,
   );
   // console.log(JSON.stringify(result));

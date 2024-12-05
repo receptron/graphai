@@ -5,11 +5,11 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import test from "node:test";
 import assert from "node:assert";
 
-const httpAgent: AgentFunction = async ({ inputs, params, namedInputs }) => {
+const httpAgent: AgentFunction = async ({ params, namedInputs }) => {
   const { agent, params: postParams } = params;
   const url = "http://localhost:8085/agents/" + agent;
 
-  const postData = { inputs, params: postParams, namedInputs };
+  const postData = { params: postParams, namedInputs };
 
   const response = await fetch(url, {
     method: "post",

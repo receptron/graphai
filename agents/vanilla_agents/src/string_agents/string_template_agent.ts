@@ -27,19 +27,13 @@ export const stringTemplateAgent: AgentFunction<
     template: StringTemplateObject;
   },
   StringTemplateObject,
-  string,
   Record<string, string>
-> = async ({ params, inputs, namedInputs }) => {
+> = async ({ params, namedInputs }) => {
   if (params.template === undefined) {
     if (namedInputs.text) {
       return namedInputs.text;
     }
     console.warn("warning: stringTemplateAgent no template");
-  }
-  if (inputs && inputs.length > 0) {
-    return inputs.reduce((template, input, index) => {
-      return processTemplate(template, "${" + index + "}", input);
-    }, params.template);
   }
   return Object.keys(namedInputs).reduce((template, key) => {
     return processTemplate(template, "${" + key + "}", namedInputs[key]);

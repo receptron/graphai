@@ -14,7 +14,6 @@ export const sortByValuesAgent: AgentFunction<
     assendant?: boolean;
   },
   Array<unknown>,
-  null,
   {
     array: Array<unknown>;
     values: Array<unknown>;

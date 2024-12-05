@@ -21,7 +21,6 @@ export const stringSplitterAgent: AgentFunction<
     chunkSize: number;
     overlap: number;
   },
-  null,
   {
     text: string;
   }

@@ -7,7 +7,7 @@ import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 //  vector: One dimentional array of numbers.
 // Outputs:
 //  { contents: Array<number> } // array of docProduct of each vector (A[]) and vector B
-export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, null, { matrix: Array<Array<number>>; vector: Array<number> }> = async ({
+export const dotProductAgent: AgentFunction<Record<never, never>, Array<number>, { matrix: Array<Array<number>>; vector: Array<number> }> = async ({
   namedInputs,
 }) => {
   assert(!!namedInputs, "dotProductAgent: namedInputs is UNDEFINED!");

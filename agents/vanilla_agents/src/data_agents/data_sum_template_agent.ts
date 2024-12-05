@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
 
-export const dataSumTemplateAgent: AgentFunction<null, number, null, { array: number[] }> = async ({ namedInputs }) => {
+export const dataSumTemplateAgent: AgentFunction<null, number, { array: number[] }> = async ({ namedInputs }) => {
   assert(isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
   assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
 

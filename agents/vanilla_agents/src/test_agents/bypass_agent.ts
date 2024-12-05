@@ -1,26 +1,15 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { isNamedInputs } from "@graphai/agent_utils";
+// import { isNamedInputs } from "@graphai/agent_utils";
 
 export const bypassAgent: AgentFunction<{
-  flat?: number;
-  firstElement?: boolean;
   namedKey?: string;
-}> = async ({ params, inputs, namedInputs }) => {
+}> = async ({ params, namedInputs }) => {
   console.warn(`bypassAgent have been deprecated. replace bypassAgent to copyAgent`);
-  const { flat, firstElement, namedKey } = params;
-  if (isNamedInputs(namedInputs)) {
-    if (namedKey) {
-      return namedInputs[namedKey];
-    }
-    return namedInputs;
+  const { namedKey } = params;
+  if (namedKey) {
+    return namedInputs[namedKey];
   }
-  if (params && firstElement) {
-    return inputs[0];
-  }
-  if (params && flat) {
-    return inputs.flat(flat || 1);
-  }
-  return inputs;
+  return namedInputs;
 };
 
 // for test and document

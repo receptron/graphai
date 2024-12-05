@@ -24,7 +24,6 @@ test("test map_agent", async () => {
       },
       graphOptions: {},
     },
-    inputs: [],
     params: {
       compositeResult: true,
     },
@@ -55,7 +54,6 @@ test("test map_agent 2", async () => {
       },
       graphOptions: {},
     },
-    inputs: [],
     params: {
       compositeResult: true,
     },
@@ -86,7 +84,6 @@ test("test map_agent 3", async () => {
       },
       graphOptions: {},
     },
-    inputs: [],
     params: {
       compositeResult: true,
     },
