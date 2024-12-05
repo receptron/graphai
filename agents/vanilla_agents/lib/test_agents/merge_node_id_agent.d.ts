@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const mergeNodeIdAgent: AgentFunction<null, Record<string, unknown>, Record<string, unknown>, {
+export declare const mergeNodeIdAgent: AgentFunction<null, Record<string, unknown>, {
     array: Record<string, unknown>[];
 }>;
 declare const mergeNodeIdAgentInfo: AgentFunctionInfo;

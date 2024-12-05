@@ -32,13 +32,6 @@ sleeper Agent
 ```json
 
 [
-  ":agentId"
-]
-
-````
-```json
-
-[
   ":agentId",
   ":agentId.array",
   ":agentId.array.$0",
@@ -77,38 +70,6 @@ sleeper Agent
 
 ````
 ### Sample1
-
-#### inputs
-
-```json
-
-[
-  {
-    "a": 1
-  },
-  {
-    "b": 2
-  }
-]
-
-````
-
-#### params
-
-```json
-
-{"duration":1}
-
-````
-
-#### result
-
-```json
-
-{}
-
-````
-### Sample2
 
 #### inputs
 

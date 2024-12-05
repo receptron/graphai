@@ -38,15 +38,6 @@ sleeper debug Agent
 ]
 
 ````
-```json
-
-[
-  ":agentId",
-  ":agentId.a",
-  ":agentId.b"
-]
-
-````
 
 ## Samples
 
@@ -76,41 +67,6 @@ sleeper debug Agent
 
 ````
 ### Sample1
-
-#### inputs
-
-```json
-
-[
-  {
-    "a": 1
-  },
-  {
-    "b": 2
-  }
-]
-
-````
-
-#### params
-
-```json
-
-{"duration":1}
-
-````
-
-#### result
-
-```json
-
-{
-  "a": 1,
-  "b": 2
-}
-
-````
-### Sample2
 
 #### inputs
 

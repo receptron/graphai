@@ -48,10 +48,7 @@ test("test cache impureAgent cache hit", async () => {
     },
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
-  const result = await agentFilterRunner(
-    { ...defaultTestContext, namedInputs: { message: "123" }, params: {}, cacheType: "impureAgent" },
-    fileSampleAgent,
-  );
+  const result = await agentFilterRunner({ ...defaultTestContext, namedInputs: { message: "123" }, params: {}, cacheType: "impureAgent" }, fileSampleAgent);
   // console.log(JSON.stringify(result));
   console.log(result);
   assert.deepStrictEqual(result, "123");
@@ -66,10 +63,7 @@ test("test cache impureAgent cache not hit", async () => {
     },
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
-  const result = await agentFilterRunner(
-    { ...defaultTestContext, namedInputs: { message: "abc" }, params: {}, cacheType: "impureAgent" },
-    fileSampleAgent,
-  );
+  const result = await agentFilterRunner({ ...defaultTestContext, namedInputs: { message: "abc" }, params: {}, cacheType: "impureAgent" }, fileSampleAgent);
   // console.log(JSON.stringify(result));
   assert.deepStrictEqual(result, "abc");
 });

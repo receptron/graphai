@@ -1,10 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { arrayValidate } from "@graphai/agent_utils";
 
-export const arrayFlatAgent: AgentFunction<{ depth?: number }, { array: Array<unknown> }, { array: Array<unknown> }> = async ({
-  namedInputs,
-  params,
-}) => {
+export const arrayFlatAgent: AgentFunction<{ depth?: number }, { array: Array<unknown> }, { array: Array<unknown> }> = async ({ namedInputs, params }) => {
   arrayValidate("arrayFlatAgent", namedInputs);
   const depth = params.depth ?? 1;
 

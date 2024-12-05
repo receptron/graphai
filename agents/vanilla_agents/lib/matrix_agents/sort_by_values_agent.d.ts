@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 export declare const sortByValuesAgent: AgentFunction<{
     assendant?: boolean;
-}, Array<unknown>, null, {
+}, Array<unknown>, {
     array: Array<unknown>;
     values: Array<unknown>;
 }>;

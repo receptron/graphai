@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sleepAndMergeAgent = void 0;
 const graphai_1 = require("graphai");
 const deepmerge_1 = __importDefault(require("deepmerge"));
-const agent_utils_1 = require("@graphai/agent_utils");
-const sleepAndMergeAgent = async ({ params, inputs, namedInputs }) => {
+// import { isNamedInputs } from "@graphai/agent_utils";
+const sleepAndMergeAgent = async ({ params, namedInputs }) => {
     await (0, graphai_1.sleep)(params?.duration ?? 10);
-    return ((0, agent_utils_1.isNamedInputs)(namedInputs) ? namedInputs.array : inputs).reduce((result, input) => {
+    return (namedInputs.array ?? []).reduce((result, input) => {
         return (0, deepmerge_1.default)(result, input);
     }, params.value ?? {});
 };
@@ -23,14 +23,6 @@ const sleeperAndMergeInfo = {
             inputs: {},
             params: { duration: 1 },
             result: {},
-        },
-        {
-            inputs: [{ a: 1 }, { b: 2 }],
-            params: { duration: 1 },
-            result: {
-                a: 1,
-                b: 2,
-            },
         },
         {
             inputs: { array: [{ a: 1 }, { b: 2 }] },

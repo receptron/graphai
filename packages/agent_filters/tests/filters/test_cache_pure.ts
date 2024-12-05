@@ -27,10 +27,7 @@ test("test cache pureAgent cache hit", async () => {
     },
   ];
   const agentFilterRunner = agentFilterRunnerBuilder(agentFilters);
-  const result = await agentFilterRunner(
-    { ...defaultTestContext, namedInputs: { message: "123" }, params: {}, cacheType: "pureAgent" },
-    echoAgent.agent,
-  );
+  const result = await agentFilterRunner({ ...defaultTestContext, namedInputs: { message: "123" }, params: {}, cacheType: "pureAgent" }, echoAgent.agent);
   assert.deepStrictEqual(result, { result: "fromCache" });
 });
 

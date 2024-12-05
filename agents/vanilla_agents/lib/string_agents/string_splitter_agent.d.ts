@@ -7,7 +7,7 @@ export declare const stringSplitterAgent: AgentFunction<{
     count: number;
     chunkSize: number;
     overlap: number;
-}, null, {
+}, {
     text: string;
 }>;
 declare const stringSplitterAgentInfo: AgentFunctionInfo;
