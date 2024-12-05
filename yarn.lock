@@ -1100,10 +1100,10 @@ array-union@^2.1.0:
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
-arxiv-api-ts@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/arxiv-api-ts/-/arxiv-api-ts-1.0.3.tgz#fe001e6f278bc0868bc31557fb1f7c91c73a7422"
-  integrity sha512-yc81dfkCL3d5KH76bY7Bn2cW2q3TWyRKyiyvPllFnZZML2fi+IknzIQO/tcBJAOf1CjD9TnRjLJzJoRN1kWhPg==
+arxiv-api-ts@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/arxiv-api-ts/-/arxiv-api-ts-1.0.4.tgz#996124e69eacc1b167a644d71edd5885614c9617"
+  integrity sha512-+dzrmNLm65WYe/SJRsAbz6wYw4v1eKoQeckd0qyPrZiIqyj7ZVhIvcxoXqEe9FMFKNt+sXKzot8xIcqgnGT3ng==
   dependencies:
     fast-xml-parser "^4.3.3"
 
@@ -3050,10 +3050,10 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prettier@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.4.1.tgz#e211d451d6452db0a291672ca9154bc8c2579f7b"
-  integrity sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==
+prettier@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.4.2.tgz#a5ce1fb522a588bf2b78ca44c6e6fe5aa5a2b13f"
+  integrity sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==
 
 pretty-data@^0.40.0:
   version "0.40.0"
@@ -3755,10 +3755,10 @@ type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typedoc@^0.27.2:
-  version "0.27.2"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.2.tgz#8a4e0303f4c49174af21e981e0b60e8a637d8167"
-  integrity sha512-C2ima5TZJHU3ecnRIz50lKd1BsYck5LhYQIy7MRPmjuSEJreUEAt+uAVcZgY7wZsSORzEI7xW8miZIdxv/cbmw==
+typedoc@^0.27.3:
+  version "0.27.3"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.3.tgz#0fad232181ce0ac7eda27fe78e56a4b863e1fe59"
+  integrity sha512-oWT7zDS5oIaxYL5yOikBX4cL99CpNAZn6mI24JZQxsYuIHbtguSSwJ7zThuzNNwSE0wqhlfTSd99HgqKu2aQXQ==
   dependencies:
     "@gerrit0/mini-shiki" "^1.24.0"
     lunr "^2.3.9"

@@ -22,7 +22,7 @@
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.13.0",
-    "prettier": "^3.4.1",
+    "prettier": "^3.4.2",
     "rollup": "^4.28.0",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.8",
