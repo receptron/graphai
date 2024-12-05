@@ -87,9 +87,6 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
         version?: number;
         isResult?: boolean;
     };
-    graphData?: GraphData;
-    agents?: AgentFunctionInfoDictionary;
-    taskManager?: TaskManager;
     forNestedGraph?: {
         graphData: GraphData;
         agents: AgentFunctionInfoDictionary;

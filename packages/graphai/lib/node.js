@@ -218,18 +218,19 @@ class ComputedNode extends Node {
             // if this is a nested agent or not.
             if (this.nestedGraph) {
                 this.graph.taskManager.prepareForNesting();
-                context.taskManager = this.graph.taskManager;
+                // context.taskManager = this.graph.taskManager;
                 context.onLogCallback = this.graph.onLogCallback;
+                /*
                 if ("nodes" in this.nestedGraph) {
-                    context.graphData = this.nestedGraph;
-                }
-                else {
-                    context.graphData = this.graph.resultOf(this.nestedGraph); // HACK: compiler work-around
-                }
-                context.agents = this.graph.agentFunctionInfoDictionary;
+                  context.graphData = this.nestedGraph;
+                } else {
+                  context.graphData = this.graph.resultOf(this.nestedGraph) as GraphData; // HACK: compiler work-around
+                  }
+                */
+                // context.agents = this.graph.agentFunctionInfoDictionary;
                 context.forNestedGraph = {
-                    graphData: context.graphData,
-                    agents: context.agents,
+                    graphData: ("nodes" in this.nestedGraph) ? this.nestedGraph : this.graph.resultOf(this.nestedGraph), // HACK: compiler work-around
+                    agents: this.graph.agentFunctionInfoDictionary,
                     graphOptions: {
                         agentFilters: this.graph.agentFilters,
                         taskManager: this.graph.taskManager,
