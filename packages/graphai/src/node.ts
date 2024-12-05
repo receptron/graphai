@@ -82,7 +82,6 @@ export class ComputedNode extends Node {
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: DataSource[] = []; // no longer needed. This is for transaction log.
   private inputs?: Record<string, any>;
-  public isNamedInputs: boolean = false;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
@@ -104,7 +103,6 @@ export class ComputedNode extends Node {
 
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
-    // this.isNamedInputs = isObject(data.inputs) && !Array.isArray(data.inputs);
     this.dataSources = data.inputs ? inputs2dataSources(data.inputs).flat(10) : [];
     if (data.inputs && Array.isArray(data.inputs)) {
       throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -116,7 +114,6 @@ export class ComputedNode extends Node {
       this.agentId = data.agent;
     } else {
       const agent = data.agent;
-      // this.agentFunction = this.isNamedInputs ? async ({ namedInputs, params }) => agent(namedInputs, params) : async ({ inputs }) => agent(...inputs);
       this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
     }
     if (data.graph) {
@@ -386,7 +383,6 @@ export class ComputedNode extends Node {
   private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[]) {
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.getParams(),
-      // inputs: this.getInputs(previousResults),
       namedInputs: previousResults,
       inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
       debugInfo: this.getDebugInfo(),
@@ -423,7 +419,6 @@ export class ComputedNode extends Node {
 
   private beforeConsoleLog(context: AgentFunctionContext<DefaultParamsType, string | number | boolean | DefaultInputData | undefined>) {
     if (this.console.before === true) {
-      // console.log(JSON.stringify(this.isNamedInputs ? context.namedInputs : context.inputs, null, 2));
       console.log(JSON.stringify(context.namedInputs, null, 2));
     } else if (this.console.before) {
       console.log(this.console.before);
