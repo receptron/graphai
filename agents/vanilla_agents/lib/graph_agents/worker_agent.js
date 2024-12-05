@@ -45,7 +45,6 @@ const workerAgent = async ({ namedInputs, /* agents, log, */ graphData }) => {
             }
         });
     }
-    ;
     return new Promise((resolve, reject) => {
         const worker = new worker_threads_1.Worker(__dirname + "/worker_agent");
         worker.on("message", (result) => {

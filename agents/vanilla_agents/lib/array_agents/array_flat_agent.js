@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayFlatAgent = void 0;
 const agent_utils_1 = require("@graphai/agent_utils");
-const arrayFlatAgent = async ({ namedInputs, params, }) => {
+const arrayFlatAgent = async ({ namedInputs, params }) => {
     (0, agent_utils_1.arrayValidate)("arrayFlatAgent", namedInputs);
     const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy

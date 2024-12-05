@@ -519,7 +519,7 @@
         license: "MIT",
     };
 
-    const arrayFlatAgent = async ({ namedInputs, params, }) => {
+    const arrayFlatAgent = async ({ namedInputs, params }) => {
         libExports.arrayValidate("arrayFlatAgent", namedInputs);
         const depth = params.depth ?? 1;
         const array = namedInputs.array.map((item) => item); // shallow copy
