@@ -1,15 +1,13 @@
 {
   "name": "@graphai/vanilla_node_agents",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Vanilla node agents for GraphAI.",
-  "main": "lib/bundle.cjs.js",
-  "module": "lib/bundle.esm.js",
-  "browser": "lib/bundle.umd.js",
+  "main": "lib/index.js",
   "files": [
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
+    "build": "rm -r lib/* && tsc && tsc-alias",
     "eslint": "eslint",
     "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
