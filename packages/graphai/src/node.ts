@@ -300,6 +300,7 @@ export class ComputedNode extends Node {
             config: this.graph.config,
             graphLoader: this.graph.graphLoader,
           },
+          onLogCallback: this.graph.onLogCallback,
         };
       }
 
