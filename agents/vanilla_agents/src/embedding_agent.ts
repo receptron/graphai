@@ -35,7 +35,6 @@ export const stringEmbeddingsAgent: AgentFunction<
     model?: string;
   },
   number[][],
-  null,
   { array: Array<string>; item: string }
 > = async ({ params, namedInputs }) => {
   const { array, item } = namedInputs;

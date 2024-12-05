@@ -21,7 +21,6 @@ export const tokenBoundStringsAgent: AgentFunction<
     tokenCount: number;
     endIndex: number;
   },
-  null,
   {
     chunks: Array<string>;
   }
