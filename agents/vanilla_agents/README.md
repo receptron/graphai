@@ -33,6 +33,7 @@ import {
   popAgent,
   propertyFilterAgent,
   pushAgent,
+  shellCommandAgent,
   shiftAgent,
   sleeperAgent,
   sortByValuesAgent,
@@ -63,6 +64,7 @@ const agents = {
   popAgent,
   propertyFilterAgent,
   pushAgent,
+  shellCommandAgent,
   shiftAgent,
   sleeperAgent,
   sortByValuesAgent,
@@ -97,6 +99,7 @@ const result = await graph.run();
 - popAgent - Pop Agent
 - propertyFilterAgent - Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
 - pushAgent - push Agent
+- shellCommandAgent - Shell Command Agent
 - shiftAgent - shift Agent
 - sleeperAgent - sleeper Agent
 - sortByValuesAgent - sortByValues Agent
@@ -126,6 +129,7 @@ const result = await graph.run();
  - [popAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/popAgent.md)
  - [propertyFilterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/propertyFilterAgent.md)
  - [pushAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/pushAgent.md)
+ - [shellCommandAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/system/shellCommandAgent.md)
  - [shiftAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/shiftAgent.md)
  - [sleeperAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleeperAgent.md)
  - [sortByValuesAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/sortByValuesAgent.md)
@@ -1903,6 +1907,17 @@ const result = await graph.run();
   "params": {}
 }
 ```
+
+ - shellCommandAgent
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "command": "echo hello world!"
+  }
+}
+``` 
 
  - shiftAgent
 
