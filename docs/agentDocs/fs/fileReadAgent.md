@@ -99,7 +99,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"}
+{"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"}
 
 ````
 
@@ -142,7 +142,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"base64"}
+{"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"base64"}
 
 ````
 
@@ -175,7 +175,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
+{"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
 
 ````
 
@@ -206,7 +206,7 @@ Read data from file system and returns data
 
 ```json
 
-{"basePath":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
+{"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
 
 ````
 
@@ -226,7 +226,7 @@ Receptron team
 
 ## Repository
 
-https://github.com/snakajima/graphai
+https://github.com/receptron/graphai
 
 ## License
 
