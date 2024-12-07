@@ -4,24 +4,23 @@ import path from "path";
 
 export const fileWriteAgent: AgentFunction<
   {
-    basePath: string;
+    baseDir: string;
   },
   {
     result: boolean;
   },
   {
     text: string;
-    fileName: string;
+    file: string;
   }
 > = async ({ namedInputs, params }) => {
-  const { basePath } = params;
-  const { text, fileName } = namedInputs;
-  assert(!!basePath, "fileWriteAgent: params.basePath is UNDEFINED!");
-  assert(!!fileName, "fileWriteAgent: inputs.fileName is UNDEFINED or null data!");
+  const { baseDir } = params;
+  const { text, file } = namedInputs;
+  assert(!!baseDir, "fileWriteAgent: params.baseDir is UNDEFINED!");
+  assert(!!file, "fileWriteAgent: inputs.file is UNDEFINED or null data!");
 
-  console.log(basePath, fileName);
-  const file = path.resolve(path.join(basePath, fileName));
-  fs.writeFileSync(file, text);
+  const filePath = path.resolve(path.join(baseDir, file));
+  fs.writeFileSync(filePath, text);
 
   return {
     result: true,
@@ -39,20 +38,20 @@ const fileWriteAgentInfo: AgentFunctionInfo = {
         type: "string",
         description: "text data",
       },
-      fileName: {
+      file: {
         type: "string",
         description: "file name",
       },
     },
-    required: ["text", "fileName"],
+    required: ["text", "file"],
   },
   output: {
     type: "object",
   },
   samples: [
     {
-      inputs: { fileName: "write.txt", text: "hello" },
-      params: { basePath: __dirname + "/../../tests/files/" },
+      inputs: { file: "write.txt", text: "hello" },
+      params: { baseDir: __dirname + "/../../tests/files/" },
       result: {
         result: true,
       },
