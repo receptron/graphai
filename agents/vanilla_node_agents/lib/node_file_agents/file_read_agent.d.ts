@@ -1,6 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 export declare const fileReadAgent: AgentFunction<{
-    basePath: string;
+    baseDir: string;
     outputType?: string;
 }, {
     array?: string[] | unknown[];
