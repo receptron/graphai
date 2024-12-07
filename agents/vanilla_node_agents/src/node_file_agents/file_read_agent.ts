@@ -4,7 +4,7 @@ import path from "path";
 
 export const fileReadAgent: AgentFunction<
   {
-    basePath: string;
+    baseDir: string;
     outputType?: string;
   },
   {
@@ -16,13 +16,12 @@ export const fileReadAgent: AgentFunction<
     file?: string;
   }
 > = async ({ namedInputs, params }) => {
-  const { basePath, outputType } = params;
+  const { baseDir, outputType } = params;
 
-  // arrayValidate("fileReadAgent", namedInputs);
-  assert(!!basePath, "fileReadAgent: params.basePath is UNDEFINED!");
+  assert(!!baseDir, "fileReadAgent: params.baseDir is UNDEFINED!");
 
   const fileToData = (fileName: string) => {
-    const file = path.resolve(path.join(basePath, fileName));
+    const file = path.resolve(path.join(baseDir, fileName));
     const buffer = fs.readFileSync(file);
     if (outputType && outputType === "base64") {
       return buffer.toString("base64");
@@ -66,28 +65,28 @@ const fileReadAgentInfo: AgentFunctionInfo = {
   samples: [
     {
       inputs: { array: ["test.txt"] },
-      params: { basePath: __dirname + "/../../tests/files/" },
+      params: { baseDir: __dirname + "/../../tests/files/" },
       result: {
         array: [Buffer.from([104, 101, 108, 108, 111, 10])],
       },
     },
     {
       inputs: { array: ["test.txt"] },
-      params: { basePath: __dirname + "/../../tests/files/", outputType: "base64" },
+      params: { baseDir: __dirname + "/../../tests/files/", outputType: "base64" },
       result: {
         array: ["aGVsbG8K"],
       },
     },
     {
       inputs: { array: ["test.txt"] },
-      params: { basePath: __dirname + "/../../tests/files/", outputType: "text" },
+      params: { baseDir: __dirname + "/../../tests/files/", outputType: "text" },
       result: {
         array: ["hello\n"],
       },
     },
     {
       inputs: { file: "test.txt" },
-      params: { basePath: __dirname + "/../../tests/files/", outputType: "text" },
+      params: { baseDir: __dirname + "/../../tests/files/", outputType: "text" },
       result: {
         data: "hello\n",
       },
@@ -96,7 +95,7 @@ const fileReadAgentInfo: AgentFunctionInfo = {
   description: "Read data from file system and returns data",
   category: ["fs"],
   author: "Receptron team",
-  repository: "https://github.com/snakajima/graphai",
+  repository: "https://github.com/receptron/graphai",
   license: "MIT",
 };
 export default fileReadAgentInfo;
