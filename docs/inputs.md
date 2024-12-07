@@ -17,7 +17,21 @@
 }
 ```
 
-## message
+## data
+```
+{
+ data: object
+}
+```
+
+## buffer
+```
+{
+  buffer: Buffer(node buffer)
+}
+```
+
+## llm message
 
 Message is the format of data passed to the LLM history.
 
@@ -30,21 +44,6 @@ Message is the format of data passed to the LLM history.
 }
 ```
 
-## data
-```
-{
- data: object
-}
-```
-
-## buffer
-```
-{
- buffer: Buffer(node buffer)
-}
-```
-
-
 ## file
 
 ```
@@ -55,6 +54,16 @@ Message is the format of data passed to the LLM history.
 }
 ```
 
+## typeInfo
+
+```
+{
+  type: string,
+  inputTtpe: string,
+  outputType: string,
+  dataType: string,
+}
+```
 
 ### meaningful parameters
 wikipedia
