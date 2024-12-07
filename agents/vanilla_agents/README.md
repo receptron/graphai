@@ -129,7 +129,7 @@ const result = await graph.run();
  - [popAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/popAgent.md)
  - [propertyFilterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/propertyFilterAgent.md)
  - [pushAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/pushAgent.md)
- - [shellCommandAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/system/shellCommandAgent.md)
+ - [shellCommandAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/shellCommandAgent.md)
  - [shiftAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/shiftAgent.md)
  - [sleeperAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleeperAgent.md)
  - [sortByValuesAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/sortByValuesAgent.md)

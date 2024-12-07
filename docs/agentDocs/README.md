@@ -43,7 +43,7 @@
 ### [countingAgent](./test/countingAgent.md)
 ### [echoAgent](./test/echoAgent.md)
 ### [mergeNodeIdAgent](./test/mergeNodeIdAgent.md)
-### [shellCommandAgent](./shell/shellCommandAgent.md)
+### [shellCommandAgent](./test/shellCommandAgent.md)
 ### [streamMockAgent](./test/streamMockAgent.md)
 
 ## matrix
