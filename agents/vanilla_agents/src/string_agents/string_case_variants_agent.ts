@@ -1,17 +1,18 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 export const stringCaseVariantsAgent: AgentFunction<
-  null,
+  { suffix?: string },
   { lowerCamelCase: string; snakeCase: string; kebabCase: string; normalized: string },
   { text: string }
-> = async ({ namedInputs }) => {
+> = async ({ namedInputs, params }) => {
+  const { suffix } = params;
   const __normalized = namedInputs.text
     .trim()
     .replace(/[\s-_]+/g, " ")
     .toLowerCase()
     .split(" ");
-  if (__normalized[__normalized.length - 1] !== "agent") {
-    __normalized.push("agent");
+  if (suffix && __normalized[__normalized.length - 1] !== suffix) {
+    __normalized.push(suffix);
   }
   const normalized = __normalized.join(" ");
 
@@ -37,10 +38,20 @@ const stringCaseVariantsAgentInfo: AgentFunctionInfo = {
       inputs: { text: "this is a pen" },
       params: {},
       result: {
-        kebabCase: "this-is-a-pen-agent",
-        lowerCamelCase: "thisIsAPenAgent",
-        normalized: "this is a pen agent",
-        snakeCase: "this_is_a_pen_agent",
+        kebabCase: "this-is-a-pen",
+        lowerCamelCase: "thisIsAPen",
+        normalized: "this is a pen",
+        snakeCase: "this_is_a_pen",
+      },
+    },
+    {
+      inputs: { text: "string case variants" },
+      params: { suffix: "agent" },
+      result: {
+        kebabCase: "string-case-variants-agent",
+        lowerCamelCase: "stringCaseVariantsAgent",
+        normalized: "string case variants agent",
+        snakeCase: "string_case_variants_agent",
       },
     },
   ],
