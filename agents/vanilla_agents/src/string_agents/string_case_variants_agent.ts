@@ -6,17 +6,17 @@ export const stringCaseVariantsAgent: AgentFunction<
   { text: string }
 > = async ({ namedInputs, params }) => {
   const { suffix } = params;
-  const __normalized = namedInputs.text
+  const normalizedArray = namedInputs.text
     .trim()
     .replace(/[\s-_]+/g, " ")
     .toLowerCase()
     .split(" ");
-  if (suffix && __normalized[__normalized.length - 1] !== suffix) {
-    __normalized.push(suffix);
+  if (suffix && normalizedArray[normalizedArray.length - 1] !== suffix) {
+    normalizedArray.push(suffix);
   }
-  const normalized = __normalized.join(" ");
+  const normalized = normalizedArray.join(" ");
 
-  const lowerCamelCase = __normalized
+  const lowerCamelCase = normalizedArray
     .map((word, index) => {
       if (index === 0) return word;
       return word.charAt(0).toUpperCase() + word.slice(1);
