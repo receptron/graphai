@@ -54,6 +54,7 @@
 
 ## string
 ### [jsonParserAgent](./string/jsonParserAgent.md)
+### [stringCaseVariantsAgent](./string/stringCaseVariantsAgent.md)
 ### [stringSplitterAgent](./string/stringSplitterAgent.md)
 ### [stringTemplateAgent](./string/stringTemplateAgent.md)
 
