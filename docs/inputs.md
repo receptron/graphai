@@ -51,6 +51,7 @@ Message is the format of data passed to the LLM history.
  file: string(file name)
  dir: string(the dir name/path)
  baseDir: string(base directory name/path)
+ path: string(file or dir path)
 }
 ```
 
