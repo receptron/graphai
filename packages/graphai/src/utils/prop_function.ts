@@ -58,6 +58,16 @@ const propStringFunction: PropFunction = (result, propId) => {
         return ret;
       }
     }
+    if (propId === "trim()") {
+      return result.trim();
+    }
+    if (propId === "toLowerCase()") {
+      return result.toLowerCase();
+    }
+    if (propId === "toUpperCase()") {
+      return result.toUpperCase();
+    }
+    // split()
   }
   return undefined;
 };
