@@ -91,3 +91,39 @@ test("test getDataFromSource nested object values", async () => {
   const res = getDataFromSource(result, source, propFunctions);
   assert.deepStrictEqual(res, data);
 });
+
+test("test getDataFromSource string trim", async () => {
+  const inputId = ":node1.data.trim()";
+  const result = { data: " aa " };
+  const data = "aa";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "trim()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string toLowerCase", async () => {
+  const inputId = ":node1.data.toLowerCase()";
+  const result = { data: "AbCd" };
+  const data = "abcd";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "toLowerCase()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string toUpperCase", async () => {
+  const inputId = ":node1.data.toUpperCase()";
+  const result = { data: "AbCd" };
+  const data = "ABCD";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "toUpperCase()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
