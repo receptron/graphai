@@ -21,6 +21,9 @@ export const validateGraphData = (data: GraphData, agentIds: string[]) => {
     isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);
     !isStaticNode && computedNodeValidator(node) && computedNodeIds.push(nodeId) && typeof agentId === "string" && graphAgentIds.add(agentId);
   });
+  (data.injections ?? []).forEach((staticNodeId) => {
+    staticNodeIds.push(staticNodeId);
+  });
   agentValidator(graphAgentIds, new Set<string>(agentIds));
   relationValidator(data, staticNodeIds, computedNodeIds);
 

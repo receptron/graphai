@@ -37,4 +37,9 @@ export const graphDataValidator = (data: GraphData) => {
       throw new ValidationError("Concurrency must be a positive integer");
     }
   }
+  if (data.injections !== undefined) {
+    if (!Array.isArray(data.injections)) {
+      throw new ValidationError("Injections must be an array");
+    }
+  }
 };
