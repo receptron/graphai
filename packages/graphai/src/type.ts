@@ -69,6 +69,7 @@ export type LoopData = {
 export type GraphData = {
   version?: number; // major version, 0.1, 0.2, ...
   nodes: Record<string, NodeData>;
+  injections?: string[];
   concurrency?: number;
   loop?: LoopData;
   verbose?: boolean;

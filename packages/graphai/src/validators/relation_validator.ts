@@ -4,7 +4,7 @@ import { ValidationError } from "@/validators/common";
 import { inputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
 
 export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
-  const nodeIds = new Set<string>(Object.keys(data.nodes));
+  const nodeIds = new Set<string>([...Object.keys(data.nodes), ...(data.injections ?? [])]);
 
   const pendings: Record<string, Set<string>> = {};
   const waitlist: Record<string, Set<string>> = {};
@@ -48,7 +48,7 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
 
   // TODO. validate update
   staticNodeIds.forEach((staticNodeId) => {
-    const nodeData = data.nodes[staticNodeId];
+    const nodeData = data.nodes[staticNodeId] ?? { value: "" };
     if ("value" in nodeData && nodeData.update) {
       const update = nodeData.update;
       const updateNodeId = parseNodeName(update).nodeId;

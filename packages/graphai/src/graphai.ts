@@ -62,6 +62,11 @@ export class GraphAI {
       }
       return _nodes;
     }, {});
+    if (data.injections) {
+      data.injections.forEach((nodeId) => {
+        nodes[nodeId] = new StaticNode(nodeId, { value: "" }, this);
+      });
+    }
 
     // Generate the waitlist for each node.
     Object.keys(nodes).forEach((nodeId) => {
