@@ -14,9 +14,9 @@ yarn add @graphai/vanilla_node_agents
 
 ```typescript
 import { GraphAI } from "graphai";
-import { fileReadAgent, fileWriteAgent } from "@graphai/vanilla_node_agents";
+import { fileReadAgent, fileWriteAgent, pathUtilsAgent } from "@graphai/vanilla_node_agents";
 
-const agents = { fileReadAgent, fileWriteAgent };
+const agents = { fileReadAgent, fileWriteAgent, pathUtilsAgent };
 
 const graph = new GraphAI(graph_data, agents);
 const result = await graph.run();
@@ -25,10 +25,12 @@ const result = await graph.run();
 ### Agents description
 - fileReadAgent - Read data from file system and returns data
 - fileWriteAgent - Write data to file system
+- pathUtilsAgent - Path utils
 
 ### Input/Output/Params Schema & samples
  - [fileReadAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileReadAgent.md)
  - [fileWriteAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileWriteAgent.md)
+ - [pathUtilsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/pathUtilsAgent.md)
 
 ### Input/Params example
  - fileReadAgent
@@ -41,7 +43,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "basePath": "/tmp/tests/files/"
+    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
   }
 }
 ```
@@ -55,7 +57,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "basePath": "/tmp/tests/files/",
+    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
     "outputType": "base64"
   }
 }
@@ -70,7 +72,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "basePath": "/tmp/tests/files/",
+    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
     "outputType": "text"
   }
 }
@@ -83,7 +85,7 @@ const result = await graph.run();
     "file": "test.txt"
   },
   "params": {
-    "basePath": "/tmp/tests/files/",
+    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
     "outputType": "text"
   }
 }
@@ -94,11 +96,56 @@ const result = await graph.run();
 ```typescript
 {
   "inputs": {
-    "fileName": "write.txt",
+    "file": "write.txt",
     "text": "hello"
   },
   "params": {
-    "basePath": "/tmp/tests/files/"
+    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
+  }
+}
+```
+
+ - pathUtilsAgent
+
+```typescript
+{
+  "inputs": {
+    "dirs": [
+      "/base/",
+      "tmp/",
+      "test.txt"
+    ]
+  },
+  "params": {
+    "method": "resolve"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "dirs": [
+      "base/",
+      "tmp/",
+      "test.txt"
+    ]
+  },
+  "params": {
+    "method": "join"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "path": "base///tmp//test.txt"
+  },
+  "params": {
+    "method": "normalize"
   }
 }
 ```
