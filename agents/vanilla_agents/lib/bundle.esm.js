@@ -253,6 +253,61 @@ const jsonParserAgentInfo = {
     license: "MIT",
 };
 
+const stringCaseVariantsAgent = async ({ namedInputs, params }) => {
+    const { suffix } = params;
+    const normalizedArray = namedInputs.text
+        .trim()
+        .replace(/[\s-_]+/g, " ")
+        .toLowerCase()
+        .split(" ");
+    if (suffix && normalizedArray[normalizedArray.length - 1] !== suffix) {
+        normalizedArray.push(suffix);
+    }
+    const normalized = normalizedArray.join(" ");
+    const lowerCamelCase = normalizedArray
+        .map((word, index) => {
+        if (index === 0)
+            return word;
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+        .join("");
+    const snakeCase = normalized.replace(/\s+/g, "_");
+    const kebabCase = normalized.replace(/\s+/g, "-");
+    return { lowerCamelCase, snakeCase, kebabCase, normalized };
+};
+const stringCaseVariantsAgentInfo = {
+    name: "stringCaseVariantsAgent",
+    agent: stringCaseVariantsAgent,
+    mock: stringCaseVariantsAgent,
+    samples: [
+        {
+            inputs: { text: "this is a pen" },
+            params: {},
+            result: {
+                kebabCase: "this-is-a-pen",
+                lowerCamelCase: "thisIsAPen",
+                normalized: "this is a pen",
+                snakeCase: "this_is_a_pen",
+            },
+        },
+        {
+            inputs: { text: "string case variants" },
+            params: { suffix: "agent" },
+            result: {
+                kebabCase: "string-case-variants-agent",
+                lowerCamelCase: "stringCaseVariantsAgent",
+                normalized: "string case variants agent",
+                snakeCase: "string_case_variants_agent",
+            },
+        },
+    ],
+    description: "Format String Cases agent",
+    category: ["string"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    license: "MIT",
+};
+
 var lib = {};
 
 var hasRequiredLib;
@@ -2567,5 +2622,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map
