@@ -1,5 +1,4 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import fs from "fs";
 import path from "path";
 
 // https://nodejs.org/api/path.html
