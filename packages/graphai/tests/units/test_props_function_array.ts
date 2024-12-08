@@ -54,6 +54,18 @@ test("test getDataFromSource array join ,", async () => {
   assert.deepStrictEqual(res, data);
 });
 
+test("test getDataFromSource array join ,", async () => {
+  const inputId = ":node1.data.sample.join( )";
+  const result = { data: { sample: [0, 1, 2, 3] } };
+  const data = "0 1 2 3";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sample", "join( )"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
 test("test getDataFromSource array flat", async () => {
   const inputId = ":node1.data.sample.flat()";
   const result = { data: { sample: [0, [1, [2, [3]]]] } };
