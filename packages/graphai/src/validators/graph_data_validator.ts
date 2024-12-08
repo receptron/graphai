@@ -41,5 +41,10 @@ export const graphDataValidator = (data: GraphData) => {
     if (!Array.isArray(data.injections)) {
       throw new ValidationError("Injections must be an array");
     }
+    data.injections.forEach((staticNodeId) => {
+      if (typeof staticNodeId !== "string") {
+        throw new ValidationError("Injection value must be string");
+      }
+    });
   }
 };
