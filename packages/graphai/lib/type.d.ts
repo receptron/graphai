@@ -45,6 +45,7 @@ export type ComputedNodeData = {
     timeout?: number;
     if?: string;
     unless?: string;
+    defaultValue?: ResultData;
     graph?: GraphData | string;
     graphLoader?: GraphDataLoaderOption;
     isResult?: boolean;

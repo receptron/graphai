@@ -45,6 +45,7 @@ class ComputedNode extends Node {
         super(nodeId, graph);
         this.retryCount = 0;
         this.dataSources = []; // no longer needed. This is for transaction log.
+        this.isSkip = false;
         this.isStaticNode = false;
         this.isComputedNode = true;
         this.graphId = graphId;
@@ -83,6 +84,10 @@ class ComputedNode extends Node {
         if (data.unless) {
             this.unlessSource = this.addPendingNode(data.unless);
         }
+        if (data.defaultValue) {
+            this.defaultValue = data.defaultValue;
+        }
+        this.isSkip = false;
         this.log.initForComputedNode(this, graph);
     }
     getAgentId() {
@@ -98,8 +103,9 @@ class ComputedNode extends Node {
         if (this.state !== type_1.NodeState.Waiting || this.pendings.size !== 0) {
             return false;
         }
-        if ((this.ifSource && !(0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.ifSource))) ||
-            (this.unlessSource && (0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.unlessSource)))) {
+        this.isSkip = !!((this.ifSource && !(0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.ifSource))) ||
+            (this.unlessSource && (0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.unlessSource))));
+        if (this.isSkip && this.defaultValue === undefined) {
             this.state = type_1.NodeState.Skipped;
             this.log.onSkipped(this, this.graph);
             return false;
@@ -193,6 +199,10 @@ class ComputedNode extends Node {
     // then it removes itself from the "running node" list of the graph.
     // Notice that setting the result of this node may make other nodes ready to run.
     async execute() {
+        if (this.isSkip) {
+            this.afterExecute(this.defaultValue, []);
+            return;
+        }
         const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
         const transactionId = Date.now();
         this.prepareExecute(transactionId, Object.values(previousResults));
@@ -235,15 +245,19 @@ class ComputedNode extends Node {
                 console.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                 return;
             }
-            this.state = type_1.NodeState.Completed;
-            this.result = this.getResult(result);
-            this.log.onComplete(this, this.graph, localLog);
-            this.onSetResult();
-            this.graph.onExecutionComplete(this);
+            // after process
+            this.afterExecute(result, localLog);
         }
         catch (error) {
             this.errorProcess(error, transactionId, previousResults);
         }
+    }
+    afterExecute(result, localLog) {
+        this.state = type_1.NodeState.Completed;
+        this.result = this.getResult(result);
+        this.log.onComplete(this, this.graph, localLog);
+        this.onSetResult();
+        this.graph.onExecutionComplete(this);
     }
     // This private method (called only by execute()) prepares the ComputedNode object
     // for execution, and create a new transaction to record it.

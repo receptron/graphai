@@ -15,6 +15,7 @@ exports.computedNodeAttributeKeys = [
     "priority",
     "if",
     "unless",
+    "defaultValue",
     "filterParams",
     "console",
     "passThrough",

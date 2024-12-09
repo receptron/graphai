@@ -35,6 +35,8 @@ export declare class ComputedNode extends Node {
     pendings: Set<string>;
     private ifSource?;
     private unlessSource?;
+    private defaultValue?;
+    private isSkip;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
@@ -50,6 +52,7 @@ export declare class ComputedNode extends Node {
     private shouldApplyAgentFilter;
     private agentFilterHandler;
     execute(): Promise<void>;
+    private afterExecute;
     private prepareExecute;
     private errorProcess;
     private getContext;
