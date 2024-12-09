@@ -1,7 +1,6 @@
 import { GraphAI } from "@/index";
 import { graphDataLatestVersion } from "~/common";
 import * as agents from "~/test_agents";
-import { GraphDataLoaderOption } from "@/type";
 
 import test from "node:test";
 import assert from "node:assert";
