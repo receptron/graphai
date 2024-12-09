@@ -30,7 +30,7 @@ export type DataSource = {
 };
 
 export type StaticNodeData = {
-  value: ResultData; // initial value for static node.
+  value?: ResultData; // initial value for static node.
   update?: string; // nodeId (+.propId) to get value after a loop
   isResult?: boolean;
   console?: Record<string, string | boolean>;
