@@ -18,7 +18,7 @@ const propArrayFunction = (result, propId) => {
             return result.length === 0;
         }
         // array join
-        const matchJoin = propId.match(/^join\(([,-]?)\)$/);
+        const matchJoin = propId.match(/^join\(([,-\s]?)\)$/);
         if (matchJoin && Array.isArray(matchJoin)) {
             return result.join(matchJoin[1] ?? "");
         }
