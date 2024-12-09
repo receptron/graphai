@@ -19,7 +19,6 @@ export declare class ComputedNode extends Node {
     readonly isResult: boolean;
     readonly params: NodeDataParams;
     private readonly filterParams;
-    private readonly dynamicParams;
     readonly nestedGraph?: GraphData | DataSource;
     readonly retryLimit: number;
     retryCount: number;
@@ -53,7 +52,6 @@ export declare class ComputedNode extends Node {
     execute(): Promise<void>;
     private prepareExecute;
     private errorProcess;
-    private getParams;
     private getContext;
     private getResult;
     private getDebugInfo;

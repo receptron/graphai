@@ -58,7 +58,7 @@ class ComputedNode extends Node {
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
-        this.dataSources = data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : [];
+        this.dataSources = [...(data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : []), ...(data.params ? (0, nodeUtils_1.inputs2dataSources)(data.params).flat(10) : [])];
         if (data.inputs && Array.isArray(data.inputs)) {
             throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
         }
@@ -83,15 +83,6 @@ class ComputedNode extends Node {
         if (data.unless) {
             this.unlessSource = this.addPendingNode(data.unless);
         }
-        this.dynamicParams = Object.keys(this.params).reduce((tmp, key) => {
-            const dataSource = (0, utils_2.parseNodeName)(this.params[key]);
-            if (dataSource.nodeId) {
-                (0, utils_2.assert)(!this.anyInput, "Dynamic params are not supported with anyInput");
-                tmp[key] = dataSource;
-                this.pendings.add(dataSource.nodeId);
-            }
-            return tmp;
-        }, {});
         this.log.initForComputedNode(this, graph);
     }
     getAgentId() {
@@ -218,16 +209,7 @@ class ComputedNode extends Node {
             // if this is a nested agent or not.
             if (this.nestedGraph) {
                 this.graph.taskManager.prepareForNesting();
-                // context.taskManager = this.graph.taskManager;
                 context.onLogCallback = this.graph.onLogCallback;
-                /*
-                if ("nodes" in this.nestedGraph) {
-                  context.graphData = this.nestedGraph;
-                } else {
-                  context.graphData = this.graph.resultOf(this.nestedGraph) as GraphData; // HACK: compiler work-around
-                  }
-                */
-                // context.agents = this.graph.agentFunctionInfoDictionary;
                 context.forNestedGraph = {
                     graphData: "nodes" in this.nestedGraph ? this.nestedGraph : this.graph.resultOf(this.nestedGraph), // HACK: compiler work-around
                     agents: this.graph.agentFunctionInfoDictionary,
@@ -292,24 +274,9 @@ class ComputedNode extends Node {
             this.retry(type_1.NodeState.Failed, Error("Unknown"));
         }
     }
-    getParams() {
-        return Object.keys(this.dynamicParams).reduce((tmp, key) => {
-            const result = this.graph.resultOf(this.dynamicParams[key]);
-            tmp[key] = result;
-            return tmp;
-        }, { ...this.params });
-    }
-    /*
-    private getInputs(previousResults: Record<string, ResultData | undefined>) {
-      if (Array.isArray(this.inputs)) {
-        return (this.inputs ?? []).map((key) => previousResults[String(key)]).filter((a) => !this.anyInput || a);
-      }
-      return [];
-    }
-    */
     getContext(previousResults, localLog) {
         const context = {
-            params: this.getParams(),
+            params: this.graph.resultsOf(this.params),
             namedInputs: previousResults,
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
             debugInfo: this.getDebugInfo(),
