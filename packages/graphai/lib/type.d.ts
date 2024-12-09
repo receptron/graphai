@@ -24,7 +24,7 @@ export type DataSource = {
     propIds?: string[];
 };
 export type StaticNodeData = {
-    value: ResultData;
+    value?: ResultData;
     update?: string;
     isResult?: boolean;
     console?: Record<string, string | boolean>;

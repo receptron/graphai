@@ -828,9 +828,9 @@ const nodeValidator = (nodeData) => {
     if (nodeData.agent && nodeData.value) {
         throw new ValidationError("Cannot set both agent and value");
     }
-    if (!("agent" in nodeData) && !("value" in nodeData)) {
-        throw new ValidationError("Either agent or value is required");
-    }
+    // if (!("agent" in nodeData) && !("value" in nodeData)) {
+    //   throw new ValidationError("Either agent or value is required");
+    // }
     return true;
 };
 
@@ -949,7 +949,7 @@ const validateGraphData = (data, agentIds) => {
     const graphAgentIds = new Set();
     Object.keys(data.nodes).forEach((nodeId) => {
         const node = data.nodes[nodeId];
-        const isStaticNode = "value" in node;
+        const isStaticNode = !("agent" in node);
         nodeValidator(node);
         const agentId = isStaticNode ? "" : node.agent;
         isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);
@@ -1036,15 +1036,13 @@ class GraphAI {
     createNodes(data) {
         const nodes = Object.keys(data.nodes).reduce((_nodes, nodeId) => {
             const nodeData = data.nodes[nodeId];
-            if ("value" in nodeData) {
-                _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
-            }
-            else if ("agent" in nodeData) {
+            if ("agent" in nodeData) {
                 _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
             }
             else {
-                throw new Error("Unknown node type (neither value nor agent): " + nodeId);
+                _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
             }
+            // throw new Error("Unknown node type (neither value nor agent): " + nodeId);
             return _nodes;
         }, {});
         // Generate the waitlist for each node.
@@ -1213,6 +1211,11 @@ class GraphAI {
     }
     // Public API
     async run(all = false) {
+        if (Object.values(this.nodes)
+            .filter((node) => node.isStaticNode)
+            .some((node) => node.result === undefined && node.update === undefined)) {
+            throw new Error("Static node must have value. Set value or injectValue or set update");
+        }
         if (this.isRunning()) {
             throw new Error("This GraphUI instance is already running");
         }
