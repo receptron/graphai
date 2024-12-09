@@ -85,7 +85,7 @@ export class ComputedNode extends Node {
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
   private defaultValue?: ResultData;
-  private isSkip?: boolean = false;
+  private isSkip: boolean = false;
 
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
@@ -132,6 +132,7 @@ export class ComputedNode extends Node {
     if (data.defaultValue) {
       this.defaultValue = data.defaultValue;
     }
+    this.isSkip = false;
     this.log.initForComputedNode(this, graph);
   }
 
@@ -150,9 +151,12 @@ export class ComputedNode extends Node {
     if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
       return false;
     }
-    this.isSkip =
-      (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) || (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)));
-    if (this.isSkip && !this.defaultValue) {
+    this.isSkip = !!(
+      (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) ||
+      (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)))
+    );
+
+    if (this.isSkip && this.defaultValue === undefined) {
       this.state = NodeState.Skipped;
       this.log.onSkipped(this, this.graph);
       return false;
