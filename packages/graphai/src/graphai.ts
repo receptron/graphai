@@ -53,13 +53,12 @@ export class GraphAI {
   private createNodes(data: GraphData) {
     const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
       const nodeData = data.nodes[nodeId];
-      if ("value" in nodeData) {
-        _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
-      } else if ("agent" in nodeData) {
+      if ("agent" in nodeData) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       } else {
-        throw new Error("Unknown node type (neither value nor agent): " + nodeId);
+        _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
       }
+      // throw new Error("Unknown node type (neither value nor agent): " + nodeId);
       return _nodes;
     }, {});
 
@@ -244,6 +243,13 @@ export class GraphAI {
 
   // Public API
   public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictionary<T>> {
+    if (
+      Object.values(this.nodes)
+        .filter((node) => node.isStaticNode)
+        .some((node) => node.result === undefined && node.update === undefined)
+    ) {
+      throw new Error("Static node must have value. Set value or injectValue or set update");
+    }
     if (this.isRunning()) {
       throw new Error("This GraphUI instance is already running");
     }

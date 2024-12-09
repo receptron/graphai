@@ -15,7 +15,7 @@ export const validateGraphData = (data: GraphData, agentIds: string[]) => {
   const graphAgentIds = new Set<string>();
   Object.keys(data.nodes).forEach((nodeId) => {
     const node = data.nodes[nodeId];
-    const isStaticNode = "value" in node;
+    const isStaticNode = !("agent" in node);
     nodeValidator(node);
     const agentId = isStaticNode ? "" : node.agent;
     isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);

@@ -51,7 +51,7 @@ test("test validation invalid agent", async () => {
       nodeTest: {},
     },
   });
-  await rejectTest(__dirname, graph_data, "Either agent or value is required");
+  await rejectTest(__dirname, graph_data, "No Initial Runnning Node");
 });
 
 test("test validation invalid agent", async () => {
