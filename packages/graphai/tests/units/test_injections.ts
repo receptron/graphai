@@ -33,11 +33,10 @@ test("test injection static node", async () => {
 });
 
 test("test injection static node", async () => {
-  console.log(graph_data);
   const graph = new GraphAI(graph_data, { copyAgent }, {});
   await assert.rejects(
     async () => {
-      const result = await graph.run();
+      await graph.run();
     },
     { name: "Error", message: "Static node must have value. Set value or injectValue or set update" },
   );
