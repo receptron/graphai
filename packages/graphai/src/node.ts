@@ -84,6 +84,8 @@ export class ComputedNode extends Node {
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
+  private defaultValue?: ResultData;
+  private isSkip?: boolean = false;
 
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
@@ -127,6 +129,9 @@ export class ComputedNode extends Node {
     if (data.unless) {
       this.unlessSource = this.addPendingNode(data.unless);
     }
+    if (data.defaultValue) {
+      this.defaultValue = data.defaultValue;
+    }
     this.log.initForComputedNode(this, graph);
   }
 
@@ -145,10 +150,9 @@ export class ComputedNode extends Node {
     if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
       return false;
     }
-    if (
-      (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) ||
-      (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)))
-    ) {
+    this.isSkip =
+      (this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) || (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource)));
+    if (this.isSkip && !this.defaultValue) {
       this.state = NodeState.Skipped;
       this.log.onSkipped(this, this.graph);
       return false;
@@ -252,6 +256,10 @@ export class ComputedNode extends Node {
   // then it removes itself from the "running node" list of the graph.
   // Notice that setting the result of this node may make other nodes ready to run.
   public async execute() {
+    if (this.isSkip) {
+      this.afterExecute(this.defaultValue, []);
+      return;
+    }
     const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
@@ -301,16 +309,21 @@ export class ComputedNode extends Node {
         return;
       }
 
-      this.state = NodeState.Completed;
-      this.result = this.getResult(result);
-      this.log.onComplete(this, this.graph, localLog);
-
-      this.onSetResult();
-
-      this.graph.onExecutionComplete(this);
+      // after process
+      this.afterExecute(result, localLog);
     } catch (error) {
       this.errorProcess(error, transactionId, previousResults);
     }
+  }
+
+  private afterExecute(result: ResultData, localLog: TransactionLog[]) {
+    this.state = NodeState.Completed;
+    this.result = this.getResult(result);
+    this.log.onComplete(this, this.graph, localLog);
+
+    this.onSetResult();
+
+    this.graph.onExecutionComplete(this);
   }
 
   // This private method (called only by execute()) prepares the ComputedNode object

@@ -51,6 +51,7 @@ export type ComputedNodeData = {
   timeout?: number; // msec
   if?: string; // conditional execution
   unless?: string; // conditional execution
+  defaultValue?: ResultData;
   graph?: GraphData | string;
   graphLoader?: GraphDataLoaderOption;
   isResult?: boolean;
