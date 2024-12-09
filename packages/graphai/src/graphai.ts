@@ -246,9 +246,9 @@ export class GraphAI {
     if (
       Object.values(this.nodes)
         .filter((node) => node.isStaticNode)
-        .some((node) => node.result === undefined)
+        .some((node) => node.result === undefined && node.update === undefined)
     ) {
-      throw new Error("Static node must have value. Set value or injectValue.");
+      throw new Error("Static node must have value. Set value or injectValue or set update");
     }
     if (this.isRunning()) {
       throw new Error("This GraphUI instance is already running");

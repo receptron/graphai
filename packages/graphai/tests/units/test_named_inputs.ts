@@ -96,6 +96,7 @@ const graph_data_any_named_inputs2 = {
   nodes: {
     no_tool_calls: {
       value: undefined,
+      update: ":reducer",
     },
     tool_calls: {
       value: [1, 1],
@@ -153,6 +154,7 @@ const graph_data_deep_and_any_nested_named_input = {
     },
     message2: {
       value: undefined,
+      update: ":namedResult",
     },
     namedResult: {
       agent: (object: { input: string }) => object.input,
