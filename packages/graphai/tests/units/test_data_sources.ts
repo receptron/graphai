@@ -106,3 +106,15 @@ test("test getDataFromSource nested array last", async () => {
   const res = getDataFromSource(result, source);
   assert.deepStrictEqual(res, data);
 });
+
+test("test getDataFromSource self", async () => {
+  const inputId = ".data.sample.$last";
+  const result = { data: { sample: [0, 1, 2, 3] } };
+  const data = 3;
+
+  const source = parseNodeName(inputId, true);
+  assert.deepStrictEqual(source, { nodeId: "self", propIds: ["data", "sample", "$last"] });
+
+  const res = getDataFromSource(result, source);
+  assert.deepStrictEqual(res, data);
+});

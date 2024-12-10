@@ -5,29 +5,29 @@ import { GraphNodes } from "@/node";
 import { parseNodeName, isNamedInputs, isObject, isNull } from "@/utils/utils";
 import { getDataFromSource } from "@/utils/data_source";
 
-const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFunction[]): ResultData => {
+const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean = false): ResultData => {
   if (Array.isArray(input)) {
-    return input.map((inp) => resultsOfInner(inp, nodes, propFunctions));
+    return input.map((inp) => resultsOfInner(inp, nodes, propFunctions, isSelfNode));
   }
   if (isNamedInputs(input)) {
-    return resultsOf(input, nodes, propFunctions);
+    return resultsOf(input, nodes, propFunctions, isSelfNode);
   }
   if (typeof input === "string") {
     const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
     if (templateMatch.length > 0) {
-      const results = resultsOfInner(templateMatch, nodes, propFunctions);
+      const results = resultsOfInner(templateMatch, nodes, propFunctions, isSelfNode);
       return Array.from(templateMatch.keys()).reduce((tmp, key) => {
         return tmp.replaceAll("${" + templateMatch[key] + "}", (results as any)[key]);
       }, input);
     }
   }
-  return resultOf(parseNodeName(input), nodes, propFunctions);
+  return resultOf(parseNodeName(input, isSelfNode), nodes, propFunctions);
 };
 
-export const resultsOf = (inputs: Record<string, any>, nodes: GraphNodes, propFunctions: PropFunction[]) => {
+export const resultsOf = (inputs: Record<string, any>, nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean = false) => {
   return Object.keys(inputs).reduce((tmp: Record<string, ResultData>, key) => {
     const input = inputs[key];
-    tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);
+    tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, propFunctions, isSelfNode) : resultsOfInner(input, nodes, propFunctions, isSelfNode);
     return tmp;
   }, {});
 };

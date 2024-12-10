@@ -38,7 +38,7 @@ export class GraphAI {
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];
   public readonly retryLimit?: number;
-  private readonly propFunctions: PropFunction[];
+  public readonly propFunctions: PropFunction[];
   public readonly graphLoader?: GraphDataLoader;
 
   public nodes: GraphNodes;
@@ -350,7 +350,7 @@ export class GraphAI {
     }
   }
 
-  public resultsOf(inputs?: Array<any> | Record<string, any>, anyInput: boolean = false) {
+  public resultsOf(inputs?: Record<string, any>, anyInput: boolean = false) {
     const results = resultsOf(inputs ?? [], this.nodes, this.propFunctions);
     if (anyInput) {
       return cleanResult(results);
