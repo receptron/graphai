@@ -29,11 +29,14 @@ export type DataSource = {
   propIds?: string[];
 };
 
+type ConsoleAttribute = true | string | Record<string, any>;
+export type ConsoleElement = true | { before?: ConsoleAttribute; after?: ConsoleAttribute };
+
 export type StaticNodeData = {
   value?: ResultData; // initial value for static node.
   update?: string; // nodeId (+.propId) to get value after a loop
   isResult?: boolean;
-  console?: Record<string, string | boolean>;
+  console?: ConsoleElement;
 };
 export type AgentAnonymousFunction = (...params: any[]) => unknown;
 
@@ -57,7 +60,7 @@ export type ComputedNodeData = {
   isResult?: boolean;
   priority?: number; // The default is 0.
   passThrough?: PassThrough; // data that pass trough to result
-  console?: Record<string, string | boolean>;
+  console?: ConsoleElement;
 };
 
 export type NodeData = StaticNodeData | ComputedNodeData;
