@@ -1,5 +1,5 @@
 import type { GraphAI, GraphData } from "./index";
-import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState } from "./type";
+import { NodeDataParams, ResultData, DataSource, ComputedNodeData, StaticNodeData, NodeState, ConsoleElement } from "./type";
 import { TransactionLog } from "./transaction_log";
 export declare class Node {
     readonly nodeId: string;
@@ -8,7 +8,7 @@ export declare class Node {
     result: ResultData | undefined;
     protected graph: GraphAI;
     protected log: TransactionLog;
-    protected console: Record<string, string | boolean>;
+    protected console: ConsoleElement;
     constructor(nodeId: string, graph: GraphAI);
     asString(): string;
     protected onSetResult(): void;

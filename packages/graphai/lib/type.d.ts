@@ -23,11 +23,16 @@ export type DataSource = {
     value?: any;
     propIds?: string[];
 };
+type ConsoleAttribute = true | string | Record<string, any>;
+export type ConsoleElement = true | {
+    before?: ConsoleAttribute;
+    after?: ConsoleAttribute;
+};
 export type StaticNodeData = {
     value?: ResultData;
     update?: string;
     isResult?: boolean;
-    console?: Record<string, string | boolean>;
+    console?: ConsoleElement;
 };
 export type AgentAnonymousFunction = (...params: any[]) => unknown;
 export type AgentFilterParams = Record<string, any>;
@@ -51,7 +56,7 @@ export type ComputedNodeData = {
     isResult?: boolean;
     priority?: number;
     passThrough?: PassThrough;
-    console?: Record<string, string | boolean>;
+    console?: ConsoleElement;
 };
 export type NodeData = StaticNodeData | ComputedNodeData;
 export type LoopData = {
@@ -138,3 +143,4 @@ export type AgentFunctionInfo = {
 };
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
 export type PropFunction = (result: ResultData, propId: string) => ResultData;
+export {};
