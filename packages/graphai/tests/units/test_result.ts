@@ -102,6 +102,6 @@ test("test computed node result", async () => {
 test("test computed node result for output", async () => {
   const node1 = getComputedNode("message1");
   await node1.execute();
-  const result = resultsOf({ text: ".message"}, { self: node1 }, propFunctions, true);
+  const result = resultsOf({ text: ".message" }, { self: node1 }, propFunctions, true);
   assert.deepStrictEqual(result, { text: "hello" });
 });
