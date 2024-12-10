@@ -25,7 +25,7 @@ const graph_data = {
       isResult: true,
     },
     reducer: {
-      // Appends the responce to the messages.
+      // Appends the response to the messages.
       agent: "pushAgent",
       inputs: { array: ":messages", item: ":result.text" },
       isResult: true,
