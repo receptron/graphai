@@ -22,13 +22,6 @@ const resultsOfInner = (input, nodes, propFunctions) => {
     return (0, exports.resultOf)((0, utils_1.parseNodeName)(input), nodes, propFunctions);
 };
 const resultsOf = (inputs, nodes, propFunctions) => {
-    // for inputs. TODO remove if array input is not supported
-    if (Array.isArray(inputs)) {
-        return inputs.reduce((tmp, key) => {
-            tmp[key] = resultsOfInner(key, nodes, propFunctions);
-            return tmp;
-        }, {});
-    }
     return Object.keys(inputs).reduce((tmp, key) => {
         const input = inputs[key];
         tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);

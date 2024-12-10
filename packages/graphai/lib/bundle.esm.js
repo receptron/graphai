@@ -715,13 +715,6 @@ const resultsOfInner = (input, nodes, propFunctions) => {
     return resultOf(parseNodeName(input), nodes, propFunctions);
 };
 const resultsOf = (inputs, nodes, propFunctions) => {
-    // for inputs. TODO remove if array input is not supported
-    if (Array.isArray(inputs)) {
-        return inputs.reduce((tmp, key) => {
-            tmp[key] = resultsOfInner(key, nodes, propFunctions);
-            return tmp;
-        }, {});
-    }
     return Object.keys(inputs).reduce((tmp, key) => {
         const input = inputs[key];
         tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);
