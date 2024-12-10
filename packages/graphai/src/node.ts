@@ -19,6 +19,7 @@ import {
 } from "@/type";
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
+import { resultsOf } from "@/utils/result";
 
 export class Node {
   public readonly nodeId: string;
@@ -81,6 +82,7 @@ export class ComputedNode extends Node {
   public readonly anyInput: boolean; // any input makes this node ready
   public dataSources: DataSource[] = []; // no longer needed. This is for transaction log.
   private inputs?: Record<string, any>;
+  private output?: Record<string, any>;
   public pendings: Set<string>; // List of nodes this node is waiting data from.
   private ifSource?: DataSource; // conditional execution
   private unlessSource?: DataSource; // conditional execution
@@ -104,6 +106,7 @@ export class ComputedNode extends Node {
 
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
+    this.output = data.output;
     this.dataSources = [...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []), ...(data.params ? inputs2dataSources(data.params).flat(10) : [])];
     if (data.inputs && Array.isArray(data.inputs)) {
       throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -323,6 +326,9 @@ export class ComputedNode extends Node {
   private afterExecute(result: ResultData, localLog: TransactionLog[]) {
     this.state = NodeState.Completed;
     this.result = this.getResult(result);
+    if (this.output) {
+      this.result = resultsOf(this.output, { self: this }, this.graph.propFunctions, true);
+    }
     this.log.onComplete(this, this.graph, localLog);
 
     this.onSetResult();

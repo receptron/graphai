@@ -4,7 +4,14 @@ export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-export const parseNodeName = (inputNodeId: any): DataSource => {
+export const parseNodeName = (inputNodeId: any, isSelfNode: boolean = false): DataSource => {
+  if (isSelfNode) {
+    if (typeof inputNodeId === "string" && inputNodeId[0] === ".") {
+      const parts = inputNodeId.split(".");
+      return { nodeId: "self", propIds: parts.slice(1) };
+    }
+    return { value: inputNodeId };
+  }
   if (typeof inputNodeId === "string") {
     const regex = /^:(.*)$/;
     const match = inputNodeId.match(regex);

@@ -2,6 +2,7 @@ export const graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop"
 
 export const computedNodeAttributeKeys = [
   "inputs",
+  "output",
   "anyInput",
   "params",
   "retry",
