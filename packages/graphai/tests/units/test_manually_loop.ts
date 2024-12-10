@@ -46,7 +46,8 @@ test("test manually loop", async () => {
   });
 
   // manually loop
-  graph.initializeGraphAI({ reducer: { array: ["this is test"] } });
+  graph.initializeGraphAI();
+  graph.setPreviousResults({ reducer: { array: ["this is test"] } });
   const result2 = await graph.run();
   assert.deepStrictEqual(result2, {
     reducer: {
@@ -60,7 +61,7 @@ test("test manually loop", async () => {
 
 test("test manually loop", async () => {
   const graph = new GraphAI(graph_data, agents);
-  graph.initializeGraphAI({ reducer: { array: ["this is test"] } });
+  graph.setPreviousResults({ reducer: { array: ["this is test"] } });
   const result = await graph.run();
   assert.deepStrictEqual(result, {
     reducer: {
@@ -77,7 +78,7 @@ test("test manually loop: initializeGraphAI is not called when node is running",
   graph.run();
   await assert.rejects(
     async () => {
-      graph.initializeGraphAI({ reducer: { array: ["this is test"] } });
+      graph.initializeGraphAI();
     },
     { name: "Error", message: "This GraphAI instance is running" },
   );

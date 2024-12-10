@@ -311,20 +311,23 @@ export class GraphAI {
           return false; // while condition is not met
         }
       }
-      this.initializeGraphAI(previousResults);
+      this.initializeGraphAI();
+      this.updateStaticNodes(previousResults, true);
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.
     }
     return false;
   }
 
-  public initializeGraphAI(previousResults: ResultDataDictionary<DefaultResultData>) {
+  public initializeGraphAI() {
     if (this.isRunning()) {
       throw new Error("This GraphAI instance is running");
     }
     this.nodes = this.createNodes(this.data);
     this.initializeStaticNodes();
-    this.updateStaticNodes(previousResults, true);
+  }
+  public setPreviousResults(previousResults: ResultDataDictionary<DefaultResultData>) {
+    this.updateStaticNodes(previousResults);
   }
   public setLoopLog(log: TransactionLog) {
     log.isLoop = !!this.loop;
