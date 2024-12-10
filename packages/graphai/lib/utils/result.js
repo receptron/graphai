@@ -3,28 +3,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
 const utils_1 = require("../utils/utils");
 const data_source_1 = require("../utils/data_source");
-const resultsOfInner = (input, nodes, propFunctions) => {
+const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
     if (Array.isArray(input)) {
-        return input.map((inp) => resultsOfInner(inp, nodes, propFunctions));
+        return input.map((inp) => resultsOfInner(inp, nodes, propFunctions, isSelfNode));
     }
     if ((0, utils_1.isNamedInputs)(input)) {
-        return (0, exports.resultsOf)(input, nodes, propFunctions);
+        return (0, exports.resultsOf)(input, nodes, propFunctions, isSelfNode);
     }
     if (typeof input === "string") {
         const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
         if (templateMatch.length > 0) {
-            const results = resultsOfInner(templateMatch, nodes, propFunctions);
+            const results = resultsOfInner(templateMatch, nodes, propFunctions, isSelfNode);
             return Array.from(templateMatch.keys()).reduce((tmp, key) => {
                 return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
             }, input);
         }
     }
-    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input), nodes, propFunctions);
+    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input, isSelfNode), nodes, propFunctions);
 };
-const resultsOf = (inputs, nodes, propFunctions) => {
+const resultsOf = (inputs, nodes, propFunctions, isSelfNode = false) => {
     return Object.keys(inputs).reduce((tmp, key) => {
         const input = inputs[key];
-        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);
+        tmp[key] = (0, utils_1.isNamedInputs)(input) ? (0, exports.resultsOf)(input, nodes, propFunctions, isSelfNode) : resultsOfInner(input, nodes, propFunctions, isSelfNode);
         return tmp;
     }, {});
 };

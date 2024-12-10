@@ -4,6 +4,7 @@ exports.ValidationError = exports.staticNodeAttributeKeys = exports.computedNode
 exports.graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version"];
 exports.computedNodeAttributeKeys = [
     "inputs",
+    "output",
     "anyInput",
     "params",
     "retry",

@@ -6,6 +6,7 @@ const nodeUtils_1 = require("./utils/nodeUtils");
 const type_1 = require("./type");
 const utils_2 = require("./utils/utils");
 const transaction_log_1 = require("./transaction_log");
+const result_1 = require("./utils/result");
 class Node {
     constructor(nodeId, graph) {
         this.waitlist = new Set(); // List of nodes which need data from this node.
@@ -59,6 +60,7 @@ class ComputedNode extends Node {
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
+        this.output = data.output;
         this.dataSources = [...(data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : []), ...(data.params ? (0, nodeUtils_1.inputs2dataSources)(data.params).flat(10) : [])];
         if (data.inputs && Array.isArray(data.inputs)) {
             throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -255,6 +257,9 @@ class ComputedNode extends Node {
     afterExecute(result, localLog) {
         this.state = type_1.NodeState.Completed;
         this.result = this.getResult(result);
+        if (this.output) {
+            this.result = (0, result_1.resultsOf)(this.output, { self: this }, this.graph.propFunctions, true);
+        }
         this.log.onComplete(this, this.graph, localLog);
         this.onSetResult();
         this.graph.onExecutionComplete(this);

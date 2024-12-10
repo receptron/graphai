@@ -1,7 +1,14 @@
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
-const parseNodeName = (inputNodeId) => {
+const parseNodeName = (inputNodeId, isSelfNode = false) => {
+    if (isSelfNode) {
+        if (typeof inputNodeId === "string" && inputNodeId[0] === ".") {
+            const parts = inputNodeId.split(".");
+            return { nodeId: "self", propIds: parts.slice(1) };
+        }
+        return { value: inputNodeId };
+    }
     if (typeof inputNodeId === "string") {
         const regex = /^:(.*)$/;
         const match = inputNodeId.match(regex);
@@ -209,6 +216,202 @@ class TransactionLog {
     }
 }
 
+const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
+const propArrayFunction = (result, propId) => {
+    if (Array.isArray(result)) {
+        if (propId === "length()") {
+            return result.length;
+        }
+        if (propId === "flat()") {
+            return result.flat();
+        }
+        if (propId === "toJSON()") {
+            return JSON.stringify(result);
+        }
+        if (propId === "isEmpty()") {
+            return result.length === 0;
+        }
+        // array join
+        const matchJoin = propId.match(/^join\(([,-\s]?)\)$/);
+        if (matchJoin && Array.isArray(matchJoin)) {
+            return result.join(matchJoin[1] ?? "");
+        }
+    }
+    return undefined;
+};
+const propObjectFunction = (result, propId) => {
+    if (isObject(result)) {
+        if (propId === "keys()") {
+            return Object.keys(result);
+        }
+        if (propId === "values()") {
+            return Object.values(result);
+        }
+        if (propId === "toJSON()") {
+            return JSON.stringify(result);
+        }
+    }
+    return undefined;
+};
+const propStringFunction = (result, propId) => {
+    if (typeof result === "string") {
+        if (propId === "codeBlock()") {
+            const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+            if (match) {
+                return match[1];
+            }
+        }
+        if (propId === "jsonParse()") {
+            return JSON.parse(result);
+        }
+        if (propId === "toNumber()") {
+            const ret = Number(result);
+            if (!isNaN(ret)) {
+                return ret;
+            }
+        }
+        if (propId === "trim()") {
+            return result.trim();
+        }
+        if (propId === "toLowerCase()") {
+            return result.toLowerCase();
+        }
+        if (propId === "toUpperCase()") {
+            return result.toUpperCase();
+        }
+        // split()
+    }
+    return undefined;
+};
+const propNumberFunction = (result, propId) => {
+    if (result !== undefined && Number.isFinite(result)) {
+        if (propId === "toString()") {
+            return String(result);
+        }
+        const regex = /^add\((-?\d+)\)$/;
+        const match = propId.match(regex);
+        if (match) {
+            return Number(result) + Number(match[1]);
+        }
+    }
+    return undefined;
+};
+const propBooleanFunction = (result, propId) => {
+    if (typeof result === "boolean") {
+        if (propId === "not()") {
+            return !result;
+        }
+    }
+    return undefined;
+};
+const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+
+const getNestedData = (result, propId, propFunctions) => {
+    const match = propId.match(propFunctionRegex);
+    if (match) {
+        for (const propFunction of propFunctions) {
+            const ret = propFunction(result, propId);
+            if (!isNull(ret)) {
+                return ret;
+            }
+        }
+    }
+    // for array.
+    if (Array.isArray(result)) {
+        // $0, $1. array value.
+        const regex = /^\$(\d+)$/;
+        const match = propId.match(regex);
+        if (match) {
+            const index = parseInt(match[1], 10);
+            return result[index];
+        }
+        if (propId === "$last") {
+            return result[result.length - 1];
+        }
+    }
+    else if (isObject(result)) {
+        if (propId in result) {
+            return result[propId];
+        }
+    }
+    return undefined;
+};
+const innerGetDataFromSource = (result, propIds, propFunctions) => {
+    if (!isNull(result) && propIds && propIds.length > 0) {
+        const propId = propIds[0];
+        const ret = getNestedData(result, propId, propFunctions);
+        if (ret === undefined) {
+            console.error(`prop: ${propIds.join(".")} is not hit`);
+        }
+        if (propIds.length > 1) {
+            return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
+        }
+        return ret;
+    }
+    return result;
+};
+const getDataFromSource = (result, source, propFunctions = []) => {
+    if (!source.nodeId) {
+        return source.value;
+    }
+    return innerGetDataFromSource(result, source.propIds, propFunctions);
+};
+
+const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
+    if (Array.isArray(input)) {
+        return input.map((inp) => resultsOfInner(inp, nodes, propFunctions, isSelfNode));
+    }
+    if (isNamedInputs(input)) {
+        return resultsOf(input, nodes, propFunctions, isSelfNode);
+    }
+    if (typeof input === "string") {
+        const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+        if (templateMatch.length > 0) {
+            const results = resultsOfInner(templateMatch, nodes, propFunctions, isSelfNode);
+            return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+                return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
+            }, input);
+        }
+    }
+    return resultOf(parseNodeName(input, isSelfNode), nodes, propFunctions);
+};
+const resultsOf = (inputs, nodes, propFunctions, isSelfNode = false) => {
+    return Object.keys(inputs).reduce((tmp, key) => {
+        const input = inputs[key];
+        tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, propFunctions, isSelfNode) : resultsOfInner(input, nodes, propFunctions, isSelfNode);
+        return tmp;
+    }, {});
+};
+const resultOf = (source, nodes, propFunctions) => {
+    const { result } = source.nodeId ? nodes[source.nodeId] : { result: undefined };
+    return getDataFromSource(result, source, propFunctions);
+};
+// clean up object for anyInput
+const cleanResultInner = (results) => {
+    if (Array.isArray(results)) {
+        return results.map((result) => cleanResultInner(result)).filter((result) => !isNull(result));
+    }
+    if (isObject(results)) {
+        return Object.keys(results).reduce((tmp, key) => {
+            const value = cleanResultInner(results[key]);
+            if (!isNull(value)) {
+                tmp[key] = value;
+            }
+            return tmp;
+        }, {});
+    }
+    return results;
+};
+const cleanResult = (results) => {
+    return Object.keys(results).reduce((tmp, key) => {
+        const value = cleanResultInner(results[key]);
+        if (!isNull(value)) {
+            tmp[key] = value;
+        }
+        return tmp;
+    }, {});
+};
+
 class Node {
     constructor(nodeId, graph) {
         this.waitlist = new Set(); // List of nodes which need data from this node.
@@ -261,6 +464,7 @@ class ComputedNode extends Node {
         this.priority = data.priority ?? 0;
         this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
+        this.output = data.output;
         this.dataSources = [...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []), ...(data.params ? inputs2dataSources(data.params).flat(10) : [])];
         if (data.inputs && Array.isArray(data.inputs)) {
             throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -457,6 +661,9 @@ class ComputedNode extends Node {
     afterExecute(result, localLog) {
         this.state = NodeState.Completed;
         this.result = this.getResult(result);
+        if (this.output) {
+            this.result = resultsOf(this.output, { self: this }, this.graph.propFunctions, true);
+        }
         this.log.onComplete(this, this.graph, localLog);
         this.onSetResult();
         this.graph.onExecutionComplete(this);
@@ -555,205 +762,10 @@ class StaticNode extends Node {
     }
 }
 
-const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
-const propArrayFunction = (result, propId) => {
-    if (Array.isArray(result)) {
-        if (propId === "length()") {
-            return result.length;
-        }
-        if (propId === "flat()") {
-            return result.flat();
-        }
-        if (propId === "toJSON()") {
-            return JSON.stringify(result);
-        }
-        if (propId === "isEmpty()") {
-            return result.length === 0;
-        }
-        // array join
-        const matchJoin = propId.match(/^join\(([,-\s]?)\)$/);
-        if (matchJoin && Array.isArray(matchJoin)) {
-            return result.join(matchJoin[1] ?? "");
-        }
-    }
-    return undefined;
-};
-const propObjectFunction = (result, propId) => {
-    if (isObject(result)) {
-        if (propId === "keys()") {
-            return Object.keys(result);
-        }
-        if (propId === "values()") {
-            return Object.values(result);
-        }
-        if (propId === "toJSON()") {
-            return JSON.stringify(result);
-        }
-    }
-    return undefined;
-};
-const propStringFunction = (result, propId) => {
-    if (typeof result === "string") {
-        if (propId === "codeBlock()") {
-            const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
-            if (match) {
-                return match[1];
-            }
-        }
-        if (propId === "jsonParse()") {
-            return JSON.parse(result);
-        }
-        if (propId === "toNumber()") {
-            const ret = Number(result);
-            if (!isNaN(ret)) {
-                return ret;
-            }
-        }
-        if (propId === "trim()") {
-            return result.trim();
-        }
-        if (propId === "toLowerCase()") {
-            return result.toLowerCase();
-        }
-        if (propId === "toUpperCase()") {
-            return result.toUpperCase();
-        }
-        // split()
-    }
-    return undefined;
-};
-const propNumberFunction = (result, propId) => {
-    if (result !== undefined && Number.isFinite(result)) {
-        if (propId === "toString()") {
-            return String(result);
-        }
-        const regex = /^add\((-?\d+)\)$/;
-        const match = propId.match(regex);
-        if (match) {
-            return Number(result) + Number(match[1]);
-        }
-    }
-    return undefined;
-};
-const propBooleanFunction = (result, propId) => {
-    if (typeof result === "boolean") {
-        if (propId === "not()") {
-            return !result;
-        }
-    }
-    return undefined;
-};
-const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
-
-const getNestedData = (result, propId, propFunctions) => {
-    const match = propId.match(propFunctionRegex);
-    if (match) {
-        for (const propFunction of propFunctions) {
-            const ret = propFunction(result, propId);
-            if (!isNull(ret)) {
-                return ret;
-            }
-        }
-    }
-    // for array.
-    if (Array.isArray(result)) {
-        // $0, $1. array value.
-        const regex = /^\$(\d+)$/;
-        const match = propId.match(regex);
-        if (match) {
-            const index = parseInt(match[1], 10);
-            return result[index];
-        }
-        if (propId === "$last") {
-            return result[result.length - 1];
-        }
-    }
-    else if (isObject(result)) {
-        if (propId in result) {
-            return result[propId];
-        }
-    }
-    return undefined;
-};
-const innerGetDataFromSource = (result, propIds, propFunctions) => {
-    if (!isNull(result) && propIds && propIds.length > 0) {
-        const propId = propIds[0];
-        const ret = getNestedData(result, propId, propFunctions);
-        if (ret === undefined) {
-            console.error(`prop: ${propIds.join(".")} is not hit`);
-        }
-        if (propIds.length > 1) {
-            return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
-        }
-        return ret;
-    }
-    return result;
-};
-const getDataFromSource = (result, source, propFunctions = []) => {
-    if (!source.nodeId) {
-        return source.value;
-    }
-    return innerGetDataFromSource(result, source.propIds, propFunctions);
-};
-
-const resultsOfInner = (input, nodes, propFunctions) => {
-    if (Array.isArray(input)) {
-        return input.map((inp) => resultsOfInner(inp, nodes, propFunctions));
-    }
-    if (isNamedInputs(input)) {
-        return resultsOf(input, nodes, propFunctions);
-    }
-    if (typeof input === "string") {
-        const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
-        if (templateMatch.length > 0) {
-            const results = resultsOfInner(templateMatch, nodes, propFunctions);
-            return Array.from(templateMatch.keys()).reduce((tmp, key) => {
-                return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
-            }, input);
-        }
-    }
-    return resultOf(parseNodeName(input), nodes, propFunctions);
-};
-const resultsOf = (inputs, nodes, propFunctions) => {
-    return Object.keys(inputs).reduce((tmp, key) => {
-        const input = inputs[key];
-        tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);
-        return tmp;
-    }, {});
-};
-const resultOf = (source, nodes, propFunctions) => {
-    const { result } = source.nodeId ? nodes[source.nodeId] : { result: undefined };
-    return getDataFromSource(result, source, propFunctions);
-};
-// clean up object for anyInput
-const cleanResultInner = (results) => {
-    if (Array.isArray(results)) {
-        return results.map((result) => cleanResultInner(result)).filter((result) => !isNull(result));
-    }
-    if (isObject(results)) {
-        return Object.keys(results).reduce((tmp, key) => {
-            const value = cleanResultInner(results[key]);
-            if (!isNull(value)) {
-                tmp[key] = value;
-            }
-            return tmp;
-        }, {});
-    }
-    return results;
-};
-const cleanResult = (results) => {
-    return Object.keys(results).reduce((tmp, key) => {
-        const value = cleanResultInner(results[key]);
-        if (!isNull(value)) {
-            tmp[key] = value;
-        }
-        return tmp;
-    }, {});
-};
-
 const graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version"];
 const computedNodeAttributeKeys = [
     "inputs",
+    "output",
     "anyInput",
     "params",
     "retry",

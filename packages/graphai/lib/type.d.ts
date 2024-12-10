@@ -42,7 +42,8 @@ export type GraphDataLoaderOption = {
 };
 export type ComputedNodeData = {
     agent: string | AgentAnonymousFunction;
-    inputs?: Array<any> | Record<string, any>;
+    inputs?: Record<string, any>;
+    output?: Record<string, any>;
     anyInput?: boolean;
     params?: NodeDataParams;
     filterParams?: AgentFilterParams;
