@@ -1,4 +1,4 @@
-import { GraphAI } from "@/index";
+import { GraphAI, GraphData } from "@/index";
 import { graphDataLatestVersion } from "~/common";
 import * as agents from "~/test_agents";
 import { GraphDataLoaderOption } from "@/type";
@@ -6,7 +6,7 @@ import { GraphDataLoaderOption } from "@/type";
 import test from "node:test";
 import assert from "node:assert";
 
-const graph_data = {
+const graph_data: GraphData = {
   version: graphDataLatestVersion,
   nodes: {
     message: {
@@ -14,6 +14,7 @@ const graph_data = {
     },
     namedResult: {
       agent: "nestedAgent",
+      console: true,
       graphLoader: {
         fileName: "fileName",
         option: {

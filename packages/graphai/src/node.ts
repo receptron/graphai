@@ -16,6 +16,7 @@ import {
   DefaultParamsType,
   DefaultInputData,
   PassThrough,
+  ConsoleElement,
 } from "@/type";
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
@@ -28,7 +29,7 @@ export class Node {
 
   protected graph: GraphAI;
   protected log: TransactionLog;
-  protected console: Record<string, string | boolean>; // console output option (before and/or after)
+  protected console: ConsoleElement; // console output option (before and/or after)
 
   constructor(nodeId: string, graph: GraphAI) {
     this.nodeId = nodeId;
@@ -54,7 +55,7 @@ export class Node {
   }
 
   protected afterConsoleLog(result: ResultData) {
-    if (this.console.after === true) {
+    if (this.console === true || this.console.after === true) {
       console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
     } else if (this.console.after) {
       console.log(this.console.after);
@@ -399,7 +400,7 @@ export class ComputedNode extends Node {
   }
 
   private beforeConsoleLog(context: AgentFunctionContext<DefaultParamsType, string | number | boolean | DefaultInputData | undefined>) {
-    if (this.console.before === true) {
+    if (this.console === true || this.console.before === true) {
       console.log(JSON.stringify(context.namedInputs, null, 2));
     } else if (this.console.before) {
       console.log(this.console.before);
