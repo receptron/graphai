@@ -98,3 +98,10 @@ test("test computed node result", async () => {
   const result = resultsOf({ text: [":message1", ":message2"] }, { message1: node1, message2: node2 }, propFunctions);
   assert.deepStrictEqual(result, { text: [{ message: "hello" }, undefined] });
 });
+
+test("test computed node result for output", async () => {
+  const node1 = getComputedNode("message1");
+  await node1.execute();
+  const result = resultsOf({ text: ".message"}, { self: node1 }, propFunctions, true);
+  assert.deepStrictEqual(result, { text: "hello" });
+});
