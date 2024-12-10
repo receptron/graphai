@@ -319,6 +319,9 @@ export class GraphAI {
   }
 
   public initializeGraphAI(previousResults: ResultDataDictionary<DefaultResultData>) {
+    if (this.isRunning()) {
+      throw new Error("This GraphUI instance is already running");
+    }
     this.nodes = this.createNodes(this.data);
     this.initializeStaticNodes();
     this.updateStaticNodes(previousResults, true);
