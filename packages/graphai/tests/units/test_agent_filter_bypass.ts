@@ -5,7 +5,7 @@ import { graph_data } from "~/units/graph_data";
 import test from "node:test";
 import assert from "node:assert";
 
-test("test graph", async () => {
+test("test agent filter bypass", async () => {
   const agent: AgentFilterFunction = async (__context, __next) => {
     return { message: "agentFilter" };
   };
