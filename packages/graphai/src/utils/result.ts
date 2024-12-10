@@ -24,14 +24,7 @@ const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFuncti
   return resultOf(parseNodeName(input), nodes, propFunctions);
 };
 
-export const resultsOf = (inputs: Record<string, any> | Array<string>, nodes: GraphNodes, propFunctions: PropFunction[]) => {
-  // for inputs. TODO remove if array input is not supported
-  if (Array.isArray(inputs)) {
-    return inputs.reduce((tmp: Record<string, ResultData>, key) => {
-      tmp[key] = resultsOfInner(key, nodes, propFunctions);
-      return tmp;
-    }, {});
-  }
+export const resultsOf = (inputs: Record<string, any>, nodes: GraphNodes, propFunctions: PropFunction[]) => {
   return Object.keys(inputs).reduce((tmp: Record<string, ResultData>, key) => {
     const input = inputs[key];
     tmp[key] = isNamedInputs(input) ? resultsOf(input, nodes, propFunctions) : resultsOfInner(input, nodes, propFunctions);
