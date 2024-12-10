@@ -251,7 +251,7 @@ export class GraphAI {
       throw new Error("Static node must have value. Set value or injectValue or set update");
     }
     if (this.isRunning()) {
-      throw new Error("This GraphUI instance is already running");
+      throw new Error("This GraphAI instance is already running");
     }
 
     this.pushReadyNodesIntoQueue();
@@ -320,7 +320,7 @@ export class GraphAI {
 
   public initializeGraphAI(previousResults: ResultDataDictionary<DefaultResultData>) {
     if (this.isRunning()) {
-      throw new Error("This GraphUI instance is already running");
+      throw new Error("This GraphAI instance is running");
     }
     this.nodes = this.createNodes(this.data);
     this.initializeStaticNodes();

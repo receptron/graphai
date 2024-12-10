@@ -79,6 +79,6 @@ test("test manually loop: initializeGraphAI is not called when node is running",
     async () => {
       graph.initializeGraphAI({ reducer: { array: ["this is test"] } });
     },
-    { name: "Error", message: "This GraphUI instance is already running" },
+    { name: "Error", message: "This GraphAI instance is running" },
   );
 });
