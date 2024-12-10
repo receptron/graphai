@@ -22,6 +22,7 @@ test("test if default value 1", async () => {
         isResult: true,
         output: {
           message: ".text",
+          extra: "ok",
         },
       },
     },
@@ -32,6 +33,7 @@ test("test if default value 1", async () => {
   assert.deepStrictEqual(result, {
     result: {
       message: "Hello World",
+      extra: "ok",
     },
   });
 });
