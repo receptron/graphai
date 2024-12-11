@@ -269,6 +269,20 @@ compare
 ]
 
 ````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
 
 ## Samples
 
@@ -292,6 +306,68 @@ compare
 
 ```json
 
+{"value":{"true":"a","false":"b"}}
+
+````
+
+#### result
+
+```json
+
+"a"
+
+````
+### Sample1
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "==",
+    "abca"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"value":{"true":"a","false":"b"}}
+
+````
+
+#### result
+
+```json
+
+"b"
+
+````
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "==",
+    "abc"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
 {}
 
 ````
@@ -303,7 +379,7 @@ compare
 true
 
 ````
-### Sample1
+### Sample3
 
 #### inputs
 
@@ -334,7 +410,7 @@ true
 false
 
 ````
-### Sample2
+### Sample4
 
 #### inputs
 
@@ -365,7 +441,7 @@ false
 false
 
 ````
-### Sample3
+### Sample5
 
 #### inputs
 
@@ -396,7 +472,7 @@ false
 true
 
 ````
-### Sample4
+### Sample6
 
 #### inputs
 
@@ -427,7 +503,7 @@ true
 true
 
 ````
-### Sample5
+### Sample7
 
 #### inputs
 
@@ -458,7 +534,7 @@ true
 false
 
 ````
-### Sample6
+### Sample8
 
 #### inputs
 
@@ -489,7 +565,7 @@ false
 true
 
 ````
-### Sample7
+### Sample9
 
 #### inputs
 
@@ -520,7 +596,7 @@ true
 false
 
 ````
-### Sample8
+### Sample10
 
 #### inputs
 
@@ -551,7 +627,7 @@ false
 true
 
 ````
-### Sample9
+### Sample11
 
 #### inputs
 
@@ -582,7 +658,7 @@ true
 true
 
 ````
-### Sample10
+### Sample12
 
 #### inputs
 
@@ -613,7 +689,7 @@ true
 false
 
 ````
-### Sample11
+### Sample13
 
 #### inputs
 
@@ -644,7 +720,7 @@ false
 true
 
 ````
-### Sample12
+### Sample14
 
 #### inputs
 
@@ -675,7 +751,7 @@ true
 true
 
 ````
-### Sample13
+### Sample15
 
 #### inputs
 
@@ -706,7 +782,7 @@ true
 false
 
 ````
-### Sample14
+### Sample16
 
 #### inputs
 
@@ -737,7 +813,7 @@ false
 false
 
 ````
-### Sample15
+### Sample17
 
 #### inputs
 
@@ -768,7 +844,7 @@ false
 true
 
 ````
-### Sample16
+### Sample18
 
 #### inputs
 
@@ -799,7 +875,7 @@ true
 false
 
 ````
-### Sample17
+### Sample19
 
 #### inputs
 
@@ -810,68 +886,6 @@ false
     10,
     "<",
     15
-  ]
-}
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-true
-
-````
-### Sample18
-
-#### inputs
-
-```json
-
-{
-  "array": [
-    "10",
-    "<=",
-    "5"
-  ]
-}
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-false
-
-````
-### Sample19
-
-#### inputs
-
-```json
-
-{
-  "array": [
-    "10",
-    "<=",
-    "10"
   ]
 }
 
@@ -902,38 +916,7 @@ true
   "array": [
     "10",
     "<=",
-    "19"
-  ]
-}
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-true
-
-````
-### Sample21
-
-#### inputs
-
-```json
-
-{
-  "array": [
-    10,
-    "<=",
-    5
+    "5"
   ]
 }
 
@@ -954,6 +937,37 @@ true
 false
 
 ````
+### Sample21
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "<=",
+    "10"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
 ### Sample22
 
 #### inputs
@@ -962,9 +976,9 @@ false
 
 {
   "array": [
-    10,
+    "10",
     "<=",
-    10
+    "19"
   ]
 }
 
@@ -995,7 +1009,7 @@ true
   "array": [
     10,
     "<=",
-    19
+    5
   ]
 }
 
@@ -1013,7 +1027,7 @@ true
 
 ```json
 
-true
+false
 
 ````
 ### Sample24
@@ -1024,9 +1038,9 @@ true
 
 {
   "array": [
-    true,
-    "||",
-    false
+    10,
+    "<=",
+    10
   ]
 }
 
@@ -1055,6 +1069,68 @@ true
 
 {
   "array": [
+    10,
+    "<=",
+    19
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample26
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    true,
+    "||",
+    false
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample27
+
+#### inputs
+
+```json
+
+{
+  "array": [
     false,
     "||",
     false
@@ -1078,7 +1154,7 @@ true
 false
 
 ````
-### Sample26
+### Sample28
 
 #### inputs
 
@@ -1109,7 +1185,7 @@ false
 false
 
 ````
-### Sample27
+### Sample29
 
 #### inputs
 
@@ -1119,68 +1195,6 @@ false
   "array": [
     true,
     "&&",
-    true
-  ]
-}
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-true
-
-````
-### Sample28
-
-#### inputs
-
-```json
-
-{
-  "array": [
-    true,
-    "XOR",
-    false
-  ]
-}
-
-````
-
-#### params
-
-```json
-
-{}
-
-````
-
-#### result
-
-```json
-
-true
-
-````
-### Sample29
-
-#### inputs
-
-```json
-
-{
-  "array": [
-    false,
-    "XOR",
     true
   ]
 }
@@ -1210,6 +1224,68 @@ true
 
 {
   "array": [
+    true,
+    "XOR",
+    false
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample31
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    false,
+    "XOR",
+    true
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample32
+
+#### inputs
+
+```json
+
+{
+  "array": [
     false,
     "XOR",
     false
@@ -1233,7 +1309,7 @@ true
 false
 
 ````
-### Sample31
+### Sample33
 
 #### inputs
 
@@ -1264,7 +1340,7 @@ false
 false
 
 ````
-### Sample32
+### Sample34
 
 #### inputs
 
@@ -1303,7 +1379,7 @@ false
 true
 
 ````
-### Sample33
+### Sample35
 
 #### inputs
 
@@ -1342,7 +1418,7 @@ true
 false
 
 ````
-### Sample34
+### Sample36
 
 #### inputs
 
