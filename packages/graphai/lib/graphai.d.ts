@@ -44,6 +44,8 @@ export declare class GraphAI {
     isRunning(): boolean;
     onExecutionComplete(node: ComputedNode): void;
     private processLoopIfNecessary;
+    initializeGraphAI(): void;
+    setPreviousResults(previousResults: ResultDataDictionary<DefaultResultData>): void;
     setLoopLog(log: TransactionLog): void;
     appendLog(log: TransactionLog): void;
     updateLog(log: TransactionLog): void;

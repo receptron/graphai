@@ -197,7 +197,7 @@ class GraphAI {
             throw new Error("Static node must have value. Set value or injectValue or set update");
         }
         if (this.isRunning()) {
-            throw new Error("This GraphUI instance is already running");
+            throw new Error("This GraphAI instance is already running");
         }
         this.pushReadyNodesIntoQueue();
         if (!this.isRunning()) {
@@ -250,13 +250,22 @@ class GraphAI {
                     return false; // while condition is not met
                 }
             }
-            this.nodes = this.createNodes(this.data);
-            this.initializeStaticNodes();
+            this.initializeGraphAI();
             this.updateStaticNodes(previousResults, true);
             this.pushReadyNodesIntoQueue();
             return true; // Indicating that we are going to continue.
         }
         return false;
+    }
+    initializeGraphAI() {
+        if (this.isRunning()) {
+            throw new Error("This GraphAI instance is running");
+        }
+        this.nodes = this.createNodes(this.data);
+        this.initializeStaticNodes();
+    }
+    setPreviousResults(previousResults) {
+        this.updateStaticNodes(previousResults);
     }
     setLoopLog(log) {
         log.isLoop = !!this.loop;
