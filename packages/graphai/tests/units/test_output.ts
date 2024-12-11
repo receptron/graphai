@@ -5,7 +5,7 @@ import * as agents from "~/test_agents";
 import test from "node:test";
 import assert from "node:assert";
 
-test("test if default value 1", async () => {
+test("test output format", async () => {
   const graph_data = {
     version: graphDataLatestVersion,
     nodes: {
