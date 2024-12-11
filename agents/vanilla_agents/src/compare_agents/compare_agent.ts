@@ -44,8 +44,12 @@ const compare = (_array: CompareData): boolean => {
   throw new Error(`unknown compare operator`);
 };
 
-export const compareAgent: AgentFunction = async ({ namedInputs }) => {
-  return compare(namedInputs.array);
+export const compareAgent: AgentFunction = async ({ namedInputs, params }) => {
+  const ret = compare(namedInputs.array);
+  if (params?.value) {
+    return params?.value[ret ? "true" : "false"] ?? ret;
+  }
+  return ret;
 };
 
 const compareAgentInfo: AgentFunctionInfo = {
@@ -55,6 +59,16 @@ const compareAgentInfo: AgentFunctionInfo = {
   inputs: {},
   output: {},
   samples: [
+    {
+      inputs: { array: ["abc", "==", "abc"] },
+      params: { value: { true: "a", false: "b" } },
+      result: "a",
+    },
+    {
+      inputs: { array: ["abc", "==", "abca"] },
+      params: { value: { true: "a", false: "b" } },
+      result: "b",
+    },
     {
       inputs: { array: ["abc", "==", "abc"] },
       params: {},
