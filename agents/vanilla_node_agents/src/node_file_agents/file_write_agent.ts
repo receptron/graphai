@@ -4,23 +4,26 @@ import path from "path";
 
 export const fileWriteAgent: AgentFunction<
   {
-    baseDir: string;
+    baseDir?: string;
   },
   {
     result: boolean;
   },
   {
-    text: string;
+    text?: string;
+    buffer?: Buffer;
     file: string;
   }
 > = async ({ namedInputs, params }) => {
   const { baseDir } = params;
-  const { text, file } = namedInputs;
-  assert(!!baseDir, "fileWriteAgent: params.baseDir is UNDEFINED!");
-  assert(!!file, "fileWriteAgent: inputs.file is UNDEFINED or null data!");
+  const { text, buffer, file } = namedInputs;
+  // assert(!!baseDir, "fileWriteAgent: params.baseDir is UNDEFINED!");
+  assert(!!file, "fileWriteAgent: inputs.file is UNDEFINED!");
+  assert(!!text || !!buffer, "fileWriteAgent: inputs.file and inputs.buffer are UNDEFINED!");
 
-  const filePath = path.resolve(path.join(baseDir, file));
-  fs.writeFileSync(filePath, text);
+  const filePath = baseDir ? path.resolve(path.join(baseDir, file)) : file;
+
+  fs.writeFileSync(filePath, text ?? buffer ?? "");
 
   return {
     result: true,
