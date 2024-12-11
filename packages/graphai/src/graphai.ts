@@ -58,7 +58,6 @@ export class GraphAI {
       } else {
         _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
       }
-      // throw new Error("Unknown node type (neither value nor agent): " + nodeId);
       return _nodes;
     }, {});
 
