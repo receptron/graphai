@@ -5,7 +5,6 @@ import * as agents from "~/test_agents";
 import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
-import assert from "node:assert";
 
 const get_graph_data = (): GraphData => {
   return {
