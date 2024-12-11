@@ -36,7 +36,12 @@ class Node {
             console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
         }
         else if (this.console.after) {
-            console.log(this.console.after);
+            if ((0, utils_2.isObject)(this.console.after)) {
+                console.log(JSON.stringify((0, result_1.resultsOf)(this.console.after, { self: this }, this.graph.propFunctions, true), null, 2));
+            }
+            else {
+                console.log(this.console.after);
+            }
         }
     }
 }
