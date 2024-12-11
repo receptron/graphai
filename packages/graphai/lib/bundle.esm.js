@@ -1052,7 +1052,6 @@ class GraphAI {
             else {
                 _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
             }
-            // throw new Error("Unknown node type (neither value nor agent): " + nodeId);
             return _nodes;
         }, {});
         // Generate the waitlist for each node.
