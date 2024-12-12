@@ -29,8 +29,8 @@ export type DataSource = {
   propIds?: string[];
 };
 
-type ConsoleAttribute = true | string | Record<string, any>;
-export type ConsoleElement = true | { before?: ConsoleAttribute; after?: ConsoleAttribute };
+type ConsoleAttribute = boolean | string | Record<string, any>;
+export type ConsoleElement = boolean | { before?: ConsoleAttribute; after?: ConsoleAttribute };
 
 export type StaticNodeData = {
   value?: ResultData; // initial value for static node.
@@ -114,7 +114,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
   cacheType?: CacheTypes;
   onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void; // TODO remove next version.
   filterParams: AgentFilterParams; // agent filter
-  agentFilters?: AgentFilterInfo[];
+  agentFilters?: AgentFilterInfo[]; // TODO remove next version
   log?: TransactionLog[];
   config?: Record<string, unknown>;
 };

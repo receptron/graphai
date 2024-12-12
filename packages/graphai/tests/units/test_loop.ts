@@ -1,4 +1,4 @@
-import { GraphAI, GraphData } from "@/index";
+import { GraphAI } from "@/index";
 
 import * as agents from "~/test_agents";
 
@@ -7,7 +7,7 @@ import { graphDataLatestVersion } from "~/common";
 import test from "node:test";
 import assert from "node:assert";
 
-const get_graph_data = (inputs: string): GraphData => {
+const get_graph_data = (inputs: string) => {
   return {
     version: graphDataLatestVersion,
     loop: {
