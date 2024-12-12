@@ -1,4 +1,4 @@
-import { GraphAI, GraphData } from "@/index";
+import { GraphAI } from "@/index";
 
 import * as agents from "~/test_agents";
 
