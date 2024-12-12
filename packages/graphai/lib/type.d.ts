@@ -23,8 +23,8 @@ export type DataSource = {
     value?: any;
     propIds?: string[];
 };
-type ConsoleAttribute = true | string | Record<string, any>;
-export type ConsoleElement = true | {
+type ConsoleAttribute = boolean | string | Record<string, any>;
+export type ConsoleElement = boolean | {
     before?: ConsoleAttribute;
     after?: ConsoleAttribute;
 };

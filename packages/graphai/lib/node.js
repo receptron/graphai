@@ -32,7 +32,10 @@ class Node {
         });
     }
     afterConsoleLog(result) {
-        if (this.console === true || this.console.after === true) {
+        if (this.console === false) {
+            return;
+        }
+        else if (this.console === true || this.console.after === true) {
             console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
         }
         else if (this.console.after) {
@@ -334,7 +337,10 @@ class ComputedNode extends Node {
         };
     }
     beforeConsoleLog(context) {
-        if (this.console === true || this.console.before === true) {
+        if (this.console === false) {
+            return;
+        }
+        else if (this.console === true || this.console.before === true) {
             console.log(JSON.stringify(context.namedInputs, null, 2));
         }
         else if (this.console.before) {
