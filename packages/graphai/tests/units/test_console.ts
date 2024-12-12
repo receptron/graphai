@@ -1,4 +1,4 @@
-import { GraphAI, GraphData } from "@/index";
+import { GraphAI } from "@/index";
 
 import * as agents from "~/test_agents";
 
@@ -6,7 +6,7 @@ import { graphDataLatestVersion } from "~/common";
 
 import test from "node:test";
 
-const get_graph_data = (): GraphData => {
+const get_graph_data = () => {
   return {
     version: graphDataLatestVersion,
     nodes: {

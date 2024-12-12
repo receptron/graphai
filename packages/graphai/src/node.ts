@@ -56,7 +56,9 @@ export class Node {
   }
 
   protected afterConsoleLog(result: ResultData) {
-    if (this.console === true || this.console.after === true) {
+    if (this.console === false) {
+      return;
+    } else if (this.console === true || this.console.after === true) {
       console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
     } else if (this.console.after) {
       if (isObject(this.console.after)) {
@@ -412,7 +414,9 @@ export class ComputedNode extends Node {
   }
 
   private beforeConsoleLog(context: AgentFunctionContext<DefaultParamsType, string | number | boolean | DefaultInputData | undefined>) {
-    if (this.console === true || this.console.before === true) {
+    if (this.console === false) {
+      return;
+    } else if (this.console === true || this.console.before === true) {
       console.log(JSON.stringify(context.namedInputs, null, 2));
     } else if (this.console.before) {
       console.log(this.console.before);
