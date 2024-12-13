@@ -82,6 +82,14 @@ const main = async () => {
         if (args_1.args.verbose) {
             graph.onLogCallback = test_utils_1.callbackLog;
         }
+        if (args_1.args.i) {
+            args_1.args.i.forEach((injectValue) => {
+                const [key, value] = String(injectValue).split("=");
+                if (key && value) {
+                    graph.injectValue(key, value);
+                }
+            });
+        }
         try {
             const resultAll = !!args_1.args.all;
             const results = await graph.run(resultAll);
