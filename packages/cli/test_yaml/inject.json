@@ -1,0 +1,13 @@
+{
+  "version": 0.5,
+  "nodes": {
+    "inject1": {},
+    "inject2": {},
+    "copyAgent": {
+      "isResult": true,
+      "agent": "copyAgent",
+      "params": { "namedKey": "item" },
+      "inputs": { "item": [":inject1", ":inject2"] }
+    }
+  }
+}
