@@ -10,6 +10,7 @@ export declare const args: {
     yaml: boolean;
     json: boolean;
     log: string | undefined;
+    i: (string | number)[] | undefined;
     yaml_or_json_file: string | undefined;
     _: (string | number)[];
     $0: string;
