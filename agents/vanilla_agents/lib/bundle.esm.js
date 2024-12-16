@@ -1243,6 +1243,7 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
     const { nodes } = graphData;
     const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
+    nestedGraphData.nodes["__mapIndex"] = {};
     nodeIds.forEach((nodeId) => {
         const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
         if (nestedGraphData.nodes[mappedNodeId] === undefined) {
@@ -1258,9 +1259,10 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
         if (nestedGraphData.version === undefined && debugInfo.version) {
             nestedGraphData.version = debugInfo.version;
         }
-        const graphs = rows.map((row) => {
+        const graphs = rows.map((row, index) => {
             const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
             graphAI.injectValue("row", row, "__mapAgent_inputs__");
+            graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {
                 graphAI.onLogCallback = onLogCallback;
@@ -1403,10 +1405,12 @@ const mapAgentInfo = {
             },
             result: [
                 {
+                    __mapIndex: 0,
                     test: [1],
                     row: 1,
                 },
                 {
+                    __mapIndex: 1,
                     test: [2],
                     row: 2,
                 },
@@ -1430,6 +1434,7 @@ const mapAgentInfo = {
             },
             result: [
                 {
+                    __mapIndex: 0,
                     map: [
                         {
                             test: 1,
@@ -1442,6 +1447,7 @@ const mapAgentInfo = {
                     test: 1,
                 },
                 {
+                    __mapIndex: 1,
                     map: [
                         {
                             test: 2,
@@ -1533,6 +1539,7 @@ const mapAgentInfo = {
             },
             result: {
                 test: [[1], [2]],
+                __mapIndex: [0, 1],
                 row: [1, 2],
             },
             graph: {
@@ -1554,6 +1561,7 @@ const mapAgentInfo = {
                 compositeResult: true,
             },
             result: {
+                __mapIndex: [0, 1],
                 test: [[1], [2]],
                 map: [
                     {

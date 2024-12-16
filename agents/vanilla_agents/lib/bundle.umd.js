@@ -1187,6 +1187,7 @@
         const { nodes } = graphData;
         const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
         const nodeIds = Object.keys(namedInputs);
+        nestedGraphData.nodes["__mapIndex"] = {};
         nodeIds.forEach((nodeId) => {
             const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
             if (nestedGraphData.nodes[mappedNodeId] === undefined) {
@@ -1202,9 +1203,10 @@
             if (nestedGraphData.version === undefined && debugInfo.version) {
                 nestedGraphData.version = debugInfo.version;
             }
-            const graphs = rows.map((row) => {
+            const graphs = rows.map((row, index) => {
                 const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
                 graphAI.injectValue("row", row, "__mapAgent_inputs__");
+                graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
                 // for backward compatibility. Remove 'if' later
                 if (onLogCallback) {
                     graphAI.onLogCallback = onLogCallback;
@@ -1347,10 +1349,12 @@
                 },
                 result: [
                     {
+                        __mapIndex: 0,
                         test: [1],
                         row: 1,
                     },
                     {
+                        __mapIndex: 1,
                         test: [2],
                         row: 2,
                     },
@@ -1374,6 +1378,7 @@
                 },
                 result: [
                     {
+                        __mapIndex: 0,
                         map: [
                             {
                                 test: 1,
@@ -1386,6 +1391,7 @@
                         test: 1,
                     },
                     {
+                        __mapIndex: 1,
                         map: [
                             {
                                 test: 2,
@@ -1477,6 +1483,7 @@
                 },
                 result: {
                     test: [[1], [2]],
+                    __mapIndex: [0, 1],
                     row: [1, 2],
                 },
                 graph: {
@@ -1498,6 +1505,7 @@
                     compositeResult: true,
                 },
                 result: {
+                    __mapIndex: [0, 1],
                     test: [[1], [2]],
                     map: [
                         {
