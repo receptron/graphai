@@ -93,10 +93,12 @@ Map Agent
 [
   ":agentId",
   ":agentId.$0",
+  ":agentId.$0.__mapIndex",
   ":agentId.$0.test",
   ":agentId.$0.test.$0",
   ":agentId.$0.row",
   ":agentId.$1",
+  ":agentId.$1.__mapIndex",
   ":agentId.$1.test",
   ":agentId.$1.test.$0",
   ":agentId.$1.row"
@@ -108,6 +110,7 @@ Map Agent
 [
   ":agentId",
   ":agentId.$0",
+  ":agentId.$0.__mapIndex",
   ":agentId.$0.map",
   ":agentId.$0.map.$0",
   ":agentId.$0.map.$0.test",
@@ -116,6 +119,7 @@ Map Agent
   ":agentId.$0.row",
   ":agentId.$0.test",
   ":agentId.$1",
+  ":agentId.$1.__mapIndex",
   ":agentId.$1.map",
   ":agentId.$1.map.$0",
   ":agentId.$1.map.$0.test",
@@ -162,6 +166,9 @@ Map Agent
   ":agentId.test.$0.$0",
   ":agentId.test.$1",
   ":agentId.test.$1.$0",
+  ":agentId.__mapIndex",
+  ":agentId.__mapIndex.$0",
+  ":agentId.__mapIndex.$1",
   ":agentId.row",
   ":agentId.row.$0",
   ":agentId.row.$1"
@@ -172,6 +179,9 @@ Map Agent
 
 [
   ":agentId",
+  ":agentId.__mapIndex",
+  ":agentId.__mapIndex.$0",
+  ":agentId.__mapIndex.$1",
   ":agentId.test",
   ":agentId.test.$0",
   ":agentId.test.$0.$0",
@@ -414,12 +424,14 @@ Map Agent
 
 [
   {
+    "__mapIndex": 0,
     "test": [
       1
     ],
     "row": 1
   },
   {
+    "__mapIndex": 1,
     "test": [
       2
     ],
@@ -457,6 +469,7 @@ Map Agent
 
 [
   {
+    "__mapIndex": 0,
     "map": [
       {
         "test": 1
@@ -469,6 +482,7 @@ Map Agent
     "test": 1
   },
   {
+    "__mapIndex": 1,
     "map": [
       {
         "test": 2
@@ -603,6 +617,10 @@ Map Agent
       2
     ]
   ],
+  "__mapIndex": [
+    0,
+    1
+  ],
   "row": [
     1,
     2
@@ -638,6 +656,10 @@ Map Agent
 ```json
 
 {
+  "__mapIndex": [
+    0,
+    1
+  ],
   "test": [
     [
       1
