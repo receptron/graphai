@@ -67,7 +67,7 @@ Message is the format of data passed to the LLM history.
 ```
 
 ### meaningful parameters
-wikipedia
+search query / wikipedia or serper
 ```
 {
   query: text
