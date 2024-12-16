@@ -112,7 +112,6 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
     onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
   };
   cacheType?: CacheTypes;
-  onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void; // TODO remove next version.
   filterParams: AgentFilterParams; // agent filter
   agentFilters?: AgentFilterInfo[]; // TODO remove next version
   log?: TransactionLog[];

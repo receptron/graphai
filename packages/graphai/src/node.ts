@@ -295,7 +295,6 @@ export class ComputedNode extends Node {
       // if this is a nested agent or not.
       if (this.nestedGraph) {
         this.graph.taskManager.prepareForNesting();
-        context.onLogCallback = this.graph.onLogCallback;
         context.forNestedGraph = {
           graphData: "nodes" in this.nestedGraph ? this.nestedGraph : (this.graph.resultOf(this.nestedGraph) as GraphData), // HACK: compiler work-around
           agents: this.graph.agentFunctionInfoDictionary,
