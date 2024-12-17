@@ -52,8 +52,7 @@ const getExamples = (agentKeys: string[], agents: AgentFunctionInfoDictionary) =
   return "";
 };
 
-const getSample = (agentKeys: string[], agents: AgentFunctionInfoDictionary) => {
-  const gitConfig = "receptron/graphai";
+const getSample = (agentKeys: string[], agents: AgentFunctionInfoDictionary, gitConfig: string) => {
   return [
     agentKeys.map((key: string) => {
       const agent = agents[key];
@@ -62,6 +61,27 @@ const getSample = (agentKeys: string[], agents: AgentFunctionInfoDictionary) => 
   ]
     .flat(2)
     .join("\n");
+};
+
+export const getGitRep = (repository: string | { url: string }) => {
+  const defaultGitConfig = "receptron/graphai";
+  const url = typeof repository === "string" ? repository : repository?.url;
+  if (!url) {
+    return defaultGitConfig;
+  }
+  const webUrl = url
+    .replace(/^git\+/, "")
+    .replace(/^git@github\.com:/, "https://github.com/")
+    .replace(/^ssh:\/\/github\.com\//, "https://github.com/")
+    .replace(/\.git$/, "");
+  const gitNames = webUrl
+    .replace(/^https:\/\/github.com\//, "")
+    .split("/")
+    .slice(0, 2);
+  if (gitNames.length === 2) {
+    return gitNames.join("/");
+  }
+  return defaultGitConfig;
 };
 
 const getEnvironmentVariables = (agentKeys: string[], agents: AgentFunctionInfoDictionary) => {
@@ -84,7 +104,6 @@ export const getPackageJson = (npmRootPath: string): PackageJson | null => {
 };
 
 export const main = async (npmRootPath: string) => {
-  // console.log(packageJson.repository.url);
   const packageJson = getPackageJson(npmRootPath);
   if (!packageJson) {
     console.log("No package.json. Run this script in root of npm repository directory.");
@@ -111,7 +130,8 @@ export const main = async (npmRootPath: string) => {
       return getEnvironmentVariables(agentKeys, agents);
     }
     if (key === "sample") {
-      return getSample(agentKeys, agents);
+      const gitConfig = getGitRep(packageJson.repository ?? "");
+      return getSample(agentKeys, agents, gitConfig);
     }
 
     if (key === "agentsDescription") {
