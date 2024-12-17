@@ -1,6 +1,6 @@
 {
   "name": "@receptron/agentdoc",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "GraphAI agent document generator.",
   "main": "lib/index.js",
   "bin": {
