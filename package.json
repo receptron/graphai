@@ -9,6 +9,7 @@
     "format": "yarn workspaces run format",
     "format_top": "prettier --write src/*.ts",
     "doc": "yarn workspaces run doc",
+    "monoRepoAgentDoc": "npx tsx src/monoRepoAgentDocs.ts",
     "markdown": "npx tsx src/markdown.ts",
     "sample": "npx ts-node docs/async/sample1.ts"
   },

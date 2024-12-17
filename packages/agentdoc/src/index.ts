@@ -1,6 +1,9 @@
+import { generateMonoDoc } from "./mono_doc";
 import { GraphData } from "graphai";
 import YAML from "yaml";
 import fs from "fs";
+
+export { generateMonoDoc };
 
 export const writeGraphExample = (dataSet: Record<string, GraphData>, dir: string) => {
   const json: string[] = ["### GraphData Example\n"];

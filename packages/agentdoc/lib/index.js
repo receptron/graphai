@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeGraphExample = void 0;
+exports.writeGraphExample = exports.generateMonoDoc = void 0;
+const mono_doc_1 = require("./mono_doc");
+Object.defineProperty(exports, "generateMonoDoc", { enumerable: true, get: function () { return mono_doc_1.generateMonoDoc; } });
 const yaml_1 = __importDefault(require("yaml"));
 const fs_1 = __importDefault(require("fs"));
 const writeGraphExample = (dataSet, dir) => {
