@@ -74,14 +74,22 @@ const getEnvironmentVariables = (agentKeys: string[], agents: AgentFunctionInfoD
   return "";
 };
 
-export const main = async (npmRootPath: string) => {
+export const getPackageJson = (npmRootPath: string): PackageJson | null => {
   const packagePath = npmRootPath + "/package.json";
   if (!fs.existsSync(packagePath)) {
+    return null;
+  }
+  const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+  return packageJson;
+};
+
+export const main = async (npmRootPath: string) => {
+  // console.log(packageJson.repository.url);
+  const packageJson = getPackageJson(npmRootPath);
+  if (!packageJson) {
     console.log("No package.json. Run this script in root of npm repository directory.");
     return;
   }
-  const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
-  // console.log(packageJson.repository.url);
 
   const agents = await import(npmRootPath + "/lib/index");
   const agentKeys = Object.keys(agents).sort((a, b) => (a > b ? 1 : -1));
@@ -115,7 +123,7 @@ export const main = async (npmRootPath: string) => {
   };
   const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
   const md = ["packageName", "description", "agents", "relatedAgents", "environmentVariables", "sample", "agentsDescription", "examples"].reduce((tmp, key) => {
-    tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
+    tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key) ?? "");
     return tmp;
   }, temp);
 
