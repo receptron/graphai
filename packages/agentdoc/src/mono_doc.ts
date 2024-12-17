@@ -1,10 +1,7 @@
-import { AgentFunctionInfo } from "graphai";
+import { AgentFunctionInfo, AgentFunctionInfoDictionary } from "graphai";
 import { debugResultKey } from "graphai/lib/utils/utils";
 
 import jsonSchemaGenerator from "json-schema-generator";
-
-import * as packages from "@graphai/agents";
-import { fileReadAgent } from "@graphai/vanilla_node_agents";
 
 import fs from "fs";
 import path from "path";
@@ -63,7 +60,7 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
 };
 
 export const readTemplate = (file: string) => {
-  return fs.readFileSync(path.resolve(__dirname) + "/../templates/" + file, "utf8");
+  return fs.readFileSync(path.resolve(__dirname) + "/../mono_templates/" + file, "utf8");
 };
 
 const agentMd = (agentInfo: AgentFunctionInfo) => {
@@ -85,10 +82,10 @@ const IndexMd = (ret: Record<string, Record<string, string>>) => {
   }
   return templates.join("\n");
 };
-const main = () => {
+
+export const generateMonoDoc = (base_path: string, agents: AgentFunctionInfoDictionary) => {
   const ret: Record<string, Record<string, string>> = {};
-  const base_path = __dirname + "/../../../docs/agentDocs/";
-  Object.values({ ...packages, fileReadAgent }).map((agent) => {
+  Object.values(agents).map((agent) => {
     const md = agentMd(agent);
     agent.category.map(async (cat: string) => {
       if (!ret[cat]) {
@@ -104,5 +101,3 @@ const main = () => {
   const index = IndexMd(ret);
   fs.writeFileSync(base_path + "/README.md", index);
 };
-
-main();

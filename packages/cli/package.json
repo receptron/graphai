@@ -7,13 +7,12 @@
     "graphai": "lib/graphai_cli.js"
   },
   "files": [
-    "./lib",
-    "./templates"
+    "./lib"
   ],
   "scripts": {
     "build": "tsc && tsc-alias",
     "eslint": "eslint --fix",
-    "doc": "npx ts-node -r tsconfig-paths/register src/docs.ts",
+    "doc": "echo nothing",
     "format": "prettier --write '{src,test_yaml,samples}/**/*.{yaml,ts,json}'",
     "test": "yarn run test_sh",
     "test_sh": "./scripts/test.sh",
@@ -32,7 +31,6 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
-    "@types/json-schema-generator": "^2.0.3",
     "@types/yargs": "^17.0.33"
   },
   "dependencies": {
@@ -41,7 +39,6 @@
     "@receptron/test_utils": "^0.2.2",
     "dotenv": "^16.4.7",
     "graphai": "^0.6.8",
-    "json-schema-generator": "^2.0.6",
     "yargs": "^17.7.2"
   },
   "types": "./lib/graphai_cli.d.ts",

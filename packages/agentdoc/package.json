@@ -1,6 +1,6 @@
 {
   "name": "@receptron/agentdoc",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "GraphAI agent document generator.",
   "main": "lib/index.js",
   "bin": {
@@ -8,7 +8,8 @@
   },
   "files": [
     "./lib",
-    "./templates"
+    "./templates",
+    "./mono_templates"
   ],
   "scripts": {
     "build": "tsc",
@@ -28,11 +29,16 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "devDependencies": {},
-  "dependencies": {},
+  "devDependencies": {
+    "@types/json-schema-generator": "^2.0.3"
+  },
+  "dependencies": {
+    "json-schema-generator": "^2.0.6"
+  },
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib",
-    "template": "template"
+    "template": "template",
+    "mono_templates": "./mono_templates"
   }
 }
