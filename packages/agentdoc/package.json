@@ -4,7 +4,7 @@
   "description": "GraphAI agent document generator.",
   "main": "lib/index.js",
   "bin": {
-    "agentdoc": "lib/agentdoc.js"
+    "agentdoc": "lib/run.js"
   },
   "files": [
     "./lib",
