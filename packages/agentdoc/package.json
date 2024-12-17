@@ -28,8 +28,12 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "devDependencies": {},
-  "dependencies": {},
+  "devDependencies": {
+    "@types/json-schema-generator": "^2.0.3"
+  },
+  "dependencies": {
+    "json-schema-generator": "^2.0.6"
+  },
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib",
