@@ -1,6 +1,6 @@
 import path from "path";
 import { getPackageJson, getAgents } from "@/agentdoc";
-import * as agents from "@graphai/agents"
+// import * as agents from "@graphai/agents"
 
 import test from "node:test";
 import assert from "node:assert";
