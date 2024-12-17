@@ -1,2 +1,1 @@
-#!/usr/bin/env node
-export {};
+export declare const main: (npmRootPath: string) => Promise<void>;

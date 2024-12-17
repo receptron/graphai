@@ -4,7 +4,7 @@
   "description": "GraphAI agent document generator.",
   "main": "lib/index.js",
   "bin": {
-    "agentdoc": "lib/agentdoc.js"
+    "agentdoc": "lib/run.js"
   },
   "files": [
     "./lib",
@@ -15,7 +15,7 @@
     "eslint": "eslint --fix",
     "format": "prettier --write '{src,test_yaml,samples}/**/*.{yaml,ts,json}'",
     "doc": "echo nothing",
-    "test": "echo nothing",
+    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {

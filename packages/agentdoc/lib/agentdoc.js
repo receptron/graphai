@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -37,19 +36,78 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.main = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const readTemplate = (file) => {
     return fs_1.default.readFileSync(path_1.default.resolve(__dirname) + "/../templates/" + file, "utf8");
 };
-const main = async () => {
-    const npmRootPath = process.cwd();
+const agentsDescription = (agentKeys, agents) => {
+    return agentKeys
+        .map((key) => {
+        const agent = agents[key];
+        return `- ${agent.name} - ${agent.description}`;
+    })
+        .join("\n");
+};
+const getAgents = (agentKeys) => {
+    if (agentKeys.length > 0) {
+        if (agentKeys.length > 5) {
+            return ["\n  ", agentKeys.join(",\n  "), "\n"].join("");
+        }
+        return agentKeys.join(", ");
+    }
+};
+const getRelatedAgents = (packageJson) => {
+    const agents = Object.keys(packageJson.dependencies ?? {}).filter((depend) => (depend.match(/^@graphai/) && depend.match(/_agents?$/)) || depend === "@graphai/vanilla");
+    if (agents.length > 0) {
+        return ["### Related Agent Packages", agents.map((agent) => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n")].join("\n");
+    }
+    return "";
+};
+const getExamples = (agentKeys, agents) => {
+    const targets = agentKeys.filter((key) => agents[key].samples && agents[key].samples.length > 0);
+    if (targets.length > 0) {
+        return [
+            "### Input/Params example",
+            targets.map((target) => [
+                ` - ${target}`,
+                agents[target].samples.map((sample) => `\n\`\`\`typescript\n${JSON.stringify({ inputs: sample.inputs, params: sample.params }, null, 2)}\n\`\`\`\n`),
+            ]),
+        ]
+            .flat(4)
+            .join("\n");
+    }
+    return "";
+};
+const getSample = (agentKeys, agents) => {
+    const gitConfig = "receptron/graphai";
+    return [
+        agentKeys.map((key) => {
+            const agent = agents[key];
+            return ` - [${agent.name}](https://github.com/${gitConfig}/blob/main/docs/agentDocs/${agent.category[0]}/${agent.name}.md)`;
+        }),
+    ]
+        .flat(2)
+        .join("\n");
+};
+const getEnvironmentVariables = (agentKeys, agents) => {
+    const targets = agentKeys.filter((key) => agents[key].environmentVariables);
+    if (targets.length > 0) {
+        return ["### Environment Variables", targets.map((target) => [` - ${target}`, agents[target]?.environmentVariables?.map((env) => `   - ${env}`)])]
+            .flat(4)
+            .join("\n");
+    }
+    return "";
+};
+const main = async (npmRootPath) => {
     const packagePath = npmRootPath + "/package.json";
     if (!fs_1.default.existsSync(packagePath)) {
         console.log("No package.json. Run this script in root of npm repository directory.");
         return;
     }
     const packageJson = JSON.parse(fs_1.default.readFileSync(packagePath, "utf8"));
+    // console.log(packageJson.repository.url);
     const agents = await Promise.resolve(`${npmRootPath + "/lib/index"}`).then(s => __importStar(require(s)));
     const agentKeys = Object.keys(agents).sort((a, b) => (a > b ? 1 : -1));
     const agentAttribute = (key) => {
@@ -60,62 +118,22 @@ const main = async () => {
             return packageJson.description;
         }
         if (key === "agents") {
-            if (agentKeys.length > 0) {
-                if (agentKeys.length > 5) {
-                    return ["\n  ", agentKeys.join(",\n  "), "\n"].join("");
-                }
-                return agentKeys.join(", ");
-            }
+            return getAgents(agentKeys);
         }
         if (key === "relatedAgents") {
-            const agents = Object.keys(packageJson.dependencies ?? {}).filter((depend) => (depend.match(/^@graphai/) && depend.match(/_agents?$/)) || depend === "@graphai/vanilla");
-            if (agents.length > 0) {
-                return ["### Related Agent Packages", agents.map((agent) => ` - [${agent}](https://www.npmjs.com/package/${agent})`).join("\n")].join("\n");
-            }
-            return "";
+            return getRelatedAgents(packageJson);
         }
         if (key === "environmentVariables") {
-            const targets = agentKeys.filter((key) => agents[key].environmentVariables);
-            if (targets.length > 0) {
-                return ["### Environment Variables", targets.map((target) => [` - ${target}`, agents[target].environmentVariables.map((env) => `   - ${env}`)])]
-                    .flat(4)
-                    .join("\n");
-            }
-            return "";
+            return getEnvironmentVariables(agentKeys, agents);
         }
         if (key === "sample") {
-            return [
-                agentKeys.map((key) => {
-                    const agent = agents[key];
-                    return ` - [${agent.name}](https://github.com/receptron/graphai/blob/main/docs/agentDocs/${agent.category[0]}/${agent.name}.md)`;
-                }),
-            ]
-                .flat(2)
-                .join("\n");
-            return "";
+            return getSample(agentKeys, agents);
         }
         if (key === "agentsDescription") {
-            return agentKeys
-                .map((key) => {
-                const agent = agents[key];
-                return `- ${agent.name} - ${agent.description}`;
-            })
-                .join("\n");
+            return agentsDescription(agentKeys, agents);
         }
         if (key === "examples") {
-            const targets = agentKeys.filter((key) => agents[key].samples && agents[key].samples.length > 0);
-            if (targets.length > 0) {
-                return [
-                    "### Input/Params example",
-                    targets.map((target) => [
-                        ` - ${target}`,
-                        agents[target].samples.map((sample) => `\n\`\`\`typescript\n${JSON.stringify({ inputs: sample.inputs, params: sample.params }, null, 2)}\n\`\`\`\n`),
-                    ]),
-                ]
-                    .flat(4)
-                    .join("\n");
-            }
-            return "";
+            return getExamples(agentKeys, agents);
         }
     };
     const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
@@ -136,4 +154,4 @@ const main = async () => {
     }, md);
     fs_1.default.writeFileSync(npmRootPath + "/README.md", md2);
 };
-main();
+exports.main = main;
