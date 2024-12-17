@@ -1,6 +1,6 @@
 {
   "name": "@receptron/agentdoc",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "GraphAI agent document generator.",
   "main": "lib/index.js",
   "bin": {
@@ -8,7 +8,8 @@
   },
   "files": [
     "./lib",
-    "./templates"
+    "./templates",
+    "./mono_templates"
   ],
   "scripts": {
     "build": "tsc",
@@ -37,6 +38,7 @@
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib",
-    "template": "template"
+    "template": "template",
+    "mono_templates": "./mono_templates"
   }
 }
