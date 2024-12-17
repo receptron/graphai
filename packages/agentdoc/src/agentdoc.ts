@@ -15,7 +15,7 @@ const agentsDescription = (agentKeys: string[], agents: AgentFunctionInfoDiction
     })
     .join("\n");
 };
-const getAgents = (agentKeys: string[]) => {
+export const getAgents = (agentKeys: string[]) => {
   if (agentKeys.length > 0) {
     if (agentKeys.length > 5) {
       return ["\n  ", agentKeys.join(",\n  "), "\n"].join("");
