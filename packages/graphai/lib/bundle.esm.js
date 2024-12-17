@@ -1338,5 +1338,5 @@ class GraphAI {
     }
 }
 
-export { GraphAI, NodeState, ValidationError, agentInfoWrapper, assert, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isObject, parseNodeName, sleep, strIntentionalError };
+export { GraphAI, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isObject, parseNodeName, sleep, strIntentionalError };
 //# sourceMappingURL=bundle.esm.js.map
