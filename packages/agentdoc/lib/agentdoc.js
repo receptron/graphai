@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.main = void 0;
+exports.main = exports.getPackageJson = exports.getGitRep = exports.getAgents = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const readTemplate = (file) => {
@@ -58,6 +58,7 @@ const getAgents = (agentKeys) => {
         return agentKeys.join(", ");
     }
 };
+exports.getAgents = getAgents;
 const getRelatedAgents = (packageJson) => {
     const agents = Object.keys(packageJson.dependencies ?? {}).filter((depend) => (depend.match(/^@graphai/) && depend.match(/_agents?$/)) || depend === "@graphai/vanilla");
     if (agents.length > 0) {
@@ -80,8 +81,7 @@ const getExamples = (agentKeys, agents) => {
     }
     return "";
 };
-const getSample = (agentKeys, agents) => {
-    const gitConfig = "receptron/graphai";
+const getSample = (agentKeys, agents, gitConfig) => {
     return [
         agentKeys.map((key) => {
             const agent = agents[key];
@@ -91,6 +91,27 @@ const getSample = (agentKeys, agents) => {
         .flat(2)
         .join("\n");
 };
+const getGitRep = (repository) => {
+    const defaultGitConfig = "receptron/graphai";
+    const url = typeof repository === "string" ? repository : repository?.url;
+    if (!url) {
+        return defaultGitConfig;
+    }
+    const webUrl = url
+        .replace(/^git\+/, "")
+        .replace(/^git@github\.com:/, "https://github.com/")
+        .replace(/^ssh:\/\/github\.com\//, "https://github.com/")
+        .replace(/\.git$/, "");
+    const gitNames = webUrl
+        .replace(/^https:\/\/github.com\//, "")
+        .split("/")
+        .slice(0, 2);
+    if (gitNames.length === 2) {
+        return gitNames.join("/");
+    }
+    return defaultGitConfig;
+};
+exports.getGitRep = getGitRep;
 const getEnvironmentVariables = (agentKeys, agents) => {
     const targets = agentKeys.filter((key) => agents[key].environmentVariables);
     if (targets.length > 0) {
@@ -100,14 +121,21 @@ const getEnvironmentVariables = (agentKeys, agents) => {
     }
     return "";
 };
-const main = async (npmRootPath) => {
+const getPackageJson = (npmRootPath) => {
     const packagePath = npmRootPath + "/package.json";
     if (!fs_1.default.existsSync(packagePath)) {
+        return null;
+    }
+    const packageJson = JSON.parse(fs_1.default.readFileSync(packagePath, "utf8"));
+    return packageJson;
+};
+exports.getPackageJson = getPackageJson;
+const main = async (npmRootPath) => {
+    const packageJson = (0, exports.getPackageJson)(npmRootPath);
+    if (!packageJson) {
         console.log("No package.json. Run this script in root of npm repository directory.");
         return;
     }
-    const packageJson = JSON.parse(fs_1.default.readFileSync(packagePath, "utf8"));
-    // console.log(packageJson.repository.url);
     const agents = await Promise.resolve(`${npmRootPath + "/lib/index"}`).then(s => __importStar(require(s)));
     const agentKeys = Object.keys(agents).sort((a, b) => (a > b ? 1 : -1));
     const agentAttribute = (key) => {
@@ -118,7 +146,7 @@ const main = async (npmRootPath) => {
             return packageJson.description;
         }
         if (key === "agents") {
-            return getAgents(agentKeys);
+            return (0, exports.getAgents)(agentKeys);
         }
         if (key === "relatedAgents") {
             return getRelatedAgents(packageJson);
@@ -127,7 +155,8 @@ const main = async (npmRootPath) => {
             return getEnvironmentVariables(agentKeys, agents);
         }
         if (key === "sample") {
-            return getSample(agentKeys, agents);
+            const gitConfig = (0, exports.getGitRep)(packageJson.repository ?? "");
+            return getSample(agentKeys, agents, gitConfig);
         }
         if (key === "agentsDescription") {
             return agentsDescription(agentKeys, agents);
@@ -138,7 +167,7 @@ const main = async (npmRootPath) => {
     };
     const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
     const md = ["packageName", "description", "agents", "relatedAgents", "environmentVariables", "sample", "agentsDescription", "examples"].reduce((tmp, key) => {
-        tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key));
+        tmp = tmp.replaceAll("{" + key + "}", agentAttribute(key) ?? "");
         return tmp;
     }, temp);
     const readDocIfExist = (key) => {
