@@ -6,6 +6,13 @@ The term "seamless" here refers to the ability to use GraphAI's default Express 
 
 Once implemented, processes can be migrated from the client to the server or adjusted server configurations by simply changing settings with minimal code modification. This flexibility allows developers to focus on business logic without worrying about the complexities of implementing streaming processes.
 
+- Execute solely in a browser or Node.js.
+- Execute collaboratively between browser and server:
+  - Run agents on the server while operating GraphAI in the browser.
+  - Run the entire graph on the server by posting graph data from the browser.
+
+These combinations allow transparent streaming regardless of setup.
+
 # Overview of Streaming Processes
 
 1. **Sequential Data Transmission**
@@ -97,6 +104,31 @@ Express provides middleware to support streaming servers, non-streaming servers,
 Specific determination is made based on the presence of the following HTTP header:
 
 - `Content-Type` set to `text/event-stream`.
+
+# Server-Client Model Addendum
+
+When operating GraphAI in the browser and agents on the server, you need to use both `streamAgentFilter` and `httpAgentFilter` together. The `httpAgentFilter` bypasses browser processing and executes the agent on the server. If the agent does not exist in the browser, skip agent validation using `bypassAgentIds`.
+
+```typescript
+  const agentFilters = [
+    {
+      name: "streamAgentFilter",
+      agent: streamAgentFilter,
+      agentIds: streamAgents,
+    },
+    {
+      name: "httpAgentFilter",
+      agent: httpAgentFilter,
+      filterParams: {
+        server: {
+          baseUrl: "http://localhost:8085/agents",
+        },
+      },
+      agentIds: serverAgentIds,
+    },
+  ];
+  const graphai = new GraphAI(selectedGraph.value, agents, { agentFilters, bypassAgentIds: serverAgentIds });
+```
 
 ## Reference Sources
 
