@@ -26,11 +26,34 @@ This mechanism facilitates real-time data processing, display, and responses dur
 
 https://github.com/receptron/graphai/blob/e720821dff1a4f59423dbb02db64aaec3a2a61eb/llm_agents/openai_agent/src/openai_agent.ts#L120-L125
 
+```
+  for await (const message of chatStream) {
+    const token = message.choices[0].delta.content;
+    if (filterParams && filterParams.streamTokenCallback && token) {
+      filterParams.streamTokenCallback(token);
+    }
+  }
+```
+
 ## agentFilter
 
 This section explains how to use the `streamAgentFilterGenerator` function to create a `agentFilter` for streaming processes. By specifying a callback function, users can acquire an `agentFilter` capable of processing data in real time.
 
 https://github.com/receptron/graphai/blob/e720821dff1a4f59423dbb02db64aaec3a2a61eb/packages/agent_filters/src/filters/stream.ts#L3-L13
+
+```
+export const streamAgentFilterGenerator = <T>(callback: (context: AgentFunctionContext, data: T) => void) => {
+  const streamAgentFilter: AgentFilterFunction = async (context, next) => {
+    if (context.debugInfo.isResult) {
+      context.filterParams.streamTokenCallback = (data: T) => {
+        callback(context, data);
+      };
+    }
+    return next(context);
+  };
+  return streamAgentFilter;
+};
+```
 
 ### Usage
 
@@ -89,3 +112,4 @@ Specific determination is made based on the presence of the following HTTP heade
 - Implementation of httpAgentFilter (GraphAI Agent's agent Filter client format):
   https://github.com/receptron/graphai/blob/main/packages/agent_filters/src/filters/http_client.ts
 
+- Original document (Japanese) https://zenn.dev/singularity/articles/graphai-streaming
