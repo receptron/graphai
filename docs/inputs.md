@@ -70,8 +70,10 @@ Message is the format of data passed to the LLM history.
 search query / wikipedia or serper
 ```
 {
-  query: text
+  query: string,
+  queries: string[]
 }
+
 ```
 tokenBoundStrings
 
