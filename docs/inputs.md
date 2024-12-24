@@ -27,7 +27,7 @@
 ## buffer
 ```
 {
-  buffer: Buffer(node buffer)
+  buffer: Buffer(node buffer or npm buffer)
 }
 ```
 
