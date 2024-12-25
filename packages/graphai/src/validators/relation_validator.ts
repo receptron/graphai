@@ -3,15 +3,15 @@ import { parseNodeName } from "@/utils/utils";
 import { ValidationError } from "@/validators/common";
 import { inputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
 
-export const relationValidator = (data: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
-  const nodeIds = new Set<string>(Object.keys(data.nodes));
+export const relationValidator = (graphData: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
+  const nodeIds = new Set<string>(Object.keys(graphData.nodes));
 
   const pendings: Record<string, Set<string>> = {};
   const waitlist: Record<string, Set<string>> = {};
 
   // validate input relation and set pendings and wait list
   computedNodeIds.forEach((computedNodeId) => {
-    const nodeData = data.nodes[computedNodeId];
+    const nodeData = graphData.nodes[computedNodeId];
     pendings[computedNodeId] = new Set<string>();
 
     const dataSourceValidator = (sourceType: string, sourceNodeIds: string[]) => {
@@ -31,6 +31,10 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
         const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
         dataSourceValidator("Inputs", sourceNodeIds);
       }
+      if (nodeData.params) {
+        const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.params));
+        dataSourceValidator("Params", sourceNodeIds);
+      }
       if (nodeData.if) {
         const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ if: nodeData.if }));
         dataSourceValidator("If", sourceNodeIds);
@@ -43,12 +47,16 @@ export const relationValidator = (data: GraphData, staticNodeIds: string[], comp
         const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ graph: nodeData.graph }));
         dataSourceValidator("Graph", sourceNodeIds);
       }
+      if (typeof nodeData.agent === "string" && nodeData.agent[0] === ":") {
+        const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ agent: nodeData.agent }));
+        dataSourceValidator("Agent", sourceNodeIds);
+      }
     }
   });
 
   // TODO. validate update
   staticNodeIds.forEach((staticNodeId) => {
-    const nodeData = data.nodes[staticNodeId];
+    const nodeData = graphData.nodes[staticNodeId];
     if ("value" in nodeData && nodeData.update) {
       const update = nodeData.update;
       const updateNodeId = parseNodeName(update).nodeId;
