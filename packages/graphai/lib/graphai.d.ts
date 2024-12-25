@@ -7,7 +7,7 @@ export declare const graphDataLatestVersion = 0.5;
 export declare class GraphAI {
     readonly version: number;
     private readonly graphId;
-    private readonly data;
+    private readonly graphData;
     private readonly loop?;
     private readonly logs;
     readonly bypassAgentIds: string[];
@@ -27,7 +27,7 @@ export declare class GraphAI {
     private getValueFromResults;
     private initializeStaticNodes;
     private updateStaticNodes;
-    constructor(data: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: GraphOptions);
+    constructor(graphData: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: GraphOptions);
     getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo | {
         agent: () => Promise<null>;
         inputs: null;
