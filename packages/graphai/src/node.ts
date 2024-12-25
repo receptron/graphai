@@ -113,15 +113,6 @@ export class ComputedNode extends Node {
     this.isResult = data.isResult ?? false;
     this.priority = data.priority ?? 0;
 
-    this.anyInput = data.anyInput ?? false;
-    this.inputs = data.inputs;
-    this.output = data.output;
-    this.dataSources = [...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []), ...(data.params ? inputs2dataSources(data.params).flat(10) : [])];
-    if (data.inputs && Array.isArray(data.inputs)) {
-      throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
-    }
-
-    this.pendings = new Set(dataSourceNodeIds(this.dataSources));
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
@@ -129,6 +120,20 @@ export class ComputedNode extends Node {
       const agent = data.agent;
       this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
     }
+
+    this.anyInput = data.anyInput ?? false;
+    this.inputs = data.inputs;
+    this.output = data.output;
+    this.dataSources = [
+      ...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []),
+      ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
+      ...(this.agentId ? [parseNodeName(this.agentId)] : []),
+    ];
+    if (data.inputs && Array.isArray(data.inputs)) {
+      throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
+    }
+
+    this.pendings = new Set(dataSourceNodeIds(this.dataSources));
     if (data.graph) {
       this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
     }
@@ -277,7 +282,7 @@ export class ComputedNode extends Node {
       return;
     }
     const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
-    const agentId = this.agentId;
+    const agentId = this.agentId ? (this.graph.resultOf(parseNodeName(this.agentId)) as string) : this.agentId;
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 
