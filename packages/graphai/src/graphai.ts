@@ -29,7 +29,7 @@ export const graphDataLatestVersion = 0.5;
 export class GraphAI {
   public readonly version: number;
   private readonly graphId: string;
-  private readonly data: GraphData;
+  private readonly graphData: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
   public readonly bypassAgentIds: string[];
@@ -50,9 +50,9 @@ export class GraphAI {
 
   // This method is called when either the GraphAI obect was created,
   // or we are about to start n-th iteration (n>2).
-  private createNodes(data: GraphData) {
-    const nodes = Object.keys(data.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
-      const nodeData = data.nodes[nodeId];
+  private createNodes(graphData: GraphData) {
+    const nodes = Object.keys(graphData.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
+      const nodeData = graphData.nodes[nodeId];
       if ("agent" in nodeData) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       } else {
@@ -86,7 +86,7 @@ export class GraphAI {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
-    Object.keys(this.data.nodes).forEach((nodeId) => {
+    Object.keys(this.graphData.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       if (node?.isStaticNode) {
         const value = node?.value;
@@ -104,7 +104,7 @@ export class GraphAI {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
-    Object.keys(this.data.nodes).forEach((nodeId) => {
+    Object.keys(this.graphData.nodes).forEach((nodeId) => {
       const node = this.nodes[nodeId];
       if (node?.isStaticNode) {
         const update = node?.update;
@@ -120,7 +120,7 @@ export class GraphAI {
   }
 
   constructor(
-    data: GraphData,
+    graphData: GraphData,
     agentFunctionInfoDictionary: AgentFunctionInfoDictionary,
     options: GraphOptions = {
       taskManager: undefined,
@@ -130,32 +130,32 @@ export class GraphAI {
       graphLoader: undefined,
     },
   ) {
-    if (!data.version && !options.taskManager) {
+    if (!graphData.version && !options.taskManager) {
       console.warn("------------ missing version number");
     }
-    this.version = data.version ?? graphDataLatestVersion;
+    this.version = graphData.version ?? graphDataLatestVersion;
     if (this.version < graphDataLatestVersion) {
       console.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
     }
-    this.retryLimit = data.retry; // optional
+    this.retryLimit = graphData.retry; // optional
     this.graphId = URL.createObjectURL(new Blob()).slice(-36);
-    this.data = data;
+    this.graphData = graphData;
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.propFunctions = propFunctions;
-    this.taskManager = options.taskManager ?? new TaskManager(data.concurrency ?? defaultConcurrency);
+    this.taskManager = options.taskManager ?? new TaskManager(graphData.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
     this.bypassAgentIds = options.bypassAgentIds ?? [];
     this.config = options.config;
     this.graphLoader = options.graphLoader;
-    this.loop = data.loop;
-    this.verbose = data.verbose === true;
+    this.loop = graphData.loop;
+    this.verbose = graphData.verbose === true;
     this.onComplete = () => {
       throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };
 
-    validateGraphData(data, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
+    validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
 
-    this.nodes = this.createNodes(data);
+    this.nodes = this.createNodes(graphData);
     this.initializeStaticNodes(true);
   }
 
@@ -322,7 +322,7 @@ export class GraphAI {
     if (this.isRunning()) {
       throw new Error("This GraphAI instance is running");
     }
-    this.nodes = this.createNodes(this.data);
+    this.nodes = this.createNodes(this.graphData);
     this.initializeStaticNodes();
   }
   public setPreviousResults(previousResults: ResultDataDictionary<DefaultResultData>) {
