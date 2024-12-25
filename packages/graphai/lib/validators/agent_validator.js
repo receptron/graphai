@@ -4,7 +4,8 @@ exports.agentValidator = void 0;
 const common_1 = require("../validators/common");
 const agentValidator = (graphAgentIds, agentIds) => {
     graphAgentIds.forEach((agentId) => {
-        if (!agentIds.has(agentId)) {
+        // agentId or dynamic agentId
+        if (!agentIds.has(agentId) && agentId[0] !== ":") {
             throw new common_1.ValidationError("Invalid Agent : " + agentId + " is not in AgentFunctionInfoDictionary.");
         }
     });

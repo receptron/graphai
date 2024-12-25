@@ -470,14 +470,6 @@ class ComputedNode extends Node {
         this.timeout = data.timeout;
         this.isResult = data.isResult ?? false;
         this.priority = data.priority ?? 0;
-        this.anyInput = data.anyInput ?? false;
-        this.inputs = data.inputs;
-        this.output = data.output;
-        this.dataSources = [...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []), ...(data.params ? inputs2dataSources(data.params).flat(10) : [])];
-        if (data.inputs && Array.isArray(data.inputs)) {
-            throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
-        }
-        this.pendings = new Set(dataSourceNodeIds(this.dataSources));
         assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
         if (typeof data.agent === "string") {
             this.agentId = data.agent;
@@ -486,6 +478,18 @@ class ComputedNode extends Node {
             const agent = data.agent;
             this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
         }
+        this.anyInput = data.anyInput ?? false;
+        this.inputs = data.inputs;
+        this.output = data.output;
+        this.dataSources = [
+            ...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []),
+            ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
+            ...(this.agentId ? [parseNodeName(this.agentId)] : []),
+        ];
+        if (data.inputs && Array.isArray(data.inputs)) {
+            throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
+        }
+        this.pendings = new Set(dataSourceNodeIds(this.dataSources));
         if (data.graph) {
             this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
         }
@@ -578,9 +582,9 @@ class ComputedNode extends Node {
         }
     }
     // Check if we need to apply this filter to this node or not.
-    shouldApplyAgentFilter(agentFilter) {
+    shouldApplyAgentFilter(agentFilter, agentId) {
         if (agentFilter.agentIds && Array.isArray(agentFilter.agentIds) && agentFilter.agentIds.length > 0) {
-            if (this.agentId && agentFilter.agentIds.includes(this.agentId)) {
+            if (agentId && agentFilter.agentIds.includes(agentId)) {
                 return true;
             }
         }
@@ -591,12 +595,12 @@ class ComputedNode extends Node {
         }
         return !agentFilter.agentIds && !agentFilter.nodeIds;
     }
-    agentFilterHandler(context, agentFunction) {
+    agentFilterHandler(context, agentFunction, agentId) {
         let index = 0;
         const next = (innerContext) => {
             const agentFilter = this.graph.agentFilters[index++];
             if (agentFilter) {
-                if (this.shouldApplyAgentFilter(agentFilter)) {
+                if (this.shouldApplyAgentFilter(agentFilter, agentId)) {
                     if (agentFilter.filterParams) {
                         innerContext.filterParams = { ...agentFilter.filterParams, ...innerContext.filterParams };
                     }
@@ -618,6 +622,7 @@ class ComputedNode extends Node {
             return;
         }
         const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
+        const agentId = this.agentId ? this.graph.resultOf(parseNodeName(this.agentId)) : this.agentId;
         const transactionId = Date.now();
         this.prepareExecute(transactionId, Object.values(previousResults));
         if (this.timeout && this.timeout > 0) {
@@ -626,9 +631,9 @@ class ComputedNode extends Node {
             }, this.timeout);
         }
         try {
-            const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
+            const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(agentId).agent;
             const localLog = [];
-            const context = this.getContext(previousResults, localLog);
+            const context = this.getContext(previousResults, localLog, agentId);
             // NOTE: We use the existence of graph object in the agent-specific params to determine
             // if this is a nested agent or not.
             if (this.nestedGraph) {
@@ -647,7 +652,7 @@ class ComputedNode extends Node {
                 };
             }
             this.beforeConsoleLog(context);
-            const result = await this.agentFilterHandler(context, agentFunction);
+            const result = await this.agentFilterHandler(context, agentFunction, agentId);
             this.afterConsoleLog(result);
             if (this.nestedGraph) {
                 this.graph.taskManager.restoreAfterNesting();
@@ -704,13 +709,13 @@ class ComputedNode extends Node {
             this.retry(NodeState.Failed, Error("Unknown"));
         }
     }
-    getContext(previousResults, localLog) {
+    getContext(previousResults, localLog, agentId) {
         const context = {
             params: this.graph.resultsOf(this.params),
             namedInputs: previousResults,
-            inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
-            debugInfo: this.getDebugInfo(),
-            cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.cacheType,
+            inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
+            debugInfo: this.getDebugInfo(agentId),
+            cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
             filterParams: this.filterParams,
             agentFilters: this.graph.agentFilters,
             config: this.graph.config,
@@ -729,10 +734,10 @@ class ComputedNode extends Node {
         }
         return result;
     }
-    getDebugInfo() {
+    getDebugInfo(agentId) {
         return {
             nodeId: this.nodeId,
-            agentId: this.agentId,
+            agentId,
             retry: this.retryCount,
             verbose: this.graph.verbose,
             version: this.graph.version,
@@ -949,7 +954,8 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
 
 const agentValidator = (graphAgentIds, agentIds) => {
     graphAgentIds.forEach((agentId) => {
-        if (!agentIds.has(agentId)) {
+        // agentId or dynamic agentId
+        if (!agentIds.has(agentId) && agentId[0] !== ":") {
             throw new ValidationError("Invalid Agent : " + agentId + " is not in AgentFunctionInfoDictionary.");
         }
     });
@@ -973,6 +979,16 @@ const validateGraphData = (data, agentIds) => {
     agentValidator(graphAgentIds, new Set(agentIds));
     relationValidator(data, staticNodeIds, computedNodeIds);
     return true;
+};
+const validateAgent = (agentFunctionInfoDictionary) => {
+    Object.keys(agentFunctionInfoDictionary).forEach((agentId) => {
+        if (agentId !== "default") {
+            const agentInfo = agentFunctionInfoDictionary[agentId];
+            if (!agentInfo || !agentInfo.agent) {
+                throw new ValidationError("No Agent: " + agentId + " is not in AgentFunctionInfoDictionary.");
+            }
+        }
+    });
 };
 
 // TaskManage object controls the concurrency of ComputedNode execution.
@@ -1148,6 +1164,7 @@ class GraphAI {
             throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
         };
         validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
+        validateAgent(agentFunctionInfoDictionary);
         this.nodes = this.createNodes(graphData);
         this.initializeStaticNodes(true);
     }

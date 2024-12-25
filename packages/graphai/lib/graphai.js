@@ -113,6 +113,7 @@ class GraphAI {
             throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
         };
         (0, validator_1.validateGraphData)(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
+        (0, validator_1.validateAgent)(agentFunctionInfoDictionary);
         this.nodes = this.createNodes(graphData);
         this.initializeStaticNodes(true);
     }
