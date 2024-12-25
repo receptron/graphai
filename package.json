@@ -32,9 +32,6 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.2"
   },
-  "resolutions": {
-    "string-width": "4.2.3"
-  },
   "workspaces": [
     "packages/*",
     "agents/*",
