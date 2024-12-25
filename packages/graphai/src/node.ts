@@ -113,15 +113,6 @@ export class ComputedNode extends Node {
     this.isResult = data.isResult ?? false;
     this.priority = data.priority ?? 0;
 
-    this.anyInput = data.anyInput ?? false;
-    this.inputs = data.inputs;
-    this.output = data.output;
-    this.dataSources = [...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []), ...(data.params ? inputs2dataSources(data.params).flat(10) : [])];
-    if (data.inputs && Array.isArray(data.inputs)) {
-      throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
-    }
-
-    this.pendings = new Set(dataSourceNodeIds(this.dataSources));
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
       this.agentId = data.agent;
@@ -129,6 +120,20 @@ export class ComputedNode extends Node {
       const agent = data.agent;
       this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
     }
+
+    this.anyInput = data.anyInput ?? false;
+    this.inputs = data.inputs;
+    this.output = data.output;
+    this.dataSources = [
+      ...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []),
+      ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
+      ...(this.agentId ? [parseNodeName(this.agentId)] : []),
+    ];
+    if (data.inputs && Array.isArray(data.inputs)) {
+      throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
+    }
+
+    this.pendings = new Set(dataSourceNodeIds(this.dataSources));
     if (data.graph) {
       this.nestedGraph = typeof data.graph === "string" ? this.addPendingNode(data.graph) : data.graph;
     }
@@ -233,9 +238,9 @@ export class ComputedNode extends Node {
   }
 
   // Check if we need to apply this filter to this node or not.
-  private shouldApplyAgentFilter(agentFilter: AgentFilterInfo) {
+  private shouldApplyAgentFilter(agentFilter: AgentFilterInfo, agentId?: string) {
     if (agentFilter.agentIds && Array.isArray(agentFilter.agentIds) && agentFilter.agentIds.length > 0) {
-      if (this.agentId && agentFilter.agentIds.includes(this.agentId)) {
+      if (agentId && agentFilter.agentIds.includes(agentId)) {
         return true;
       }
     }
@@ -247,13 +252,13 @@ export class ComputedNode extends Node {
     return !agentFilter.agentIds && !agentFilter.nodeIds;
   }
 
-  private agentFilterHandler(context: AgentFunctionContext, agentFunction: AgentFunction): Promise<ResultData> {
+  private agentFilterHandler(context: AgentFunctionContext, agentFunction: AgentFunction, agentId?: string): Promise<ResultData> {
     let index = 0;
 
     const next = (innerContext: AgentFunctionContext): Promise<ResultData> => {
       const agentFilter = this.graph.agentFilters[index++];
       if (agentFilter) {
-        if (this.shouldApplyAgentFilter(agentFilter)) {
+        if (this.shouldApplyAgentFilter(agentFilter, agentId)) {
           if (agentFilter.filterParams) {
             innerContext.filterParams = { ...agentFilter.filterParams, ...innerContext.filterParams };
           }
@@ -277,6 +282,7 @@ export class ComputedNode extends Node {
       return;
     }
     const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
+    const agentId = this.agentId ? (this.graph.resultOf(parseNodeName(this.agentId)) as string) : this.agentId;
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 
@@ -287,9 +293,9 @@ export class ComputedNode extends Node {
     }
 
     try {
-      const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(this.agentId).agent;
+      const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(agentId).agent;
       const localLog: TransactionLog[] = [];
-      const context = this.getContext(previousResults, localLog);
+      const context = this.getContext(previousResults, localLog, agentId);
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
@@ -310,7 +316,7 @@ export class ComputedNode extends Node {
       }
 
       this.beforeConsoleLog(context);
-      const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction);
+      const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction, agentId);
       this.afterConsoleLog(result);
 
       if (this.nestedGraph) {
@@ -375,13 +381,13 @@ export class ComputedNode extends Node {
     }
   }
 
-  private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[]) {
+  private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[], agentId?: string) {
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.graph.resultsOf(this.params),
       namedInputs: previousResults,
-      inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.inputs,
-      debugInfo: this.getDebugInfo(),
-      cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(this.agentId)?.cacheType,
+      inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
+      debugInfo: this.getDebugInfo(agentId),
+      cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
       filterParams: this.filterParams,
       agentFilters: this.graph.agentFilters,
       config: this.graph.config,
@@ -401,10 +407,10 @@ export class ComputedNode extends Node {
     return result;
   }
 
-  private getDebugInfo() {
+  private getDebugInfo(agentId?: string) {
     return {
       nodeId: this.nodeId,
-      agentId: this.agentId,
+      agentId,
       retry: this.retryCount,
       verbose: this.graph.verbose,
       version: this.graph.version,
