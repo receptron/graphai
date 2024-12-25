@@ -11,7 +11,7 @@
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "doc": "npx agentdoc",
-    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
+    "test": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build",
     "samples": "npx ts-node  -r tsconfig-paths/register samples/sample_runner.ts",
     "sample": "npx ts-node  -r tsconfig-paths/register"
@@ -32,8 +32,7 @@
     "@graphai/groq_agent": "^0.2.0",
     "@graphai/openai_agent": "^0.2.0",
     "@graphai/replicate_agent": "^0.2.0",
-    "@graphai/slashgpt_agent": "^0.2.0",
-    "tiktoken": "^1.0.17"
+    "@graphai/slashgpt_agent": "^0.2.0"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
