@@ -872,13 +872,13 @@ const computedNodeValidator = (nodeData) => {
     return true;
 };
 
-const relationValidator = (data, staticNodeIds, computedNodeIds) => {
-    const nodeIds = new Set(Object.keys(data.nodes));
+const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
+    const nodeIds = new Set(Object.keys(graphData.nodes));
     const pendings = {};
     const waitlist = {};
     // validate input relation and set pendings and wait list
     computedNodeIds.forEach((computedNodeId) => {
-        const nodeData = data.nodes[computedNodeId];
+        const nodeData = graphData.nodes[computedNodeId];
         pendings[computedNodeId] = new Set();
         const dataSourceValidator = (sourceType, sourceNodeIds) => {
             sourceNodeIds.forEach((sourceNodeId) => {
@@ -897,6 +897,10 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
                 const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
                 dataSourceValidator("Inputs", sourceNodeIds);
             }
+            if (nodeData.params) {
+                const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.params));
+                dataSourceValidator("Params", sourceNodeIds);
+            }
             if (nodeData.if) {
                 const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ if: nodeData.if }));
                 dataSourceValidator("If", sourceNodeIds);
@@ -909,11 +913,15 @@ const relationValidator = (data, staticNodeIds, computedNodeIds) => {
                 const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ graph: nodeData.graph }));
                 dataSourceValidator("Graph", sourceNodeIds);
             }
+            if (typeof nodeData.agent === "string" && nodeData.agent[0] === ":") {
+                const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ agent: nodeData.agent }));
+                dataSourceValidator("Agent", sourceNodeIds);
+            }
         }
     });
     // TODO. validate update
     staticNodeIds.forEach((staticNodeId) => {
-        const nodeData = data.nodes[staticNodeId];
+        const nodeData = graphData.nodes[staticNodeId];
         if ("value" in nodeData && nodeData.update) {
             const update = nodeData.update;
             const updateNodeId = parseNodeName(update).nodeId;
