@@ -31,9 +31,11 @@ export const validateGraphData = (data: GraphData, agentIds: string[]) => {
 
 export const validateAgent = (agentFunctionInfoDictionary: AgentFunctionInfoDictionary) => {
   Object.keys(agentFunctionInfoDictionary).forEach((agentId: string) => {
-    const agentInfo = agentFunctionInfoDictionary[agentId];
-    if (!agentInfo || !agentInfo.agent) {
-      throw new ValidationError("No Agent: " + agentId + " is not in AgentFunctionInfoDictionary.");
+    if (agentId !== "default") {
+      const agentInfo = agentFunctionInfoDictionary[agentId];
+      if (!agentInfo || !agentInfo.agent) {
+        throw new ValidationError("No Agent: " + agentId + " is not in AgentFunctionInfoDictionary.");
+      }
     }
   });
 };
