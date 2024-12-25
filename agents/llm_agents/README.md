@@ -21,8 +21,7 @@ import {
   openAIAgent,
   openAIImageAgent,
   replicateAgent,
-  slashGPTAgent,
-  tokenBoundStringsAgent
+  slashGPTAgent
  } from "@graphai/llm_agents";
 
 const agents = { 
@@ -32,8 +31,7 @@ const agents = {
   openAIAgent,
   openAIImageAgent,
   replicateAgent,
-  slashGPTAgent,
-  tokenBoundStringsAgent
+  slashGPTAgent
  };
 
 const graph = new GraphAI(graph_data, agents);
@@ -48,7 +46,6 @@ const result = await graph.run();
 - openAIImageAgent - OpenAI Image Agent
 - replicateAgent - Replicate Agent
 - slashGPTAgent - Slash GPT Agent
-- tokenBoundStringsAgent - token bound Agent
 
 ### Input/Output/Params Schema & samples
  - [anthropicAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/anthropicAgent.md)
@@ -58,7 +55,6 @@ const result = await graph.run();
  - [openAIImageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIImageAgent.md)
  - [replicateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/replicateAgent.md)
  - [slashGPTAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/slashGPTAgent.md)
- - [tokenBoundStringsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/undefined/tokenBoundStringsAgent.md)
 
 ### Input/Params example
  - openAIAgent
@@ -79,29 +75,6 @@ const result = await graph.run();
   "inputs": {},
   "params": {
     "query": "Come up with ten business ideas for AI startup"
-  }
-}
-```
-
- - tokenBoundStringsAgent
-
-```typescript
-{
-  "inputs": {
-    "chunks": [
-      "Here's to the crazy ones. The misfits. The rebels. The troublemakers.",
-      "The round pegs in the square holes. The ones who see things differently.",
-      "They're not fond of rules. And they have no respect for the status quo.",
-      "You can quote them, disagree with them, glorify or vilify them.",
-      "About the only thing you can't do is ignore them.",
-      "Because they change things.",
-      "They push the human race forward.",
-      "And while some may see them as the crazy ones, we see genius.",
-      "Because the people who are crazy enough to think they can change the world, are the ones who do."
-    ]
-  },
-  "params": {
-    "limit": 80
   }
 }
 ```
