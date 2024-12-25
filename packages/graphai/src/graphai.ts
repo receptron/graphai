@@ -20,7 +20,7 @@ import { propFunctions } from "@/utils/prop_function";
 import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
 import { getDataFromSource } from "@/utils/data_source";
 
-import { validateGraphData } from "@/validator";
+import { validateGraphData, validateAgent } from "@/validator";
 import { TaskManager } from "@/task_manager";
 
 export const defaultConcurrency = 8;
@@ -154,6 +154,7 @@ export class GraphAI {
     };
 
     validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
+    validateAgent(agentFunctionInfoDictionary);
 
     this.nodes = this.createNodes(graphData);
     this.initializeStaticNodes(true);
