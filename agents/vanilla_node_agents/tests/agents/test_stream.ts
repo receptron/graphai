@@ -1,5 +1,4 @@
 import { fileReadAgent } from "@/index";
-import { agentTestRunner } from "@receptron/test_utils";
 
 const main = async () => {
   const res = await fileReadAgent.agent({
