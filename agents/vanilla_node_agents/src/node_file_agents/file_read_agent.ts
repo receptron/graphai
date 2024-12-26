@@ -8,8 +8,8 @@ export const fileReadAgent: AgentFunction<
     outputType?: string;
   },
   {
-    array?: string[] | unknown[];
-    data?: string | unknown;
+    array?: string[] | unknown[] | fs.ReadStream[];
+    data?: string | unknown | fs.ReadStream;
   },
   {
     array?: string[];
@@ -22,6 +22,9 @@ export const fileReadAgent: AgentFunction<
 
   const fileToData = (fileName: string) => {
     const file = path.resolve(path.join(baseDir, fileName));
+    if (outputType && outputType === "stream") {
+      return fs.createReadStream(file);
+    }
     const buffer = fs.readFileSync(file);
     if (outputType && outputType === "base64") {
       return buffer.toString("base64");
