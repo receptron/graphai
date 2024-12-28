@@ -15,7 +15,7 @@ const get_graph_data = () => {
       },
       copy: {
         inputs: { data: ":data" },
-        console: { after: { template: ":data" } },
+        console: { after: { template: ".data" } },
         agent: "copyAgent",
         isResult: true,
       },
