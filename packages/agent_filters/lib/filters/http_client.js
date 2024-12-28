@@ -73,7 +73,7 @@ const httpAgentFilter = async (context, next) => {
             debugInfo,
             filterParams,
             namedInputs,
-            inputs: namedInputs, // alias. 
+            inputs: namedInputs, // alias.
         };
         if (isStreaming) {
             return await streamingRequest(context, url, postData, isDebug);
