@@ -1,6 +1,6 @@
 {
   "name": "@graphai/agent_filters",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Agent filters for GraphAI.",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",

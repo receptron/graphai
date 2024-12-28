@@ -80,6 +80,7 @@ export const httpAgentFilter: AgentFilterFunction = async (context, next) => {
       debugInfo,
       filterParams,
       namedInputs,
+      inputs: namedInputs, // alias. 
     };
     if (isStreaming) {
       return await streamingRequest(context, url, postData, isDebug);
