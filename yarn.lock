@@ -115,6 +115,13 @@
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.21.0.tgz#a5011aab9e6082e706937b26ef23445933fa0d15"
   integrity sha512-7XhUbtnlkSEZK15kN3t+tzIMxsbKm/dSkKBFalj+20NvPKe1kBY7mR2P7vuijEn+f06z5+A8bVGKO0v39cr6Wg==
 
+"@graphai/agent_filters@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@graphai/agent_filters/-/agent_filters-0.0.8.tgz#4d68e49a25c2d1728e3e8267e6766f58a2ac69b0"
+  integrity sha512-inbvBYePhr3pbHMuo4tfrE9K04MRFoSQaUAcAlce8zHpDQtxRemH9cmtgdnrEN939FxZaTD5xlN3OVr7iaXamA==
+  dependencies:
+    ajv "^8.16.0"
+
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
