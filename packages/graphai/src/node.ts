@@ -63,7 +63,7 @@ export class Node {
     } else if (this.console.after) {
       if (isObject(this.console.after)) {
         console.log(
-          JSON.stringify(resultsOf(this.console.after, { self: { result } as unknown as ComputedNode | StaticNode } , this.graph.propFunctions, true), null, 2),
+          JSON.stringify(resultsOf(this.console.after, { self: { result } as unknown as ComputedNode | StaticNode }, this.graph.propFunctions, true), null, 2),
         );
       } else {
         console.log(this.console.after);
