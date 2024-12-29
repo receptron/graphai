@@ -33,10 +33,14 @@ const convertOpenAIChatCompletion = (response, messages) => {
         messages,
     };
 };
-const openAIFetchAgent = async ({ filterParams, params, namedInputs }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, stream, apiKey, prompt, messages, response_format } = {
+const openAIFetchAgent = async ({ filterParams, params, namedInputs, config, }) => {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
         ...params,
         ...namedInputs,
+    };
+    const { apiKey, stream, baseURL } = {
+        ...params,
+        ...(config || {}),
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);

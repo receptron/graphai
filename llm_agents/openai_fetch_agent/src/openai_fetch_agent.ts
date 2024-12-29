@@ -10,13 +10,17 @@ type OpenAIInputs = {
   max_tokens?: number;
   verbose?: boolean;
   temperature?: number;
+  messages?: Array<OpenAI.ChatCompletionMessageParam>;
+  response_format?: any;
+} & GraphAILLMInputBase;
+
+type OpenAIConfig = {
   baseURL?: string;
   apiKey?: string;
   stream?: boolean;
-  messages?: Array<OpenAI.ChatCompletionMessageParam>;
-  forWeb?: boolean;
-  response_format?: any;
-} & GraphAILLMInputBase;
+};
+
+type OpenAIParams = OpenAIInputs & OpenAIConfig;
 
 const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[]) => {
   const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
@@ -51,10 +55,20 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
   };
 };
 
-export const openAIFetchAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({ filterParams, params, namedInputs }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, stream, apiKey, prompt, messages, response_format } = {
+export const openAIFetchAgent: AgentFunction<OpenAIParams, Record<string, any> | string, OpenAIInputs, OpenAIConfig> = async ({
+  filterParams,
+  params,
+  namedInputs,
+  config,
+}) => {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
     ...params,
     ...namedInputs,
+  };
+
+  const { apiKey, stream, baseURL } = {
+    ...params,
+    ...(config || {}),
   };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
