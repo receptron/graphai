@@ -5,13 +5,23 @@ import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type OpenAIInputs = {
   model?: string;
+} & GraphAILLMInputBase;
+
+type OpenAIConfig = {
   baseURL?: string;
   apiKey?: string;
   forWeb?: boolean;
-} & GraphAILLMInputBase;
+};
 
-export const openAIImageAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs> = async ({ params, namedInputs }) => {
-  const { system, baseURL, apiKey, prompt, forWeb } = { ...params, ...namedInputs };
+type OpenAIParams = OpenAIInputs & OpenAIConfig;
+
+export const openAIImageAgent: AgentFunction<OpenAIParams, Record<string, any> | string, OpenAIInputs, OpenAIConfig> = async ({ params, namedInputs, config }) => {
+  const { system, prompt } = { ...params, ...namedInputs };
+
+  const { apiKey, baseURL, forWeb } = {
+    ...params,
+    ...(config ||{})
+  };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);

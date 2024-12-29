@@ -6,8 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.openAIImageAgent = void 0;
 const openai_1 = __importDefault(require("openai"));
 const llm_utils_1 = require("@graphai/llm_utils");
-const openAIImageAgent = async ({ params, namedInputs }) => {
-    const { system, baseURL, apiKey, prompt, forWeb } = { ...params, ...namedInputs };
+const openAIImageAgent = async ({ params, namedInputs, config }) => {
+    const { system, prompt } = { ...params, ...namedInputs };
+    const { apiKey, baseURL, forWeb } = {
+        ...params,
+        ...(config || {})
+    };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
