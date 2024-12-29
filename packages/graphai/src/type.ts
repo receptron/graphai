@@ -15,9 +15,12 @@ export enum NodeState {
 
 export type DefaultResultData = Record<string, any> | string | number | boolean | Array<DefaultResultData>;
 export type DefaultInputData = Record<string, any>;
+export type DefaultConfigData = Record<string, any>;
 export type ResultData<ResultType = DefaultResultData> = ResultType | undefined;
 export type ResultDataDictionary<ResultType = DefaultResultData> = Record<string, ResultData<ResultType>>;
 
+export type ConfigData<ConfigType = DefaultConfigData> = ConfigType;
+export type ConfigDataDictionary<ConfigType = DefaultConfigData> = Record<string, ConfigType>;
 export type DefaultParamsType = Record<string, any>;
 export type NodeDataParams<ParamsType = DefaultParamsType> = ParamsType; // Agent-specific parameters
 
@@ -87,13 +90,13 @@ export type GraphOptions = {
   agentFilters?: AgentFilterInfo[] | undefined;
   taskManager?: TaskManager | undefined;
   bypassAgentIds?: string[] | undefined;
-  config?: Record<string, unknown>;
+  config?: ConfigDataDictionary;
   graphLoader?: GraphDataLoader;
 };
 
 export type CacheTypes = "pureAgent" | "impureAgent";
 
-export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataType = DefaultInputData> = {
+export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataType = DefaultInputData, ConfigType = DefaultConfigData> = {
   params: NodeDataParams<ParamsType>;
   inputSchema?: any;
   namedInputs: NamedInputDataType;
@@ -115,11 +118,11 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
   filterParams: AgentFilterParams; // agent filter
   agentFilters?: AgentFilterInfo[]; // TODO remove next version
   log?: TransactionLog[];
-  config?: Record<string, unknown>;
+  config?: ConfigType;
 };
 
-export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, NamedInputDataType = DefaultInputData> = (
-  context: AgentFunctionContext<ParamsType, NamedInputDataType>,
+export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, NamedInputDataType = DefaultInputData, ConfigType = DefaultConfigData> = (
+  context: AgentFunctionContext<ParamsType, NamedInputDataType, ConfigType>,
 ) => Promise<ResultData<ResultType>>;
 
 export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, NamedInputDataType = DefaultInputData> = (
@@ -144,8 +147,8 @@ export type AgentFunctionInfoSample = {
 
 export type AgentFunctionInfo = {
   name: string;
-  agent: AgentFunction<any, any, any>;
-  mock: AgentFunction<any, any, any>;
+  agent: AgentFunction<any, any, any, any>;
+  mock: AgentFunction<any, any, any, any>;
   inputs?: any;
   output?: any;
   outputFormat?: any;

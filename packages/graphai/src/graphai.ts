@@ -10,6 +10,7 @@ import {
   GraphOptions,
   PropFunction,
   GraphDataLoader,
+  ConfigDataDictionary,
 } from "@/type";
 import { TransactionLog } from "@/transaction_log";
 
@@ -33,7 +34,7 @@ export class GraphAI {
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
   public readonly bypassAgentIds: string[];
-  public readonly config?: Record<string, unknown> = {};
+  public readonly config?: ConfigDataDictionary = {};
   public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
   public readonly taskManager: TaskManager;
   public readonly agentFilters: AgentFilterInfo[];

@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions, PropFunction, GraphDataLoader } from "./type";
+import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions, PropFunction, GraphDataLoader, ConfigDataDictionary } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, GraphNodes } from "./node";
 import { TaskManager } from "./task_manager";
@@ -11,7 +11,7 @@ export declare class GraphAI {
     private readonly loop?;
     private readonly logs;
     readonly bypassAgentIds: string[];
-    readonly config?: Record<string, unknown>;
+    readonly config?: ConfigDataDictionary;
     readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
     readonly taskManager: TaskManager;
     readonly agentFilters: AgentFilterInfo[];
