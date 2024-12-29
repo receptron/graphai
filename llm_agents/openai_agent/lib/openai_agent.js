@@ -44,7 +44,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     };
     const { apiKey, stream, baseURL, forWeb } = {
         ...params,
-        ...(config || {})
+        ...(config || {}),
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
