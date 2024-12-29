@@ -6,8 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.anthropicAgent = void 0;
 const sdk_1 = __importDefault(require("@anthropic-ai/sdk"));
 const llm_utils_1 = require("@graphai/llm_utils");
-const anthropicAgent = async ({ params, namedInputs, filterParams }) => {
-    const { model, system, temperature, max_tokens, prompt, messages, stream } = { ...params, ...namedInputs };
+const anthropicAgent = async ({ params, namedInputs, filterParams, config }) => {
+    const { model, system, temperature, max_tokens, prompt, messages } = { ...params, ...namedInputs };
+    const { apiKey, stream, forWeb } = {
+        ...params,
+        ...(config || {}),
+    };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     const messagesCopy = messages ? messages.map((m) => m) : [];
@@ -17,11 +21,9 @@ const anthropicAgent = async ({ params, namedInputs, filterParams }) => {
             content: userPrompt,
         });
     }
-    const anthropic = new sdk_1.default({
-        apiKey: process.env["ANTHROPIC_API_KEY"], // This is the default and can be omitted
-    });
+    const anthropic = new sdk_1.default({ apiKey, dangerouslyAllowBrowser: !!forWeb });
     const opt = {
-        model: model || "claude-3-haiku-20240307", // "claude-3-opus-20240229",
+        model: model ?? "claude-3-5-sonnet-20241022",
         messages: messagesCopy,
         system: systemPrompt,
         temperature: temperature ?? 0.7,
@@ -86,7 +88,7 @@ const anthropicAgentInfo = {
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
-    // stream: true,
+    stream: true,
     environmentVariables: ["ANTHROPIC_API_KEY"],
     npms: ["@anthropic-ai/sdk"],
 };

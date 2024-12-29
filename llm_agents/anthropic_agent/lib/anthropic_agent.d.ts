@@ -4,9 +4,15 @@ type AnthropicInputs = {
     model?: string;
     temperature?: number;
     max_tokens?: number;
-    stream?: boolean;
     messages?: Array<Record<string, any>>;
 } & GraphAILLMInputBase;
-export declare const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, AnthropicInputs>;
+type AnthropicConfig = {
+    apiKey?: string;
+    stream?: boolean;
+    forWeb?: boolean;
+};
+type AnthropicParams = AnthropicInputs & AnthropicConfig;
+type AnthropicResult = Record<string, any> | string;
+export declare const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig>;
 declare const anthropicAgentInfo: AgentFunctionInfo;
 export default anthropicAgentInfo;
