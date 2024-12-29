@@ -21,11 +21,9 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config }) => 
             content: userPrompt,
         });
     }
-    const anthropic = new sdk_1.default({
-    //    apiKey: process.env["ANTHROPIC_API_KEY"], // This is the default and can be omitted
-    });
+    const anthropic = new sdk_1.default({ apiKey, dangerouslyAllowBrowser: !!forWeb });
     const opt = {
-        model: model || "claude-3-haiku-20240307", // "claude-3-opus-20240229",
+        model: model ?? "claude-3-5-sonnet-20241022",
         messages: messagesCopy,
         system: systemPrompt,
         temperature: temperature ?? 0.7,
