@@ -9,14 +9,16 @@ type OpenAIInputs = {
     max_tokens?: number;
     verbose?: boolean;
     temperature?: number;
+    messages?: Array<OpenAI.ChatCompletionMessageParam>;
+    response_format?: any;
+} & GraphAILLMInputBase;
+type OpenAIConfig = {
     baseURL?: string;
     apiKey?: string;
     stream?: boolean;
-    messages?: Array<OpenAI.ChatCompletionMessageParam>;
-    forWeb?: boolean;
-    response_format?: any;
-} & GraphAILLMInputBase;
-export declare const openAIFetchAgent: AgentFunction<OpenAIInputs, Record<string, any> | string, OpenAIInputs>;
+};
+type OpenAIParams = OpenAIInputs & OpenAIConfig;
+export declare const openAIFetchAgent: AgentFunction<OpenAIParams, Record<string, any> | string, OpenAIInputs, OpenAIConfig>;
 export declare const openAIMockAgent: AgentFunction<{
     model?: string;
     query?: string;
