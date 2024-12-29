@@ -78,6 +78,7 @@ export class ComputedNode extends Node {
   public readonly params: NodeDataParams; // Agent-specific parameters
   private readonly filterParams: AgentFilterParams;
   public readonly nestedGraph?: GraphData | DataSource;
+  private readonly config?: any;
   public readonly retryLimit: number;
   public retryCount: number = 0;
   private readonly agentId?: string;
@@ -120,6 +121,7 @@ export class ComputedNode extends Node {
       const agent = data.agent;
       this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
     }
+    this.config = this.agentId ? (this.graph.config ?? {})[this.agentId] ?? {} : {},
 
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
