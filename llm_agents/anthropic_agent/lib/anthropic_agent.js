@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.anthropicAgent = void 0;
 const sdk_1 = __importDefault(require("@anthropic-ai/sdk"));
 const llm_utils_1 = require("@graphai/llm_utils");
-const anthropicAgent = async ({ params, namedInputs, filterParams, config }) => {
+const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) => {
     const { model, system, temperature, max_tokens, prompt, messages } = { ...params, ...namedInputs };
     const { apiKey, stream, forWeb } = {
         ...params,
