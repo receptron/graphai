@@ -16,8 +16,11 @@ test("test openai", async () => {
 });
 
 test("test openai images", async () => {
-  const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"], images: ["https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/src/llm/fish001.jpg"] };
-  const params = { model: "gpt-4o"};
+  const namedInputs = {
+    prompt: ["hello, let me know the answer 1 + 1"],
+    images: ["https://raw.githubusercontent.com/receptron/graphai/refs/heads/main/packages/samples/src/llm/fish001.jpg"],
+  };
+  const params = { model: "gpt-4o" };
   const res = (await openAIAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
 
   if (res) {
