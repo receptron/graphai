@@ -22,14 +22,19 @@ type AnthropicParams = AnthropicInputs & AnthropicConfig;
 
 type AnthropicResult = Record<string, any> | string;
 
-export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({ params, namedInputs, filterParams, config }) => {
+export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({
+  params,
+  namedInputs,
+  filterParams,
+  config,
+}) => {
   const { model, system, temperature, max_tokens, prompt, messages } = { ...params, ...namedInputs };
 
   const { apiKey, stream, forWeb } = {
     ...params,
     ...(config || {}),
   };
-  
+
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
