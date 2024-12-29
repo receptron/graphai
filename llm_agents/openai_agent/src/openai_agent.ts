@@ -14,13 +14,12 @@ type OpenAIInputs = {
   response_format?: any;
 } & GraphAILLMInputBase;
 
-
 type OpenAIConfig = {
   baseURL?: string;
   apiKey?: string;
   stream?: boolean;
   forWeb?: boolean;
-}
+};
 
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
 
@@ -67,7 +66,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
 
   const { apiKey, stream, baseURL, forWeb } = {
     ...params,
-    ...(config ||{})
+    ...(config || {}),
   };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);

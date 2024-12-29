@@ -15,12 +15,16 @@ type OpenAIConfig = {
 
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
 
-export const openAIImageAgent: AgentFunction<OpenAIParams, Record<string, any> | string, OpenAIInputs, OpenAIConfig> = async ({ params, namedInputs, config }) => {
+export const openAIImageAgent: AgentFunction<OpenAIParams, Record<string, any> | string, OpenAIInputs, OpenAIConfig> = async ({
+  params,
+  namedInputs,
+  config,
+}) => {
   const { system, prompt } = { ...params, ...namedInputs };
 
   const { apiKey, baseURL, forWeb } = {
     ...params,
-    ...(config ||{})
+    ...(config || {}),
   };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);

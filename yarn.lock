@@ -2780,10 +2780,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^4.76.1:
-  version "4.76.1"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-4.76.1.tgz#3e844cef2f2d55814ff7c6e134700eacb7c9897b"
-  integrity sha512-ci63/WFEMd6QjjEVeH0pV7hnFS6CCqhgJydSti4Aak/8uo2SpgzKjteUDaY+OkwziVj11mi6j+0mRUIiGKUzWw==
+openai@^4.77.0:
+  version "4.77.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.77.0.tgz#228f2d43ffa79ae9d8b5d4155e965da82e5ac330"
+  integrity sha512-WWacavtns/7pCUkOWvQIjyOfcdr9X+9n9Vvb0zFeKVDAqwCMDHB+iSr24SVaBAhplvSG6JrRXFpcNM9gWhOGIw==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
