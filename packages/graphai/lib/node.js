@@ -74,7 +74,8 @@ class ComputedNode extends Node {
             const agent = data.agent;
             this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
         }
-        (this.config = this.agentId ? ((this.graph.config ?? {})[this.agentId] ?? {}) : {}), (this.anyInput = data.anyInput ?? false);
+        this.config = this.agentId ? (data.graph ? this.graph.config : ((this.graph.config ?? {})[this.agentId] ?? {})) : {};
+        this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
         this.output = data.output;
         this.dataSources = [
@@ -241,7 +242,7 @@ class ComputedNode extends Node {
                         agentFilters: this.graph.agentFilters,
                         taskManager: this.graph.taskManager,
                         bypassAgentIds: this.graph.bypassAgentIds,
-                        config: this.graph.config,
+                        config: this.config,
                         graphLoader: this.graph.graphLoader,
                     },
                     onLogCallback: this.graph.onLogCallback,
@@ -314,7 +315,7 @@ class ComputedNode extends Node {
             cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
             filterParams: this.filterParams,
             agentFilters: this.graph.agentFilters,
-            config: this.graph.config,
+            config: this.config,
             log: localLog,
         };
         return context;
