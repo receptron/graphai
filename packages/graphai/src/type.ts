@@ -150,6 +150,7 @@ export type AgentFunctionInfo = {
   output?: any;
   outputFormat?: any;
   params?: any;
+  config?: any;
   samples: AgentFunctionInfoSample[];
   description: string;
   category: string[];
