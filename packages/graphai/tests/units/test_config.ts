@@ -24,10 +24,10 @@ const get_graph_data = () => {
 };
 
 test("test add & loop", async () => {
-  const graph = new GraphAI(get_graph_data(), { ...agents }, { config: {copyConfigAgent: {test: "message"}}});
+  const graph = new GraphAI(get_graph_data(), { ...agents }, { config: { copyConfigAgent: { test: "message" } } });
   const result = await graph.run();
   // { copy: { copyConfig: { test: 'aaa' } } }
   assert.deepStrictEqual(result, {
-    copy: { test: 'message' } 
+    copy: { test: "message" },
   });
 });

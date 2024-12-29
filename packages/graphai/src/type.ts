@@ -121,9 +121,12 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
   config?: ConfigType;
 };
 
-export type AgentFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, NamedInputDataType = DefaultInputData, ConfigType = DefaultConfigData> = (
-  context: AgentFunctionContext<ParamsType, NamedInputDataType, ConfigType>,
-) => Promise<ResultData<ResultType>>;
+export type AgentFunction<
+  ParamsType = DefaultParamsType,
+  ResultType = DefaultResultData,
+  NamedInputDataType = DefaultInputData,
+  ConfigType = DefaultConfigData,
+> = (context: AgentFunctionContext<ParamsType, NamedInputDataType, ConfigType>) => Promise<ResultData<ResultType>>;
 
 export type AgentFilterFunction<ParamsType = DefaultParamsType, ResultType = DefaultResultData, NamedInputDataType = DefaultInputData> = (
   context: AgentFunctionContext<ParamsType, NamedInputDataType>,
