@@ -12,8 +12,20 @@ type GeminiInputs = {
   messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
 
-export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | string, GeminiInputs> = async ({ params, namedInputs }) => {
+type GeminiConfig = {
+  apiKey?: string;
+  // stream?: boolean;
+};
+
+type GeminiParams = GeminiInputs & GeminiConfig;
+
+export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | string, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config }) => {
   const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
+
+  const { apiKey /* stream */ } = {
+    ...params,
+    ...(config || {}),
+  };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
@@ -33,7 +45,7 @@ export const geminiAgent: AgentFunction<GeminiInputs, Record<string, any> | stri
     return [];
   }
 
-  const key = process.env["GOOGLE_GENAI_API_KEY"];
+  const key = apiKey ?? (process !== undefined ? process.env["GOOGLE_GENAI_API_KEY"] : null);
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
   const safetySettings = [
