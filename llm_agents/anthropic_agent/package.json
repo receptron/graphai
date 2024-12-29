@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/anthropic_agent/README.md",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.32.1",
+    "@anthropic-ai/sdk": "^0.33.1",
     "@graphai/llm_utils": "^0.0.2"
   },
   "devDependencies": {},

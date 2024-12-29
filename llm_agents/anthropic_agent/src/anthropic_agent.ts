@@ -9,13 +9,27 @@ type AnthropicInputs = {
   max_tokens?: number;
   // tools?: any;
   // tool_choice?: any;
-  stream?: boolean;
   messages?: Array<Record<string, any>>;
 } & GraphAILLMInputBase;
 
-export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> | string, AnthropicInputs> = async ({ params, namedInputs, filterParams }) => {
-  const { model, system, temperature, max_tokens, prompt, messages, stream } = { ...params, ...namedInputs };
+type AnthropicConfig = {
+  apiKey?: string;
+  stream?: boolean;
+  forWeb?: boolean;
+};
 
+type AnthropicParams = AnthropicInputs & AnthropicConfig;
+
+type AnthropicResult = Record<string, any> | string;
+
+export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({ params, namedInputs, filterParams, config }) => {
+  const { model, system, temperature, max_tokens, prompt, messages } = { ...params, ...namedInputs };
+
+  const { apiKey, stream, forWeb } = {
+    ...params,
+    ...(config || {}),
+  };
+  
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
@@ -28,12 +42,9 @@ export const anthropicAgent: AgentFunction<AnthropicInputs, Record<string, any> 
     });
   }
 
-  const anthropic = new Anthropic({
-    apiKey: process.env["ANTHROPIC_API_KEY"], // This is the default and can be omitted
-  });
-
+  const anthropic = new Anthropic({ apiKey, dangerouslyAllowBrowser: !!forWeb });
   const opt = {
-    model: model || "claude-3-haiku-20240307", // "claude-3-opus-20240229",
+    model: model ?? "claude-3-5-sonnet-20241022",
     messages: messagesCopy,
     system: systemPrompt,
     temperature: temperature ?? 0.7,
@@ -98,7 +109,7 @@ const anthropicAgentInfo: AgentFunctionInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
-  // stream: true,
+  stream: true,
   environmentVariables: ["ANTHROPIC_API_KEY"],
   npms: ["@anthropic-ai/sdk"],
 };
