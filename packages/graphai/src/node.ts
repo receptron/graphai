@@ -122,7 +122,7 @@ export class ComputedNode extends Node {
       const agent = data.agent;
       this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
     }
-    this.config = this.agentId ? (data.graph ? this.graph.config : ((this.graph.config ?? {})[this.agentId] ?? {})) : {};
+    this.config = this.getConfig(!!data.graph);
 
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
@@ -158,6 +158,20 @@ export class ComputedNode extends Node {
 
   public getAgentId() {
     return this.agentId ?? "__custom__function"; // only for display purpose in the log.
+  }
+
+  private getConfig(hasGraphData: boolean) {
+    if (this.agentId) {
+      if (hasGraphData) {
+        return this.graph.config;
+      }
+      const config = this.graph.config ?? {};
+      return {
+        ...(config["global"] ?? {}),
+        ...(config[this.agentId] ?? {}),
+      };
+    }
+    return {};
   }
 
   private addPendingNode(nodeId: string) {

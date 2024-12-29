@@ -23,10 +23,10 @@ test("test graphai config option", async () => {
   const testAgent: AgentFunction = async ({ config }) => {
     return config;
   };
-  const config = { testAgent: { message: "hello" } };
+  const config = { testAgent: { message: "hello" }, global: { userId: "test" } };
   const graph = new GraphAI(graph_data, { testAgent: agentInfoWrapper(testAgent) }, { config });
   const result = await graph.run();
-  assert.deepStrictEqual(result, { result: { message: "hello" } });
+  assert.deepStrictEqual(result, { result: { message: "hello", userId: "test" } });
 });
 
 const nested_graph_data = {
