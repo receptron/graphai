@@ -69,13 +69,10 @@ export const openAIAgent: AgentFunction<OpenAIInputs, Record<string, any> | stri
     });
   }
   if (images) {
-    const image_url =
-      params.model === "gpt-4-vision-preview"
-        ? images[0]
-        : {
-            url: images[0],
-            detail: "high",
-          };
+    const image_url = {
+      url: images[0],
+      detail: "high",
+    };
     messagesCopy.push({
       role: "user",
       content: [
