@@ -23,7 +23,7 @@ test("test graphai config option", async () => {
   const testAgent: AgentFunction = async ({ config }) => {
     return config;
   };
-  const config = { message: "hello" };
+  const config = { testAgent: { message: "hello" } };
   const graph = new GraphAI(graph_data, { testAgent: agentInfoWrapper(testAgent) }, { config });
   const result = await graph.run();
   assert.deepStrictEqual(result, { result: { message: "hello" } });
@@ -67,7 +67,7 @@ test("test graphai nested config option", async () => {
   const testAgent: AgentFunction = async ({ config }) => {
     return config;
   };
-  const config = { message: "hello config" };
+  const config = { testAgent: { message: "hello config" } };
   const graph = new GraphAI(nested_graph_data, { testAgent: agentInfoWrapper(testAgent), ...testAgents }, { config });
 
   const result = await graph.run();

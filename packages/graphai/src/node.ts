@@ -17,6 +17,7 @@ import {
   DefaultInputData,
   PassThrough,
   ConsoleElement,
+  ConfigData,
 } from "@/type";
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
 import { TransactionLog } from "@/transaction_log";
@@ -78,7 +79,7 @@ export class ComputedNode extends Node {
   public readonly params: NodeDataParams; // Agent-specific parameters
   private readonly filterParams: AgentFilterParams;
   public readonly nestedGraph?: GraphData | DataSource;
-  private readonly config?: any;
+  private readonly config?: ConfigData;
   public readonly retryLimit: number;
   public retryCount: number = 0;
   private readonly agentId?: string;
@@ -121,7 +122,9 @@ export class ComputedNode extends Node {
       const agent = data.agent;
       this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
     }
-    (this.config = this.agentId ? ((this.graph.config ?? {})[this.agentId] ?? {}) : {}), (this.anyInput = data.anyInput ?? false);
+    this.config = this.agentId ? (data.graph ? this.graph.config : ((this.graph.config ?? {})[this.agentId] ?? {})) : {};
+
+    this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
     this.output = data.output;
     this.dataSources = [
@@ -308,7 +311,7 @@ export class ComputedNode extends Node {
             agentFilters: this.graph.agentFilters,
             taskManager: this.graph.taskManager,
             bypassAgentIds: this.graph.bypassAgentIds,
-            config: this.graph.config,
+            config: this.config,
             graphLoader: this.graph.graphLoader,
           },
           onLogCallback: this.graph.onLogCallback,
@@ -390,7 +393,7 @@ export class ComputedNode extends Node {
       cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
       filterParams: this.filterParams,
       agentFilters: this.graph.agentFilters,
-      config: this.graph.config,
+      config: this.config,
       log: localLog,
     };
     return context;
