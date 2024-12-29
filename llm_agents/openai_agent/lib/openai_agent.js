@@ -37,10 +37,14 @@ const convertOpenAIChatCompletion = (response, messages) => {
         messages,
     };
 };
-const openAIAgent = async ({ filterParams, params, namedInputs }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, baseURL, apiKey, stream, prompt, messages, forWeb, response_format } = {
+const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
         ...params,
         ...namedInputs,
+    };
+    const { apiKey, stream, baseURL, forWeb } = {
+        ...params,
+        ...(config || {})
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
