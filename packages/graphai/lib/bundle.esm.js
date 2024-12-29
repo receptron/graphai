@@ -478,7 +478,8 @@ class ComputedNode extends Node {
             const agent = data.agent;
             this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
         }
-        this.anyInput = data.anyInput ?? false;
+        this.config = this.agentId ? (this.graph.config ?? {})[this.agentId] ?? {} : {},
+            this.anyInput = data.anyInput ?? false;
         this.inputs = data.inputs;
         this.output = data.output;
         this.dataSources = [
