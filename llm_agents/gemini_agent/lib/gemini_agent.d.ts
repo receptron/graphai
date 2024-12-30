@@ -9,6 +9,7 @@ type GeminiInputs = {
 } & GraphAILLMInputBase;
 type GeminiConfig = {
     apiKey?: string;
+    stream?: boolean;
 };
 type GeminiParams = GeminiInputs & GeminiConfig;
 export declare const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | string, GeminiInputs, GeminiConfig>;

@@ -14,15 +14,20 @@ type GeminiInputs = {
 
 type GeminiConfig = {
   apiKey?: string;
-  // stream?: boolean;
+  stream?: boolean;
 };
 
 type GeminiParams = GeminiInputs & GeminiConfig;
 
-export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | string, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config }) => {
+export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | string, GeminiInputs, GeminiConfig> = async ({
+  params,
+  namedInputs,
+  config,
+  filterParams,
+}) => {
   const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
 
-  const { apiKey /* stream */ } = {
+  const { apiKey, stream } = {
     ...params,
     ...(config || {}),
   };
@@ -83,6 +88,21 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
     generationConfig,
   });
 
+  if (stream) {
+    const result = await chat.sendMessageStream(lastMessage.content);
+    const chunks = [];
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      if (filterParams && filterParams.streamTokenCallback && chunkText) {
+        filterParams.streamTokenCallback(chunkText);
+      }
+      chunks.push(chunkText);
+    }
+    const text = chunks.join("");
+    const message: any = { role: "assistant", content: text };
+    return { choices: [{ message }], text, message };
+  }
+
   const result = await chat.sendMessage(lastMessage.content);
   const response = result.response;
   const text = response.text();
@@ -136,7 +156,7 @@ const geminiAgentInfo: AgentFunctionInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   license: "MIT",
-  // stream: true,
+  stream: true,
   npms: ["@anthropic-ai/sdk"],
   environmentVariables: ["GOOGLE_GENAI_API_KEY"],
 };
