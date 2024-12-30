@@ -29,7 +29,7 @@
   "dependencies": {
     "@graphai/anthropic_agent": "^0.2.1",
     "@graphai/gemini_agent": "^0.2.1",
-    "@graphai/groq_agent": "^0.2.0",
+    "@graphai/groq_agent": "^0.2.1",
     "@graphai/openai_agent": "^0.2.1",
     "@graphai/replicate_agent": "^0.2.0",
     "@graphai/slashgpt_agent": "^0.2.0"

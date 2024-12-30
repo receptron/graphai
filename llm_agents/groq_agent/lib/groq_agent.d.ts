@@ -7,11 +7,16 @@ type GroqInputs = {
     temperature?: number;
     max_tokens?: number;
     tool_choice?: ChatCompletionToolChoiceOption;
-    stream?: boolean;
     messages?: Array<ChatCompletionMessageParam>;
 } & GraphAILLMInputBase;
-export declare const groqAgent: AgentFunction<GroqInputs & {
+type GroqConfig = {
+    apiKey?: string;
+    stream?: boolean;
+    forWeb?: boolean;
+};
+type GroqParams = GroqInputs & GroqConfig & {
     model: string;
-}, any, GroqInputs>;
+};
+export declare const groqAgent: AgentFunction<GroqParams, any, GroqInputs, GroqConfig>;
 declare const groqAgentInfo: AgentFunctionInfo;
 export default groqAgentInfo;
