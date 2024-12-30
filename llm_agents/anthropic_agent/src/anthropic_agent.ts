@@ -22,6 +22,8 @@ type AnthropicParams = AnthropicInputs & AnthropicConfig;
 
 type AnthropicResult = Record<string, any> | string;
 
+// https://docs.anthropic.com/ja/api/messages
+
 export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({
   params,
   namedInputs,

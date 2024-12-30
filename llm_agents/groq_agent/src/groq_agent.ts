@@ -30,6 +30,8 @@ type GroqConfig = {
 
 type GroqParams = GroqInputs & GroqConfig & { model: string };
 
+// https://github.com/groq/groq-typescript
+
 //
 // This agent takes two optional inputs, and following parameters.
 // inputs:
