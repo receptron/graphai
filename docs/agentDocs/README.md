@@ -15,7 +15,6 @@
 ### [openAIAgent](./llm/openAIAgent.md)
 ### [openAIImageAgent](./llm/openAIImageAgent.md)
 ### [replicateAgent](./llm/replicateAgent.md)
-### [slashGPTAgent](./llm/slashGPTAgent.md)
 
 ## service
 ### [fetchAgent](./service/fetchAgent.md)
