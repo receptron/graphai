@@ -5,7 +5,6 @@ type ReplicateInputs = {
     verbose?: boolean;
     baseURL?: string;
     apiKey?: string;
-    stream?: boolean;
     messages?: Array<Record<string, any>>;
     forWeb?: boolean;
 } & GrapAILLMInputBase;
