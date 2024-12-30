@@ -79,7 +79,6 @@ export class ComputedNode extends Node {
   public readonly params: NodeDataParams; // Agent-specific parameters
   private readonly filterParams: AgentFilterParams;
   public readonly nestedGraph?: GraphData | DataSource;
-  private readonly config?: ConfigData;
   public readonly retryLimit: number;
   public retryCount: number = 0;
   private readonly agentId?: string;
@@ -122,7 +121,6 @@ export class ComputedNode extends Node {
       const agent = data.agent;
       this.agentFunction = async ({ namedInputs, params }) => agent(namedInputs, params);
     }
-    this.config = this.getConfig(!!data.graph);
 
     this.anyInput = data.anyInput ?? false;
     this.inputs = data.inputs;
@@ -160,15 +158,15 @@ export class ComputedNode extends Node {
     return this.agentId ?? "__custom__function"; // only for display purpose in the log.
   }
 
-  private getConfig(hasGraphData: boolean) {
-    if (this.agentId) {
+  private getConfig(hasGraphData: boolean, agentId?: string) {
+    if (agentId) {
       if (hasGraphData) {
         return this.graph.config;
       }
       const config = this.graph.config ?? {};
       return {
         ...(config["global"] ?? {}),
-        ...(config[this.agentId] ?? {}),
+        ...(config[agentId] ?? {}),
       };
     }
     return {};
@@ -300,6 +298,8 @@ export class ComputedNode extends Node {
     }
     const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
     const agentId = this.agentId ? (this.graph.resultOf(parseNodeName(this.agentId)) as string) : this.agentId;
+    const config: ConfigData | undefined = this.getConfig(!!this.nestedGraph, agentId);
+    
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 
@@ -312,7 +312,7 @@ export class ComputedNode extends Node {
     try {
       const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(agentId).agent;
       const localLog: TransactionLog[] = [];
-      const context = this.getContext(previousResults, localLog, agentId);
+      const context = this.getContext(previousResults, localLog, agentId, config);
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
@@ -325,7 +325,7 @@ export class ComputedNode extends Node {
             agentFilters: this.graph.agentFilters,
             taskManager: this.graph.taskManager,
             bypassAgentIds: this.graph.bypassAgentIds,
-            config: this.config,
+            config,
             graphLoader: this.graph.graphLoader,
           },
           onLogCallback: this.graph.onLogCallback,
@@ -398,7 +398,7 @@ export class ComputedNode extends Node {
     }
   }
 
-  private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[], agentId?: string) {
+  private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[], agentId?: string, config?: ConfigData) {
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.graph.resultsOf(this.params),
       namedInputs: previousResults,
@@ -407,7 +407,7 @@ export class ComputedNode extends Node {
       cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
       filterParams: this.filterParams,
       agentFilters: this.graph.agentFilters,
-      config: this.config,
+      config,
       log: localLog,
     };
     return context;
