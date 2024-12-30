@@ -4,9 +4,9 @@ exports.geminiAgent = void 0;
 const graphai_1 = require("graphai");
 const generative_ai_1 = require("@google/generative-ai");
 const llm_utils_1 = require("@graphai/llm_utils");
-const geminiAgent = async ({ params, namedInputs, config }) => {
+const geminiAgent = async ({ params, namedInputs, config, filterParams, }) => {
     const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
-    const { apiKey /* stream */ } = {
+    const { apiKey, stream } = {
         ...params,
         ...(config || {}),
     };
@@ -60,6 +60,20 @@ const geminiAgent = async ({ params, namedInputs, config }) => {
         }),
         generationConfig,
     });
+    if (stream) {
+        const result = await chat.sendMessageStream(lastMessage.content);
+        const chunks = [];
+        for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+            if (filterParams && filterParams.streamTokenCallback && chunkText) {
+                filterParams.streamTokenCallback(chunkText);
+            }
+            chunks.push(chunkText);
+        }
+        const text = chunks.join("");
+        const message = { role: "assistant", content: text };
+        return { choices: [{ message }], text, message };
+    }
     const result = await chat.sendMessage(lastMessage.content);
     const response = result.response;
     const text = response.text();
@@ -111,7 +125,7 @@ const geminiAgentInfo = {
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
-    // stream: true,
+    stream: true,
     npms: ["@anthropic-ai/sdk"],
     environmentVariables: ["GOOGLE_GENAI_API_KEY"],
 };
