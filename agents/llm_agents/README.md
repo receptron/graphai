@@ -12,10 +12,10 @@ yarn add @graphai/llm_agents
 | **Agent**      | APIKEY               | Stream | Tools | Web   | History |
 |----------------|----------------------|--------|-------|-------|---------|
 | anthropicAgent | ANTHROPIC_API_KEY    | Y      | N     | Y(*1) | Y       |
-| geminiAgent    | GOOGLE_GENAI_API_KEY | Y      | Y     | ?     | Y       |
+| geminiAgent    | GOOGLE_GENAI_API_KEY | Y      | Y     | Y     | Y       |
 | groqAgent      | GROQ_API_KEY         | Y      | Y     | Y(*1) | Y       |
 | openAIAgent    | OPENAI_API_KEY       | Y      | Y     | Y(*1) | Y       |
-| replicateAgent | REPLICATE_API_TOKEN  | N      | N     | ?     | N       |
+| replicateAgent | REPLICATE_API_TOKEN  | N      | N     | N     | N       |
 
 (*1) dangerouslyAllowBrowser
 
@@ -110,7 +110,6 @@ const result = await graph.run();
  - [@graphai/groq_agent](https://www.npmjs.com/package/@graphai/groq_agent)
  - [@graphai/openai_agent](https://www.npmjs.com/package/@graphai/openai_agent)
  - [@graphai/replicate_agent](https://www.npmjs.com/package/@graphai/replicate_agent)
- - [@graphai/slashgpt_agent](https://www.npmjs.com/package/@graphai/slashgpt_agent)
 
 
 
