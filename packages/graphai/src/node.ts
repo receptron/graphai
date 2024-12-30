@@ -299,7 +299,7 @@ export class ComputedNode extends Node {
     const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
     const agentId = this.agentId ? (this.graph.resultOf(parseNodeName(this.agentId)) as string) : this.agentId;
     const config: ConfigData | undefined = this.getConfig(!!this.nestedGraph, agentId);
-    
+
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
 

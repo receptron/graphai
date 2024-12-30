@@ -19,7 +19,7 @@ test("test graphai config option", async () => {
       },
     },
   };
-  
+
   const testAgent: AgentFunction = async ({ config }) => {
     return config;
   };
