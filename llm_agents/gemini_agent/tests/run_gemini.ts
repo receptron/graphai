@@ -50,3 +50,24 @@ test("test gemini", async () => {
   }
   assert.deepStrictEqual(true, true);
 });
+
+test("test gemini stream", async () => {
+  const namedInputs = { prompt: ["tell me world history"] };
+  const params = { stream: true };
+  const res = (await geminiAgent({
+    namedInputs,
+    params,
+    filterParams: {
+      streamTokenCallback: (token: string) => {
+        console.log(token);
+      },
+    },
+    debugInfo: { verbose: false, nodeId: "test", retry: 5 },
+  })) as any;
+
+  if (res) {
+    console.log(res.choices[0].message["content"]);
+    console.log(res.text);
+  }
+  assert.deepStrictEqual(true, true);
+});
