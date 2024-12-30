@@ -13,17 +13,22 @@ import {
 
 import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
 
-const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : undefined;
-
 type GroqInputs = {
   verbose?: boolean;
   tools?: ChatCompletionTool[];
   temperature?: number;
   max_tokens?: number;
   tool_choice?: ChatCompletionToolChoiceOption;
-  stream?: boolean;
   messages?: Array<ChatCompletionMessageParam>;
 } & GraphAILLMInputBase;
+
+type GroqConfig = {
+  apiKey?: string;
+  stream?: boolean;
+  forWeb?: boolean;
+};
+
+type GroqParams = GroqInputs & GroqConfig & { model: string };
 
 //
 // This agent takes two optional inputs, and following parameters.
@@ -75,9 +80,16 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
   };
 };
 
-export const groqAgent: AgentFunction<GroqInputs & { model: string }, any, GroqInputs> = async ({ params, namedInputs, filterParams }) => {
-  assert(groq !== undefined, "The GROQ_API_KEY environment variable is missing.");
-  const { verbose, system, tools, tool_choice, max_tokens, temperature, stream, prompt, messages } = { ...params, ...namedInputs };
+export const groqAgent: AgentFunction<GroqParams, any, GroqInputs, GroqConfig> = async ({ params, namedInputs, filterParams, config }) => {
+  const { verbose, system, tools, tool_choice, max_tokens, temperature, prompt, messages } = { ...params, ...namedInputs };
+
+  const { apiKey, stream, forWeb } = {
+    ...params,
+    ...(config || {}),
+  };
+  const key = apiKey ?? (process !== undefined ? process.env.GROQ_API_KEY : undefined);
+  assert(key !== undefined, "The GROQ_API_KEY environment variable adn apiKey is missing.");
+  const groq = new Groq({ apiKey, dangerouslyAllowBrowser: !!forWeb });
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
