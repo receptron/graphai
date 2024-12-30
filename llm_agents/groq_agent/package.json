@@ -30,7 +30,6 @@
     "@graphai/llm_utils": "^0.0.2",
     "groq-sdk": "^0.9.0"
   },
-  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

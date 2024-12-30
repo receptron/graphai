@@ -34,7 +34,6 @@
     "@graphai/replicate_agent": "^0.2.0",
     "@graphai/slashgpt_agent": "^0.2.0"
   },
-  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
