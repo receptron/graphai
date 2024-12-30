@@ -4,6 +4,7 @@ exports.groqAgent = void 0;
 const graphai_1 = require("graphai");
 const groq_sdk_1 = require("groq-sdk");
 const llm_utils_1 = require("@graphai/llm_utils");
+// https://github.com/groq/groq-typescript
 //
 // This agent takes two optional inputs, and following parameters.
 // inputs:
