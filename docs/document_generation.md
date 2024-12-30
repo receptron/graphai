@@ -56,7 +56,9 @@ The implementation of this script is `graphai/packages/agentdoc/src/agentdoc.ts`
 
 If you want to add your own text to the readme, add the following md under docs.
 
-GraphDataJSON.md READMEBefore.md READMEAfter.md
+- GraphDataJSON.md
+- READMEBefore.md
+- READMEAfter.md
 
 ## markdown template
 
