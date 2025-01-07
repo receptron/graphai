@@ -19,6 +19,7 @@ type OpenAIConfig = {
   apiKey?: string;
   stream?: boolean;
   forWeb?: boolean;
+  model?: string;
 };
 
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
@@ -64,9 +65,9 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     ...namedInputs,
   };
 
-  const { apiKey, stream, baseURL, forWeb } = {
-    ...params,
+  const { apiKey, stream, baseURL, forWeb, model } = {
     ...(config || {}),
+    ...params,
   };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
@@ -103,7 +104,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
   const openai = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
 
   const chatParams = {
-    model: params.model || "gpt-4o",
+    model: model || "gpt-4o",
     messages: messagesCopy as unknown as OpenAI.ChatCompletionMessageParam[],
     tools,
     tool_choice,
@@ -149,7 +150,7 @@ const result_sample = {
     },
   ],
   created: 1715296589,
-  model: "gpt-3.5-turbo-0125",
+  model: "gpt-4o",
 };
 
 export const openAIMockAgent: AgentFunction<

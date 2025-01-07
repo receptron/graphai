@@ -17,6 +17,7 @@ type OpenAIConfig = {
     apiKey?: string;
     stream?: boolean;
     forWeb?: boolean;
+    model?: string;
 };
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
 type OpenAIResult = Record<string, any> | string;
