@@ -42,9 +42,9 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         ...params,
         ...namedInputs,
     };
-    const { apiKey, stream, baseURL, forWeb } = {
-        ...params,
+    const { apiKey, stream, baseURL, forWeb, model } = {
         ...(config || {}),
+        ...params,
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
@@ -75,7 +75,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     }
     const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
     const chatParams = {
-        model: params.model || "gpt-4o",
+        model: model || "gpt-4o",
         messages: messagesCopy,
         tools,
         tool_choice,
@@ -118,7 +118,7 @@ const result_sample = {
         },
     ],
     created: 1715296589,
-    model: "gpt-3.5-turbo-0125",
+    model: "gpt-4o",
 };
 const openAIMockAgent = async ({ filterParams }) => {
     for await (const token of input_sample.split("")) {
