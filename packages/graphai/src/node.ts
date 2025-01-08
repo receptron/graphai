@@ -82,7 +82,7 @@ export class ComputedNode extends Node {
   public readonly retryLimit: number;
   public retryCount: number = 0;
   private readonly agentId?: string;
-  private readonly agentFunction?: AgentFunction<any, any, any>;
+  private agentFunction?: AgentFunction<any, any, any>;
   public readonly timeout?: number; // msec
   public readonly priority: number;
   public error?: Error;
@@ -298,6 +298,9 @@ export class ComputedNode extends Node {
     }
     const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
     const agentId = this.agentId ? (this.graph.resultOf(parseNodeName(this.agentId)) as string) : this.agentId;
+    if (typeof agentId === "function") {
+      this.agentFunction = agentId;
+    }
     const config: ConfigData | undefined = this.getConfig(!!this.nestedGraph, agentId);
 
     const transactionId = Date.now();
