@@ -232,6 +232,9 @@ class ComputedNode extends Node {
         }
         const previousResults = this.graph.resultsOf(this.inputs, this.anyInput);
         const agentId = this.agentId ? this.graph.resultOf((0, utils_2.parseNodeName)(this.agentId)) : this.agentId;
+        if (typeof agentId === "function") {
+            this.agentFunction = agentId;
+        }
         const config = this.getConfig(!!this.nestedGraph, agentId);
         const transactionId = Date.now();
         this.prepareExecute(transactionId, Object.values(previousResults));

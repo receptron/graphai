@@ -23,7 +23,7 @@ export declare class ComputedNode extends Node {
     readonly retryLimit: number;
     retryCount: number;
     private readonly agentId?;
-    private readonly agentFunction?;
+    private agentFunction?;
     readonly timeout?: number;
     readonly priority: number;
     error?: Error;
