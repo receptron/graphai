@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, assert, graphDataLatestVersion } from "graphai";
 
 export const mapAgent: AgentFunction<
   {
@@ -39,9 +39,9 @@ export const mapAgent: AgentFunction<
     if (nestedGraphData.nodes[mappedNodeId] === undefined) {
       // If the input node does not exist, automatically create a static node
       nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };
-    } else {
+    } else if (!("agent" in nestedGraphData.nodes[mappedNodeId])){
       // Otherwise, inject the proper data here (instead of calling injectTo method later)
-      (nestedGraphData.nodes[mappedNodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+      nestedGraphData.nodes[mappedNodeId]["value"] = namedInputs[nodeId];
     }
   });
 
