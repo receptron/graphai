@@ -1194,7 +1194,7 @@
                 // If the input node does not exist, automatically create a static node
                 nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };
             }
-            else {
+            else if (!("agent" in nestedGraphData.nodes[mappedNodeId])) {
                 // Otherwise, inject the proper data here (instead of calling injectTo method later)
                 nestedGraphData.nodes[mappedNodeId]["value"] = namedInputs[nodeId];
             }
