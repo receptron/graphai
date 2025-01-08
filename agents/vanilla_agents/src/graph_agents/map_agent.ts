@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert, graphDataLatestVersion } from "graphai";
+import { GraphAI, AgentFunction, AgentFunctionInfo, assert, graphDataLatestVersion } from "graphai";
 
 export const mapAgent: AgentFunction<
   {
