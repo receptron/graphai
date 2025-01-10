@@ -1,5 +1,5 @@
-import { ComputedNode } from "@/node";
-import { assert } from "@/utils/utils";
+import { ComputedNode } from "./node";
+import { assert } from "./utils/utils";
 
 type TaskEntry = {
   node: ComputedNode;

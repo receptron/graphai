@@ -1,9 +1,9 @@
-import { DataSource, ResultData, PropFunction } from "@/type";
+import { DataSource, ResultData, PropFunction } from "../type";
 
-import { GraphNodes } from "@/node";
+import { GraphNodes } from "../node";
 
-import { parseNodeName, isNamedInputs, isObject, isNull } from "@/utils/utils";
-import { getDataFromSource } from "@/utils/data_source";
+import { parseNodeName, isNamedInputs, isObject, isNull } from "./utils";
+import { getDataFromSource } from "./data_source";
 
 const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean = false): ResultData => {
   if (Array.isArray(input)) {

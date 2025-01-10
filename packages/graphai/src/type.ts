@@ -1,5 +1,5 @@
-import type { TransactionLog } from "@/transaction_log";
-import type { TaskManager } from "@/task_manager";
+import type { TransactionLog } from "./transaction_log";
+import type { TaskManager } from "./task_manager";
 
 export enum NodeState {
   Waiting = "waiting",

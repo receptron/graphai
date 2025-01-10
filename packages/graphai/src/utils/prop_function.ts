@@ -1,4 +1,4 @@
-import { PropFunction } from "@/type";
+import { PropFunction } from "../type";
 import { isObject } from "./utils";
 
 export const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;

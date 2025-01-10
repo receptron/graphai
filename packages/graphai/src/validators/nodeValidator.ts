@@ -1,5 +1,5 @@
-import { NodeData, StaticNodeData, ComputedNodeData } from "@/type";
-import { ValidationError } from "@/validators/common";
+import { NodeData, StaticNodeData, ComputedNodeData } from "../type";
+import { ValidationError } from "./common";
 
 export const nodeValidator = (nodeData: NodeData) => {
   if ((nodeData as ComputedNodeData).agent && (nodeData as StaticNodeData).value) {

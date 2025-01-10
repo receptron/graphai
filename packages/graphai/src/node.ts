@@ -1,6 +1,6 @@
-import type { GraphAI, GraphData } from "@/index";
-import { strIntentionalError } from "@/utils/utils";
-import { inputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
+import type { GraphAI, GraphData } from "./index";
+import { strIntentionalError } from "./utils/utils";
+import { inputs2dataSources, dataSourceNodeIds } from "./utils/nodeUtils";
 
 import {
   NodeDataParams,
@@ -18,10 +18,10 @@ import {
   PassThrough,
   ConsoleElement,
   ConfigData,
-} from "@/type";
-import { parseNodeName, assert, isLogicallyTrue, isObject } from "@/utils/utils";
-import { TransactionLog } from "@/transaction_log";
-import { resultsOf } from "@/utils/result";
+} from "./type";
+import { parseNodeName, assert, isLogicallyTrue, isObject } from "./utils/utils";
+import { TransactionLog } from "./transaction_log";
+import { resultsOf } from "./utils/result";
 
 export class Node {
   public readonly nodeId: string;

@@ -1,4 +1,4 @@
-import { ResultData, DataSource, PropFunction } from "@/type";
+import { ResultData, DataSource, PropFunction } from "../type";
 import { isObject, isNull } from "./utils";
 import { propFunctionRegex } from "./prop_function";
 

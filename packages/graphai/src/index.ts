@@ -1,6 +1,6 @@
 export { GraphAI, defaultConcurrency, graphDataLatestVersion } from "./graphai";
 
-export {
+export type {
   AgentFunction,
   AgentFunctionInfo,
   AgentFunctionInfoDictionary,
@@ -9,7 +9,6 @@ export {
   GraphData,
   ResultDataDictionary,
   ResultData,
-  NodeState,
   AgentFilterFunction,
   AgentFilterInfo,
   NodeData,
@@ -20,7 +19,11 @@ export {
   DefaultParamsType,
   GraphDataLoaderOption,
   GraphDataLoader,
-} from "@/type";
+} from "./type";
+
+export {
+  NodeState,
+} from "./type";
 
 export type { TransactionLog } from "./transaction_log";
 
