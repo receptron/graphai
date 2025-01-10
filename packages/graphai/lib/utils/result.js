@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
-const utils_1 = require("../utils/utils");
-const data_source_1 = require("../utils/data_source");
+const utils_1 = require("./utils");
+const data_source_1 = require("./data_source");
 const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
     if (Array.isArray(input)) {
         return input.map((inp) => resultsOfInner(inp, nodes, propFunctions, isSelfNode));

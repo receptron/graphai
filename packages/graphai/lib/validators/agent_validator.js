@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.agentValidator = void 0;
-const common_1 = require("../validators/common");
+const common_1 = require("./common");
 const agentValidator = (graphAgentIds, agentIds) => {
     graphAgentIds.forEach((agentId) => {
         // agentId or dynamic agentId

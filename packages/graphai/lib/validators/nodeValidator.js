@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nodeValidator = void 0;
-const common_1 = require("../validators/common");
+const common_1 = require("./common");
 const nodeValidator = (nodeData) => {
     if (nodeData.agent && nodeData.value) {
         throw new common_1.ValidationError("Cannot set both agent and value");

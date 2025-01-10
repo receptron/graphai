@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.relationValidator = void 0;
 const utils_1 = require("../utils/utils");
-const common_1 = require("../validators/common");
 const nodeUtils_1 = require("../utils/nodeUtils");
+const common_1 = require("./common");
 const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
     const nodeIds = new Set(Object.keys(graphData.nodes));
     const pendings = {};

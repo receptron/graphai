@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.graphDataValidator = exports.graphNodesValidator = void 0;
-const common_1 = require("../validators/common");
+const common_1 = require("./common");
 const graphNodesValidator = (data) => {
     if (data.nodes === undefined) {
         throw new common_1.ValidationError("Invalid Graph Data: no nodes");
