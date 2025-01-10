@@ -21,9 +21,7 @@ export type {
   GraphDataLoader,
 } from "./type";
 
-export {
-  NodeState,
-} from "./type";
+export { NodeState } from "./type";
 
 export type { TransactionLog } from "./transaction_log";
 
