@@ -1,8 +1,8 @@
-import { ResultData, NodeDataParams, NodeState } from "@/type";
-import type { GraphAI } from "@/graphai";
-import type { ComputedNode, StaticNode } from "@/node";
-import { debugResultKey } from "@/utils/utils";
-import { dataSourceNodeIds } from "@/utils/nodeUtils";
+import { ResultData, NodeDataParams, NodeState } from "./type";
+import type { GraphAI } from "./graphai";
+import type { ComputedNode, StaticNode } from "./node";
+import { debugResultKey } from "./utils/utils";
+import { dataSourceNodeIds } from "./utils/nodeUtils";
 
 export class TransactionLog {
   public nodeId: string;

@@ -11,18 +11,18 @@ import {
   PropFunction,
   GraphDataLoader,
   ConfigDataDictionary,
-} from "@/type";
-import { TransactionLog } from "@/transaction_log";
+} from "./type";
+import { TransactionLog } from "./transaction_log";
 
-import { ComputedNode, StaticNode, GraphNodes } from "@/node";
+import { ComputedNode, StaticNode, GraphNodes } from "./node";
 
-import { resultsOf, resultOf, cleanResult } from "@/utils/result";
-import { propFunctions } from "@/utils/prop_function";
-import { parseNodeName, assert, isLogicallyTrue } from "@/utils/utils";
-import { getDataFromSource } from "@/utils/data_source";
+import { resultsOf, resultOf, cleanResult } from "./utils/result";
+import { propFunctions } from "./utils/prop_function";
+import { parseNodeName, assert, isLogicallyTrue } from "./utils/utils";
+import { getDataFromSource } from "./utils/data_source";
 
-import { validateGraphData, validateAgent } from "@/validator";
-import { TaskManager } from "@/task_manager";
+import { validateGraphData, validateAgent } from "./validator";
+import { TaskManager } from "./task_manager";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;

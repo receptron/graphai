@@ -1,7 +1,7 @@
-import { GraphData } from "@/type";
-import { parseNodeName } from "@/utils/utils";
-import { ValidationError } from "@/validators/common";
-import { inputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
+import { GraphData } from "../type";
+import { parseNodeName } from "../utils/utils";
+import { inputs2dataSources, dataSourceNodeIds } from "../utils/nodeUtils";
+import { ValidationError } from "./common";
 
 export const relationValidator = (graphData: GraphData, staticNodeIds: string[], computedNodeIds: string[]) => {
   const nodeIds = new Set<string>(Object.keys(graphData.nodes));

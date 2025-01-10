@@ -1,5 +1,5 @@
-import { ComputedNodeData } from "@/type";
-import { computedNodeAttributeKeys, ValidationError } from "@/validators/common";
+import { ComputedNodeData } from "../type";
+import { computedNodeAttributeKeys, ValidationError } from "./common";
 
 export const computedNodeValidator = (nodeData: ComputedNodeData) => {
   Object.keys(nodeData).forEach((key) => {

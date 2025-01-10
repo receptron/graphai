@@ -1,13 +1,13 @@
-import { GraphData, AgentFunctionInfoDictionary } from "@/type";
+import { GraphData, AgentFunctionInfoDictionary } from "./type";
 
-import { graphNodesValidator, graphDataValidator } from "@/validators/graph_data_validator";
-import { nodeValidator } from "@/validators/nodeValidator";
-import { staticNodeValidator } from "@/validators/static_node_validator";
-import { computedNodeValidator } from "@/validators/computed_node_validator";
-import { relationValidator } from "@/validators/relation_validator";
-import { agentValidator } from "@/validators/agent_validator";
+import { graphNodesValidator, graphDataValidator } from "./validators/graph_data_validator";
+import { nodeValidator } from "./validators/nodeValidator";
+import { staticNodeValidator } from "./validators/static_node_validator";
+import { computedNodeValidator } from "./validators/computed_node_validator";
+import { relationValidator } from "./validators/relation_validator";
+import { agentValidator } from "./validators/agent_validator";
 
-import { ValidationError } from "@/validators/common";
+import { ValidationError } from "./validators/common";
 
 export const validateGraphData = (data: GraphData, agentIds: string[]) => {
   graphNodesValidator(data);

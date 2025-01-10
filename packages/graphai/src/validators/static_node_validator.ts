@@ -1,5 +1,5 @@
-import { StaticNodeData } from "@/type";
-import { staticNodeAttributeKeys, ValidationError } from "@/validators/common";
+import { StaticNodeData } from "../type";
+import { staticNodeAttributeKeys, ValidationError } from "./common";
 
 export const staticNodeValidator = (nodeData: StaticNodeData) => {
   Object.keys(nodeData).forEach((key) => {

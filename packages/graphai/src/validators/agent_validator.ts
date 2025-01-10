@@ -1,4 +1,4 @@
-import { ValidationError } from "@/validators/common";
+import { ValidationError } from "./common";
 
 export const agentValidator = (graphAgentIds: Set<string>, agentIds: Set<string>) => {
   graphAgentIds.forEach((agentId) => {

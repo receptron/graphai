@@ -1,5 +1,5 @@
-import { GraphData } from "@/type";
-import { graphDataAttributeKeys, ValidationError } from "@/validators/common";
+import { GraphData } from "../type";
+import { graphDataAttributeKeys, ValidationError } from "./common";
 
 export const graphNodesValidator = (data: GraphData) => {
   if (data.nodes === undefined) {

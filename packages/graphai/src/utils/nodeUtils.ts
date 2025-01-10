@@ -1,5 +1,5 @@
 import { parseNodeName, isObject } from "./utils";
-import { DataSource } from "@/type";
+import { DataSource } from "../type";
 
 // for dataSource
 export const inputs2dataSources = (inputs: any): DataSource[] => {
