@@ -19,6 +19,8 @@ export type {
   DefaultParamsType,
   GraphDataLoaderOption,
   GraphDataLoader,
+  ConfigDataDictionary,
+  DefaultConfigData,
 } from "./type";
 
 export { NodeState } from "./type";
