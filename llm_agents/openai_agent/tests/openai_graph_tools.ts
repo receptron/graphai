@@ -2,7 +2,7 @@ import { GraphAI } from "graphai";
 import "dotenv/config";
 
 import { openAIAgent } from "../src/index";
-import { textInputAgent } from "@graphai/input_agents"
+import { textInputAgent } from "@graphai/input_agents";
 import { compareAgent, stringTemplateAgent, pushAgent, copyAgent } from "@graphai/vanilla";
 
 export const graphMap = {
@@ -19,8 +19,7 @@ export const graphMap = {
       value: [
         {
           role: "system",
-          content:
-            "You are an operator for Google Maps. Follow the user's instructions and call the necessary functions accordingly."
+          content: "You are an operator for Google Maps. Follow the user's instructions and call the necessary functions accordingly.",
         },
       ],
       update: ":reducer.array",
@@ -37,7 +36,7 @@ export const graphMap = {
       inputs: { array: [":userInput.text", "!=", "/bye"] },
     },
     llm: {
-      console: {before: true},
+      console: { before: true },
       agent: "openAIAgent",
       isResult: true,
       params: {
@@ -63,7 +62,7 @@ export const graphMap = {
               },
             },
           },
-        ]
+        ],
       },
       inputs: { messages: ":messages", prompt: ":userInput.text" },
     },
@@ -75,30 +74,36 @@ export const graphMap = {
     },
     textMessage: {
       unless: ":llm.tool.id",
-      console: {before: true, after: true},
+      console: { before: true, after: true },
       agent: "stringTemplateAgent",
       params: {
-        template: {messages: ["${one}", "${two}"]},
+        template: { messages: ["${one}", "${two}"] },
       },
       inputs: {
         one: ":userInput.message",
-        two: ":llm.message"
+        two: ":llm.message",
       },
     },
     toolsMessage: {
       if: ":llm.tool.id",
       agent: "stringTemplateAgent",
       params: {
-        template: {messages: ["${one}", "${two}", {
-          role: "tool",
-          tool_call_id: ":llm.tool.id",
-          name: ":llm.tool.name",
-          content: "success",
-        }]},
+        template: {
+          messages: [
+            "${one}",
+            "${two}",
+            {
+              role: "tool",
+              tool_call_id: ":llm.tool.id",
+              name: ":llm.tool.name",
+              content: "success",
+            },
+          ],
+        },
       },
       inputs: {
         one: ":userInput.message",
-        two: ":llm.message"
+        two: ":llm.message",
       },
     },
     buffer: {
