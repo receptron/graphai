@@ -82,7 +82,7 @@ export class ComputedNode extends Node {
   public readonly retryLimit: number;
   public retryCount: number = 0;
   private readonly agentId?: string;
-  private agentFunction?: AgentFunction<any, any, any>;
+  private agentFunction?: AgentFunction<any, any, any, any>;
   public readonly timeout?: number; // msec
   public readonly priority: number;
   public error?: Error;
