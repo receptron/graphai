@@ -26,26 +26,32 @@ type OpenAIParams = OpenAIInputs & OpenAIConfig;
 
 type OpenAIResult = Record<string, any> | string;
 
+const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageToolCall) => {
+  return {
+    id: tool_call.id,
+    name: tool_call.function.name,
+    arguments: (() => {
+      try {
+        return JSON.parse(tool_call.function.arguments);
+      } catch (__e) {
+        console.log(__e);
+        return undefined;
+      }
+    })(),
+  };
+};
+
 const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[]) => {
   const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
   const text = message && message.content ? message.content : null;
 
-  const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
+  const functionResponses = message?.tool_calls && Array.isArray(message?.tool_calls) ? message?.tool_calls : [];
+  const functionResponse = functionResponses[0] ? functionResponses[0] : null;
+
   // const functionId = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.id : null;
 
-  const tool = functionResponse
-    ? {
-        id: functionResponse.id,
-        name: functionResponse?.function?.name,
-        arguments: (() => {
-          try {
-            return JSON.parse(functionResponse?.function?.arguments);
-          } catch (__e) {
-            return undefined;
-          }
-        })(),
-      }
-    : undefined;
+  const tool = functionResponse ? convToolCall(functionResponse) : undefined;
+  const tool_calls = functionResponses.map(convToolCall);
 
   if (message) {
     messages.push(message);
@@ -54,6 +60,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
     ...response,
     text,
     tool,
+    tool_calls,
     message,
     messages,
   };
