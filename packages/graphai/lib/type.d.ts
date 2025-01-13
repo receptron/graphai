@@ -133,6 +133,7 @@ export type AgentFunctionInfo = {
     outputFormat?: any;
     params?: any;
     config?: any;
+    tools?: Record<string, any>[];
     samples: AgentFunctionInfoSample[];
     description: string;
     category: string[];
