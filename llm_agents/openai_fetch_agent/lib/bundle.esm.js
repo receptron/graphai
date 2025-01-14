@@ -9,7 +9,7 @@ function requireLib () {
 	hasRequiredLib = 1;
 	(function (exports) {
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.getMessages = exports.getMergeValue = exports.flatString = void 0;
+		exports.getMessages = exports.getMergeValue = exports.flatString = undefined;
 		const flatString = (input) => {
 		    return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 		};
