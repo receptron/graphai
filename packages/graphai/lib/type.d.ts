@@ -98,7 +98,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
         isResult?: boolean;
     };
     forNestedGraph?: {
-        graphData: GraphData;
+        graphData?: GraphData;
         agents: AgentFunctionInfoDictionary;
         graphOptions: GraphOptions;
         onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;

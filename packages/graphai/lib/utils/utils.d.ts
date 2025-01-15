@@ -1,4 +1,4 @@
-import { DataSource, AgentFunction, DefaultInputData } from "../type";
+import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData } from "../type";
 export declare const sleep: (milliseconds: number) => Promise<unknown>;
 export declare const parseNodeName: (inputNodeId: any, isSelfNode?: boolean) => DataSource;
 export declare function assert(condition: boolean, message: string, isWarn?: boolean): asserts condition;
@@ -18,21 +18,7 @@ export declare const defaultAgentInfo: {
     repository: string;
     license: string;
 };
-export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any, any>) => {
-    name: string;
-    samples: {
-        inputs: never[];
-        params: {};
-        result: {};
-    }[];
-    description: string;
-    category: never[];
-    author: string;
-    repository: string;
-    license: string;
-    agent: AgentFunction<any, any, any, any>;
-    mock: AgentFunction<any, any, any, any>;
-};
+export declare const agentInfoWrapper: (agent: AgentFunction<any, any, any, any>) => AgentFunctionInfo;
 export declare const debugResultKey: (agentId: string, result: any) => string[];
 export declare const isLogicallyTrue: (value: any) => boolean;
 export declare const defaultTestContext: {
