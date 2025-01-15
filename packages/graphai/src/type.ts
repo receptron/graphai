@@ -166,6 +166,7 @@ export type AgentFunctionInfo = {
   license: string;
   cacheType?: CacheTypes;
   environmentVariables?: string[];
+  hasGraphData?: boolean;
   stream?: boolean;
   apiKeys?: string[];
   npms?: string[];

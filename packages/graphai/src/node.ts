@@ -301,7 +301,8 @@ export class ComputedNode extends Node {
     if (typeof agentId === "function") {
       this.agentFunction = agentId;
     }
-    const config: ConfigData | undefined = this.getConfig(!!this.nestedGraph, agentId);
+    const hasNestedGraph = Boolean(this.nestedGraph) || Boolean(agentId && this.graph.getAgentFunctionInfo(agentId).hasGraphData);
+    const config: ConfigData | undefined = this.getConfig(hasNestedGraph, agentId);
 
     const transactionId = Date.now();
     this.prepareExecute(transactionId, Object.values(previousResults));
@@ -319,10 +320,14 @@ export class ComputedNode extends Node {
 
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
-      if (this.nestedGraph) {
+      if (hasNestedGraph) {
         this.graph.taskManager.prepareForNesting();
         context.forNestedGraph = {
-          graphData: "nodes" in this.nestedGraph ? this.nestedGraph : (this.graph.resultOf(this.nestedGraph) as GraphData), // HACK: compiler work-around
+          graphData: this.nestedGraph
+            ? "nodes" in this.nestedGraph
+              ? this.nestedGraph
+              : (this.graph.resultOf(this.nestedGraph) as GraphData) // HACK: compiler work-around
+            : { version: 0, nodes: {} },
           agents: this.graph.agentFunctionInfoDictionary,
           graphOptions: {
             agentFilters: this.graph.agentFilters,
@@ -339,7 +344,7 @@ export class ComputedNode extends Node {
       const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction, agentId);
       this.afterConsoleLog(result);
 
-      if (this.nestedGraph) {
+      if (hasNestedGraph) {
         this.graph.taskManager.restoreAfterNesting();
       }
 

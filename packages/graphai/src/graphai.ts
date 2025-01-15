@@ -170,6 +170,7 @@ export class GraphAI {
         agent: async () => {
           return null;
         },
+        hasGraphData: false,
         inputs: null,
         cacheType: undefined, // for node.getContext
       };
