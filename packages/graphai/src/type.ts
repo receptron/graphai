@@ -109,7 +109,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
     isResult?: boolean;
   };
   forNestedGraph?: {
-    graphData: GraphData; // nested graph
+    graphData?: GraphData; // nested graph
     agents: AgentFunctionInfoDictionary; // for nested graph
     graphOptions: GraphOptions;
     onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;

@@ -61,6 +61,7 @@ export const nestedAgentGenerator: (graphData: GraphData) => (context: AgentFunc
 export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async (context) => {
   const { forNestedGraph } = context;
   const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
+  assert(!!graphData, "No GraphData");
 
   return await nestedAgentGenerator(graphData)(context);
 };
