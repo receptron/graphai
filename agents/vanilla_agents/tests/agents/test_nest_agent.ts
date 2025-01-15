@@ -1,8 +1,8 @@
 import { nestedAgent } from "@/index";
-import { nestedAgentGenerator } from "@/graph_agents/nested_agent";
+import { nestedAgentGenerator } from "@/generator";
 
 import { sleepAndMergeAgent } from "@graphai/sleeper_agents";
-import { defaultTestContext, graphDataLatestVersion } from "graphai";
+import { defaultTestContext, graphDataLatestVersion, agentInfoWrapper } from "graphai";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -43,13 +43,13 @@ test("test nest agent generator", async () => {
     },
   };
   const testAgent = nestedAgentGenerator(graphData);
-
+  const testAgentInfo = agentInfoWrapper(testAgent);
+  testAgentInfo.hasGraphData = true;
   const result = await testAgent({
     ...defaultTestContext,
     forNestedGraph: {
-      agents: { sleepAndMergeAgent },
+      agents: { sleepAndMergeAgent, testAgent: testAgentInfo },
       graphOptions: {},
-      graphData: { version: 0, nodes: {} }, // dummy
     },
     namedInputs: { prop1: { apple: "red" }, prop2: { lemon: "yellow" }, prop3: { orange: "orange" } },
   });

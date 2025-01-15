@@ -1,4 +1,4 @@
-import { DataSource, AgentFunction, DefaultInputData } from "../type";
+import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData } from "../type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -62,7 +62,7 @@ export const defaultAgentInfo = {
   license: "",
 };
 
-export const agentInfoWrapper = (agent: AgentFunction<any, any, any, any>) => {
+export const agentInfoWrapper = (agent: AgentFunction<any, any, any, any>): AgentFunctionInfo => {
   return {
     agent,
     mock: agent,
