@@ -1141,6 +1141,7 @@ const nestedAgentGenerator = (graphData) => {
 const nestedAgent = async (context) => {
     const { forNestedGraph } = context;
     const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
+    graphai.assert(!!graphData, "No GraphData");
     return await nestedAgentGenerator(graphData)(context);
 };
 const nestedAgentInfo = {

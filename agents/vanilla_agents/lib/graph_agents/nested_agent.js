@@ -59,6 +59,7 @@ exports.nestedAgentGenerator = nestedAgentGenerator;
 const nestedAgent = async (context) => {
     const { forNestedGraph } = context;
     const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
+    (0, graphai_1.assert)(!!graphData, "No GraphData");
     return await (0, exports.nestedAgentGenerator)(graphData)(context);
 };
 exports.nestedAgent = nestedAgent;
