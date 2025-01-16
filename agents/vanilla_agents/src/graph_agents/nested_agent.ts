@@ -1,7 +1,13 @@
 import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, StaticNodeData, GraphData } from "graphai";
 import { GraphAI, assert, graphDataLatestVersion } from "graphai";
 
-export const nestedAgentGenerator: (graphData: GraphData) => (context: AgentFunctionContext) => Promise<any> = (graphData: GraphData) => {
+type NestedAgentGeneratorOption = {
+  resultNodeId: string;
+};
+export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentGeneratorOption) => (context: AgentFunctionContext) => Promise<any> = (
+  graphData: GraphData,
+  options?: NestedAgentGeneratorOption,
+) => {
   return async (context: AgentFunctionContext) => {
     const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
     assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
@@ -43,6 +49,10 @@ export const nestedAgentGenerator: (graphData: GraphData) => (context: AgentFunc
 
       const results = await graphAI.run(false);
       log?.push(...graphAI.transactionLogs());
+
+      if (options && options.resultNodeId) {
+        return results[options.resultNodeId];
+      }
       return results;
     } catch (error) {
       if (error instanceof Error && !throwError) {
