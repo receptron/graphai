@@ -406,7 +406,7 @@
         license: "MIT",
     };
 
-    const updateTextGraph = {
+    const stringUpdateTextGraph = {
         version: graphai.graphDataLatestVersion,
         nodes: {
             isNewText: {
@@ -440,11 +440,11 @@
             },
         },
     };
-    const updateTextAgent = nestedAgentGenerator(updateTextGraph, { resultNodeId: "resultText" });
-    const updateTextAgentInfo = {
-        name: "updateTextAgent",
-        agent: updateTextAgent,
-        mock: updateTextAgent,
+    const stringUpdateTextAgent = nestedAgentGenerator(stringUpdateTextGraph, { resultNodeId: "resultText" });
+    const stringUpdateTextAgentInfo = {
+        name: "stringUpdateTextAgent",
+        agent: stringUpdateTextAgent,
+        mock: stringUpdateTextAgent,
         samples: [
             {
                 inputs: { newText: "new", oldText: "old" },
@@ -2686,8 +2686,8 @@
     exports.stringEmbeddingsAgent = stringEmbeddingsAgentInfo;
     exports.stringSplitterAgent = stringSplitterAgentInfo;
     exports.stringTemplateAgent = stringTemplateAgentInfo;
+    exports.stringUpdateTextAgent = stringUpdateTextAgentInfo;
     exports.totalAgent = totalAgentInfo;
-    exports.updateTextAgent = updateTextAgentInfo;
     exports.vanillaFetchAgent = vanillaFetchAgentInfo;
 
 }));

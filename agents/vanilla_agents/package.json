@@ -1,6 +1,6 @@
 {
   "name": "@graphai/vanilla",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Vanilla agents for GraphAI.",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
