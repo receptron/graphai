@@ -59,7 +59,7 @@ const agentTestRunner = async (agentInfo) => {
                     // inputs: flatInputs,
                     inputSchema,
                     namedInputs: inputs,
-                    forNestedGraph: graph ?? hasGraphData
+                    forNestedGraph: (graph ?? hasGraphData)
                         ? {
                             graphData: graph,
                             agents,
