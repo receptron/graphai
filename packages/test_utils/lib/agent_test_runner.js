@@ -43,7 +43,7 @@ const node_test_1 = __importDefault(require("node:test"));
 const node_assert_1 = __importDefault(require("node:assert"));
 // for agent
 const agentTestRunner = async (agentInfo) => {
-    const { agent, samples, inputs: inputSchema } = agentInfo;
+    const { agent, samples, inputs: inputSchema, hasGraphData } = agentInfo;
     if (samples.length === 0) {
         console.log(`test ${agentInfo.name}: No test`);
     }
@@ -59,7 +59,7 @@ const agentTestRunner = async (agentInfo) => {
                     // inputs: flatInputs,
                     inputSchema,
                     namedInputs: inputs,
-                    forNestedGraph: graph
+                    forNestedGraph: graph ?? hasGraphData
                         ? {
                             graphData: graph,
                             agents,
