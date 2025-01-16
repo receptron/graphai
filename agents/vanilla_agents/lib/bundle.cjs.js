@@ -311,6 +311,160 @@ const stringCaseVariantsAgentInfo = {
     license: "MIT",
 };
 
+const nestedAgentGenerator = (graphData, options) => {
+    return async (context) => {
+        const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
+        graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
+        const { agents, graphOptions, onLogCallback } = forNestedGraph;
+        const { taskManager } = graphOptions;
+        const throwError = params.throwError ?? false;
+        if (taskManager) {
+            const status = taskManager.getStatus(false);
+            graphai.assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
+        }
+        graphai.assert(!!graphData, "nestedAgent: graph is required");
+        const { nodes } = graphData;
+        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
+        const nodeIds = Object.keys(namedInputs);
+        if (nodeIds.length > 0) {
+            nodeIds.forEach((nodeId) => {
+                if (nestedGraphData.nodes[nodeId] === undefined) {
+                    // If the input node does not exist, automatically create a static node
+                    nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
+                }
+                else {
+                    // Otherwise, inject the proper data here (instead of calling injectTo method later)
+                    nestedGraphData.nodes[nodeId]["value"] = namedInputs[nodeId];
+                }
+            });
+        }
+        try {
+            if (nestedGraphData.version === undefined && debugInfo.version) {
+                nestedGraphData.version = debugInfo.version;
+            }
+            const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
+            // for backward compatibility. Remove 'if' later
+            if (onLogCallback) {
+                graphAI.onLogCallback = onLogCallback;
+            }
+            const results = await graphAI.run(false);
+            log?.push(...graphAI.transactionLogs());
+            if (options && options.resultNodeId) {
+                return results[options.resultNodeId];
+            }
+            return results;
+        }
+        catch (error) {
+            if (error instanceof Error && !throwError) {
+                return {
+                    onError: {
+                        message: error.message,
+                        error,
+                    },
+                };
+            }
+            throw error;
+        }
+    };
+};
+const nestedAgent = async (context) => {
+    const { forNestedGraph } = context;
+    const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
+    graphai.assert(!!graphData, "No GraphData");
+    return await nestedAgentGenerator(graphData)(context);
+};
+const nestedAgentInfo = {
+    name: "nestedAgent",
+    agent: nestedAgent,
+    mock: nestedAgent,
+    samples: [
+        {
+            inputs: {
+                message: "hello",
+            },
+            params: {},
+            result: {
+                test: ["hello"],
+            },
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "copyAgent",
+                        params: { namedKey: "messages" },
+                        inputs: { messages: [":message"] },
+                        isResult: true,
+                    },
+                },
+            },
+        },
+    ],
+    description: "nested Agent",
+    category: ["graph"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    license: "MIT",
+};
+
+const updateTextGraph = {
+    version: graphai.graphDataLatestVersion,
+    nodes: {
+        isNewText: {
+            if: ":newText",
+            agent: "copyAgent",
+            inputs: {
+                text: ":newText",
+            },
+        },
+        isOldText: {
+            unless: ":newText",
+            agent: "copyAgent",
+            inputs: {
+                text: ":oldText",
+            },
+        },
+        updatedText: {
+            agent: "copyAgent",
+            anyInput: true,
+            inputs: {
+                text: [":isNewText.text", ":isOldText.text"],
+            },
+        },
+        resultText: {
+            isResult: true,
+            agent: "copyAgent",
+            anyInput: true,
+            inputs: {
+                text: ":updatedText.text.$0",
+            },
+        },
+    },
+};
+const updateTextAgent = nestedAgentGenerator(updateTextGraph, { resultNodeId: "resultText" });
+const updateTextAgentInfo = {
+    name: "updateTextAgent",
+    agent: updateTextAgent,
+    mock: updateTextAgent,
+    samples: [
+        {
+            inputs: { newText: "new", oldText: "old" },
+            params: {},
+            result: { text: "new" },
+        },
+        {
+            inputs: { newText: "", oldText: "old" },
+            params: {},
+            result: { text: "old" },
+        },
+    ],
+    description: "",
+    category: [],
+    author: "",
+    repository: "",
+    tools: [],
+    license: "",
+    hasGraphData: true,
+};
+
 const pushAgent = async ({ namedInputs, }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     agent_utils.arrayValidate("pushAgent", namedInputs, extra_message);
@@ -1083,97 +1237,6 @@ const streamMockAgentInfo = {
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
     stream: true,
-};
-
-const nestedAgentGenerator = (graphData) => {
-    return async (context) => {
-        const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
-        graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-        const { agents, graphOptions, onLogCallback } = forNestedGraph;
-        const { taskManager } = graphOptions;
-        const throwError = params.throwError ?? false;
-        if (taskManager) {
-            const status = taskManager.getStatus(false);
-            graphai.assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
-        }
-        graphai.assert(!!graphData, "nestedAgent: graph is required");
-        const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
-        const nodeIds = Object.keys(namedInputs);
-        if (nodeIds.length > 0) {
-            nodeIds.forEach((nodeId) => {
-                if (nestedGraphData.nodes[nodeId] === undefined) {
-                    // If the input node does not exist, automatically create a static node
-                    nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
-                }
-                else {
-                    // Otherwise, inject the proper data here (instead of calling injectTo method later)
-                    nestedGraphData.nodes[nodeId]["value"] = namedInputs[nodeId];
-                }
-            });
-        }
-        try {
-            if (nestedGraphData.version === undefined && debugInfo.version) {
-                nestedGraphData.version = debugInfo.version;
-            }
-            const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
-            // for backward compatibility. Remove 'if' later
-            if (onLogCallback) {
-                graphAI.onLogCallback = onLogCallback;
-            }
-            const results = await graphAI.run(false);
-            log?.push(...graphAI.transactionLogs());
-            return results;
-        }
-        catch (error) {
-            if (error instanceof Error && !throwError) {
-                return {
-                    onError: {
-                        message: error.message,
-                        error,
-                    },
-                };
-            }
-            throw error;
-        }
-    };
-};
-const nestedAgent = async (context) => {
-    const { forNestedGraph } = context;
-    const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
-    graphai.assert(!!graphData, "No GraphData");
-    return await nestedAgentGenerator(graphData)(context);
-};
-const nestedAgentInfo = {
-    name: "nestedAgent",
-    agent: nestedAgent,
-    mock: nestedAgent,
-    samples: [
-        {
-            inputs: {
-                message: "hello",
-            },
-            params: {},
-            result: {
-                test: ["hello"],
-            },
-            graph: {
-                nodes: {
-                    test: {
-                        agent: "copyAgent",
-                        params: { namedKey: "messages" },
-                        inputs: { messages: [":message"] },
-                        isResult: true,
-                    },
-                },
-            },
-        },
-    ],
-    description: "nested Agent",
-    category: ["graph"],
-    author: "Receptron team",
-    repository: "https://github.com/receptron/graphai",
-    license: "MIT",
 };
 
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
@@ -2623,5 +2686,6 @@ exports.stringEmbeddingsAgent = stringEmbeddingsAgentInfo;
 exports.stringSplitterAgent = stringSplitterAgentInfo;
 exports.stringTemplateAgent = stringTemplateAgentInfo;
 exports.totalAgent = totalAgentInfo;
+exports.updateTextAgent = updateTextAgentInfo;
 exports.vanillaFetchAgent = vanillaFetchAgentInfo;
 //# sourceMappingURL=bundle.cjs.js.map
