@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { toolsAgent } from "@/index";
 
-import { AgentFunction, AgentFunctionInfo, AgentFunctionInfoDictionary, defaultTestContext, agentInfoWrapper } from "graphai";
+import { AgentFunction, AgentFunctionInfo, defaultTestContext, agentInfoWrapper } from "graphai";
 
 import * as vanilla_agents from "@graphai/vanilla";
 import { openAIAgent } from "@graphai/openai_agent";
@@ -23,8 +23,8 @@ const lightAgent = agentInfoWrapper(lightFunc);
 const main = async (agentInfo: AgentFunctionInfo) => {
   const { agent, samples, inputs: inputSchema } = agentInfo;
   for await (const sampleKey of samples.keys()) {
-    const { params, inputs, result, graph } = samples[sampleKey];
-    const actual = await agent({
+    const { params, inputs } = samples[sampleKey];
+    await agent({
       ...defaultTestContext,
       params,
       inputSchema,
