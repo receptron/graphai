@@ -37,10 +37,12 @@ import {
   sleeperAgent,
   sortByValuesAgent,
   streamMockAgent,
+  stringCaseVariantsAgent,
   stringEmbeddingsAgent,
   stringSplitterAgent,
   stringTemplateAgent,
   totalAgent,
+  updateTextAgent,
   vanillaFetchAgent
  } from "@graphai/vanilla";
 
@@ -67,10 +69,12 @@ const agents = {
   sleeperAgent,
   sortByValuesAgent,
   streamMockAgent,
+  stringCaseVariantsAgent,
   stringEmbeddingsAgent,
   stringSplitterAgent,
   stringTemplateAgent,
   totalAgent,
+  updateTextAgent,
   vanillaFetchAgent
  };
 
@@ -101,10 +105,12 @@ const result = await graph.run();
 - sleeperAgent - sleeper Agent
 - sortByValuesAgent - sortByValues Agent
 - streamMockAgent - Stream mock agent
+- stringCaseVariantsAgent - Format String Cases agent
 - stringEmbeddingsAgent - Embeddings Agent
 - stringSplitterAgent - This agent strip one long string into chunks using following parameters
 - stringTemplateAgent - Template agent
 - totalAgent - Returns the sum of input values
+- updateTextAgent - 
 - vanillaFetchAgent - Retrieves JSON data from the specified URL
 
 ### Input/Output/Params Schema & samples
@@ -130,10 +136,12 @@ const result = await graph.run();
  - [sleeperAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/sleeper/sleeperAgent.md)
  - [sortByValuesAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/matrix/sortByValuesAgent.md)
  - [streamMockAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/streamMockAgent.md)
+ - [stringCaseVariantsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringCaseVariantsAgent.md)
  - [stringEmbeddingsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/embedding/stringEmbeddingsAgent.md)
  - [stringSplitterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringSplitterAgent.md)
  - [stringTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringTemplateAgent.md)
  - [totalAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/totalAgent.md)
+ - [updateTextAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/undefined/updateTextAgent.md)
  - [vanillaFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/vanillaFetchAgent.md)
 
 ### Input/Params example
@@ -421,6 +429,44 @@ const result = await graph.run();
 ```
 
  - compareAgent
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "==",
+      "abc"
+    ]
+  },
+  "params": {
+    "value": {
+      "true": "a",
+      "false": "b"
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "==",
+      "abca"
+    ]
+  },
+  "params": {
+    "value": {
+      "true": "a",
+      "false": "b"
+    }
+  }
+}
+```
+
 
 ```typescript
 {
@@ -1947,23 +1993,6 @@ const result = await graph.run();
 
 ```typescript
 {
-  "inputs": [
-    {
-      "a": 1
-    },
-    {
-      "b": 2
-    }
-  ],
-  "params": {
-    "duration": 1
-  }
-}
-```
-
-
-```typescript
-{
   "inputs": {
     "array": [
       {
@@ -2043,6 +2072,29 @@ const result = await graph.run();
     "message": "this is named inputs test"
   },
   "params": {}
+}
+```
+
+ - stringCaseVariantsAgent
+
+```typescript
+{
+  "inputs": {
+    "text": "this is a pen"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "text": "string case variants"
+  },
+  "params": {
+    "suffix": "agent"
+  }
 }
 ```
 
@@ -2316,6 +2368,29 @@ const result = await graph.run();
         "b": 0
       }
     ]
+  },
+  "params": {}
+}
+```
+
+ - updateTextAgent
+
+```typescript
+{
+  "inputs": {
+    "newText": "new",
+    "oldText": "old"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "newText": "",
+    "oldText": "old"
   },
   "params": {}
 }
