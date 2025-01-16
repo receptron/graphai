@@ -51,11 +51,9 @@ nodes:
 version: 0.5
 nodes:
   source:
-    value: >
+    value: |
       ```json
-
       {"version":0.5,"loop":{"count":5},"nodes":{"array":{"value":[],"update":":reducer.array"},"item":{"agent":"sleepAndMergeAgent","params":{"duration":10,"value":"hello"}},"reducer":{"isResult":true,"agent":"pushAgent","inputs":{"array":":array","item":":item"}}}}
-
       ```
   parser:
     agent: jsonParserAgent

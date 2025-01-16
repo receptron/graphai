@@ -7,7 +7,7 @@ import assert from "node:assert";
 
 // for agent
 export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
-  const { agent, samples, inputs: inputSchema } = agentInfo;
+  const { agent, samples, inputs: inputSchema, hasGraphData } = agentInfo;
   if (samples.length === 0) {
     console.log(`test ${agentInfo.name}: No test`);
   } else {
@@ -23,7 +23,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
           // inputs: flatInputs,
           inputSchema,
           namedInputs: inputs,
-          forNestedGraph: graph
+          forNestedGraph: graph ?? hasGraphData
             ? {
                 graphData: graph,
                 agents,

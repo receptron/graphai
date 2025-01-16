@@ -1,4 +1,4 @@
-import { assert, isObject, sleep, graphDataLatestVersion, GraphAI } from 'graphai';
+import { assert, isObject, graphDataLatestVersion, GraphAI, sleep } from 'graphai';
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -306,6 +306,160 @@ const stringCaseVariantsAgentInfo = {
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
+};
+
+const nestedAgentGenerator = (graphData, options) => {
+    return async (context) => {
+        const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
+        assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
+        const { agents, graphOptions, onLogCallback } = forNestedGraph;
+        const { taskManager } = graphOptions;
+        const throwError = params.throwError ?? false;
+        if (taskManager) {
+            const status = taskManager.getStatus(false);
+            assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
+        }
+        assert(!!graphData, "nestedAgent: graph is required");
+        const { nodes } = graphData;
+        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
+        const nodeIds = Object.keys(namedInputs);
+        if (nodeIds.length > 0) {
+            nodeIds.forEach((nodeId) => {
+                if (nestedGraphData.nodes[nodeId] === undefined) {
+                    // If the input node does not exist, automatically create a static node
+                    nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
+                }
+                else {
+                    // Otherwise, inject the proper data here (instead of calling injectTo method later)
+                    nestedGraphData.nodes[nodeId]["value"] = namedInputs[nodeId];
+                }
+            });
+        }
+        try {
+            if (nestedGraphData.version === undefined && debugInfo.version) {
+                nestedGraphData.version = debugInfo.version;
+            }
+            const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
+            // for backward compatibility. Remove 'if' later
+            if (onLogCallback) {
+                graphAI.onLogCallback = onLogCallback;
+            }
+            const results = await graphAI.run(false);
+            log?.push(...graphAI.transactionLogs());
+            if (options && options.resultNodeId) {
+                return results[options.resultNodeId];
+            }
+            return results;
+        }
+        catch (error) {
+            if (error instanceof Error && !throwError) {
+                return {
+                    onError: {
+                        message: error.message,
+                        error,
+                    },
+                };
+            }
+            throw error;
+        }
+    };
+};
+const nestedAgent = async (context) => {
+    const { forNestedGraph } = context;
+    const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
+    assert(!!graphData, "No GraphData");
+    return await nestedAgentGenerator(graphData)(context);
+};
+const nestedAgentInfo = {
+    name: "nestedAgent",
+    agent: nestedAgent,
+    mock: nestedAgent,
+    samples: [
+        {
+            inputs: {
+                message: "hello",
+            },
+            params: {},
+            result: {
+                test: ["hello"],
+            },
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "copyAgent",
+                        params: { namedKey: "messages" },
+                        inputs: { messages: [":message"] },
+                        isResult: true,
+                    },
+                },
+            },
+        },
+    ],
+    description: "nested Agent",
+    category: ["graph"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    license: "MIT",
+};
+
+const updateTextGraph = {
+    version: graphDataLatestVersion,
+    nodes: {
+        isNewText: {
+            if: ":newText",
+            agent: "copyAgent",
+            inputs: {
+                text: ":newText",
+            },
+        },
+        isOldText: {
+            unless: ":newText",
+            agent: "copyAgent",
+            inputs: {
+                text: ":oldText",
+            },
+        },
+        updatedText: {
+            agent: "copyAgent",
+            anyInput: true,
+            inputs: {
+                text: [":isNewText.text", ":isOldText.text"],
+            },
+        },
+        resultText: {
+            isResult: true,
+            agent: "copyAgent",
+            anyInput: true,
+            inputs: {
+                text: ":updatedText.text.$0",
+            },
+        },
+    },
+};
+const updateTextAgent = nestedAgentGenerator(updateTextGraph, { resultNodeId: "resultText" });
+const updateTextAgentInfo = {
+    name: "updateTextAgent",
+    agent: updateTextAgent,
+    mock: updateTextAgent,
+    samples: [
+        {
+            inputs: { newText: "new", oldText: "old" },
+            params: {},
+            result: { text: "new" },
+        },
+        {
+            inputs: { newText: "", oldText: "old" },
+            params: {},
+            result: { text: "old" },
+        },
+    ],
+    description: "",
+    category: [],
+    author: "",
+    repository: "",
+    tools: [],
+    license: "",
+    hasGraphData: true,
 };
 
 var lib = {};
@@ -1140,97 +1294,6 @@ const streamMockAgentInfo = {
     repository: "https://github.com/receptron/graphai",
     license: "MIT",
     stream: true,
-};
-
-const nestedAgentGenerator = (graphData) => {
-    return async (context) => {
-        const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
-        assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-        const { agents, graphOptions, onLogCallback } = forNestedGraph;
-        const { taskManager } = graphOptions;
-        const throwError = params.throwError ?? false;
-        if (taskManager) {
-            const status = taskManager.getStatus(false);
-            assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
-        }
-        assert(!!graphData, "nestedAgent: graph is required");
-        const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
-        const nodeIds = Object.keys(namedInputs);
-        if (nodeIds.length > 0) {
-            nodeIds.forEach((nodeId) => {
-                if (nestedGraphData.nodes[nodeId] === undefined) {
-                    // If the input node does not exist, automatically create a static node
-                    nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
-                }
-                else {
-                    // Otherwise, inject the proper data here (instead of calling injectTo method later)
-                    nestedGraphData.nodes[nodeId]["value"] = namedInputs[nodeId];
-                }
-            });
-        }
-        try {
-            if (nestedGraphData.version === undefined && debugInfo.version) {
-                nestedGraphData.version = debugInfo.version;
-            }
-            const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
-            // for backward compatibility. Remove 'if' later
-            if (onLogCallback) {
-                graphAI.onLogCallback = onLogCallback;
-            }
-            const results = await graphAI.run(false);
-            log?.push(...graphAI.transactionLogs());
-            return results;
-        }
-        catch (error) {
-            if (error instanceof Error && !throwError) {
-                return {
-                    onError: {
-                        message: error.message,
-                        error,
-                    },
-                };
-            }
-            throw error;
-        }
-    };
-};
-const nestedAgent = async (context) => {
-    const { forNestedGraph } = context;
-    const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
-    assert(!!graphData, "No GraphData");
-    return await nestedAgentGenerator(graphData)(context);
-};
-const nestedAgentInfo = {
-    name: "nestedAgent",
-    agent: nestedAgent,
-    mock: nestedAgent,
-    samples: [
-        {
-            inputs: {
-                message: "hello",
-            },
-            params: {},
-            result: {
-                test: ["hello"],
-            },
-            graph: {
-                nodes: {
-                    test: {
-                        agent: "copyAgent",
-                        params: { namedKey: "messages" },
-                        inputs: { messages: [":message"] },
-                        isResult: true,
-                    },
-                },
-            },
-        },
-    ],
-    description: "nested Agent",
-    category: ["graph"],
-    author: "Receptron team",
-    repository: "https://github.com/receptron/graphai",
-    license: "MIT",
 };
 
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
@@ -2653,5 +2716,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, totalAgentInfo as totalAgent, updateTextAgentInfo as updateTextAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map

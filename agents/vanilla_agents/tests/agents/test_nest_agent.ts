@@ -1,4 +1,4 @@
-import { nestedAgent } from "@/index";
+import { nestedAgent, copyAgent } from "@/index";
 import { nestedAgentGenerator } from "@/generator";
 
 import { sleepAndMergeAgent } from "@graphai/sleeper_agents";
@@ -55,5 +55,32 @@ test("test nest agent generator", async () => {
   });
   assert.deepStrictEqual(result, {
     node1: { apple: "red", lemon: "yellow", orange: "orange" },
+  });
+});
+
+test("test nest agent generator", async () => {
+  const graphData = {
+    version: graphDataLatestVersion,
+    nodes: {
+      node1: {
+        agent: "copyAgent",
+        inputs: { text: ["hello"] },
+        isResult: true,
+      },
+    },
+  };
+  const testAgent = nestedAgentGenerator(graphData, { resultNodeId: "node1" });
+  const testAgentInfo = agentInfoWrapper(testAgent);
+  testAgentInfo.hasGraphData = true;
+  const result = await testAgent({
+    ...defaultTestContext,
+    forNestedGraph: {
+      agents: { copyAgent, testAgent: testAgentInfo },
+      graphOptions: {},
+    },
+    namedInputs: {},
+  });
+  assert.deepStrictEqual(result, {
+    text: ["hello"],
   });
 });

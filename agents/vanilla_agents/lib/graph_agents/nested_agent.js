@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nestedAgent = exports.nestedAgentGenerator = void 0;
 const graphai_1 = require("graphai");
-const nestedAgentGenerator = (graphData) => {
+const nestedAgentGenerator = (graphData, options) => {
     return async (context) => {
         const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
         (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
@@ -40,6 +40,9 @@ const nestedAgentGenerator = (graphData) => {
             }
             const results = await graphAI.run(false);
             log?.push(...graphAI.transactionLogs());
+            if (options && options.resultNodeId) {
+                return results[options.resultNodeId];
+            }
             return results;
         }
         catch (error) {

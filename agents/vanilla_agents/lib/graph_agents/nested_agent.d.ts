@@ -1,5 +1,8 @@
 import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, GraphData } from "graphai";
-export declare const nestedAgentGenerator: (graphData: GraphData) => (context: AgentFunctionContext) => Promise<any>;
+type NestedAgentGeneratorOption = {
+    resultNodeId: string;
+};
+export declare const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentGeneratorOption) => (context: AgentFunctionContext) => Promise<any>;
 export declare const nestedAgent: AgentFunction<{
     throwError?: boolean;
 }>;
