@@ -1,5 +1,5 @@
 import { nestedAgentGenerator } from "@/generator";
-import { graphDataLatestVersion } from "graphai";
+import { graphDataLatestVersion, AgentFunctionInfo } from "graphai";
 
 const updateTextGraph = {
   version: graphDataLatestVersion,
@@ -38,7 +38,7 @@ const updateTextGraph = {
 
 const updateTextAgent = nestedAgentGenerator(updateTextGraph, { resultNodeId: "resultText" });
 
-const updateTextAgentInfo = {
+const updateTextAgentInfo: AgentFunctionInfo = {
   name: "updateTextAgent",
   agent: updateTextAgent,
   mock: updateTextAgent,
