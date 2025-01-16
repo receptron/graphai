@@ -41,8 +41,8 @@ import {
   stringEmbeddingsAgent,
   stringSplitterAgent,
   stringTemplateAgent,
+  stringUpdateTextAgent,
   totalAgent,
-  updateTextAgent,
   vanillaFetchAgent
  } from "@graphai/vanilla";
 
@@ -73,8 +73,8 @@ const agents = {
   stringEmbeddingsAgent,
   stringSplitterAgent,
   stringTemplateAgent,
+  stringUpdateTextAgent,
   totalAgent,
-  updateTextAgent,
   vanillaFetchAgent
  };
 
@@ -109,8 +109,8 @@ const result = await graph.run();
 - stringEmbeddingsAgent - Embeddings Agent
 - stringSplitterAgent - This agent strip one long string into chunks using following parameters
 - stringTemplateAgent - Template agent
+- stringUpdateTextAgent - 
 - totalAgent - Returns the sum of input values
-- updateTextAgent - 
 - vanillaFetchAgent - Retrieves JSON data from the specified URL
 
 ### Input/Output/Params Schema & samples
@@ -140,8 +140,8 @@ const result = await graph.run();
  - [stringEmbeddingsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/embedding/stringEmbeddingsAgent.md)
  - [stringSplitterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringSplitterAgent.md)
  - [stringTemplateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/stringTemplateAgent.md)
+ - [stringUpdateTextAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/undefined/stringUpdateTextAgent.md)
  - [totalAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/totalAgent.md)
- - [updateTextAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/undefined/updateTextAgent.md)
  - [vanillaFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/vanillaFetchAgent.md)
 
 ### Input/Params example
@@ -2221,6 +2221,29 @@ const result = await graph.run();
 }
 ```
 
+ - stringUpdateTextAgent
+
+```typescript
+{
+  "inputs": {
+    "newText": "new",
+    "oldText": "old"
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "newText": "",
+    "oldText": "old"
+  },
+  "params": {}
+}
+```
+
  - totalAgent
 
 ```typescript
@@ -2368,29 +2391,6 @@ const result = await graph.run();
         "b": 0
       }
     ]
-  },
-  "params": {}
-}
-```
-
- - updateTextAgent
-
-```typescript
-{
-  "inputs": {
-    "newText": "new",
-    "oldText": "old"
-  },
-  "params": {}
-}
-```
-
-
-```typescript
-{
-  "inputs": {
-    "newText": "",
-    "oldText": "old"
   },
   "params": {}
 }
