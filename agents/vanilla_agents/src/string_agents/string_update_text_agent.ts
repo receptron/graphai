@@ -1,7 +1,7 @@
 import { nestedAgentGenerator } from "@/generator";
 import { graphDataLatestVersion, AgentFunctionInfo } from "graphai";
 
-const updateTextGraph = {
+const stringUpdateTextGraph = {
   version: graphDataLatestVersion,
   nodes: {
     isNewText: {
@@ -36,12 +36,12 @@ const updateTextGraph = {
   },
 };
 
-const updateTextAgent = nestedAgentGenerator(updateTextGraph, { resultNodeId: "resultText" });
+const stringUpdateTextAgent = nestedAgentGenerator(stringUpdateTextGraph, { resultNodeId: "resultText" });
 
-const updateTextAgentInfo: AgentFunctionInfo = {
-  name: "updateTextAgent",
-  agent: updateTextAgent,
-  mock: updateTextAgent,
+const stringUpdateTextAgentInfo: AgentFunctionInfo = {
+  name: "stringUpdateTextAgent",
+  agent: stringUpdateTextAgent,
+  mock: stringUpdateTextAgent,
   samples: [
     {
       inputs: { newText: "new", oldText: "old" },
@@ -63,4 +63,4 @@ const updateTextAgentInfo: AgentFunctionInfo = {
   hasGraphData: true,
 };
 
-export default updateTextAgentInfo;
+export default stringUpdateTextAgentInfo;
