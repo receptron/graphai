@@ -1,4 +1,4 @@
-import { nestedAgentGenerator } from "@graphai/vanilla/lib/graph_agents/nested_agent";
+import { nestedAgentGenerator } from "@graphai/vanilla/lib/generator";
 
 const toolWorkFlowStep = {
   version: 0.5,
@@ -31,6 +31,7 @@ const toolWorkFlowStep = {
         version: 0.5,
         nodes: {
           tool: {
+            isResult: true,
             agent: ":row.name.split(--).$0",
             inputs: {
               arg: ":row.arguments",
@@ -51,6 +52,7 @@ const toolWorkFlowStep = {
         },
       },
     },
+    // tools response if hasNext in response.
     toolsMessage: {
       agent: "pushAgent",
       inputs: {
@@ -58,10 +60,58 @@ const toolWorkFlowStep = {
         items: ":tool_calls.message",
       },
     },
+    tool_call_response: {
+      agent: "nestedAgent",
+      inputs: {
+        toolsResponse: ":tool_calls.tool",
+        llmAgent: ":llmAgent",
+        toolsMessage: ":toolsMessage",
+      },
+      graph: {
+        nodes: {
+          hasNext: {
+            agent: (namedInputs: { array: { hasNext: boolean }[] }) => {
+              return namedInputs.array.some((ele) => ele.hasNext);
+            },
+            inputs: {
+              array: ":toolsResponse",
+            },
+          },
+          toolsResponseLLM: {
+            if: ":hasNext",
+            agent: ":llmAgent",
+            params: {
+              forWeb: true,
+            },
+            inputs: { messages: ":toolsMessage.array" },
+          },
+          toolsResMessage: {
+            agent: "pushAgent",
+            inputs: {
+              array: ":toolsMessage.array",
+              item: ":toolsResponseLLM.message",
+            },
+          },
+          skipToolsResponseLLM: {
+            unless: ":hasNext",
+            agent: "copyAgent",
+            inputs: {
+              array: ":toolsMessage.array",
+            },
+          },
+          mergeToolsResponse: {
+            isResult: true,
+            agent: "copyAgent",
+            anyInput: true,
+            inputs: { array: [":toolsResMessage.array", ":skipToolsResponseLLM.array"] },
+          },
+        },
+      },
+    },
     buffer: {
       agent: "copyAgent",
       anyInput: true,
-      inputs: { array: [":textMessage.messages", ":toolsMessage.array"] },
+      inputs: { array: [":textMessage.messages", ":tool_call_response.mergeToolsResponse.array.$0"] },
     },
     reducer: {
       isResult: true,
