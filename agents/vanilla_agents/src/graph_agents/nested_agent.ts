@@ -1,4 +1,4 @@
-import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, StaticNodeData, GraphData } from "graphai";
+import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, StaticNodeData, NodeData, GraphData } from "graphai";
 import { GraphAI, assert, graphDataLatestVersion } from "graphai";
 
 type NestedAgentGeneratorOption = {
@@ -22,7 +22,17 @@ export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentG
     assert(!!graphData, "nestedAgent: graph is required");
 
     const { nodes } = graphData;
-    const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
+    const newNodes = Object.keys(nodes).reduce((tmp: Record<string, NodeData>, key: string) => {
+      const node = nodes[key];
+      if ("agent" in node) {
+        tmp[key] = node;
+      } else {
+        const { value, update, isResult, console } = node;
+        tmp[key] = { value, update, isResult, console };
+      }
+      return tmp;
+    }, {});
+    const nestedGraphData = { ...graphData, nodes: newNodes, version: graphDataLatestVersion }; // deep enough copy
 
     const nodeIds = Object.keys(namedInputs);
     if (nodeIds.length > 0) {
