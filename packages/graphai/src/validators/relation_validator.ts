@@ -1,5 +1,5 @@
 import { GraphData } from "../type";
-import { parseNodeName } from "../utils/utils";
+import { parseNodeName, isComputedNodeData, isStaticNodeData } from "../utils/utils";
 import { inputs2dataSources, dataSourceNodeIds } from "../utils/nodeUtils";
 import { ValidationError } from "./common";
 
@@ -26,7 +26,7 @@ export const relationValidator = (graphData: GraphData, staticNodeIds: string[],
         }
       });
     };
-    if ("agent" in nodeData && nodeData) {
+    if (nodeData && isComputedNodeData(nodeData)) {
       if (nodeData.inputs) {
         const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
         dataSourceValidator("Inputs", sourceNodeIds);
@@ -57,7 +57,7 @@ export const relationValidator = (graphData: GraphData, staticNodeIds: string[],
   // TODO. validate update
   staticNodeIds.forEach((staticNodeId) => {
     const nodeData = graphData.nodes[staticNodeId];
-    if ("value" in nodeData && nodeData.update) {
+    if (isStaticNodeData(nodeData) && nodeData.update) {
       const update = nodeData.update;
       const updateNodeId = parseNodeName(update).nodeId;
       if (!updateNodeId) {

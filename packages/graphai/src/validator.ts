@@ -1,5 +1,5 @@
 import { GraphData, AgentFunctionInfoDictionary } from "./type";
-
+import { isStaticNodeData } from "./utils/utils";
 import { graphNodesValidator, graphDataValidator } from "./validators/graph_data_validator";
 import { nodeValidator } from "./validators/nodeValidator";
 import { staticNodeValidator } from "./validators/static_node_validator";
@@ -17,7 +17,7 @@ export const validateGraphData = (data: GraphData, agentIds: string[]) => {
   const graphAgentIds = new Set<string>();
   Object.keys(data.nodes).forEach((nodeId) => {
     const node = data.nodes[nodeId];
-    const isStaticNode = !("agent" in node);
+    const isStaticNode = isStaticNodeData(node);
     nodeValidator(node);
     const agentId = isStaticNode ? "" : node.agent;
     isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);

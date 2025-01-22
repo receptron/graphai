@@ -18,7 +18,7 @@ import { ComputedNode, StaticNode, GraphNodes } from "./node";
 
 import { resultsOf, resultOf, cleanResult } from "./utils/result";
 import { propFunctions } from "./utils/prop_function";
-import { parseNodeName, assert, isLogicallyTrue } from "./utils/utils";
+import { parseNodeName, assert, isLogicallyTrue, isComputedNodeData } from "./utils/utils";
 import { getDataFromSource } from "./utils/data_source";
 
 import { validateGraphData, validateAgent } from "./validator";
@@ -54,7 +54,7 @@ export class GraphAI {
   private createNodes(graphData: GraphData) {
     const nodes = Object.keys(graphData.nodes).reduce((_nodes: GraphNodes, nodeId: string) => {
       const nodeData = graphData.nodes[nodeId];
-      if ("agent" in nodeData) {
+      if (isComputedNodeData(nodeData)) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       } else {
         _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
