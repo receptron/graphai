@@ -321,7 +321,18 @@ const nestedAgentGenerator = (graphData, options) => {
         }
         assert(!!graphData, "nestedAgent: graph is required");
         const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
+        const newNodes = Object.keys(nodes).reduce((tmp, key) => {
+            const node = nodes[key];
+            if ("agent" in node) {
+                tmp[key] = node;
+            }
+            else {
+                const { value, update, isResult, console } = node;
+                tmp[key] = { value, update, isResult, console };
+            }
+            return tmp;
+        }, {});
+        const nestedGraphData = { ...graphData, nodes: newNodes, version: graphDataLatestVersion }; // deep enough copy
         const nodeIds = Object.keys(namedInputs);
         if (nodeIds.length > 0) {
             nodeIds.forEach((nodeId) => {
@@ -405,6 +416,12 @@ const nestedAgentInfo = {
 const stringUpdateTextGraph = {
     version: graphDataLatestVersion,
     nodes: {
+        newText: {
+            value: "",
+        },
+        oldText: {
+            value: "",
+        },
         isNewText: {
             if: ":newText",
             agent: "copyAgent",
@@ -449,6 +466,16 @@ const stringUpdateTextAgentInfo = {
         },
         {
             inputs: { newText: "", oldText: "old" },
+            params: {},
+            result: { text: "old" },
+        },
+        {
+            inputs: {},
+            params: {},
+            result: { text: "" },
+        },
+        {
+            inputs: { oldText: "old" },
             params: {},
             result: { text: "old" },
         },

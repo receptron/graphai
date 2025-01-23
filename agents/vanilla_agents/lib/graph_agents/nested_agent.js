@@ -15,7 +15,18 @@ const nestedAgentGenerator = (graphData, options) => {
         }
         (0, graphai_1.assert)(!!graphData, "nestedAgent: graph is required");
         const { nodes } = graphData;
-        const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai_1.graphDataLatestVersion }; // deep enough copy
+        const newNodes = Object.keys(nodes).reduce((tmp, key) => {
+            const node = nodes[key];
+            if ("agent" in node) {
+                tmp[key] = node;
+            }
+            else {
+                const { value, update, isResult, console } = node;
+                tmp[key] = { value, update, isResult, console };
+            }
+            return tmp;
+        }, {});
+        const nestedGraphData = { ...graphData, nodes: newNodes, version: graphai_1.graphDataLatestVersion }; // deep enough copy
         const nodeIds = Object.keys(namedInputs);
         if (nodeIds.length > 0) {
             nodeIds.forEach((nodeId) => {
