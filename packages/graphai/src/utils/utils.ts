@@ -1,4 +1,4 @@
-import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData } from "../type";
+import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData, NodeData, StaticNodeData, ComputedNodeData } from "../type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -130,4 +130,12 @@ export const defaultTestContext = {
 
 export const isNamedInputs = <NamedInput = DefaultInputData>(namedInputs: NamedInput) => {
   return isObject(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
+};
+
+export const isComputedNodeData = (node: NodeData): node is ComputedNodeData => {
+  return "agent" in node;
+};
+
+export const isStaticNodeData = (node: NodeData): node is StaticNodeData => {
+  return !("agent" in node);
 };
