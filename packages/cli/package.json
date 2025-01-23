@@ -36,7 +36,7 @@
   "dependencies": {
     "@graphai/agent_filters": "^0.0.9",
     "@graphai/agents": "^0.2.7",
-    "@receptron/test_utils": "^0.2.2",
+    "@receptron/test_utils": "^0.2.4",
     "dotenv": "^16.4.7",
     "graphai": "^0.6.19",
     "yargs": "^17.7.2"
