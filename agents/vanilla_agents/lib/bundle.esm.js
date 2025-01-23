@@ -342,7 +342,9 @@ const nestedAgentGenerator = (graphData, options) => {
                 }
                 else {
                     // Otherwise, inject the proper data here (instead of calling injectTo method later)
-                    nestedGraphData.nodes[nodeId]["value"] = namedInputs[nodeId];
+                    if (namedInputs[nodeId] !== undefined) {
+                        nestedGraphData.nodes[nodeId]["value"] = namedInputs[nodeId];
+                    }
                 }
             });
         }
