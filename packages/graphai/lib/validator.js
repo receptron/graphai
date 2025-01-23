@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateAgent = exports.validateGraphData = void 0;
+const utils_1 = require("./utils/utils");
 const graph_data_validator_1 = require("./validators/graph_data_validator");
 const nodeValidator_1 = require("./validators/nodeValidator");
 const static_node_validator_1 = require("./validators/static_node_validator");
@@ -16,7 +17,7 @@ const validateGraphData = (data, agentIds) => {
     const graphAgentIds = new Set();
     Object.keys(data.nodes).forEach((nodeId) => {
         const node = data.nodes[nodeId];
-        const isStaticNode = !("agent" in node);
+        const isStaticNode = (0, utils_1.isStaticNodeData)(node);
         (0, nodeValidator_1.nodeValidator)(node);
         const agentId = isStaticNode ? "" : node.agent;
         isStaticNode && (0, static_node_validator_1.staticNodeValidator)(node) && staticNodeIds.push(nodeId);

@@ -24,7 +24,7 @@ const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
                 }
             });
         };
-        if ("agent" in nodeData && nodeData) {
+        if (nodeData && (0, utils_1.isComputedNodeData)(nodeData)) {
             if (nodeData.inputs) {
                 const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)(nodeData.inputs));
                 dataSourceValidator("Inputs", sourceNodeIds);
@@ -54,7 +54,7 @@ const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
     // TODO. validate update
     staticNodeIds.forEach((staticNodeId) => {
         const nodeData = graphData.nodes[staticNodeId];
-        if ("value" in nodeData && nodeData.update) {
+        if ((0, utils_1.isStaticNodeData)(nodeData) && nodeData.update) {
             const update = nodeData.update;
             const updateNodeId = (0, utils_1.parseNodeName)(update).nodeId;
             if (!updateNodeId) {

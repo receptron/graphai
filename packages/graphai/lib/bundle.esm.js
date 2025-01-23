@@ -116,6 +116,12 @@ const defaultTestContext = {
 const isNamedInputs = (namedInputs) => {
     return isObject(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
 };
+const isComputedNodeData = (node) => {
+    return "agent" in node;
+};
+const isStaticNodeData = (node) => {
+    return !("agent" in node);
+};
 
 // for dataSource
 const inputs2dataSources = (inputs) => {
@@ -917,7 +923,7 @@ const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
                 }
             });
         };
-        if ("agent" in nodeData && nodeData) {
+        if (nodeData && isComputedNodeData(nodeData)) {
             if (nodeData.inputs) {
                 const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
                 dataSourceValidator("Inputs", sourceNodeIds);
@@ -947,7 +953,7 @@ const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
     // TODO. validate update
     staticNodeIds.forEach((staticNodeId) => {
         const nodeData = graphData.nodes[staticNodeId];
-        if ("value" in nodeData && nodeData.update) {
+        if (isStaticNodeData(nodeData) && nodeData.update) {
             const update = nodeData.update;
             const updateNodeId = parseNodeName(update).nodeId;
             if (!updateNodeId) {
@@ -1003,7 +1009,7 @@ const validateGraphData = (data, agentIds) => {
     const graphAgentIds = new Set();
     Object.keys(data.nodes).forEach((nodeId) => {
         const node = data.nodes[nodeId];
-        const isStaticNode = !("agent" in node);
+        const isStaticNode = isStaticNodeData(node);
         nodeValidator(node);
         const agentId = isStaticNode ? "" : node.agent;
         isStaticNode && staticNodeValidator(node) && staticNodeIds.push(nodeId);
@@ -1100,7 +1106,7 @@ class GraphAI {
     createNodes(graphData) {
         const nodes = Object.keys(graphData.nodes).reduce((_nodes, nodeId) => {
             const nodeData = graphData.nodes[nodeId];
-            if ("agent" in nodeData) {
+            if (isComputedNodeData(nodeData)) {
                 _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
             }
             else {
@@ -1389,5 +1395,5 @@ class GraphAI {
     }
 }
 
-export { GraphAI, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isObject, parseNodeName, sleep, strIntentionalError };
+export { GraphAI, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
 //# sourceMappingURL=bundle.esm.js.map

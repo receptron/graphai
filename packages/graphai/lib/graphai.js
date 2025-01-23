@@ -16,7 +16,7 @@ class GraphAI {
     createNodes(graphData) {
         const nodes = Object.keys(graphData.nodes).reduce((_nodes, nodeId) => {
             const nodeData = graphData.nodes[nodeId];
-            if ("agent" in nodeData) {
+            if ((0, utils_1.isComputedNodeData)(nodeData)) {
                 _nodes[nodeId] = new node_1.ComputedNode(this.graphId, nodeId, nodeData, this);
             }
             else {

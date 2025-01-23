@@ -1,4 +1,4 @@
-import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData } from "../type";
+import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData, NodeData, StaticNodeData, ComputedNodeData } from "../type";
 export declare const sleep: (milliseconds: number) => Promise<unknown>;
 export declare const parseNodeName: (inputNodeId: any, isSelfNode?: boolean) => DataSource;
 export declare function assert(condition: boolean, message: string, isWarn?: boolean): asserts condition;
@@ -33,3 +33,5 @@ export declare const defaultTestContext: {
     log: never[];
 };
 export declare const isNamedInputs: <NamedInput = DefaultInputData>(namedInputs: NamedInput) => boolean;
+export declare const isComputedNodeData: (node: NodeData) => node is ComputedNodeData;
+export declare const isStaticNodeData: (node: NodeData) => node is StaticNodeData;

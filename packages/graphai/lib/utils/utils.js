@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
+exports.isStaticNodeData = exports.isComputedNodeData = exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
 exports.assert = assert;
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -128,3 +128,11 @@ const isNamedInputs = (namedInputs) => {
     return (0, exports.isObject)(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
 };
 exports.isNamedInputs = isNamedInputs;
+const isComputedNodeData = (node) => {
+    return "agent" in node;
+};
+exports.isComputedNodeData = isComputedNodeData;
+const isStaticNodeData = (node) => {
+    return !("agent" in node);
+};
+exports.isStaticNodeData = isStaticNodeData;
