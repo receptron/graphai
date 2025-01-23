@@ -38,7 +38,7 @@ export {
   parseNodeName,
   debugResultKey,
   isComputedNodeData,
-  isStaticNodeData
+  isStaticNodeData,
 } from "./utils/utils";
 export { inputs2dataSources } from "./utils/nodeUtils";
 
