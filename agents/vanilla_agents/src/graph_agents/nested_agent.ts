@@ -42,7 +42,9 @@ export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentG
           nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
         } else {
           // Otherwise, inject the proper data here (instead of calling injectTo method later)
-          (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+          if (namedInputs[nodeId] !== undefined) {
+            (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+          }
         }
       });
     }

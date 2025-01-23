@@ -670,3 +670,24 @@ export const graphDataBypass5 = {
     },
   },
 };
+
+export const graphString = {
+  version: 0.5,
+  nodes: {
+    oldText: {
+      value: "hello",
+    },
+    newText: {
+      value: "",
+    },
+    updateText: {
+      isResult: true,
+      console: true,
+      agent: "stringUpdateTextAgent",
+      inputs: {
+        oldText: ":oldText",
+        newText: ":newText.text",
+      },
+    },
+  },
+};
