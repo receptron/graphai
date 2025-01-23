@@ -2,7 +2,7 @@ import { GraphAI } from "graphai";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as agents from "@graphai/agents";
 
-import { nestedGraphData, nestedGraphData2, nestedGraphDataError } from "./graphData";
+import { nestedGraphData, nestedGraphData2, nestedGraphDataError, graphString } from "./graphData";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -49,4 +49,12 @@ test("test nested agent 4", async () => {
     },
     { name: "Error", message: "\x1B[41mInputs not match: NodeId result, Inputs: soi_source\x1B[0m" },
   );
+});
+
+test("test nested agent 5", async () => {
+  const graph = new GraphAI(graphString, agents);
+  const result = await graph.run();
+  // console.log(logIds);
+
+  assert.deepStrictEqual(result, { updateText: { text: "hello" } });
 });
