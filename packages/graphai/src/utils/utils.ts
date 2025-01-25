@@ -1,4 +1,4 @@
-import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData, NodeData, StaticNodeData, ComputedNodeData } from "../type";
+import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData, NodeData, StaticNodeData, ComputedNodeData, NodeState } from "../type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -121,6 +121,8 @@ export const defaultTestContext = {
     nodeId: "test",
     retry: 0,
     verbose: true,
+    state: NodeState.Executing,
+    subGraphs: new Map(),
   },
   params: {},
   filterParams: {},
