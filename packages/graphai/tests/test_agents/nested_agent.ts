@@ -36,7 +36,7 @@ export const nestedAgent: AgentFunction<{
       agentFilters,
       config,
     });
-
+    debugInfo.subGraphs.push(graphAI);
     const results = await graphAI.run(false);
     log?.push(...graphAI.transactionLogs());
     return results;

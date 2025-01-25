@@ -189,7 +189,9 @@ export class ComputedNode extends Node {
         this.debugInfo.state = NodeState.Abort;
       }
     }
-    // TODO remove child graph nodes/ subgraph.abort();
+    if (this.debugInfo && this.debugInfo.subGraphs) {
+      this.debugInfo.subGraphs.forEach((graph) => graph.abort());
+    }
   }
 
   public isReadyNode() {
