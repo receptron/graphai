@@ -361,7 +361,9 @@
                 if (onLogCallback) {
                     graphAI.onLogCallback = onLogCallback;
                 }
+                debugInfo.subGraphs.set(graphAI.graphId, graphAI);
                 const results = await graphAI.run(false);
+                debugInfo.subGraphs.delete(graphAI.graphId);
                 log?.push(...graphAI.transactionLogs());
                 if (options && options.resultNodeId) {
                     return results[options.resultNodeId];
@@ -1306,6 +1308,7 @@
             }
             const graphs = rows.map((row, index) => {
                 const graphAI = new graphai.GraphAI(nestedGraphData, agents || {}, graphOptions);
+                debugInfo.subGraphs.set(graphAI.graphId, graphAI);
                 graphAI.injectValue("row", row, "__mapAgent_inputs__");
                 graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
                 // for backward compatibility. Remove 'if' later
@@ -1320,6 +1323,9 @@
             const results = await Promise.all(runs);
             const nodeIds = Object.keys(results[0]);
             // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
+            graphs.map((graph) => {
+                debugInfo.subGraphs.delete(graph.graphId);
+            });
             if (log) {
                 const logs = graphs.map((graph, index) => {
                     return graph.transactionLogs().map((log) => {
