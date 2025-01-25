@@ -49,7 +49,7 @@ const agentFilters = [
     agent: simpleAgentFilter1,
   },
 ];
-/*
+
 test("test graph", async () => {
   const graph = new GraphAI(graph_data, agents, { agentFilters });
 
@@ -71,7 +71,6 @@ test("test graph", async () => {
     ]);
   });
 });
-*/
 
 ////
 
