@@ -150,7 +150,7 @@ export class GraphAI {
     this.graphLoader = options.graphLoader;
     this.loop = graphData.loop;
     this.verbose = graphData.verbose === true;
-    this.onComplete = (isAbort: boolean) => {
+    this.onComplete = (__isAbort: boolean) => {
       throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };
 
