@@ -1,12 +1,14 @@
+import { NodeState, isObject } from 'graphai';
 import Ajv from 'ajv';
-import { isObject } from 'graphai';
 import { sha256 } from '@noble/hashes/sha2';
 
 const streamAgentFilterGenerator = (callback) => {
     const streamAgentFilter = async (context, next) => {
         if (context.debugInfo.isResult) {
             context.filterParams.streamTokenCallback = (data) => {
-                callback(context, data);
+                if (context.debugInfo.state === NodeState.Executing) {
+                    callback(context, data);
+                }
             };
         }
         return next(context);
