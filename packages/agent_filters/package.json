@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@noble/hashes": "^1.6.1",
+    "@noble/hashes": "^1.7.1",
     "ajv": "^8.16.0"
   },
   "devDependencies": {

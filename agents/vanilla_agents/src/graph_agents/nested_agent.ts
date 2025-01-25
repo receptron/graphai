@@ -58,8 +58,10 @@ export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentG
       if (onLogCallback) {
         graphAI.onLogCallback = onLogCallback;
       }
-
+      debugInfo.subGraphs.set(graphAI.graphId, graphAI);
       const results = await graphAI.run(false);
+      debugInfo.subGraphs.delete(graphAI.graphId);
+
       log?.push(...graphAI.transactionLogs());
 
       if (options && options.resultNodeId) {

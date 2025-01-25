@@ -51,6 +51,7 @@ export const mapAgent: AgentFunction<
     }
     const graphs: Array<GraphAI> = rows.map((row: any, index: number) => {
       const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
+      debugInfo.subGraphs.set(graphAI.graphId, graphAI);
       graphAI.injectValue("row", row, "__mapAgent_inputs__");
       graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
       // for backward compatibility. Remove 'if' later
@@ -66,6 +67,9 @@ export const mapAgent: AgentFunction<
     const results = await Promise.all(runs);
     const nodeIds = Object.keys(results[0]);
     // assert(nodeIds.length > 0, "mapAgent: no return values (missing isResult)");
+    graphs.map((graph) => {
+      debugInfo.subGraphs.delete(graph.graphId);
+    });
 
     if (log) {
       const logs = graphs.map((graph, index) => {
