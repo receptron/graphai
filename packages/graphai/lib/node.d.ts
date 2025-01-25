@@ -38,12 +38,14 @@ export declare class ComputedNode extends Node {
     private unlessSource?;
     private defaultValue?;
     private isSkip;
+    private debugInfo?;
     readonly isStaticNode = false;
     readonly isComputedNode = true;
     constructor(graphId: string, nodeId: string, data: ComputedNodeData, graph: GraphAI);
     getAgentId(): string;
     private getConfig;
     private addPendingNode;
+    resetPending(): void;
     isReadyNode(): boolean;
     private retry;
     private checkDataAvailability;

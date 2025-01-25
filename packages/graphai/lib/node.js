@@ -126,6 +126,18 @@ class ComputedNode extends Node {
         this.pendings.add(source.nodeId);
         return source;
     }
+    resetPending() {
+        this.pendings.clear();
+        if (this.state === type_1.NodeState.Executing) {
+            this.state = type_1.NodeState.Abort;
+            if (this.debugInfo) {
+                this.debugInfo.state = type_1.NodeState.Abort;
+            }
+        }
+        if (this.debugInfo && this.debugInfo.subGraphs) {
+            this.debugInfo.subGraphs.forEach((graph) => graph.abort());
+        }
+    }
     isReadyNode() {
         if (this.state !== type_1.NodeState.Waiting || this.pendings.size !== 0) {
             return false;
@@ -289,6 +301,9 @@ class ComputedNode extends Node {
         }
     }
     afterExecute(result, localLog) {
+        if (this.state == type_1.NodeState.Abort) {
+            return;
+        }
         this.state = type_1.NodeState.Completed;
         this.result = this.getResult(result);
         if (this.output) {
@@ -328,11 +343,14 @@ class ComputedNode extends Node {
         }
     }
     getContext(previousResults, localLog, agentId, config) {
+        // Pass debugInfo by reference, and the state of this node will be received by agent/agentFilter.
+        // From graphAgent(nested, map), set the instance of graphai, and use abort on the child graphai.
+        this.debugInfo = this.getDebugInfo(agentId);
         const context = {
             params: this.graph.resultsOf(this.params),
             namedInputs: previousResults,
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
-            debugInfo: this.getDebugInfo(agentId),
+            debugInfo: this.debugInfo,
             cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
             filterParams: this.filterParams,
             agentFilters: this.graph.agentFilters,
@@ -357,6 +375,8 @@ class ComputedNode extends Node {
             nodeId: this.nodeId,
             agentId,
             retry: this.retryCount,
+            state: this.state,
+            subGraphs: new Map(),
             verbose: this.graph.verbose,
             version: this.graph.version,
             isResult: this.isResult,

@@ -1,3 +1,17 @@
+var NodeState;
+(function (NodeState) {
+    NodeState["Waiting"] = "waiting";
+    NodeState["Queued"] = "queued";
+    NodeState["Executing"] = "executing";
+    NodeState["ExecutingServer"] = "executing-server";
+    NodeState["Failed"] = "failed";
+    NodeState["TimedOut"] = "timed-out";
+    NodeState["Abort"] = "abort";
+    NodeState["Completed"] = "completed";
+    NodeState["Injected"] = "injected";
+    NodeState["Skipped"] = "skipped";
+})(NodeState || (NodeState = {}));
+
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -107,6 +121,8 @@ const defaultTestContext = {
         nodeId: "test",
         retry: 0,
         verbose: true,
+        state: NodeState.Executing,
+        subGraphs: new Map(),
     },
     params: {},
     filterParams: {},
@@ -144,19 +160,6 @@ const inputs2dataSources = (inputs) => {
 const dataSourceNodeIds = (sources) => {
     return sources.filter((source) => source.nodeId).map((source) => source.nodeId);
 };
-
-var NodeState;
-(function (NodeState) {
-    NodeState["Waiting"] = "waiting";
-    NodeState["Queued"] = "queued";
-    NodeState["Executing"] = "executing";
-    NodeState["ExecutingServer"] = "executing-server";
-    NodeState["Failed"] = "failed";
-    NodeState["TimedOut"] = "timed-out";
-    NodeState["Completed"] = "completed";
-    NodeState["Injected"] = "injected";
-    NodeState["Skipped"] = "skipped";
-})(NodeState || (NodeState = {}));
 
 class TransactionLog {
     constructor(nodeId) {
@@ -539,6 +542,18 @@ class ComputedNode extends Node {
         this.pendings.add(source.nodeId);
         return source;
     }
+    resetPending() {
+        this.pendings.clear();
+        if (this.state === NodeState.Executing) {
+            this.state = NodeState.Abort;
+            if (this.debugInfo) {
+                this.debugInfo.state = NodeState.Abort;
+            }
+        }
+        if (this.debugInfo && this.debugInfo.subGraphs) {
+            this.debugInfo.subGraphs.forEach((graph) => graph.abort());
+        }
+    }
     isReadyNode() {
         if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
             return false;
@@ -702,6 +717,9 @@ class ComputedNode extends Node {
         }
     }
     afterExecute(result, localLog) {
+        if (this.state == NodeState.Abort) {
+            return;
+        }
         this.state = NodeState.Completed;
         this.result = this.getResult(result);
         if (this.output) {
@@ -741,11 +759,14 @@ class ComputedNode extends Node {
         }
     }
     getContext(previousResults, localLog, agentId, config) {
+        // Pass debugInfo by reference, and the state of this node will be received by agent/agentFilter.
+        // From graphAgent(nested, map), set the instance of graphai, and use abort on the child graphai.
+        this.debugInfo = this.getDebugInfo(agentId);
         const context = {
             params: this.graph.resultsOf(this.params),
             namedInputs: previousResults,
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
-            debugInfo: this.getDebugInfo(agentId),
+            debugInfo: this.debugInfo,
             cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
             filterParams: this.filterParams,
             agentFilters: this.graph.agentFilters,
@@ -770,6 +791,8 @@ class ComputedNode extends Node {
             nodeId: this.nodeId,
             agentId,
             retry: this.retryCount,
+            state: this.state,
+            subGraphs: new Map(),
             verbose: this.graph.verbose,
             version: this.graph.version,
             isResult: this.isResult,
@@ -1199,7 +1222,7 @@ class GraphAI {
         this.graphLoader = options.graphLoader;
         this.loop = graphData.loop;
         this.verbose = graphData.verbose === true;
-        this.onComplete = () => {
+        this.onComplete = (__isAbort) => {
             throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
         };
         validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
@@ -1296,16 +1319,29 @@ class GraphAI {
             return {};
         }
         return new Promise((resolve, reject) => {
-            this.onComplete = () => {
+            this.onComplete = (isAbort = false) => {
                 const errors = this.errors();
                 const nodeIds = Object.keys(errors);
-                if (nodeIds.length > 0) {
+                if (nodeIds.length > 0 || isAbort) {
                     reject(errors[nodeIds[0]]);
                 }
                 else {
                     resolve(this.results(all));
                 }
             };
+        });
+    }
+    abort() {
+        if (this.isRunning()) {
+            this.resetPending();
+        }
+        this.onComplete(this.isRunning());
+    }
+    resetPending() {
+        Object.values(this.nodes).map((node) => {
+            if (node.isComputedNode) {
+                node.resetPending();
+            }
         });
     }
     // Public only for testing
@@ -1318,7 +1354,7 @@ class GraphAI {
         if (this.isRunning() || this.processLoopIfNecessary()) {
             return; // continue running
         }
-        this.onComplete(); // Nothing to run. Finish it.
+        this.onComplete(false); // Nothing to run. Finish it.
     }
     // Must be called only from onExecutionComplete righ after removeRunning
     // Check if there is any running computed nodes.

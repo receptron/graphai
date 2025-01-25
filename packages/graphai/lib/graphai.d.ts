@@ -6,7 +6,7 @@ export declare const defaultConcurrency = 8;
 export declare const graphDataLatestVersion = 0.5;
 export declare class GraphAI {
     readonly version: number;
-    private readonly graphId;
+    readonly graphId: string;
     private readonly graphData;
     private readonly loop?;
     private readonly logs;
@@ -42,6 +42,8 @@ export declare class GraphAI {
     pushQueueIfReadyAndRunning(node: ComputedNode): void;
     pushQueue(node: ComputedNode): void;
     run<T = DefaultResultData>(all?: boolean): Promise<ResultDataDictionary<T>>;
+    abort(): void;
+    resetPending(): void;
     isRunning(): boolean;
     onExecutionComplete(node: ComputedNode): void;
     private processLoopIfNecessary;

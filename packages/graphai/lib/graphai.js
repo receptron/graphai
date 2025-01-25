@@ -109,7 +109,7 @@ class GraphAI {
         this.graphLoader = options.graphLoader;
         this.loop = graphData.loop;
         this.verbose = graphData.verbose === true;
-        this.onComplete = () => {
+        this.onComplete = (__isAbort) => {
             throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
         };
         (0, validator_1.validateGraphData)(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
@@ -206,16 +206,29 @@ class GraphAI {
             return {};
         }
         return new Promise((resolve, reject) => {
-            this.onComplete = () => {
+            this.onComplete = (isAbort = false) => {
                 const errors = this.errors();
                 const nodeIds = Object.keys(errors);
-                if (nodeIds.length > 0) {
+                if (nodeIds.length > 0 || isAbort) {
                     reject(errors[nodeIds[0]]);
                 }
                 else {
                     resolve(this.results(all));
                 }
             };
+        });
+    }
+    abort() {
+        if (this.isRunning()) {
+            this.resetPending();
+        }
+        this.onComplete(this.isRunning());
+    }
+    resetPending() {
+        Object.values(this.nodes).map((node) => {
+            if (node.isComputedNode) {
+                node.resetPending();
+            }
         });
     }
     // Public only for testing
@@ -228,7 +241,7 @@ class GraphAI {
         if (this.isRunning() || this.processLoopIfNecessary()) {
             return; // continue running
         }
-        this.onComplete(); // Nothing to run. Finish it.
+        this.onComplete(false); // Nothing to run. Finish it.
     }
     // Must be called only from onExecutionComplete righ after removeRunning
     // Check if there is any running computed nodes.

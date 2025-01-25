@@ -9,6 +9,7 @@ var NodeState;
     NodeState["ExecutingServer"] = "executing-server";
     NodeState["Failed"] = "failed";
     NodeState["TimedOut"] = "timed-out";
+    NodeState["Abort"] = "abort";
     NodeState["Completed"] = "completed";
     NodeState["Injected"] = "injected";
     NodeState["Skipped"] = "skipped";

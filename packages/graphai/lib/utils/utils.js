@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isStaticNodeData = exports.isComputedNodeData = exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
 exports.assert = assert;
+const type_1 = require("../type");
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -118,6 +119,8 @@ exports.defaultTestContext = {
         nodeId: "test",
         retry: 0,
         verbose: true,
+        state: type_1.NodeState.Executing,
+        subGraphs: new Map(),
     },
     params: {},
     filterParams: {},

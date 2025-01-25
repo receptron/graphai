@@ -1,4 +1,4 @@
-import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData, NodeData, StaticNodeData, ComputedNodeData } from "../type";
+import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData, NodeData, StaticNodeData, ComputedNodeData, NodeState } from "../type";
 export declare const sleep: (milliseconds: number) => Promise<unknown>;
 export declare const parseNodeName: (inputNodeId: any, isSelfNode?: boolean) => DataSource;
 export declare function assert(condition: boolean, message: string, isWarn?: boolean): asserts condition;
@@ -26,6 +26,8 @@ export declare const defaultTestContext: {
         nodeId: string;
         retry: number;
         verbose: boolean;
+        state: NodeState;
+        subGraphs: Map<any, any>;
     };
     params: {};
     filterParams: {};
