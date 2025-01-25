@@ -1,5 +1,6 @@
 import type { TransactionLog } from "./transaction_log";
 import type { TaskManager } from "./task_manager";
+import type { GraphAI } from "./graphai";
 
 export enum NodeState {
   Waiting = "waiting",
@@ -97,18 +98,22 @@ export type GraphOptions = {
 
 export type CacheTypes = "pureAgent" | "impureAgent";
 
+export type AgentFunctionContextDebugInfo = {
+  verbose: boolean;
+  nodeId: string;
+  state: string;
+  subGraphs: GraphAI[];
+  retry: number;
+  agentId?: string;
+  version?: number;
+  isResult?: boolean;
+};
+
 export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataType = DefaultInputData, ConfigType = DefaultConfigData> = {
   params: NodeDataParams<ParamsType>;
   inputSchema?: any;
   namedInputs: NamedInputDataType;
-  debugInfo: {
-    verbose: boolean;
-    nodeId: string;
-    retry: number;
-    agentId?: string;
-    version?: number;
-    isResult?: boolean;
-  };
+  debugInfo: AgentFunctionContextDebugInfo;
   forNestedGraph?: {
     graphData?: GraphData; // nested graph
     agents: AgentFunctionInfoDictionary; // for nested graph

@@ -13,6 +13,7 @@ import {
   AgentFunction,
   AgentFilterInfo,
   AgentFilterParams,
+  AgentFunctionContextDebugInfo,
   DefaultParamsType,
   DefaultInputData,
   PassThrough,
@@ -98,6 +99,7 @@ export class ComputedNode extends Node {
   private unlessSource?: DataSource; // conditional execution
   private defaultValue?: ResultData;
   private isSkip: boolean = false;
+  private debugInfo?: AgentFunctionContextDebugInfo;
 
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
@@ -183,6 +185,9 @@ export class ComputedNode extends Node {
     this.pendings.clear();
     if (this.state === NodeState.Executing) {
       this.state = NodeState.Abort;
+      if (this.debugInfo) {
+        this.debugInfo.state = NodeState.Abort;
+      }
     }
     // TODO remove child graph nodes/ subgraph.abort();
   }
@@ -418,11 +423,14 @@ export class ComputedNode extends Node {
   }
 
   private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[], agentId?: string, config?: ConfigData) {
+    // Pass debugInfo by reference, and the state of this node will be received by agent/agentFilter.
+    // From graphAgent(nested, map), set the instance of graphai, and use abort on the child graphai.
+    this.debugInfo = this.getDebugInfo(agentId);
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.graph.resultsOf(this.params),
       namedInputs: previousResults,
       inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
-      debugInfo: this.getDebugInfo(agentId),
+      debugInfo: this.debugInfo,
       cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
       filterParams: this.filterParams,
       agentFilters: this.graph.agentFilters,
@@ -448,6 +456,8 @@ export class ComputedNode extends Node {
       nodeId: this.nodeId,
       agentId,
       retry: this.retryCount,
+      state: this.state,
+      subGraphs: [],
       verbose: this.graph.verbose,
       version: this.graph.version,
       isResult: this.isResult,
