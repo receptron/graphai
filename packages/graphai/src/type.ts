@@ -8,6 +8,7 @@ export enum NodeState {
   ExecutingServer = "executing-server",
   Failed = "failed",
   TimedOut = "timed-out",
+  Abort = "abort",
   Completed = "completed",
   Injected = "injected",
   Skipped = "skipped",

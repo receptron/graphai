@@ -179,6 +179,14 @@ export class ComputedNode extends Node {
     return source;
   }
 
+  public resetPending() {
+    this.pendings.clear();
+    if (this.state === NodeState.Executing) {
+      this.state = NodeState.Abort;
+    }
+    // TODO remove child graph nodes/ subgraph.abort();
+  }
+
   public isReadyNode() {
     if (this.state !== NodeState.Waiting || this.pendings.size !== 0) {
       return false;
@@ -363,6 +371,9 @@ export class ComputedNode extends Node {
   }
 
   private afterExecute(result: ResultData, localLog: TransactionLog[]) {
+    if (this.state == NodeState.Abort) {
+      return;
+    }
     this.state = NodeState.Completed;
     this.result = this.getResult(result);
     if (this.output) {
