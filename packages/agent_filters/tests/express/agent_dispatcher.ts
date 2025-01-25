@@ -24,7 +24,7 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
       retry,
       verbose: false,
       state: NodeState.Executing,
-      subGraphs: new Map(),      
+      subGraphs: new Map(),
     },
     filterParams: {},
     agents: agents as AgentFunctionInfoDictionary,
