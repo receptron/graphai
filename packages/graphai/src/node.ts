@@ -13,6 +13,7 @@ import {
   AgentFunction,
   AgentFilterInfo,
   AgentFilterParams,
+  AgentFunctionContextDebugInfo,
   DefaultParamsType,
   DefaultInputData,
   PassThrough,
@@ -98,6 +99,7 @@ export class ComputedNode extends Node {
   private unlessSource?: DataSource; // conditional execution
   private defaultValue?: ResultData;
   private isSkip: boolean = false;
+  private debugInfo?: AgentFunctionContextDebugInfo;
 
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
@@ -177,6 +179,19 @@ export class ComputedNode extends Node {
     assert(!!source.nodeId, `Invalid data source ${nodeId}`);
     this.pendings.add(source.nodeId);
     return source;
+  }
+
+  public resetPending() {
+    this.pendings.clear();
+    if (this.state === NodeState.Executing) {
+      this.state = NodeState.Abort;
+      if (this.debugInfo) {
+        this.debugInfo.state = NodeState.Abort;
+      }
+    }
+    if (this.debugInfo && this.debugInfo.subGraphs) {
+      this.debugInfo.subGraphs.forEach((graph) => graph.abort());
+    }
   }
 
   public isReadyNode() {
@@ -363,6 +378,9 @@ export class ComputedNode extends Node {
   }
 
   private afterExecute(result: ResultData, localLog: TransactionLog[]) {
+    if (this.state == NodeState.Abort) {
+      return;
+    }
     this.state = NodeState.Completed;
     this.result = this.getResult(result);
     if (this.output) {
@@ -407,11 +425,14 @@ export class ComputedNode extends Node {
   }
 
   private getContext(previousResults: Record<string, ResultData | undefined>, localLog: TransactionLog[], agentId?: string, config?: ConfigData) {
+    // Pass debugInfo by reference, and the state of this node will be received by agent/agentFilter.
+    // From graphAgent(nested, map), set the instance of graphai, and use abort on the child graphai.
+    this.debugInfo = this.getDebugInfo(agentId);
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       params: this.graph.resultsOf(this.params),
       namedInputs: previousResults,
       inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
-      debugInfo: this.getDebugInfo(agentId),
+      debugInfo: this.debugInfo,
       cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
       filterParams: this.filterParams,
       agentFilters: this.graph.agentFilters,
@@ -437,6 +458,8 @@ export class ComputedNode extends Node {
       nodeId: this.nodeId,
       agentId,
       retry: this.retryCount,
+      state: this.state,
+      subGraphs: new Map(),
       verbose: this.graph.verbose,
       version: this.graph.version,
       isResult: this.isResult,

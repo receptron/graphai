@@ -2,7 +2,7 @@ import express from "express";
 import * as agents from "@graphai/agents";
 
 import { streamAgentFilterGenerator, agentFilterRunnerBuilder } from "@/index";
-import { AgentFunctionContext, AgentFunctionInfoDictionary } from "graphai";
+import { AgentFunctionContext, AgentFunctionInfoDictionary, NodeState } from "graphai";
 
 export const agentDispatcher = async (req: express.Request, res: express.Response) => {
   const { params } = req;
@@ -23,6 +23,8 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
       nodeId,
       retry,
       verbose: false,
+      state: NodeState.Executing,
+      subGraphs: new Map(),      
     },
     filterParams: {},
     agents: agents as AgentFunctionInfoDictionary,

@@ -1,3 +1,4 @@
+import { NodeState } from "graphai";
 import { fileReadAgent } from "@/index";
 
 const main = async () => {
@@ -13,6 +14,8 @@ const main = async () => {
       retry: 1,
       nodeId: "",
       verbose: true,
+      state: NodeState.Executing,
+      subGraphs: new Map(),
     },
     filterParams: [],
   });

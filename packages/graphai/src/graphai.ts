@@ -29,7 +29,7 @@ export const graphDataLatestVersion = 0.5;
 
 export class GraphAI {
   public readonly version: number;
-  private readonly graphId: string;
+  public readonly graphId: string;
   private readonly graphData: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];
@@ -46,7 +46,7 @@ export class GraphAI {
   public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
   public verbose: boolean; // REVIEW: Do we need this?
 
-  private onComplete: () => void;
+  private onComplete: (isAbort: boolean) => void;
   private repeatCount = 0;
 
   // This method is called when either the GraphAI obect was created,
@@ -150,7 +150,7 @@ export class GraphAI {
     this.graphLoader = options.graphLoader;
     this.loop = graphData.loop;
     this.verbose = graphData.verbose === true;
-    this.onComplete = () => {
+    this.onComplete = (__isAbort: boolean) => {
       throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };
 
@@ -264,15 +264,29 @@ export class GraphAI {
     }
 
     return new Promise((resolve, reject) => {
-      this.onComplete = () => {
+      this.onComplete = (isAbort: boolean = false) => {
         const errors = this.errors();
         const nodeIds = Object.keys(errors);
-        if (nodeIds.length > 0) {
+        if (nodeIds.length > 0 || isAbort) {
           reject(errors[nodeIds[0]]);
         } else {
           resolve(this.results(all));
         }
       };
+    });
+  }
+
+  public abort() {
+    if (this.isRunning()) {
+      this.resetPending();
+    }
+    this.onComplete(this.isRunning());
+  }
+  public resetPending() {
+    Object.values(this.nodes).map((node) => {
+      if (node.isComputedNode) {
+        node.resetPending();
+      }
     });
   }
 
@@ -287,7 +301,7 @@ export class GraphAI {
     if (this.isRunning() || this.processLoopIfNecessary()) {
       return; // continue running
     }
-    this.onComplete(); // Nothing to run. Finish it.
+    this.onComplete(false); // Nothing to run. Finish it.
   }
 
   // Must be called only from onExecutionComplete righ after removeRunning
