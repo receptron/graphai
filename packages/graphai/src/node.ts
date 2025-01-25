@@ -459,7 +459,7 @@ export class ComputedNode extends Node {
       agentId,
       retry: this.retryCount,
       state: this.state,
-      subGraphs: [],
+      subGraphs: new Map(),
       verbose: this.graph.verbose,
       version: this.graph.version,
       isResult: this.isResult,

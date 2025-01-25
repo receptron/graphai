@@ -29,7 +29,7 @@ export const graphDataLatestVersion = 0.5;
 
 export class GraphAI {
   public readonly version: number;
-  private readonly graphId: string;
+  public readonly graphId: string;
   private readonly graphData: GraphData;
   private readonly loop?: LoopData;
   private readonly logs: Array<TransactionLog> = [];

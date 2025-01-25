@@ -36,9 +36,10 @@ export const nestedAgent: AgentFunction<{
       agentFilters,
       config,
     });
-    debugInfo.subGraphs.push(graphAI);
+    debugInfo.subGraphs.set(graphAI.graphId, graphAI);
     const results = await graphAI.run(false);
     log?.push(...graphAI.transactionLogs());
+    debugInfo.subGraphs.delete(graphAI.graphId);
     return results;
   } catch (error) {
     if (error instanceof Error) {

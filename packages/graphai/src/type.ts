@@ -102,7 +102,7 @@ export type AgentFunctionContextDebugInfo = {
   verbose: boolean;
   nodeId: string;
   state: string;
-  subGraphs: GraphAI[];
+  subGraphs: Map<string, GraphAI>;
   retry: number;
   agentId?: string;
   version?: number;
