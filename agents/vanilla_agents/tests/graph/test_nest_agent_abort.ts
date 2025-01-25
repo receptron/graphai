@@ -22,7 +22,7 @@ const agentFilters = [
   },
 ];
 
-const nested_graph_data: GraphData = {
+const nested_map_graph_data: GraphData = {
   version: graphDataLatestVersion,
   nodes: {
     message: {
@@ -62,8 +62,8 @@ const nested_graph_data: GraphData = {
   },
 };
 
-test("test graph", async () => {
-  const graph = new GraphAI(nested_graph_data, agents, { agentFilters });
+test("test nested map graph abort", async () => {
+  const graph = new GraphAI(nested_map_graph_data, agents, { agentFilters });
 
   await assert.rejects(async () => {
     await Promise.all([
