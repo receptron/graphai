@@ -1,13 +1,13 @@
 import "dotenv/config";
 import { anthropicAgent } from "@/anthropic_agent";
+import { defaultTestContext } from "graphai";
 
 import test from "node:test";
 import assert from "node:assert";
 
 test("test anthropicAgent", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const params = {};
-  const res = (await anthropicAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await anthropicAgent({...defaultTestContext, namedInputs })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);
@@ -20,6 +20,7 @@ test("test anthropicAgent stream", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
   const params = { stream: true };
   const opt = {
+    ...defaultTestContext,
     namedInputs,
     params,
     filterParams: {
@@ -27,7 +28,6 @@ test("test anthropicAgent stream", async () => {
         console.log(token);
       },
     },
-    debugInfo: { verbose: false, nodeId: "test", retry: 5 },
   };
   const res = (await anthropicAgent(opt)) as any;
 
@@ -43,8 +43,7 @@ test("test anthropicAgent", async () => {
     prompt: ["hello, let me know the answer 1 + 1"],
     system: ["You are an assembly programmer. Please answer the given calculation using a program for z80."],
   };
-  const params = {};
-  const res = (await anthropicAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await anthropicAgent({...defaultTestContext, namedInputs})) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);

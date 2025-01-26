@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { defaultTestContext } from "graphai";
 import { geminiAgent } from "@/gemini_agent";
 
 import test from "node:test";
@@ -6,8 +7,7 @@ import assert from "node:assert";
 
 test("test gemini", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const params = {};
-  const res = (await geminiAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await geminiAgent({ ...defaultTestContext, namedInputs })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);
@@ -43,7 +43,7 @@ test("test gemini", async () => {
     ],
   };
 
-  const res = (await geminiAgent({ namedInputs, params, filterParams: {}, debugInfo: { verbose: false, nodeId: "test", retry: 5 } })) as any;
+  const res = (await geminiAgent({ ...defaultTestContext,  namedInputs, params })) as any;
 
   if (res) {
     console.log(res);
@@ -55,6 +55,7 @@ test("test gemini stream", async () => {
   const namedInputs = { prompt: ["tell me world history"] };
   const params = { stream: true };
   const res = (await geminiAgent({
+    ...defaultTestContext,
     namedInputs,
     params,
     filterParams: {
@@ -62,7 +63,6 @@ test("test gemini stream", async () => {
         console.log(token);
       },
     },
-    debugInfo: { verbose: false, nodeId: "test", retry: 5 },
   })) as any;
 
   if (res) {
