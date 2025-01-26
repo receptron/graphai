@@ -126,13 +126,16 @@ class ComputedNode extends Node {
         this.pendings.add(source.nodeId);
         return source;
     }
+    updateState(state) {
+        this.state = state;
+        if (this.debugInfo) {
+            this.debugInfo.state = state;
+        }
+    }
     resetPending() {
         this.pendings.clear();
         if (this.state === type_1.NodeState.Executing) {
-            this.state = type_1.NodeState.Abort;
-            if (this.debugInfo) {
-                this.debugInfo.state = type_1.NodeState.Abort;
-            }
+            this.updateState(type_1.NodeState.Abort);
         }
         if (this.debugInfo && this.debugInfo.subGraphs) {
             this.debugInfo.subGraphs.forEach((graph) => graph.abort());
@@ -145,7 +148,7 @@ class ComputedNode extends Node {
         this.isSkip = !!((this.ifSource && !(0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.ifSource))) ||
             (this.unlessSource && (0, utils_2.isLogicallyTrue)(this.graph.resultOf(this.unlessSource))));
         if (this.isSkip && this.defaultValue === undefined) {
-            this.state = type_1.NodeState.Skipped;
+            this.updateState(type_1.NodeState.Skipped);
             this.log.onSkipped(this, this.graph);
             return false;
         }
@@ -155,7 +158,7 @@ class ComputedNode extends Node {
     // the "retry" if specified. The transaction log must be updated before
     // callling this method.
     retry(state, error) {
-        this.state = state; // this.execute() will update to NodeState.Executing
+        this.updateState(state); // this.execute() will update to NodeState.Executing
         this.log.onError(this, this.graph, error.message);
         if (this.retryCount < this.retryLimit) {
             this.retryCount++;
@@ -175,7 +178,7 @@ class ComputedNode extends Node {
     }
     // This method is called right before the Graph add this node to the task manager.
     beforeAddTask() {
-        this.state = type_1.NodeState.Queued;
+        this.updateState(type_1.NodeState.Queued);
         this.log.beforeAddTask(this, this.graph);
     }
     // This method is called when the data became available on one of nodes,
@@ -304,7 +307,7 @@ class ComputedNode extends Node {
         if (this.state == type_1.NodeState.Abort) {
             return;
         }
-        this.state = type_1.NodeState.Completed;
+        this.updateState(type_1.NodeState.Completed);
         this.result = this.getResult(result);
         if (this.output) {
             this.result = (0, result_1.resultsOf)(this.output, { self: this }, this.graph.propFunctions, true);
@@ -316,7 +319,7 @@ class ComputedNode extends Node {
     // This private method (called only by execute()) prepares the ComputedNode object
     // for execution, and create a new transaction to record it.
     prepareExecute(transactionId, inputs) {
-        this.state = type_1.NodeState.Executing;
+        this.updateState(type_1.NodeState.Executing);
         this.log.beforeExecute(this, this.graph, transactionId, inputs);
         this.transactionId = transactionId;
     }

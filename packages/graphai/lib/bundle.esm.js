@@ -542,13 +542,16 @@ class ComputedNode extends Node {
         this.pendings.add(source.nodeId);
         return source;
     }
+    updateState(state) {
+        this.state = state;
+        if (this.debugInfo) {
+            this.debugInfo.state = state;
+        }
+    }
     resetPending() {
         this.pendings.clear();
         if (this.state === NodeState.Executing) {
-            this.state = NodeState.Abort;
-            if (this.debugInfo) {
-                this.debugInfo.state = NodeState.Abort;
-            }
+            this.updateState(NodeState.Abort);
         }
         if (this.debugInfo && this.debugInfo.subGraphs) {
             this.debugInfo.subGraphs.forEach((graph) => graph.abort());
@@ -561,7 +564,7 @@ class ComputedNode extends Node {
         this.isSkip = !!((this.ifSource && !isLogicallyTrue(this.graph.resultOf(this.ifSource))) ||
             (this.unlessSource && isLogicallyTrue(this.graph.resultOf(this.unlessSource))));
         if (this.isSkip && this.defaultValue === undefined) {
-            this.state = NodeState.Skipped;
+            this.updateState(NodeState.Skipped);
             this.log.onSkipped(this, this.graph);
             return false;
         }
@@ -571,7 +574,7 @@ class ComputedNode extends Node {
     // the "retry" if specified. The transaction log must be updated before
     // callling this method.
     retry(state, error) {
-        this.state = state; // this.execute() will update to NodeState.Executing
+        this.updateState(state); // this.execute() will update to NodeState.Executing
         this.log.onError(this, this.graph, error.message);
         if (this.retryCount < this.retryLimit) {
             this.retryCount++;
@@ -591,7 +594,7 @@ class ComputedNode extends Node {
     }
     // This method is called right before the Graph add this node to the task manager.
     beforeAddTask() {
-        this.state = NodeState.Queued;
+        this.updateState(NodeState.Queued);
         this.log.beforeAddTask(this, this.graph);
     }
     // This method is called when the data became available on one of nodes,
@@ -720,7 +723,7 @@ class ComputedNode extends Node {
         if (this.state == NodeState.Abort) {
             return;
         }
-        this.state = NodeState.Completed;
+        this.updateState(NodeState.Completed);
         this.result = this.getResult(result);
         if (this.output) {
             this.result = resultsOf(this.output, { self: this }, this.graph.propFunctions, true);
@@ -732,7 +735,7 @@ class ComputedNode extends Node {
     // This private method (called only by execute()) prepares the ComputedNode object
     // for execution, and create a new transaction to record it.
     prepareExecute(transactionId, inputs) {
-        this.state = NodeState.Executing;
+        this.updateState(NodeState.Executing);
         this.log.beforeExecute(this, this.graph, transactionId, inputs);
         this.transactionId = transactionId;
     }

@@ -45,6 +45,7 @@ export declare class ComputedNode extends Node {
     getAgentId(): string;
     private getConfig;
     private addPendingNode;
+    private updateState;
     resetPending(): void;
     isReadyNode(): boolean;
     private retry;
