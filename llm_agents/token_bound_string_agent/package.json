@@ -1,6 +1,6 @@
 {
   "name": "@graphai/token_bound_string_agent",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This agent generate a reference string from a sorted array of strings, adding one by one until the token count exceeds the specified limit. ",
   "main": "lib/index.js",
   "files": [
