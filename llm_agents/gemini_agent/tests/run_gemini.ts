@@ -43,7 +43,7 @@ test("test gemini", async () => {
     ],
   };
 
-  const res = (await geminiAgent({ ...defaultTestContext,  namedInputs, params })) as any;
+  const res = (await geminiAgent({ ...defaultTestContext, namedInputs, params })) as any;
 
   if (res) {
     console.log(res);

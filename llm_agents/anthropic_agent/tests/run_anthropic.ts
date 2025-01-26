@@ -7,7 +7,7 @@ import assert from "node:assert";
 
 test("test anthropicAgent", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const res = (await anthropicAgent({...defaultTestContext, namedInputs })) as any;
+  const res = (await anthropicAgent({ ...defaultTestContext, namedInputs })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);
@@ -43,7 +43,7 @@ test("test anthropicAgent", async () => {
     prompt: ["hello, let me know the answer 1 + 1"],
     system: ["You are an assembly programmer. Please answer the given calculation using a program for z80."],
   };
-  const res = (await anthropicAgent({...defaultTestContext, namedInputs})) as any;
+  const res = (await anthropicAgent({ ...defaultTestContext, namedInputs })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);
