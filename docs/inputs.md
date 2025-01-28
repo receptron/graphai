@@ -5,7 +5,8 @@
 ```
 {
   array: [],
-  item: "a"
+  item: "a",
+  items: [],
 }
 ```
 
