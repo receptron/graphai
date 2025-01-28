@@ -121,7 +121,7 @@ const toolWorkFlowStep = {
         result: {
             agent: "copyAgent",
             isResult: true,
-            inputs: { messages: ":reducer.array" }
+            inputs: { messages: ":reducer.array" },
         },
     },
 };
