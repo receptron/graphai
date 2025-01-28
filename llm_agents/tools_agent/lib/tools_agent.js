@@ -115,13 +115,17 @@ const toolWorkFlowStep = {
             inputs: { array: [":textMessage.messages", ":tool_call_response.mergeToolsResponse.array.$0"] },
         },
         reducer: {
-            isResult: true,
             agent: "pushAgent",
             inputs: { array: ":messages", items: ":buffer.array.$0" },
         },
+        result: {
+            agent: "copyAgent",
+            isResult: true,
+            inputs: { messages: ":reducer.array" }
+        },
     },
 };
-const toolsAgent = (0, generator_1.nestedAgentGenerator)(toolWorkFlowStep);
+const toolsAgent = (0, generator_1.nestedAgentGenerator)(toolWorkFlowStep, { resultNodeId: "result" });
 const toolsAgentInfo = {
     name: "toolsAgent",
     agent: toolsAgent,
