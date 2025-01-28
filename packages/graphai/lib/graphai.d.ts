@@ -1,4 +1,4 @@
-import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions, PropFunction, GraphDataLoader, ConfigDataDictionary } from "./type";
+import { AgentFunctionInfoDictionary, AgentFilterInfo, GraphData, DataSource, ResultDataDictionary, ResultData, DefaultResultData, GraphOptions, PropFunction, GraphDataLoader, ConfigDataDictionary, CallbackFunction } from "./type";
 import { TransactionLog } from "./transaction_log";
 import { ComputedNode, GraphNodes } from "./node";
 import { TaskManager } from "./task_manager";
@@ -19,7 +19,8 @@ export declare class GraphAI {
     readonly propFunctions: PropFunction[];
     readonly graphLoader?: GraphDataLoader;
     nodes: GraphNodes;
-    onLogCallback: (__log: TransactionLog, __isUpdate: boolean) => void;
+    onLogCallback: CallbackFunction;
+    private callbacks;
     verbose: boolean;
     private onComplete;
     private repeatCount;
@@ -52,6 +53,7 @@ export declare class GraphAI {
     setLoopLog(log: TransactionLog): void;
     appendLog(log: TransactionLog): void;
     updateLog(log: TransactionLog): void;
+    registerCallback(callback: CallbackFunction): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
     resultsOf(inputs?: Record<string, any>, anyInput?: boolean): Record<string, ResultData>;

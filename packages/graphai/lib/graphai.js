@@ -89,6 +89,7 @@ class GraphAI {
         this.logs = [];
         this.config = {};
         this.onLogCallback = (__log, __isUpdate) => { };
+        this.callbacks = [];
         this.repeatCount = 0;
         if (!graphData.version && !options.taskManager) {
             console.warn("------------ missing version number");
@@ -288,9 +289,14 @@ class GraphAI {
     appendLog(log) {
         this.logs.push(log);
         this.onLogCallback(log, false);
+        this.callbacks.forEach((callback) => callback(log, false));
     }
     updateLog(log) {
         this.onLogCallback(log, true);
+        this.callbacks.forEach((callback) => callback(log, false));
+    }
+    registerCallback(callback) {
+        this.callbacks.push(callback);
     }
     // Public API
     transactionLogs() {
