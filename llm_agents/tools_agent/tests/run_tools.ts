@@ -24,7 +24,7 @@ const main = async (agentInfo: AgentFunctionInfo) => {
   const { agent, samples, inputs: inputSchema } = agentInfo;
   for await (const sampleKey of samples.keys()) {
     const { params, inputs } = samples[sampleKey];
-    await agent({
+    const result = await agent({
       ...defaultTestContext,
       params,
       inputSchema,
@@ -34,6 +34,7 @@ const main = async (agentInfo: AgentFunctionInfo) => {
         graphOptions: {},
       },
     });
+    console.log(result);
   }
 };
 
