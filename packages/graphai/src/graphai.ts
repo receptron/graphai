@@ -11,6 +11,7 @@ import {
   PropFunction,
   GraphDataLoader,
   ConfigDataDictionary,
+  CallbackFunction,
 } from "./type";
 import { TransactionLog } from "./transaction_log";
 
@@ -43,7 +44,8 @@ export class GraphAI {
   public readonly graphLoader?: GraphDataLoader;
 
   public nodes: GraphNodes;
-  public onLogCallback = (__log: TransactionLog, __isUpdate: boolean) => {};
+  public onLogCallback: CallbackFunction = (__log: TransactionLog, __isUpdate: boolean) => {};
+  private callbacks: CallbackFunction[] = [];
   public verbose: boolean; // REVIEW: Do we need this?
 
   private onComplete: (isAbort: boolean) => void;
@@ -353,10 +355,16 @@ export class GraphAI {
   public appendLog(log: TransactionLog) {
     this.logs.push(log);
     this.onLogCallback(log, false);
+    this.callbacks.forEach((callback) => callback(log, false));
   }
 
   public updateLog(log: TransactionLog) {
     this.onLogCallback(log, true);
+    this.callbacks.forEach((callback) => callback(log, false));
+  }
+
+  public registerCallback(callback: CallbackFunction) {
+    this.callbacks.push(callback);
   }
 
   // Public API

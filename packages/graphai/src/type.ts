@@ -181,3 +181,5 @@ export type AgentFunctionInfo = {
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
 
 export type PropFunction = (result: ResultData, propId: string) => ResultData;
+
+export type CallbackFunction = (log: TransactionLog, isUpdate: boolean) => void;
