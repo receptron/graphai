@@ -120,12 +120,12 @@ const toolWorkFlowStep = {
     result: {
       agent: "copyAgent",
       isResult: true,
-      inputs: { messages: ":reducer.array"}
+      inputs: { messages: ":reducer.array" },
     },
   },
 };
 
-const toolsAgent = nestedAgentGenerator(toolWorkFlowStep, {resultNodeId: "result"});
+const toolsAgent = nestedAgentGenerator(toolWorkFlowStep, { resultNodeId: "result" });
 
 const toolsAgentInfo = {
   name: "toolsAgent",
