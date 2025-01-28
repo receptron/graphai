@@ -158,22 +158,22 @@ export type AgentFunctionInfo = {
   name: string;
   agent: AgentFunction<any, any, any, any>;
   mock: AgentFunction<any, any, any, any>;
-  inputs?: any;
-  output?: any;
+  inputs?: any; // inputs data schema
+  output?: any; // output data schema
+  params?: any; // params data schema
+  config?: any; // config data schema
   outputFormat?: any;
-  params?: any;
-  config?: any;
-  tools?: Record<string, any>[];
-  samples: AgentFunctionInfoSample[];
+  tools?: Record<string, any>[]; // function calling(tools) schema.
+  samples: AgentFunctionInfoSample[]; // sample data. This is for document and unit test.
   description: string;
   category: string[];
   author: string;
   repository: string;
   license: string;
   cacheType?: CacheTypes;
-  environmentVariables?: string[];
-  hasGraphData?: boolean;
-  stream?: boolean;
+  environmentVariables?: string[]; // Environment variables required for execution
+  hasGraphData?: boolean; // The agent that executes graph data using nestedAgentGenerator is true
+  stream?: boolean; // is stream support?
   apiKeys?: string[];
   npms?: string[];
 };
