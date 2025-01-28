@@ -21,6 +21,7 @@ export type {
   GraphDataLoader,
   ConfigDataDictionary,
   DefaultConfigData,
+  CallbackFunction,
 } from "./type";
 
 export { NodeState } from "./type";
