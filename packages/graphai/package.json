@@ -11,7 +11,8 @@
   "scripts": {
     "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
     "eslint": "eslint",
-    "doc": " npx typedoc src/index.ts --out ../../docs/apiDoc",
+    "typedoc": "npx typedoc src/index.ts --out ../../docs/apiDoc",
+    "doc": "echo nothing",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
     "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
