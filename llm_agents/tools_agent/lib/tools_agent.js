@@ -81,8 +81,10 @@ const toolWorkFlowStep = {
                     toolsResponseLLM: {
                         if: ":hasNext",
                         agent: ":llmAgent",
+                        isResult: true,
                         params: {
                             forWeb: true,
+                            stream: true,
                         },
                         inputs: { messages: ":toolsMessage.array" },
                     },
