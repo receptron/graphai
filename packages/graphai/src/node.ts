@@ -440,7 +440,6 @@ export class ComputedNode extends Node {
       debugInfo: this.debugInfo,
       cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
       filterParams: this.filterParams,
-      agentFilters: this.graph.agentFilters,
       config,
       log: localLog,
     };

@@ -123,7 +123,6 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
   };
   cacheType?: CacheTypes;
   filterParams: AgentFilterParams; // agent filter
-  agentFilters?: AgentFilterInfo[]; // TODO remove next version
   log?: TransactionLog[];
   config?: ConfigType;
 };
