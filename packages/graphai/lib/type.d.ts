@@ -107,10 +107,10 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
         agents: AgentFunctionInfoDictionary;
         graphOptions: GraphOptions;
         onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
+        callbacks?: CallbackFunction[];
     };
     cacheType?: CacheTypes;
     filterParams: AgentFilterParams;
-    agentFilters?: AgentFilterInfo[];
     log?: TransactionLog[];
     config?: ConfigType;
 };

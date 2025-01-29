@@ -282,6 +282,7 @@ class ComputedNode extends Node {
                         graphLoader: this.graph.graphLoader,
                     },
                     onLogCallback: this.graph.onLogCallback,
+                    callbacks: this.graph.callbacks,
                 };
             }
             this.beforeConsoleLog(context);
@@ -356,7 +357,6 @@ class ComputedNode extends Node {
             debugInfo: this.debugInfo,
             cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
             filterParams: this.filterParams,
-            agentFilters: this.graph.agentFilters,
             config,
             log: localLog,
         };

@@ -20,7 +20,7 @@ export declare class GraphAI {
     readonly graphLoader?: GraphDataLoader;
     nodes: GraphNodes;
     onLogCallback: CallbackFunction;
-    private callbacks;
+    callbacks: CallbackFunction[];
     verbose: boolean;
     private onComplete;
     private repeatCount;
