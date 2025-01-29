@@ -1,9 +1,9 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, assert } from "@/index";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, NodeData, assert, graphDataLatestVersion } from "@/index";
 
 export const nestedAgent: AgentFunction<{
   namedInputs?: Array<string>;
-}> = async ({ namedInputs, forNestedGraph, log, agentFilters, debugInfo, config }) => {
-  const { graphData, agents, graphOptions } = forNestedGraph ?? {};
+}> = async ({ namedInputs, forNestedGraph, log, debugInfo }) => {
+  const { graphData, agents, graphOptions, onLogCallback, callbacks } = forNestedGraph ?? {};
   const { taskManager } = graphOptions ?? {};
   if (taskManager) {
     const status = taskManager.getStatus(false);
@@ -12,7 +12,17 @@ export const nestedAgent: AgentFunction<{
   assert(!!graphData, "nestedAgent: graph is required");
 
   const { nodes } = graphData;
-  const nestedGraphData = { ...graphData, nodes: { ...nodes } }; // deep enough copy
+  const newNodes = Object.keys(nodes).reduce((tmp: Record<string, NodeData>, key: string) => {
+    const node = nodes[key];
+    if ("agent" in node) {
+      tmp[key] = node;
+    } else {
+      const { value, update, isResult, console } = node;
+      tmp[key] = { value, update, isResult, console };
+    }
+    return tmp;
+  }, {});
+  const nestedGraphData = { ...graphData, nodes: newNodes, version: graphDataLatestVersion }; // deep enough copy
 
   const nodeIds = Object.keys(namedInputs);
   if (nodeIds.length > 0) {
@@ -22,7 +32,9 @@ export const nestedAgent: AgentFunction<{
         nestedGraphData.nodes[nodeId] = { value: namedInputs[nodeId] };
       } else {
         // Otherwise, inject the proper data here (instead of calling injectTo method later)
-        (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+        if (namedInputs[nodeId] !== undefined) {
+          (nestedGraphData.nodes[nodeId] as StaticNodeData)["value"] = namedInputs[nodeId];
+        }
       }
     });
   }
@@ -31,15 +43,20 @@ export const nestedAgent: AgentFunction<{
     if (nestedGraphData.version === undefined && debugInfo.version) {
       nestedGraphData.version = debugInfo.version;
     }
-    const graphAI = new GraphAI(nestedGraphData, agents || {}, {
-      taskManager,
-      agentFilters,
-      config,
-    });
+    const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
+    // for backward compatibility. Remove 'if' later
+    if (onLogCallback) {
+      graphAI.onLogCallback = onLogCallback;
+    }
+    if (callbacks) {
+      graphAI.callbacks = callbacks;
+    }
     debugInfo.subGraphs.set(graphAI.graphId, graphAI);
     const results = await graphAI.run(false);
-    log?.push(...graphAI.transactionLogs());
     debugInfo.subGraphs.delete(graphAI.graphId);
+
+    log?.push(...graphAI.transactionLogs());
+
     return results;
   } catch (error) {
     if (error instanceof Error) {

@@ -7,7 +7,7 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, namedInputs, log, forNestedGraph, agentFilters, debugInfo, config }) => {
+> = async ({ params, namedInputs, log, forNestedGraph, debugInfo }) => {
   const { graphData, agents, graphOptions } = forNestedGraph ?? {};
   const { taskManager } = graphOptions ?? {};
   if (taskManager) {
@@ -43,11 +43,7 @@ export const mapAgent: AgentFunction<
       nestedGraphData.version = debugInfo.version;
     }
     const graphs: Array<GraphAI> = rows.map((row: any) => {
-      const graphAI = new GraphAI(nestedGraphData, agents || {}, {
-        taskManager,
-        agentFilters: agentFilters || [],
-        config,
-      });
+      const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
 
       graphAI.injectValue("row", row, "__mapAgent_inputs__");
       return graphAI;

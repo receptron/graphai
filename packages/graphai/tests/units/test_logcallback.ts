@@ -23,6 +23,29 @@ const graph_data: GraphData = {
         text: ":testAgent.text",
       },
     },
+    childGraph: {
+      inputs: {
+        text: ":testAgent2.text",
+      },
+      agent: "nestedAgent",
+      graph: {
+        version: graphDataLatestVersion,
+        nodes: {
+          nestedTestAgent: {
+            agent: "copyAgent",
+            inputs: {
+              text: ":text",
+            },
+          },
+          nestedTestAgent2: {
+            agent: "copyAgent",
+            inputs: {
+              text: ":nestedTestAgent.text",
+            },
+          },
+        },
+      },
+    },
   },
 };
 
@@ -41,6 +64,31 @@ test("test logCallback", async () => {
     { nodeId: "testAgent2", state: "queued", agentId: "copyAgent" },
     { nodeId: "testAgent2", state: "executing", agentId: "copyAgent" },
     { nodeId: "testAgent2", state: "completed", agentId: "copyAgent" },
+    { nodeId: "childGraph", state: "queued", agentId: "nestedAgent" },
+    { nodeId: "childGraph", state: "executing", agentId: "nestedAgent" },
+    { nodeId: "nestedTestAgent", state: "queued", agentId: "copyAgent" },
+    {
+      nodeId: "nestedTestAgent",
+      state: "executing",
+      agentId: "copyAgent",
+    },
+    {
+      nodeId: "nestedTestAgent",
+      state: "completed",
+      agentId: "copyAgent",
+    },
+    { nodeId: "nestedTestAgent2", state: "queued", agentId: "copyAgent" },
+    {
+      nodeId: "nestedTestAgent2",
+      state: "executing",
+      agentId: "copyAgent",
+    },
+    {
+      nodeId: "nestedTestAgent2",
+      state: "completed",
+      agentId: "copyAgent",
+    },
+    { nodeId: "childGraph", state: "completed", agentId: "nestedAgent" },
   ]);
 });
 
@@ -57,6 +105,7 @@ test("test logRegister", async () => {
     logs2.push({ state, agentId });
   });
   await graph.run(true);
+
   assert.deepStrictEqual(logs1, [
     { nodeId: "testAgent", state: "queued" },
     { nodeId: "testAgent", state: "executing" },
@@ -64,6 +113,15 @@ test("test logRegister", async () => {
     { nodeId: "testAgent2", state: "queued" },
     { nodeId: "testAgent2", state: "executing" },
     { nodeId: "testAgent2", state: "completed" },
+    { nodeId: "childGraph", state: "queued" },
+    { nodeId: "childGraph", state: "executing" },
+    { nodeId: "nestedTestAgent", state: "queued" },
+    { nodeId: "nestedTestAgent", state: "executing" },
+    { nodeId: "nestedTestAgent", state: "completed" },
+    { nodeId: "nestedTestAgent2", state: "queued" },
+    { nodeId: "nestedTestAgent2", state: "executing" },
+    { nodeId: "nestedTestAgent2", state: "completed" },
+    { nodeId: "childGraph", state: "completed" },
   ]);
   assert.deepStrictEqual(logs2, [
     { state: "queued", agentId: "copyAgent" },
@@ -72,5 +130,14 @@ test("test logRegister", async () => {
     { state: "queued", agentId: "copyAgent" },
     { state: "executing", agentId: "copyAgent" },
     { state: "completed", agentId: "copyAgent" },
+    { state: "queued", agentId: "nestedAgent" },
+    { state: "executing", agentId: "nestedAgent" },
+    { state: "queued", agentId: "copyAgent" },
+    { state: "executing", agentId: "copyAgent" },
+    { state: "completed", agentId: "copyAgent" },
+    { state: "queued", agentId: "copyAgent" },
+    { state: "executing", agentId: "copyAgent" },
+    { state: "completed", agentId: "copyAgent" },
+    { state: "completed", agentId: "nestedAgent" },
   ]);
 });
