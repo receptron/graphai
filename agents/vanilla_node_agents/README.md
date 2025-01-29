@@ -43,7 +43,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
+    "baseDir": "/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
   }
 }
 ```
@@ -57,7 +57,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "baseDir": "/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
     "outputType": "base64"
   }
 }
@@ -72,7 +72,7 @@ const result = await graph.run();
     ]
   },
   "params": {
-    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "baseDir": "/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
     "outputType": "text"
   }
 }
@@ -85,7 +85,7 @@ const result = await graph.run();
     "file": "test.txt"
   },
   "params": {
-    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
+    "baseDir": "/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/",
     "outputType": "text"
   }
 }
@@ -100,7 +100,7 @@ const result = await graph.run();
     "text": "hello"
   },
   "params": {
-    "baseDir": "/Users/isamu/ss/llm/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
+    "baseDir": "/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"
   }
 }
 ```

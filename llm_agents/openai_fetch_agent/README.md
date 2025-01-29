@@ -10,9 +10,6 @@ yarn add @graphai/openai_fetch_agent
 ```
 
 
-This agent is used when referencing openai agent directly from codepen or index.html in js.
-Normally, use openai_agent.
-
 ### Usage
 
 ```typescript

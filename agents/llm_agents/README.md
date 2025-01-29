@@ -30,8 +30,7 @@ import {
   groqAgent,
   openAIAgent,
   openAIImageAgent,
-  replicateAgent,
-  slashGPTAgent
+  replicateAgent
  } from "@graphai/llm_agents";
 
 const agents = { 
@@ -40,8 +39,7 @@ const agents = {
   groqAgent,
   openAIAgent,
   openAIImageAgent,
-  replicateAgent,
-  slashGPTAgent
+  replicateAgent
  };
 
 const graph = new GraphAI(graph_data, agents);
@@ -55,7 +53,6 @@ const result = await graph.run();
 - openAIAgent - OpenAI Agent
 - openAIImageAgent - OpenAI Image Agent
 - replicateAgent - Replicate Agent
-- slashGPTAgent - Slash GPT Agent
 
 ### Input/Output/Params Schema & samples
  - [anthropicAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/anthropicAgent.md)
@@ -64,7 +61,6 @@ const result = await graph.run();
  - [openAIAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIAgent.md)
  - [openAIImageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIImageAgent.md)
  - [replicateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/replicateAgent.md)
- - [slashGPTAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/slashGPTAgent.md)
 
 ### Input/Params example
  - openAIAgent
@@ -75,17 +71,6 @@ const result = await graph.run();
     "prompt": "this is response result"
   },
   "params": {}
-}
-```
-
- - slashGPTAgent
-
-```typescript
-{
-  "inputs": {},
-  "params": {
-    "query": "Come up with ten business ideas for AI startup"
-  }
 }
 ```
 

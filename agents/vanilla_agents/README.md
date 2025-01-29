@@ -2244,6 +2244,24 @@ const result = await graph.run();
 }
 ```
 
+
+```typescript
+{
+  "inputs": {},
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "oldText": "old"
+  },
+  "params": {}
+}
+```
+
  - totalAgent
 
 ```typescript
