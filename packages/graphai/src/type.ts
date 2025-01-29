@@ -119,6 +119,7 @@ export type AgentFunctionContext<ParamsType = DefaultParamsType, NamedInputDataT
     agents: AgentFunctionInfoDictionary; // for nested graph
     graphOptions: GraphOptions;
     onLogCallback?: (log: TransactionLog, isUpdate: boolean) => void;
+    callbacks: CallbackFunction[];
   };
   cacheType?: CacheTypes;
   filterParams: AgentFilterParams; // agent filter

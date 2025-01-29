@@ -45,7 +45,7 @@ export class GraphAI {
 
   public nodes: GraphNodes;
   public onLogCallback: CallbackFunction = (__log: TransactionLog, __isUpdate: boolean) => {};
-  private callbacks: CallbackFunction[] = [];
+  public callbacks: CallbackFunction[] = [];
   public verbose: boolean; // REVIEW: Do we need this?
 
   private onComplete: (isAbort: boolean) => void;

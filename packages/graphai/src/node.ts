@@ -356,6 +356,7 @@ export class ComputedNode extends Node {
             graphLoader: this.graph.graphLoader,
           },
           onLogCallback: this.graph.onLogCallback,
+          callbacks: this.graph.callbacks,
         };
       }
 
