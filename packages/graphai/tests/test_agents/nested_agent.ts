@@ -2,7 +2,7 @@ import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, NodeData, as
 
 export const nestedAgent: AgentFunction<{
   namedInputs?: Array<string>;
-}> = async ({ namedInputs, forNestedGraph, log, agentFilters, debugInfo, config }) => {
+}> = async ({ namedInputs, forNestedGraph, log, debugInfo }) => {
   const { graphData, agents, graphOptions, onLogCallback, callbacks } = forNestedGraph ?? {};
   const { taskManager } = graphOptions ?? {};
   if (taskManager) {
