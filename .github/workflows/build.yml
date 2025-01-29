@@ -25,6 +25,7 @@ jobs:
     - run: yarn install
     - run: yarn run build
     - run: yarn run format
+    - run: yarn run doc
     - run: yarn run monoRepoAgentDoc
     - run: |
         git config user.name "GitHub Actions Bot"
