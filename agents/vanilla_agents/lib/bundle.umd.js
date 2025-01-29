@@ -316,7 +316,7 @@
         return async (context) => {
             const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
             graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-            const { agents, graphOptions, onLogCallback } = forNestedGraph;
+            const { agents, graphOptions, onLogCallback, callbacks } = forNestedGraph;
             const { taskManager } = graphOptions;
             const throwError = params.throwError ?? false;
             if (taskManager) {
@@ -360,6 +360,9 @@
                 // for backward compatibility. Remove 'if' later
                 if (onLogCallback) {
                     graphAI.onLogCallback = onLogCallback;
+                }
+                if (callbacks) {
+                    graphAI.callbacks = callbacks;
                 }
                 debugInfo.subGraphs.set(graphAI.graphId, graphAI);
                 const results = await graphAI.run(false);
@@ -1273,7 +1276,7 @@
 
     const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
         graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-        const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
+        const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
         const { taskManager } = graphOptions;
         if (taskManager) {
             const status = taskManager.getStatus();
@@ -1314,6 +1317,9 @@
                 // for backward compatibility. Remove 'if' later
                 if (onLogCallback) {
                     graphAI.onLogCallback = onLogCallback;
+                }
+                if (callbacks) {
+                    graphAI.callbacks = callbacks;
                 }
                 return graphAI;
             });

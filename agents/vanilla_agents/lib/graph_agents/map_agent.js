@@ -4,7 +4,7 @@ exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
+    const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
         const status = taskManager.getStatus();
@@ -45,6 +45,9 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {
                 graphAI.onLogCallback = onLogCallback;
+            }
+            if (callbacks) {
+                graphAI.callbacks = callbacks;
             }
             return graphAI;
         });
