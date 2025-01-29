@@ -7,7 +7,7 @@ export const mapAgent: AgentFunction<
   },
   Record<string, any>,
   any
-> = async ({ params, namedInputs, log, forNestedGraph, debugInfo, config }) => {
+> = async ({ params, namedInputs, log, forNestedGraph, debugInfo }) => {
   const { graphData, agents, graphOptions } = forNestedGraph ?? {};
   const { taskManager } = graphOptions ?? {};
   if (taskManager) {
