@@ -11,7 +11,7 @@ export const mapAgent: AgentFunction<
 > = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
   assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
 
-  const { agents, graphData, graphOptions, onLogCallback } = forNestedGraph;
+  const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
   const { taskManager } = graphOptions;
 
   if (taskManager) {
@@ -57,6 +57,9 @@ export const mapAgent: AgentFunction<
       // for backward compatibility. Remove 'if' later
       if (onLogCallback) {
         graphAI.onLogCallback = onLogCallback;
+      }
+      if (callbacks) {
+        graphAI.callbacks = callbacks;
       }
       return graphAI;
     });
