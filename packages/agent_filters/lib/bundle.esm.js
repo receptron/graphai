@@ -36,13 +36,12 @@ const namedInputValidatorFilter = async (context, next) => {
     return next(context);
 };
 
-async function* streamChatCompletion(url, postData) {
+async function* streamChatCompletion(url, postData, userHeaders) {
     const { params, namedInputs, debugInfo, filterParams } = postData;
     const postBody = { params, debugInfo, filterParams, namedInputs };
+    const headers = { ...userHeaders, "Content-Type": "application/json" };
     const completion = await fetch(url, {
-        headers: {
-            "Content-Type": "text/event-stream",
-        },
+        headers,
         method: "POST",
         body: JSON.stringify(postBody),
     });
@@ -64,8 +63,8 @@ async function* streamChatCompletion(url, postData) {
         }
     }
 }
-const streamingRequest = async (context, url, postData, isDebug) => {
-    const generator = streamChatCompletion(url, postData);
+const streamingRequest = async (context, url, postData, userHeaders, isDebug) => {
+    const generator = streamChatCompletion(url, postData, userHeaders);
     const messages = [];
     for await (const token of generator) {
         if (isDebug) {
@@ -83,20 +82,23 @@ const streamingRequest = async (context, url, postData, isDebug) => {
     const data = JSON.parse(payload_data);
     return data;
 };
-const httpRequest = async (url, postData) => {
+const httpRequest = async (url, postData, userHeaders) => {
+    const headers = { ...userHeaders, "Content-Type": "application/json" };
     const response = await fetch(url, {
         method: "post",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(postData),
     });
     return await response.json();
 };
 const httpAgentFilter = async (context, next) => {
-    const { params, debugInfo, filterParams, namedInputs } = context;
+    const { params, debugInfo, filterParams, namedInputs, config } = context;
     if (filterParams?.server) {
         const { baseUrl, isDebug, serverAgentUrlDictionary } = filterParams.server;
+        const headers = config?.headers ?? {};
+        if (!isObject(headers)) {
+            throw new Error("httpAgentFilter: headers is not object.");
+        }
         const agentId = debugInfo.agentId;
         const isStreaming = filterParams.streamTokenCallback !== undefined;
         const url = serverAgentUrlDictionary && agentId && serverAgentUrlDictionary[agentId] ? serverAgentUrlDictionary[agentId] : [baseUrl, agentId].join("/");
@@ -111,9 +113,9 @@ const httpAgentFilter = async (context, next) => {
             inputs: namedInputs, // alias.
         };
         if (isStreaming) {
-            return await streamingRequest(context, url, postData, isDebug);
+            return await streamingRequest(context, url, postData, headers, isDebug);
         }
-        return await httpRequest(url, postData);
+        return await httpRequest(url, postData, headers);
     }
     return next(context);
 };
