@@ -90,7 +90,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     ...namedInputs,
   };
 
-  const { apiKey, stream, baseURL, forWeb, model } = {
+  const { apiKey, stream, forWeb, model, baseURL } = {
     ...(config || {}),
     ...params,
   };

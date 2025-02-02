@@ -28,10 +28,10 @@
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/llm_agents/README.md",
   "dependencies": {
     "@graphai/anthropic_agent": "^0.2.2",
-    "@graphai/gemini_agent": "^0.2.2",
-    "@graphai/groq_agent": "^0.2.2",
-    "@graphai/openai_agent": "^0.2.5",
-    "@graphai/replicate_agent": "^0.2.0"
+    "@graphai/gemini_agent": "^0.2.3",
+    "@graphai/groq_agent": "^0.2.3",
+    "@graphai/openai_agent": "^0.2.6",
+    "@graphai/replicate_agent": "^0.2.2"
   },
   "types": "./lib/index.d.ts",
   "directories": {
