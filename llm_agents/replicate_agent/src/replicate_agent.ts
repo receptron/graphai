@@ -1,6 +1,6 @@
 import Replicate from "replicate";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { GrapAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type ReplicateInputs = {
   model?: string;
@@ -10,7 +10,7 @@ type ReplicateInputs = {
   // stream?: boolean;
   messages?: Array<Record<string, any>>;
   forWeb?: boolean;
-} & GrapAILLMInputBase;
+} & GraphAILLMInputBase;
 
 export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> | string, ReplicateInputs> = async ({ params, namedInputs }) => {
   const { prompt } = {
