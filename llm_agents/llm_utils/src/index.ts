@@ -1,13 +1,3 @@
-// typo (todo remove later)
-export type GrapAILLInputType = string | (string | undefined)[] | undefined;
-
-export type GrapAILLMInputBase = {
-  prompt?: GrapAILLInputType;
-  system?: GrapAILLInputType;
-  mergeablePrompts?: GrapAILLInputType;
-  mergeableSystem?: GrapAILLInputType;
-};
-
 // valid
 export type GraphAILLInputType = string | (string | undefined)[] | undefined;
 
