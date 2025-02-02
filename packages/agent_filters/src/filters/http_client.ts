@@ -3,7 +3,7 @@ import { AgentFilterFunction, AgentFunctionContext, isObject } from "graphai";
 async function* streamChatCompletion(url: string, postData: AgentFunctionContext, userHeaders: any) {
   const { params, namedInputs, debugInfo, filterParams } = postData;
   const postBody = { params, debugInfo, filterParams, namedInputs };
-  const headers = { ...userHeaders, "Content-Type": "application/json" };
+  const headers = { ...userHeaders, "Content-Type": "text/event-stream" };
 
   const completion = await fetch(url, {
     headers,
