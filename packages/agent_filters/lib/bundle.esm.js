@@ -39,7 +39,7 @@ const namedInputValidatorFilter = async (context, next) => {
 async function* streamChatCompletion(url, postData, userHeaders) {
     const { params, namedInputs, debugInfo, filterParams } = postData;
     const postBody = { params, debugInfo, filterParams, namedInputs };
-    const headers = { ...userHeaders, "Content-Type": "application/json" };
+    const headers = { ...userHeaders, "Content-Type": "text/event-stream" };
     const completion = await fetch(url, {
         headers,
         method: "POST",
