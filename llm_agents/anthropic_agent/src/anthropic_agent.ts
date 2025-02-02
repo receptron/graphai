@@ -4,12 +4,13 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
 
 type AnthropicInputs = {
+  verbose?: boolean;
   model?: string;
   temperature?: number;
   max_tokens?: number;
-  // tools?: any;
-  // tool_choice?: any;
-  messages?: Array<Record<string, any>>;
+  tools?: any;
+  tool_choice?: any;
+  messages?: Array<Anthropic.MessageParam>;
 } & GraphAILLMInputBase;
 
 type AnthropicConfig = {
@@ -30,9 +31,9 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   filterParams,
   config,
 }) => {
-  const { model, system, temperature, max_tokens, prompt, messages } = { ...params, ...namedInputs };
+  const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages } = { ...params, ...namedInputs };
 
-  const { apiKey, stream, forWeb } = {
+  const { apiKey, stream, forWeb, model } = {
     ...params,
     ...(config || {}),
   };
@@ -40,7 +41,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
-  const messagesCopy: Array<any> = messages ? messages.map((m) => m) : [];
+  const messagesCopy: Array<Anthropic.MessageParam> = messages ? messages.map((m) => m) : [];
 
   if (userPrompt) {
     messagesCopy.push({
@@ -49,6 +50,10 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     });
   }
 
+  if (verbose) {
+    console.log(messagesCopy);
+  }
+  console.log(tools, tool_choice);
   const anthropic = new Anthropic({ apiKey, dangerouslyAllowBrowser: !!forWeb });
   const opt = {
     model: model ?? "claude-3-5-sonnet-20241022",
@@ -81,7 +86,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     }
   }
   const content = contents.join("");
-  const message = { role: "assistant", content: content };
+  const message = { role: "assistant" as const, content: content };
   messagesCopy.push(message);
   return { choices: [{ message }], text: content, message, messages: messagesCopy };
 };
