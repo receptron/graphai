@@ -61,7 +61,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
           content,
           role,
           tool_calls,
-        }
+        };
       }
       return {
         content,
