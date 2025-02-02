@@ -1,10 +1,3 @@
-export type GrapAILLInputType = string | (string | undefined)[] | undefined;
-export type GrapAILLMInputBase = {
-    prompt?: GrapAILLInputType;
-    system?: GrapAILLInputType;
-    mergeablePrompts?: GrapAILLInputType;
-    mergeableSystem?: GrapAILLInputType;
-};
 export type GraphAILLInputType = string | (string | undefined)[] | undefined;
 export type GraphAILLMInputBase = {
     prompt?: GraphAILLInputType;
