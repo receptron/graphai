@@ -56,10 +56,16 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
   const message = (() => {
     if (newMessage) {
       const { content, role, tool_calls } = newMessage;
+      if (tool_calls && tool_calls.length > 0) {
+        return {
+          content,
+          role,
+          tool_calls,
+        }
+      }
       return {
         content,
         role,
-        tool_calls: tool_calls && tool_calls.length > 0 ? tool_calls : null,
       };
     }
     return null;
