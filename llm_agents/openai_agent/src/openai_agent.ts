@@ -42,16 +42,28 @@ const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageTo
 };
 
 const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[]) => {
-  const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
-  const text = message && message.content ? message.content : null;
+  const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
+  const text = newMessage && newMessage.content ? newMessage.content : null;
 
-  const functionResponses = message?.tool_calls && Array.isArray(message?.tool_calls) ? message?.tool_calls : [];
+  const functionResponses = newMessage?.tool_calls && Array.isArray(newMessage?.tool_calls) ? newMessage?.tool_calls : [];
   const functionResponse = functionResponses[0] ? functionResponses[0] : null;
 
   // const functionId = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.id : null;
 
   const tool = functionResponse ? convToolCall(functionResponse) : undefined;
   const tool_calls = functionResponses.map(convToolCall);
+
+  const message = (() => {
+    if (newMessage) {
+      const { content, role, tool_calls } = newMessage;
+      return {
+        content,
+        role,
+        tool_calls: tool_calls && tool_calls.length > 0 ? tool_calls : null,
+      };
+    }
+    return null;
+  })();
 
   if (message) {
     messages.push(message);
