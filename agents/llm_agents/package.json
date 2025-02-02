@@ -1,6 +1,6 @@
 {
   "name": "@graphai/llm_agents",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "LLM agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -30,7 +30,7 @@
     "@graphai/anthropic_agent": "^0.2.2",
     "@graphai/gemini_agent": "^0.2.2",
     "@graphai/groq_agent": "^0.2.2",
-    "@graphai/openai_agent": "^0.2.4",
+    "@graphai/openai_agent": "^0.2.5",
     "@graphai/replicate_agent": "^0.2.0"
   },
   "types": "./lib/index.d.ts",
