@@ -55,21 +55,24 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
   const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
   const text = message && message.content ? message.content : null;
 
-  const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
+  // const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
+  const functionResponses = message?.tool_calls && message?.tool_calls.length > 0 ? message?.tool_calls : [];
 
-  const tool = functionResponse
-    ? {
-        id: functionResponse.id,
-        name: functionResponse?.function?.name,
-        arguments: (() => {
-          try {
-            return JSON.parse(functionResponse?.function?.arguments);
-          } catch (__e) {
-            return undefined;
-          }
-        })(),
-      }
-    : undefined;
+  const tool_calls = functionResponses.map(functionResponse => {
+    return {
+      id: functionResponse.id,
+      name: functionResponse?.function?.name,
+      arguments: (() => {
+        try {
+          return JSON.parse(functionResponse?.function?.arguments);
+        } catch (__e) {
+          return undefined;
+        }
+      })(),
+    }
+  });
+  const tool = tool_calls[0] ? tool_calls[0] : undefined;
+  
   if (message) {
     messages.push(message);
   }
@@ -77,6 +80,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
     ...response,
     text,
     tool,
+    tool_calls,
     message,
     messages,
   };
@@ -85,7 +89,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
 export const groqAgent: AgentFunction<GroqParams, any, GroqInputs, GroqConfig> = async ({ params, namedInputs, filterParams, config }) => {
   const { verbose, system, tools, tool_choice, max_tokens, temperature, prompt, messages } = { ...params, ...namedInputs };
 
-  const { apiKey, stream, forWeb } = {
+  const { apiKey, stream, forWeb, model } = {
     ...params,
     ...(config || {}),
   };
@@ -111,13 +115,13 @@ export const groqAgent: AgentFunction<GroqParams, any, GroqInputs, GroqConfig> =
   }
   const streamOption: ChatCompletionCreateParamsStreaming = {
     messages: messagesCopy,
-    model: params.model,
+    model,
     temperature: temperature ?? 0.7,
     stream: true,
   };
   const nonStreamOption: ChatCompletionCreateParamsNonStreaming = {
     messages: messagesCopy,
-    model: params.model,
+    model,
     temperature: temperature ?? 0.7,
   };
 

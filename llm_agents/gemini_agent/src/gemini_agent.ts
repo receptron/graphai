@@ -9,6 +9,7 @@ type GeminiInputs = {
   max_tokens?: number;
   tools?: Array<Record<string, any>>;
   // tool_choice?: any;
+  response_format?: any;
   messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
 
@@ -49,9 +50,9 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
   config,
   filterParams,
 }) => {
-  const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
+  const { system, temperature, tools, max_tokens, prompt, messages, /* response_format */ } = { ...params, ...namedInputs };
 
-  const { apiKey, stream } = {
+  const { apiKey, stream, model } = {
     ...params,
     ...(config || {}),
   };
@@ -83,10 +84,20 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
       threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
     },
   ];
+
   const modelParams: ModelParams = {
     model: model ?? "gemini-pro",
     safetySettings,
   };
+  /*
+  if (response_format) {
+    modelParams.generationConfig = {
+      responseMimeType: "application/json",
+      responseSchema: response_format,
+    };
+  }
+  */
+
   if (tools) {
     const functions = tools.map((tool: any) => {
       return tool.function;
