@@ -2017,10 +2017,10 @@ graphql@^16.8.1:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.9.0.tgz#1c310e63f16a49ce1fbb230bd0a000e99f6f115f"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
-groq-sdk@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.12.0.tgz#9f6655ecd38ded84e5397970d2f7cf48a12ffe2c"
-  integrity sha512-X8ogAHYJ0pfDFAzTxSmfTCac0GznA1Ypd6t8to2SL236FY2tPSOZrOhIBAobPx+oey/6WI96MbvT6VvvjCDTCQ==
+groq-sdk@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.14.0.tgz#fe737f2583542e08868f0effd1ebb118c0bfe4bf"
+  integrity sha512-u8+pPPWBb2kdZNPBNvpqk2yHwiAwdcWwKnCLhaFrqzwYnFvBCwFWEkR65H+IgWdVyJmo0ZYDrzqbwb5TTaKanQ==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
