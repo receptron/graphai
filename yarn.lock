@@ -3498,10 +3498,10 @@ terser@^5.17.4:
     commander "^2.20.0"
     source-map-support "~0.5.20"
 
-tiktoken@^1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/tiktoken/-/tiktoken-1.0.18.tgz#41c7d776ee5da27642e731d732fee3dde3fc7a2b"
-  integrity sha512-DXJesdYwmBHtkmz1sji+UMZ4AOEE8F7Uw/PS/uy0XfkKOzZC4vXkYXHMYyDT+grdflvF4bggtPt9cYaqOMslBw==
+tiktoken@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/tiktoken/-/tiktoken-1.0.19.tgz#7637d4ce871f8cde568723860fb0ad930ad32eeb"
+  integrity sha512-vgFTegKSjNIQ9oTMpNTForC6zvOfulgQFAj3h+FMI+wTVXEszhud3W1jllVbvfWcWN6rGPRryCnEfqUIOMpzGw==
 
 tmp@^0.0.33:
   version "0.0.33"
