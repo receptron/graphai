@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams, EnhancedGenerateContentResponse } from "@google/generative-ai";
 
 import { GraphAILLMInputBase, getMergeValue, GraphAILlmMessage, getMessages } from "@graphai/llm_utils";
 
@@ -19,6 +19,29 @@ type GeminiConfig = {
 
 type GeminiParams = GeminiInputs & GeminiConfig;
 
+const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, messages: GraphAILlmMessage[]) => {
+  const text = response.text();
+  const message: any = { role: "assistant", content: text };
+  // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
+  const calls = response.functionCalls();
+  if (calls) {
+    message.tool_calls = calls.map((call) => {
+      return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
+    });
+  }
+  const tool_calls = calls ? calls.map((call) => {
+    return {
+      name: call.name,
+      arguments: call.args,
+    }}) : [];
+  const tool = tool_calls && tool_calls[0] ? tool_calls : undefined;
+  messages.push(message);
+  // return { choices: [{ message }], text, tool, message };
+
+  return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
+};
+
+
 export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | string, GeminiInputs, GeminiConfig> = async ({
   params,
   namedInputs,
@@ -35,7 +58,7 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
-  const messagesCopy = getMessages(systemPrompt, messages);
+  const messagesCopy = getMessages<GraphAILlmMessage>(systemPrompt, messages);
 
   if (userPrompt) {
     messagesCopy.push({
@@ -87,6 +110,7 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
     }),
     generationConfig,
   });
+  messagesCopy.push(lastMessage);
 
   if (stream) {
     const result = await chat.sendMessageStream(lastMessage.content);
@@ -98,31 +122,14 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
       }
     }
     const response = await result.response;
-    const text = response.text();
-    const message: any = { role: "assistant", content: text };
-    return { choices: [{ message }], text, message };
+    return convertOpenAIChatCompletion(response, messagesCopy);
+    
   }
 
   const result = await chat.sendMessage(lastMessage.content);
   const response = result.response;
-  const text = response.text();
-  const message: any = { role: "assistant", content: text };
-  // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
-  const calls = result.response.functionCalls();
-  if (calls) {
-    message.tool_calls = calls.map((call) => {
-      return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
-    });
-  }
-  const tool =
-    calls && calls[0]
-      ? {
-          name: calls[0].name,
-          arguments: calls[0].args,
-        }
-      : undefined;
 
-  return { choices: [{ message }], text, tool, message };
+  return convertOpenAIChatCompletion(response, messagesCopy);
 };
 
 const geminiAgentInfo: AgentFunctionInfo = {
