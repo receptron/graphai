@@ -105,7 +105,6 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   });
   const contents = [];
   const partials = [];
-  // const startMessage = chatStream.next();
   let streamResponse: Response | null = null;
   
   for await (const messageStreamEvent of chatStream) {
