@@ -47,7 +47,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
 
   const functionResponses = newMessage?.tool_calls && Array.isArray(newMessage?.tool_calls) ? newMessage?.tool_calls : [];
   // const functionId = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.id : null;
-  
+
   const tool_calls = functionResponses.map(convToolCall);
   const tool = tool_calls && tool_calls.length > 0 ? tool_calls[0] : undefined;
 

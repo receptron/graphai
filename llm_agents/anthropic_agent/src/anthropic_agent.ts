@@ -28,7 +28,7 @@ const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
   return { id, name, arguments: input };
 };
 
-type Response =  Anthropic.Message & { _request_id?: string | null | undefined; };
+type Response = Anthropic.Message & { _request_id?: string | null | undefined };
 // https://docs.anthropic.com/ja/api/messages
 const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[]) => {
   // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
@@ -106,7 +106,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   const contents = [];
   const partials = [];
   let streamResponse: Response | null = null;
-  
+
   for await (const messageStreamEvent of chatStream) {
     if (messageStreamEvent.type === "message_start") {
       streamResponse = messageStreamEvent.message;

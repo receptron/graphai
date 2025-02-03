@@ -10,7 +10,7 @@ type OpenAIInputs = {
     verbose?: boolean;
     temperature?: number;
     messages?: Array<OpenAI.ChatCompletionMessageParam>;
-    response_format?: any;
+    response_format?: OpenAI.ResponseFormatText | OpenAI.ResponseFormatJSONObject | OpenAI.ResponseFormatJSONSchema;
 } & GraphAILLMInputBase;
 type OpenAIConfig = {
     baseURL?: string;
