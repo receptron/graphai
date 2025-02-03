@@ -37,7 +37,7 @@ const convertOpenAIChatCompletion = (response: any, messages: Anthropic.MessageP
   const tool_calls = functionResponses.map(convToolCall);
   const tool = tool_calls[0] ? tool_calls[0] : undefined;
 
-  const message = { role: response.role, content };
+  const message = { role: response.role, content: text };
   messages.push(message);
   return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
 };
