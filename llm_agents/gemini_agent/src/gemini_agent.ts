@@ -36,7 +36,6 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
     }}) : [];
   const tool = tool_calls && tool_calls[0] ? tool_calls : undefined;
   messages.push(message);
-  // return { choices: [{ message }], text, tool, message };
 
   return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
 };
@@ -114,7 +113,6 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
 
   if (stream) {
     const result = await chat.sendMessageStream(lastMessage.content);
-    const chunks = [];
     for await (const chunk of result.stream) {
       const chunkText = chunk.text();
       if (filterParams && filterParams.streamTokenCallback && chunkText) {
