@@ -8,7 +8,7 @@ type AnthropicInputs = {
   model?: string;
   temperature?: number;
   max_tokens?: number;
-  tools?: any;
+  tools?: any[];
   tool_choice?: any;
   messages?: Array<Anthropic.MessageParam>;
 } & GraphAILLMInputBase;
@@ -23,7 +23,24 @@ type AnthropicParams = AnthropicInputs & AnthropicConfig;
 
 type AnthropicResult = Record<string, any> | string;
 
+const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
+  const { id, name, input } = tool_call;
+  return { id, name, arguments: input };
+};
+
 // https://docs.anthropic.com/ja/api/messages
+const convertOpenAIChatCompletion = (response: any, messages: Anthropic.MessageParam[]) => {
+  // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
+
+  const content = (response.content[0] as Anthropic.TextBlock).text;
+  const functionResponses = response.content.filter((content: Anthropic.TextBlock | Anthropic.ToolUseBlock) => content.type === "tool_use") ?? [];
+  const tool_calls = functionResponses.map(convToolCall);
+  const tool = tool_calls[0] ? tool_calls[0] : undefined;
+
+  const message = { role: response.role, content };
+  messages.push(message);
+  return { ...response, choices: [{ message }], text: content, tool, tool_calls, message, messages };
+};
 
 export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({
   params,
@@ -53,30 +70,41 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   if (verbose) {
     console.log(messagesCopy);
   }
-  console.log(tools, tool_choice);
+  const anthropic_tools =
+    tools && tools.length > 0
+      ? tools.map((tool) => {
+          const { function: func } = tool;
+          const { name, description, parameters } = func;
+          return {
+            name,
+            description,
+            input_schema: parameters,
+          };
+        })
+      : undefined;
+
   const anthropic = new Anthropic({ apiKey, dangerouslyAllowBrowser: !!forWeb });
-  const opt = {
-    model: model ?? "claude-3-5-sonnet-20241022",
+  const chatParams = {
+    model: model ?? "claude-3-5-sonnet-latest",
     messages: messagesCopy,
+    tools: anthropic_tools,
+    tool_choice,
     system: systemPrompt,
     temperature: temperature ?? 0.7,
     max_tokens: max_tokens ?? 1024,
   };
+
   if (!stream) {
-    const messageResponse = await anthropic.messages.create(opt);
-    // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
-    const content = (messageResponse.content[0] as Anthropic.TextBlock).text;
-    const message = { role: messageResponse.role, content };
-    messagesCopy.push(message);
-    return { choices: [{ message }], text: content, message, messages: messagesCopy };
+    const messageResponse = await anthropic.messages.create(chatParams);
+    return convertOpenAIChatCompletion(messageResponse, messagesCopy);
   }
   const chatStream = await anthropic.messages.create({
-    ...opt,
+    ...chatParams,
     stream: true,
   });
   const contents = [];
   for await (const messageStreamEvent of chatStream) {
-    // console.log(messageStreamEvent.type);
+    // console.log(messageStreamEvent);
     if (messageStreamEvent.type === "content_block_delta" && messageStreamEvent.delta.type === "text_delta") {
       const token = messageStreamEvent.delta.text;
       contents.push(token);
