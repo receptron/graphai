@@ -14,12 +14,14 @@ const convertOpenAIChatCompletion = (response, messages) => {
             return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
         });
     }
-    const tool_calls = calls ? calls.map((call) => {
-        return {
-            name: call.name,
-            arguments: call.args,
-        };
-    }) : [];
+    const tool_calls = calls
+        ? calls.map((call) => {
+            return {
+                name: call.name,
+                arguments: call.args,
+            };
+        })
+        : [];
     const tool = tool_calls && tool_calls[0] ? tool_calls : undefined;
     messages.push(message);
     return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };

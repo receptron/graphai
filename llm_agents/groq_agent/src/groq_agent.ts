@@ -58,7 +58,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
   // const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
   const functionResponses = message?.tool_calls && message?.tool_calls.length > 0 ? message?.tool_calls : [];
 
-  const tool_calls = functionResponses.map(functionResponse => {
+  const tool_calls = functionResponses.map((functionResponse) => {
     return {
       id: functionResponse.id,
       name: functionResponse?.function?.name,
@@ -69,10 +69,10 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
           return undefined;
         }
       })(),
-    }
+    };
   });
   const tool = tool_calls[0] ? tool_calls[0] : undefined;
-  
+
   if (message) {
     messages.push(message);
   }
