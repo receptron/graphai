@@ -28,8 +28,9 @@ const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
   return { id, name, arguments: input };
 };
 
+type Response =  Anthropic.Message & { _request_id?: string | null | undefined; };
 // https://docs.anthropic.com/ja/api/messages
-const convertOpenAIChatCompletion = (response: any, messages: Anthropic.MessageParam[]) => {
+const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[]) => {
   // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
 
   const text = (response.content[0] as Anthropic.TextBlock).text;
@@ -103,21 +104,21 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     stream: true,
   });
   const contents = [];
-  let streamResponse: any = {};
   const partials = [];
+  let streamResponse: Response | null = null;
+  
   for await (const messageStreamEvent of chatStream) {
-    // console.log(messageStreamEvent);
     if (messageStreamEvent.type === "message_start") {
       streamResponse = messageStreamEvent.message;
     }
     if (messageStreamEvent.type === "content_block_start") {
-      streamResponse.content.push(messageStreamEvent.content_block);
+      if (streamResponse) {
+        streamResponse.content.push(messageStreamEvent.content_block);
+      }
       partials.push("");
     }
     if (messageStreamEvent.type === "content_block_delta") {
       const { index, delta } = messageStreamEvent;
-      // const { type: 'input_json_delta', partial_json: ', "lng": -' }
-      // type: 'text_delta', text: ' House location in Washington, DC. The'}
       if (delta.type === "input_json_delta") {
         partials[index] = partials[index] + delta.partial_json;
       }
@@ -132,6 +133,9 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
         filterParams.streamTokenCallback(token);
       }
     }
+  }
+  if (streamResponse === null) {
+    throw new Error("Anthoropic no response");
   }
   partials.forEach((partial, index) => {
     if (streamResponse.content[index].type === "text") {

@@ -11,7 +11,7 @@ type OpenAIInputs = {
   verbose?: boolean;
   temperature?: number;
   messages?: Array<OpenAI.ChatCompletionMessageParam>;
-  response_format?: any;
+  response_format?: OpenAI.ResponseFormatText | OpenAI.ResponseFormatJSONObject | OpenAI.ResponseFormatJSONSchema;
 } & GraphAILLMInputBase;
 
 type OpenAIConfig = {
@@ -46,12 +46,10 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
   const text = newMessage && newMessage.content ? newMessage.content : null;
 
   const functionResponses = newMessage?.tool_calls && Array.isArray(newMessage?.tool_calls) ? newMessage?.tool_calls : [];
-  const functionResponse = functionResponses[0] ? functionResponses[0] : null;
-
   // const functionId = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.id : null;
-
-  const tool = functionResponse ? convToolCall(functionResponse) : undefined;
+  
   const tool_calls = functionResponses.map(convToolCall);
+  const tool = tool_calls && tool_calls.length > 0 ? tool_calls[0] : undefined;
 
   const message = (() => {
     if (newMessage) {
