@@ -69,21 +69,20 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
         stream: true,
     });
     const contents = [];
-    let streamResponse = {};
     const partials = [];
+    let streamResponse = null;
     for await (const messageStreamEvent of chatStream) {
-        // console.log(messageStreamEvent);
         if (messageStreamEvent.type === "message_start") {
             streamResponse = messageStreamEvent.message;
         }
         if (messageStreamEvent.type === "content_block_start") {
-            streamResponse.content.push(messageStreamEvent.content_block);
+            if (streamResponse) {
+                streamResponse.content.push(messageStreamEvent.content_block);
+            }
             partials.push("");
         }
         if (messageStreamEvent.type === "content_block_delta") {
             const { index, delta } = messageStreamEvent;
-            // const { type: 'input_json_delta', partial_json: ', "lng": -' }
-            // type: 'text_delta', text: ' House location in Washington, DC. The'}
             if (delta.type === "input_json_delta") {
                 partials[index] = partials[index] + delta.partial_json;
             }
@@ -98,6 +97,9 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
                 filterParams.streamTokenCallback(token);
             }
         }
+    }
+    if (streamResponse === null) {
+        throw new Error("Anthoropic no response");
     }
     partials.forEach((partial, index) => {
         if (streamResponse.content[index].type === "text") {

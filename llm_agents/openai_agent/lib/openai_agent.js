@@ -26,10 +26,9 @@ const convertOpenAIChatCompletion = (response, messages) => {
     const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = newMessage && newMessage.content ? newMessage.content : null;
     const functionResponses = newMessage?.tool_calls && Array.isArray(newMessage?.tool_calls) ? newMessage?.tool_calls : [];
-    const functionResponse = functionResponses[0] ? functionResponses[0] : null;
     // const functionId = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0]?.id : null;
-    const tool = functionResponse ? convToolCall(functionResponse) : undefined;
     const tool_calls = functionResponses.map(convToolCall);
+    const tool = tool_calls && tool_calls.length > 0 ? tool_calls[0] : undefined;
     const message = (() => {
         if (newMessage) {
             const { content, role, tool_calls } = newMessage;
