@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
-    "@inquirer/prompts": "^7.2.3",
+    "@inquirer/prompts": "^7.3.1",
     "arxiv-api-ts": "^1.0.4",
     "sqlite3": "^5.1.7"
   },
