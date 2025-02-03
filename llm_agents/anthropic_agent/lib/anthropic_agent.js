@@ -13,13 +13,13 @@ const convToolCall = (tool_call) => {
 // https://docs.anthropic.com/ja/api/messages
 const convertOpenAIChatCompletion = (response, messages) => {
     // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
-    const content = response.content[0].text;
+    const text = response.content[0].text;
     const functionResponses = response.content.filter((content) => content.type === "tool_use") ?? [];
     const tool_calls = functionResponses.map(convToolCall);
     const tool = tool_calls[0] ? tool_calls[0] : undefined;
-    const message = { role: response.role, content };
+    const message = { role: response.role, content: text };
     messages.push(message);
-    return { ...response, choices: [{ message }], text: content, tool, tool_calls, message, messages };
+    return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
 };
 const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) => {
     const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages } = { ...params, ...namedInputs };
@@ -72,7 +72,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
     let streamResponse = {};
     const partials = [];
     for await (const messageStreamEvent of chatStream) {
-        console.log(messageStreamEvent);
+        // console.log(messageStreamEvent);
         if (messageStreamEvent.type === "message_start") {
             streamResponse = messageStreamEvent.message;
         }
