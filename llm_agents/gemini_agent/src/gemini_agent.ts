@@ -96,9 +96,9 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
       if (filterParams && filterParams.streamTokenCallback && chunkText) {
         filterParams.streamTokenCallback(chunkText);
       }
-      chunks.push(chunkText);
     }
-    const text = chunks.join("");
+    const response = await result.response;
+    const text = response.text();
     const message: any = { role: "assistant", content: text };
     return { choices: [{ message }], text, message };
   }
