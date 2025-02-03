@@ -103,8 +103,28 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     stream: true,
   });
   const contents = [];
+  let streamResponse: any = {};
+  const partials = [];
   for await (const messageStreamEvent of chatStream) {
-    // console.log(messageStreamEvent);
+    console.log(messageStreamEvent);
+    if (messageStreamEvent.type === "message_start") {
+      streamResponse = messageStreamEvent.message;
+    }
+    if (messageStreamEvent.type === "content_block_start") {
+      streamResponse.content.push(messageStreamEvent.content_block);
+      partials.push("");
+    }
+    if (messageStreamEvent.type === "content_block_delta") {
+      const { index, delta } = messageStreamEvent;
+      // const { type: 'input_json_delta', partial_json: ', "lng": -' }
+      // type: 'text_delta', text: ' House location in Washington, DC. The'}
+      if (delta.type === "input_json_delta") {
+        partials[index] = partials[index] + delta.partial_json;
+      }
+      if (delta.type === "text_delta") {
+        partials[index] = partials[index] + delta.text;
+      }
+    }
     if (messageStreamEvent.type === "content_block_delta" && messageStreamEvent.delta.type === "text_delta") {
       const token = messageStreamEvent.delta.text;
       contents.push(token);
@@ -113,10 +133,23 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
       }
     }
   }
+  partials.forEach((partial, index) => {
+    if (streamResponse.content[index].type === "text") {
+      streamResponse.content[index].text = partial;
+    }
+    if (streamResponse.content[index].type === "tool_use") {
+      streamResponse.content[index].input = JSON.parse(partial);
+    }
+  });
+
+  return convertOpenAIChatCompletion(streamResponse, messagesCopy);
+  /*
+  
   const content = contents.join("");
   const message = { role: "assistant" as const, content: content };
   messagesCopy.push(message);
   return { choices: [{ message }], text: content, message, messages: messagesCopy };
+  */
 };
 
 const anthropicAgentInfo: AgentFunctionInfo = {
