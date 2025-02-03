@@ -17,7 +17,7 @@ test("test anthropicAgent", async () => {
 });
 
 test("test anthropicAgent stream", async () => {
-  const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
+  const namedInputs = { prompt: ["hello, let me the world history"] };
   const params = { stream: true };
   const opt = {
     ...defaultTestContext,
@@ -48,6 +48,44 @@ test("test anthropicAgent", async () => {
   if (res) {
     console.log(res.choices[0].message["content"]);
     console.log(res.text);
+  }
+  assert.deepStrictEqual(true, true);
+});
+
+test("test anthropicAgent tools", async () => {
+  const tools = [
+    {
+      type: "function",
+      function: {
+        name: "setCenter",
+        description: "set center location",
+        parameters: {
+          type: "object",
+          properties: {
+            lat: {
+              type: "number",
+              description: "latitude of center",
+            },
+            lng: {
+              type: "number",
+              description: "longtitude of center",
+            },
+          },
+          required: ["lat", "lng"],
+        },
+      },
+    },
+  ];
+
+  const namedInputs = {
+    prompt: ["go to white house"],
+    system: ["You are google map operator."],
+  };
+  const res = (await anthropicAgent({ ...defaultTestContext, namedInputs, params: { tools, stream: true } })) as any;
+  if (res) {
+    console.log(res);
+    console.log(res.choices[0].message["content"]);
+    console.log(res.content);
   }
   assert.deepStrictEqual(true, true);
 });

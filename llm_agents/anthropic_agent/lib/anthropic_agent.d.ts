@@ -1,10 +1,14 @@
+import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { GraphAILLMInputBase } from "@graphai/llm_utils";
 type AnthropicInputs = {
+    verbose?: boolean;
     model?: string;
     temperature?: number;
     max_tokens?: number;
-    messages?: Array<Record<string, any>>;
+    tools?: any[];
+    tool_choice?: any;
+    messages?: Array<Anthropic.MessageParam>;
 } & GraphAILLMInputBase;
 type AnthropicConfig = {
     apiKey?: string;
