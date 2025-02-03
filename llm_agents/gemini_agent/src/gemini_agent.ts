@@ -50,7 +50,7 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
   config,
   filterParams,
 }) => {
-  const { system, temperature, tools, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
+  const { system, temperature, tools, max_tokens, prompt, messages, /* response_format */ } = { ...params, ...namedInputs };
 
   const { apiKey, stream, model } = {
     ...params,
