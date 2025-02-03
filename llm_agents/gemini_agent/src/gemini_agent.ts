@@ -9,6 +9,7 @@ type GeminiInputs = {
   max_tokens?: number;
   tools?: Array<Record<string, any>>;
   // tool_choice?: any;
+  response_format?: any;
   messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
 
@@ -29,17 +30,19 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
       return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
     });
   }
-  const tool_calls = calls ? calls.map((call) => {
-    return {
-      name: call.name,
-      arguments: call.args,
-    }}) : [];
+  const tool_calls = calls
+    ? calls.map((call) => {
+        return {
+          name: call.name,
+          arguments: call.args,
+        };
+      })
+    : [];
   const tool = tool_calls && tool_calls[0] ? tool_calls : undefined;
   messages.push(message);
 
   return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
 };
-
 
 export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | string, GeminiInputs, GeminiConfig> = async ({
   params,
@@ -47,9 +50,9 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
   config,
   filterParams,
 }) => {
-  const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
+  const { system, temperature, tools, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
 
-  const { apiKey, stream } = {
+  const { apiKey, stream, model } = {
     ...params,
     ...(config || {}),
   };
@@ -81,10 +84,20 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
       threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
     },
   ];
+
   const modelParams: ModelParams = {
     model: model ?? "gemini-pro",
     safetySettings,
   };
+  /*
+  if (response_format) {
+    modelParams.generationConfig = {
+      responseMimeType: "application/json",
+      responseSchema: response_format,
+    };
+  }
+  */
+
   if (tools) {
     const functions = tools.map((tool: any) => {
       return tool.function;
@@ -121,7 +134,6 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
     }
     const response = await result.response;
     return convertOpenAIChatCompletion(response, messagesCopy);
-    
   }
 
   const result = await chat.sendMessage(lastMessage.content);

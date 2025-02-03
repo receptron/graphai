@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
-import { geminiAgent } from "@/gemini_agent";
+import { geminiAgent } from "../src/gemini_agent";
+import { SchemaType } from "@google/generative-ai";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -16,11 +17,12 @@ test("test gemini", async () => {
   assert.deepStrictEqual(true, true);
 });
 
-test("test gemini", async () => {
+test("test gemini tools", async () => {
   const namedInputs = { prompt: ["I would like to return the item, what should I do?"] };
 
   const params = {
-    system: "You are a telephone operator~. Listen well to what the other person is saying and decide which one to connect with.",
+    stream: true,
+    system: "You are a telephone operator. Listen well to what the other person is saying and decide which one to connect with.",
     tools: [
       {
         type: "function" as const,
@@ -65,6 +67,38 @@ test("test gemini stream", async () => {
     },
   })) as any;
 
+  if (res) {
+    console.log(res.choices[0].message["content"]);
+    console.log(res.text);
+  }
+  assert.deepStrictEqual(true, true);
+});
+
+test("test gemini response_format", async () => {
+  const schema = {
+    description: "List of recipes",
+    type: SchemaType.ARRAY,
+    items: {
+      type: SchemaType.OBJECT,
+      properties: {
+        recipeName: {
+          type: SchemaType.STRING,
+          description: "Name of the recipe",
+          nullable: false,
+        },
+      },
+      required: ["recipeName"],
+    },
+  };
+  const namedInputs = { prompt: ["List a few popular cookie recipes."] };
+  const params = { response_format: schema };
+  const res = (await geminiAgent({
+    ...defaultTestContext,
+    namedInputs,
+    params,
+  })) as any;
+
+  console.log(res);
   if (res) {
     console.log(res.choices[0].message["content"]);
     console.log(res.text);
