@@ -4,6 +4,26 @@ exports.geminiAgent = void 0;
 const graphai_1 = require("graphai");
 const generative_ai_1 = require("@google/generative-ai");
 const llm_utils_1 = require("@graphai/llm_utils");
+const convertOpenAIChatCompletion = (response, messages) => {
+    const text = response.text();
+    const message = { role: "assistant", content: text };
+    // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
+    const calls = response.functionCalls();
+    if (calls) {
+        message.tool_calls = calls.map((call) => {
+            return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
+        });
+    }
+    const tool_calls = calls ? calls.map((call) => {
+        return {
+            name: call.name,
+            arguments: call.args,
+        };
+    }) : [];
+    const tool = tool_calls && tool_calls[0] ? tool_calls : undefined;
+    messages.push(message);
+    return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
+};
 const geminiAgent = async ({ params, namedInputs, config, filterParams, }) => {
     const { model, system, temperature, max_tokens, tools, prompt, messages } = { ...params, ...namedInputs };
     const { apiKey, stream } = {
@@ -60,38 +80,21 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams, }) => {
         }),
         generationConfig,
     });
+    messagesCopy.push(lastMessage);
     if (stream) {
         const result = await chat.sendMessageStream(lastMessage.content);
-        const chunks = [];
         for await (const chunk of result.stream) {
             const chunkText = chunk.text();
             if (filterParams && filterParams.streamTokenCallback && chunkText) {
                 filterParams.streamTokenCallback(chunkText);
             }
-            chunks.push(chunkText);
         }
-        const text = chunks.join("");
-        const message = { role: "assistant", content: text };
-        return { choices: [{ message }], text, message };
+        const response = await result.response;
+        return convertOpenAIChatCompletion(response, messagesCopy);
     }
     const result = await chat.sendMessage(lastMessage.content);
     const response = result.response;
-    const text = response.text();
-    const message = { role: "assistant", content: text };
-    // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
-    const calls = result.response.functionCalls();
-    if (calls) {
-        message.tool_calls = calls.map((call) => {
-            return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
-        });
-    }
-    const tool = calls && calls[0]
-        ? {
-            name: calls[0].name,
-            arguments: calls[0].args,
-        }
-        : undefined;
-    return { choices: [{ message }], text, tool, message };
+    return convertOpenAIChatCompletion(response, messagesCopy);
 };
 exports.geminiAgent = geminiAgent;
 const geminiAgentInfo = {
