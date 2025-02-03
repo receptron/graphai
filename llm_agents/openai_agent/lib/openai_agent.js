@@ -64,7 +64,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         ...params,
         ...namedInputs,
     };
-    const { apiKey, stream, baseURL, forWeb, model } = {
+    const { apiKey, stream, forWeb, model, baseURL } = {
         ...(config || {}),
         ...params,
     };
