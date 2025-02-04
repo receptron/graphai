@@ -28,7 +28,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
     const text = message && message.content ? message.content : null;
     // const functionResponse = message?.tool_calls && message?.tool_calls[0] ? message?.tool_calls[0] : null;
     const functionResponses = message?.tool_calls && message?.tool_calls.length > 0 ? message?.tool_calls : [];
-    const tool_calls = functionResponses.map(functionResponse => {
+    const tool_calls = functionResponses.map((functionResponse) => {
         return {
             id: functionResponse.id,
             name: functionResponse?.function?.name,

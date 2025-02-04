@@ -1275,6 +1275,7 @@ const streamMockAgentInfo = {
 
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
+    const { limit, resultAll, compositeResult, throwError } = params;
     const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
@@ -1284,11 +1285,9 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
     graphai.assert(!!namedInputs.rows, "mapAgent: rows property is required in namedInput");
     graphai.assert(!!graphData, "mapAgent: graph is required");
     const rows = namedInputs.rows.map((item) => item);
-    if (params.limit && params.limit < rows.length) {
-        rows.length = params.limit; // trim
+    if (limit && limit < rows.length) {
+        rows.length = limit; // trim
     }
-    const resultAll = params.resultAll ?? false;
-    const throwError = params.throwError ?? false;
     const { nodes } = graphData;
     const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai.graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
@@ -1340,7 +1339,7 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
             });
             log.push(...logs.flat());
         }
-        if (params.compositeResult) {
+        if (compositeResult) {
             const compositeResult = nodeIds.reduce((tmp, nodeId) => {
                 tmp[nodeId] = results.map((result) => {
                     return result[nodeId];

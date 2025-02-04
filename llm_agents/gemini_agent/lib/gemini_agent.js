@@ -27,7 +27,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
     return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
 };
 const geminiAgent = async ({ params, namedInputs, config, filterParams, }) => {
-    const { system, temperature, tools, max_tokens, prompt, messages, /* response_format */ } = { ...params, ...namedInputs };
+    const { system, temperature, tools, max_tokens, prompt, messages /* response_format */ } = { ...params, ...namedInputs };
     const { apiKey, stream, model } = {
         ...params,
         ...(config || {}),
