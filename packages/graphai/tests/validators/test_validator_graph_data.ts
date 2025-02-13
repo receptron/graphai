@@ -73,8 +73,6 @@ test("test concurrency error string", async () => {
   await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
 });
 
-
-
 // metadata test
 test("test metadata", async () => {
   const graphdata = {
