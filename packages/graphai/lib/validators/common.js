@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValidationError = exports.staticNodeAttributeKeys = exports.computedNodeAttributeKeys = exports.graphDataAttributeKeys = void 0;
-exports.graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version"];
+exports.graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version", "metadata"];
 exports.computedNodeAttributeKeys = [
     "inputs",
     "output",

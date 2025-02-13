@@ -834,7 +834,7 @@ class StaticNode extends Node {
     }
 }
 
-const graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version"];
+const graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version", "metadata"];
 const computedNodeAttributeKeys = [
     "inputs",
     "output",
