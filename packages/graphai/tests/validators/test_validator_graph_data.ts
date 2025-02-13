@@ -1,5 +1,6 @@
 import { anonymization, rejectTest } from "@receptron/test_utils";
 import { graphDataLatestVersion } from "~/common";
+import { validateGraphData } from "@/validator";
 
 import test from "node:test";
 
@@ -70,4 +71,16 @@ test("test concurrency error string", async () => {
     nodes,
   });
   await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
+});
+
+
+
+// metadata test
+test("test metadata", async () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    nodes,
+    metadata: {},
+  };
+  validateGraphData(graphdata, ["echoAgent"]);
 });
