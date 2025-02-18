@@ -102,7 +102,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         tool_choice,
         max_tokens,
         // Reasoning models do not support temperature parameter
-        ...(model && (model.startsWith('o1') || model.startsWith('o3')) ? {} : { temperature: temperature ?? 0.7 }),
+        ...(model && (model.startsWith("o1") || model.startsWith("o3")) ? {} : { temperature: temperature ?? 0.7 }),
         response_format,
     };
     if (!stream) {

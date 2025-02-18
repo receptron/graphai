@@ -18,7 +18,7 @@ test("test openai", async () => {
 // o1 and o3-mini
 test("test openai o1", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const params = {model: "o1"}
+  const params = { model: "o1" };
   const res = (await openAIAgent({ ...defaultTestContext, namedInputs, params })) as any;
 
   if (res) {
@@ -29,7 +29,7 @@ test("test openai o1", async () => {
 
 test("test openai o3-mini", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const params = {model: "o3-mini"}
+  const params = { model: "o3-mini" };
   const res = (await openAIAgent({ ...defaultTestContext, namedInputs, params })) as any;
 
   if (res) {
@@ -37,7 +37,6 @@ test("test openai o3-mini", async () => {
   }
   assert.deepStrictEqual(true, true);
 });
-
 
 test("test openai images", async () => {
   const namedInputs = {
