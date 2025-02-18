@@ -132,7 +132,8 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     tools,
     tool_choice,
     max_tokens,
-    temperature: temperature ?? 0.7,
+    // Reasoning models do not support temperature parameter
+    ...(model && (model.startsWith('o1') || model.startsWith('o3')) ? {} : { temperature: temperature ?? 0.7 }),
     response_format,
   };
 
