@@ -38,7 +38,7 @@
     "@graphai/agents": "^0.2.10",
     "@receptron/test_utils": "^0.2.6",
     "dotenv": "^16.4.7",
-    "graphai": "^0.6.23",
+    "graphai": "^0.6.24",
     "yargs": "^17.7.2"
   },
   "types": "./lib/graphai_cli.d.ts",
