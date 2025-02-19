@@ -30,7 +30,7 @@
     "@graphai/anthropic_agent": "^0.2.3",
     "@graphai/gemini_agent": "^0.2.4",
     "@graphai/groq_agent": "^0.2.4",
-    "@graphai/openai_agent": "^0.2.6",
+    "@graphai/openai_agent": "^0.2.7",
     "@graphai/replicate_agent": "^0.2.2"
   },
   "types": "./lib/index.d.ts",
