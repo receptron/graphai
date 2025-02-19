@@ -95,16 +95,19 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         console.log(messagesCopy);
     }
     const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
+    const modelName = model || "gpt-4o";
     const chatParams = {
-        model: model || "gpt-4o",
+        model: modelName,
         messages: messagesCopy,
         tools,
         tool_choice,
         max_tokens,
-        // Reasoning models do not support temperature parameter
-        ...(model && (model.startsWith("o1") || model.startsWith("o3")) ? {} : { temperature: temperature ?? 0.7 }),
         response_format,
     };
+    // Reasoning models do not support temperature parameter
+    if (!modelName.startsWith("o1") && !modelName.startsWith("o3")) {
+        chatParams.temperature = temperature ?? 0.7;
+    }
     if (!stream) {
         const result = await openai.chat.completions.create(chatParams);
         return convertOpenAIChatCompletion(result, messagesCopy);
