@@ -22,6 +22,7 @@ export type {
   ConfigDataDictionary,
   DefaultConfigData,
   CallbackFunction,
+  LoopData,
 } from "./type";
 
 export { NodeState } from "./type";
