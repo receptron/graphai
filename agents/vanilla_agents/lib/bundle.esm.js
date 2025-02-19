@@ -505,7 +505,7 @@ function requireLib () {
 	hasRequiredLib = 1;
 	(function (exports) {
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = undefined;
+		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
 		const graphai_1 = require("graphai");
 		const sample2GraphData = (sample, agentName) => {
 		    const nodes = {};
