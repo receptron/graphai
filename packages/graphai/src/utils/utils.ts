@@ -1,4 +1,4 @@
-import { DataSource, AgentFunction, AgentFunctionInfo, DefaultInputData, NodeData, StaticNodeData, ComputedNodeData, NodeState } from "../type";
+import { DataSource, AgentFunction, AgentFunctionInfo, NodeData, StaticNodeData, ComputedNodeData, NodeState } from "../type";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -36,7 +36,7 @@ export function assert(condition: boolean, message: string, isWarn: boolean = fa
   }
 }
 
-export const isObject = (x: unknown) => {
+export const isObject = <Values = unknown>(x: unknown): x is Record<string, Values> => {
   return x !== null && typeof x === "object";
 };
 
@@ -130,7 +130,7 @@ export const defaultTestContext = {
   log: [],
 };
 
-export const isNamedInputs = <NamedInput = DefaultInputData>(namedInputs: NamedInput) => {
+export const isNamedInputs = <Values = unknown>(namedInputs: unknown): namedInputs is Record<string, Values> => {
   return isObject(namedInputs) && !Array.isArray(namedInputs) && Object.keys(namedInputs || {}).length > 0;
 };
 

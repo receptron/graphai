@@ -43,7 +43,7 @@ export const cleanResultInner = (results: ResultData): ResultData | null => {
     return results.map((result: ResultData) => cleanResultInner(result)).filter((result) => !isNull(result));
   }
 
-  if (isObject(results)) {
+  if (isObject<ResultData>(results)) {
     return Object.keys(results).reduce((tmp: Record<string, ResultData>, key: string) => {
       const value = cleanResultInner(results[key]);
       if (!isNull(value)) {
