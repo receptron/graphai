@@ -1129,6 +1129,51 @@ const result = await graph.run();
 }
 ```
 
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2,
+      3
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
  - dotProductAgent
 
 ```typescript
@@ -2411,6 +2456,171 @@ const result = await graph.run();
     ]
   },
   "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      },
+      {
+        "a": 3
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      [
+        {
+          "a": 1,
+          "b": -1
+        },
+        {
+          "c": 10
+        }
+      ],
+      [
+        {
+          "a": 2,
+          "b": -1
+        }
+      ],
+      [
+        {
+          "a": 3,
+          "b": -2
+        },
+        {
+          "d": -10
+        }
+      ]
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2
+      },
+      {
+        "a": 3
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1,
+        "b": 1
+      },
+      {
+        "a": 2,
+        "b": 2
+      },
+      {
+        "a": 3,
+        "b": 0
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1
+      },
+      {
+        "a": 2,
+        "b": 2
+      },
+      {
+        "a": 3,
+        "b": 0
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
 }
 ```
 
