@@ -41,6 +41,74 @@ Returns the sum of input values
 
 [
   ":agentId",
+  ":agentId.data",
+  ":agentId.data.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.data",
+  ":agentId.data.a",
+  ":agentId.data.b",
+  ":agentId.data.c",
+  ":agentId.data.d"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.data",
+  ":agentId.data.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.data",
+  ":agentId.data.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.data",
+  ":agentId.data.a"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.data",
+  ":agentId.data.a",
+  ":agentId.data.b"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.data",
+  ":agentId.data.a",
+  ":agentId.data.b"
+]
+
+````
+```json
+
+[
+  ":agentId",
   ":agentId.a"
 ]
 
@@ -136,7 +204,9 @@ Returns the sum of input values
 ```json
 
 {
-  "a": 6
+  "data": {
+    "a": 6
+  }
 }
 
 ````
@@ -190,10 +260,12 @@ Returns the sum of input values
 ```json
 
 {
-  "a": 6,
-  "b": -4,
-  "c": 10,
-  "d": -10
+  "data": {
+    "a": 6,
+    "b": -4,
+    "c": 10,
+    "d": -10
+  }
 }
 
 ````
@@ -226,7 +298,9 @@ Returns the sum of input values
 ```json
 
 {
-  "a": 1
+  "data": {
+    "a": 1
+  }
 }
 
 ````
@@ -262,7 +336,9 @@ Returns the sum of input values
 ```json
 
 {
-  "a": 3
+  "data": {
+    "a": 3
+  }
 }
 
 ````
@@ -301,7 +377,9 @@ Returns the sum of input values
 ```json
 
 {
-  "a": 6
+  "data": {
+    "a": 6
+  }
 }
 
 ````
@@ -343,8 +421,10 @@ Returns the sum of input values
 ```json
 
 {
-  "a": 6,
-  "b": 3
+  "data": {
+    "a": 6,
+    "b": 3
+  }
 }
 
 ````
@@ -377,6 +457,297 @@ Returns the sum of input values
 ```json
 
 {}
+
+````
+
+#### result
+
+```json
+
+{
+  "data": {
+    "a": 6,
+    "b": 2
+  }
+}
+
+````
+### Sample7
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    {
+      "a": 1
+    },
+    {
+      "a": 2
+    },
+    {
+      "a": 3
+    }
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": 6
+}
+
+````
+### Sample8
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    [
+      {
+        "a": 1,
+        "b": -1
+      },
+      {
+        "c": 10
+      }
+    ],
+    [
+      {
+        "a": 2,
+        "b": -1
+      }
+    ],
+    [
+      {
+        "a": 3,
+        "b": -2
+      },
+      {
+        "d": -10
+      }
+    ]
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": 6,
+  "b": -4,
+  "c": 10,
+  "d": -10
+}
+
+````
+### Sample9
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    {
+      "a": 1
+    }
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": 1
+}
+
+````
+### Sample10
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    {
+      "a": 1
+    },
+    {
+      "a": 2
+    }
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": 3
+}
+
+````
+### Sample11
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    {
+      "a": 1
+    },
+    {
+      "a": 2
+    },
+    {
+      "a": 3
+    }
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": 6
+}
+
+````
+### Sample12
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    {
+      "a": 1,
+      "b": 1
+    },
+    {
+      "a": 2,
+      "b": 2
+    },
+    {
+      "a": 3,
+      "b": 0
+    }
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "a": 6,
+  "b": 3
+}
+
+````
+### Sample13
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    {
+      "a": 1
+    },
+    {
+      "a": 2,
+      "b": 2
+    },
+    {
+      "a": 3,
+      "b": 0
+    }
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
 
 ````
 

@@ -43,6 +43,30 @@ Returns the sum of input values
 ```json
 
 [
+  ":agentId",
+  ":agentId.result"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.result"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.result"
+]
+
+````
+```json
+
+[
   ":agentId"
 ]
 
@@ -90,7 +114,9 @@ Returns the sum of input values
 
 ```json
 
-1
+{
+  "result": 1
+}
 
 ````
 ### Sample1
@@ -120,7 +146,9 @@ Returns the sum of input values
 
 ```json
 
-3
+{
+  "result": 3
+}
 
 ````
 ### Sample2
@@ -144,6 +172,98 @@ Returns the sum of input values
 ```json
 
 {}
+
+````
+
+#### result
+
+```json
+
+{
+  "result": 6
+}
+
+````
+### Sample3
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    1
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+1
+
+````
+### Sample4
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    1,
+    2
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
+
+````
+
+#### result
+
+```json
+
+3
+
+````
+### Sample5
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    1,
+    2,
+    3
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"flatResponse":true}
 
 ````
 
