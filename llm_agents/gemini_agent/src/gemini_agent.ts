@@ -75,7 +75,7 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
     return [];
   }
 
-  const key = apiKey ?? (process !== undefined ? process.env["GOOGLE_GENAI_API_KEY"] : null);
+  const key = apiKey ?? (typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env["GOOGLE_GENAI_API_KEY"] : null);
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
   const genAI = new GoogleGenerativeAI(key);
   const safetySettings = [
