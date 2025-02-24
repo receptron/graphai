@@ -3,10 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.totalAgent = void 0;
 const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
-const totalAgent = async ({ namedInputs }) => {
+const totalAgent = async ({ namedInputs, params }) => {
+    const { flatResponse } = params;
     (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     (0, graphai_1.assert)(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-    return namedInputs.array.reduce((result, input) => {
+    const response = namedInputs.array.reduce((result, input) => {
         const inputArray = Array.isArray(input) ? input : [input];
         inputArray.forEach((innerInput) => {
             Object.keys(innerInput).forEach((key) => {
@@ -21,6 +22,10 @@ const totalAgent = async ({ namedInputs }) => {
         });
         return result;
     }, {});
+    if (flatResponse) {
+        return response;
+    }
+    return { data: response };
 };
 exports.totalAgent = totalAgent;
 //
@@ -45,27 +50,27 @@ const totalAgentInfo = {
         {
             inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
             params: {},
-            result: { a: 6 },
+            result: { data: { a: 6 } },
         },
         {
             inputs: { array: [[{ a: 1, b: -1 }, { c: 10 }], [{ a: 2, b: -1 }], [{ a: 3, b: -2 }, { d: -10 }]] },
             params: {},
-            result: { a: 6, b: -4, c: 10, d: -10 },
+            result: { data: { a: 6, b: -4, c: 10, d: -10 } },
         },
         {
             inputs: { array: [{ a: 1 }] },
             params: {},
-            result: { a: 1 },
+            result: { data: { a: 1 } },
         },
         {
             inputs: { array: [{ a: 1 }, { a: 2 }] },
             params: {},
-            result: { a: 3 },
+            result: { data: { a: 3 } },
         },
         {
             inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
             params: {},
-            result: { a: 6 },
+            result: { data: { a: 6 } },
         },
         {
             inputs: {
@@ -76,11 +81,52 @@ const totalAgentInfo = {
                 ],
             },
             params: {},
-            result: { a: 6, b: 3 },
+            result: { data: { a: 6, b: 3 } },
         },
         {
             inputs: { array: [{ a: 1 }, { a: 2, b: 2 }, { a: 3, b: 0 }] },
             params: {},
+            result: { data: { a: 6, b: 2 } },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
+            params: { flatResponse: true },
+            result: { a: 6 },
+        },
+        {
+            inputs: { array: [[{ a: 1, b: -1 }, { c: 10 }], [{ a: 2, b: -1 }], [{ a: 3, b: -2 }, { d: -10 }]] },
+            params: { flatResponse: true },
+            result: { a: 6, b: -4, c: 10, d: -10 },
+        },
+        {
+            inputs: { array: [{ a: 1 }] },
+            params: { flatResponse: true },
+            result: { a: 1 },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2 }] },
+            params: { flatResponse: true },
+            result: { a: 3 },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
+            params: { flatResponse: true },
+            result: { a: 6 },
+        },
+        {
+            inputs: {
+                array: [
+                    { a: 1, b: 1 },
+                    { a: 2, b: 2 },
+                    { a: 3, b: 0 },
+                ],
+            },
+            params: { flatResponse: true },
+            result: { a: 6, b: 3 },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2, b: 2 }, { a: 3, b: 0 }] },
+            params: { flatResponse: true },
             result: { a: 6, b: 2 },
         },
     ],
