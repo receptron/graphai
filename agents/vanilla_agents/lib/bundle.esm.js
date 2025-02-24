@@ -1720,10 +1720,11 @@ const mapAgentInfo = {
     license: "MIT",
 };
 
-const totalAgent = async ({ namedInputs }) => {
+const totalAgent = async ({ namedInputs, params }) => {
+    const { flatResponse } = params;
     assert(libExports.isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-    return namedInputs.array.reduce((result, input) => {
+    const response = namedInputs.array.reduce((result, input) => {
         const inputArray = Array.isArray(input) ? input : [input];
         inputArray.forEach((innerInput) => {
             Object.keys(innerInput).forEach((key) => {
@@ -1738,6 +1739,10 @@ const totalAgent = async ({ namedInputs }) => {
         });
         return result;
     }, {});
+    if (flatResponse) {
+        return response;
+    }
+    return { data: response };
 };
 //
 const totalAgentInfo = {
@@ -1761,27 +1766,27 @@ const totalAgentInfo = {
         {
             inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
             params: {},
-            result: { a: 6 },
+            result: { data: { a: 6 } },
         },
         {
             inputs: { array: [[{ a: 1, b: -1 }, { c: 10 }], [{ a: 2, b: -1 }], [{ a: 3, b: -2 }, { d: -10 }]] },
             params: {},
-            result: { a: 6, b: -4, c: 10, d: -10 },
+            result: { data: { a: 6, b: -4, c: 10, d: -10 } },
         },
         {
             inputs: { array: [{ a: 1 }] },
             params: {},
-            result: { a: 1 },
+            result: { data: { a: 1 } },
         },
         {
             inputs: { array: [{ a: 1 }, { a: 2 }] },
             params: {},
-            result: { a: 3 },
+            result: { data: { a: 3 } },
         },
         {
             inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
             params: {},
-            result: { a: 6 },
+            result: { data: { a: 6 } },
         },
         {
             inputs: {
@@ -1792,11 +1797,52 @@ const totalAgentInfo = {
                 ],
             },
             params: {},
-            result: { a: 6, b: 3 },
+            result: { data: { a: 6, b: 3 } },
         },
         {
             inputs: { array: [{ a: 1 }, { a: 2, b: 2 }, { a: 3, b: 0 }] },
             params: {},
+            result: { data: { a: 6, b: 2 } },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
+            params: { flatResponse: true },
+            result: { a: 6 },
+        },
+        {
+            inputs: { array: [[{ a: 1, b: -1 }, { c: 10 }], [{ a: 2, b: -1 }], [{ a: 3, b: -2 }, { d: -10 }]] },
+            params: { flatResponse: true },
+            result: { a: 6, b: -4, c: 10, d: -10 },
+        },
+        {
+            inputs: { array: [{ a: 1 }] },
+            params: { flatResponse: true },
+            result: { a: 1 },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2 }] },
+            params: { flatResponse: true },
+            result: { a: 3 },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2 }, { a: 3 }] },
+            params: { flatResponse: true },
+            result: { a: 6 },
+        },
+        {
+            inputs: {
+                array: [
+                    { a: 1, b: 1 },
+                    { a: 2, b: 2 },
+                    { a: 3, b: 0 },
+                ],
+            },
+            params: { flatResponse: true },
+            result: { a: 6, b: 3 },
+        },
+        {
+            inputs: { array: [{ a: 1 }, { a: 2, b: 2 }, { a: 3, b: 0 }] },
+            params: { flatResponse: true },
             result: { a: 6, b: 2 },
         },
     ],
@@ -1807,12 +1853,17 @@ const totalAgentInfo = {
     license: "MIT",
 };
 
-const dataSumTemplateAgent = async ({ namedInputs }) => {
+const dataSumTemplateAgent = async ({ namedInputs, params }) => {
+    const { flatResponse } = params;
     assert(libExports.isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-    return namedInputs.array.reduce((tmp, input) => {
+    const sum = namedInputs.array.reduce((tmp, input) => {
         return tmp + input;
     }, 0);
+    if (flatResponse) {
+        return sum;
+    }
+    return { result: sum };
 };
 const dataSumTemplateAgentInfo = {
     name: "dataSumTemplateAgent",
@@ -1838,16 +1889,31 @@ const dataSumTemplateAgentInfo = {
         {
             inputs: { array: [1] },
             params: {},
-            result: 1,
+            result: { result: 1 },
         },
         {
             inputs: { array: [1, 2] },
             params: {},
-            result: 3,
+            result: { result: 3 },
         },
         {
             inputs: { array: [1, 2, 3] },
             params: {},
+            result: { result: 6 },
+        },
+        {
+            inputs: { array: [1] },
+            params: { flatResponse: true },
+            result: 1,
+        },
+        {
+            inputs: { array: [1, 2] },
+            params: { flatResponse: true },
+            result: 3,
+        },
+        {
+            inputs: { array: [1, 2, 3] },
+            params: { flatResponse: true },
             result: 6,
         },
     ],

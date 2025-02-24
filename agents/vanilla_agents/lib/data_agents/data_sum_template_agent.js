@@ -3,12 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataSumTemplateAgent = void 0;
 const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
-const dataSumTemplateAgent = async ({ namedInputs }) => {
+const dataSumTemplateAgent = async ({ namedInputs, params }) => {
+    const { flatResponse } = params;
     (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     (0, graphai_1.assert)(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
-    return namedInputs.array.reduce((tmp, input) => {
+    const sum = namedInputs.array.reduce((tmp, input) => {
         return tmp + input;
     }, 0);
+    if (flatResponse) {
+        return sum;
+    }
+    return { result: sum };
 };
 exports.dataSumTemplateAgent = dataSumTemplateAgent;
 const dataSumTemplateAgentInfo = {
@@ -35,16 +40,31 @@ const dataSumTemplateAgentInfo = {
         {
             inputs: { array: [1] },
             params: {},
-            result: 1,
+            result: { result: 1 },
         },
         {
             inputs: { array: [1, 2] },
             params: {},
-            result: 3,
+            result: { result: 3 },
         },
         {
             inputs: { array: [1, 2, 3] },
             params: {},
+            result: { result: 6 },
+        },
+        {
+            inputs: { array: [1] },
+            params: { flatResponse: true },
+            result: 1,
+        },
+        {
+            inputs: { array: [1, 2] },
+            params: { flatResponse: true },
+            result: 3,
+        },
+        {
+            inputs: { array: [1, 2, 3] },
+            params: { flatResponse: true },
             result: 6,
         },
     ],
