@@ -43,6 +43,126 @@ const result = await graph.run();
       }
     ]
   },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "content1": "hello"
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "content": "hello1"
+      },
+      {
+        "content": "hello2"
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": 1,
+        "b": 1
+      },
+      {
+        "a": 2,
+        "b": 2
+      },
+      {
+        "a": 3,
+        "b": 0,
+        "c": 5
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "a": {
+          "b": {
+            "c": {
+              "d": "e"
+            }
+          }
+        }
+      },
+      {
+        "b": {
+          "c": {
+            "d": {
+              "e": "f"
+            }
+          }
+        }
+      },
+      {
+        "b": {
+          "d": {
+            "e": {
+              "f": "g"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "params": {
+    "flatResponse": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      {
+        "content1": "hello"
+      },
+      {
+        "content2": "test"
+      }
+    ]
+  },
   "params": {}
 }
 ```
