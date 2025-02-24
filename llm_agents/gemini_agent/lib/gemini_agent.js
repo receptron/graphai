@@ -45,7 +45,7 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams, }) => {
     if (!lastMessage) {
         return [];
     }
-    const key = apiKey ?? (process !== undefined ? process.env["GOOGLE_GENAI_API_KEY"] : null);
+    const key = apiKey ?? (typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env["GOOGLE_GENAI_API_KEY"] : null);
     (0, graphai_1.assert)(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
     const genAI = new generative_ai_1.GoogleGenerativeAI(key);
     const safetySettings = [
