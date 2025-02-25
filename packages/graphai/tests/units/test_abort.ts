@@ -124,7 +124,6 @@ test("test nested graph abort", async () => {
   });
 });
 
-
 const graph_loop_data: GraphData = {
   version: graphDataLatestVersion,
   loop: {
