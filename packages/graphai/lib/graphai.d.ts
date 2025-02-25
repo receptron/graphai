@@ -54,6 +54,7 @@ export declare class GraphAI {
     appendLog(log: TransactionLog): void;
     updateLog(log: TransactionLog): void;
     registerCallback(callback: CallbackFunction): void;
+    clearCallbacks(): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
     resultsOf(inputs?: Record<string, any>, anyInput?: boolean): Record<string, ResultData>;

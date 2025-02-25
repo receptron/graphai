@@ -67,7 +67,7 @@ export type ComputedNodeData = {
 export type NodeData = StaticNodeData | ComputedNodeData;
 export type LoopData = {
     count?: number;
-    while?: string;
+    while?: string | boolean;
 };
 export type GraphData = {
     version?: number;

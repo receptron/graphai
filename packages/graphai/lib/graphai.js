@@ -298,6 +298,9 @@ class GraphAI {
     registerCallback(callback) {
         this.callbacks.push(callback);
     }
+    clearCallbacks() {
+        this.callbacks = [];
+    }
     // Public API
     transactionLogs() {
         return this.logs;
