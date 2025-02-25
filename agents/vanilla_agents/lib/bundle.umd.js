@@ -1797,7 +1797,7 @@
         license: "MIT",
     };
 
-    const dataSumTemplateAgent = async ({ namedInputs, params }) => {
+    const dataSumTemplateAgent = async ({ namedInputs, params, }) => {
         const { flatResponse } = params;
         graphai.assert(agent_utils.isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
         graphai.assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
