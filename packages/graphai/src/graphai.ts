@@ -282,6 +282,7 @@ export class GraphAI {
     if (this.isRunning()) {
       this.resetPending();
     }
+    Object.values(this.nodes).forEach((node) => node.isComputedNode && (node.transactionId = undefined));
     this.onComplete(this.isRunning());
   }
   public resetPending() {
