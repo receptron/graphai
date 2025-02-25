@@ -282,6 +282,10 @@ export class GraphAI {
     if (this.isRunning()) {
       this.resetPending();
     }
+    // For an agent like an event agent, where an external promise remains unresolved,
+    // aborting and then retrying can cause nodes or the graph to execute again.
+    // To prevent this, the transactionId is updated to ensure the retry fails.
+    Object.values(this.nodes).forEach((node) => node.isComputedNode && (node.transactionId = undefined));
     this.onComplete(this.isRunning());
   }
   public resetPending() {
