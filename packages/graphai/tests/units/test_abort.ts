@@ -50,19 +50,13 @@ const agentFilters = [
   },
 ];
 
-test("test graph", async () => {
+test("test graph abort", async () => {
   const graph = new GraphAI(graph_data, agents, { agentFilters });
 
   await assert.rejects(async () => {
     await Promise.all([
       (async () => {
-        const result = await graph.run(true);
-        assert.deepStrictEqual(result, {
-          message: "Hello World",
-          sleep1: {
-            text: "Hello World",
-          },
-        });
+        await graph.run(true);
       })(),
       (async () => {
         await sleep(500);
@@ -78,7 +72,7 @@ const nested_graph_data: GraphData = {
   version: graphDataLatestVersion,
   nodes: {
     message: {
-      value: "Hello World",
+      value: "Hello World Nested",
     },
     childGraph: {
       inputs: {
@@ -114,23 +108,67 @@ const nested_graph_data: GraphData = {
   },
 };
 
-test("test graph", async () => {
+test("test nested graph abort", async () => {
   const graph = new GraphAI(nested_graph_data, agents, { agentFilters });
 
   await assert.rejects(async () => {
     await Promise.all([
       (async () => {
-        const result = await graph.run(true);
-        assert.deepStrictEqual(result, {
-          message: "Hello World",
-          sleep1: {
-            text: "Hello World",
-          },
-        });
+        await graph.run(true);
       })(),
       (async () => {
         await sleep(500);
         graph.abort();
+      })(),
+    ]);
+  });
+});
+
+
+const graph_loop_data: GraphData = {
+  version: graphDataLatestVersion,
+  loop: {
+    while: true,
+  },
+  nodes: {
+    message: {
+      value: "Hello World Loop",
+    },
+    sleep1: {
+      agent: "sleeperAgent",
+      params: {
+        duration: 100,
+      },
+      inputs: {
+        text: ":message",
+      },
+      console: true,
+    },
+    sleep2: {
+      agent: "sleeperAgent",
+      params: {
+        duration: 100,
+      },
+      inputs: {
+        text: ":sleep1.text",
+      },
+      console: true,
+    },
+  },
+};
+
+test("test loop graph abort", async () => {
+  const graph = new GraphAI(graph_loop_data, agents, { agentFilters });
+
+  await assert.rejects(async () => {
+    await Promise.all([
+      (async () => {
+        await graph.run(true);
+      })(),
+      (async () => {
+        await sleep(500);
+        graph.abort();
+        await sleep(500);
       })(),
     ]);
   });
