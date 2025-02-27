@@ -5,15 +5,6 @@ import * as agents from "@graphai/agents";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import { home_functions } from "./home_functions";
 
-const home_actions = {
-  fill_bath: { type: "message_template", message: "Success. I started filling the bath tab." },
-  set_temperature: { type: "message_template", message: "Success. I set the temperature to {temperature} for {location}" },
-  start_sprinkler: { type: "message_template", message: "Success. I started the sprinkler for {location}" },
-  take_picture: { type: "message_template", message: "Success. I took a picture of {location}" },
-  play_music: { type: "message_template", message: "Success. I started playing {music} in {location}" },
-  control_light: { type: "message_template", message: "Success. The light switch of {location} is now {switch}." },
-};
-
 const graph_data: GraphData = {
   version: 0.5,
   nodes: {
@@ -21,19 +12,21 @@ const graph_data: GraphData = {
       value: { content: "Turn on the light in the kitchen" },
     },
     node2: {
-      agent: "slashGPTAgent",
-      inputs: { array: [":node1.content"] },
+      agent: "openAIAgent",
+      inputs: {
+        model: "gpt-4o-mini",
+        system: "You are a smart home assistant. Please operate the appropriate home functions based on the user's request.",
+        prompt: ":node1.content",
+      },
       params: {
-        manifest: {
-          skip_function_result: true,
-          actions: home_actions,
-          functions: home_functions,
-        },
+        tool_choice: "auto",
+        tools: home_functions,
       },
     },
     node3: {
-      agent: "bypassAgent",
-      inputs: { result: ":node2.$last.content" },
+      agent: "stringTemplateAgent",
+      params: { template: "call `${action_name}` with `${action_args}`" },
+      inputs: { action_name: ":node2.tool.name", action_args: ":node2.tool.arguments.toJSON()" },
       isResult: true,
     },
   },
