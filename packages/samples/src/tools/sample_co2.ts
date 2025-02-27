@@ -42,8 +42,8 @@ const graph_data: GraphData = {
                         },
                       },
                       required: ["title", "description"],
-                    }
-                  }
+                    },
+                  },
                 },
                 required: ["methods"],
               },
