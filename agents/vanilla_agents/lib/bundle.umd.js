@@ -1223,7 +1223,7 @@
         license: "MIT",
     };
 
-    const streamMockAgent = async ({ params, filterParams, namedInputs }) => {
+    const streamMockAgent = async ({ params, filterParams, namedInputs, }) => {
         const message = params.message ?? namedInputs.message ?? "";
         for await (const token of message.split("")) {
             if (filterParams.streamTokenCallback) {

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.streamMockAgent = void 0;
 const graphai_1 = require("graphai");
-const streamMockAgent = async ({ params, filterParams, namedInputs }) => {
+const streamMockAgent = async ({ params, filterParams, namedInputs, }) => {
     const message = params.message ?? namedInputs.message ?? "";
     for await (const token of message.split("")) {
         if (filterParams.streamTokenCallback) {
