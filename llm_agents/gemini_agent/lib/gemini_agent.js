@@ -55,7 +55,7 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams, }) => {
         },
     ];
     const modelParams = {
-        model: model ?? "gemini-pro",
+        model: model ?? "gemini-1.5-flash",
         safetySettings,
     };
     /*

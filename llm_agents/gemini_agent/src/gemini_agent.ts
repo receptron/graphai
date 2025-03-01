@@ -86,7 +86,7 @@ export const geminiAgent: AgentFunction<GeminiParams, Record<string, any> | stri
   ];
 
   const modelParams: ModelParams = {
-    model: model ?? "gemini-pro",
+    model: model ?? "gemini-1.5-flash",
     safetySettings,
   };
   /*
