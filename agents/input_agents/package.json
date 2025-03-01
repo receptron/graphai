@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/input_agents/README.md",
   "dependencies": {
-    "@inquirer/input": "^4.1.5"
+    "@inquirer/input": "^4.1.6"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
