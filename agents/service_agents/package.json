@@ -31,6 +31,9 @@
     "wikipedia": "^2.1.2",
     "xml2js": "^0.6.2"
   },
+  "devDependencies": {
+    "undici": "^6.21.1"
+  },
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
