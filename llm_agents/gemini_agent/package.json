@@ -1,6 +1,6 @@
 {
   "name": "@graphai/gemini_agent",
-  "version": "0.2.5",
+  "version": "1.0.0",
   "description": "Gemini agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
