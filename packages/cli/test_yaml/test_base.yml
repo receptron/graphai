@@ -1,34 +1,48 @@
 version: 0.5
 nodes:
   node1:
+    console:
+      after: true
     agent: sleeperAgent
+    inputs:
+      array: "1"
     params:
       duration: 500
       value:
         node1: output
   node2:
+    inputs:
+      array: "2"
+    console:
+      after: true
     agent: sleeperAgent
     params:
       duration: 100
       value:
         node2: output
   node3:
+    console:
+      after: true
     agent: sleeperAgent
     params:
       duration: 500
       value:
         node3: output
     inputs:
-      array: [:node1, :node2]
+      array: ["3", :node1, :node2]
   node4:
+    console:
+      after: true
     agent: sleeperAgent
     params:
       duration: 100
       value:
         node4: output
     inputs:
-      array: [:node3]
+      array: ["4", :node3]
   node5:
+    console:
+      after: true
     agent: sleeperAgent
     isResult: true
     params:
@@ -36,4 +50,4 @@ nodes:
       value:
         node5: output
     inputs:
-      array: [:node2, :node4]
+      array: ["5", :node2, :node4]

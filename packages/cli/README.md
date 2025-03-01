@@ -34,6 +34,7 @@ Options:
 ### Run GraphAI 🔥
 
 ```
+# Run test_yaml/test_base.yml (Make sure you are in the correct directory)
 graphai test_yaml/test_base.yml 
 ```
 
