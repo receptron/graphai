@@ -34,7 +34,7 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
   // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
 
   const text = (response.content[0] as Anthropic.TextBlock).text;
-  const functionResponses = response.content.filter((content: Anthropic.TextBlock | Anthropic.ToolUseBlock) => content.type === "tool_use") ?? [];
+  const functionResponses = response.content.filter((content) => content.type === "tool_use") ?? [];
   const tool_calls = functionResponses.map(convToolCall);
   const tool = tool_calls[0] ? tool_calls[0] : undefined;
 
