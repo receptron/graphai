@@ -28,11 +28,11 @@
   "homepage": "https://github.com/receptron/graphai/blob/main/packages/agents/README.md",
   "dependencies": {
     "@graphai/data_agents": "^0.2.1",
-    "@graphai/input_agents": "^0.2.2",
-    "@graphai/llm_agents": "^0.2.10",
+    "@graphai/input_agents": "^1.0.0",
+    "@graphai/llm_agents": "^1.0.0",
     "@graphai/service_agents": "^0.2.0",
     "@graphai/sleeper_agents": "^0.2.0",
-    "@graphai/vanilla": "^0.2.15"
+    "@graphai/vanilla": "^1.0.0"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
