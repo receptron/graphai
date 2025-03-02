@@ -1,6 +1,6 @@
 ## Collaboration
 
-Step 1. Install git, node and yarn
+Step 1. Install **Git**, **Node.js (>=20.x)**, and **Yarn**.
 
 Step 2. Clone the project and install necessary node modules
 
@@ -18,14 +18,14 @@ Step 4. Run the test script
 Run the test
 
 ```
-npm run test
+yarn run test
 ```
 
 Step 5. Run one of sample scripts
 
 ```
 cd packages/samples/
-npm run sample ./src/tools/home.ts 
+yarn run sample ./src/tools/home.ts
 ```
 
 Step 6. Write some code and send pull requests
@@ -38,6 +38,25 @@ Key principles:
 1. Keep the core (Node and GraphAI classes) small and simple.
 2. Enhance the platform by adding 'agents' (plug ins).
 3. Simple but effective test scripts make it easy to maintain.
+
+
+## 🔄 Pull Request Guidelines
+- Base your PR on the main branch.
+- Keep PRs small and focused (one feature or fix per PR).
+- Add clear descriptions for changes.
+
+## 🧹 Code Style
+
+- Follow ESLint and Prettier rules.
+- Do not use `any`.
+- Avoid using `let`; prefer `const` whenever possible.
+- Minimize type casting as much as possible.
+
+## 🔀 Git Workflow
+
+- Do not use `--force`; progress with `merge`.
+- In a monorepo setup, add only necessary npm dependencies to each package.
+  All other dependencies should be added to the root `package.json`.
 
 
 # GraphAI Repository
