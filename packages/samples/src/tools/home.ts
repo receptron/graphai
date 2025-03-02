@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { GraphData } from "graphai";
 import * as agents from "@graphai/agents";
+import { slashGPTAgent } from "@graphai/slashgpt_agent";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import { home_functions } from "./home_functions";
 
@@ -32,7 +33,7 @@ const graph_data: GraphData = {
       },
     },
     node3: {
-      agent: "bypassAgent",
+      agent: "copyAgent",
       inputs: { result: ":node2.$last.content" },
       isResult: true,
     },
@@ -40,7 +41,10 @@ const graph_data: GraphData = {
 };
 
 export const main = async () => {
-  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, agents);
+  const result = await graphDataTestRunner(__dirname + "/../", __filename, graph_data, {
+    ...agents,
+    slashGPTAgent
+  });
   console.log(result);
   if (result["node3"]) {
     console.log(result["node3"]);
