@@ -4,7 +4,7 @@ Step 1. Install git, node and yarn
 
 Step 2. Clone the project and install necessary node modules
 
-```
+```sh
 git clone git@github.com:receptron/graphai.git
 yarn install
 ```
@@ -13,17 +13,23 @@ Step 3. Set the environment variable OPENAI_API_KEY to your own key (=sk-...)
 
 You need to set ANTHROPIC_API_KEY as well, if you want to use Claude.
 
+** IMPORTANT: Replace <your-openai-api-key> with your actual OpenAI API key **
+```sh
+touch .env
+echo "export OPENAI_API_KEY=<your-openai-api-key>" > .env
+```
+
 Step 4. Run the test script
 
 Run the test
 
-```
+```sh
 npm run test
 ```
 
 Step 5. Run one of sample scripts
 
-```
+```sh
 cd packages/samples/
 npm run sample ./src/tools/home.ts 
 ```
