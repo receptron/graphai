@@ -41,6 +41,7 @@ const compare = (_array: CompareData): boolean => {
   throw new Error(`unknown compare operator`);
 };
 
+// TODO: move to agent_utils
 const isNull = (data: unknown) => {
   return data === null || data === undefined;
 };
