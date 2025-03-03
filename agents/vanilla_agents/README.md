@@ -989,6 +989,468 @@ const result = await graph.run();
 }
 ```
 
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "abc"
+    ]
+  },
+  "params": {
+    "value": {
+      "true": "a",
+      "false": "b"
+    },
+    "operator": "=="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "abca"
+    ]
+  },
+  "params": {
+    "value": {
+      "true": "a",
+      "false": "b"
+    },
+    "operator": "=="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "abc"
+    ]
+  },
+  "params": {
+    "operator": "=="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "abcd"
+    ]
+  },
+  "params": {
+    "operator": "=="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "abc"
+    ]
+  },
+  "params": {
+    "operator": "!="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "abc",
+      "abcd"
+    ]
+  },
+  "params": {
+    "operator": "!="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "5"
+    ]
+  },
+  "params": {
+    "operator": ">"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "15"
+    ]
+  },
+  "params": {
+    "operator": ">"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      5
+    ]
+  },
+  "params": {
+    "operator": ">"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      15
+    ]
+  },
+  "params": {
+    "operator": ">"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "5"
+    ]
+  },
+  "params": {
+    "operator": ">="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "10"
+    ]
+  },
+  "params": {
+    "operator": ">="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "19"
+    ]
+  },
+  "params": {
+    "operator": ">="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      5
+    ]
+  },
+  "params": {
+    "operator": ">="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      10
+    ]
+  },
+  "params": {
+    "operator": ">="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      19
+    ]
+  },
+  "params": {
+    "operator": ">="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "5"
+    ]
+  },
+  "params": {
+    "operator": "<"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      "10",
+      "15"
+    ]
+  },
+  "params": {
+    "operator": "<"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      5
+    ]
+  },
+  "params": {
+    "operator": "<"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      10,
+      15
+    ]
+  },
+  "params": {
+    "operator": "<"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      false
+    ]
+  },
+  "params": {
+    "operator": "||"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      false,
+      false
+    ]
+  },
+  "params": {
+    "operator": "||"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      false
+    ]
+  },
+  "params": {
+    "operator": "&&"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      true
+    ]
+  },
+  "params": {
+    "operator": "&&"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      false
+    ]
+  },
+  "params": {
+    "operator": "XOR"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      false,
+      true
+    ]
+  },
+  "params": {
+    "operator": "XOR"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      false,
+      false
+    ]
+  },
+  "params": {
+    "operator": "XOR"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      true
+    ]
+  },
+  "params": {
+    "operator": "XOR"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "leftValue": "abc",
+    "rightValue": "abc"
+  },
+  "params": {
+    "value": {
+      "true": "a",
+      "false": "b"
+    },
+    "operator": "=="
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "leftValue": "abc",
+    "rightValue": "abca"
+  },
+  "params": {
+    "value": {
+      "true": "a",
+      "false": "b"
+    },
+    "operator": "=="
+  }
+}
+```
+
  - copy2ArrayAgent
 
 ```typescript
