@@ -505,7 +505,7 @@ function requireLib () {
 	hasRequiredLib = 1;
 	(function (exports) {
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
+		exports.isNull = exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
 		const graphai_1 = require("graphai");
 		const sample2GraphData = (sample, agentName) => {
 		    const nodes = {};
@@ -549,7 +549,11 @@ function requireLib () {
 		    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
 		    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
 		};
-		exports.arrayValidate = arrayValidate; 
+		exports.arrayValidate = arrayValidate;
+		const isNull = (data) => {
+		    return data === null || data === undefined;
+		};
+		exports.isNull = isNull; 
 	} (lib));
 	return lib;
 }
@@ -2435,9 +2439,13 @@ const compareAgent = async ({ namedInputs, params }) => {
     })();
     const ret = compare(inputs);
     if (params?.value) {
-        return params?.value[ret ? "true" : "false"] ?? ret;
+        return {
+            result: params?.value[ret ? "true" : "false"] ?? ret,
+        };
     }
-    return ret;
+    return {
+        result: ret,
+    };
 };
 const compareAgentInfo = {
     name: "compareAgent",
@@ -2449,343 +2457,477 @@ const compareAgentInfo = {
         {
             inputs: { array: ["abc", "==", "abc"] },
             params: { value: { true: "a", false: "b" } },
-            result: "a",
+            result: {
+                result: "a",
+            },
         },
         {
             inputs: { array: ["abc", "==", "abca"] },
             params: { value: { true: "a", false: "b" } },
-            result: "b",
+            result: {
+                result: "b",
+            },
         },
         {
             inputs: { array: ["abc", "==", "abc"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: ["abc", "==", "abcd"] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: ["abc", "!=", "abc"] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: ["abc", "!=", "abcd"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: ["10", ">", "5"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: ["10", ">", "15"] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [10, ">", 5] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [10, ">", 15] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: ["10", ">=", "5"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: ["10", ">=", "10"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             // 10
             inputs: { array: ["10", ">=", "19"] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [10, ">=", 5] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [10, ">=", 10] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [10, ">=", 19] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         //
         {
             inputs: { array: ["10", "<", "5"] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: ["10", "<", "15"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [10, "<", 5] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [10, "<", 15] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: ["10", "<=", "5"] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: ["10", "<=", "10"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             // 20
             inputs: { array: ["10", "<=", "19"] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [10, "<=", 5] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [10, "<=", 10] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [10, "<=", 19] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [true, "||", false] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [false, "||", false] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [true, "&&", false] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [true, "&&", true] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [true, "XOR", false] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [false, "XOR", true] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [false, "XOR", false] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [true, "XOR", true] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         //
         {
             inputs: { array: [["aaa", "==", "aaa"], "||", ["aaa", "==", "bbb"]] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         {
             inputs: { array: [["aaa", "==", "aaa"], "&&", ["aaa", "==", "bbb"]] },
             params: {},
-            result: false,
+            result: {
+                result: false,
+            },
         },
         {
             inputs: { array: [[["aaa", "==", "aaa"], "&&", ["bbb", "==", "bbb"]], "||", ["aaa", "&&", "bbb"]] },
             params: {},
-            result: true,
+            result: {
+                result: true,
+            },
         },
         /// params.operator
         {
             inputs: { array: ["abc", "abc"] },
             params: { value: { true: "a", false: "b" }, operator: "==" },
-            result: "a",
+            result: {
+                result: "a",
+            }
         },
         {
             inputs: { array: ["abc", "abca"] },
             params: { value: { true: "a", false: "b" }, operator: "==" },
-            result: "b",
+            result: {
+                result: "b",
+            }
         },
         {
             inputs: { array: ["abc", "abc"] },
             params: { operator: "==" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: ["abc", "abcd"] },
             params: { operator: "==" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: ["abc", "abc"] },
             params: { operator: "!=" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: ["abc", "abcd"] },
             params: { operator: "!=" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: ["10", "5"] },
             params: { operator: ">" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: ["10", "15"] },
             params: { operator: ">" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: [10, 5] },
             params: { operator: ">" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [10, 15] },
             params: { operator: ">" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: ["10", "5"] },
             params: { operator: ">=" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: ["10", "10"] },
             params: { operator: ">=" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: ["10", "19"] },
             params: { operator: ">=" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: [10, 5] },
             params: { operator: ">=" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [10, 10] },
             params: { operator: ">=" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [10, 19] },
             params: { operator: ">=" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: ["10", "5"] },
             params: { operator: "<" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: ["10", "15"] },
             params: { operator: "<" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [10, 5] },
             params: { operator: "<" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: [10, 15] },
             params: { operator: "<" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [true, false] },
             params: { operator: "||" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [false, false] },
             params: { operator: "||" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: [true, false] },
             params: { operator: "&&" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: [true, true] },
             params: { operator: "&&" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [true, false] },
             params: { operator: "XOR" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [false, true] },
             params: { operator: "XOR" },
-            result: true,
+            result: {
+                result: true,
+            }
         },
         {
             inputs: { array: [false, false] },
             params: { operator: "XOR" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         {
             inputs: { array: [true, true] },
             params: { operator: "XOR" },
-            result: false,
+            result: {
+                result: false,
+            }
         },
         /// left and right
         {
             inputs: { leftValue: "abc", rightValue: "abc" },
             params: { value: { true: "a", false: "b" }, operator: "==" },
-            result: "a",
+            result: {
+                result: "a",
+            }
         },
         {
             inputs: { leftValue: "abc", rightValue: "abca" },
             params: { value: { true: "a", false: "b" }, operator: "==" },
-            result: "b",
+            result: {
+                result: "b",
+            }
         },
     ],
     description: "compare",
