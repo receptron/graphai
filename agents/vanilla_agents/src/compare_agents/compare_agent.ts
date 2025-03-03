@@ -41,14 +41,22 @@ const compare = (_array: CompareData): boolean => {
   throw new Error(`unknown compare operator`);
 };
 
+const isNull = (data: unknown) => {
+  return data === null || data === undefined;
+};
+
 export const compareAgent: AgentFunction = async ({ namedInputs, params }) => {
-  const { array } = namedInputs;
+  const { array: _array, leftValue, rightValue } = namedInputs;
+  const array = _array ?? [];
   const inputs = (() => {
     if (array.length === 2 && params.operator) {
       return [array[0], params.operator, array[1]];
     }
     if (array.length === 3) {
       return namedInputs.array;
+    }
+    if (array.length === 0 && !isNull(leftValue) && !isNull(rightValue) && params.operator) {
+      return [leftValue, params.operator, rightValue];
     }
     throw new Error(`compare inputs is wrong.`);
   })();
@@ -399,6 +407,17 @@ const compareAgentInfo: AgentFunctionInfo = {
       inputs: { array: [true, true] },
       params: { operator: "XOR" },
       result: false,
+    },
+    /// left and right
+    {
+      inputs: { leftValue: "abc", rightValue: "abc" },
+      params: { value: { true: "a", false: "b" }, operator: "==" },
+      result: "a",
+    },
+    {
+      inputs: { leftValue: "abc", rightValue: "abca" },
+      params: { value: { true: "a", false: "b" }, operator: "==" },
+      result: "b",
     },
   ],
   description: "compare",
