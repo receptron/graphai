@@ -27,469 +27,536 @@ compare
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.result"
 ]
 
 ````
@@ -524,7 +591,9 @@ compare
 
 ```json
 
-"a"
+{
+  "result": "a"
+}
 
 ````
 ### Sample1
@@ -555,7 +624,9 @@ compare
 
 ```json
 
-"b"
+{
+  "result": "b"
+}
 
 ````
 ### Sample2
@@ -586,7 +657,9 @@ compare
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample3
@@ -617,7 +690,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample4
@@ -648,7 +723,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample5
@@ -679,7 +756,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample6
@@ -710,7 +789,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample7
@@ -741,7 +822,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample8
@@ -772,7 +855,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample9
@@ -803,7 +888,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample10
@@ -834,7 +921,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample11
@@ -865,7 +954,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample12
@@ -896,7 +987,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample13
@@ -927,7 +1020,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample14
@@ -958,7 +1053,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample15
@@ -989,7 +1086,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample16
@@ -1020,7 +1119,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample17
@@ -1051,7 +1152,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample18
@@ -1082,7 +1185,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample19
@@ -1113,7 +1218,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample20
@@ -1144,7 +1251,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample21
@@ -1175,7 +1284,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample22
@@ -1206,7 +1317,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample23
@@ -1237,7 +1350,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample24
@@ -1268,7 +1383,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample25
@@ -1299,7 +1416,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample26
@@ -1330,7 +1449,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample27
@@ -1361,7 +1482,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample28
@@ -1392,7 +1515,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample29
@@ -1423,7 +1548,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample30
@@ -1454,7 +1581,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample31
@@ -1485,7 +1614,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample32
@@ -1516,7 +1647,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample33
@@ -1547,7 +1680,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample34
@@ -1586,7 +1721,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample35
@@ -1625,7 +1762,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample36
@@ -1672,7 +1811,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample37
@@ -1702,7 +1843,9 @@ true
 
 ```json
 
-"a"
+{
+  "result": "a"
+}
 
 ````
 ### Sample38
@@ -1732,7 +1875,9 @@ true
 
 ```json
 
-"b"
+{
+  "result": "b"
+}
 
 ````
 ### Sample39
@@ -1762,7 +1907,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample40
@@ -1792,7 +1939,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample41
@@ -1822,7 +1971,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample42
@@ -1852,7 +2003,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample43
@@ -1882,7 +2035,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample44
@@ -1912,7 +2067,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample45
@@ -1942,7 +2099,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample46
@@ -1972,7 +2131,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample47
@@ -2002,7 +2163,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample48
@@ -2032,7 +2195,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample49
@@ -2062,7 +2227,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample50
@@ -2092,7 +2259,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample51
@@ -2122,7 +2291,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample52
@@ -2152,7 +2323,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample53
@@ -2182,7 +2355,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample54
@@ -2212,7 +2387,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample55
@@ -2242,7 +2419,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample56
@@ -2272,7 +2451,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample57
@@ -2302,7 +2483,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample58
@@ -2332,7 +2515,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample59
@@ -2362,7 +2547,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample60
@@ -2392,7 +2579,9 @@ false
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample61
@@ -2422,7 +2611,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample62
@@ -2452,7 +2643,9 @@ true
 
 ```json
 
-true
+{
+  "result": true
+}
 
 ````
 ### Sample63
@@ -2482,7 +2675,9 @@ true
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample64
@@ -2512,7 +2707,9 @@ false
 
 ```json
 
-false
+{
+  "result": false
+}
 
 ````
 ### Sample65
@@ -2540,7 +2737,9 @@ false
 
 ```json
 
-"a"
+{
+  "result": "a"
+}
 
 ````
 ### Sample66
@@ -2568,7 +2767,9 @@ false
 
 ```json
 
-"b"
+{
+  "result": "b"
+}
 
 ````
 
