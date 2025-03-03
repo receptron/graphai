@@ -2663,196 +2663,196 @@
                 params: { value: { true: "a", false: "b" }, operator: "==" },
                 result: {
                     result: "a",
-                }
+                },
             },
             {
                 inputs: { array: ["abc", "abca"] },
                 params: { value: { true: "a", false: "b" }, operator: "==" },
                 result: {
                     result: "b",
-                }
+                },
             },
             {
                 inputs: { array: ["abc", "abc"] },
                 params: { operator: "==" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: ["abc", "abcd"] },
                 params: { operator: "==" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: ["abc", "abc"] },
                 params: { operator: "!=" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: ["abc", "abcd"] },
                 params: { operator: "!=" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: ["10", "5"] },
                 params: { operator: ">" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: ["10", "15"] },
                 params: { operator: ">" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: [10, 5] },
                 params: { operator: ">" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [10, 15] },
                 params: { operator: ">" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: ["10", "5"] },
                 params: { operator: ">=" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: ["10", "10"] },
                 params: { operator: ">=" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: ["10", "19"] },
                 params: { operator: ">=" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: [10, 5] },
                 params: { operator: ">=" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [10, 10] },
                 params: { operator: ">=" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [10, 19] },
                 params: { operator: ">=" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: ["10", "5"] },
                 params: { operator: "<" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: ["10", "15"] },
                 params: { operator: "<" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [10, 5] },
                 params: { operator: "<" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: [10, 15] },
                 params: { operator: "<" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [true, false] },
                 params: { operator: "||" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [false, false] },
                 params: { operator: "||" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: [true, false] },
                 params: { operator: "&&" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: [true, true] },
                 params: { operator: "&&" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [true, false] },
                 params: { operator: "XOR" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [false, true] },
                 params: { operator: "XOR" },
                 result: {
                     result: true,
-                }
+                },
             },
             {
                 inputs: { array: [false, false] },
                 params: { operator: "XOR" },
                 result: {
                     result: false,
-                }
+                },
             },
             {
                 inputs: { array: [true, true] },
                 params: { operator: "XOR" },
                 result: {
                     result: false,
-                }
+                },
             },
             /// left and right
             {
@@ -2860,14 +2860,14 @@
                 params: { value: { true: "a", false: "b" }, operator: "==" },
                 result: {
                     result: "a",
-                }
+                },
             },
             {
                 inputs: { leftValue: "abc", rightValue: "abca" },
                 params: { value: { true: "a", false: "b" }, operator: "==" },
                 result: {
                     result: "b",
-                }
+                },
             },
         ],
         description: "compare",

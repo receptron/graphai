@@ -505,7 +505,7 @@ function requireLib () {
 	hasRequiredLib = 1;
 	(function (exports) {
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.isNull = exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
+		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
 		const graphai_1 = require("graphai");
 		const sample2GraphData = (sample, agentName) => {
 		    const nodes = {};
@@ -549,11 +549,7 @@ function requireLib () {
 		    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
 		    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
 		};
-		exports.arrayValidate = arrayValidate;
-		const isNull = (data) => {
-		    return data === null || data === undefined;
-		};
-		exports.isNull = isNull; 
+		exports.arrayValidate = arrayValidate; 
 	} (lib));
 	return lib;
 }
@@ -2723,196 +2719,196 @@ const compareAgentInfo = {
             params: { value: { true: "a", false: "b" }, operator: "==" },
             result: {
                 result: "a",
-            }
+            },
         },
         {
             inputs: { array: ["abc", "abca"] },
             params: { value: { true: "a", false: "b" }, operator: "==" },
             result: {
                 result: "b",
-            }
+            },
         },
         {
             inputs: { array: ["abc", "abc"] },
             params: { operator: "==" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: ["abc", "abcd"] },
             params: { operator: "==" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: ["abc", "abc"] },
             params: { operator: "!=" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: ["abc", "abcd"] },
             params: { operator: "!=" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: ["10", "5"] },
             params: { operator: ">" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: ["10", "15"] },
             params: { operator: ">" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: [10, 5] },
             params: { operator: ">" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [10, 15] },
             params: { operator: ">" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: ["10", "5"] },
             params: { operator: ">=" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: ["10", "10"] },
             params: { operator: ">=" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: ["10", "19"] },
             params: { operator: ">=" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: [10, 5] },
             params: { operator: ">=" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [10, 10] },
             params: { operator: ">=" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [10, 19] },
             params: { operator: ">=" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: ["10", "5"] },
             params: { operator: "<" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: ["10", "15"] },
             params: { operator: "<" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [10, 5] },
             params: { operator: "<" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: [10, 15] },
             params: { operator: "<" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [true, false] },
             params: { operator: "||" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [false, false] },
             params: { operator: "||" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: [true, false] },
             params: { operator: "&&" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: [true, true] },
             params: { operator: "&&" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [true, false] },
             params: { operator: "XOR" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [false, true] },
             params: { operator: "XOR" },
             result: {
                 result: true,
-            }
+            },
         },
         {
             inputs: { array: [false, false] },
             params: { operator: "XOR" },
             result: {
                 result: false,
-            }
+            },
         },
         {
             inputs: { array: [true, true] },
             params: { operator: "XOR" },
             result: {
                 result: false,
-            }
+            },
         },
         /// left and right
         {
@@ -2920,14 +2916,14 @@ const compareAgentInfo = {
             params: { value: { true: "a", false: "b" }, operator: "==" },
             result: {
                 result: "a",
-            }
+            },
         },
         {
             inputs: { leftValue: "abc", rightValue: "abca" },
             params: { value: { true: "a", false: "b" }, operator: "==" },
             result: {
                 result: "b",
-            }
+            },
         },
     ],
     description: "compare",
