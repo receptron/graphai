@@ -350,153 +350,213 @@ const compareAgentInfo: AgentFunctionInfo = {
     {
       inputs: { array: ["abc", "abc"] },
       params: { value: { true: "a", false: "b" }, operator: "==" },
-      result: "a",
+      result: {
+        result: "a",
+      },
     },
     {
       inputs: { array: ["abc", "abca"] },
       params: { value: { true: "a", false: "b" }, operator: "==" },
-      result: "b",
+      result: {
+        result: "b",
+      },
     },
     {
       inputs: { array: ["abc", "abc"] },
       params: { operator: "==" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: ["abc", "abcd"] },
       params: { operator: "==" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: ["abc", "abc"] },
       params: { operator: "!=" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: ["abc", "abcd"] },
       params: { operator: "!=" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: ["10", "5"] },
       params: { operator: ">" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: ["10", "15"] },
       params: { operator: ">" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: [10, 5] },
       params: { operator: ">" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [10, 15] },
       params: { operator: ">" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: ["10", "5"] },
       params: { operator: ">=" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: ["10", "10"] },
       params: { operator: ">=" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: ["10", "19"] },
       params: { operator: ">=" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: [10, 5] },
       params: { operator: ">=" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [10, 10] },
       params: { operator: ">=" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [10, 19] },
       params: { operator: ">=" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: ["10", "5"] },
       params: { operator: "<" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: ["10", "15"] },
       params: { operator: "<" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [10, 5] },
       params: { operator: "<" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: [10, 15] },
       params: { operator: "<" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [true, false] },
       params: { operator: "||" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [false, false] },
       params: { operator: "||" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: [true, false] },
       params: { operator: "&&" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: [true, true] },
       params: { operator: "&&" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [true, false] },
       params: { operator: "XOR" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [false, true] },
       params: { operator: "XOR" },
-      result: true,
+      result: {
+        result: true,
+      },
     },
     {
       inputs: { array: [false, false] },
       params: { operator: "XOR" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     {
       inputs: { array: [true, true] },
       params: { operator: "XOR" },
-      result: false,
+      result: {
+        result: false,
+      },
     },
     /// left and right
     {
       inputs: { leftValue: "abc", rightValue: "abc" },
       params: { value: { true: "a", false: "b" }, operator: "==" },
-      result: "a",
+      result: {
+        result: "a",
+      },
     },
     {
       inputs: { leftValue: "abc", rightValue: "abca" },
       params: { value: { true: "a", false: "b" }, operator: "==" },
-      result: "b",
+      result: {
+        result: "b",
+      },
     },
   ],
   description: "compare",
