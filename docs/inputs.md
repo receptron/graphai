@@ -54,11 +54,12 @@ Message is the format of data passed to the LLM history.
 ```
 
 ## llm tools
+```
 {
   tool_calls: [{id: string, name: string, arguments: object }],
   tool: {id: string, name: string, arguments: object}
 }
-
+```
 
 ## result
 
