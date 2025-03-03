@@ -32,7 +32,7 @@
 }
 ```
 
-## llm message
+## llm message and reponse
 
 Message is the format of data passed to the LLM history.
 
@@ -41,7 +41,31 @@ Message is the format of data passed to the LLM history.
   message: {
     role: "user",
     content: "123"
-  }
+  },
+  messages: [{
+    role: "user",
+    content: "123"
+  },{
+    role: "assistant",
+    content: "123"
+  }],
+  text: "123"
+}
+```
+
+## llm tools
+{
+  tool_calls: [{id: string, name: string, arguments: object }],
+  tool: {id: string, name: string, arguments: object}
+}
+
+
+## result
+
+results that do not apply to the above
+```
+{
+  result: unknown
 }
 ```
 
