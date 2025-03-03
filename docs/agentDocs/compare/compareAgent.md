@@ -283,6 +283,216 @@ compare
 ]
 
 ````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
+```json
+
+[
+  ":agentId"
+]
+
+````
 
 ## Samples
 
@@ -1463,6 +1673,902 @@ false
 ```json
 
 true
+
+````
+### Sample37
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "abc"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"value":{"true":"a","false":"b"},"operator":"=="}
+
+````
+
+#### result
+
+```json
+
+"a"
+
+````
+### Sample38
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "abca"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"value":{"true":"a","false":"b"},"operator":"=="}
+
+````
+
+#### result
+
+```json
+
+"b"
+
+````
+### Sample39
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "abc"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"=="}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample40
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "abcd"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"=="}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample41
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "abc"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"!="}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample42
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "abc",
+    "abcd"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"!="}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample43
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "5"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample44
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "15"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample45
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    10,
+    5
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample46
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    10,
+    15
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample47
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "5"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">="}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample48
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "10"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">="}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample49
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "19"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">="}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample50
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    10,
+    5
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">="}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample51
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    10,
+    10
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">="}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample52
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    10,
+    19
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":">="}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample53
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "5"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"<"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample54
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    "10",
+    "15"
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"<"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample55
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    10,
+    5
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"<"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample56
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    10,
+    15
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"<"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample57
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    true,
+    false
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"||"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample58
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    false,
+    false
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"||"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample59
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    true,
+    false
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"&&"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample60
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    true,
+    true
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"&&"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample61
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    true,
+    false
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"XOR"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample62
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    false,
+    true
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"XOR"}
+
+````
+
+#### result
+
+```json
+
+true
+
+````
+### Sample63
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    false,
+    false
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"XOR"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample64
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    true,
+    true
+  ]
+}
+
+````
+
+#### params
+
+```json
+
+{"operator":"XOR"}
+
+````
+
+#### result
+
+```json
+
+false
+
+````
+### Sample65
+
+#### inputs
+
+```json
+
+{
+  "leftValue": "abc",
+  "rightValue": "abc"
+}
+
+````
+
+#### params
+
+```json
+
+{"value":{"true":"a","false":"b"},"operator":"=="}
+
+````
+
+#### result
+
+```json
+
+"a"
+
+````
+### Sample66
+
+#### inputs
+
+```json
+
+{
+  "leftValue": "abc",
+  "rightValue": "abca"
+}
+
+````
+
+#### params
+
+```json
+
+{"value":{"true":"a","false":"b"},"operator":"=="}
+
+````
+
+#### result
+
+```json
+
+"b"
 
 ````
 
