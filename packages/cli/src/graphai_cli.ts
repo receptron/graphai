@@ -3,6 +3,9 @@
 import "dotenv/config";
 import { GraphAI } from "graphai";
 import * as packages from "@graphai/agents";
+import { tokenBoundStringsAgent } from "@graphai/token_bound_string_agent";
+import { fileReadAgent, fileWriteAgent, pathUtilsAgent } from "@graphai/vanilla_node_agents";
+
 
 import fs from "fs";
 import path from "path";
@@ -17,9 +20,18 @@ const fileFullPath = (file: string) => {
   return path.resolve(process.cwd() + "/" + file) || "";
 };
 
+const agents = {
+  ...packages,
+  tokenBoundStringsAgent,
+  fileReadAgent,
+  fileWriteAgent,
+  pathUtilsAgent
+};
+
+
 const main = async () => {
   if (hasOption) {
-    option(args, packages);
+    option(args, agents);
     return;
   }
   const file_path = fileFullPath(args.yaml_or_json_file as string);
@@ -47,7 +59,7 @@ const main = async () => {
       return;
     }
 
-    const graph = new GraphAI(graph_data, packages);
+    const graph = new GraphAI(graph_data, agents);
 
     if (args.verbose) {
       graph.onLogCallback = callbackLog;
