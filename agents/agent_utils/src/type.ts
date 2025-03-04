@@ -60,7 +60,7 @@ export type GraphAIFileName = { file: string };
 export type GraphAIDirName = { dir: string };
 export type GraphAIBaseDirName = { baseDir: string };
 export type GraphAIPathName = { path: string };
-// export type GraphAIBuffer<BufferType> = { buffer: Buffer }; Buffer(node buffer or npm buffer)
+export type GraphAIBuffer<BufferType = unknown> = { buffer: BufferType }; // BufferType is node buffer or npm buffer(web)
 
 // for type info
 export type GraphAIType = { type: string };
