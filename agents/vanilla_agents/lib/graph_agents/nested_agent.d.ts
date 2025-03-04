@@ -4,6 +4,6 @@ type NestedAgentGeneratorOption = {
     resultNodeId: string;
 };
 export declare const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentGeneratorOption) => (context: AgentFunctionContext) => Promise<any>;
-export declare const nestedAgent: AgentFunction<GraphAIThrowError>;
+export declare const nestedAgent: AgentFunction<Partial<GraphAIThrowError>>;
 declare const nestedAgentInfo: AgentFunctionInfo;
 export default nestedAgentInfo;

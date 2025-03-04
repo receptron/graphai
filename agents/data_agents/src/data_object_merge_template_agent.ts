@@ -3,10 +3,11 @@ import { GraphAIData, GraphAIArray } from "@graphai/agent_utils";
 import deepmerge from "deepmerge";
 
 type MergeDataType = Record<string, unknown>;
-export const dataObjectMergeTemplateAgent: AgentFunction<{ flatResponse?: boolean }, MergeDataType | GraphAIData<MergeDataType>, GraphAIArray<MergeDataType>> = async ({
-  namedInputs,
-  params,
-}) => {
+export const dataObjectMergeTemplateAgent: AgentFunction<
+  { flatResponse?: boolean },
+  MergeDataType | GraphAIData<MergeDataType>,
+  GraphAIArray<MergeDataType>
+> = async ({ namedInputs, params }) => {
   const { flatResponse } = params;
   const data = namedInputs.array.reduce((tmp: MergeDataType, input: MergeDataType) => {
     return deepmerge(tmp, input);

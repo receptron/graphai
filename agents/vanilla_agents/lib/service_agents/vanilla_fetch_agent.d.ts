@@ -1,8 +1,8 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
-export declare const vanillaFetchAgent: AgentFunction<GraphAIDebug & GraphAIThrowError & {
-    type?: string;
-}, unknown, {
+export declare const vanillaFetchAgent: AgentFunction<Partial<GraphAIDebug & GraphAIThrowError & {
+    type: string;
+}>, unknown, {
     url: string;
     method?: string;
     queryParams: any;

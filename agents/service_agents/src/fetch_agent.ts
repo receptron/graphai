@@ -2,7 +2,10 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
 import { parseStringPromise } from "xml2js";
 
-export const fetchAgent: AgentFunction<Partial<GraphAIThrowError & GraphAIDebug & { type?: string }>, unknown,   {
+export const fetchAgent: AgentFunction<
+  Partial<GraphAIThrowError & GraphAIDebug & { type?: string }>,
+  unknown,
+  {
     url: string;
     method?: string;
     queryParams: any;

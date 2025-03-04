@@ -22,7 +22,9 @@ type AnthropicConfig = {
 
 type AnthropicParams = AnthropicInputs & AnthropicConfig;
 
-type AnthropicResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage<string | Anthropic.ContentBlockParam[]> & GraphAIMessages<string | Anthropic.ContentBlockParam[]>>;
+type AnthropicResult = Partial<
+  GraphAITool & GraphAIToolCalls & GraphAIMessage<string | Anthropic.ContentBlockParam[]> & GraphAIMessages<string | Anthropic.ContentBlockParam[]>
+>;
 
 const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
   const { id, name, input } = tool_call;
