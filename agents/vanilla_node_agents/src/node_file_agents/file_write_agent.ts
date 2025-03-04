@@ -1,19 +1,12 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import type { GraphAIResult, GraphAIFileName, GraphAIText, GraphAIBaseDirName } from "@graphai/agent_utils";
 import fs from "fs";
 import path from "path";
 
 export const fileWriteAgent: AgentFunction<
-  {
-    baseDir?: string;
-  },
-  {
-    result: boolean;
-  },
-  {
-    text?: string;
-    buffer?: Buffer;
-    file: string;
-  }
+  Partial<GraphAIBaseDirName>,
+  GraphAIResult<boolean>,
+  GraphAIFileName & Partial<GraphAIText & { buffer?: Buffer }>
 > = async ({ namedInputs, params }) => {
   const { baseDir } = params;
   const { text, buffer, file } = namedInputs;
