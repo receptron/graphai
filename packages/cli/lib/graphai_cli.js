@@ -57,7 +57,7 @@ const agents = {
     tokenBoundStringsAgent: token_bound_string_agent_1.tokenBoundStringsAgent,
     fileReadAgent: vanilla_node_agents_1.fileReadAgent,
     fileWriteAgent: vanilla_node_agents_1.fileWriteAgent,
-    pathUtilsAgent: vanilla_node_agents_1.pathUtilsAgent
+    pathUtilsAgent: vanilla_node_agents_1.pathUtilsAgent,
 };
 const main = async () => {
     if (args_1.hasOption) {
