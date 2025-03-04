@@ -40,6 +40,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const graphai_1 = require("graphai");
 const packages = __importStar(require("@graphai/agents"));
+const token_bound_string_agent_1 = require("@graphai/token_bound_string_agent");
+const vanilla_node_agents_1 = require("@graphai/vanilla_node_agents");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const yaml_1 = __importDefault(require("yaml"));
@@ -50,9 +52,16 @@ const mermaid_1 = require("./mermaid");
 const fileFullPath = (file) => {
     return path_1.default.resolve(process.cwd() + "/" + file) || "";
 };
+const agents = {
+    ...packages,
+    tokenBoundStringsAgent: token_bound_string_agent_1.tokenBoundStringsAgent,
+    fileReadAgent: vanilla_node_agents_1.fileReadAgent,
+    fileWriteAgent: vanilla_node_agents_1.fileWriteAgent,
+    pathUtilsAgent: vanilla_node_agents_1.pathUtilsAgent
+};
 const main = async () => {
     if (args_1.hasOption) {
-        (0, options_1.option)(args_1.args, packages);
+        (0, options_1.option)(args_1.args, agents);
         return;
     }
     const file_path = fileFullPath(args_1.args.yaml_or_json_file);
@@ -78,7 +87,7 @@ const main = async () => {
             console.log(yaml_1.default.stringify(graph_data, null, 2));
             return;
         }
-        const graph = new graphai_1.GraphAI(graph_data, packages);
+        const graph = new graphai_1.GraphAI(graph_data, agents);
         if (args_1.args.verbose) {
             graph.onLogCallback = test_utils_1.callbackLog;
         }
