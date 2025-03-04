@@ -2,7 +2,7 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
 
 export const vanillaFetchAgent: AgentFunction<
-  GraphAIDebug & GraphAIThrowError & { type?: string },
+  Partial<GraphAIDebug & GraphAIThrowError & { type: string }>,
   unknown,
   {
     url: string;
