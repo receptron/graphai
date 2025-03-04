@@ -38,6 +38,14 @@ nested Agent
 ]
 
 ````
+```json
+
+[
+  ":agentId",
+  ":agentId.$0"
+]
+
+````
 
 ## Samples
 
@@ -70,6 +78,35 @@ nested Agent
     "hello"
   ]
 }
+
+````
+### Sample1
+
+#### inputs
+
+```json
+
+{
+  "message": "hello"
+}
+
+````
+
+#### params
+
+```json
+
+{"resultNodeId":"test"}
+
+````
+
+#### result
+
+```json
+
+[
+  "hello"
+]
 
 ````
 
