@@ -1,5 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { arrayValidate, GraphAIArray, GraphAIArrayWithItem } from "@graphai/agent_utils";
+import { arrayValidate } from "@graphai/agent_utils";
+import type { GraphAIArray, GraphAIArrayWithItem } from "@graphai/agent_utils";
 
 export const popAgent: AgentFunction<null, GraphAIArrayWithItem, GraphAIArray> = async ({ namedInputs }) => {
   arrayValidate("popAgent", namedInputs);
