@@ -1,3 +1,8 @@
+// Type definitions for the main types used in `namedInputs` and agent response data.
+// In GraphAI, follow these definitions as closely as possible to standardize inputs and outputs.
+// Related document
+//  https://github.com/receptron/graphai/blob/main/docs/inputs.md
+
 // for Array
 export type GraphAIArray<Item = unknown> = { array: Array<Item> };
 export type GraphAIItem<Item = unknown> = { item: Item };
@@ -49,6 +54,20 @@ export type GraphAIMessages<Content = string> = { messages: Array<GraphAIMessage
 export type GraphAIToolPayload = { id: string; name: string; arguments?: unknown };
 export type GraphAITool = { tool: GraphAIToolPayload };
 export type GraphAIToolCalls = { tool_calls: Array<GraphAIToolPayload> };
+
+// for file system
+export type GraphAIFileName = { file: string };
+export type GraphAIDirName = { dir: string };
+export type GraphAIDirNames = { dirs: string[] };
+export type GraphAIBaseDirName = { baseDir: string };
+export type GraphAIPathName = { path: string };
+export type GraphAIBuffer<BufferType = unknown> = { buffer: BufferType }; // BufferType is node buffer or npm buffer(web)
+
+// for type info
+export type GraphAIType = { type: string };
+export type GraphAIInputType = { inputType: string };
+export type GraphAIOutputType = { outputType: string };
+export type GraphAIDataType = { dataType: string };
 
 // error
 export type GraphAIOnError<ErrorData = Error> = {
