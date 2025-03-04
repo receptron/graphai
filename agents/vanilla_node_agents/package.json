@@ -27,7 +27,7 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "dependencies": {
-    "@graphai/agent_utils": "0.0.3"
+    "@graphai/agent_utils": "0.0.4"
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/vanilla_node_agents/README.md",
   "types": "./lib/index.d.ts",
