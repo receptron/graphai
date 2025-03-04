@@ -1,6 +1,6 @@
 {
   "name": "@graphai/vanilla",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Vanilla agents for GraphAI.",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -30,7 +30,7 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "dependencies": {
-    "@graphai/agent_utils": "0.0.3"
+    "@graphai/agent_utils": "0.0.4"
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/README.md",
   "types": "./lib/index.d.ts",
