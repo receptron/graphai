@@ -1,6 +1,7 @@
 import Replicate from "replicate";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import type { GraphAIMessagePayload, GraphAIText, GraphAIMessage } from "@graphai/agent_utils";
 
 type ReplicateInputs = {
   model?: string;
@@ -12,7 +13,9 @@ type ReplicateInputs = {
   forWeb?: boolean;
 } & GraphAILLMInputBase;
 
-export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> | string, ReplicateInputs> = async ({ params, namedInputs }) => {
+type ReplicateResult = GraphAIText & GraphAIMessage & {choices: Array<GraphAIMessage>}
+
+export const replicateAgent: AgentFunction<ReplicateInputs, ReplicateResult, ReplicateInputs> = async ({ params, namedInputs }) => {
   const { prompt } = {
     ...params,
     ...namedInputs,
@@ -25,7 +28,7 @@ export const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> 
   const output = await replicate.run(params.model as any, { input: { prompt: userPrompt as any } });
 
   const content = (output as string[]).join("");
-  const message = { role: "assistant", content };
+  const message: GraphAIMessagePayload = { role: "assistant", content };
   return { choices: [{ message }], text: content, message };
 };
 
