@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { arrayValidate } from "@graphai/agent_utils";
+import { arrayValidate, GraphAIArray, GraphAIArrayWithItem } from "@graphai/agent_utils";
 
-export const popAgent: AgentFunction<null, { array: Array<unknown>; item: unknown }, { array: Array<unknown> }> = async ({ namedInputs }) => {
+export const popAgent: AgentFunction<null, GraphAIArrayWithItem, GraphAIArray> = async ({ namedInputs }) => {
   arrayValidate("popAgent", namedInputs);
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
