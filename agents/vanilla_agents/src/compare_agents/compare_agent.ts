@@ -54,7 +54,7 @@ export const compareAgent: AgentFunction<
 > = async ({ namedInputs, params }) => {
   const { array: _array, leftValue, rightValue } = namedInputs;
   const array = _array ?? [];
-  const inputs: Array<CompareDataItem> = (() => {
+  const inputs = (() => {
     if (array.length === 2 && params.operator) {
       return [array[0], params.operator, array[1]];
     }

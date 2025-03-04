@@ -1,9 +1,10 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { GraphAIText } from "@graphai/agent_utils";
 
 export const stringCaseVariantsAgent: AgentFunction<
   { suffix?: string },
   { lowerCamelCase: string; snakeCase: string; kebabCase: string; normalized: string },
-  { text: string }
+  GraphAIText
 > = async ({ namedInputs, params }) => {
   const { suffix } = params;
   const normalizedArray = namedInputs.text

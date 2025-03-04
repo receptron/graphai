@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { isNamedInputs } from "@graphai/agent_utils";
+import { isNamedInputs, GraphAIArray, GraphAIResult } from "@graphai/agent_utils";
 
-export const dataSumTemplateAgent: AgentFunction<{ flatResponse?: boolean }, number | { result: number }, { array: number[] }> = async ({
+export const dataSumTemplateAgent: AgentFunction<{ flatResponse?: boolean }, number | GraphAIResult<number>, GraphAIArray<number>> = async ({
   namedInputs,
   params,
 }) => {
