@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
+import type { GraphAITool, GraphAIToolCalls } from "@graphai/agent_utils";
 
 type OpenAIInputs = {
   model?: string;
@@ -24,7 +25,10 @@ type OpenAIConfig = {
 
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
 
-type OpenAIResult = Record<string, any> | string;
+type OpenAIResult = Partial<
+  { text: string | null } & GraphAITool &
+    GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & { messages: OpenAI.ChatCompletionMessageParam[] }
+>;
 
 const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageToolCall) => {
   return {
@@ -43,6 +47,7 @@ const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageTo
 
 const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[]) => {
   const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
+
   const text = newMessage && newMessage.content ? newMessage.content : null;
 
   const functionResponses = newMessage?.tool_calls && Array.isArray(newMessage?.tool_calls) ? newMessage?.tool_calls : [];
