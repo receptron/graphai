@@ -1,5 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { arrayValidate, GraphAIArray } from "@graphai/agent_utils";
+import { arrayValidate } from "@graphai/agent_utils"
+import type { GraphAIArray } from "@graphai/agent_utils";
 
 export const mergeNodeIdAgent: AgentFunction<null, Record<string, unknown>, GraphAIArray<Record<string, unknown>>> = async ({
   debugInfo: { nodeId },

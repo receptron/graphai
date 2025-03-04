@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { GraphAIText } from "@graphai/agent_utils";
+import type { GraphAIText } from "@graphai/agent_utils";
 
 export const stringCaseVariantsAgent: AgentFunction<
   { suffix?: string },

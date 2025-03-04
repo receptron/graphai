@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import { GraphAIResult, GraphAIArray } from "@graphai/agent_utils";
+import type { GraphAIResult, GraphAIArray } from "@graphai/agent_utils";
 
 type CompareDataItem = string | number | boolean | CompareData;
 type CompareData = CompareDataItem[];
