@@ -62,6 +62,12 @@ export type GraphAIBaseDirName = { baseDir: string };
 export type GraphAIPathName = { path: string };
 // export type GraphAIBuffer<BufferType> = { buffer: Buffer }; Buffer(node buffer or npm buffer)
 
+// for type info
+export type GraphAIType = { type: string };
+export type GraphAIInputType = { inputType: string };
+export type GraphAIOutputType = { outputType: string };
+export type GraphAIDataType = { dataType: string };
+
 // error
 export type GraphAIOnError<ErrorData = Error> = {
   onError: {
