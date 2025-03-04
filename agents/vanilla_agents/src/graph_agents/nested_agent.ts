@@ -6,14 +6,17 @@ import type { GraphAIThrowError, GraphAIOnError } from "@graphai/agent_utils";
 type NestedAgentGeneratorOption = {
   resultNodeId: string;
 };
-export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentGeneratorOption) => (context: AgentFunctionContext) => Promise<ResultData<DefaultResultData> | GraphAIOnError> = (
+export const nestedAgentGenerator: (
+  graphData: GraphData,
+  options?: NestedAgentGeneratorOption,
+) => (context: AgentFunctionContext) => Promise<ResultData<DefaultResultData> | GraphAIOnError> = (
   graphData: GraphData,
   options?: NestedAgentGeneratorOption,
 ) => {
   return async (context: AgentFunctionContext) => {
     const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
     assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    
+
     const { agents, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     const throwError = params.throwError ?? false;

@@ -55,3 +55,10 @@ export type GraphAITool = {
 export type GraphAIToolCalls = {
     tool_calls: Array<GraphAIToolPayload>;
 };
+export type GraphAIOnError<ErrorData = Error> = {
+    onError: {
+        message: string;
+        status?: number;
+        error: ErrorData;
+    };
+};

@@ -1,7 +1,7 @@
 declare const toolsAgentInfo: {
     name: string;
-    agent: (context: import("graphai").AgentFunctionContext) => Promise<any>;
-    mock: (context: import("graphai").AgentFunctionContext) => Promise<any>;
+    agent: (context: import("graphai").AgentFunctionContext) => Promise<import("graphai").ResultData<import("graphai").DefaultResultData> | import("@graphai/agent_utils").GraphAIOnError>;
+    mock: (context: import("graphai").AgentFunctionContext) => Promise<import("graphai").ResultData<import("graphai").DefaultResultData> | import("@graphai/agent_utils").GraphAIOnError>;
     samples: {
         inputs: {
             llmAgent: string;
