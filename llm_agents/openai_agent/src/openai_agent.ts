@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
 import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
-import type { GraphAITool, GraphAIToolCalls } from "@graphai/agent_utils";
+import type { GraphAINullableText, GraphAITool, GraphAIToolCalls } from "@graphai/agent_utils";
 
 type OpenAIInputs = {
   model?: string;
@@ -26,7 +26,7 @@ type OpenAIConfig = {
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
 
 type OpenAIResult = Partial<
-  { text: string | null } & GraphAITool &
+  GraphAINullableText & GraphAITool &
     GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & { messages: OpenAI.ChatCompletionMessageParam[] }
 >;
 
