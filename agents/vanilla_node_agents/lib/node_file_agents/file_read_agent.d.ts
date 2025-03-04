@@ -1,14 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIBaseDirName, GraphAIFileName, GraphAIOutputType, GraphAIArray, GraphAIData } from "@graphai/agent_utils";
 import fs from "fs";
-export declare const fileReadAgent: AgentFunction<{
-    baseDir: string;
-    outputType?: string;
-}, {
-    array?: string[] | unknown[] | fs.ReadStream[];
-    data?: string | unknown | fs.ReadStream;
-}, {
-    array?: string[];
-    file?: string;
-}>;
+type ResponseData = string | Buffer | fs.ReadStream;
+export declare const fileReadAgent: AgentFunction<GraphAIBaseDirName & Partial<GraphAIOutputType>, Partial<GraphAIArray<ResponseData> & GraphAIData<ResponseData>>, Partial<GraphAIArray<string> & GraphAIFileName>>;
 declare const fileReadAgentInfo: AgentFunctionInfo;
 export default fileReadAgentInfo;

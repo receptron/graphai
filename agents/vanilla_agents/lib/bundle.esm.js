@@ -505,6 +505,10 @@ var hasRequiredType;
 function requireType () {
 	if (hasRequiredType) return type;
 	hasRequiredType = 1;
+	// Type definitions for the main types used in `namedInputs` and agent response data.
+	// In GraphAI, follow these definitions as closely as possible to standardize inputs and outputs.
+	// Related document
+	//  https://github.com/receptron/graphai/blob/main/docs/inputs.md
 	Object.defineProperty(type, "__esModule", { value: true });
 	return type;
 }
