@@ -39,3 +39,9 @@ export type GraphAIWithOptionalTextAndData<Item = unknown> = Partial<GraphAIText
 // for result
 export type GraphAIThrowError = { throwError?: boolean };
 export type GraphAIDebug = { debug?: boolean };
+
+//
+export type GraphAIMessageRole = "user" | "system" | "assistant" | "tool" | "developer";
+export type GraphAIMessagePayload = { role: GraphAIMessageRole; content: string };
+export type GraphAIMessage = { message: GraphAIMessagePayload };
+export type GraphAIMessages = Array<GraphAIMessages>;
