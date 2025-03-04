@@ -94,7 +94,7 @@ results that do not apply to the above
 ```
 {
   type: string,
-  inputTtpe: string,
+  inputType: string,
   outputType: string,
   dataType: string,
 }
