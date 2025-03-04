@@ -3,7 +3,7 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams, Enha
 
 import { GraphAILLMInputBase, getMergeValue, GraphAILlmMessage, getMessages } from "@graphai/llm_utils";
 
-import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
+import type { GraphAITool, GraphAIToolCalls, GraphAIMessage } from "@graphai/agent_utils";
 
 type GeminiInputs = {
   model?: string;
@@ -22,7 +22,7 @@ type GeminiConfig = {
 
 type GeminiParams = GeminiInputs & GeminiConfig;
 
-type OpenAIResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & { messages: GraphAILlmMessage[] }> | [];
+type GeminiResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & { messages: GraphAILlmMessage[] }> | [];
 
 const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, messages: GraphAILlmMessage[]) => {
   const text = response.text();
@@ -49,7 +49,7 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
   return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
 };
 
-export const geminiAgent: AgentFunction<GeminiParams, OpenAIResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
+export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
   const { system, temperature, tools, max_tokens, prompt, messages /* response_format */ } = { ...params, ...namedInputs };
 
   const { apiKey, stream, model } = {
