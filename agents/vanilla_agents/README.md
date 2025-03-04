@@ -2002,6 +2002,18 @@ const result = await graph.run();
 }
 ```
 
+
+```typescript
+{
+  "inputs": {
+    "message": "hello"
+  },
+  "params": {
+    "resultNodeId": "test"
+  }
+}
+```
+
  - popAgent
 
 ```typescript

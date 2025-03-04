@@ -383,10 +383,10 @@ const nestedAgentGenerator = (graphData, options) => {
     };
 };
 const nestedAgent = async (context) => {
-    const { forNestedGraph } = context;
+    const { forNestedGraph, params } = context;
     const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
     assert(!!graphData, "No GraphData");
-    return await nestedAgentGenerator(graphData)(context);
+    return await nestedAgentGenerator(graphData, params)(context);
 };
 const nestedAgentInfo = {
     name: "nestedAgent",
@@ -401,6 +401,25 @@ const nestedAgentInfo = {
             result: {
                 test: ["hello"],
             },
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "copyAgent",
+                        params: { namedKey: "messages" },
+                        inputs: { messages: [":message"] },
+                        isResult: true,
+                    },
+                },
+            },
+        },
+        {
+            inputs: {
+                message: "hello",
+            },
+            params: {
+                resultNodeId: "test",
+            },
+            result: ["hello"],
             graph: {
                 nodes: {
                     test: {

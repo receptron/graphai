@@ -78,10 +78,10 @@ const nestedAgentGenerator = (graphData, options) => {
 };
 exports.nestedAgentGenerator = nestedAgentGenerator;
 const nestedAgent = async (context) => {
-    const { forNestedGraph } = context;
+    const { forNestedGraph, params } = context;
     const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
     (0, graphai_1.assert)(!!graphData, "No GraphData");
-    return await (0, exports.nestedAgentGenerator)(graphData)(context);
+    return await (0, exports.nestedAgentGenerator)(graphData, params)(context);
 };
 exports.nestedAgent = nestedAgent;
 const nestedAgentInfo = {
@@ -97,6 +97,25 @@ const nestedAgentInfo = {
             result: {
                 test: ["hello"],
             },
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "copyAgent",
+                        params: { namedKey: "messages" },
+                        inputs: { messages: [":message"] },
+                        isResult: true,
+                    },
+                },
+            },
+        },
+        {
+            inputs: {
+                message: "hello",
+            },
+            params: {
+                resultNodeId: "test",
+            },
+            result: ["hello"],
             graph: {
                 nodes: {
                     test: {
