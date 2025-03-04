@@ -20,3 +20,12 @@ export type GraphAIArrayWithOptionalItemAndItems<Item = unknown> = GraphAIArray<
 
 // array + item + items
 export type GraphAIArrayWithItemAndItems<Item = unknown> = GraphAIArray<Item> & GraphAIItem<Item> & GraphAIItems<Item>;
+
+// for text
+export type GraphAIText = { text: string };
+
+// for data
+export type GraphAIData<Data = unknown> = { data: Data };
+
+// for result
+export type GraphAIResult<Result = unknown> = { result: Result };
