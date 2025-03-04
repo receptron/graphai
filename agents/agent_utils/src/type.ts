@@ -49,3 +49,12 @@ export type GraphAIMessages<Content = string> = { messages: Array<GraphAIMessage
 export type GraphAIToolPayload = { id: string; name: string; arguments?: unknown };
 export type GraphAITool = { tool: GraphAIToolPayload };
 export type GraphAIToolCalls = { tool_calls: Array<GraphAIToolPayload> };
+
+// error
+export type GraphAIOnError<ErrorData = Error> = {
+  onError: {
+    message: string;
+    status?: number;
+    error: ErrorData;
+  };
+};
