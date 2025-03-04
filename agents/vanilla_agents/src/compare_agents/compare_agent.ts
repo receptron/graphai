@@ -1,4 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIResult, GraphAIArray } from "@graphai/agent_utils";
 
 type CompareDataItem = string | number | boolean | CompareData;
 type CompareData = CompareDataItem[];
@@ -46,7 +47,11 @@ const isNull = (data: unknown) => {
   return data === null || data === undefined;
 };
 
-export const compareAgent: AgentFunction = async ({ namedInputs, params }) => {
+export const compareAgent: AgentFunction<
+  { operator: string; value: Record<string, unknown> },
+  GraphAIResult,
+  Partial<GraphAIArray<CompareDataItem>> & { leftValue: CompareDataItem; rightValue: CompareDataItem }
+> = async ({ namedInputs, params }) => {
   const { array: _array, leftValue, rightValue } = namedInputs;
   const array = _array ?? [];
   const inputs = (() => {
@@ -54,7 +59,7 @@ export const compareAgent: AgentFunction = async ({ namedInputs, params }) => {
       return [array[0], params.operator, array[1]];
     }
     if (array.length === 3) {
-      return namedInputs.array;
+      return array;
     }
     if (array.length === 0 && !isNull(leftValue) && !isNull(rightValue) && params.operator) {
       return [leftValue, params.operator, rightValue];

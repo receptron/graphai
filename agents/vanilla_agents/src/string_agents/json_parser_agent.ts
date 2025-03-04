@@ -1,13 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIWithOptionalTextAndData } from "@graphai/agent_utils";
 
-export const jsonParserAgent: AgentFunction<
-  null,
-  unknown,
-  {
-    text: string;
-    data: unknown;
-  }
-> = async ({ namedInputs }) => {
+export const jsonParserAgent: AgentFunction<null, unknown, GraphAIWithOptionalTextAndData> = async ({ namedInputs }) => {
   const { text, data } = namedInputs;
 
   if (data) {
@@ -17,7 +11,7 @@ export const jsonParserAgent: AgentFunction<
   if (match) {
     return JSON.parse(match[1]);
   }
-  return JSON.parse(text);
+  return JSON.parse(text ?? "");
 };
 
 const sample_object = { apple: "red", lemon: "yellow" };

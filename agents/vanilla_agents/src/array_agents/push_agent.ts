@@ -1,18 +1,19 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { arrayValidate } from "@graphai/agent_utils";
+import type { GraphAIArray, GraphAIArrayWithOptionalItemAndItems } from "@graphai/agent_utils";
 
-export const pushAgent: AgentFunction<null, { array: Array<unknown> }, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({
-  namedInputs,
-}) => {
+export const pushAgent: AgentFunction<null, GraphAIArray, GraphAIArrayWithOptionalItemAndItems> = async ({ namedInputs }) => {
   const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
   arrayValidate("pushAgent", namedInputs, extra_message);
   const { item, items } = namedInputs;
-  assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
+  assert(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+  assert(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   if (item) {
     array.push(item);
-  } else {
+  }
+  if (items) {
     items.forEach((item) => {
       array.push(item);
     });

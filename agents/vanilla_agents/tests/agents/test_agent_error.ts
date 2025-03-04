@@ -98,7 +98,7 @@ test("test push_agent error", async () => {
       });
     },
     {
-      message: "pushAgent: namedInputs.item is UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }",
+      message: "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED! Set inputs: { array: :arrayNodeId, item: :itemNodeId }",
       name: "Error",
     },
   );

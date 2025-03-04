@@ -1,4 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import { GraphAIText } from "@graphai/agent_utils";
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -21,9 +22,7 @@ export const stringSplitterAgent: AgentFunction<
     chunkSize: number;
     overlap: number;
   },
-  {
-    text: string;
-  }
+  GraphAIText
 > = async ({ params, namedInputs }) => {
   assert(!!namedInputs, "stringSplitterAgent: namedInputs is UNDEFINED!");
   const source = namedInputs.text;

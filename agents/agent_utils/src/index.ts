@@ -1,4 +1,5 @@
 import { AgentFunctionInfoSample, GraphData, NodeData, DefaultInputData, assert } from "graphai";
+export * from "./type";
 
 export const sample2GraphData = (sample: AgentFunctionInfoSample, agentName: string) => {
   const nodes: Record<string, NodeData> = {};
@@ -42,4 +43,8 @@ export const arrayValidate = (agentName: string, namedInputs: { array: Array<unk
   assert(isNamedInputs(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
   assert(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
   assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
+};
+
+export const isNull = (data: unknown) => {
+  return data === null || data === undefined;
 };
