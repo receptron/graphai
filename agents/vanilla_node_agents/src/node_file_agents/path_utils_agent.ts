@@ -1,20 +1,16 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import path from "path";
 
+import type { GraphAIPathName, GraphAIDirNames } from "@graphai/agent_utils";
+
+type InputsParam = Partial<GraphAIDirNames & GraphAIPathName>;
 // https://nodejs.org/api/path.html
 export const pathUtilsAgent: AgentFunction<
   {
     method: string;
-    dirs?: string[];
-    path?: string;
-  },
-  {
-    path: string;
-  },
-  {
-    dirs?: string[];
-    path?: string;
-  }
+  } & InputsParam,
+  GraphAIPathName,
+  InputsParam
 > = async ({ namedInputs, params }) => {
   const { method } = params;
 
