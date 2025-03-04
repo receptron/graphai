@@ -16,13 +16,13 @@ export type GraphAIArrayWithOptionalItem<Item = unknown> = GraphAIArray<Item> & 
 export type GraphAIArrayWithOptionalItems<Item = unknown> = GraphAIArray<Item> & Partial<GraphAIItems<Item>>;
 
 // array + item? + items?
-export type GraphAIArrayWithOptionalItemAndItems<Item = unknown> = GraphAIArray<Item> & Partial<GraphAIItem<Item>> & Partial<GraphAIItems<Item>>;
+export type GraphAIArrayWithOptionalItemAndItems<Item = unknown> = GraphAIArray<Item> & Partial<GraphAIItem<Item> & GraphAIItems<Item>>;
 
 // array + item + items
 export type GraphAIArrayWithItemAndItems<Item = unknown> = GraphAIArray<Item> & GraphAIItem<Item> & GraphAIItems<Item>;
 
 // array? + items?
-export type GraphAIWithOptionalArrayAndItem<Item = unknown> = Partial<GraphAIArray<Item>> & Partial<GraphAIItem<Item>>;
+export type GraphAIWithOptionalArrayAndItem<Item = unknown> = Partial<GraphAIArray<Item> & GraphAIItem<Item>>;
 
 // for text
 export type GraphAIText = { text: string };
@@ -37,10 +37,10 @@ export type GraphAIResult<Result = unknown> = { result: Result };
 export type GraphAIWithOptionalTextAndData<Item = unknown> = Partial<GraphAIText> & Partial<GraphAIData<Item>>;
 
 // for result
-export type GraphAIThrowError = { throwError?: boolean };
-export type GraphAIDebug = { debug?: boolean };
+export type GraphAIThrowError = { throwError: boolean };
+export type GraphAIDebug = { debug: boolean };
 
-//
+// for llm
 export type GraphAIMessageRole = "user" | "system" | "assistant" | "tool" | "developer";
 export type GraphAIMessagePayload = { role: GraphAIMessageRole; content: string };
 export type GraphAIMessage = { message: GraphAIMessagePayload };
