@@ -1,13 +1,14 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { GraphAIData, GraphAIArray } from "@graphai/agent_utils";
 import deepmerge from "deepmerge";
 
-type MegeDataType = Record<string, unknown>;
-export const dataObjectMergeTemplateAgent: AgentFunction<{ flatResponse?: boolean }, MegeDataType, { array: MegeDataType[] }> = async ({
+type MergeDataType = Record<string, unknown>;
+export const dataObjectMergeTemplateAgent: AgentFunction<{ flatResponse?: boolean }, MergeDataType | GraphAIData<MergeDataType>, GraphAIArray<MergeDataType>> = async ({
   namedInputs,
   params,
 }) => {
   const { flatResponse } = params;
-  const data = namedInputs.array.reduce((tmp: MegeDataType, input: MegeDataType) => {
+  const data = namedInputs.array.reduce((tmp: MergeDataType, input: MergeDataType) => {
     return deepmerge(tmp, input);
   }, {});
   if (flatResponse) {
