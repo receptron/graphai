@@ -1,9 +1,11 @@
 # In the design of namedInputs and agent response data, we define the template data types.
 
 Some of the data defined here has its type definitions here.
+
 https://github.com/receptron/graphai/blob/main/agents/agent_utils/src/type.ts
 
 Please use this in inputs/result.
+
 If anything is missing, please create a PR.
 
 ## array and the data(item)
