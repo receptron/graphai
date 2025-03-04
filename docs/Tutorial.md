@@ -421,6 +421,8 @@ nodes:
     agent: stringSplitterAgent
     inputs:
       text: :wikipedia.content
+    params:
+      chunkSize: 200
   chunkEmbeddings:
     console:
       before: ...fetching embeddings for chunks
@@ -443,25 +445,27 @@ nodes:
     inputs:
       array: :chunks.contents
       values: :similarities
-  referenceText:
-    agent: tokenBoundStringsAgent
-    inputs:
-      chunks: :sortedChunks
     params:
-      limit: 5000
+      limit: 5  # 上位5件のチャンクだけを取得
+  # 最も関連性の高いチャンクを取得
+  bestChunk:
+    agent: copyAgent
+    inputs:
+      text: :sortedChunks.$0
   prompt:
     agent: stringTemplateAgent
     inputs:
       prompt: :source.query
-      text: :referenceText.content
+      text: :bestChunk.text
     params:
       template: |-
-        Using the following document, ${text}
-
+        Using the following document:
+        ${text}
         ${prompt}
   RagQuery:
     console:
       before: ...performing the RAG query
+      after: true
     agent: openAIAgent
     inputs:
       prompt: :prompt
