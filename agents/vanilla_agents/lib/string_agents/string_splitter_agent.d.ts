@@ -1,4 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { GraphAIText } from "@graphai/agent_utils";
 export declare const stringSplitterAgent: AgentFunction<{
     chunkSize?: number;
     overlap?: number;
@@ -7,8 +8,6 @@ export declare const stringSplitterAgent: AgentFunction<{
     count: number;
     chunkSize: number;
     overlap: number;
-}, {
-    text: string;
-}>;
+}, GraphAIText>;
 declare const stringSplitterAgentInfo: AgentFunctionInfo;
 export default stringSplitterAgentInfo;

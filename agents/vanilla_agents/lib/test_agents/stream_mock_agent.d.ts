@@ -3,7 +3,7 @@ export declare const streamMockAgent: AgentFunction<{
     sleep?: number;
     message?: string;
 }, {
-    message?: string;
+    message: string;
 }, {
     message: string;
 }>;

@@ -1,11 +1,8 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIArray, GraphAIText } from "@graphai/agent_utils";
 export declare const arrayJoinAgent: AgentFunction<{
     separator?: string;
     flat?: number;
-}, {
-    text: string;
-}, {
-    array: Array<unknown>;
-}>;
+}, GraphAIText, GraphAIArray>;
 declare const arrayJoinAgentInfo: AgentFunctionInfo;
 export default arrayJoinAgentInfo;

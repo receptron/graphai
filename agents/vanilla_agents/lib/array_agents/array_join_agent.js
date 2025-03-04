@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayJoinAgent = void 0;
 const agent_utils_1 = require("@graphai/agent_utils");
-const arrayJoinAgent = async ({ namedInputs, params, }) => {
+const arrayJoinAgent = async ({ namedInputs, params }) => {
     (0, agent_utils_1.arrayValidate)("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;

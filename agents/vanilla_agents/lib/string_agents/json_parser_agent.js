@@ -10,7 +10,7 @@ const jsonParserAgent = async ({ namedInputs }) => {
     if (match) {
         return JSON.parse(match[1]);
     }
-    return JSON.parse(text);
+    return JSON.parse(text ?? "");
 };
 exports.jsonParserAgent = jsonParserAgent;
 const sample_object = { apple: "red", lemon: "yellow" };

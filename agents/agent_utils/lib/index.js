@@ -1,7 +1,22 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
+exports.isNull = exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
 const graphai_1 = require("graphai");
+__exportStar(require("./type"), exports);
 const sample2GraphData = (sample, agentName) => {
     const nodes = {};
     const inputs = (() => {
@@ -45,3 +60,7 @@ const arrayValidate = (agentName, namedInputs, extra_message = "") => {
     (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
 };
 exports.arrayValidate = arrayValidate;
+const isNull = (data) => {
+    return data === null || data === undefined;
+};
+exports.isNull = isNull;

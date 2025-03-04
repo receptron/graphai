@@ -1,6 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const shiftAgent: AgentFunction<Record<string, any>, Record<string, any>, {
-    array: Array<unknown>;
-}>;
+import type { GraphAIArrayWithItem, GraphAIArray } from "@graphai/agent_utils";
+export declare const shiftAgent: AgentFunction<Record<string, any>, GraphAIArrayWithItem, GraphAIArray>;
 declare const shiftAgentInfo: AgentFunctionInfo;
 export default shiftAgentInfo;

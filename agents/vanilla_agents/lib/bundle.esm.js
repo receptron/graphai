@@ -202,7 +202,7 @@ const jsonParserAgent = async ({ namedInputs }) => {
     if (match) {
         return JSON.parse(match[1]);
     }
-    return JSON.parse(text);
+    return JSON.parse(text ?? "");
 };
 const sample_object = { apple: "red", lemon: "yellow" };
 const json_str = JSON.stringify(sample_object);
@@ -498,15 +498,41 @@ const stringUpdateTextAgentInfo = {
 
 var lib = {};
 
+var type = {};
+
+var hasRequiredType;
+
+function requireType () {
+	if (hasRequiredType) return type;
+	hasRequiredType = 1;
+	Object.defineProperty(type, "__esModule", { value: true });
+	return type;
+}
+
 var hasRequiredLib;
 
 function requireLib () {
 	if (hasRequiredLib) return lib;
 	hasRequiredLib = 1;
 	(function (exports) {
+		var __createBinding = (lib && lib.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+		    if (k2 === undefined) k2 = k;
+		    var desc = Object.getOwnPropertyDescriptor(m, k);
+		    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+		      desc = { enumerable: true, get: function() { return m[k]; } };
+		    }
+		    Object.defineProperty(o, k2, desc);
+		}) : (function(o, m, k, k2) {
+		    if (k2 === undefined) k2 = k;
+		    o[k2] = m[k];
+		}));
+		var __exportStar = (lib && lib.__exportStar) || function(m, exports) {
+		    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+		};
 		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
+		exports.isNull = exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
 		const graphai_1 = require("graphai");
+		__exportStar(requireType(), exports);
 		const sample2GraphData = (sample, agentName) => {
 		    const nodes = {};
 		    const inputs = (() => {
@@ -549,23 +575,28 @@ function requireLib () {
 		    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
 		    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
 		};
-		exports.arrayValidate = arrayValidate; 
+		exports.arrayValidate = arrayValidate;
+		const isNull = (data) => {
+		    return data === null || data === undefined;
+		};
+		exports.isNull = isNull; 
 	} (lib));
 	return lib;
 }
 
 var libExports = requireLib();
 
-const pushAgent = async ({ namedInputs, }) => {
+const pushAgent = async ({ namedInputs }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     libExports.arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
+    assert(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+    assert(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
     const array = namedInputs.array.map((item) => item); // shallow copy
     if (item) {
         array.push(item);
     }
-    else {
+    if (items) {
         items.forEach((item) => {
             array.push(item);
         });
@@ -834,7 +865,7 @@ const arrayFlatAgentInfo = {
     license: "MIT",
 };
 
-const arrayJoinAgent = async ({ namedInputs, params, }) => {
+const arrayJoinAgent = async ({ namedInputs, params }) => {
     libExports.arrayValidate("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;
@@ -2426,7 +2457,7 @@ const compareAgent = async ({ namedInputs, params }) => {
             return [array[0], params.operator, array[1]];
         }
         if (array.length === 3) {
-            return namedInputs.array;
+            return array;
         }
         if (array.length === 0 && !isNull(leftValue) && !isNull(rightValue) && params.operator) {
             return [leftValue, params.operator, rightValue];

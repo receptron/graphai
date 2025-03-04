@@ -50,7 +50,7 @@ const compareAgent = async ({ namedInputs, params }) => {
             return [array[0], params.operator, array[1]];
         }
         if (array.length === 3) {
-            return namedInputs.array;
+            return array;
         }
         if (array.length === 0 && !isNull(leftValue) && !isNull(rightValue) && params.operator) {
             return [leftValue, params.operator, rightValue];

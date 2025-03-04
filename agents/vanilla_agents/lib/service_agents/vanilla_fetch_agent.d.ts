@@ -1,8 +1,13 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const vanillaFetchAgent: AgentFunction<{
-    debug?: boolean;
+import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
+export declare const vanillaFetchAgent: AgentFunction<GraphAIDebug & GraphAIThrowError & {
     type?: string;
-    throwError?: boolean;
-}, any, any>;
+}, unknown, {
+    url: string;
+    method?: string;
+    queryParams: any;
+    headers: any;
+    body: unknown;
+}>;
 declare const vanillaFetchAgentInfo: AgentFunctionInfo;
 export default vanillaFetchAgentInfo;

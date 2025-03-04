@@ -205,7 +205,7 @@ const jsonParserAgent = async ({ namedInputs }) => {
     if (match) {
         return JSON.parse(match[1]);
     }
-    return JSON.parse(text);
+    return JSON.parse(text ?? "");
 };
 const sample_object = { apple: "red", lemon: "yellow" };
 const json_str = JSON.stringify(sample_object);
@@ -499,16 +499,17 @@ const stringUpdateTextAgentInfo = {
     hasGraphData: true,
 };
 
-const pushAgent = async ({ namedInputs, }) => {
+const pushAgent = async ({ namedInputs }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     agent_utils.arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    graphai.assert(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
+    graphai.assert(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+    graphai.assert(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
     const array = namedInputs.array.map((item) => item); // shallow copy
     if (item) {
         array.push(item);
     }
-    else {
+    if (items) {
         items.forEach((item) => {
             array.push(item);
         });
@@ -777,7 +778,7 @@ const arrayFlatAgentInfo = {
     license: "MIT",
 };
 
-const arrayJoinAgent = async ({ namedInputs, params, }) => {
+const arrayJoinAgent = async ({ namedInputs, params }) => {
     agent_utils.arrayValidate("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;
@@ -2369,7 +2370,7 @@ const compareAgent = async ({ namedInputs, params }) => {
             return [array[0], params.operator, array[1]];
         }
         if (array.length === 3) {
-            return namedInputs.array;
+            return array;
         }
         if (array.length === 0 && !isNull(leftValue) && !isNull(rightValue) && params.operator) {
             return [leftValue, params.operator, rightValue];

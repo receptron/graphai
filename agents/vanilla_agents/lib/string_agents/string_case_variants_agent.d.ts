@@ -1,4 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIText } from "@graphai/agent_utils";
 export declare const stringCaseVariantsAgent: AgentFunction<{
     suffix?: string;
 }, {
@@ -6,8 +7,6 @@ export declare const stringCaseVariantsAgent: AgentFunction<{
     snakeCase: string;
     kebabCase: string;
     normalized: string;
-}, {
-    text: string;
-}>;
+}, GraphAIText>;
 declare const stringCaseVariantsAgentInfo: AgentFunctionInfo;
 export default stringCaseVariantsAgentInfo;

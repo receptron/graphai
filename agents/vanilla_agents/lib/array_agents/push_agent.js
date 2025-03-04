@@ -3,16 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pushAgent = void 0;
 const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
-const pushAgent = async ({ namedInputs, }) => {
+const pushAgent = async ({ namedInputs }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     (0, agent_utils_1.arrayValidate)("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    (0, graphai_1.assert)(!!(item || items), "pushAgent: namedInputs.item is UNDEFINED!" + extra_message);
+    (0, graphai_1.assert)(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+    (0, graphai_1.assert)(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
     const array = namedInputs.array.map((item) => item); // shallow copy
     if (item) {
         array.push(item);
     }
-    else {
+    if (items) {
         items.forEach((item) => {
             array.push(item);
         });
