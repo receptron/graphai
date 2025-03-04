@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@graphai/agent_filters": "^0.2.2",
-    "@graphai/vanilla": "^1.0.0",
+    "@graphai/vanilla": "^1.0.3",
     "graphai": "^1.0.0"
   },
   "types": "./lib/index.d.ts",

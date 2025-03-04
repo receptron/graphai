@@ -32,7 +32,7 @@
     "@graphai/llm_agents": "^1.0.0",
     "@graphai/service_agents": "^0.2.0",
     "@graphai/sleeper_agents": "^0.2.0",
-    "@graphai/vanilla": "^1.0.0"
+    "@graphai/vanilla": "^1.0.3"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
