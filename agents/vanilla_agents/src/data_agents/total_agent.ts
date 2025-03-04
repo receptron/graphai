@@ -1,10 +1,11 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
+import type { GraphAIArray } from "@graphai/agent_utils";
 
 export const totalAgent: AgentFunction<
   { flatResponse?: boolean },
   Record<string, number> | { data: Record<string, number> },
-  { array: Record<string, number>[] }
+  GraphAIArray<Record<string, number>>
 > = async ({ namedInputs, params }) => {
   const { flatResponse } = params;
 
