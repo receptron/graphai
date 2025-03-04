@@ -12,6 +12,7 @@ import {
 } from "groq-sdk/resources/chat/completions";
 
 import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
+import type { GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 type GroqInputs = {
   verbose?: boolean;
@@ -29,6 +30,8 @@ type GroqConfig = {
 };
 
 type GroqParams = GroqInputs & GroqConfig & { model: string };
+
+type GroqResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & GraphAIMessages>;
 
 // https://github.com/groq/groq-typescript
 
@@ -86,7 +89,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
   };
 };
 
-export const groqAgent: AgentFunction<GroqParams, any, GroqInputs, GroqConfig> = async ({ params, namedInputs, filterParams, config }) => {
+export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqConfig> = async ({ params, namedInputs, filterParams, config }) => {
   const { verbose, system, tools, tool_choice, max_tokens, temperature, prompt, messages } = { ...params, ...namedInputs };
 
   const { apiKey, stream, forWeb, model } = {
