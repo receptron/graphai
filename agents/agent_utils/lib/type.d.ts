@@ -17,6 +17,9 @@ export type GraphAIWithOptionalArrayAndItem<Item = unknown> = Partial<GraphAIArr
 export type GraphAIText = {
     text: string;
 };
+export type GraphAINullableText = {
+    text: string | null;
+};
 export type GraphAIData<Data = unknown> = {
     data: Data;
 };
