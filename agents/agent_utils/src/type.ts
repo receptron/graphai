@@ -35,3 +35,7 @@ export type GraphAIResult<Result = unknown> = { result: Result };
 
 // text? + data?
 export type GraphAIWithOptionalTextAndData<Item = unknown> = Partial<GraphAIText> & Partial<GraphAIData<Item>>;
+
+// for result
+export type GraphAIThrowError = { throwError?: boolean };
+export type GraphAIDebug = { debug?: boolean };
