@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
-import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
+import type { GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 type AnthropicInputs = {
   verbose?: boolean;
