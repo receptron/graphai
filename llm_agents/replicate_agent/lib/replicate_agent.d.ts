@@ -1,5 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import { GraphAILLMInputBase } from "@graphai/llm_utils";
+import type { GraphAIText, GraphAIMessage } from "@graphai/agent_utils";
 type ReplicateInputs = {
     model?: string;
     verbose?: boolean;
@@ -8,6 +9,9 @@ type ReplicateInputs = {
     messages?: Array<Record<string, any>>;
     forWeb?: boolean;
 } & GraphAILLMInputBase;
-export declare const replicateAgent: AgentFunction<ReplicateInputs, Record<string, any> | string, ReplicateInputs>;
+type ReplicateResult = GraphAIText & GraphAIMessage & {
+    choices: Array<GraphAIMessage>;
+};
+export declare const replicateAgent: AgentFunction<ReplicateInputs, ReplicateResult, ReplicateInputs>;
 declare const replicateAgentInfo: AgentFunctionInfo;
 export default replicateAgentInfo;

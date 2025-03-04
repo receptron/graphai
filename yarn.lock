@@ -111,10 +111,10 @@
     "@shikijs/types" "^1.24.1"
     "@shikijs/vscode-textmate" "^9.3.0"
 
-"@google/generative-ai@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.22.0.tgz#e77a1a3911f4f98bf9e965ad7c4b1ee2130abd26"
-  integrity sha512-mLR3PDWCk5O/BWNyDvFDIiwKeXQmFGZ+kJFd9m73QrUPCFREttJyVbBPTW4y9CwTbaltLMDaLDfroCrRv5Bl8Q==
+"@google/generative-ai@^0.23.0":
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.23.0.tgz#e5b8add3a394ae7c64b46ca06c85540d8ac65d55"
+  integrity sha512-8vGoguvLG22U3t9XpXvbxjxy/yfBhE27pqptz5QVKXwBSh9sUXXmZWS8ZdGMqifK7kiuZQCG2cjGJNUdBsgX+g==
 
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
