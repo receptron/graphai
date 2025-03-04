@@ -13,7 +13,7 @@ type ReplicateInputs = {
   forWeb?: boolean;
 } & GraphAILLMInputBase;
 
-type ReplicateResult = GraphAIText & GraphAIMessage & {choices: Array<GraphAIMessage>}
+type ReplicateResult = GraphAIText & GraphAIMessage & { choices: Array<GraphAIMessage> };
 
 export const replicateAgent: AgentFunction<ReplicateInputs, ReplicateResult, ReplicateInputs> = async ({ params, namedInputs }) => {
   const { prompt } = {
