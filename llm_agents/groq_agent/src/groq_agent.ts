@@ -12,7 +12,7 @@ import {
 } from "groq-sdk/resources/chat/completions";
 
 import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
-import type { GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
+import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 type GroqInputs = {
   verbose?: boolean;
@@ -31,7 +31,7 @@ type GroqConfig = {
 
 type GroqParams = GroqInputs & GroqConfig & { model: string };
 
-type GroqResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & GraphAIMessages>;
+type GroqResult = Partial<GraphAIText & GraphAITool & GraphAIToolCalls & GraphAIMessage & GraphAIMessages>;
 
 // https://github.com/groq/groq-typescript
 
