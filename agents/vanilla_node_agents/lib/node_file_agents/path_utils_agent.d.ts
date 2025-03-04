@@ -1,13 +1,8 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIPathName, GraphAIDirNames } from "@graphai/agent_utils";
+type InputsParam = Partial<GraphAIDirNames & GraphAIPathName>;
 export declare const pathUtilsAgent: AgentFunction<{
     method: string;
-    dirs?: string[];
-    path?: string;
-}, {
-    path: string;
-}, {
-    dirs?: string[];
-    path?: string;
-}>;
+} & InputsParam, GraphAIPathName, InputsParam>;
 declare const pathUtilsAgentInfo: AgentFunctionInfo;
 export default pathUtilsAgentInfo;
