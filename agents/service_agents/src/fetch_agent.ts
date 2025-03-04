@@ -1,10 +1,17 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
+import type { GraphAIDebug, GraphAIThrowError, GraphAIOnError } from "@graphai/agent_utils";
 import { parseStringPromise } from "xml2js";
+
+type GraphAIHttpDebug = {
+  url?: string;
+  method?: string;
+  headers?: unknown;
+  body?: unknown;
+};
 
 export const fetchAgent: AgentFunction<
   Partial<GraphAIThrowError & GraphAIDebug & { type?: string }>,
-  unknown,
+  GraphAIOnError<string> | GraphAIHttpDebug | string,
   {
     url: string;
     method?: string;
