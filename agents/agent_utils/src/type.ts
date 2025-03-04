@@ -21,6 +21,9 @@ export type GraphAIArrayWithOptionalItemAndItems<Item = unknown> = GraphAIArray<
 // array + item + items
 export type GraphAIArrayWithItemAndItems<Item = unknown> = GraphAIArray<Item> & GraphAIItem<Item> & GraphAIItems<Item>;
 
+// array? + items?
+export type GraphAIWithOptionalArrayAndItem<Item = unknown> = Partial<GraphAIArray<Item>> & Partial<GraphAIItem<Item>>;
+
 // for text
 export type GraphAIText = { text: string };
 
@@ -29,3 +32,6 @@ export type GraphAIData<Data = unknown> = { data: Data };
 
 // for result
 export type GraphAIResult<Result = unknown> = { result: Result };
+
+// text? + data?
+export type GraphAIWithOptionalTextAndData<Item = unknown> = Partial<GraphAIText> & Partial<GraphAIData<Item>>;
