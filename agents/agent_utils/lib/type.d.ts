@@ -55,6 +55,18 @@ export type GraphAITool = {
 export type GraphAIToolCalls = {
     tool_calls: Array<GraphAIToolPayload>;
 };
+export type GraphAIFileName = {
+    file: string;
+};
+export type GraphAIDirName = {
+    dir: string;
+};
+export type GraphAIBaseDirName = {
+    baseDir: string;
+};
+export type GraphAIPathName = {
+    path: string;
+};
 export type GraphAIOnError<ErrorData = Error> = {
     onError: {
         message: string;
