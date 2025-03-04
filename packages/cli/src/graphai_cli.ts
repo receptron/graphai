@@ -6,7 +6,6 @@ import * as packages from "@graphai/agents";
 import { tokenBoundStringsAgent } from "@graphai/token_bound_string_agent";
 import { fileReadAgent, fileWriteAgent, pathUtilsAgent } from "@graphai/vanilla_node_agents";
 
-
 import fs from "fs";
 import path from "path";
 import yaml from "yaml";
@@ -25,9 +24,8 @@ const agents = {
   tokenBoundStringsAgent,
   fileReadAgent,
   fileWriteAgent,
-  pathUtilsAgent
+  pathUtilsAgent,
 };
-
 
 const main = async () => {
   if (hasOption) {
