@@ -58,6 +58,7 @@ export type GraphAIToolCalls = { tool_calls: Array<GraphAIToolPayload> };
 // for file system
 export type GraphAIFileName = { file: string };
 export type GraphAIDirName = { dir: string };
+export type GraphAIDirNames = { dirs: string[] };
 export type GraphAIBaseDirName = { baseDir: string };
 export type GraphAIPathName = { path: string };
 export type GraphAIBuffer<BufferType = unknown> = { buffer: BufferType }; // BufferType is node buffer or npm buffer(web)

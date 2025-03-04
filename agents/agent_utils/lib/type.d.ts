@@ -61,11 +61,29 @@ export type GraphAIFileName = {
 export type GraphAIDirName = {
     dir: string;
 };
+export type GraphAIDirNames = {
+    dirs: string[];
+};
 export type GraphAIBaseDirName = {
     baseDir: string;
 };
 export type GraphAIPathName = {
     path: string;
+};
+export type GraphAIBuffer<BufferType = unknown> = {
+    buffer: BufferType;
+};
+export type GraphAIType = {
+    type: string;
+};
+export type GraphAIInputType = {
+    inputType: string;
+};
+export type GraphAIOutputType = {
+    outputType: string;
+};
+export type GraphAIDataType = {
+    dataType: string;
 };
 export type GraphAIOnError<ErrorData = Error> = {
     onError: {
