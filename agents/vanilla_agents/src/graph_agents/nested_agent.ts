@@ -1,18 +1,19 @@
-import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, StaticNodeData, NodeData, GraphData } from "graphai";
+import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, StaticNodeData, NodeData, GraphData, ResultData, DefaultResultData } from "graphai";
 import { GraphAI, assert, graphDataLatestVersion } from "graphai";
-import type { GraphAIThrowError } from "@graphai/agent_utils";
+
+import type { GraphAIThrowError, GraphAIOnError } from "@graphai/agent_utils";
 
 type NestedAgentGeneratorOption = {
   resultNodeId: string;
 };
-export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentGeneratorOption) => (context: AgentFunctionContext) => Promise<any> = (
+export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentGeneratorOption) => (context: AgentFunctionContext) => Promise<ResultData<DefaultResultData> | GraphAIOnError> = (
   graphData: GraphData,
   options?: NestedAgentGeneratorOption,
 ) => {
   return async (context: AgentFunctionContext) => {
     const { namedInputs, log, debugInfo, params, forNestedGraph } = context;
     assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-
+    
     const { agents, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     const throwError = params.throwError ?? false;
