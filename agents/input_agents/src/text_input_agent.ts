@@ -1,9 +1,10 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIText, GraphAIMessage, GraphAIMessageRole } from "@graphai/agent_utils";
 import input from "@inquirer/input";
 
 export const textInputAgent: AgentFunction<
-  { message?: string; required?: boolean; role?: string },
-  { text: string; message: { role: string; content: string } }
+  { message?: string; required?: boolean; role?: GraphAIMessageRole },
+  Partial<GraphAIText & GraphAIMessage>
 > = async ({ params }) => {
   const { message, required, role } = params;
 
