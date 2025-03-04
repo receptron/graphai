@@ -1,5 +1,6 @@
 import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, StaticNodeData, NodeData, GraphData } from "graphai";
 import { GraphAI, assert, graphDataLatestVersion } from "graphai";
+import type { GraphAIThrowError } from "@graphai/agent_utils";
 
 type NestedAgentGeneratorOption = {
   resultNodeId: string;
@@ -85,7 +86,7 @@ export const nestedAgentGenerator: (graphData: GraphData, options?: NestedAgentG
   };
 };
 
-export const nestedAgent: AgentFunction<{ throwError?: boolean }> = async (context) => {
+export const nestedAgent: AgentFunction<GraphAIThrowError> = async (context) => {
   const { forNestedGraph } = context;
   const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
   assert(!!graphData, "No GraphData");

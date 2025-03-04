@@ -1,6 +1,9 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
 
-export const vanillaFetchAgent: AgentFunction<{ debug?: boolean; type?: string; throwError?: boolean }, any, any> = async ({ namedInputs, params }) => {
+export const vanillaFetchAgent: AgentFunction<GraphAIDebug & GraphAIThrowError & { type?: string; }, unknown, {
+  url: string, method?: string, queryParams: any, headers: any, body: unknown
+}> = async ({ namedInputs, params }) => {
   const { url, method, queryParams, headers, body } = namedInputs;
   const throwError = params.throwError ?? false;
 
