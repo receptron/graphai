@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataObjectMergeTemplateAgent = void 0;
 const deepmerge_1 = __importDefault(require("deepmerge"));
-const dataObjectMergeTemplateAgent = async ({ namedInputs, params, }) => {
+const dataObjectMergeTemplateAgent = async ({ namedInputs, params }) => {
     const { flatResponse } = params;
     const data = namedInputs.array.reduce((tmp, input) => {
         return (0, deepmerge_1.default)(tmp, input);
