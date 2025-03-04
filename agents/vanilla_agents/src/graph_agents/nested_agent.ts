@@ -90,12 +90,12 @@ export const nestedAgentGenerator: (
   };
 };
 
-export const nestedAgent: AgentFunction<Partial<GraphAIThrowError>> = async (context) => {
-  const { forNestedGraph } = context;
+export const nestedAgent: AgentFunction<Partial<GraphAIThrowError> & NestedAgentGeneratorOption> = async (context) => {
+  const { forNestedGraph, params } = context;
   const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
   assert(!!graphData, "No GraphData");
-
-  return await nestedAgentGenerator(graphData)(context);
+  
+  return await nestedAgentGenerator(graphData, params)(context);
 };
 
 const nestedAgentInfo: AgentFunctionInfo = {
@@ -111,6 +111,25 @@ const nestedAgentInfo: AgentFunctionInfo = {
       result: {
         test: ["hello"],
       },
+      graph: {
+        nodes: {
+          test: {
+            agent: "copyAgent",
+            params: { namedKey: "messages" },
+            inputs: { messages: [":message"] },
+            isResult: true,
+          },
+        },
+      },
+    },
+    {
+      inputs: {
+        message: "hello",
+      },
+      params: {
+        resultNodeId: "test",
+      },
+      result: ["hello"],
       graph: {
         nodes: {
           test: {
