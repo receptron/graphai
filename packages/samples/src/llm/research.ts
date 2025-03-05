@@ -112,7 +112,7 @@ const translator_graph = {
       // Copies the input data ($0) if the context language is English
       agent: "copyAgent",
       if: ":lang_info.isEnglish",
-      inputs: { message: ":content" },
+      inputs: { message: ":content.text" },
     },
     nonEnglish: {
       // Prepares the prompt if the context language is not English.
@@ -134,7 +134,7 @@ const translator_graph = {
         model: "gpt-4o",
         system: ":nonEnglish",
       },
-      inputs: { prompt: ":content" },
+      inputs: { prompt: ":content.text" },
       isResult: true,
     },
     result: {
