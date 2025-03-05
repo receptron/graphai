@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
 
 type FetchParam = {
@@ -8,12 +8,13 @@ type FetchParam = {
   headers: any;
   body: unknown;
 };
+const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
+const methodsRequiringBody = ["POST", "PUT", "PATCH"];
 
-export const vanillaFetchAgent: AgentFunction<
-  Partial<FetchParam & GraphAIDebug & GraphAIThrowError & { type: string }>,
-  unknown,
-  FetchParam
-> = async ({ namedInputs, params }) => {
+export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug & GraphAIThrowError & { type: string }>, unknown, FetchParam> = async ({
+  namedInputs,
+  params,
+}) => {
   const { url, method, queryParams, body } = {
     ...params,
     ...namedInputs,
@@ -35,11 +36,17 @@ export const vanillaFetchAgent: AgentFunction<
     headers0["Content-Type"] = "application/json";
   }
 
+  //
   const fetchOptions: RequestInit = {
-    method: (method ?? body) ? "POST" : "GET",
+    method: method ?? (body ? "POST" : "GET"),
     headers: new Headers(headers0),
     body: body ? JSON.stringify(body) : undefined,
   };
+  assert(allowedMethods.includes(fetchOptions.method ?? ""), "fetchAgent: invalid method: " + fetchOptions.method);
+  assert(
+    !methodsRequiringBody.includes(fetchOptions.method ?? "") || !!body,
+    "fetchAgent: The request body is required for this method: " + fetchOptions.method,
+  );
 
   if (params?.debug) {
     return {
@@ -116,13 +123,13 @@ const vanillaFetchAgentInfo: AgentFunctionInfo = {
   },
   samples: [
     {
-      inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" } },
+      inputs: { url: "https://example.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" } },
       params: {
         debug: true,
       },
       result: {
         method: "GET",
-        url: "https://www.google.com/?foo=bar",
+        url: "https://example.com/?foo=bar",
         headers: {
           "x-myHeader": "secret",
         },
@@ -130,13 +137,27 @@ const vanillaFetchAgentInfo: AgentFunctionInfo = {
       },
     },
     {
-      inputs: { url: "https://www.google.com", body: { foo: "bar" } },
+      inputs: { url: "https://example.com", body: { foo: "bar" } },
       params: {
         debug: true,
       },
       result: {
         method: "POST",
-        url: "https://www.google.com/",
+        url: "https://example.com/",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ foo: "bar" }),
+      },
+    },
+    {
+      inputs: { url: "https://example.com", body: { foo: "bar" }, method: "PUT" },
+      params: {
+        debug: true,
+      },
+      result: {
+        method: "PUT",
+        url: "https://example.com/",
         headers: {
           "Content-Type": "application/json",
         },
