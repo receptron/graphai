@@ -27,7 +27,7 @@ test("test validate filter no input error", async () => {
     async () => {
       await graph.run();
     },
-    { name: "Error", message: "schema not matched" },
+    { name: "Error", message: "pop(popAgent) schema not matched" },
   );
 });
 
@@ -50,7 +50,7 @@ test("test validate filter int input error", async () => {
     async () => {
       await graph.run();
     },
-    { name: "Error", message: "schema not matched" },
+    { name: "Error", message: "pop(popAgent) schema not matched" },
   );
 });
 
@@ -73,7 +73,7 @@ test("test validate filter array input error", async () => {
     async () => {
       await graph.run();
     },
-    { name: "Error", message: "schema not matched" },
+    { name: "Error", message: "pop(popAgent) schema not matched" },
   );
 });
 

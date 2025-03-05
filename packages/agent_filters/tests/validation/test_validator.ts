@@ -8,7 +8,7 @@ test("test agentInputValidator validate", async () => {
   for (const agentInfo of Object.values(agents)) {
     if (agentInfo?.inputs && agentInfo?.samples) {
       for (const sample of agentInfo.samples) {
-        agentInputValidator(agentInfo?.inputs, sample.inputs);
+        agentInputValidator(agentInfo?.inputs, sample.inputs, agentInfo?.name, agentInfo?.name);
       }
     }
   }
