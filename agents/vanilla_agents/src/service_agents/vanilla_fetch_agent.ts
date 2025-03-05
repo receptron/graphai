@@ -19,6 +19,8 @@ export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug 
     ...params,
     ...namedInputs,
   };
+  assert(!!url, "fetchAgent: no url");
+
   const throwError = params.throwError ?? false;
 
   const url0 = new URL(url);
@@ -116,7 +118,7 @@ const vanillaFetchAgentInfo: AgentFunctionInfo = {
         description: "body",
       },
     },
-    required: ["url"],
+    required: [],
   },
   output: {
     type: "array",
