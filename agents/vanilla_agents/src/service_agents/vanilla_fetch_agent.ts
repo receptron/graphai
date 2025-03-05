@@ -1,26 +1,34 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
 
+type FetchParam = {
+  url: string;
+  method?: string;
+  queryParams: any;
+  headers: any;
+  body: unknown;
+};
+
 export const vanillaFetchAgent: AgentFunction<
-  Partial<GraphAIDebug & GraphAIThrowError & { type: string }>,
+  Partial<FetchParam & GraphAIDebug & GraphAIThrowError & { type: string }>,
   unknown,
-  {
-    url: string;
-    method?: string;
-    queryParams: any;
-    headers: any;
-    body: unknown;
-  }
+  FetchParam
 > = async ({ namedInputs, params }) => {
-  const { url, method, queryParams, headers, body } = namedInputs;
+  const { url, method, queryParams, body } = {
+    ...params,
+    ...namedInputs,
+  };
   const throwError = params.throwError ?? false;
 
   const url0 = new URL(url);
-  const headers0 = headers ? { ...headers } : {};
+  const headers0 = {
+    ...(params.headers ? params.headers : {}),
+    ...(namedInputs.headers ? namedInputs.headers : {}),
+  };
 
   if (queryParams) {
-    const params = new URLSearchParams(queryParams);
-    url0.search = params.toString();
+    const _params = new URLSearchParams(queryParams);
+    url0.search = _params.toString();
   }
 
   if (body) {
