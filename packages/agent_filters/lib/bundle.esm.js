@@ -17,20 +17,21 @@ const streamAgentFilterGenerator = (callback) => {
 };
 
 // export for test
-const agentInputValidator = (inputSchema, namedInputs) => {
+const agentInputValidator = (inputSchema, namedInputs, nodeId, agentId) => {
     const ajv = new Ajv();
     const validateSchema = ajv.compile(inputSchema);
     if (!validateSchema(namedInputs)) {
         // console.log(validateSchema.errors);
-        throw new Error("schema not matched");
+        throw new Error(`${nodeId}(${agentId ?? 'func'}) schema not matched`);
     }
     return true;
 };
 const namedInputValidatorFilter = async (context, next) => {
     const { inputSchema, namedInputs } = context;
+    const { agentId, nodeId } = context.debugInfo;
     if (inputSchema) {
         if (inputSchema.type !== "array") {
-            agentInputValidator(inputSchema, namedInputs || {});
+            agentInputValidator(inputSchema, namedInputs || {}, nodeId, agentId);
         }
     }
     return next(context);
