@@ -84,6 +84,18 @@ Retrieves JSON data from the specified URL
 ]
 
 ````
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
+  ":agentId.headers.Content-Type",
+  ":agentId.body"
+]
+
+````
 
 ## Samples
 
@@ -94,7 +106,7 @@ Retrieves JSON data from the specified URL
 ```json
 
 {
-  "url": "https://www.google.com",
+  "url": "https://example.com",
   "queryParams": {
     "foo": "bar"
   },
@@ -119,7 +131,7 @@ Retrieves JSON data from the specified URL
 
 {
   "method": "GET",
-  "url": "https://www.google.com/?foo=bar",
+  "url": "https://example.com/?foo=bar",
   "headers": {
     "x-myHeader": "secret"
   }
@@ -133,7 +145,7 @@ Retrieves JSON data from the specified URL
 ```json
 
 {
-  "url": "https://www.google.com",
+  "url": "https://example.com",
   "body": {
     "foo": "bar"
   }
@@ -155,7 +167,45 @@ Retrieves JSON data from the specified URL
 
 {
   "method": "POST",
-  "url": "https://www.google.com/",
+  "url": "https://example.com/",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"foo\":\"bar\"}"
+}
+
+````
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "url": "https://example.com",
+  "body": {
+    "foo": "bar"
+  },
+  "method": "PUT"
+}
+
+````
+
+#### params
+
+```json
+
+{"debug":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "method": "PUT",
+  "url": "https://example.com/",
   "headers": {
     "Content-Type": "application/json"
   },
