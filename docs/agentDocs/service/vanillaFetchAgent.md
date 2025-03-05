@@ -41,9 +41,7 @@ Retrieves JSON data from the specified URL
       "description": "body"
     }
   },
-  "required": [
-    "url"
-  ]
+  "required": []
 }
 
 ````
@@ -92,6 +90,42 @@ Retrieves JSON data from the specified URL
   ":agentId.url",
   ":agentId.headers",
   ":agentId.headers.Content-Type",
+  ":agentId.body"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
+  ":agentId.body"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
+  ":agentId.headers.Content-Type",
+  ":agentId.body"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
+  ":agentId.headers.Content-Type",
+  ":agentId.headers.authentication",
   ":agentId.body"
 ]
 
@@ -208,6 +242,108 @@ Retrieves JSON data from the specified URL
   "url": "https://example.com/",
   "headers": {
     "Content-Type": "application/json"
+  },
+  "body": "{\"foo\":\"bar\"}"
+}
+
+````
+### Sample3
+
+#### inputs
+
+```json
+
+{
+  "url": "https://example.com",
+  "method": "options"
+}
+
+````
+
+#### params
+
+```json
+
+{"debug":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "method": "OPTIONS",
+  "url": "https://example.com/",
+  "headers": {}
+}
+
+````
+### Sample4
+
+#### inputs
+
+```json
+
+{}
+
+````
+
+#### params
+
+```json
+
+{"url":"https://example.com","body":{"foo":"bar"},"method":"PUT","debug":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "method": "PUT",
+  "url": "https://example.com/",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"foo\":\"bar\"}"
+}
+
+````
+### Sample5
+
+#### inputs
+
+```json
+
+{
+  "method": "DELETE",
+  "headers": {
+    "authentication": "bearer XXX"
+  }
+}
+
+````
+
+#### params
+
+```json
+
+{"url":"https://example.com","body":{"foo":"bar"},"method":"PUT","headers":{"Content-Type":"application/json"},"debug":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "method": "DELETE",
+  "url": "https://example.com/",
+  "headers": {
+    "Content-Type": "application/json",
+    "authentication": "bearer XXX"
   },
   "body": "{\"foo\":\"bar\"}"
 }
