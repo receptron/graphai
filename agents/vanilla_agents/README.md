@@ -3149,6 +3149,57 @@ const result = await graph.run();
 ```
 
 
+```typescript
+{
+  "inputs": {
+    "url": "https://example.com",
+    "method": "options"
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {},
+  "params": {
+    "url": "https://example.com",
+    "body": {
+      "foo": "bar"
+    },
+    "method": "PUT",
+    "debug": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "method": "DELETE",
+    "headers": {
+      "authentication": "bearer XXX"
+    }
+  },
+  "params": {
+    "url": "https://example.com",
+    "body": {
+      "foo": "bar"
+    },
+    "method": "PUT",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "debug": true
+  }
+}
+```
+
+
 
 
 

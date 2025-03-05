@@ -2196,6 +2196,7 @@
             ...params,
             ...namedInputs,
         };
+        graphai.assert(!!url, "fetchAgent: no url");
         const throwError = params.throwError ?? false;
         const url0 = new URL(url);
         const headers0 = {
@@ -2211,7 +2212,7 @@
         }
         //
         const fetchOptions = {
-            method: method ?? (body ? "POST" : "GET"),
+            method: method ? method.toUpperCase() : body ? "POST" : "GET",
             headers: new Headers(headers0),
             body: body ? JSON.stringify(body) : undefined,
         };
@@ -2281,7 +2282,7 @@
                     description: "body",
                 },
             },
-            required: ["url"],
+            required: [],
         },
         output: {
             type: "array",
@@ -2325,6 +2326,61 @@
                     url: "https://example.com/",
                     headers: {
                         "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ foo: "bar" }),
+                },
+            },
+            {
+                inputs: { url: "https://example.com", method: "options" },
+                params: {
+                    debug: true,
+                },
+                result: {
+                    method: "OPTIONS",
+                    url: "https://example.com/",
+                    headers: {},
+                    body: undefined,
+                },
+            },
+            {
+                inputs: {},
+                params: {
+                    url: "https://example.com",
+                    body: { foo: "bar" },
+                    method: "PUT",
+                    debug: true,
+                },
+                result: {
+                    method: "PUT",
+                    url: "https://example.com/",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ foo: "bar" }),
+                },
+            },
+            {
+                inputs: {
+                    method: "DELETE",
+                    headers: {
+                        authentication: "bearer XXX",
+                    },
+                },
+                params: {
+                    url: "https://example.com",
+                    body: { foo: "bar" },
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    debug: true,
+                },
+                result: {
+                    method: "DELETE",
+                    url: "https://example.com/",
+                    headers: {
+                        "Content-Type": "application/json",
+                        authentication: "bearer XXX",
                     },
                     body: JSON.stringify({ foo: "bar" }),
                 },
