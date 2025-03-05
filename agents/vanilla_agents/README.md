@@ -3103,7 +3103,7 @@ const result = await graph.run();
 ```typescript
 {
   "inputs": {
-    "url": "https://www.google.com",
+    "url": "https://example.com",
     "queryParams": {
       "foo": "bar"
     },
@@ -3121,10 +3121,26 @@ const result = await graph.run();
 ```typescript
 {
   "inputs": {
-    "url": "https://www.google.com",
+    "url": "https://example.com",
     "body": {
       "foo": "bar"
     }
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "url": "https://example.com",
+    "body": {
+      "foo": "bar"
+    },
+    "method": "PUT"
   },
   "params": {
     "debug": true

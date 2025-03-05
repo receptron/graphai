@@ -2189,23 +2189,34 @@
         license: "MIT",
     };
 
-    const vanillaFetchAgent = async ({ namedInputs, params }) => {
-        const { url, method, queryParams, headers, body } = namedInputs;
+    const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
+    const methodsRequiringBody = ["POST", "PUT", "PATCH"];
+    const vanillaFetchAgent = async ({ namedInputs, params, }) => {
+        const { url, method, queryParams, body } = {
+            ...params,
+            ...namedInputs,
+        };
         const throwError = params.throwError ?? false;
         const url0 = new URL(url);
-        const headers0 = headers ? { ...headers } : {};
+        const headers0 = {
+            ...(params.headers ? params.headers : {}),
+            ...(namedInputs.headers ? namedInputs.headers : {}),
+        };
         if (queryParams) {
-            const params = new URLSearchParams(queryParams);
-            url0.search = params.toString();
+            const _params = new URLSearchParams(queryParams);
+            url0.search = _params.toString();
         }
         if (body) {
             headers0["Content-Type"] = "application/json";
         }
+        //
         const fetchOptions = {
-            method: (method ?? body) ? "POST" : "GET",
+            method: method ?? (body ? "POST" : "GET"),
             headers: new Headers(headers0),
             body: body ? JSON.stringify(body) : undefined,
         };
+        graphai.assert(allowedMethods.includes(fetchOptions.method ?? ""), "fetchAgent: invalid method: " + fetchOptions.method);
+        graphai.assert(!methodsRequiringBody.includes(fetchOptions.method ?? "") || !!body, "fetchAgent: The request body is required for this method: " + fetchOptions.method);
         if (params?.debug) {
             return {
                 url: url0.toString(),
@@ -2277,13 +2288,13 @@
         },
         samples: [
             {
-                inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" } },
+                inputs: { url: "https://example.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" } },
                 params: {
                     debug: true,
                 },
                 result: {
                     method: "GET",
-                    url: "https://www.google.com/?foo=bar",
+                    url: "https://example.com/?foo=bar",
                     headers: {
                         "x-myHeader": "secret",
                     },
@@ -2291,13 +2302,27 @@
                 },
             },
             {
-                inputs: { url: "https://www.google.com", body: { foo: "bar" } },
+                inputs: { url: "https://example.com", body: { foo: "bar" } },
                 params: {
                     debug: true,
                 },
                 result: {
                     method: "POST",
-                    url: "https://www.google.com/",
+                    url: "https://example.com/",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ foo: "bar" }),
+                },
+            },
+            {
+                inputs: { url: "https://example.com", body: { foo: "bar" }, method: "PUT" },
+                params: {
+                    debug: true,
+                },
+                result: {
+                    method: "PUT",
+                    url: "https://example.com/",
                     headers: {
                         "Content-Type": "application/json",
                     },
