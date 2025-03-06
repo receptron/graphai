@@ -383,10 +383,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@rollup/plugin-commonjs@^28.0.2":
-  version "28.0.2"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-28.0.2.tgz#193d7a86470f112b56927c1d821ee45951a819ea"
-  integrity sha512-BEFI2EDqzl+vA1rl97IDRZ61AIwGH093d9nz8+dThxJNH8oSoB7MjWvPCX3dkaK1/RCJ/1v/R1XB15FuSs0fQw==
+"@rollup/plugin-commonjs@^28.0.3":
+  version "28.0.3"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-28.0.3.tgz#44c2cc7c955c6113b96696b55e6bc2446bd67913"
+  integrity sha512-pyltgilam1QPdn+Zd9gaCfOLcnjMEJ9gV+bTw6/r73INdvzf1ah9zLIJBm+kW7R6IUFIQ1YO+VqZtYxZNWFPEQ==
   dependencies:
     "@rollup/pluginutils" "^5.0.1"
     commondir "^1.0.1"
@@ -2765,10 +2765,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^4.86.1:
-  version "4.86.1"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-4.86.1.tgz#4147252d5e6255e2ae716ea59b1d4e54a1c1472a"
-  integrity sha512-x3iCLyaC3yegFVZaxOmrYJjitKxZ9hpVbLi+ZlT5UHuHTMlEQEbKXkGOM78z9qm2T5GF+XRUZCP2/aV4UPFPJQ==
+openai@^4.86.2:
+  version "4.86.2"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.86.2.tgz#d3ba44c6b81471b9e2d38515e0ab86ad73a02c85"
+  integrity sha512-nvYeFjmjdSu6/msld+22JoUlCICNk/lUFpSMmc6KNhpeNLpqL70TqbD/8Vura/tFmYqHKW0trcjgPwUpKSPwaA==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
