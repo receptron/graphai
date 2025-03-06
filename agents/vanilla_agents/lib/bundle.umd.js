@@ -2191,7 +2191,14 @@
 
     const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
     const methodsRequiringBody = ["POST", "PUT", "PATCH"];
-    const vanillaFetchAgent = async ({ namedInputs, params, }) => {
+    /*
+      For compatibility, we are adding GraphAIFlatResponse to the parameters.
+     By default, it is usually set to false, but it will be set to true for use in tutorials and similar cases.
+     In the future, flat responses (non-object results) will be deprecated.
+     Until then, we will set flatResponse to false using vanillaFetch and transition to object-based responses.
+     Eventually, this option will be removed, and it will be ignored at runtime, always returning an object.
+     */
+    const vanillaFetchAgent = async ({ namedInputs, params }) => {
         const { url, method, queryParams, body } = {
             ...params,
             ...namedInputs,
@@ -2242,7 +2249,7 @@
                 },
             };
         }
-        const result = await (async () => {
+        const data = await (async () => {
             const type = params?.type ?? "json";
             if (type === "json") {
                 return await response.json();
@@ -2252,7 +2259,10 @@
             }
             throw new Error(`Unknown Type! ${type}`);
         })();
-        return result;
+        if (params.flatResponse === false) {
+            return { data };
+        }
+        return data;
     };
     const vanillaFetchAgentInfo = {
         name: "vanillaFetchAgent",
