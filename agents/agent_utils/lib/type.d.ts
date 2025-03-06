@@ -92,3 +92,6 @@ export type GraphAIOnError<ErrorData = Error> = {
         error: ErrorData;
     };
 };
+export type GraphAIFlatResponse = {
+    flatResponse: boolean;
+};

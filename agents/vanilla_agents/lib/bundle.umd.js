@@ -1684,7 +1684,7 @@
         license: "MIT",
     };
 
-    const totalAgent = async ({ namedInputs, params }) => {
+    const totalAgent = async ({ namedInputs, params, }) => {
         const { flatResponse } = params;
         graphai.assert(agent_utils.isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
         graphai.assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.totalAgent = void 0;
 const graphai_1 = require("graphai");
 const agent_utils_1 = require("@graphai/agent_utils");
-const totalAgent = async ({ namedInputs, params }) => {
+const totalAgent = async ({ namedInputs, params, }) => {
     const { flatResponse } = params;
     (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     (0, graphai_1.assert)(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
