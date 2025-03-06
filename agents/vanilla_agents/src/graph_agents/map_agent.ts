@@ -1,12 +1,14 @@
 import { GraphAI, AgentFunction, AgentFunctionInfo, assert, graphDataLatestVersion } from "graphai";
+import type { GraphAIThrowError } from "@graphai/agent_utils";
 
 export const mapAgent: AgentFunction<
-  {
-    limit?: number;
-    resultAll?: boolean;
-    compositeResult?: boolean;
-    throwError?: boolean;
-  },
+  Partial<
+    GraphAIThrowError & {
+      limit: number;
+      resultAll: boolean;
+      compositeResult: boolean;
+    }
+  >,
   Record<string, any>
 > = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
   assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
