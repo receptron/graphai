@@ -28,7 +28,7 @@
     "yaml": "^2.7.0"
   },
   "devDependencies": {
-    "@graphai/agent_filters": "^0.2.2",
+    "@graphai/agent_filters": "^1.0.0",
     "@graphai/vanilla": "^1.0.6",
     "graphai": "^1.0.0"
   },

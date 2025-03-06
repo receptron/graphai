@@ -34,7 +34,7 @@
     "@types/yargs": "^17.0.33"
   },
   "dependencies": {
-    "@graphai/agent_filters": "^0.2.2",
+    "@graphai/agent_filters": "^1.0.0",
     "@graphai/agents": "^1.0.2",
     "@graphai/token_bound_string_agent": "^1.0.0",
     "@graphai/vanilla_node_agents": "^1.0.1",
