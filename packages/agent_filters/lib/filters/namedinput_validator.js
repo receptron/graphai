@@ -11,7 +11,7 @@ const agentInputValidator = (inputSchema, namedInputs, nodeId, agentId) => {
     const validateSchema = ajv.compile(inputSchema);
     if (!validateSchema(namedInputs)) {
         // console.log(validateSchema.errors);
-        throw new Error(`${nodeId}(${agentId ?? 'func'}) schema not matched`);
+        throw new Error(`${nodeId}(${agentId ?? "func"}) schema not matched`);
     }
     return true;
 };
