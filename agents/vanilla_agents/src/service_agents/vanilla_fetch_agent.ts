@@ -1,20 +1,29 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
+import type { GraphAIDebug, GraphAIThrowError, GraphAIFlatResponse } from "@graphai/agent_utils";
 
 type FetchParam = {
   url: string;
   method?: string;
   queryParams: any;
-  headers: any;
+  headers: Record<string, any>;
   body: unknown;
 };
 const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
 const methodsRequiringBody = ["POST", "PUT", "PATCH"];
 
-export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug & GraphAIThrowError & { type: string }>, unknown, FetchParam> = async ({
-  namedInputs,
-  params,
-}) => {
+/*
+  For compatibility, we are adding GraphAIFlatResponse to the parameters.
+ By default, it is usually set to false, but it will be set to true for use in tutorials and similar cases.
+ In the future, flat responses (non-object results) will be deprecated.
+ Until then, we will set flatResponse to false using vanillaFetch and transition to object-based responses.
+ Eventually, this option will be removed, and it will be ignored at runtime, always returning an object.
+ */
+
+export const vanillaFetchAgent: AgentFunction<
+  Partial<FetchParam & GraphAIDebug & GraphAIThrowError & GraphAIFlatResponse & { type: string }>,
+  unknown,
+  FetchParam
+> = async ({ namedInputs, params }) => {
   const { url, method, queryParams, body } = {
     ...params,
     ...namedInputs,
@@ -77,7 +86,7 @@ export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug 
     };
   }
 
-  const result = await (async () => {
+  const data = await (async () => {
     const type = params?.type ?? "json";
     if (type === "json") {
       return await response.json();
@@ -87,7 +96,10 @@ export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug 
     throw new Error(`Unknown Type! ${type}`);
   })();
 
-  return result;
+  if (params.flatResponse === false) {
+    return { data };
+  }
+  return data;
 };
 
 const vanillaFetchAgentInfo: AgentFunctionInfo = {
