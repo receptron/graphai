@@ -1,4 +1,7 @@
 
+> [!IMPORTANT]
+> Deprecated: This package is no longer maintained. Please use a standard LLM agent-based workflow.
+
 # @graphai/slashgpt_agent for GraphAI
 
 SlashGPT agents for GraphAI.
