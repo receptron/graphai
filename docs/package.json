@@ -5,12 +5,12 @@
   "license": "MIT",
   "author": "Satoshi Nakajima, Isamu Arimoto",
   "bugs": {
-    "url": "https://github.com/receptron/website/issues"
+    "url": "https://github.com/receptron/graphai/issues"
   },
-  "homepage": "https://github.com/receptron/website#readme",
+  "homepage": "https://github.com/receptron/graphai#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/receptron/website"
+    "url": "git+https://github.com/receptron/graphai"
   },
   "scripts": {
     "dev": "vitepress dev",
