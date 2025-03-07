@@ -19,23 +19,6 @@ test("test computed node validation value", async () => {
   await rejectTest(__dirname, graph_data, "Inputs not match: NodeId computed2, Inputs: dummy");
 });
 
-test("test computed node validation value", async () => {
-  const graph_data = anonymization({
-    version: graphDataLatestVersion,
-    nodes: {
-      computed1: {
-        agent: "echoAgent",
-        inputs: [":computed2"],
-      },
-      computed2: {
-        agent: "echoAgent",
-        inputs: [":computed1"],
-      },
-    },
-  });
-  await rejectTest(__dirname, graph_data, "No Initial Runnning Node");
-});
-
 test("test no initial running node", async () => {
   const graph_data = anonymization({
     version: graphDataLatestVersion,
@@ -71,4 +54,28 @@ test("test closed loop validation", async () => {
     },
   });
   await rejectTest(__dirname, graph_data, "Some nodes are not executed: computed3");
+});
+
+test("test circular dependency validation", async () => {
+  const graphData = anonymization({
+    version: graphDataLatestVersion,
+    nodes: {
+      staticNode1: {
+        value: "static value 1",
+      },
+      computedNode1: {
+        agent: "echoAgent",
+        inputs: [":staticNode1", ":computedNode3"],
+      },
+      computedNode2: {
+        agent: "echoAgent",
+        inputs: [":computedNode1"],
+      },
+      computedNode3: {
+        agent: "echoAgent",
+        inputs: [":computedNode2"],
+      },
+    },
+  });
+  await rejectTest(__dirname, graphData, "No Initial Runnning Node");
 });
