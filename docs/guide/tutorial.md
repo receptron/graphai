@@ -2,9 +2,9 @@
 
 ## Hello World
 
-[GraphAI](https://github.com/receptron/graphai) is an open source project, which allows non-programmers to build AI applications by describing data flows in a declarative language, GraphAI.
+[GraphAI](https://github.com/receptron/graphai) is an open source project, which allows non-programmers to build AI applications by describing data flows in a declarative language, GraphAI. 
 
-Here is the "Hello World" of GraphAI.
+Here is the "Hello World" of GraphAI. 
 
 ```YAML
 version: 0.5
@@ -28,7 +28,7 @@ nodes:
 
 It has two nodes:
 
-1. **llm**: This node is associated with "openAIAgent", which calls OpenAI's chat completion API. It takes "Explain ML's transformer in 100 words." as an input (the user prompt) and outputs the result from the chat completion API.
+1. **llm**: This node is associated with "openAIAgent", which calls OpenAI's chat completion API. It takes "Explain ML's transformer in 100 words." as an input (the user prompt) and outputs the result from the chat completion API. 
 2. **output**: This node receives the output of the **llm** node, as an input, and print it out to the console.
 
 Notice that **llm** node will be executed immediately because all the inputs are available at the beginning, while **output** will be executed when the data from **llm** node becomes available.
@@ -36,19 +36,14 @@ Notice that **llm** node will be executed immediately because all the inputs are
 ## Installation
 
 You can try it on your own machine by installing "GraphAI client" with following command:
-
 ```
 npm i -g  @receptron/graphai_cli
 ```
-
 Then, you need to create a .env file containing your OPENAI_API_KEY in your current directory.
-
 ```
 OPENAI_API_KEY=sk-...
 ```
-
 After that you prepare the yaml file (such as "hello.yaml"), and type
-
 ```
 graphai hello.yaml
 ```
@@ -57,13 +52,13 @@ Many sample GraphAI YAML files are available under [Graphai Samples](https://git
 
 ## Computed Node and Static Node
 
-There are two types of nodes in GraphAI, _computed nodes_ and _static nodes_.
+There are two types of nodes in GraphAI, *computed nodes* and *static nodes*.
 
-A computed node is associated with an _agent_, which performs a certain computation. Both nodes in the previous examples are _computed nodes_.
+A computed node is associated with an *agent*, which performs a certain computation. Both nodes in the previous examples are *computed nodes*.
 
-A _static nodes_ is a place holder of a value, just like a _variable_ in computer languages.
+A *static nodes* is a place holder of a value, just like a *variable* in computer languages.
 
-The example below performs the same operation, but uses one _static node_, **prompt**, which holds the value "Explain ML's transformer in 100 words".
+The example below performs the same operation, but uses one *static node*, **prompt**, which holds the value "Explain ML's transformer in 100 words".
 
 ```YAML
 version: 0.5
@@ -89,7 +84,7 @@ nodes:
 
 ## Loop
 
-The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and mapping (of map-reduce).
+The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and mapping (of map-reduce). 
 
 Here is a simple application, which uses **loop**.
 
@@ -132,7 +127,7 @@ nodes:
 4. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:shift.item}? Just answer the color." by applying the item property from the shift node's output. It then passes this prompt to gpt-4o to obtain the generated result.
 5. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
 
-Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below.
+Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below. 
 
 ## Mapping
 
@@ -171,7 +166,7 @@ nodes:
 
 1. **fruits**: This static node holds the list of fruits.
 2. **map**: This node is associated with **mapAgent**, which performs the mapping, by executing the nested graph for each item for the value of **fruits** node, and outputs the combined results.
-3. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:row}? Just answer the color." by applying the item property from the value of **fruits** node. It then passes this prompt to gpt-4o to obtain the generated result.
+3. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:row}? Just answer the color." by applying the item property from  the value of **fruits** node. It then passes this prompt to gpt-4o to obtain the generated result.
 4. **result**: This node retrieves the content property from the output of **llm** node.
 
 Please notice that each item in the array will be processed concurrently.
@@ -402,7 +397,7 @@ This sample application generates a new GraphAI graph based on a sample GraphAI 
 
 ## In-memory RAG
 
-This sample application performs an in-memory RAG by dividing a Wikipedi article into chunks, get embedding vectors for those chunks and create an appropriate prompt based on the cosine similarities.
+This sample application performs an in-memory RAG by dividing a Wikipedi article into chunks, get embedding vectors for those chunks and create an appropriate prompt based on the cosine similarities. 
 
 ```YAML
 version: 0.5

@@ -2,7 +2,7 @@
 
 ## Hello World
 
-GraphAI (https://github.com/receptron/graphai) is an open source project, which allows non-programmers to build AI applications by describing data flows in a declarative language, GraphAI. 
+[GraphAI](https://github.com/receptron/graphai) is an open source project, which allows non-programmers to build AI applications by describing data flows in a declarative language, GraphAI. 
 
 Here is the "Hello World" of GraphAI. 
 
