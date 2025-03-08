@@ -64,7 +64,9 @@ ${packages/samples/graph_data/openai/loop.yaml}
 4. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:shift.item}? Just answer the color." by applying the item property from the shift node's output. It then passes this prompt to gpt-4o to obtain the generated result.
 5. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
 
-Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below. 
+Please notice that each item in the array will be processed sequentially. 
+Loop until the array of **fruits** nodes is empty.
+To process them concurrently, see the section below. 
 
 ## Mapping
 

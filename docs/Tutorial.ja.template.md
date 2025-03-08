@@ -43,7 +43,7 @@ graphai hello.yaml
 
 GraphAIには、*Computedノード*と*Staticノード*の2種類のノードがあります。
 
-Computedノードは特定の計算を実行する*エージェント*に関連付けられています。前の例の両方のノードは*Computedノード*です。
+Computedノードは特定のプログラムを実行する*エージェント*に関連付けられています。前の例の両方のノードは*Computedノード*です。
 
 Staticノードは、プログラミング言語における*変数*のように、値を保持する場所です。
 
@@ -53,9 +53,9 @@ Staticノードは、プログラミング言語における*変数*のように
 ${packages/samples/graph_data/openai/simple2.yaml}
 ```
 
-## ループ
+## loop(ループ)
 
-データフロー図は設計上、循環を含まないようになっていますが、loop、nested、if/unless、mapなどのいくつかの制御フロー機能を追加しています。
+GraphAIのデータフローは仕様上、循環を含まない（一度呼んだNodeを再度呼ばない)ようになっていますが、loop、nested、if/unless、map(mapreduceの機能の)などのいくつかの制御フロー機能を追加しています。
 
 以下は**loop**を使用した簡単なアプリケーションの例です。
 
@@ -63,13 +63,14 @@ ${packages/samples/graph_data/openai/simple2.yaml}
 ${packages/samples/graph_data/openai/loop.yaml}
 ```
 
-1. **fruits**：このStaticノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードの配列プロパティで更新されます。
-2. **result**：このStaticノードは空の配列から始まり、各反復後に**reducer**ノードの値で更新されます。
-3. **shift**：このノードは**fruits**ノードの値から最初の項目を取り出し、残りの配列と項目をプロパティとして出力します。
+1. **fruits**：このStaticノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードのarrayプロパティで更新されます。(`update: :shift.array`)
+2. **result**：このStaticノードは空の配列から始まり、各反復後に**reducer**ノードのarrayプロパティ値で更新されます。
+3. **shift**：このノードは**fruits**ノードの値から配列の１つ目の値を取り出し、残りの配列と共に`{ array, iten }`項目をプロパティとして出力します。
 4. **llm**：このComputedノードは、shiftノードの出力からitemプロパティを使用して「What is the typical color of ${:shift.item}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
-5. **reducer**：このノードは**llm**ノードの出力の内容を**result**ノードの値に追加します。
+5. **reducer**：このノードは**result**ノードの入れるに、**llm**ノードの結果`{text}`を追加します。
 
-配列の各項目は順番に処理されることに注意してください。同時に処理するには、以下のマッピングのセクションを参照してください。
+配列の各項目は順番に処理されることに注意してください。**fruits**ノードの配列が空になるまで反復(loop)します。
+同時に処理するには、以下のマッピングのセクションを参照してください。
 
 ## マッピング
 
