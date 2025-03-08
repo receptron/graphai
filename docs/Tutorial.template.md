@@ -59,7 +59,7 @@ ${packages/samples/graph_data/openai/loop.yaml}
 ```
 
 1. **fruits**: This static node holds the list of fruits at the beginning but updated with the array property of **shift** node after each iteration.
-2. **result**: This static node starts with an empty array, but updated with the value of **reducer** node after each iteration.
+2. **result**: This static node starts with an empty array, but updated with the array property of **reducer** node after each iteration.
 3. **shift**: This node takes the first item from the value from **fruits** node, and output the remaining array and item as properties.
 4. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:shift.item}? Just answer the color." by applying the item property from the shift node's output. It then passes this prompt to gpt-4o to obtain the generated result.
 5. **reducer**: This node pushes the content from the output of **llm** node to the value of **result** node.
