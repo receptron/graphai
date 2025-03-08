@@ -23,6 +23,7 @@ nodes:
       after: true
     inputs:
       text: :llm.text
+
 ```
 
 このプログラムには2つのノードがあります：
@@ -83,6 +84,7 @@ nodes:
       after: true
     inputs:
       text: :llm.text
+
 ```
 
 ## ループ
@@ -121,6 +123,7 @@ nodes:
     inputs:
       array: :result
       item: :llm.text
+
 ```
 
 1. **fruits**：この静的ノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードの配列プロパティで更新されます。
@@ -163,6 +166,7 @@ nodes:
           inputs:
             item: :llm.text
           isResult: true
+
 ```
 
 1. **fruits**：この静的ノードはフルーツのリストを保持します。
@@ -183,7 +187,7 @@ loop:
 nodes:
   continue:
     value: true
-    update: :checkInput
+    update: :checkInput.result
   messages:
     value: []
     update: :llm.messages
@@ -213,6 +217,7 @@ nodes:
       after: true
     inputs:
       text: "\e[32mAgent\e[0m: ${:llm.text}"
+
 ```
 
 1. ユーザーは「You:」というプロンプトでメッセージの入力を求められます。
@@ -234,7 +239,7 @@ loop:
 nodes:
   continue:
     value: true
-    update: :checkInput
+    update: :checkInput.result
   messages:
     value:
       - role: system
@@ -374,6 +379,7 @@ nodes:
       array:
         - :no_tool_calls.result
         - :tool_calls.messagesWithSecondRes.array
+
 ```
 
 1. **ループ実行**：`continue`ノードで指定された条件がfalseになるまでグラフは継続的にループします。
@@ -482,4 +488,5 @@ nodes:
     inputs:
       result: :OneShotQuery.text
     isResult: true
+
 ```

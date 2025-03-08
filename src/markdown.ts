@@ -33,4 +33,5 @@ const rewrite = (fromFile: string, toFile: string) => {
 };
 
 rewrite("docs/Tutorial.template.md", "docs/guide/Tutorial.md");
+rewrite("docs/Tutorial.ja.template.md", "docs/ja/guide/Tutorial.md");
 rewrite("packages/graphai/README.template.md", "packages/graphai/README.md");
