@@ -8,7 +8,7 @@
 
 > **AgentFunction**\<`ParamsType`, `ResultType`, `NamedInputDataType`, `ConfigType`\>: (`context`) => `Promise`\<[`ResultData`](ResultData.md)\<`ResultType`\>\>
 
-Defined in: [packages/graphai/src/type.ts:130](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/type.ts#L130)
+Defined in: [packages/graphai/src/type.ts:130](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/type.ts#L130)
 
 ## Type Parameters
 

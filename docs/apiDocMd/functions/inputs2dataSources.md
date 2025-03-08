@@ -8,7 +8,7 @@
 
 > **inputs2dataSources**(`inputs`): `DataSource`[]
 
-Defined in: [packages/graphai/src/utils/nodeUtils.ts:5](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/utils/nodeUtils.ts#L5)
+Defined in: [packages/graphai/src/utils/nodeUtils.ts:5](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/utils/nodeUtils.ts#L5)
 
 ## Parameters
 

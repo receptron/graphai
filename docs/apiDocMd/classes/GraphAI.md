@@ -6,7 +6,7 @@
 
 # Class: GraphAI
 
-Defined in: [packages/graphai/src/graphai.ts:31](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L31)
+Defined in: [packages/graphai/src/graphai.ts:31](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L31)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [packages/graphai/src/graphai.ts:31](https://github.com/kawamataryo/
 
 > **new GraphAI**(`graphData`, `agentFunctionInfoDictionary`, `options`): [`GraphAI`](GraphAI.md)
 
-Defined in: [packages/graphai/src/graphai.ts:125](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L125)
+Defined in: [packages/graphai/src/graphai.ts:125](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L125)
 
 #### Parameters
 
@@ -40,7 +40,7 @@ Defined in: [packages/graphai/src/graphai.ts:125](https://github.com/kawamataryo
 
 > `readonly` **agentFilters**: [`AgentFilterInfo`](../type-aliases/AgentFilterInfo.md)[]
 
-Defined in: [packages/graphai/src/graphai.ts:41](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L41)
+Defined in: [packages/graphai/src/graphai.ts:41](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L41)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [packages/graphai/src/graphai.ts:41](https://github.com/kawamataryo/
 
 > `readonly` **agentFunctionInfoDictionary**: [`AgentFunctionInfoDictionary`](../type-aliases/AgentFunctionInfoDictionary.md)
 
-Defined in: [packages/graphai/src/graphai.ts:39](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L39)
+Defined in: [packages/graphai/src/graphai.ts:39](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L39)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [packages/graphai/src/graphai.ts:39](https://github.com/kawamataryo/
 
 > `readonly` **bypassAgentIds**: `string`[]
 
-Defined in: [packages/graphai/src/graphai.ts:37](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L37)
+Defined in: [packages/graphai/src/graphai.ts:37](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L37)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [packages/graphai/src/graphai.ts:37](https://github.com/kawamataryo/
 
 > **callbacks**: [`CallbackFunction`](../type-aliases/CallbackFunction.md)[] = `[]`
 
-Defined in: [packages/graphai/src/graphai.ts:48](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L48)
+Defined in: [packages/graphai/src/graphai.ts:48](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L48)
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: [packages/graphai/src/graphai.ts:48](https://github.com/kawamataryo/
 
 > `readonly` `optional` **config**: [`ConfigDataDictionary`](../type-aliases/ConfigDataDictionary.md) = `{}`
 
-Defined in: [packages/graphai/src/graphai.ts:38](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L38)
+Defined in: [packages/graphai/src/graphai.ts:38](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L38)
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: [packages/graphai/src/graphai.ts:38](https://github.com/kawamataryo/
 
 > `readonly` **graphId**: `string`
 
-Defined in: [packages/graphai/src/graphai.ts:33](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L33)
+Defined in: [packages/graphai/src/graphai.ts:33](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L33)
 
 ***
 
@@ -88,7 +88,7 @@ Defined in: [packages/graphai/src/graphai.ts:33](https://github.com/kawamataryo/
 
 > `readonly` `optional` **graphLoader**: [`GraphDataLoader`](../type-aliases/GraphDataLoader.md)
 
-Defined in: [packages/graphai/src/graphai.ts:44](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L44)
+Defined in: [packages/graphai/src/graphai.ts:44](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L44)
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: [packages/graphai/src/graphai.ts:44](https://github.com/kawamataryo/
 
 > **nodes**: `GraphNodes`
 
-Defined in: [packages/graphai/src/graphai.ts:46](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L46)
+Defined in: [packages/graphai/src/graphai.ts:46](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L46)
 
 ***
 
@@ -104,7 +104,7 @@ Defined in: [packages/graphai/src/graphai.ts:46](https://github.com/kawamataryo/
 
 > **onLogCallback**: [`CallbackFunction`](../type-aliases/CallbackFunction.md)
 
-Defined in: [packages/graphai/src/graphai.ts:47](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L47)
+Defined in: [packages/graphai/src/graphai.ts:47](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L47)
 
 ***
 
@@ -112,7 +112,7 @@ Defined in: [packages/graphai/src/graphai.ts:47](https://github.com/kawamataryo/
 
 > `readonly` **propFunctions**: `PropFunction`[]
 
-Defined in: [packages/graphai/src/graphai.ts:43](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L43)
+Defined in: [packages/graphai/src/graphai.ts:43](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L43)
 
 ***
 
@@ -120,7 +120,7 @@ Defined in: [packages/graphai/src/graphai.ts:43](https://github.com/kawamataryo/
 
 > `readonly` `optional` **retryLimit**: `number`
 
-Defined in: [packages/graphai/src/graphai.ts:42](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L42)
+Defined in: [packages/graphai/src/graphai.ts:42](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L42)
 
 ***
 
@@ -128,7 +128,7 @@ Defined in: [packages/graphai/src/graphai.ts:42](https://github.com/kawamataryo/
 
 > `readonly` **taskManager**: `TaskManager`
 
-Defined in: [packages/graphai/src/graphai.ts:40](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L40)
+Defined in: [packages/graphai/src/graphai.ts:40](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L40)
 
 ***
 
@@ -136,7 +136,7 @@ Defined in: [packages/graphai/src/graphai.ts:40](https://github.com/kawamataryo/
 
 > **verbose**: `boolean`
 
-Defined in: [packages/graphai/src/graphai.ts:49](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L49)
+Defined in: [packages/graphai/src/graphai.ts:49](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L49)
 
 ***
 
@@ -144,7 +144,7 @@ Defined in: [packages/graphai/src/graphai.ts:49](https://github.com/kawamataryo/
 
 > `readonly` **version**: `number`
 
-Defined in: [packages/graphai/src/graphai.ts:32](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L32)
+Defined in: [packages/graphai/src/graphai.ts:32](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L32)
 
 ## Methods
 
@@ -152,7 +152,7 @@ Defined in: [packages/graphai/src/graphai.ts:32](https://github.com/kawamataryo/
 
 > **abort**(): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:281](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L281)
+Defined in: [packages/graphai/src/graphai.ts:281](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L281)
 
 #### Returns
 
@@ -164,7 +164,7 @@ Defined in: [packages/graphai/src/graphai.ts:281](https://github.com/kawamataryo
 
 > **appendLog**(`log`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:359](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L359)
+Defined in: [packages/graphai/src/graphai.ts:359](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L359)
 
 #### Parameters
 
@@ -182,7 +182,7 @@ Defined in: [packages/graphai/src/graphai.ts:359](https://github.com/kawamataryo
 
 > **asString**(): `string`
 
-Defined in: [packages/graphai/src/graphai.ts:184](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L184)
+Defined in: [packages/graphai/src/graphai.ts:184](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L184)
 
 #### Returns
 
@@ -194,7 +194,7 @@ Defined in: [packages/graphai/src/graphai.ts:184](https://github.com/kawamataryo
 
 > **clearCallbacks**(): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:374](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L374)
+Defined in: [packages/graphai/src/graphai.ts:374](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L374)
 
 #### Returns
 
@@ -206,7 +206,7 @@ Defined in: [packages/graphai/src/graphai.ts:374](https://github.com/kawamataryo
 
 > **errors**(): `Record`\<`string`, `Error`\>
 
-Defined in: [packages/graphai/src/graphai.ts:204](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L204)
+Defined in: [packages/graphai/src/graphai.ts:204](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L204)
 
 #### Returns
 
@@ -218,7 +218,7 @@ Defined in: [packages/graphai/src/graphai.ts:204](https://github.com/kawamataryo
 
 > **getAgentFunctionInfo**(`agentId`?): [`AgentFunctionInfo`](../type-aliases/AgentFunctionInfo.md) \| \{ `agent`: () => `Promise`\<`null`\>; `cacheType`: `undefined`; `hasGraphData`: `boolean`; `inputs`: `null`; \}
 
-Defined in: [packages/graphai/src/graphai.ts:166](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L166)
+Defined in: [packages/graphai/src/graphai.ts:166](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L166)
 
 #### Parameters
 
@@ -236,7 +236,7 @@ Defined in: [packages/graphai/src/graphai.ts:166](https://github.com/kawamataryo
 
 > **initializeGraphAI**(): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:344](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L344)
+Defined in: [packages/graphai/src/graphai.ts:344](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L344)
 
 #### Returns
 
@@ -248,7 +248,7 @@ Defined in: [packages/graphai/src/graphai.ts:344](https://github.com/kawamataryo
 
 > **injectValue**(`nodeId`, `value`, `injectFrom`?): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:384](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L384)
+Defined in: [packages/graphai/src/graphai.ts:384](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L384)
 
 #### Parameters
 
@@ -274,7 +274,7 @@ Defined in: [packages/graphai/src/graphai.ts:384](https://github.com/kawamataryo
 
 > **isRunning**(): `boolean`
 
-Defined in: [packages/graphai/src/graphai.ts:300](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L300)
+Defined in: [packages/graphai/src/graphai.ts:300](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L300)
 
 #### Returns
 
@@ -286,7 +286,7 @@ Defined in: [packages/graphai/src/graphai.ts:300](https://github.com/kawamataryo
 
 > **onExecutionComplete**(`node`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:305](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L305)
+Defined in: [packages/graphai/src/graphai.ts:305](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L305)
 
 #### Parameters
 
@@ -304,7 +304,7 @@ Defined in: [packages/graphai/src/graphai.ts:305](https://github.com/kawamataryo
 
 > **pushQueue**(`node`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:239](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L239)
+Defined in: [packages/graphai/src/graphai.ts:239](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L239)
 
 #### Parameters
 
@@ -322,7 +322,7 @@ Defined in: [packages/graphai/src/graphai.ts:239](https://github.com/kawamataryo
 
 > **pushQueueIfReadyAndRunning**(`node`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:232](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L232)
+Defined in: [packages/graphai/src/graphai.ts:232](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L232)
 
 #### Parameters
 
@@ -340,7 +340,7 @@ Defined in: [packages/graphai/src/graphai.ts:232](https://github.com/kawamataryo
 
 > **registerCallback**(`callback`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:370](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L370)
+Defined in: [packages/graphai/src/graphai.ts:370](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L370)
 
 #### Parameters
 
@@ -358,7 +358,7 @@ Defined in: [packages/graphai/src/graphai.ts:370](https://github.com/kawamataryo
 
 > **resetPending**(): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:291](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L291)
+Defined in: [packages/graphai/src/graphai.ts:291](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L291)
 
 #### Returns
 
@@ -370,7 +370,7 @@ Defined in: [packages/graphai/src/graphai.ts:291](https://github.com/kawamataryo
 
 > **resultOf**(`source`): [`ResultData`](../type-aliases/ResultData.md)
 
-Defined in: [packages/graphai/src/graphai.ts:400](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L400)
+Defined in: [packages/graphai/src/graphai.ts:400](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L400)
 
 #### Parameters
 
@@ -388,7 +388,7 @@ Defined in: [packages/graphai/src/graphai.ts:400](https://github.com/kawamataryo
 
 > **results**\<`T`\>(`all`): [`ResultDataDictionary`](../type-aliases/ResultDataDictionary.md)\<`T`\>
 
-Defined in: [packages/graphai/src/graphai.ts:191](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L191)
+Defined in: [packages/graphai/src/graphai.ts:191](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L191)
 
 #### Type Parameters
 
@@ -410,7 +410,7 @@ Defined in: [packages/graphai/src/graphai.ts:191](https://github.com/kawamataryo
 
 > **resultsOf**(`inputs`?, `anyInput`?): `Record`\<`string`, [`ResultData`](../type-aliases/ResultData.md)\>
 
-Defined in: [packages/graphai/src/graphai.ts:393](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L393)
+Defined in: [packages/graphai/src/graphai.ts:393](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L393)
 
 #### Parameters
 
@@ -432,7 +432,7 @@ Defined in: [packages/graphai/src/graphai.ts:393](https://github.com/kawamataryo
 
 > **run**\<`T`\>(`all`): `Promise`\<[`ResultDataDictionary`](../type-aliases/ResultDataDictionary.md)\<`T`\>\>
 
-Defined in: [packages/graphai/src/graphai.ts:249](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L249)
+Defined in: [packages/graphai/src/graphai.ts:249](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L249)
 
 #### Type Parameters
 
@@ -454,7 +454,7 @@ Defined in: [packages/graphai/src/graphai.ts:249](https://github.com/kawamataryo
 
 > **setLoopLog**(`log`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:354](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L354)
+Defined in: [packages/graphai/src/graphai.ts:354](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L354)
 
 #### Parameters
 
@@ -472,7 +472,7 @@ Defined in: [packages/graphai/src/graphai.ts:354](https://github.com/kawamataryo
 
 > **setPreviousResults**(`previousResults`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:351](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L351)
+Defined in: [packages/graphai/src/graphai.ts:351](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L351)
 
 #### Parameters
 
@@ -490,7 +490,7 @@ Defined in: [packages/graphai/src/graphai.ts:351](https://github.com/kawamataryo
 
 > **transactionLogs**(): [`TransactionLog`](TransactionLog.md)[]
 
-Defined in: [packages/graphai/src/graphai.ts:379](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L379)
+Defined in: [packages/graphai/src/graphai.ts:379](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L379)
 
 #### Returns
 
@@ -502,7 +502,7 @@ Defined in: [packages/graphai/src/graphai.ts:379](https://github.com/kawamataryo
 
 > **updateLog**(`log`): `void`
 
-Defined in: [packages/graphai/src/graphai.ts:365](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L365)
+Defined in: [packages/graphai/src/graphai.ts:365](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L365)
 
 #### Parameters
 

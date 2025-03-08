@@ -8,4 +8,4 @@
 
 > `const` **graphDataLatestVersion**: `0.5` = `0.5`
 
-Defined in: [packages/graphai/src/graphai.ts:29](https://github.com/kawamataryo/graphai/blob/e8a7b825cfe5b60039202cad9c90359642833517/packages/graphai/src/graphai.ts#L29)
+Defined in: [packages/graphai/src/graphai.ts:29](https://github.com/kawamataryo/graphai/blob/dd469fabd8a117a70d995bd5597c959177f9738c/packages/graphai/src/graphai.ts#L29)
