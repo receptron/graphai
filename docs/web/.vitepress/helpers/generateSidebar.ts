@@ -118,3 +118,7 @@ export const generateSidebar = (dirRelativePath: string, sidebarTitle: string) =
 export const generateAgentsSidebar = () => {
   return generateSidebar("agentDocs", "Agents");
 };
+
+export const generateApiDocSidebar = () => {
+  return generateSidebar("apiDoc", "API Docs");
+};

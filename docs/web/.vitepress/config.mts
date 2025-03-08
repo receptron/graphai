@@ -1,10 +1,11 @@
 import { defineConfig } from "vitepress";
-import { generateAgentsSidebar } from "./helpers/generateSidebar";
+import { generateAgentsSidebar, generateApiDocSidebar } from "./helpers/generateSidebar";
 
 // TODO: change to the actual domain
 const HOST_NAME = "https://graphai-web.web.app";
 
 const agentsSidebar = generateAgentsSidebar();
+const apiDocSidebar = generateApiDocSidebar();
 
 export default defineConfig({
   title: "GraphAI - Declarative AI Workflow Engine",
@@ -55,6 +56,7 @@ export default defineConfig({
     nav: [
       { text: "Guide", link: "/guide/tutorial" },
       { text: "Agents", link: agentsSidebar[0].items[0].items[0].link },
+      { text: "API Docs", link: apiDocSidebar[0].items[0].items[0].link },
       { text: "Showcase", link: "/showcase" },
     ],
     sidebar: {
@@ -81,6 +83,7 @@ export default defineConfig({
         },
       ],
       "/agentDocs/": agentsSidebar,
+      "/apiDoc/": apiDocSidebar,
     },
     socialLinks: [{ icon: "github", link: "https://github.com/receptron/graphai" }],
     editLink: {
