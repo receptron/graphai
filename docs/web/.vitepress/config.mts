@@ -83,7 +83,7 @@ export default defineConfig({
         },
       ],
       "/agentDocs/": agentsSidebar,
-      "/apiDoc/": apiDocSidebar,
+      "/apiDocMd/": apiDocSidebar,
     },
     socialLinks: [{ icon: "github", link: "https://github.com/receptron/graphai" }],
     editLink: {
