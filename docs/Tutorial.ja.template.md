@@ -12,14 +12,14 @@ ${packages/samples/graph_data/openai/simple.yaml}
 
 このプログラムには2つのノードがあります：
 
-1. **llm**：このノードは「openAIAgent」に関連付けられており、OpenAIのチャット完了APIを呼び出します。入力として「Explain ML's transformer in 100 words.」（ユーザープロンプト）を受け取り、チャット完了APIからの結果を出力します。
+1. **llm**：このノードは「openAIAgent」を実行するノードで、OpenAIの Chat Completion APIを呼びます。入力として「Explain ML's transformer in 100 words.」（ユーザープロンプト）を受け取り、Chat Completion APIの実行結果を返します。
 2. **output**：このノードは**llm**ノードの出力を入力として受け取り、コンソールに出力します。
 
 注目すべき点として、**llm**ノードは必要な入力がすべて開始時に利用可能なため即座に実行されますが、**output**は**llm**ノードからのデータが利用可能になった時点で実行されます。
 
 ## インストール
 
-以下のコマンドでGraphAIクライアントをインストールすることで、試すことができます。
+以下のコマンドでGraphAIのCLIクライアントをインストールすることで、試すことができます。
 
 ```
 npm i -g  @receptron/graphai_cli
@@ -39,15 +39,15 @@ graphai hello.yaml
 
 多くのGraphAI YAMLファイルのサンプルは[Graphai Samples](https://github.com/receptron/graphai_samples)で入手可能です。
 
-## 計算ノードと静的ノード
+## ComputedノードとStaticノード
 
-GraphAIには、*計算ノード*と*静的ノード*の2種類のノードがあります。
+GraphAIには、*Computedノード*と*Staticノード*の2種類のノードがあります。
 
-計算ノードは特定の計算を実行する*エージェント*に関連付けられています。前の例の両方のノードは*計算ノード*です。
+Computedノードは特定の計算を実行する*エージェント*に関連付けられています。前の例の両方のノードは*Computedノード*です。
 
-静的ノードは、プログラミング言語における*変数*のように、値を保持する場所です。
+Staticノードは、プログラミング言語における*変数*のように、値を保持する場所です。
 
-以下の例は前と同じ操作を実行しますが、「Explain ML's transformer in 100 words」という値を保持する**prompt**という*静的ノード*を使用しています。
+以下の例は前と同じ操作を実行しますが、「Explain ML's transformer in 100 words」という値を保持する**prompt**という*Staticノード*を使用しています。
 
 ```YAML
 ${packages/samples/graph_data/openai/simple2.yaml}
@@ -63,10 +63,10 @@ ${packages/samples/graph_data/openai/simple2.yaml}
 ${packages/samples/graph_data/openai/loop.yaml}
 ```
 
-1. **fruits**：この静的ノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードの配列プロパティで更新されます。
-2. **result**：この静的ノードは空の配列から始まり、各反復後に**reducer**ノードの値で更新されます。
+1. **fruits**：このStaticノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードの配列プロパティで更新されます。
+2. **result**：このStaticノードは空の配列から始まり、各反復後に**reducer**ノードの値で更新されます。
 3. **shift**：このノードは**fruits**ノードの値から最初の項目を取り出し、残りの配列と項目をプロパティとして出力します。
-4. **llm**：この計算ノードは、shiftノードの出力から項目プロパティを使用して「What is the typical color of ${:shift.item}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
+4. **llm**：このComputedノードは、shiftノードの出力からitemプロパティを使用して「What is the typical color of ${:shift.item}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
 5. **reducer**：このノードは**llm**ノードの出力の内容を**result**ノードの値に追加します。
 
 配列の各項目は順番に処理されることに注意してください。同時に処理するには、以下のマッピングのセクションを参照してください。
@@ -79,16 +79,16 @@ ${packages/samples/graph_data/openai/loop.yaml}
 ${packages/samples/graph_data/openai/map.yaml}
 ```
 
-1. **fruits**：この静的ノードはフルーツのリストを保持します。
+1. **fruits**：このStaticノードはフルーツのリストを保持します。
 2. **map**：このノードは**mapAgent**に関連付けられており、**fruits**ノードの値の各項目に対してネストされたグラフを実行し、結合された結果を出力することでマッピングを実行します。
-3. **llm**：この計算ノードは、**fruits**ノードの値から項目プロパティを使用して「What is the typical color of ${:row}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
+3. **llm**：このComputedノードは、**fruits**ノードの値からitemプロパティを使用して「What is the typical color of ${:row}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
 4. **result**：このノードは**llm**ノードの出力からcontent プロパティを取得します。
 
 配列の各項目は同時に処理されることに注意してください。
 
 ## チャットボット
 
-以下は、ユーザーが「/bye」と入力するまでLLMと会話できるループを使用したチャットボットアプリケーションです。
+以下は、ユーザーが「/bye」と入力するまでLLMと会話できるチャットボットアプリケーションです。
 
 ```YAML
 ${packages/samples/graph_data/openai/chat.yaml}
@@ -97,14 +97,14 @@ ${packages/samples/graph_data/openai/chat.yaml}
 1. ユーザーは「You:」というプロンプトでメッセージの入力を求められます。
 2. `userInput`がユーザーの入力を取得します。
 3. `checkInput`が入力が「/bye」かどうかを評価します。もしそうなら、`continue`が`false`に設定され、ループが停止します。
-4. `llm`は更新されたメッセージ配列を使用してAIモデルからの応答を生成します。
+4. `llm`は更新されたメッセージの配列を使用してAIモデルからの応答を生成します。
 5. `output`はAIエージェントの応答をフォーマットしてコンソールに出力します。
-6. `reducer`はAIエージェントの応答をメッセージ配列に追加します。
+6. `reducer`はAIエージェントの応答をメッセージの配列に追加します。
 7. `continue`が`true`である限り、ループは継続します。
 
-## 天気：関数呼び出しとネストされたグラフ
+## 天気：Function Callとネストされたグラフ
 
-以下は、関数呼び出し機能とネストされたグラフを使用する例です。
+以下は、OpenAIのFunction Call機能とネストされたグラフを使用する例です。
 
 ```YAML
 ${packages/samples/graph_data/openai/weather.yaml}
@@ -113,8 +113,8 @@ ${packages/samples/graph_data/openai/weather.yaml}
 1. **ループ実行**：`continue`ノードで指定された条件がfalseになるまでグラフは継続的にループします。
 2. **ユーザー入力プロンプト**：システムはユーザーに位置情報の入力を求めます。
 3. **ユーザー入力処理**：会話を継続すべきかどうかを判断するために入力がチェックされます。
-4. **メッセージ構築**：ユーザー入力が処理され、会話メッセージに追加されます。
-5. **LLM呼び出し**：システムは会話メッセージに基づいて応答を生成するためにAIモデルを呼び出します。
+4. **メッセージ構築**：ユーザー入力が処理され、会話に追加されます。
+5. **LLM呼び出し**：システムは会話に基づいて応答を生成するためにAIモデルを呼び出します。
 6. **ツール呼び出し**：AI応答にツール呼び出し（例：天気データの取得）が含まれている場合、ネストされたグラフがツール呼び出しを処理し、必要な情報を取得します。
 7. **出力生成**：取得した天気情報を含む最終的な応答がフォーマットされ、コンソールに出力されます。
 
@@ -122,7 +122,7 @@ ${packages/samples/graph_data/openai/weather.yaml}
 
 LLMにGraphAI yamlを動的に生成させて実行することも可能です。これはコードインタープリターと同等の機能です。
 
-以下に例を示します（マークダウンパーサーが埋め込まれたjsonタグで混乱するため、ここにコードを貼り付けることはできません）：
+以下に例を示します（Markdownパーサーが埋め込まれたjsonタグで混乱するため、ここにコードを貼り付けることはできません）：
 
 [https://github.com/receptron/graphai_samples/blob/main/samples/openai/metachat.yaml](https://github.com/receptron/graphai_samples/blob/main/samples/openai/metachat.yaml)
 
@@ -130,7 +130,7 @@ LLMにGraphAI yamlを動的に生成させて実行することも可能です�
 
 ## インメモリRAG
 
-このサンプルアプリケーションは、Wikipediaの記事をチャンクに分割し、それらのチャンクの埋め込みベクトルを取得し、コサイン類似度に基づいて適切なプロンプトを作成することで、インメモリRAGを実行します。
+このサンプルアプリケーションは、Wikipediaの記事をチャンクに分割し、それらのチャンクの埋め込みベクトルを取得、コサイン類似度に基づいて適切なプロンプトを作成することで、インメモリRAGを実行します。
 
 ```YAML
 ${packages/samples/graph_data/openai/wikipedia_rag.yaml}
