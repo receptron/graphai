@@ -8,7 +8,7 @@ const generateTitleFromFilename = (filename: string): string => {
 };
 
 export const generateSidebar = (dirRelativePath: string, sidebarTitle: string) => {
-  const targetDir = path.resolve(__dirname, `../../${dirRelativePath}`);
+  const targetDir = path.resolve(__dirname, `../../../${dirRelativePath}`);
   const categories = new Map();
 
   // Scan all folders in the directory
