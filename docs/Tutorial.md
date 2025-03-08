@@ -1,1 +1,1 @@
-See [Tutorial.md](./guide/Tutorial.md) for the updated location.
+See [tutorial.md](./guide/tutorial.md) for the updated location.
