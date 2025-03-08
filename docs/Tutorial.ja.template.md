@@ -43,7 +43,7 @@ graphai hello.yaml
 
 GraphAIには、*Computedノード*と*Staticノード*の2種類のノードがあります。
 
-Computedノードは特定の計算を実行する*エージェント*に関連付けられています。前の例の両方のノードは*Computedノード*です。
+Computedノードは特定のプログラムを実行する*エージェント*に関連付けられています。前の例の両方のノードは*Computedノード*です。
 
 Staticノードは、プログラミング言語における*変数*のように、値を保持する場所です。
 
@@ -53,9 +53,9 @@ Staticノードは、プログラミング言語における*変数*のように
 ${packages/samples/graph_data/openai/simple2.yaml}
 ```
 
-## ループ
+## loop(ループ)
 
-データフロー図は設計上、循環を含まないようになっていますが、loop、nested、if/unless、mapなどのいくつかの制御フロー機能を追加しています。
+GraphAIのデータフローは仕様上、循環を含まない（一度呼んだNodeを再度呼ばない)ようになっていますが、loop、nested、if/unless、map(mapreduceの機能の)などのいくつかの制御フロー機能を追加しています。
 
 以下は**loop**を使用した簡単なアプリケーションの例です。
 
@@ -63,15 +63,16 @@ ${packages/samples/graph_data/openai/simple2.yaml}
 ${packages/samples/graph_data/openai/loop.yaml}
 ```
 
-1. **fruits**：このStaticノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードの配列プロパティで更新されます。
-2. **result**：このStaticノードは空の配列から始まり、各反復後に**reducer**ノードの値で更新されます。
-3. **shift**：このノードは**fruits**ノードの値から最初の項目を取り出し、残りの配列と項目をプロパティとして出力します。
+1. **fruits**：このStaticノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードのarrayプロパティで更新されます。(`update: :shift.array`)
+2. **result**：このStaticノードは空の配列から始まり、各反復後に**reducer**ノードのarrayプロパティ値で更新されます。
+3. **shift**：このノードは**fruits**ノードの値から配列の１つ目の値を取り出し、残りの配列と共に`{ array, iten }`項目をプロパティとして出力します。
 4. **llm**：このComputedノードは、shiftノードの出力からitemプロパティを使用して「What is the typical color of ${:shift.item}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
-5. **reducer**：このノードは**llm**ノードの出力の内容を**result**ノードの値に追加します。
+5. **reducer**：このノードは**result**ノードの入れるに、**llm**ノードの結果`{text}`を追加します。
 
-配列の各項目は順番に処理されることに注意してください。同時に処理するには、以下のマッピングのセクションを参照してください。
+配列の各項目は順番に処理されることに注意してください。**fruits**ノードの配列が空になるまで反復(loop)します。
+同時に処理するには、以下のマッピングのセクションを参照してください。
 
-## マッピング
+## Map(mapAgent)
 
 以下は**map**を使用した簡単なアプリケーションの例です。
 
@@ -82,7 +83,7 @@ ${packages/samples/graph_data/openai/map.yaml}
 1. **fruits**：このStaticノードはフルーツのリストを保持します。
 2. **map**：このノードは**mapAgent**に関連付けられており、**fruits**ノードの値の各項目に対してネストされたグラフを実行し、結合された結果を出力することでマッピングを実行します。
 3. **llm**：このComputedノードは、**fruits**ノードの値からitemプロパティを使用して「What is the typical color of ${:row}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
-4. **result**：このノードは**llm**ノードの出力からcontent プロパティを取得します。
+4. **result**：このノードは**llm**ノードの出力からtext プロパティを取得します。
 
 配列の各項目は同時に処理されることに注意してください。
 
@@ -102,9 +103,9 @@ ${packages/samples/graph_data/openai/chat.yaml}
 6. `reducer`はAIエージェントの応答をメッセージの配列に追加します。
 7. `continue`が`true`である限り、ループは継続します。
 
-## 天気：Function Callとネストされたグラフ
+## 天気：Function Callingとネストされたグラフ
 
-以下は、OpenAIのFunction Call機能とネストされたグラフを使用する例です。
+以下は、OpenAIのFunction Callingとネスト(入れ子)されたグラフを使用する例です。
 
 ```YAML
 ${packages/samples/graph_data/openai/weather.yaml}
@@ -115,7 +116,7 @@ ${packages/samples/graph_data/openai/weather.yaml}
 3. **ユーザー入力処理**：会話を継続すべきかどうかを判断するために入力がチェックされます。
 4. **メッセージ構築**：ユーザー入力が処理され、会話に追加されます。
 5. **LLM呼び出し**：システムは会話に基づいて応答を生成するためにAIモデルを呼び出します。
-6. **ツール呼び出し**：AI応答にツール呼び出し（例：天気データの取得）が含まれている場合、ネストされたグラフがツール呼び出しを処理し、必要な情報を取得します。
+6. **ツール呼び出し**：AI応答にツール呼び出し（例：天気データの取得）が含まれている場合、ネストされたグラフがtool callを処理し、必要な情報を取得します。
 7. **出力生成**：取得した天気情報を含む最終的な応答がフォーマットされ、コンソールに出力されます。
 
 ## 動的グラフ生成
