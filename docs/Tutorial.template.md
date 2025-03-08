@@ -79,7 +79,7 @@ ${packages/samples/graph_data/openai/map.yaml}
 1. **fruits**: This static node holds the list of fruits.
 2. **map**: This node is associated with **mapAgent**, which performs the mapping, by executing the nested graph for each item for the value of **fruits** node, and outputs the combined results.
 3. **llm**: This computed node generates a prompt using the template "What is the typical color of ${:row}? Just answer the color." by applying the item property from  the value of **fruits** node. It then passes this prompt to gpt-4o to obtain the generated result.
-4. **result**: This node retrieves the content property from the output of **llm** node.
+4. **result**: This node retrieves the text property from the output of **llm** node.
 
 Please notice that each item in the array will be processed concurrently.
 
@@ -99,9 +99,9 @@ ${packages/samples/graph_data/openai/chat.yaml}
 6. `reducer` appends the AI agent's response to the messages array.
 7. The loop continues as long as `continue` is `true`.
 
-## Weather: Function Call and nested graph
+## Weather: Function Calling and nested graph
 
-Here is an example, which uses the function call capability and nested graph.
+Here is an example, which uses the function calling capability and nested graph.
 
 ```YAML
 ${packages/samples/graph_data/openai/weather.yaml}
