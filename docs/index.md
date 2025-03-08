@@ -12,7 +12,7 @@ hero:
       link: /guide/tutorial
     - theme: alt
       text: Agents
-      link: /agents/array/arrayFlatAgent
+      link: /agentDocs/array/arrayFlatAgent
   image:
     src: images/logo.png
     alt: GraphAI Logo
