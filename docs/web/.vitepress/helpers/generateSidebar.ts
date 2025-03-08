@@ -120,5 +120,5 @@ export const generateAgentsSidebar = () => {
 };
 
 export const generateApiDocSidebar = () => {
-  return generateSidebar("apiDoc", "API Docs");
+  return generateSidebar("apiDocMd", "API Docs");
 };
