@@ -111,7 +111,7 @@ export const graph_data = {
     continue: {
       // Holds a boolean data if we need to continue this chat or not.
       value: true,
-      update: ":checkInput",
+      update: ":checkInput.result",
     },
     messages: {
       // Holds the conversation, array of messages.
