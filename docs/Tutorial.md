@@ -182,7 +182,7 @@ loop:
 nodes:
   continue:
     value: true
-    update: :checkInput
+    update: :checkInput.result
   messages:
     value: []
     update: :llm.messages
@@ -234,7 +234,7 @@ loop:
 nodes:
   continue:
     value: true
-    update: :checkInput
+    update: :checkInput.result
   messages:
     value:
       - role: system
