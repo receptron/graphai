@@ -87,7 +87,7 @@ export default defineConfig({
     },
     socialLinks: [{ icon: "github", link: "https://github.com/receptron/graphai" }],
     editLink: {
-      pattern: "https://github.com/receptron/website/edit/main/docs/:path",
+      pattern: "https://github.com/receptron/graphai/edit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
     search: {
@@ -122,6 +122,10 @@ export default defineConfig({
               link: "/ja/guide/tutorial",
             },
           ],
+        },
+        editLink: {
+          pattern: "https://github.com/receptron/graphai/edit/main/docs/:path",
+          text: "GitHubで編集",
         },
       },
     },
