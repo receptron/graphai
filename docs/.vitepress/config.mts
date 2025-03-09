@@ -1,8 +1,7 @@
 import { defineConfig } from "vitepress";
 import { generateAgentsSidebar, generateApiDocSidebar } from "./helpers/generateSidebar";
 
-// TODO: change to the actual domain
-const HOST_NAME = "https://graphai-web.web.app";
+const HOST_NAME = "https://graphai.info";
 
 const agentsSidebar = generateAgentsSidebar();
 const apiDocSidebar = generateApiDocSidebar();
