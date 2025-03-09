@@ -13,7 +13,6 @@ export default defineConfig({
   lastUpdated: true,
   ignoreDeadLinks: true,
   titleTemplate: ":title - GraphAI",
-  srcDir: "../",
   sitemap: {
     hostname: HOST_NAME,
   },
