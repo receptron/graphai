@@ -31,7 +31,7 @@ It has two nodes:
 1. **llm**: This node is associated with "openAIAgent", which calls OpenAI's chat completion API. It takes "Explain ML's transformer in 100 words." as an input (the user prompt) and outputs the result from the chat completion API. 
 2. **output**: This node receives the output of the **llm** node, as an input, and print it out to the console.
 
-Notice that **llm** node will be executed immediately because all the inputs are available at the beginning, while **output** will be executed when the data from **llm** node becomes available.
+Notice that **llm** node will be executed immediately because all the inputs are available at the beginning, while **output** node will be executed when the data from **llm** node becomes available.
 
 ## Installation
 
@@ -48,7 +48,7 @@ After that you prepare the yaml file (such as "hello.yaml"), and type
 graphai hello.yaml
 ```
 
-Many sample GraphAI YAML files are available under [Graphai Samples](https://github.com/receptron/graphai_samples).
+Many sample GraphAI YAML files are available under [GraphAI Samples](https://github.com/receptron/graphai_samples).
 
 ## Computed Node and Static Node
 
@@ -58,7 +58,7 @@ A computed node is associated with an *agent*, which performs a certain computat
 
 A *static nodes* is a place holder of a value, just like a *variable* in computer languages.
 
-The example below performs the same operation, but uses one *static node*, **prompt**, which holds the value "Explain ML's transformer in 100 words".
+The example below performs the same operation as the previous example, but uses one *static node*, **prompt**, which holds the value "Explain ML's transformer in 100 words".
 
 ```YAML
 version: 0.5
@@ -82,10 +82,10 @@ nodes:
 
 ```
 
-## Loop
-
+## Loop / Mapping
 The dataflow graph needs to be acyclic by design, but we added a few control flow mechanisms, such as loop, nesting, if/unless and mapping (of map-reduce). 
 
+### Loop
 Here is a simple application, which uses **loop**.
 
 ```YAML
@@ -129,7 +129,7 @@ nodes:
 
 Please notice that each item in the array will be processed sequentially. To process them concurrently, see the section below. 
 
-## Mapping
+### Mapping
 
 Here is a simple application, which uses **map**.
 

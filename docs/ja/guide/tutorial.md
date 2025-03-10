@@ -31,7 +31,7 @@ nodes:
 1. **llm**：このノードは「openAIAgent」を実行するノードで、OpenAIの Chat Completion APIを呼びます。入力として「Explain ML's transformer in 100 words.」（ユーザープロンプト）を受け取り、Chat Completion APIの実行結果を返します。
 2. **output**：このノードは**llm**ノードの出力を入力として受け取り、コンソールに出力します。
 
-注目すべき点として、**llm**ノードは必要な入力がすべて開始時に利用可能なため即座に実行されますが、**output**は**llm**ノードからのデータが利用可能になった時点で実行されます。
+注目すべき点として、**llm**ノードは必要な入力がすべて開始時に利用可能なため即座に実行されますが、**output**ノードは**llm**ノードからのデータが利用可能になった時点で実行されます。
 
 ## インストール
 
@@ -53,7 +53,7 @@ OPENAI_API_KEY=sk-...
 graphai hello.yaml
 ```
 
-多くのGraphAI YAMLファイルのサンプルは[Graphai Samples](https://github.com/receptron/graphai_samples)で入手可能です。
+GraphAI YAML ファイルの各種サンプルは[GraphAI Samples](https://github.com/receptron/graphai_samples)で入手可能です。
 
 ## ComputedノードとStaticノード
 
@@ -87,10 +87,10 @@ nodes:
 
 ```
 
-## ループ
+## ループ / マッピング
+データフロー図は設計上、循環を含まないようになっています(非循環的である必要がある)が、loop、nested、if/unless、mapなどのいくつかの制御フロー機能を追加しています。
 
-データフロー図は設計上、循環を含まないようになっていますが、loop、nested、if/unless、mapなどのいくつかの制御フロー機能を追加しています。
-
+### ループ
 以下は**loop**を使用した簡単なアプリケーションの例です。
 
 ```YAML
@@ -132,9 +132,9 @@ nodes:
 4. **llm**：このComputedノードは、shiftノードの出力からitemプロパティを使用して「What is the typical color of ${:shift.item}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
 5. **reducer**：このノードは**llm**ノードの出力の内容を**result**ノードの値に追加します。
 
-配列の各項目は順番に処理されることに注意してください。同時に処理するには、以下のマッピングのセクションを参照してください。
+配列の各項目は順番に処理されることに注意してください。並列に処理するには、以下のマッピングのセクションを参照してください。
 
-## マッピング
+### マッピング
 
 以下は**map**を使用した簡単なアプリケーションの例です。
 
@@ -174,7 +174,7 @@ nodes:
 3. **llm**：このComputedノードは、**fruits**ノードの値からitemプロパティを使用して「What is the typical color of ${:row}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
 4. **result**：このノードは**llm**ノードの出力からcontent プロパティを取得します。
 
-配列の各項目は同時に処理されることに注意してください。
+配列の各項目は並列に処理されることに注意してください。
 
 ## チャットボット
 
