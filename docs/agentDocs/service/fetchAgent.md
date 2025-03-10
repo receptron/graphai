@@ -79,6 +79,18 @@ Retrieves JSON data from the specified URL
   ":agentId.method",
   ":agentId.url",
   ":agentId.headers",
+  ":agentId.headers.x-myHeader",
+  ":agentId.body"
+]
+
+````
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
   ":agentId.headers.Content-Type",
   ":agentId.body"
 ]
@@ -127,6 +139,46 @@ Retrieves JSON data from the specified URL
 
 ````
 ### Sample1
+
+#### inputs
+
+```json
+
+{
+  "url": "https://www.google.com",
+  "queryParams": {
+    "foo": "bar"
+  },
+  "headers": {
+    "x-myHeader": "secret"
+  },
+  "method": "GET"
+}
+
+````
+
+#### params
+
+```json
+
+{"debug":true}
+
+````
+
+#### result
+
+```json
+
+{
+  "method": "GET",
+  "url": "https://www.google.com/?foo=bar",
+  "headers": {
+    "x-myHeader": "secret"
+  }
+}
+
+````
+### Sample2
 
 #### inputs
 
