@@ -1,3 +1,7 @@
+/*
+  This agent is a fetch agent used when XML parsing is required.
+  Normally, please use the vanillaFetchAgent.
+ */
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 import type { GraphAIDebug, GraphAIThrowError, GraphAIOnError } from "@graphai/agent_utils";
 import { parseStringPromise } from "xml2js";
@@ -36,7 +40,8 @@ export const fetchAgent: AgentFunction<
   }
 
   const fetchOptions: RequestInit = {
-    method: (method ?? body) ? "POST" : "GET",
+    // method: (method ?? body) ? "POST" : "GET",
+    method: method ? method.toUpperCase() : body ? "POST" : "GET",
     headers: new Headers(headers0),
     body: body ? JSON.stringify(body) : undefined,
   };
@@ -120,6 +125,20 @@ const fetchAgentInfo: AgentFunctionInfo = {
   samples: [
     {
       inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" } },
+      params: {
+        debug: true,
+      },
+      result: {
+        method: "GET",
+        url: "https://www.google.com/?foo=bar",
+        headers: {
+          "x-myHeader": "secret",
+        },
+        body: undefined,
+      },
+    },
+    {
+      inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" }, method: "GET" },
       params: {
         debug: true,
       },
