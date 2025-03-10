@@ -15,7 +15,8 @@ const fetchAgent = async ({ namedInputs, params }) => {
         headers0["Content-Type"] = "application/json";
     }
     const fetchOptions = {
-        method: (method ?? body) ? "POST" : "GET",
+        // method: (method ?? body) ? "POST" : "GET",
+        method: method ? method.toUpperCase() : body ? "POST" : "GET",
         headers: new Headers(headers0),
         body: body ? JSON.stringify(body) : undefined,
     };
@@ -96,6 +97,20 @@ const fetchAgentInfo = {
     samples: [
         {
             inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" } },
+            params: {
+                debug: true,
+            },
+            result: {
+                method: "GET",
+                url: "https://www.google.com/?foo=bar",
+                headers: {
+                    "x-myHeader": "secret",
+                },
+                body: undefined,
+            },
+        },
+        {
+            inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" }, method: "GET" },
             params: {
                 debug: true,
             },
