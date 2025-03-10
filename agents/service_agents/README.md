@@ -61,6 +61,25 @@ const result = await graph.run();
 {
   "inputs": {
     "url": "https://www.google.com",
+    "queryParams": {
+      "foo": "bar"
+    },
+    "headers": {
+      "x-myHeader": "secret"
+    },
+    "method": "GET"
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "url": "https://www.google.com",
     "body": {
       "foo": "bar"
     }
