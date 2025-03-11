@@ -7,7 +7,7 @@ export const graph_data = {
   nodes: {
     url: {
       // Holds the RSS feed URL
-      value: "https://www.theverge.com/microsoft/rss/index.xml",
+      value: "https://www.theverge.com/rss/index.xml",
     },
     rssFeed: {
       // Fetchs the RSS feed from the specified feed
@@ -48,7 +48,7 @@ export const graph_data = {
             agent: "groqAgent",
             params: {
               model: "Llama3-8b-8192", // "mixtral-8x7b-32768",
-              query: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
+              system: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
             },
             inputs: { prompt: ":template" },
           },
