@@ -41,13 +41,13 @@ export const graph_data = {
             params: {
               template: "Title:${t}\n${c}",
             },
-            inputs: { t: ":row.title", c: ":row.content._" },
+            inputs: { t: ":row.title._", c: ":row.content._" },
           },
           query: {
             // Asks the LLM to summarize it
-            agent: "groqAgent",
+            agent: "openAIAgent",
             params: {
-              model: "Llama3-8b-8192", // "mixtral-8x7b-32768",
+              model: "gpt-4o-mini",
               system: "次のHTMLからテキストだけを抜き出し、省略せずに、全文を日本語に翻訳して。余計なことは言わずに、翻訳した文章だけ答えて。",
             },
             inputs: { prompt: ":template" },
