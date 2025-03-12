@@ -2,6 +2,7 @@
 
 GraphAI is an asynchronous data flow execution engine, which allows developers to build *agentic applications* by describing *agent workflows* as declarative data flow graphs in YAML or JSON. 
 
+Official Website: [https://graphai.info](https://graphai.info)
 
 ### SPECS
 - [Scientific Paper](./docs/Paper.md)
@@ -44,4 +45,3 @@ https://github.com/receptron/graphai-demo-web
 
 ### Grapys - GraphAI GUI tool
 https://github.com/receptron/grapys
-
