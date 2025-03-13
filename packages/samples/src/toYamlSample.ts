@@ -34,7 +34,7 @@ const update = (nodes: Record<string, NodeData>, toLlmAgent: string): Record<str
       if (["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(node.agent)) {
         tmp[key] = updateAgent(node, toLlmAgent);
         return tmp;
-      } else if (node.graph && typeof node.graph !== 'string' && node.graph.nodes) {
+      } else if (node.graph && typeof node.graph !== "string" && node.graph.nodes) {
         node.graph.nodes = update(node.graph.nodes, toLlmAgent);
         tmp[key] = node;
         return tmp;
@@ -103,4 +103,3 @@ write(loop_people, "openAIAgent", "test", "loop.yaml");
   write(simple2, agent, dir, "simple2.yaml");
   write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
 });
-
