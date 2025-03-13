@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { fileTestRunner } from "../utils/runner";
 
-import { slashGPTAgent } from "@graphai/agents";
+import * as agents from "@graphai/agents";
 import { arxivAgent, arxiv2TextAgent } from "../utils/agents/arxiv_agent";
 
 import { agentInfoWrapper } from "graphai";
@@ -11,7 +11,7 @@ export const main = async () => {
   const res = await fileTestRunner("/net/arxiv.yml", {
     arxivAgent: agentInfoWrapper(arxivAgent),
     arxiv2TextAgent: agentInfoWrapper(arxiv2TextAgent),
-    slashGPTAgent,
+    ...agents,
   });
   console.log(res);
   console.log("COMPLETE 1");
