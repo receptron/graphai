@@ -1,4 +1,4 @@
-import { GraphData, NodeData } from "graphai";
+import { GraphData, NodeData, isComputedNodeData } from "graphai";
 import { stringify, parse } from "yaml";
 import { writeFileSync, readFileSync } from "fs";
 
@@ -11,9 +11,6 @@ import { graph_data as wikipedia } from "./embeddings/wikipedia";
 
 import { graph_data as loop_people } from "./test/loop";
 
-const isObject = (x: unknown): x is Record<string, any> => {
-  return x !== null && typeof x === "object";
-};
 const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
   agentData.agent = toLlmAgent === "ollamaAgent" ? "openAIAgent" : toLlmAgent;
   const params = agentData.params ?? {};
@@ -30,19 +27,20 @@ const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
   return agentData;
 };
 
-const update = (nodes: any, toLlmAgent: string): any => {
+const update = (nodes: Record<string, NodeData>, toLlmAgent: string): Record<string, NodeData> => {
   return Object.keys(nodes).reduce((tmp: Record<string, any>, key: string) => {
     const node = nodes[key];
-    if (node.agent && ["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(node.agent)) {
-      tmp[key] = updateAgent(node, toLlmAgent);
-    } else {
-      if (node.graph && node.graph.nodes) {
+    if (isComputedNodeData(node) && typeof node.agent === "string") {
+      if (["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(node.agent)) {
+        tmp[key] = updateAgent(node, toLlmAgent);
+        return tmp;
+      } else if (node.graph && typeof node.graph !== 'string' && node.graph.nodes) {
         node.graph.nodes = update(node.graph.nodes, toLlmAgent);
         tmp[key] = node;
-      } else {
-        tmp[key] = node;
+        return tmp;
       }
     }
+    tmp[key] = node;
     return tmp;
   }, {});
 };
