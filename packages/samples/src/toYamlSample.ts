@@ -1,3 +1,4 @@
+import { GraphData, NodeData } from "graphai";
 import { stringify, parse } from "yaml";
 import { writeFileSync, readFileSync } from "fs";
 
@@ -29,24 +30,24 @@ const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
   return agentData;
 };
 
-const update = (graph_data: any, toLlmAgent: string): any => {
-  if (Array.isArray(graph_data)) {
-    return graph_data.map((g) => update(g, toLlmAgent));
-  }
-  if (isObject(graph_data)) {
-    return Object.keys(graph_data).reduce((tmp: Record<string, any>, key: string) => {
-      if (graph_data[key].agent && ["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(graph_data[key].agent)) {
-        tmp[key] = updateAgent(graph_data[key], toLlmAgent);
+const update = (nodes: any, toLlmAgent: string): any => {
+  return Object.keys(nodes).reduce((tmp: Record<string, any>, key: string) => {
+    const node = nodes[key];
+    if (node.agent && ["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(node.agent)) {
+      tmp[key] = updateAgent(node, toLlmAgent);
+    } else {
+      if (node.graph && node.graph.nodes) {
+        node.graph.nodes = update(node.graph.nodes, toLlmAgent);
+        tmp[key] = node;
       } else {
-        tmp[key] = update(graph_data[key], toLlmAgent);
+        tmp[key] = node;
       }
-      return tmp;
-    }, {});
-  }
-  return graph_data;
+    }
+    return tmp;
+  }, {});
 };
 
-const write = (graph_data: any, toLlmAgent: string, dirname: string, filename: string) => {
+const write = (graph_data: GraphData, toLlmAgent: string, dirname: string, filename: string) => {
   graph_data.nodes = update(graph_data.nodes, toLlmAgent);
 
   const path = __dirname + "/../graph_data/" + dirname + "/" + filename;
