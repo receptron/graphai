@@ -68,6 +68,18 @@ const simple2 = readYaml("simple2.yaml");
 const dispatcher = readYaml("dispatcher.yaml");
 const business_idea_jp = readYaml("business_idea_jp.yaml");
 
+[["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
+  write(chat, agent, dir, "chat.yaml");
+
+  //
+  write(loop, agent, dir, "loop.yaml");
+  write(map, agent, dir, "map.yaml");
+  write(simple, agent, dir, "simple.yaml");
+  write(simple2, agent, dir, "simple2.yaml");
+});
+
+write(loop_people, "openAIAgent", "test", "loop.yaml");
+
 [
   ["openAIAgent", "openai"],
   ["geminiAgent", "google"],
@@ -92,14 +104,3 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
 });
 
-[["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
-  write(chat, agent, dir, "chat.yaml");
-
-  //
-  write(loop, agent, dir, "loop.yaml");
-  write(map, agent, dir, "map.yaml");
-  write(simple, agent, dir, "simple.yaml");
-  write(simple2, agent, dir, "simple2.yaml");
-});
-
-write(loop_people, "openAIAgent", "test", "loop.yaml");

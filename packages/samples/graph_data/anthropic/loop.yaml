@@ -18,8 +18,7 @@ nodes:
       array: :fruits
   llm:
     agent: anthropicAgent
-    params:
-      baseURL: http://127.0.0.1:11434/v1
+    params: {}
     inputs:
       prompt: What is the typical color of ${:shift.item}? Just answer the color.
   reducer:

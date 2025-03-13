@@ -23,8 +23,7 @@ nodes:
         - /bye
   llm:
     agent: anthropicAgent
-    params:
-      baseURL: http://127.0.0.1:11434/v1
+    params: {}
     inputs:
       messages: :messages
       prompt: :userInput.text
