@@ -1,4 +1,4 @@
-import { GraphData, NodeData, isComputedNodeData } from "graphai";
+import { GraphData, NodeData, ComputedNodeData, isComputedNodeData } from "graphai";
 import { stringify, parse } from "yaml";
 import { writeFileSync, readFileSync } from "fs";
 
@@ -11,7 +11,7 @@ import { graph_data as wikipedia } from "./embeddings/wikipedia";
 
 import { graph_data as loop_people } from "./test/loop";
 
-const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
+const updateAgent = (agentData: ComputedNodeData, toLlmAgent: string) => {
   agentData.agent = toLlmAgent === "ollamaAgent" ? "openAIAgent" : toLlmAgent;
   const params = agentData.params ?? {};
   if (toLlmAgent === "groqAgent") {
@@ -28,7 +28,7 @@ const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
 };
 
 const update = (nodes: Record<string, NodeData>, toLlmAgent: string): Record<string, NodeData> => {
-  return Object.keys(nodes).reduce((tmp: Record<string, any>, key: string) => {
+  return Object.keys(nodes).reduce((tmp: Record<string, NodeData>, key: string) => {
     const node = nodes[key];
     if (isComputedNodeData(node) && typeof node.agent === "string") {
       if (["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(node.agent)) {
