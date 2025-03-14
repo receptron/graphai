@@ -7,7 +7,6 @@ import { defaultTestContext } from "graphai";
 export const main = async () => {
   const res = await openAIAgent.agent({
     ...defaultTestContext,
-    inputs: [],
     params: {
       stream: true,
     },
@@ -24,7 +23,6 @@ export const main = async () => {
 
   const resMock = await openAIMockAgent({
     ...defaultTestContext,
-    inputs: [],
     namedInputs: { prompt: "日本の歴史について200文字でまとめてください" },
     ...{
       filterParams: {
