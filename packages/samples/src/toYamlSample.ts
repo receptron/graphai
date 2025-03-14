@@ -68,6 +68,7 @@ const simple = readYaml("simple.yaml");
 const simple2 = readYaml("simple2.yaml");
 const dispatcher = readYaml("dispatcher.yaml");
 const business_idea_jp = readYaml("business_idea_jp.yaml");
+const arxiv = readYaml("arxiv.yaml");
 
 [
   ["openAIAgent", "openai"],
@@ -79,6 +80,7 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   if (dir === "openai") {
     write(metachat, agent, dir, "metachat.yaml");
     write(dispatcher, agent, dir, "dispatcher.yaml");
+    write(arxiv, agent, dir, "arxiv.yaml");
   }
 
   write(reception, agent, dir, "reception.yaml");
