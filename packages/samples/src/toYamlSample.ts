@@ -67,6 +67,7 @@ const simple = readYaml("simple.yaml");
 const simple2 = readYaml("simple2.yaml");
 const dispatcher = readYaml("dispatcher.yaml");
 const business_idea_jp = readYaml("business_idea_jp.yaml");
+const arxiv = readYaml("arxiv.yaml");
 
 [["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
   write(chat, agent, dir, "chat.yaml");
@@ -90,6 +91,7 @@ write(loop_people, "openAIAgent", "test", "loop.yaml");
   if (dir === "openai") {
     write(metachat, agent, dir, "metachat.yaml");
     write(dispatcher, agent, dir, "dispatcher.yaml");
+    write(arxiv, agent, dir, "arxiv.yaml");
   }
 
   write(reception, agent, dir, "reception.yaml");
