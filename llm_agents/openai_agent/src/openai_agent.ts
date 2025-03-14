@@ -196,12 +196,12 @@ export const openAIMockAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIIn
   }
   const message = {
     role: "user" as const,
-    content: input_sample
+    content: input_sample,
   };
   return {
     text: input_sample,
     message,
-    messages: [message]
+    messages: [message],
   };
 };
 const openaiAgentInfo: AgentFunctionInfo = {

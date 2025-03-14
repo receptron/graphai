@@ -85,7 +85,6 @@ const main = async () => {
   await test_fibonacci();
   await test_loop();
 
-
   // interaction
   await interaction_select();
 
