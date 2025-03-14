@@ -154,12 +154,12 @@ const openAIMockAgent = async ({ filterParams }) => {
     }
     const message = {
         role: "user",
-        content: input_sample
+        content: input_sample,
     };
     return {
         text: input_sample,
         message,
-        messages: [message]
+        messages: [message],
     };
 };
 exports.openAIMockAgent = openAIMockAgent;
