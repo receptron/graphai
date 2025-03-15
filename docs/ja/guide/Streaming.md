@@ -42,7 +42,7 @@ GraphAIでは、サーバーサイド、クライアントサイド、または�
 
 ## agentFilter
 
-この節では、`streamAgentFilterGenerator`関数を使用してストリーミング処理用の`agentFilter`を作成する方法を説明します。コールバック関数を指定することで、リアルタイムでデータを処理できる`agentFilter`を取得できます。
+このセクションでは、`streamAgentFilterGenerator`関数を使用してストリーミング処理用の`agentFilter`を作成する方法を説明します。コールバック関数を指定することで、リアルタイムでデータを処理できる`agentFilter`を取得できます。
 
 ```typescript
 export const streamAgentFilterGenerator = <T>(callback: (context: AgentFunctionContext, data: T) => void) => {
@@ -87,7 +87,7 @@ const myAgentFilter = streamAgentFilterGenerator(myCallback);
 - `graphai.run()`から全体の結果を取得
 - デリミタやデータ形式を考慮する必要なく、実装側でストリーミングと結果処理を制御可能
 
-### 2. Expressの使用
+### 2. Expressでの使用
 
 - HTTPの仕組みにより、文字列が逐次送信される
 - デフォルトでは、トークン（文字列）が逐次ストリーミングされ、`__END__`デリミタの後に結果（content）がJSON文字列として返される
