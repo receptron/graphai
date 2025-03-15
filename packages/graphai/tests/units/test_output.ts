@@ -37,3 +37,36 @@ test("test output format", async () => {
     },
   });
 });
+
+
+test("test output format prop func", async () => {
+  const graph_data = {
+    version: graphDataLatestVersion,
+    nodes: {
+      message: {
+        value: {
+          data: "Hello World",
+          
+        },
+      },
+      result: {
+        agent: "copyAgent",
+        inputs: {
+          data: ":message",
+        },
+        isResult: true,
+        output: {
+          json: ".data.toJSON()",
+        },
+      },
+    },
+  };
+
+  const graph = new GraphAI(graph_data, agents);
+  const result = await graph.run();
+  assert.deepStrictEqual(result, {
+    result: {
+      json: '{"data":"Hello World"}'
+    },
+  });
+});
