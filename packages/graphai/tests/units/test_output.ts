@@ -38,7 +38,6 @@ test("test output format", async () => {
   });
 });
 
-
 test("test output format prop func", async () => {
   const graph_data = {
     version: graphDataLatestVersion,
@@ -46,7 +45,6 @@ test("test output format prop func", async () => {
       message: {
         value: {
           data: "Hello World",
-          
         },
       },
       result: {
@@ -66,7 +64,7 @@ test("test output format prop func", async () => {
   const result = await graph.run();
   assert.deepStrictEqual(result, {
     result: {
-      json: '{"data":"Hello World"}'
+      json: '{"data":"Hello World"}',
     },
   });
 });
