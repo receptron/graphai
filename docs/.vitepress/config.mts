@@ -119,6 +119,15 @@ export default defineConfig({
               text: "Tutorial",
               link: "/ja/guide/tutorial",
             },
+            {
+              text: "Async",
+              link: "/ja/guide/Async",
+            },
+            {
+              text: "Streaming",
+              link: "/ja/guide/Streaming",
+            },
+            
           ],
         },
         editLink: {
