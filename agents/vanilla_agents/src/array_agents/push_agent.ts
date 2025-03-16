@@ -6,8 +6,8 @@ export const pushAgent: AgentFunction<null, GraphAIArray, GraphAIArrayWithOption
   const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
   arrayValidate("pushAgent", namedInputs, extra_message);
   const { item, items } = namedInputs;
-  assert(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
-  assert(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
+  assert(item !== undefined || items !== undefined, "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+  assert(items === undefined || Array.isArray(items), "pushAgent: namedInputs.items is not array!");
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
   if (item) {
