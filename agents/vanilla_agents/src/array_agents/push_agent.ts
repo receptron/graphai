@@ -60,6 +60,11 @@ const pushAgentInfo: AgentFunctionInfo = {
       result: { array: [1, 2, 3] },
     },
     {
+      inputs: { array: [true, false], item: false },
+      params: {},
+      result: { array: [true, false, false] },
+    },
+    {
       inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
       params: {},
       result: { array: [{ apple: 1 }, { lemon: 2 }] },
