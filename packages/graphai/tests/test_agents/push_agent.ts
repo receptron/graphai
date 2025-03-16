@@ -34,11 +34,11 @@ const pushAgentInfo: AgentFunctionInfo = {
         description: "the array to push an item to",
       },
       item: {
-        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+        anyOf: [{ type: "boolean" }, { type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
         description: "the item push into the array",
       },
       items: {
-        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+        type: "array",
         description: "the item push into the array",
       },
     },
