@@ -10,7 +10,7 @@ export const pushAgent: AgentFunction<null, GraphAIArray, GraphAIArrayWithOption
   assert(items === undefined || Array.isArray(items), "pushAgent: namedInputs.items is not array!");
 
   const array = namedInputs.array.map((item: any) => item); // shallow copy
-  if (item) {
+  if (item !== undefined) {
     array.push(item);
   }
   if (items) {
