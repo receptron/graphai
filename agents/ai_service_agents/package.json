@@ -1,0 +1,36 @@
+{
+  "name": "@graphai/ai_service_agents",
+  "version": "0.1.0",
+  "description": "GraphAI agents for AI services like Response API and Mistral OCR",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf lib",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "graphai",
+    "agents",
+    "ai",
+    "response-api",
+    "mistral-ocr"
+  ],
+  "author": "GraphAI Contributors",
+  "license": "MIT",
+  "dependencies": {
+    "@graphai/agent_utils": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.11",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "@graphai/agent_utils": "^0.5.0"
+  }
+}

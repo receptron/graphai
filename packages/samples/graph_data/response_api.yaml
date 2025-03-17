@@ -1,0 +1,42 @@
+version: 0.5
+nodes:
+  # Configuration
+  apiConfig:
+    value:
+      model: "gpt-4"
+      temperature: 0.7
+      maxTokens: 1000
+      apiKey: "${RESPONSE_API_KEY}"
+  
+  # User input
+  userQuery:
+    agent: textInputAgent
+    params:
+      message: "Enter your query:"
+  
+  # Process query
+  response:
+    agent: responseApiAgent
+    params:
+      model: ":apiConfig.model"
+      temperature: ":apiConfig.temperature"
+      maxTokens: ":apiConfig.maxTokens"
+      apiKey: ":apiConfig.apiKey"
+      debug: true
+    inputs:
+      query: ":userQuery.text"
+  
+  # Display result
+  output:
+    agent: stringTemplateAgent
+    inputs:
+      text: "Response: ${:response.response}\n\nModel: ${:response.metadata.model}\nTokens used: ${:response.metadata.usage.total_tokens}"
+    console:
+      after: true
+  
+  # Save result
+  result:
+    agent: copyAgent
+    inputs:
+      data: ":response"
+    isResult: true

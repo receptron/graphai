@@ -1,0 +1,43 @@
+version: 0.5
+nodes:
+  # Configuration
+  ocrConfig:
+    value:
+      outputFormat: "full"
+      saveImages: true
+      imagesDir: "output/images"
+      markdownDir: "output/markdown"
+      apiKey: "${MISTRAL_API_KEY}"
+  
+  # File input
+  pdfPath:
+    agent: textInputAgent
+    params:
+      message: "Enter PDF path:"
+  
+  # Process OCR
+  ocrResult:
+    agent: mistralOcrAgent
+    params:
+      outputFormat: ":ocrConfig.outputFormat"
+      saveImages: ":ocrConfig.saveImages"
+      imagesDir: ":ocrConfig.imagesDir"
+      markdownDir: ":ocrConfig.markdownDir"
+      apiKey: ":ocrConfig.apiKey"
+    inputs:
+      pdfPath: ":pdfPath.text"
+  
+  # Display result
+  output:
+    agent: stringTemplateAgent
+    inputs:
+      text: "OCR processing complete. Text content: ${:ocrResult.text_content}"
+    console:
+      after: true
+  
+  # Save result
+  result:
+    agent: copyAgent
+    inputs:
+      data: ":ocrResult"
+    isResult: true

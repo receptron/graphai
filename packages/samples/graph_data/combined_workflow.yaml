@@ -1,0 +1,69 @@
+version: 0.5
+nodes:
+  # Configuration
+  config:
+    value:
+      responseApi:
+        model: "gpt-4"
+        temperature: 0.7
+        maxTokens: 1500
+        apiKey: "${RESPONSE_API_KEY}"
+      mistralOcr:
+        outputFormat: "full"
+        saveImages: true
+        imagesDir: "output/images"
+        markdownDir: "output/markdown"
+        apiKey: "${MISTRAL_API_KEY}"
+  
+  # File input
+  pdfPath:
+    agent: textInputAgent
+    params:
+      message: "Enter PDF path:"
+  
+  # Process OCR
+  ocrResult:
+    agent: mistralOcrAgent
+    params:
+      outputFormat: ":config.mistralOcr.outputFormat"
+      saveImages: ":config.mistralOcr.saveImages"
+      imagesDir: ":config.mistralOcr.imagesDir"
+      markdownDir: ":config.mistralOcr.markdownDir"
+      apiKey: ":config.mistralOcr.apiKey"
+    inputs:
+      pdfPath: ":pdfPath.text"
+  
+  # Generate analysis prompt
+  analysisPrompt:
+    agent: stringTemplateAgent
+    inputs:
+      text: "Analyze the following document and provide a summary of its key points:\n\n${:ocrResult.text_content}"
+  
+  # Process analysis with Response API
+  analysis:
+    agent: responseApiAgent
+    params:
+      model: ":config.responseApi.model"
+      temperature: ":config.responseApi.temperature"
+      maxTokens: ":config.responseApi.maxTokens"
+      apiKey: ":config.responseApi.apiKey"
+      debug: true
+    inputs:
+      query: ":analysisPrompt.text"
+  
+  # Display result
+  output:
+    agent: stringTemplateAgent
+    inputs:
+      text: "Document Analysis:\n\n${:analysis.response}\n\nModel: ${:analysis.metadata.model}\nTokens used: ${:analysis.metadata.usage.total_tokens}"
+    console:
+      after: true
+  
+  # Save result
+  result:
+    agent: copyAgent
+    inputs:
+      data:
+        ocr: ":ocrResult"
+        analysis: ":analysis"
+    isResult: true
