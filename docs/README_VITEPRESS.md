@@ -24,9 +24,9 @@ The site will be available at `http://localhost:5174`.
 1. Directory structure
 ```
 docs/
-├── guide/
+├── ja/
 │   ├── example.md        # English version
-│   └── ja/
+│   └── guide/
 │       └── example.md    # Japanese version
 ```
 
@@ -35,31 +35,45 @@ docs/
    - Maintain the same file structure and frontmatter while translating content
 
 3. Configure Sidebar
-   - Edit `.vitepress/config.ts` to add the translated pages
+   - Edit `docs/.vitepress/config.mts` to add the translated pages
    - Add entries under both default and Japanese locales:
 
 ```typescript
-export default {
+export default defineConfig({
   themeConfig: {
     sidebar: {
       // Default (English) sidebar
-      '/guide/': [
+      "/guide/": [
         {
           text: "Tutorial",
           link: "/guide/tutorial",
         },
-        {
+        // ...
       ],
-      // Japanese sidebar
-      '/ja/guide/': [
-        {
-          text: "Tutorial",
-          link: "/ja/guide/tutorial",
+      // ...
+    },
+  },
+
+  locales: {
+    // ...
+    ja: {
+      // ...
+      themeConfig: {
+        // ...
+        sidebar: {
+          // Japanese sidebar
+          "/ja/guide/": [
+            {
+              text: "Tutorial",
+              link: "/ja/guide/tutorial",
+            },
+          ],
+          // ...
         },
-      ]
-    }
-  }
-}
+      },
+    },
+  },
+});
 ```
 
 4. Important Notes for Sidebar Configuration
