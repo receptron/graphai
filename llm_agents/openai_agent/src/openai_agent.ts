@@ -187,25 +187,22 @@ const result_sample = {
   model: "gpt-4o",
 };
 
-export const openAIMockAgent: AgentFunction<
-  {
-    model?: string;
-    query?: string;
-    system?: string;
-    verbose?: boolean;
-    temperature?: number;
-  },
-  Record<string, any> | string,
-  string | Array<any>
-> = async ({ filterParams }) => {
+export const openAIMockAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig> = async ({ filterParams }) => {
   for await (const token of input_sample.split("")) {
     if (filterParams && filterParams.streamTokenCallback && token) {
       await sleep(100);
       filterParams.streamTokenCallback(token);
     }
   }
-
-  return result_sample;
+  const message = {
+    role: "user" as const,
+    content: input_sample,
+  };
+  return {
+    text: input_sample,
+    message,
+    messages: [message],
+  };
 };
 const openaiAgentInfo: AgentFunctionInfo = {
   name: "openAIAgent",

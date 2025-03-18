@@ -1,3 +1,4 @@
+import { GraphData, NodeData, ComputedNodeData, isComputedNodeData } from "graphai";
 import { stringify, parse } from "yaml";
 import { writeFileSync, readFileSync } from "fs";
 
@@ -10,10 +11,7 @@ import { graph_data as wikipedia } from "./embeddings/wikipedia";
 
 import { graph_data as loop_people } from "./test/loop";
 
-const isObject = (x: unknown): x is Record<string, any> => {
-  return x !== null && typeof x === "object";
-};
-const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
+const updateAgent = (agentData: ComputedNodeData, toLlmAgent: string) => {
   agentData.agent = toLlmAgent === "ollamaAgent" ? "openAIAgent" : toLlmAgent;
   const params = agentData.params ?? {};
   if (toLlmAgent === "groqAgent") {
@@ -29,24 +27,25 @@ const updateAgent = (agentData: Record<string, any>, toLlmAgent: string) => {
   return agentData;
 };
 
-const update = (graph_data: any, toLlmAgent: string): any => {
-  if (Array.isArray(graph_data)) {
-    return graph_data.map((g) => update(g, toLlmAgent));
-  }
-  if (isObject(graph_data)) {
-    return Object.keys(graph_data).reduce((tmp: Record<string, any>, key: string) => {
-      if (graph_data[key].agent && ["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(graph_data[key].agent)) {
-        tmp[key] = updateAgent(graph_data[key], toLlmAgent);
-      } else {
-        tmp[key] = update(graph_data[key], toLlmAgent);
+const update = (nodes: Record<string, NodeData>, toLlmAgent: string): Record<string, NodeData> => {
+  return Object.keys(nodes).reduce((tmp: Record<string, NodeData>, key: string) => {
+    const node = nodes[key];
+    if (isComputedNodeData(node) && typeof node.agent === "string") {
+      if (["groqAgent", "openAIAgent", "anthropicAgent", "geminiAgent"].includes(node.agent)) {
+        tmp[key] = updateAgent(node, toLlmAgent);
+        return tmp;
+      } else if (node.graph && typeof node.graph !== "string" && node.graph.nodes) {
+        node.graph.nodes = update(node.graph.nodes, toLlmAgent);
+        tmp[key] = node;
+        return tmp;
       }
-      return tmp;
-    }, {});
-  }
-  return graph_data;
+    }
+    tmp[key] = node;
+    return tmp;
+  }, {});
 };
 
-const write = (graph_data: any, toLlmAgent: string, dirname: string, filename: string) => {
+const write = (graph_data: GraphData, toLlmAgent: string, dirname: string, filename: string) => {
   graph_data.nodes = update(graph_data.nodes, toLlmAgent);
 
   const path = __dirname + "/../graph_data/" + dirname + "/" + filename;
@@ -68,6 +67,19 @@ const simple = readYaml("simple.yaml");
 const simple2 = readYaml("simple2.yaml");
 const dispatcher = readYaml("dispatcher.yaml");
 const business_idea_jp = readYaml("business_idea_jp.yaml");
+const arxiv = readYaml("arxiv.yaml");
+
+[["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
+  write(chat, agent, dir, "chat.yaml");
+
+  //
+  write(loop, agent, dir, "loop.yaml");
+  write(map, agent, dir, "map.yaml");
+  write(simple, agent, dir, "simple.yaml");
+  write(simple2, agent, dir, "simple2.yaml");
+});
+
+write(loop_people, "openAIAgent", "test", "loop.yaml");
 
 [
   ["openAIAgent", "openai"],
@@ -79,6 +91,7 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   if (dir === "openai") {
     write(metachat, agent, dir, "metachat.yaml");
     write(dispatcher, agent, dir, "dispatcher.yaml");
+    write(arxiv, agent, dir, "arxiv.yaml");
   }
 
   write(reception, agent, dir, "reception.yaml");
@@ -92,15 +105,3 @@ const business_idea_jp = readYaml("business_idea_jp.yaml");
   write(simple2, agent, dir, "simple2.yaml");
   write(business_idea_jp, agent, dir, "business_idea_jp.yaml");
 });
-
-[["anthropicAgent", "anthropic"]].forEach(([agent, dir]) => {
-  write(chat, agent, dir, "chat.yaml");
-
-  //
-  write(loop, agent, dir, "loop.yaml");
-  write(map, agent, dir, "map.yaml");
-  write(simple, agent, dir, "simple.yaml");
-  write(simple2, agent, dir, "simple2.yaml");
-});
-
-write(loop_people, "openAIAgent", "test", "loop.yaml");

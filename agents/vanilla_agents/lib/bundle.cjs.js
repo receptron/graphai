@@ -522,10 +522,10 @@ const pushAgent = async ({ namedInputs }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     agent_utils.arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    graphai.assert(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
-    graphai.assert(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
+    graphai.assert(item !== undefined || items !== undefined, "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+    graphai.assert(items === undefined || Array.isArray(items), "pushAgent: namedInputs.items is not array!");
     const array = namedInputs.array.map((item) => item); // shallow copy
-    if (item) {
+    if (item !== undefined) {
         array.push(item);
     }
     if (items) {
@@ -549,11 +549,11 @@ const pushAgentInfo = {
                 description: "the array to push an item to",
             },
             item: {
-                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }, { type: "boolean" }],
                 description: "the item push into the array",
             },
             items: {
-                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+                type: "array",
                 description: "the item push into the array",
             },
         },
@@ -572,6 +572,11 @@ const pushAgentInfo = {
             inputs: { array: [1, 2], item: 3 },
             params: {},
             result: { array: [1, 2, 3] },
+        },
+        {
+            inputs: { array: [true, false], item: false },
+            params: {},
+            result: { array: [true, false, false] },
         },
         {
             inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },

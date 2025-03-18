@@ -30,25 +30,15 @@ push Agent
         },
         {
           "type": "array"
+        },
+        {
+          "type": "boolean"
         }
       ],
       "description": "the item push into the array"
     },
     "items": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "integer"
-        },
-        {
-          "type": "object"
-        },
-        {
-          "type": "array"
-        }
-      ],
+      "type": "array",
       "description": "the item push into the array"
     }
   },
@@ -76,6 +66,17 @@ push Agent
 
 ## Input example of the next node
 
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.array.$2"
+]
+
+````
 ```json
 
 [
@@ -161,6 +162,43 @@ push Agent
 
 {
   "array": [
+    true,
+    false
+  ],
+  "item": false
+}
+
+````
+
+#### params
+
+```json
+
+{}
+
+````
+
+#### result
+
+```json
+
+{
+  "array": [
+    true,
+    false,
+    false
+  ]
+}
+
+````
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "array": [
     {
       "apple": 1
     }
@@ -196,7 +234,7 @@ push Agent
 }
 
 ````
-### Sample2
+### Sample3
 
 #### inputs
 

@@ -67,9 +67,21 @@ const propStringFunction: PropFunction = (result, propId) => {
     if (propId === "toUpperCase()") {
       return result.toUpperCase();
     }
-    const match = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
-    if (match) {
-      return result.split(match[1]);
+    const sliceMatch = propId.match(/^slice\((-?\d+)(?:,\s*(-?\d+))?\)/);
+    if (sliceMatch) {
+      if (sliceMatch[2] !== undefined) {
+        return result.slice(Number(sliceMatch[1]), Number(sliceMatch[2]));
+      }
+      if (sliceMatch[1] !== undefined) {
+        return result.slice(Number(sliceMatch[1]));
+      }
+
+      console.log(sliceMatch);
+    }
+
+    const splitMatch = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
+    if (splitMatch) {
+      return result.split(splitMatch[1]);
     }
   }
   return undefined;

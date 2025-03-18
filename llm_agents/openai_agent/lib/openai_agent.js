@@ -152,7 +152,15 @@ const openAIMockAgent = async ({ filterParams }) => {
             filterParams.streamTokenCallback(token);
         }
     }
-    return result_sample;
+    const message = {
+        role: "user",
+        content: input_sample,
+    };
+    return {
+        text: input_sample,
+        message,
+        messages: [message],
+    };
 };
 exports.openAIMockAgent = openAIMockAgent;
 const openaiAgentInfo = {

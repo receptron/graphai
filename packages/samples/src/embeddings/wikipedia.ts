@@ -3,6 +3,7 @@ import { graphDataTestRunner } from "@receptron/test_utils";
 import * as llm_agents from "@graphai/llm_agents";
 import * as service_agents from "@graphai/service_agents";
 import * as vanilla from "@graphai/vanilla";
+import { tokenBoundStringsAgent } from "@graphai/token_bound_string_agent";
 
 export const graph_data = {
   version: 0.5,
@@ -106,7 +107,7 @@ export const main = async () => {
     __dirname + "/../",
     "sample_wiki.log",
     graph_data,
-    { ...service_agents, ...vanilla, ...llm_agents },
+    { ...service_agents, ...vanilla, ...llm_agents, tokenBoundStringsAgent },
     () => {},
     false,
   );

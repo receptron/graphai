@@ -29,7 +29,6 @@ import { main as interaction_wikipedia } from "./interaction/wikipedia";
 
 import { main as streaming_groq } from "./streaming/groq";
 import { main as streaming_openai } from "./streaming/openai";
-import { main as streaming_slashgpt } from "./streaming/slashgpt";
 import { main as streaming_openai_agent } from "./streaming/openai_agent";
 
 import { main as benchmark } from "./benchmarks/benchmark";
@@ -37,8 +36,6 @@ import { main as benchmark2 } from "./benchmarks/benchmark2";
 
 import { main as test_fibonacci } from "./test/fibonacci";
 import { main as test_loop } from "./test/loop";
-
-import { main as slashgpt } from "./llm/slashgpt";
 
 import { main as net_paper_ai } from "./net/paper_ai";
 
@@ -79,7 +76,6 @@ const main = async () => {
   // streaming
   await streaming_groq();
   await streaming_openai();
-  await streaming_slashgpt();
   await streaming_openai_agent();
 
   await benchmark();
@@ -88,9 +84,6 @@ const main = async () => {
   // test
   await test_fibonacci();
   await test_loop();
-
-  // llm
-  await slashgpt();
 
   // interaction
   await interaction_select();

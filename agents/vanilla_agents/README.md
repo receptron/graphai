@@ -2435,6 +2435,20 @@ const result = await graph.run();
 {
   "inputs": {
     "array": [
+      true,
+      false
+    ],
+    "item": false
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
       {
         "apple": 1
       }

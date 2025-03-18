@@ -27,12 +27,6 @@ type OpenAIResult = Partial<GraphAINullableText & GraphAITool & GraphAIToolCalls
     messages: OpenAI.ChatCompletionMessageParam[];
 }>;
 export declare const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig>;
-export declare const openAIMockAgent: AgentFunction<{
-    model?: string;
-    query?: string;
-    system?: string;
-    verbose?: boolean;
-    temperature?: number;
-}, Record<string, any> | string, string | Array<any>>;
+export declare const openAIMockAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig>;
 declare const openaiAgentInfo: AgentFunctionInfo;
 export default openaiAgentInfo;
