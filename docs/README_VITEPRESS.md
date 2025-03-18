@@ -41,6 +41,12 @@ docs/
 ```typescript
 export default defineConfig({
   themeConfig: {
+    // ...
+    nav: [
+      // Default (English) navigation
+      { text: "Guide", link: "/ja/guide/tutorial" },
+      // ...
+    ],
     sidebar: {
       // Default (English) sidebar
       "/guide/": [
@@ -53,13 +59,17 @@ export default defineConfig({
       // ...
     },
   },
-
+  // ...
   locales: {
     // ...
     ja: {
       // ...
       themeConfig: {
-        // ...
+        // Japanese navigation
+        nav: [
+          { text: "Guide", link: "/ja/guide/tutorial" },
+          // ...
+        ],
         sidebar: {
           // Japanese sidebar
           "/ja/guide/": [
