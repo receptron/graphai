@@ -24,8 +24,9 @@ The site will be available at `http://localhost:5174`.
 1. Directory structure
 ```
 docs/
+├── guide/
+|   └── example.md        # English version
 ├── ja/
-│   ├── example.md        # English version
 │   └── guide/
 │       └── example.md    # Japanese version
 ```
