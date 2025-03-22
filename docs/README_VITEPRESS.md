@@ -18,6 +18,15 @@ yarn dev
 
 The site will be available at `http://localhost:5174`.
 
+### Build
+if you want to check the production build, you can run:
+
+```bash
+$ yarn build && yarn preview
+```
+
+> [!IMPORTANT]
+You need to set the `GITHUB_API_TOKEN` environment variable to build the production site. because the production site fetches the latest content from the [graphai-agents repository](https://github.com/receptron/graphai-agents).
 
 ### How to Add Translation
 
