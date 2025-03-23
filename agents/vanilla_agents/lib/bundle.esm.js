@@ -2284,6 +2284,71 @@ const copyAgentInfo = {
     license: "MIT",
 };
 
+const lookupDictionaryAgent = async ({ namedInputs, params }) => {
+    const { namedKey } = namedInputs;
+    assert(libExports.isNamedInputs(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
+    const result = params[namedKey];
+    if (params.throwError && result === undefined) {
+        throw new Error(`lookupDictionaryAgent eerror: ${namedKey} is missing`);
+    }
+    return result;
+};
+const exampleParams = {
+    openai: {
+        model: "gpt4-o",
+        temperature: 0.7,
+    },
+    groq: {
+        model: "llama3-8b-8192",
+        temperature: 0.6,
+    },
+    gemini: {
+        model: "gemini-2.0-pro-exp-02-05",
+        temperature: 0.7,
+    },
+};
+const lookupDictionaryAgentInfo = {
+    name: "lookupDictionaryAgent",
+    agent: lookupDictionaryAgent,
+    mock: lookupDictionaryAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            namedKey: {
+                type: "string",
+                description: "key of params",
+            },
+        },
+        required: ["namedKey"],
+    },
+    output: {
+        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+    },
+    samples: [
+        {
+            inputs: { namedKey: "openai" },
+            params: exampleParams,
+            result: {
+                model: "gpt4-o",
+                temperature: 0.7,
+            },
+        },
+        {
+            inputs: { namedKey: "gemini" },
+            params: exampleParams,
+            result: {
+                model: "gemini-2.0-pro-exp-02-05",
+                temperature: 0.7,
+            },
+        },
+    ],
+    description: "Select elements with params",
+    category: ["data"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    license: "MIT",
+};
+
 const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
 const methodsRequiringBody = ["POST", "PUT", "PATCH"];
 /*
@@ -3277,5 +3342,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map

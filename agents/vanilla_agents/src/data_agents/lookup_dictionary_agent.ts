@@ -12,7 +12,7 @@ export const lookupDictionaryAgent: AgentFunction<
 > = async ({ namedInputs, params }) => {
   const { namedKey } = namedInputs;
   assert(isNamedInputs(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
-  const result = params[namedKey]
+  const result = params[namedKey];
   if (params.throwError && result === undefined) {
     throw new Error(`lookupDictionaryAgent eerror: ${namedKey} is missing`);
   }
