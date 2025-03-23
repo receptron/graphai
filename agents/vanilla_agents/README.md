@@ -27,6 +27,7 @@ import {
   echoAgent,
   images2messageAgent,
   jsonParserAgent,
+  lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
   nestedAgent,
@@ -59,6 +60,7 @@ const agents = {
   echoAgent,
   images2messageAgent,
   jsonParserAgent,
+  lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
   nestedAgent,
@@ -95,6 +97,7 @@ const result = await graph.run();
 - echoAgent - Echo agent
 - images2messageAgent - Returns the message data for llm include image
 - jsonParserAgent - Template agent
+- lookupDictionaryAgent - Select elements with params
 - mapAgent - Map Agent
 - mergeNodeIdAgent - merge node id agent
 - nestedAgent - nested Agent
@@ -126,6 +129,7 @@ const result = await graph.run();
  - [echoAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/echoAgent.md)
  - [images2messageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/image/images2messageAgent.md)
  - [jsonParserAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/jsonParserAgent.md)
+ - [lookupDictionaryAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/lookupDictionaryAgent.md)
  - [mapAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/mapAgent.md)
  - [mergeNodeIdAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/mergeNodeIdAgent.md)
  - [nestedAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/nestedAgent.md)
@@ -1808,6 +1812,53 @@ const result = await graph.run();
     "text": "```JSON\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
   },
   "params": {}
+}
+```
+
+ - lookupDictionaryAgent
+
+```typescript
+{
+  "inputs": {
+    "namedKey": "openai"
+  },
+  "params": {
+    "openai": {
+      "model": "gpt4-o",
+      "temperature": 0.7
+    },
+    "groq": {
+      "model": "llama3-8b-8192",
+      "temperature": 0.6
+    },
+    "gemini": {
+      "model": "gemini-2.0-pro-exp-02-05",
+      "temperature": 0.7
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "namedKey": "gemini"
+  },
+  "params": {
+    "openai": {
+      "model": "gpt4-o",
+      "temperature": 0.7
+    },
+    "groq": {
+      "model": "llama3-8b-8192",
+      "temperature": 0.6
+    },
+    "gemini": {
+      "model": "gemini-2.0-pro-exp-02-05",
+      "temperature": 0.7
+    }
+  }
 }
 ```
 
