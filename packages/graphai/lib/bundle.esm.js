@@ -29,7 +29,7 @@ const parseNodeName = (inputNodeId, isSelfNode = false) => {
         if (!match) {
             return { value: inputNodeId }; // string literal
         }
-        const parts = match[1].split(".");
+        const parts = match[1].split(/(?<!\()\.(?!\))/);
         if (parts.length == 1) {
             return { nodeId: parts[0] };
         }
