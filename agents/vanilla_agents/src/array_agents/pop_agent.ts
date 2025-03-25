@@ -5,7 +5,7 @@ import type { GraphAIArray, GraphAIArrayWithItem } from "@graphai/agent_utils";
 export const popAgent: AgentFunction<null, GraphAIArrayWithItem, GraphAIArray> = async ({ namedInputs }) => {
   arrayValidate("popAgent", namedInputs);
 
-  const array = namedInputs.array.map((item: any) => item); // shallow copy
+  const array = [...namedInputs.array]; // shallow copy
   const item = array.pop();
   return { array, item };
 };
