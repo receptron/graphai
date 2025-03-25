@@ -15,7 +15,7 @@ Array Flat Agent
   "properties": {
     "array": {
       "type": "array",
-      "description": "flat array"
+      "description": "The array to be flattened"
     }
   },
   "required": [
@@ -34,7 +34,7 @@ Array Flat Agent
   "properties": {
     "array": {
       "type": "array",
-      "description": "the remaining array"
+      "description": "flattened array"
     }
   }
 }
