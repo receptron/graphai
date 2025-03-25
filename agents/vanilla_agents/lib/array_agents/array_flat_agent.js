@@ -18,7 +18,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "flat array",
+                description: "The array to be flattened",
             },
         },
         required: ["array"],
@@ -28,7 +28,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the remaining array",
+                description: "flattened array",
             },
         },
     },
@@ -37,7 +37,7 @@ const arrayFlatAgentInfo = {
         properties: {
             depth: {
                 type: "number",
-                description: "array depth",
+                description: "flattening depth",
             },
         },
     },

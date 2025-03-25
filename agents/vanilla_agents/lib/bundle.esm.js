@@ -645,7 +645,7 @@ const pushAgentInfo = {
             },
             items: {
                 type: "array",
-                description: "the item push into the array",
+                description: "items push into the array",
             },
         },
         required: ["array"],
@@ -690,7 +690,7 @@ const pushAgentInfo = {
 
 const popAgent = async ({ namedInputs }) => {
     libExports.arrayValidate("popAgent", namedInputs);
-    const array = namedInputs.array.map((item) => item); // shallow copy
+    const array = [...namedInputs.array]; // shallow copy
     const item = array.pop();
     return { array, item };
 };
@@ -832,7 +832,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "flat array",
+                description: "The array to be flattened",
             },
         },
         required: ["array"],
@@ -842,7 +842,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the remaining array",
+                description: "flattened array",
             },
         },
     },
@@ -851,7 +851,7 @@ const arrayFlatAgentInfo = {
         properties: {
             depth: {
                 type: "number",
-                description: "array depth",
+                description: "flattening depth",
             },
         },
     },

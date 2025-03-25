@@ -555,7 +555,7 @@
                 },
                 items: {
                     type: "array",
-                    description: "the item push into the array",
+                    description: "items push into the array",
                 },
             },
             required: ["array"],
@@ -600,7 +600,7 @@
 
     const popAgent = async ({ namedInputs }) => {
         agent_utils.arrayValidate("popAgent", namedInputs);
-        const array = namedInputs.array.map((item) => item); // shallow copy
+        const array = [...namedInputs.array]; // shallow copy
         const item = array.pop();
         return { array, item };
     };
@@ -742,7 +742,7 @@
             properties: {
                 array: {
                     type: "array",
-                    description: "flat array",
+                    description: "The array to be flattened",
                 },
             },
             required: ["array"],
@@ -752,7 +752,7 @@
             properties: {
                 array: {
                     type: "array",
-                    description: "the remaining array",
+                    description: "flattened array",
                 },
             },
         },
@@ -761,7 +761,7 @@
             properties: {
                 depth: {
                     type: "number",
-                    description: "array depth",
+                    description: "flattening depth",
                 },
             },
         },
