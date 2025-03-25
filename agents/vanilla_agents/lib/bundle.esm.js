@@ -3302,33 +3302,42 @@ const OpenAI_embedding_API = "https://api.openai.com/v1/embeddings";
 // Result:
 //   contents: Array<Array<number>>
 //
-const stringEmbeddingsAgent = async ({ params, namedInputs }) => {
+const stringEmbeddingsAgent = async ({ params, namedInputs, config, }) => {
     const { array, item } = namedInputs;
-    const sources = array ?? [item];
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-        throw new Error("OPENAI_API_KEY key is not set in environment variables.");
-    }
+    const { apiKey, model, baseURL } = {
+        ...(config || {}),
+        ...params,
+    };
+    const url = baseURL ?? OpenAI_embedding_API;
+    const theModel = model ?? defaultEmbeddingModel;
+    const openAIKey = apiKey ?? process.env.OPENAI_API_KEY;
     const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: openAIKey ? `Bearer ${openAIKey}` : "",
     };
-    const response = await fetch(OpenAI_embedding_API, {
+    const sources = array ?? [item];
+    const response = await fetch(url, {
         method: "POST",
-        headers: headers,
+        headers,
         body: JSON.stringify({
             input: sources,
-            model: params?.model ?? defaultEmbeddingModel,
+            model: theModel,
         }),
     });
     const jsonResponse = await response.json();
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const embeddings = jsonResponse.data.map((object) => {
-        return object.embedding;
-    });
-    return embeddings;
+    if ("data" in jsonResponse) {
+        // maybe openAI
+        return jsonResponse.data.map((object) => {
+            return object.embedding;
+        });
+    }
+    if ("embeddings" in jsonResponse) {
+        // ollama
+        return jsonResponse.embeddings;
+    }
 };
 const stringEmbeddingsAgentInfo = {
     name: "stringEmbeddingsAgent",
