@@ -40,7 +40,7 @@ const pushAgentInfo: AgentFunctionInfo = {
       },
       items: {
         type: "array",
-        description: "the item push into the array",
+        description: "items push into the array",
       },
     },
     required: ["array"],
