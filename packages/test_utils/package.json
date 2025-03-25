@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@graphai/agent_filters": "^1.0.0",
-    "@graphai/vanilla": "^1.0.9",
-    "graphai": "^1.0.0"
+    "@graphai/vanilla": "^1.0.11",
+    "graphai": "^1.0.3"
   },
   "types": "./lib/index.d.ts",
   "directories": {
