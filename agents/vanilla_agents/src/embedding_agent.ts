@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 // Type for OpenAI's Embedding API
-type OpenAIEmbeddingResponse = {
+interface EmbeddingResponse {
   object: string;
   model: string;
   usage: {
@@ -15,22 +15,7 @@ type OpenAIEmbeddingResponse = {
       embedding: number[];
     },
   ];
-};
-
-type OllamaEmbeddingResponse = {
-  model: string;
-  embeddings: number[][];
-  total_duration: number;
-  load_duration: number;
-  prompt_eval_count: number;
-};
-
-// https://ollama.com/blog/embedding-models
-type EmbeddingAIParams = {
-  baseURL?: string;
-  apiKey?: string;
-  model?: string;
-};
+}
 
 const defaultEmbeddingModel = "text-embedding-3-small";
 const OpenAI_embedding_API = "https://api.openai.com/v1/embeddings";
@@ -45,51 +30,45 @@ const OpenAI_embedding_API = "https://api.openai.com/v1/embeddings";
 // Result:
 //   contents: Array<Array<number>>
 //
-export const stringEmbeddingsAgent: AgentFunction<EmbeddingAIParams, number[][], { array: Array<string>; item: string }, EmbeddingAIParams> = async ({
-  params,
-  namedInputs,
-  config,
-}) => {
+export const stringEmbeddingsAgent: AgentFunction<
+  {
+    model?: string;
+  },
+  number[][],
+  { array: Array<string>; item: string }
+> = async ({ params, namedInputs }) => {
   const { array, item } = namedInputs;
-  const { apiKey, model, baseURL } = {
-    ...(config || {}),
-    ...params,
-  };
-
-  const url = baseURL ?? OpenAI_embedding_API;
-  const theModel = model ?? defaultEmbeddingModel;
-
-  const openAIKey = apiKey ?? process.env.OPENAI_API_KEY;
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: openAIKey ? `Bearer ${openAIKey}` : "",
-  };
 
   const sources = array ?? [item];
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error("OPENAI_API_KEY key is not set in environment variables.");
+  }
+  const headers = {
+    "Content-Type": "application/json",
+    // Authorization: `Bearer ${apiKey}`,
+  };
 
-  const response = await fetch(url, {
+  console.log("Sending to embeddings:", sources);
+
+  const response = await fetch("http://localhost:11434/v1/embeddings", {
     method: "POST",
-    headers,
+    headers: headers,
     body: JSON.stringify({
       input: sources,
-      model: theModel,
+      model: "nomic-embed-text",
     }),
   });
-  const jsonResponse: OpenAIEmbeddingResponse | OllamaEmbeddingResponse = await response.json();
+  const jsonResponse: EmbeddingResponse = await response.json();
+  console.log("nomic embeddings response:", jsonResponse.data[0].embedding);
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  if ("data" in jsonResponse) {
-    // maybe openAI
-    return jsonResponse.data.map((object) => {
-      return object.embedding;
-    });
-  }
-  if ("embeddings" in jsonResponse) {
-    // ollama
-    return jsonResponse.embeddings;
-  }
+  const embeddings = jsonResponse.data.map((object) => {
+    return object.embedding;
+  });
+  return embeddings;
 };
 
 const stringEmbeddingsAgentInfo: AgentFunctionInfo = {
