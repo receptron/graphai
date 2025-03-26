@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
-
+import { fetchGitHubApiJson } from "./fetchGitHubAPI";
+[]
 // Function to generate a title from a filename
 const generateTitleFromFilename = (filename: string): string => {
   const basename = path.basename(filename, ".md").replace(/[-_]/g, " ");
@@ -116,9 +117,69 @@ export const generateSidebar = (dirRelativePath: string, sidebarTitle: string) =
 };
 
 export const generateAgentsSidebar = () => {
-  return generateSidebar("agentDocs", "Agents");
+  return generateSidebar("agentDocs", "Built-in Agents");
 };
 
 export const generateApiDocSidebar = () => {
   return generateSidebar("apiDocMd", "API Docs");
 };
+
+type SidebarItemChild = {
+  text: string;
+  link?: string;
+  collapsed?: boolean;
+  items?: SidebarItemChild[];
+};
+
+type SidebarItem = {
+  text: string;
+  items: SidebarItemChild[];
+};
+
+export const generateExternalAgentsSidebar = async () => {
+  const BASE_PATH = 'docs/agentDocs';
+
+  async function fetchDirectoryContents(path: string) {
+    const url = `https://api.github.com/repos/receptron/graphai-agents/contents/${path}`;
+    return await fetchGitHubApiJson(url);
+  }
+
+  const topDirectories = await fetchDirectoryContents(BASE_PATH);
+
+  const sidebarItems: SidebarItem[] = [{
+    text: 'External Agent Docs',
+    items: [],
+  }];
+
+  for (const item of topDirectories) {
+    if (item.type === 'dir') {
+      const dirContents = await fetchDirectoryContents(`${BASE_PATH}/${item.name}`);
+
+      const categoryItems: SidebarItemChild = {
+        text: generateTitleFromFilename(item.name),
+        collapsed: true,
+        items: [],
+      };
+
+      const mdFiles = dirContents.filter((file: {
+        type: string;
+        name: string;
+      }) => file.type === 'file' && file.name.endsWith('.md'));
+
+      for (const mdFile of mdFiles) {
+        const itemName = generateTitleFromFilename(mdFile.name);
+        const itemLink = `/externalAgentDocs/${item.name}/${mdFile.name}`;
+
+        if (categoryItems.items) {
+          categoryItems.items.push({
+            text: itemName,
+            link: itemLink,
+          });
+        }
+      }
+
+      sidebarItems[0].items.push(categoryItems);
+    }
+  }
+  return sidebarItems;
+}
