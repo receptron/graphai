@@ -25,7 +25,6 @@ const dataSourceNodeIds = (sources) => {
     if (!Array.isArray(sources)) {
         throw new Error("sources must be array!! maybe inputs is invalid");
     }
-    ;
     return sources.filter((source) => source.nodeId).map((source) => source.nodeId);
 };
 exports.dataSourceNodeIds = dataSourceNodeIds;
