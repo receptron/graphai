@@ -43,7 +43,7 @@ export const cacheAgentFilterGenerator = (cacheRepository: {
 }) => {
   const { getCache, setCache, getCacheKey } = cacheRepository;
   const cacheAgentFilter: AgentFilterFunction = async (context, next) => {
-    if (context.cacheType === "pureAgent") {
+    if (context.cacheType === "pureAgent" || context.cacheType === undefined) {
       const cacheKey = getCacheKey ? getCacheKey(context) : getDefaultCacheKey(context);
       const cache = await getCache(cacheKey);
       if (cache) {
