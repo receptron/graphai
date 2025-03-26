@@ -60,6 +60,7 @@ const stringEmbeddingsAgentInfo = {
     category: ["embedding"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 exports.default = stringEmbeddingsAgentInfo;

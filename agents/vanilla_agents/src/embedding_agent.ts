@@ -64,7 +64,7 @@ export const stringEmbeddingsAgent: AgentFunction<EmbeddingAIParams, number[][],
     "Content-Type": "application/json",
     Authorization: openAIKey ? `Bearer ${openAIKey}` : "",
   };
-  
+
   const sources = array ?? [item];
 
   const response = await fetch(url, {

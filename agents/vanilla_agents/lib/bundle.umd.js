@@ -194,6 +194,7 @@
         category: ["string"],
         author: "Satoshi Nakajima",
         repository: "https://github.com/receptron/graphai",
+        cacheType: "pureAgent",
         license: "MIT",
     };
 
@@ -3258,6 +3259,7 @@
         category: ["embedding"],
         author: "Receptron team",
         repository: "https://github.com/receptron/graphai",
+        cacheType: "pureAgent",
         license: "MIT",
     };
 

@@ -190,6 +190,7 @@ const stringTemplateAgentInfo = {
     category: ["string"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 
@@ -3348,6 +3349,7 @@ const stringEmbeddingsAgentInfo = {
     category: ["embedding"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 
