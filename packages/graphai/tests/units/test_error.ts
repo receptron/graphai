@@ -22,7 +22,7 @@ test("test throw error", async () => {
         agent: async (__namedInputs: { text: string }) => {
           throw new Error("hello");
         },
-      inputs: { text: ":echo.message" },
+        inputs: { text: ":echo.message" },
       },
     },
   };

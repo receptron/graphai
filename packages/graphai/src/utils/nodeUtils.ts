@@ -24,6 +24,6 @@ export const inputs2dataSources = (inputs: any): DataSource[] => {
 export const dataSourceNodeIds = (sources: DataSource[]): string[] => {
   if (!Array.isArray(sources)) {
     throw new Error("sources must be array!! maybe inputs is invalid");
-  };
+  }
   return sources.filter((source: DataSource) => source.nodeId).map((source) => source.nodeId!);
 };
