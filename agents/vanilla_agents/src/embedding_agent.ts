@@ -41,9 +41,9 @@ export const stringEmbeddingsAgent: AgentFunction<
 
   const sources = array ?? [item];
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new Error("OPENAI_API_KEY key is not set in environment variables.");
-  }
+  // if (!apiKey) {
+  //   throw new Error("OPENAI_API_KEY key is not set in environment variables.");
+  // }
   const headers = {
     "Content-Type": "application/json",
     // Authorization: `Bearer ${apiKey}`,

@@ -8,11 +8,13 @@ import "dotenv/config";
 import sqlite3 from "sqlite3";
 
 // calculus doing me right for once
-function cosineSimilarity(a: number[], b: number[]) {
-  const dot = a.reduce((sum, val, i) => sum + val * b[i], 0);
-  const magA = Math.sqrt(a.reduce((sum, val) => sum + val ** 2, 0));
-  const magB = Math.sqrt(b.reduce((sum, val) => sum + val ** 2, 0));
-  return dot / (magA * magB);
+function cosineSimilarity(a: string, b: string) {
+  const c = a.split(",").map((s) => parseFloat(s.trim()));
+  const d = b.split(",").map((s) => parseFloat(s.trim()));
+  const dot = c.reduce((sum, val, i) => sum + val * d[i], 0);
+  const magc = Math.sqrt(c.reduce((sum, val) => sum + val ** 2, 0));
+  const magd = Math.sqrt(d.reduce((sum, val) => sum + val ** 2, 0));
+  return dot / (magc * magd);
 }
 
 const parseOutput = (output: string[]) => {
@@ -37,8 +39,13 @@ const parseOutput = (output: string[]) => {
 const db = new sqlite3.Database("./test.db");
 
 db.serialize(() => {
-  // db.run("drop table if exists cache");
-  db.run("create table if not exists cache (prompt TEXT UNIQUE, answer TEXT, embedding TEXT)");
+  db.run(`
+    CREATE TABLE IF NOT EXISTS cache (
+      prompt TEXT UNIQUE,
+      answer TEXT,
+      embedding TEXT
+    )
+  `);
 });
 
 type CacheRow = {
@@ -48,40 +55,44 @@ type CacheRow = {
 };
 
 const setCache = async (key: string, data: any) => {
-  console.log("setting cache: ", key);
   let value: any = null;
-  if (typeof data === "object" && data !== null && Object.keys(data).length === 1) {
-    const maybeArray = Object.values(data)[0];
-    if (Array.isArray(maybeArray) && maybeArray.length === 3) {
-      value = maybeArray;
-    }
-  }
+  // if (typeof data === "object" && data !== null && Object.keys(data).length === 1) {
+  //   const maybeArray = Object.values(data)[0];
+  //   if (Array.isArray(maybeArray) && maybeArray.length === 3) {
+  //     value = maybeArray;
+  //     console.log("actually setting cache");
+  //     console.log("");
+  //     console.log("");
+  //   }
+  // }
 
-  if (value === null) {
-    return;
-  }
-  const { prompt, answer, embedding } = parseOutput(value);
-  console.log("setting cache: ", prompt, answer, embedding);
+  // if (value === null) {
+  //   return;
+  // }
+  // const { prompt, answer, embedding } = parseOutput(value);
+  const prompt = data[0];
+  const answer = data[1];
+  const embedding = key;
 
   await new Promise((resolve) => {
     db.serialize(() => {
-      db.run("INSERT OR REPLACE INTO cache(prompt, answer, embedding) VALUES (?, ?, ?)", prompt, JSON.stringify(answer), JSON.stringify(embedding), () =>
-        resolve(null),
-      );
+      console.log("inserting into cache");
+      db.run("INSERT INTO cache(prompt, answer, embedding) VALUES (?, ?, ?)", prompt, answer, embedding, () => {
+        resolve(null);
+      });
     });
   });
 };
 
 const getCache = async (key: any) => {
-  console.log("getting cache: ", key);
   return new Promise((resolve) => {
     db.serialize(() => {
       db.all("SELECT * FROM cache", (err, rows) => {
         let bestMatch: CacheRow | null = null;
         let bestScore = 0.8; // this can be tuned but regardless the output is going to be judged so if the outputed answer isnt good enough safeai will loop.
-
         for (const row of rows as CacheRow[]) {
-          const cachedEmbedding = JSON.parse(row.embedding);
+          console.log("iterating iterating iterating");
+          const cachedEmbedding = row.embedding;
           const similarity = cosineSimilarity(key, cachedEmbedding);
 
           if (similarity > bestScore) {
@@ -91,8 +102,9 @@ const getCache = async (key: any) => {
         }
 
         if (bestMatch) {
-          console.log("semantic cache hit");
-          resolve(JSON.parse(bestMatch.answer));
+          console.log("semantic cache hit with similarity: ", bestScore);
+          resolve(bestMatch.answer);
+          // resolve("CACHE HIT CACHE HIT CACHE HIT");
         } else {
           resolve(null);
         }
@@ -114,7 +126,7 @@ const main = async () => {
     {
       name: "cacheAgentFilter",
       agent: cacheAgentFilter,
-      nodeIds: ["node2"],
+      agentIds: ["echoAgent", "stringTemplateAgent"],
     },
   ];
   const graphData = {
@@ -127,25 +139,35 @@ const main = async () => {
         agent: "stringEmbeddingsAgent",
         inputs: { item: ":userPrompt" },
       },
+      opposite: {
+        agent: "openAIAgent",
+        inputs: {
+          prompt: ":userPrompt",
+        },
+        params: {
+          system: "say the opposite of the inputted prompt",
+          model: "gpt-4o",
+        },
+      },
       saveJson: {
         agent: "stringTemplateAgent",
         inputs: {
           prompt: ":userPrompt",
-          answer: "basic answer that doesnt matter",
+          answer: ":opposite.text",
           embedding: ":topicEmbedding",
         },
         params: {
           template: ["prompt: ${prompt}", "answer: ${answer}", "embedding: ${embedding}"],
         },
-        isResult: true,
       },
+      // you should see car:toyato unless its a cache hit
       node2: {
         inputs: {
           a: ":saveJson",
         },
         agent: "echoAgent",
         params: {
-          abc: "123",
+          car: "toyota",
         },
         isResult: true,
       },
