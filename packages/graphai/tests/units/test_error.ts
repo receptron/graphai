@@ -3,7 +3,7 @@ import { GraphAI } from "@/index";
 import * as agents from "~/test_agents";
 
 import { graphDataLatestVersion } from "~/common";
-import { anonymization, rejectTest } from "@receptron/test_utils";
+import { anonymization } from "@receptron/test_utils";
 
 import test from "node:test";
 import assert from "node:assert";
