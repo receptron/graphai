@@ -109,6 +109,7 @@ const stringTemplateAgentInfo: AgentFunctionInfo = {
   category: ["string"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
+  cacheType: "pureAgent",
   license: "MIT",
 };
 export default stringTemplateAgentInfo;
