@@ -64,7 +64,7 @@ export const stringEmbeddingsAgent: AgentFunction<EmbeddingAIParams, number[][],
     "Content-Type": "application/json",
     Authorization: openAIKey ? `Bearer ${openAIKey}` : "",
   };
-
+  
   const sources = array ?? [item];
 
   const response = await fetch(url, {
@@ -101,6 +101,7 @@ const stringEmbeddingsAgentInfo: AgentFunctionInfo = {
   category: ["embedding"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  cacheType: "pureAgent",
   license: "MIT",
 };
 export default stringEmbeddingsAgentInfo;
