@@ -137,7 +137,11 @@ const main = async (npmRootPath) => {
         return;
     }
     const agents = await Promise.resolve(`${npmRootPath + "/lib/index"}`).then(s => __importStar(require(s)));
-    const agentKeys = Object.keys(agents).sort((a, b) => (a > b ? 1 : -1));
+    const agentKeys = Object.keys(agents)
+        .filter((agent) => {
+        return agents[agent]?.agent && agents[agent]?.name;
+    })
+        .sort((a, b) => (a > b ? 1 : -1));
     const agentAttribute = (key) => {
         if (key === "packageName") {
             return packageJson.name;
