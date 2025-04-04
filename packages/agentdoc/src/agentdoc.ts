@@ -1,5 +1,5 @@
 import { PackageJson } from "type-fest";
-import { AgentFunctionInfoDictionary } from "graphai";
+import { AgentFunctionInfoDictionary, AgentFunctionInfo } from "graphai";
 import path from "path";
 import fs from "fs";
 
@@ -111,7 +111,12 @@ export const main = async (npmRootPath: string) => {
   }
 
   const agents = await import(npmRootPath + "/lib/index");
-  const agentKeys = Object.keys(agents).sort((a, b) => (a > b ? 1 : -1));
+
+  const agentKeys = Object.keys(agents)
+    .filter((agent: string) => {
+      return agents[agent]?.agent && agents[agent]?.name;
+    })
+    .sort((a, b) => (a > b ? 1 : -1));
 
   const agentAttribute = (key: string) => {
     if (key === "packageName") {
