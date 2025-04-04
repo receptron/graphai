@@ -1,5 +1,5 @@
 import { PackageJson } from "type-fest";
-import { AgentFunctionInfoDictionary, AgentFunctionInfo } from "graphai";
+import { AgentFunctionInfoDictionary } from "graphai";
 import path from "path";
 import fs from "fs";
 
