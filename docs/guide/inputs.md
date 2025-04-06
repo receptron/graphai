@@ -34,6 +34,11 @@
 }
 ```
 
+## file read stream
+{
+  inputStream: fs.ReadStream 
+}
+
 ## llm message
 
 Message is the format of data passed to the LLM history.
