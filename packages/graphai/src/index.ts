@@ -20,6 +20,7 @@ export type {
   GraphDataLoaderOption,
   GraphDataLoader,
   ConfigDataDictionary,
+  ConfigData,
   DefaultConfigData,
   CallbackFunction,
   LoopData,
