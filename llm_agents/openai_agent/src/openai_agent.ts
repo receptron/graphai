@@ -12,6 +12,7 @@ type OpenAIInputs = {
   verbose?: boolean;
   temperature?: number;
   messages?: Array<OpenAI.ChatCompletionMessageParam>;
+  message?: OpenAI.ChatCompletionMessageParam;
   response_format?: OpenAI.ResponseFormatText | OpenAI.ResponseFormatJSONObject | OpenAI.ResponseFormatJSONSchema;
 } & GraphAILLMInputBase;
 
@@ -89,7 +90,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
 };
 
 export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig> = async ({ filterParams, params, namedInputs, config }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, message, response_format } = {
     ...params,
     ...namedInputs,
   };
@@ -104,7 +105,9 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
 
   const messagesCopy = getMessages<OpenAI.ChatCompletionMessageParam>(systemPrompt, messages);
 
-  if (userPrompt) {
+  if (message) {
+    messagesCopy.push(message);
+  } else if (userPrompt) {
     messagesCopy.push({
       role: "user",
       content: userPrompt,
@@ -157,8 +160,8 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
   });
 
   // streaming
-  for await (const message of chatStream) {
-    const token = message.choices[0].delta.content;
+  for await (const chunk of chatStream) {
+    const token = chunk.choices[0].delta.content;
     if (filterParams && filterParams.streamTokenCallback && token) {
       filterParams.streamTokenCallback(token);
     }
