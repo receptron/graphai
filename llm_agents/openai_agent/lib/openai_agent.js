@@ -59,7 +59,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, message, response_format } = {
         ...params,
         ...namedInputs,
     };
@@ -70,7 +70,10 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     const messagesCopy = (0, llm_utils_1.getMessages)(systemPrompt, messages);
-    if (userPrompt) {
+    if (message) {
+        messagesCopy.push(message);
+    }
+    else if (userPrompt) {
         messagesCopy.push({
             role: "user",
             content: userPrompt,
@@ -117,8 +120,8 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         stream: true,
     });
     // streaming
-    for await (const message of chatStream) {
-        const token = message.choices[0].delta.content;
+    for await (const chunk of chatStream) {
+        const token = chunk.choices[0].delta.content;
         if (filterParams && filterParams.streamTokenCallback && token) {
             filterParams.streamTokenCallback(token);
         }
