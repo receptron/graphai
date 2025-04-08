@@ -1,6 +1,7 @@
 # {name}
 
 {package}
+{source}
 
 ## Description
 

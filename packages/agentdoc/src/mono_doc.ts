@@ -60,7 +60,16 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
     if (agentInfo.package) {
       return [
         "## Package",
-        agentInfo.package
+        `[${agentInfo.package}](https://www.npmjs.com/package/${agentInfo.package})`
+      ].join("\n");
+    }
+    return "";
+  }
+  if (key === "source") {
+    if (agentInfo.source) {
+      return [
+        "## Source",
+        `[${agentInfo.source}](https://www.npmjs.com/package/${agentInfo.source})`
       ].join("\n");
     }
     return "";
@@ -74,7 +83,7 @@ export const readTemplate = (file: string) => {
 
 const agentMd = (agentInfo: AgentFunctionInfo) => {
   const template = readTemplate("agent.md");
-  const md = ["name", "description", "author", "repository", "license", "samples", "schemas", "resultKey", "package"].reduce((tmp, key) => {
+  const md = ["name", "description", "author", "repository", "license", "samples", "schemas", "resultKey", "package", "source"].reduce((tmp, key) => {
     tmp = tmp.replace("{" + key + "}", agentAttribute(agentInfo, key));
     return tmp;
   }, template);
