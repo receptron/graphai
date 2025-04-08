@@ -1,5 +1,8 @@
 # popAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Pop Agent

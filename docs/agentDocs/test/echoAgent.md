@@ -1,5 +1,8 @@
 # echoAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Echo agent

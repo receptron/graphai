@@ -1,5 +1,8 @@
 # shiftAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 shift Agent

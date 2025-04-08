@@ -1,5 +1,8 @@
 # copy2ArrayAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Copy2Array agent

@@ -1,5 +1,8 @@
 # arrayJoinAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Array Join Agent

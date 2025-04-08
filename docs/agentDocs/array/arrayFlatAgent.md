@@ -1,5 +1,8 @@
 # arrayFlatAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Array Flat Agent
