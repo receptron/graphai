@@ -60,6 +60,8 @@ const copy2ArrayAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy2array_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = copy2ArrayAgentInfo;

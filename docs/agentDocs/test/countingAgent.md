@@ -1,5 +1,8 @@
 # countingAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Counting agent

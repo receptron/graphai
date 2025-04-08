@@ -1,5 +1,8 @@
 # mergeNodeIdAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 merge node id agent

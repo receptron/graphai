@@ -1,5 +1,8 @@
 # dataSumTemplateAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Returns the sum of input values

@@ -1,5 +1,8 @@
 # streamMockAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 Stream mock agent

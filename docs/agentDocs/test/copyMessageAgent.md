@@ -1,5 +1,8 @@
 # copyMessageAgent
 
+## Package
+@graphai/vanilla
+
 ## Description
 
 CopyMessage agent
