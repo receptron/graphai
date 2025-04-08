@@ -54,6 +54,8 @@ const streamMockAgentInfo: AgentFunctionInfo = {
   category: ["test"],
   author: "Isamu Arimoto",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/stream_mock_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
   stream: true,
 };
