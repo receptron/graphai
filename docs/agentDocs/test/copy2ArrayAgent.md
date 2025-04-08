@@ -1,7 +1,9 @@
 # copy2ArrayAgent
 
 ## Package
-@graphai/vanilla
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy2array_agent.ts](https://www.npmjs.com/package/https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy2array_agent.ts)
 
 ## Description
 

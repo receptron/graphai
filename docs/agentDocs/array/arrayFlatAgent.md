@@ -1,7 +1,9 @@
 # arrayFlatAgent
 
 ## Package
-@graphai/vanilla
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts](https://www.npmjs.com/package/https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts)
 
 ## Description
 
