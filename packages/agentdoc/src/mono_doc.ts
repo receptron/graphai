@@ -58,19 +58,13 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   }
   if (key === "package") {
     if (agentInfo.package) {
-      return [
-        "## Package",
-        `[${agentInfo.package}](https://www.npmjs.com/package/${agentInfo.package})`
-      ].join("\n");
+      return ["## Package", `[${agentInfo.package}](https://www.npmjs.com/package/${agentInfo.package})`].join("\n");
     }
     return "";
   }
   if (key === "source") {
     if (agentInfo.source) {
-      return [
-        "## Source",
-        `[${agentInfo.source}](https://www.npmjs.com/package/${agentInfo.source})`
-      ].join("\n");
+      return ["## Source", `[${agentInfo.source}](https://www.npmjs.com/package/${agentInfo.source})`].join("\n");
     }
     return "";
   }
