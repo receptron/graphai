@@ -77,6 +77,8 @@ const dataSumTemplateAgentInfo: AgentFunctionInfo = {
   category: ["data"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/data_sum_template_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default dataSumTemplateAgentInfo;

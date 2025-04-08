@@ -32,6 +32,8 @@ const echoAgentInfo: AgentFunctionInfo = {
   cacheType: "pureAgent",
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/echo_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 

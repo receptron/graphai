@@ -1,5 +1,7 @@
 # {name}
 
+{package}
+
 ## Description
 
 {description}
