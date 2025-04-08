@@ -756,6 +756,8 @@ const popAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/pop_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -815,6 +817,8 @@ const shiftAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/shift_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -890,6 +894,8 @@ const arrayFlatAgentInfo = {
     category: ["array"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts",
+    package: "@graphai/vanilla",
     cacheType: "pureAgent",
     license: "MIT",
 };
@@ -1001,6 +1007,8 @@ const arrayJoinAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_join_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1194,6 +1202,8 @@ const echoAgentInfo = {
     cacheType: "pureAgent",
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/echo_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1221,6 +1231,8 @@ const countingAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/counting_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1248,6 +1260,8 @@ const copyMessageAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy_message_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1307,6 +1321,8 @@ const copy2ArrayAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy2array_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1336,6 +1352,8 @@ const mergeNodeIdAgentInfo = {
     category: ["test"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/merge_node_id_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1386,6 +1404,8 @@ const streamMockAgentInfo = {
     category: ["test"],
     author: "Isamu Arimoto",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/stream_mock_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
     stream: true,
 };
@@ -1981,6 +2001,8 @@ const dataSumTemplateAgentInfo = {
     category: ["data"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/data_sum_template_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 

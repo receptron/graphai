@@ -58,10 +58,7 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   }
   if (key === "package") {
     if (agentInfo.package) {
-      return [
-        "## Package",
-        agentInfo.package
-      ].join("\n");
+      return ["## Package", agentInfo.package].join("\n");
     }
     return "";
   }

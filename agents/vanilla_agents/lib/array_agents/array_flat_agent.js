@@ -75,6 +75,8 @@ const arrayFlatAgentInfo = {
     category: ["array"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts",
+    package: "@graphai/vanilla",
     cacheType: "pureAgent",
     license: "MIT",
 };
