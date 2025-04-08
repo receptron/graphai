@@ -64,7 +64,7 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
   }
   if (key === "source") {
     if (agentInfo.source) {
-      return ["## Source", `[${agentInfo.source}](https://www.npmjs.com/package/${agentInfo.source})`].join("\n");
+      return ["## Source", `[${agentInfo.source}](${agentInfo.source})`].join("\n");
     }
     return "";
   }
