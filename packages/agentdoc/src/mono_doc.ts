@@ -56,6 +56,15 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
       })
       .join("\n");
   }
+  if (key === "package") {
+    if (agentInfo.package) {
+      return [
+        "## Package",
+        agentInfo.package
+      ].join("\n");
+    }
+    return "";
+  }
   return agentInfo[key as keyof AgentFunctionInfo] as string;
 };
 
@@ -65,7 +74,7 @@ export const readTemplate = (file: string) => {
 
 const agentMd = (agentInfo: AgentFunctionInfo) => {
   const template = readTemplate("agent.md");
-  const md = ["name", "description", "author", "repository", "license", "samples", "schemas", "resultKey"].reduce((tmp, key) => {
+  const md = ["name", "description", "author", "repository", "license", "samples", "schemas", "resultKey", "package"].reduce((tmp, key) => {
     tmp = tmp.replace("{" + key + "}", agentAttribute(agentInfo, key));
     return tmp;
   }, template);
