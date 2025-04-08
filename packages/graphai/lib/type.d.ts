@@ -144,6 +144,8 @@ export type AgentFunctionInfo = {
     category: string[];
     author: string;
     repository: string;
+    source?: string;
+    package?: string;
     license: string;
     cacheType?: CacheTypes;
     environmentVariables?: string[];
