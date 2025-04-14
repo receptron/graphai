@@ -31,6 +31,7 @@
     "@graphai/gemini_agent": "^1.0.1",
     "@graphai/groq_agent": "^1.0.1",
     "@graphai/openai_agent": "^1.0.2",
+    "@graphai/openai_fetch_agent": "^0.2.2",
     "@graphai/replicate_agent": "^1.0.1"
   },
   "types": "./lib/index.d.ts",
