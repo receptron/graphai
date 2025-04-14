@@ -61,6 +61,8 @@ const openAIImageAgentInfo: AgentFunctionInfo = {
   category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/src/openai_image_agent.ts",
+  package: "@graphai/openai_agent",
   license: "MIT",
   stream: false,
   npms: ["openai"],

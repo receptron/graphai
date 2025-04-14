@@ -79,6 +79,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
   if (message) {
     messages.push(message);
   }
+
   return {
     ...response,
     text,
@@ -86,6 +87,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
     tool_calls,
     message,
     messages,
+    usage: response.usage,
   };
 };
 
@@ -359,6 +361,8 @@ const openaiAgentInfo: AgentFunctionInfo = {
   category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/src/openai_agent.ts",
+  package: "@graphai/openai_agent",
   license: "MIT",
   stream: true,
   npms: ["openai"],
