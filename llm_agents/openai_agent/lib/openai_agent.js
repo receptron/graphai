@@ -56,6 +56,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
         tool_calls,
         message,
         messages,
+        usage: response.usage,
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
@@ -318,6 +319,8 @@ const openaiAgentInfo = {
     category: ["llm"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/src/openai_agent.ts",
+    package: "@graphai/openai_agent",
     license: "MIT",
     stream: true,
     npms: ["openai"],
