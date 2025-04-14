@@ -15,6 +15,7 @@
 ### [groqAgent](./llm/groqAgent.md)
 ### [openAIAgent](./llm/openAIAgent.md)
 ### [openAIImageAgent](./llm/openAIImageAgent.md)
+### [openAIFetchAgent](./llm/openAIFetchAgent.md)
 ### [replicateAgent](./llm/replicateAgent.md)
 
 ## service
