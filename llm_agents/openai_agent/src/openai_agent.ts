@@ -159,13 +159,17 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
   const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
     stream: true,
+    stream_options: { include_usage: true },
   });
 
   // streaming
   for await (const chunk of chatStream) {
-    const token = chunk.choices[0].delta.content;
-    if (filterParams && filterParams.streamTokenCallback && token) {
-      filterParams.streamTokenCallback(token);
+    // usage chunk have empty choices
+    if (chunk.choices[0]) {
+      const token = chunk.choices[0].delta.content;
+      if (filterParams && filterParams.streamTokenCallback && token) {
+        filterParams.streamTokenCallback(token);
+      }
     }
   }
 
