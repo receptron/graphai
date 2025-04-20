@@ -16,15 +16,15 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
           "#### inputs",
           "```json",
           JSON.stringify(sample.inputs, null, 2),
-          "````",
+          "```",
           "#### params",
           "```json",
           JSON.stringify(sample.params),
-          "````",
+          "```",
           "#### result",
           "```json",
           JSON.stringify(sample.result, null, 2),
-          "````",
+          "```",
         ].join("\n\n");
         // return JSON.stringify(agentInfo.samples, null, 2);
       })
@@ -36,23 +36,23 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
         "#### inputs",
         "```json",
         JSON.stringify(agentInfo.inputs, null, 2),
-        "````",
+        "```",
         "#### output",
         "```json",
         JSON.stringify(agentInfo.output, null, 2),
-        "````",
+        "```",
       ].join("\n\n");
     }
     if (agentInfo.samples && agentInfo.samples[0]) {
       const sample = agentInfo.samples[0];
-      return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "````"].join("\n\n");
+      return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "```"].join("\n\n");
     }
     return "";
   }
   if (key === "resultKey") {
     return agentInfo.samples
       .map((sample) => {
-        return ["```json", JSON.stringify(debugResultKey("agentId", sample.result), null, 2), "````"].join("\n\n");
+        return ["```json", JSON.stringify(debugResultKey("agentId", sample.result), null, 2), "```"].join("\n\n");
       })
       .join("\n");
   }
