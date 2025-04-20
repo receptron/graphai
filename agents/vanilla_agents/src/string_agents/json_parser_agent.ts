@@ -64,6 +64,8 @@ const jsonParserAgentInfo: AgentFunctionInfo = {
   category: ["string"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/json_parser_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default jsonParserAgentInfo;

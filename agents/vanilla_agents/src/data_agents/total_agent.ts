@@ -140,6 +140,8 @@ const totalAgentInfo: AgentFunctionInfo = {
   category: ["data"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/snakajima/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/total_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default totalAgentInfo;
