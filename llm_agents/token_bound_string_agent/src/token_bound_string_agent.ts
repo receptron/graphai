@@ -109,7 +109,7 @@ const tokenBoundStringsAgentInfo: AgentFunctionInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   source: "https://github.com/receptron/graphai/blob/main/llm_agents/token_bound_string_agent/src/token_bound_string_agent.ts",
-  package: "@token_bound_string_agent",
+  package: "@graphai/token_bound_string_agent",
   license: "MIT",
 };
 export default tokenBoundStringsAgentInfo;

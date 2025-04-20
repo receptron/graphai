@@ -83,7 +83,7 @@ const pathUtilsAgentInfo: AgentFunctionInfo = {
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
   source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_node_agents/src/node_file_agents/path_utils_agent.ts",
-  package: "@graphai/vanilla",
+  package: "@graphai/vanilla_node_agents",
   license: "MIT",
 };
 export default pathUtilsAgentInfo;
