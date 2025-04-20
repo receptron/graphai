@@ -1,8 +1,9 @@
-This is a simple http server for testing http client.
+This is a simple HTTP server for testing HTTP client.
 
 ```
 cd docs
 ```
+
 and
 
 ```

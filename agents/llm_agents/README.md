@@ -1,4 +1,3 @@
-
 # @graphai/llm_agents for GraphAI
 
 LLM agents for GraphAI.
@@ -19,12 +18,11 @@ yarn add @graphai/llm_agents
 
 (*1) dangerouslyAllowBrowser
 
-
 ### Usage
 
 ```typescript
 import { GraphAI } from "graphai";
-import { 
+import {
   anthropicAgent,
   geminiAgent,
   groqAgent,
@@ -34,7 +32,7 @@ import {
   replicateAgent
  } from "@graphai/llm_agents";
 
-const agents = { 
+const agents = {
   anthropicAgent,
   geminiAgent,
   groqAgent,
@@ -89,7 +87,6 @@ const result = await graph.run();
 }
 ```
 
-
 ### Environment Variables
  - anthropicAgent
    - ANTHROPIC_API_KEY
@@ -111,8 +108,3 @@ const result = await graph.run();
  - [@graphai/openai_agent](https://www.npmjs.com/package/@graphai/openai_agent)
  - [@graphai/openai_fetch_agent](https://www.npmjs.com/package/@graphai/openai_fetch_agent)
  - [@graphai/replicate_agent](https://www.npmjs.com/package/@graphai/replicate_agent)
-
-
-
-
-

@@ -65,7 +65,7 @@ ${packages/samples/graph_data/openai/loop.yaml}
 
 1. **fruits**：このStaticノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードのarrayプロパティで更新されます。(`update: :shift.array`)
 2. **result**：このStaticノードは空の配列から始まり、各反復後に**reducer**ノードのarrayプロパティ値で更新されます。
-3. **shift**：このノードは**fruits**ノードの値から配列の１つ目の値を取り出し、残りの配列と共に`{ array, iten }`項目をプロパティとして出力します。
+3. **shift**：このノードは**fruits**ノードの値から配列の１つ目の値を取り出し、残りの配列と共に`{ array, item }`項目をプロパティとして出力します。
 4. **llm**：このComputedノードは、shiftノードの出力からitemプロパティを使用して「What is the typical color of ${:shift.item}? Just answer the color.」というテンプレートでプロンプトを生成し、gpt-4oに渡して結果を得ます。
 5. **reducer**：このノードは**result**ノードの入れるに、**llm**ノードの結果`{text}`を追加します。
 

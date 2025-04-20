@@ -1,23 +1,14 @@
 # stringEmbeddingsAgent
 
-
-
-
 ## Description
 
 Embeddings Agent
 
 ## Schema
 
-
-
 ## Input example of the next node
 
-
-
 ## Samples
-
-
 
 ## Author
 
@@ -30,4 +21,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

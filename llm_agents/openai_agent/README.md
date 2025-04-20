@@ -1,4 +1,3 @@
-
 # @graphai/openai_agent for GraphAI
 
 OpenAI agents for GraphAI.
@@ -8,7 +7,6 @@ OpenAI agents for GraphAI.
 ```sh
 yarn add @graphai/openai_agent
 ```
-
 
 ### Usage
 
@@ -42,14 +40,11 @@ const result = await graph.run();
 }
 ```
 
-
 ### Environment Variables
  - openAIAgent
    - OPENAI_API_KEY
  - openAIImageAgent
    - OPENAI_API_KEY
-
-
 
 ### GraphData Example
 
@@ -119,7 +114,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-

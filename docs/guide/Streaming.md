@@ -44,7 +44,7 @@ https://github.com/receptron/graphai/blob/e720821dff1a4f59423dbb02db64aaec3a2a61
 
 ## agentFilter
 
-This section explains how to use the `streamAgentFilterGenerator` function to create a `agentFilter` for streaming processes. By specifying a callback function, users can acquire an `agentFilter` capable of processing data in real time.
+This section explains how to use the `streamAgentFilterGenerator` function to create an `agentFilter` for streaming processes. By specifying a callback function, users can acquire an `agentFilter` capable of processing data in real time.
 
 https://github.com/receptron/graphai/blob/e720821dff1a4f59423dbb02db64aaec3a2a61eb/packages/agent_filters/src/filters/stream.ts#L3-L13
 

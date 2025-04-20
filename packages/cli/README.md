@@ -8,7 +8,7 @@ GraphAI command line tool
 npm i -g  @receptron/graphai_cli
 ```
 
-## Usage 📖 
+## Usage 📖
 
 ```
 graphai <yaml_or_json_file>
@@ -35,7 +35,7 @@ Options:
 
 ```
 # Run test_yaml/test_base.yml (Make sure you are in the correct directory)
-graphai test_yaml/test_base.yml 
+graphai test_yaml/test_base.yml
 ```
 
 ### Get Agents List 📚
@@ -81,12 +81,12 @@ Available Agents
 * streamMockAgent - Stream mock agent
 * stringCaseVariantsAgent - Format String Cases agent
 * stringEmbeddingsAgent - Embeddings Agent
-* stringSplitterAgent - This agent strip one long string into chunks using following parameters
+* stringSplitterAgent - This agent strips one long string into chunks using following parameters
 * stringTemplateAgent - Template agent
-* stringUpdateTextAgent - 
+* stringUpdateTextAgent -
 * textInputAgent - Text Input Agent
 * tokenBoundStringsAgent - token bound Agent
 * totalAgent - Returns the sum of input values
 * vanillaFetchAgent - Retrieves JSON data from the specified URL
-* wikipediaAgent - Retrieves data from wikipedia
+* wikipediaAgent - Retrieves data from Wikipedia
 ```

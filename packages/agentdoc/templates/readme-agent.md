@@ -1,4 +1,3 @@
-
 # {packageName} for GraphAI
 
 {description}
@@ -25,4 +24,3 @@ const result = await graph.run();
 {GraphDataJSON}
 
 {READMEAfter}
-

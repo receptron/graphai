@@ -1,4 +1,3 @@
-
 # @graphai/vanilla_node_agents for GraphAI
 
 Vanilla node agents for GraphAI.
@@ -8,7 +7,6 @@ Vanilla node agents for GraphAI.
 ```sh
 yarn add @graphai/vanilla_node_agents
 ```
-
 
 ### Usage
 
@@ -23,17 +21,17 @@ const result = await graph.run();
 ```
 
 ### Agents description
-- fileReadAgent - Read data from file system and returns data
-- fileWriteAgent - Write data to file system
-- pathUtilsAgent - Path utils
+- fileReadAgent - Reads data from the file system and returns data
+- fileWriteAgent - Writes data to file system
+- pathUtilsAgent - Path Utils
 
 ### Input/Output/Params Schema & samples
- - [fileReadAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileReadAgent.md)
- - [fileWriteAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileWriteAgent.md)
- - [pathUtilsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/pathUtilsAgent.md)
+- [fileReadAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileReadAgent.md)
+- [fileWriteAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/fileWriteAgent.md)
+- [pathUtilsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/fs/pathUtilsAgent.md)
 
 ### Input/Params example
- - fileReadAgent
+- fileReadAgent
 
 ```typescript
 {
@@ -47,7 +45,6 @@ const result = await graph.run();
   }
 }
 ```
-
 
 ```typescript
 {
@@ -63,7 +60,6 @@ const result = await graph.run();
 }
 ```
 
-
 ```typescript
 {
   "inputs": {
@@ -78,7 +74,6 @@ const result = await graph.run();
 }
 ```
 
-
 ```typescript
 {
   "inputs": {
@@ -91,7 +86,7 @@ const result = await graph.run();
 }
 ```
 
- - fileWriteAgent
+- fileWriteAgent
 
 ```typescript
 {
@@ -105,7 +100,7 @@ const result = await graph.run();
 }
 ```
 
- - pathUtilsAgent
+- pathUtilsAgent
 
 ```typescript
 {
@@ -122,7 +117,6 @@ const result = await graph.run();
 }
 ```
 
-
 ```typescript
 {
   "inputs": {
@@ -138,7 +132,6 @@ const result = await graph.run();
 }
 ```
 
-
 ```typescript
 {
   "inputs": {
@@ -149,13 +142,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-

@@ -23,7 +23,6 @@ nodes:
       after: true
     inputs:
       text: :llm.text
-
 ```
 
 このプログラムには2つのノードがあります：
@@ -84,7 +83,6 @@ nodes:
       after: true
     inputs:
       text: :llm.text
-
 ```
 
 ## ループ / マッピング
@@ -101,7 +99,7 @@ nodes:
   fruits:
     value:
       - apple
-      - lemomn
+      - lemon
       - banana
     update: :shift.array
   result:
@@ -123,7 +121,6 @@ nodes:
     inputs:
       array: :result
       item: :llm.text
-
 ```
 
 1. **fruits**：このStaticノードは最初にフルーツのリストを保持し、各反復後に**shift**ノードの配列プロパティで更新されます。
@@ -144,7 +141,7 @@ nodes:
   fruits:
     value:
       - apple
-      - lemomn
+      - lemon
       - banana
   map:
     agent: mapAgent
@@ -166,7 +163,6 @@ nodes:
           inputs:
             item: :llm.text
           isResult: true
-
 ```
 
 1. **fruits**：このStaticノードはフルーツのリストを保持します。
@@ -217,7 +213,6 @@ nodes:
       after: true
     inputs:
       text: "\e[32mAgent\e[0m: ${:llm.text}"
-
 ```
 
 1. ユーザーは「You:」というプロンプトでメッセージの入力を求められます。
@@ -379,7 +374,6 @@ nodes:
       array:
         - :no_tool_calls.result
         - :tool_calls.messagesWithSecondRes.array
-
 ```
 
 1. **ループ実行**：`continue`ノードで指定された条件がfalseになるまでグラフは継続的にループします。
@@ -414,7 +408,7 @@ nodes:
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia:
     console:
-      before: ...fetching data from wikkpedia
+      before: ...fetching data from wikipedia
     agent: wikipediaAgent
     inputs:
       query: :source.name
@@ -488,5 +482,4 @@ nodes:
     inputs:
       result: :OneShotQuery.text
     isResult: true
-
 ```

@@ -1,8 +1,5 @@
 # pushAgent
 
-
-
-
 ## Description
 
 push Agent
@@ -12,7 +9,6 @@ push Agent
 #### inputs
 
 ```json
-
 {
   "type": "object",
   "properties": {
@@ -38,24 +34,22 @@ push Agent
           "type": "boolean"
         }
       ],
-      "description": "the item push into the array"
+      "description": "the item to push into the array"
     },
     "items": {
       "type": "array",
-      "description": "items push into the array"
+      "description": "items to push into the array"
     }
   },
   "required": [
     "array"
   ]
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "type": "object",
   "properties": {
@@ -64,13 +58,11 @@ push Agent
     }
   }
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.array",
@@ -78,10 +70,8 @@ push Agent
   ":agentId.array.$1",
   ":agentId.array.$2"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.array",
@@ -89,10 +79,8 @@ push Agent
   ":agentId.array.$1",
   ":agentId.array.$2"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.array",
@@ -101,10 +89,8 @@ push Agent
   ":agentId.array.$1",
   ":agentId.array.$1.lemon"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.array",
@@ -115,8 +101,7 @@ push Agent
   ":agentId.array.$2",
   ":agentId.array.$2.banana"
 ]
-
-````
+```
 
 ## Samples
 
@@ -125,7 +110,6 @@ push Agent
 #### inputs
 
 ```json
-
 {
   "array": [
     1,
@@ -133,21 +117,17 @@ push Agent
   ],
   "item": 3
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     1,
@@ -155,14 +135,13 @@ push Agent
     3
   ]
 }
+```
 
-````
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "array": [
     true,
@@ -170,21 +149,17 @@ push Agent
   ],
   "item": false
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     true,
@@ -192,14 +167,13 @@ push Agent
     false
   ]
 }
+```
 
-````
 ### Sample2
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -210,21 +184,17 @@ push Agent
     "lemon": 2
   }
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     {
@@ -235,14 +205,13 @@ push Agent
     }
   ]
 }
+```
 
-````
 ### Sample3
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -258,21 +227,17 @@ push Agent
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     {
@@ -286,8 +251,7 @@ push Agent
     }
   ]
 }
-
-````
+```
 
 ## Author
 
@@ -300,4 +264,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

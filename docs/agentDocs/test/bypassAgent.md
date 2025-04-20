@@ -9,7 +9,6 @@ bypass agent
 #### inputs
 
 ```json
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
@@ -24,21 +23,18 @@ bypass agent
     "a"
   ]
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.a"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.array",
@@ -53,10 +49,9 @@ bypass agent
   ":agentId.array.$1.$1",
   ":agentId.array.$1.$1.d"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.a",
@@ -64,8 +59,7 @@ bypass agent
   ":agentId.c",
   ":agentId.d"
 ]
-
-````
+```
 
 ## Samples
 
@@ -74,36 +68,29 @@ bypass agent
 #### inputs
 
 ```json
-
 {
   "a": "123"
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "a": "123"
 }
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -124,21 +111,17 @@ bypass agent
     ]
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     [
@@ -159,43 +142,36 @@ bypass agent
     ]
   ]
 }
-
-````
+```
 ### Sample2
 
 #### inputs
 
 ```json
-
 {
   "a": "123",
   "b": "abc",
   "c": "987",
   "d": "xyz"
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "a": "123",
   "b": "abc",
   "c": "987",
   "d": "xyz"
 }
-
-````
+```
 
 ## Author
 
@@ -208,4 +184,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

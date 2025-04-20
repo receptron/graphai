@@ -1,10 +1,10 @@
-# Async/Aways is Not All You Need
+# Async/Await is Not All You Need
 
-The async/await pattern became a feature of many programming languages, such as C#, C++, Dart, Kotlin, Rust, Python, TypeScript/JavaScript and Swift. It allows an asynchronous, non-blocking function to be structured in a way similar to an ordinary synchronous function.
+The async/await pattern became a feature of many programming languages, such as C#, C++, Dart, Kotlin, Rust, Python, TypeScript/JavaScript, and Swift. It allows an asynchronous, non-blocking function to be structured in a way similar to an ordinary synchronous function.
 
 While it is quite convenient, it is not suitable to perform multiple asynchronous tasks concurrently.
 
-For example, following TypeScript code will execute TaskA and TaskB sequentially even though they are independent.
+For example, the following TypeScript code will execute TaskA and TaskB sequentially even though they are independent.
 
 ```typescript
 const TaskRunner = async () => {
@@ -23,7 +23,7 @@ const TaskRunner = async () => {
 };
 ```
 
-This technique is fine for simple cases, but will become harder for complex case like this (if you are an experienced TypeScript developer, try to fully optimize it before reading further):
+This technique is fine for simple cases, but will become harder for complex cases like this (if you are an experienced TypeScript developer, try to fully optimize it before reading further):
 
 ```typescript
 const TaskRunner = async () => {

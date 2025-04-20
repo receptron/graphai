@@ -28,7 +28,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -44,7 +44,7 @@ Array Join Agent
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -55,7 +55,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
@@ -63,7 +63,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
@@ -71,7 +71,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
@@ -79,7 +79,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
@@ -87,7 +87,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
@@ -95,7 +95,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
@@ -103,7 +103,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
@@ -111,7 +111,7 @@ Array Join Agent
   ":agentId.text"
 ]
 
-````
+```
 
 ## Samples
 
@@ -135,7 +135,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -143,7 +143,7 @@ Array Join Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -153,7 +153,7 @@ Array Join Agent
   "text": "123"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -176,7 +176,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -184,7 +184,7 @@ Array Join Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -194,7 +194,7 @@ Array Join Agent
   "text": "123"
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -215,7 +215,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -223,7 +223,7 @@ Array Join Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -233,7 +233,7 @@ Array Join Agent
   "text": "abc"
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -254,7 +254,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -262,7 +262,7 @@ Array Join Agent
 
 {"separator":"|"}
 
-````
+```
 
 #### result
 
@@ -272,7 +272,7 @@ Array Join Agent
   "text": "1|2|3"
 }
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -297,7 +297,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -305,7 +305,7 @@ Array Join Agent
 
 {"separator":"|"}
 
-````
+```
 
 #### result
 
@@ -315,7 +315,7 @@ Array Join Agent
   "text": "1|2,3"
 }
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -340,7 +340,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -348,7 +348,7 @@ Array Join Agent
 
 {"separator":"|","flat":1}
 
-````
+```
 
 #### result
 
@@ -358,7 +358,7 @@ Array Join Agent
   "text": "1|2|3"
 }
 
-````
+```
 ### Sample6
 
 #### inputs
@@ -385,7 +385,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -393,7 +393,7 @@ Array Join Agent
 
 {"separator":"|","flat":1}
 
-````
+```
 
 #### result
 
@@ -403,7 +403,7 @@ Array Join Agent
   "text": "1|2,3"
 }
 
-````
+```
 ### Sample7
 
 #### inputs
@@ -430,7 +430,7 @@ Array Join Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -438,7 +438,7 @@ Array Join Agent
 
 {"separator":"|","flat":2}
 
-````
+```
 
 #### result
 
@@ -448,7 +448,7 @@ Array Join Agent
   "text": "1|2|3"
 }
 
-````
+```
 
 ## Author
 
@@ -461,4 +461,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

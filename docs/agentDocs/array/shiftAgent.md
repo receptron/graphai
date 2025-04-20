@@ -28,7 +28,7 @@ shift Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -61,7 +61,7 @@ shift Agent
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -75,7 +75,7 @@ shift Agent
   ":agentId.item"
 ]
 
-````
+```
 ```json
 
 [
@@ -86,7 +86,7 @@ shift Agent
   ":agentId.item"
 ]
 
-````
+```
 
 ## Samples
 
@@ -104,7 +104,7 @@ shift Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -112,7 +112,7 @@ shift Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -126,7 +126,7 @@ shift Agent
   "item": 1
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -141,7 +141,7 @@ shift Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -149,7 +149,7 @@ shift Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -163,7 +163,7 @@ shift Agent
   "item": "a"
 }
 
-````
+```
 
 ## Author
 
@@ -176,4 +176,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

@@ -1,8 +1,5 @@
 # mapAgent
 
-
-
-
 ## Description
 
 Map Agent
@@ -12,7 +9,6 @@ Map Agent
 #### inputs
 
 ```json
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
@@ -30,13 +26,11 @@ Map Agent
     "rows"
   ]
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -46,10 +40,9 @@ Map Agent
   ":agentId.$1.test",
   ":agentId.$1.test.$0"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -67,10 +60,9 @@ Map Agent
   ":agentId.$6",
   ":agentId.$6.node2"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -78,10 +70,9 @@ Map Agent
   ":agentId.$1",
   ":agentId.$1.node2"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -89,10 +80,9 @@ Map Agent
   ":agentId.$1",
   ":agentId.$1.node2"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -106,10 +96,9 @@ Map Agent
   ":agentId.$1.test.$0",
   ":agentId.$1.row"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -131,10 +120,9 @@ Map Agent
   ":agentId.$1.test",
   ":agentId.$1.row"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.test",
@@ -143,10 +131,9 @@ Map Agent
   ":agentId.test.$1",
   ":agentId.test.$1.$0"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.node2",
@@ -158,10 +145,9 @@ Map Agent
   ":agentId.node2.$5",
   ":agentId.node2.$6"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.test",
@@ -176,10 +162,9 @@ Map Agent
   ":agentId.row.$0",
   ":agentId.row.$1"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.__mapIndex",
@@ -211,8 +196,7 @@ Map Agent
   ":agentId.row.$0",
   ":agentId.row.$1"
 ]
-
-````
+```
 
 ## Samples
 
@@ -221,28 +205,23 @@ Map Agent
 #### inputs
 
 ```json
-
 {
   "rows": [
     1,
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "test": [
@@ -255,14 +234,12 @@ Map Agent
     ]
   }
 ]
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     "apple",
@@ -274,21 +251,17 @@ Map Agent
     "tomato"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "node2": "I love apple."
@@ -312,14 +285,12 @@ Map Agent
     "node2": "I love tomato."
   }
 ]
-
-````
+```
 ### Sample2
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     {
@@ -330,21 +301,17 @@ Map Agent
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "node2": "I love apple."
@@ -353,14 +320,12 @@ Map Agent
     "node2": "I love orange."
   }
 ]
-
-````
+```
 ### Sample3
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     {
@@ -373,21 +338,17 @@ Map Agent
   "name": "You",
   "verb": "like"
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "node2": "You like apple."
@@ -396,35 +357,29 @@ Map Agent
     "node2": "You like orange."
   }
 ]
-
-````
+```
 ### Sample4
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     1,
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"resultAll":true}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "__mapIndex": 0,
@@ -441,35 +396,29 @@ Map Agent
     "row": 2
   }
 ]
-
-````
+```
 ### Sample5
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     1,
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"resultAll":true}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "__mapIndex": 0,
@@ -498,35 +447,29 @@ Map Agent
     "row": 2
   }
 ]
-
-````
+```
 ### Sample6
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     1,
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"compositeResult":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "test": [
     [
@@ -537,14 +480,12 @@ Map Agent
     ]
   ]
 }
-
-````
+```
 ### Sample7
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     "apple",
@@ -556,21 +497,17 @@ Map Agent
     "tomato"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"compositeResult":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "node2": [
     "I love apple.",
@@ -582,35 +519,29 @@ Map Agent
     "I love tomato."
   ]
 }
-
-````
+```
 ### Sample8
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     1,
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"resultAll":true,"compositeResult":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "test": [
     [
@@ -629,35 +560,29 @@ Map Agent
     2
   ]
 }
-
-````
+```
 ### Sample9
 
 #### inputs
 
 ```json
-
 {
   "rows": [
     1,
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"resultAll":true,"compositeResult":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "__mapIndex": [
     0,
@@ -706,8 +631,7 @@ Map Agent
     2
   ]
 }
-
-````
+```
 
 ## Author
 
@@ -720,4 +644,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

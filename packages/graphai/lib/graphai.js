@@ -11,7 +11,7 @@ const task_manager_1 = require("./task_manager");
 exports.defaultConcurrency = 8;
 exports.graphDataLatestVersion = 0.5;
 class GraphAI {
-    // This method is called when either the GraphAI obect was created,
+    // This method is called when either the GraphAI object was created,
     // or we are about to start n-th iteration (n>2).
     createNodes(graphData) {
         const nodes = Object.keys(graphData.nodes).reduce((_nodes, nodeId) => {

@@ -1,4 +1,3 @@
-
 # @graphai/openai_fetch_agent for GraphAI
 
 OpenAI fetch agents for GraphAI and browser.
@@ -8,7 +7,6 @@ OpenAI fetch agents for GraphAI and browser.
 ```sh
 yarn add @graphai/openai_fetch_agent
 ```
-
 
 ### Usage
 
@@ -26,10 +24,10 @@ const result = await graph.run();
 - openAIFetchAgent - OpenAI Fetch Agent
 
 ### Input/Output/Params Schema & samples
- - [openAIFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIFetchAgent.md)
+- [openAIFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIFetchAgent.md)
 
 ### Input/Params example
- - openAIFetchAgent
+- openAIFetchAgent
 
 ```typescript
 {
@@ -39,11 +37,6 @@ const result = await graph.run();
   "params": {}
 }
 ```
-
-
-
-
-
 
 ### GraphData Example
 
@@ -90,7 +83,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-

@@ -1,4 +1,3 @@
-
 # @graphai/groq_agent for GraphAI
 
 Groq agents for GraphAI.
@@ -35,7 +34,6 @@ const result = await graph.run();
    - GROQ_API_KEY
 
 
-
 ### GraphData Example
 
 #### graphDataGroqMath
@@ -58,7 +56,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-

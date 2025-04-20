@@ -1,8 +1,5 @@
 # propertyFilterAgent
 
-
-
-
 ## Description
 
 Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
@@ -12,17 +9,14 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 #### inputs
 
 ```json
-
 {
   "type": "object"
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "type": "any",
   "properties": {
@@ -36,31 +30,27 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     }
   }
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.color",
   ":agentId.model"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.color",
   ":agentId.model"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -70,10 +60,9 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.color",
   ":agentId.$1.model"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -85,20 +74,18 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.maker",
   ":agentId.$1.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.type",
   ":agentId.maker",
   ":agentId.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -114,10 +101,9 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.maker",
   ":agentId.$1.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.color",
@@ -126,10 +112,9 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.maker",
   ":agentId.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -145,10 +130,9 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.maker",
   ":agentId.$1.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.color",
@@ -157,10 +141,9 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.maker",
   ":agentId.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -176,10 +159,9 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.maker",
   ":agentId.$1.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -195,10 +177,9 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.maker",
   ":agentId.$1.range"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -218,8 +199,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.isTesla",
   ":agentId.$1.isGM"
 ]
-
-````
+```
 
 ## Samples
 
@@ -228,7 +208,6 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -240,33 +219,27 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"include":["color","model"]}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "color": "red",
   "model": "Model 3"
 }
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "item": {
     "color": "red",
@@ -276,33 +249,27 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 300
   }
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"include":["color","model"]}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "color": "red",
   "model": "Model 3"
 }
-
-````
+```
 ### Sample2
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -324,21 +291,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "Tesla Motors"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"include":["color","model"]}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "color": "red",
@@ -349,14 +312,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "model": "Model Y"
   }
 ]
-
-````
+```
 ### Sample3
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -378,21 +339,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "Tesla Motors"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"exclude":["color","model"]}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "type": "EV",
@@ -405,14 +362,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 400
   }
 ]
-
-````
+```
 ### Sample4
 
 #### inputs
 
 ```json
-
 {
   "item": {
     "color": "red",
@@ -422,34 +377,28 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 300
   }
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"exclude":["color","model"]}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "type": "EV",
   "maker": "Tesla",
   "range": 300
 }
-
-````
+```
 ### Sample5
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -471,21 +420,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "Tesla Motors"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"alter":{"color":{"red":"blue","blue":"red"}}}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "color": "blue",
@@ -502,14 +447,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 400
   }
 ]
-
-````
+```
 ### Sample6
 
 #### inputs
 
 ```json
-
 {
   "item": {
     "color": "red",
@@ -519,21 +462,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 300
   }
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"alter":{"color":{"red":"blue","blue":"red"}}}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "color": "blue",
   "model": "Model 3",
@@ -541,14 +480,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "maker": "Tesla",
   "range": 300
 }
-
-````
+```
 ### Sample7
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -570,21 +507,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "Tesla Motors"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"swap":{"maker":"model"}}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "color": "red",
@@ -601,14 +534,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 400
   }
 ]
-
-````
+```
 ### Sample8
 
 #### inputs
 
 ```json
-
 {
   "item": {
     "color": "red",
@@ -618,21 +549,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 300
   }
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"swap":{"maker":"model"}}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "color": "red",
   "model": "Tesla",
@@ -640,14 +567,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "maker": "Model 3",
   "range": 300
 }
-
-````
+```
 ### Sample9
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -669,21 +594,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "Tesla Motors"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"inject":[{"propId":"maker","from":1}]}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "color": "red",
@@ -700,14 +621,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 400
   }
 ]
-
-````
+```
 ### Sample10
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -729,21 +648,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "Tesla Motors"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"inject":[{"propId":"maker","from":1,"index":0}]}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "color": "red",
@@ -760,14 +675,12 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "range": 400
   }
 ]
-
-````
+```
 ### Sample11
 
 #### inputs
 
 ```json
-
 {
   "array": [
     [
@@ -789,21 +702,17 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "Tesla Motors"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"inspect":[{"propId":"isTesla","equal":"Tesla Motors"},{"propId":"isGM","notEqual":"Tesla Motors","from":1}]}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "color": "red",
@@ -824,8 +733,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
     "isGM": false
   }
 ]
-
-````
+```
 
 ## Author
 
@@ -838,4 +746,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

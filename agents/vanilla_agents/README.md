@@ -1,4 +1,3 @@
-
 # @graphai/vanilla for GraphAI
 
 Vanilla agents for GraphAI.
@@ -14,7 +13,7 @@ yarn add @graphai/vanilla
 
 ```typescript
 import { GraphAI } from "graphai";
-import { 
+import {
   arrayFlatAgent,
   arrayJoinAgent,
   compareAgent,
@@ -47,7 +46,7 @@ import {
   vanillaFetchAgent
  } from "@graphai/vanilla";
 
-const agents = { 
+const agents = {
   arrayFlatAgent,
   arrayJoinAgent,
   compareAgent,
@@ -87,32 +86,32 @@ const result = await graph.run();
 ### Agents description
 - arrayFlatAgent - Array Flat Agent
 - arrayJoinAgent - Array Join Agent
-- compareAgent - compare
-- copy2ArrayAgent - Copy2Array agent
+- compareAgent - Compare Agent
+- copy2ArrayAgent - Copy2Array Agent
 - copyAgent - Returns namedInputs
-- copyMessageAgent - CopyMessage agent
-- countingAgent - Counting agent
+- copyMessageAgent - CopyMessage Agent
+- countingAgent - Counting Agent
 - dataSumTemplateAgent - Returns the sum of input values
-- dotProductAgent - dotProduct Agent
-- echoAgent - Echo agent
-- images2messageAgent - Returns the message data for llm include image
-- jsonParserAgent - Template agent
+- dotProductAgent - Dot Product Agent
+- echoAgent - Echo Agent
+- images2messageAgent - Returns the message data for LLM include image
+- jsonParserAgent - Template Agent
 - lookupDictionaryAgent - Select elements with params
 - mapAgent - Map Agent
-- mergeNodeIdAgent - merge node id agent
-- nestedAgent - nested Agent
+- mergeNodeIdAgent - Merge Node ID Agent
+- nestedAgent - Nested Agent
 - popAgent - Pop Agent
 - propertyFilterAgent - Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
-- pushAgent - push Agent
-- shiftAgent - shift Agent
-- sleeperAgent - sleeper Agent
-- sortByValuesAgent - sortByValues Agent
-- streamMockAgent - Stream mock agent
-- stringCaseVariantsAgent - Format String Cases agent
+- pushAgent - Push Agent
+- shiftAgent - Shift Agent
+- sleeperAgent - Sleeper Agent
+- sortByValuesAgent - Sort By Values Agent
+- streamMockAgent - Stream Mock Agent
+- stringCaseVariantsAgent - Format String Cases Agent
 - stringEmbeddingsAgent - Embeddings Agent
-- stringSplitterAgent - This agent strip one long string into chunks using following parameters
-- stringTemplateAgent - Template agent
-- stringUpdateTextAgent - 
+- stringSplitterAgent - This agent strips one long string into chunks using following parameters
+- stringTemplateAgent - Template Agent
+- stringUpdateTextAgent - Updates text based on specified parameters
 - totalAgent - Returns the sum of input values
 - vanillaFetchAgent - Retrieves JSON data from the specified URL
 
@@ -4178,7 +4177,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-

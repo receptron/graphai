@@ -1,8 +1,5 @@
 # textInputAgent
 
-
-
-
 ## Description
 
 Text Input Agent
@@ -12,7 +9,6 @@ Text Input Agent
 #### inputs
 
 ```json
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
@@ -20,13 +16,11 @@ Text Input Agent
   "properties": {},
   "required": []
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.text",
@@ -34,10 +28,9 @@ Text Input Agent
   ":agentId.content.role",
   ":agentId.content.content"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.text",
@@ -45,8 +38,7 @@ Text Input Agent
   ":agentId.content.role",
   ":agentId.content.content"
 ]
-
-````
+```
 
 ## Samples
 
@@ -55,23 +47,18 @@ Text Input Agent
 #### inputs
 
 ```json
-
 {}
-
-````
+```
 
 #### params
 
 ```json
-
 {"message":"Enter your message to AI."}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "text": "message from the user",
   "content": {
@@ -79,30 +66,24 @@ Text Input Agent
     "content": "message from the user"
   }
 }
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {}
-
-````
+```
 
 #### params
 
 ```json
-
 {"message":"Enter your message to AI.","role":"system"}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "text": "message from the user",
   "content": {
@@ -110,8 +91,7 @@ Text Input Agent
     "content": "message from the user"
   }
 }
-
-````
+```
 
 ## Author
 
@@ -124,4 +104,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

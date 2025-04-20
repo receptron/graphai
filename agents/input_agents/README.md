@@ -1,4 +1,3 @@
-
 # @graphai/input_agents for GraphAI
 
 Input agents for GraphAI.
@@ -26,10 +25,10 @@ const result = await graph.run();
 - textInputAgent - Text Input Agent
 
 ### Input/Output/Params Schema & samples
- - [textInputAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/input/textInputAgent.md)
+- [textInputAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/input/textInputAgent.md)
 
 ### Input/Params example
- - textInputAgent
+- textInputAgent
 
 ```typescript
 {
@@ -50,13 +49,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-

@@ -14,7 +14,6 @@ merge node id agent
 #### inputs
 
 ```json
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
@@ -41,20 +40,17 @@ merge node id agent
     "array"
   ]
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.message",
   ":agentId.test"
 ]
-
-````
+```
 
 ## Samples
 
@@ -63,7 +59,6 @@ merge node id agent
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -71,27 +66,22 @@ merge node id agent
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "message": "hello",
   "test": "hello"
 }
-
-````
+```
 
 ## Author
 
@@ -104,4 +94,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

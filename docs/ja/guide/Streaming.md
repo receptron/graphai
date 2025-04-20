@@ -140,4 +140,5 @@ const graphai = new GraphAI(selectedGraph.value, agents, { agentFilters, bypassA
 - httpAgentFilterの実装（GraphAI AgentのエージェントFilterクライアント形式）：
   https://github.com/receptron/graphai/blob/main/packages/agent_filters/src/filters/http_client.ts
 
-- 原文書（日本語）https://zenn.dev/singularity/articles/graphai-streaming
+- 原文書（日本語）：
+  https://zenn.dev/singularity/articles/graphai-streaming

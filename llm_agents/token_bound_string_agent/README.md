@@ -1,14 +1,12 @@
-
 # @graphai/token_bound_string_agent for GraphAI
 
-This agent generate a reference string from a sorted array of strings, adding one by one until the token count exceeds the specified limit. 
+This agent generates a reference string from a sorted array of strings, adding one by one until the token count exceeds the specified limit.
 
 ### Install
 
 ```sh
 yarn add @graphai/token_bound_string_agent
 ```
-
 
 ### Usage
 
@@ -51,13 +49,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-

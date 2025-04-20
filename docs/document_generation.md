@@ -1,4 +1,3 @@
-
 ## GraphAI apiDoc
 
 https://receptron.github.io/graphai/apiDoc/
@@ -25,9 +24,9 @@ yarn run doc
 
 This script generates a document from the AgentFunctionInfo of all agents.
 
-Github Action automatically run this script.
+GitHub Action automatically runs this script.
 
-## GraphData examples from graphData on Test each each packages
+## GraphData examples from graphData on Test each package
 
 ```
 yarn run examplesDoc
@@ -40,8 +39,7 @@ These markdown files use the agent doc command.
 - agentDir/docs/GraphDataYAML.md
 
 
-
-## agentDoc for each agents
+## agentDoc for each agent
 
 ```
 npx agentdoc
@@ -51,10 +49,9 @@ npx agentdoc
 
 read from package.json and docs/*.md and source code,
 
-writes to README.md in each package
+writes to README.md in each package.
 
 The implementation of this script is `graphai/packages/agentdoc/src/agentdoc.ts`.
-
 
 If you want to add your own text to the readme, add the following md under docs.
 
@@ -94,6 +91,5 @@ yarn run monoRepoAgentDoc
 
 This script includes meta-agent packages, so you need to maintain them.
 Anything not included in the meta-package needs to be specified separately.
-
 
 src/monoRepoAgentDocs.ts

@@ -1,4 +1,3 @@
-
 # @graphai/slashgpt_agent for GraphAI
 
 SlashGPT agents for GraphAI.
@@ -41,13 +40,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-
-
-
-
-
-
-

@@ -8,7 +8,7 @@ const lookupDictionaryAgent = async ({ namedInputs, params }) => {
     (0, graphai_1.assert)((0, agent_utils_1.isNamedInputs)(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
     const result = params[namedKey];
     if (params.throwError && result === undefined) {
-        throw new Error(`lookupDictionaryAgent eerror: ${namedKey} is missing`);
+        throw new Error(`lookupDictionaryAgent error: ${namedKey} is missing`);
     }
     return result;
 };

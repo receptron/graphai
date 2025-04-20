@@ -1,8 +1,5 @@
 # replicateAgent
 
-
-
-
 ## Description
 
 Replicate Agent
@@ -12,26 +9,18 @@ Replicate Agent
 #### inputs
 
 ```json
-
 {}
-
-````
+```
 
 #### output
 
 ```json
-
 {}
-
-````
+```
 
 ## Input example of the next node
 
-
-
 ## Samples
-
-
 
 ## Author
 
@@ -44,4 +33,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

@@ -1,8 +1,5 @@
 # openAIFetchAgent
 
-
-
-
 ## Description
 
 OpenAI Fetch Agent
@@ -12,7 +9,6 @@ OpenAI Fetch Agent
 #### inputs
 
 ```json
-
 {
   "type": "object",
   "properties": {
@@ -80,13 +76,11 @@ OpenAI Fetch Agent
     }
   }
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "type": "object",
   "properties": {
@@ -196,13 +190,11 @@ OpenAI Fetch Agent
     "usage"
   ]
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.object",
@@ -218,8 +210,7 @@ OpenAI Fetch Agent
   ":agentId.created",
   ":agentId.model"
 ]
-
-````
+```
 
 ## Samples
 
@@ -228,25 +219,20 @@ OpenAI Fetch Agent
 #### inputs
 
 ```json
-
 {
   "prompt": "this is response result"
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "object": "chat.completion",
   "id": "chatcmpl-9N7HxXYbwjmdbdiQE94MHoVluQhyt",
@@ -264,8 +250,7 @@ OpenAI Fetch Agent
   "created": 1715296589,
   "model": "gpt-3.5-turbo-0125"
 }
-
-````
+```
 
 ## Author
 
@@ -278,4 +263,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

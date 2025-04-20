@@ -7,4 +7,3 @@
 | replicateAgent | REPLICATE_API_TOKEN  | N      | N     | N     | N       |
 
 (*1) dangerouslyAllowBrowser
-

@@ -1,6 +1,5 @@
 # Samples
 
-
 ## Interview
 
 Source code: [Interview](./llm/interview.ts)
@@ -53,7 +52,7 @@ This sample is an interactive chat loop, where the user can engage in a conversa
 
 ## In-memory RAG
 
-Souce Code: [Wikipedia](./embeddings/wikipedia.ts)
+Source Code: [Wikipedia](./embeddings/wikipedia.ts)
 
 This sample is a Retrieval-Augmented Generation (RAG) application using GraphAI. This graph is designed to query information about Sam Bankman-Fried's final court sentence, retrieve relevant data from Wikipedia, process it, and finally generate a response using a Large Language Model (LLM) such as GPT-3.5.
 
@@ -108,7 +107,7 @@ This sample aims to generate another GraphAI graph that collects user informatio
 Source code: [Describe Graph](./llm/describe_graph.ts)
 
 1. The `describer` node asks the GPT-4 to generate the description of the specified graph.
-2. The `description` node extract the description from the generated message.
+2. The `description` node extracts the description from the generated message.
 
 ## RSS Reader
 
@@ -128,7 +127,7 @@ This sample fetches and processes RSS feed data from a given URL, specifically f
 
 Source code: [Weather](./net/weather.ts)
 
-THis sample simulates a conversation with a meteorologist. The system is capable of handling user inputs, querying a weather API, and managing the conversation iteratively based on user requests.
+This sample simulates a conversation with a meteorologist. The system is capable of handling user inputs, querying a weather API, and managing the conversation iteratively based on user requests.
 
 1. The loop starts with the `continue` node set to `true`.
 2. The user is prompted to input a location.

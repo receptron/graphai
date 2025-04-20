@@ -1,4 +1,3 @@
-
 # @graphai/tools_agent for GraphAI
 
 General tools agents
@@ -8,7 +7,6 @@ General tools agents
 ```sh
 yarn add @graphai/tools_agent
 ```
-
 
 ### Usage
 
@@ -23,13 +21,13 @@ const result = await graph.run();
 ```
 
 ### Agents description
-- toolsAgent - 
+- toolsAgent -
 
 ### Input/Output/Params Schema & samples
  - [toolsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/undefined/toolsAgent.md)
 
 ### Input/Params example
- - toolsAgent
+- toolsAgent
 
 ```typescript
 {
@@ -40,7 +38,7 @@ const result = await graph.run();
         "type": "function",
         "function": {
           "name": "lightAgent--toggleLight",
-          "description": "Switch of light",
+          "description": "Switch off light",
           "parameters": {
             "type": "object",
             "properties": {
@@ -70,13 +68,3 @@ const result = await graph.run();
   "params": {}
 }
 ```
-
-
-
-
-
-
-
-
-
-

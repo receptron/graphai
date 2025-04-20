@@ -1,8 +1,5 @@
 # copyAgent
 
-
-
-
 ## Description
 
 Returns namedInputs
@@ -12,7 +9,6 @@ Returns namedInputs
 #### inputs
 
 ```json
-
 {
   "anyOf": [
     {
@@ -29,13 +25,11 @@ Returns namedInputs
     }
   ]
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "anyOf": [
     {
@@ -52,37 +46,30 @@ Returns namedInputs
     }
   ]
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.color",
   ":agentId.model"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.array",
   ":agentId.array.$0",
   ":agentId.array.$1"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId"
 ]
-
-````
+```
 
 ## Samples
 
@@ -91,95 +78,77 @@ Returns namedInputs
 #### inputs
 
 ```json
-
 {
   "color": "red",
   "model": "Model 3"
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "color": "red",
   "model": "Model 3"
 }
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "array": [
     "Hello World",
     "Discarded"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     "Hello World",
     "Discarded"
   ]
 }
-
-````
+```
 ### Sample2
 
 #### inputs
 
 ```json
-
 {
   "color": "red",
   "model": "Model 3"
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"namedKey":"color"}
-
-````
+```
 
 #### result
 
 ```json
-
 "red"
-
-````
+```
 
 ## Author
 
@@ -192,4 +161,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

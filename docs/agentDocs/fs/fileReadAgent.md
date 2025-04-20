@@ -1,8 +1,5 @@
 # fileReadAgent
 
-
-
-
 ## Description
 
 Read data from file system and returns data
@@ -12,7 +9,6 @@ Read data from file system and returns data
 #### inputs
 
 ```json
-
 {
   "type": "object",
   "properties": {
@@ -25,23 +21,19 @@ Read data from file system and returns data
     "array"
   ]
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "type": "object"
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.array",
@@ -53,34 +45,30 @@ Read data from file system and returns data
   ":agentId.array.$0.4",
   ":agentId.array.$0.5"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.array",
   ":agentId.array.$0"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.array",
   ":agentId.array.$0"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.data"
 ]
-
-````
+```
 
 ## Samples
 
@@ -89,27 +77,22 @@ Read data from file system and returns data
 #### inputs
 
 ```json
-
 {
   "array": [
     "test.txt"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     {
@@ -125,103 +108,84 @@ Read data from file system and returns data
     }
   ]
 }
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "array": [
     "test.txt"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"base64"}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     "aGVsbG8K"
   ]
 }
-
-````
+```
 ### Sample2
 
 #### inputs
 
 ```json
-
 {
   "array": [
     "test.txt"
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "array": [
     "hello\n"
   ]
 }
-
-````
+```
 ### Sample3
 
 #### inputs
 
 ```json
-
 {
   "file": "test.txt"
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "data": "hello\n"
 }
-
-````
+```
 
 ## Author
 
@@ -234,4 +198,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

@@ -1,8 +1,5 @@
 # sortByValuesAgent
 
-
-
-
 ## Description
 
 sortByValues Agent
@@ -12,7 +9,6 @@ sortByValues Agent
 #### inputs
 
 ```json
-
 {
   "type": "object",
   "properties": {
@@ -30,23 +26,19 @@ sortByValues Agent
     "values"
   ]
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "type": "array"
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -54,10 +46,9 @@ sortByValues Agent
   ":agentId.$2",
   ":agentId.$3"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -65,8 +56,7 @@ sortByValues Agent
   ":agentId.$2",
   ":agentId.$3"
 ]
-
-````
+```
 
 ## Samples
 
@@ -75,7 +65,6 @@ sortByValues Agent
 #### inputs
 
 ```json
-
 {
   "array": [
     "banana",
@@ -90,35 +79,29 @@ sortByValues Agent
     4
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   "lemon",
   "orange",
   "apple",
   "banana"
 ]
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "array": [
     "banana",
@@ -133,29 +116,24 @@ sortByValues Agent
     4
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
-{"assendant":true}
-
-````
+{"ascendant":true}
+```
 
 #### result
 
 ```json
-
 [
   "banana",
   "apple",
   "orange",
   "lemon"
 ]
-
-````
+```
 
 ## Author
 
@@ -168,4 +146,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

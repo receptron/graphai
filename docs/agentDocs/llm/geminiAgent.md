@@ -1,8 +1,5 @@
 # geminiAgent
 
-
-
-
 ## Description
 
 Gemini Agent
@@ -12,7 +9,6 @@ Gemini Agent
 #### inputs
 
 ```json
-
 {
   "type": "object",
   "properties": {
@@ -54,26 +50,19 @@ Gemini Agent
     }
   }
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "type": "object"
 }
-
-````
+```
 
 ## Input example of the next node
 
-
-
 ## Samples
-
-
 
 ## Author
 
@@ -86,4 +75,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

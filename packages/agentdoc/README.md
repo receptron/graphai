@@ -8,7 +8,7 @@ GraphAI agent document generator
 npm i -g  @receptron/agentdoc
 ```
 
-## Usage 📖 
+## Usage 📖
 
 In agent root directory,
 

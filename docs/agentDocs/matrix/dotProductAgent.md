@@ -1,8 +1,5 @@
 # dotProductAgent
 
-
-
-
 ## Description
 
 dotProduct Agent
@@ -12,13 +9,12 @@ dotProduct Agent
 #### inputs
 
 ```json
-
 {
   "type": "object",
   "properties": {
     "matrix": {
       "type": "array",
-      "description": "two dimentional matrix",
+      "description": "two dimensional matrix",
       "items": {
         "type": "array",
         "items": {
@@ -39,40 +35,34 @@ dotProduct Agent
     "vector"
   ]
 }
-
-````
+```
 
 #### output
 
 ```json
-
 {
   "type": "array"
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
   ":agentId.$1",
   ":agentId.$2"
 ]
+```
 
-````
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
   ":agentId.$1"
 ]
-
-````
+```
 
 ## Samples
 
@@ -81,7 +71,6 @@ dotProduct Agent
 #### inputs
 
 ```json
-
 {
   "matrix": [
     [
@@ -102,34 +91,28 @@ dotProduct Agent
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   7,
   17,
   27
 ]
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "matrix": [
     [
@@ -146,27 +129,22 @@ dotProduct Agent
     2
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   5,
   8
 ]
-
-````
+```
 
 ## Author
 
@@ -179,4 +157,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

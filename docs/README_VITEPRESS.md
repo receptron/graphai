@@ -104,6 +104,6 @@ yarn deploy
 
 ## Config
 
-### Show Case Community Articles
+### Showcase Community Articles
 
 .vitepress/theme/components/CommunityArticles/article.data.mts

@@ -28,7 +28,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -44,7 +44,7 @@ Array Flat Agent
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -58,7 +58,7 @@ Array Flat Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -70,7 +70,7 @@ Array Flat Agent
   ":agentId.array.$2.$0"
 ]
 
-````
+```
 ```json
 
 [
@@ -81,7 +81,7 @@ Array Flat Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -92,7 +92,7 @@ Array Flat Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 
 ## Samples
 
@@ -116,7 +116,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -124,7 +124,7 @@ Array Flat Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -138,7 +138,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -161,7 +161,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -169,7 +169,7 @@ Array Flat Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -185,7 +185,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -208,7 +208,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -216,7 +216,7 @@ Array Flat Agent
 
 {"depth":2}
 
-````
+```
 
 #### result
 
@@ -230,7 +230,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -251,7 +251,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -259,7 +259,7 @@ Array Flat Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -273,7 +273,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 ## Author
 
@@ -286,4 +286,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

@@ -1,4 +1,3 @@
-
 # @graphai/anthropic_agent for GraphAI
 
 Anthropic agents for GraphAI.
@@ -29,11 +28,9 @@ const result = await graph.run();
  - [anthropicAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/anthropicAgent.md)
 
 
-
 ### Environment Variables
  - anthropicAgent
    - ANTHROPIC_API_KEY
-
 
 
 ### GraphData Example
@@ -55,7 +52,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-

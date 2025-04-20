@@ -62,7 +62,7 @@ Moreover, this approach allows for scaling up or down based on the computational
 
 ## Reference Implementation of Data Flow Programming Framework: GraphAI
 
-Since it became clear to us that we need to adapt this data flow programming for agentic applications, we have chosen to create a reference implementation in TypeScript. We chose TypeScript over Python, because it runs both on the server side and the client side, especially inside any web browers.
+Since it became clear to us that we need to adapt this data flow programming for agentic applications, we have chosen to create a reference implementation in TypeScript. We chose TypeScript over Python, because it runs both on the server side and the client side, especially inside any web browsers.
 
 The framework is called GraphAI (https://github.com/receptron/graphai) and it serves as a practical embodiment of the principles discussed previously, specifically tailored for building scalable and efficient AI systems in distributed environments. GraphAI leverages the inherent modularity and concurrency of data flow programming to simplify the development and deployment of complex AI-driven applications.
 
@@ -131,7 +131,7 @@ This application consists of 10 nodes. Each node responsible in either holding a
 2. "wikipedia" node: This node retrieves data from Wikipedia. The data source is the "name" property of the "source" property ("Sam Bankman-Fried"). The agent function associated with this node, "wikipediaAgent" passes the value from this data source to Wikipedia API and retrieves the content of the article of that topic.
 3. "chunks" node: This node receives the text data from the "wikipedia" node, and breaks it into overlapping text chunks, using the agent function, "stringSplitterAgent". The default size is 2048 character each and 512 character overlap, but can be altered by setting the params property.
 4. "chunkEmbeddings" node: This node converts text chunks from the "chunks" node into embedding vectors. The associated "stringEmbeddingsAgent" calls OpenAI's "embeddings" API to perform this operation.
-5. "topicEmbedding" node: This node converts the "query" property of the "source" node ("describe the final sentence by the court for Sam Bank-Frie") into an embedding vectors, also using "stringEmbeddingsAgent".
+5. "topicEmbedding" node: This node converts the "query" property of the "source" node ("describe the final sentence by the court for Sam Bankman-Fried") into an embedding vectors, also using "stringEmbeddingsAgent".
 6. "similarities" node: This node calculate the cosine similarities of each embedding vector of chunks and the embedding vector of the query, performing the dot product of each.
 7. "sortedChunks" node: This node sorts chunks using the similarities as the sort key, putting more similar chunks to the top.
 8. "referenceText" node: This node generate a reference text by concatenate sorted chunks up to the token limit (5000, which is specified in the "params" property).

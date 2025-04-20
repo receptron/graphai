@@ -1,4 +1,3 @@
-
 # @graphai/agents for GraphAI
 
 Agents for GraphAI.
@@ -21,12 +20,12 @@ const result = await graph.run();
 ```
 
 ### Related Agent Packages
- - [@graphai/data_agents](https://www.npmjs.com/package/@graphai/data_agents)
- - [@graphai/input_agents](https://www.npmjs.com/package/@graphai/input_agents)
- - [@graphai/llm_agents](https://www.npmjs.com/package/@graphai/llm_agents)
- - [@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)
- - [@graphai/sleeper_agents](https://www.npmjs.com/package/@graphai/sleeper_agents)
- - [@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+- [@graphai/data_agents](https://www.npmjs.com/package/@graphai/data_agents)
+- [@graphai/input_agents](https://www.npmjs.com/package/@graphai/input_agents)
+- [@graphai/llm_agents](https://www.npmjs.com/package/@graphai/llm_agents)
+- [@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)
+- [@graphai/sleeper_agents](https://www.npmjs.com/package/@graphai/sleeper_agents)
+- [@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
 
 ### GraphData Example
 
@@ -232,7 +231,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-

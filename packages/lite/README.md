@@ -1,6 +1,6 @@
 # GraphAI Lite
 
-GraphAI Lite is a light-weight version of [GraphAI](https://github.com/receptron/graphai#readme), the declarative data-flow programming framework that makes it easy to develop complex applications utilizing multiple asynchronous calls and their concurrent executions.
+GraphAI Lite is a lightweight version of [GraphAI](https://github.com/receptron/graphai#readme), the declarative data-flow programming framework that makes it easy to develop complex applications utilizing multiple asynchronous calls and their concurrent executions.
 
 GraphAI Lite consists of a set of small TypeScript libraries, allowing developers to leverage data-flow programming and eliminate the need to manage complex states involving asynchronous calls and concurrent executions.
 

@@ -9,7 +9,6 @@ Slash GPT Agent
 #### inputs
 
 ```json
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
@@ -17,13 +16,11 @@ Slash GPT Agent
   "properties": {},
   "required": []
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.$0",
@@ -35,8 +32,7 @@ Slash GPT Agent
   ":agentId.$1.content",
   ":agentId.$1.preset"
 ]
-
-````
+```
 
 ## Samples
 
@@ -45,23 +41,18 @@ Slash GPT Agent
 #### inputs
 
 ```json
-
 {}
-
-````
+```
 
 #### params
 
 ```json
-
 {"query":"Come up with ten business ideas for AI startup"}
-
-````
+```
 
 #### result
 
 ```json
-
 [
   {
     "role": "user",
@@ -74,8 +65,7 @@ Slash GPT Agent
     "preset": false
   }
 ]
-
-````
+```
 
 ## Author
 
@@ -88,4 +78,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-

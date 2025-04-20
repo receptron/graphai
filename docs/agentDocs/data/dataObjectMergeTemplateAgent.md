@@ -1,8 +1,5 @@
 # dataObjectMergeTemplateAgent
 
-
-
-
 ## Description
 
 Merge object
@@ -12,7 +9,6 @@ Merge object
 #### inputs
 
 ```json
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "description": "",
@@ -39,48 +35,38 @@ Merge object
     "array"
   ]
 }
-
-````
+```
 
 ## Input example of the next node
 
 ```json
-
 [
   ":agentId",
   ":agentId.content1",
   ":agentId.content2"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.content1"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.content"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.a",
   ":agentId.b",
   ":agentId.c"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.a",
@@ -95,38 +81,30 @@ Merge object
   ":agentId.b.d.e",
   ":agentId.b.d.e.f"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.data",
   ":agentId.data.content1",
   ":agentId.data.content2"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.data",
   ":agentId.data.content1"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.data",
   ":agentId.data.content"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.data",
@@ -134,10 +112,8 @@ Merge object
   ":agentId.data.b",
   ":agentId.data.c"
 ]
-
-````
+```
 ```json
-
 [
   ":agentId",
   ":agentId.data",
@@ -153,8 +129,7 @@ Merge object
   ":agentId.data.b.d.e",
   ":agentId.data.b.d.e.f"
 ]
-
-````
+```
 
 ## Samples
 
@@ -163,7 +138,6 @@ Merge object
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -174,33 +148,27 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"flatResponse":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "content1": "hello",
   "content2": "test"
 }
-
-````
+```
 ### Sample1
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -208,32 +176,26 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"flatResponse":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "content1": "hello"
 }
-
-````
+```
 ### Sample2
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -244,32 +206,26 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"flatResponse":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "content": "hello2"
 }
-
-````
+```
 ### Sample3
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -287,34 +243,28 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"flatResponse":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "a": 3,
   "b": 0,
   "c": 5
 }
-
-````
+```
 ### Sample4
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -346,21 +296,17 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {"flatResponse":true}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "a": {
     "b": {
@@ -382,14 +328,12 @@ Merge object
     }
   }
 }
-
-````
+```
 ### Sample5
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -400,35 +344,29 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "data": {
     "content1": "hello",
     "content2": "test"
   }
 }
-
-````
+```
 ### Sample6
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -436,34 +374,28 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "data": {
     "content1": "hello"
   }
 }
-
-````
+```
 ### Sample7
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -474,34 +406,28 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "data": {
     "content": "hello2"
   }
 }
-
-````
+```
 ### Sample8
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -519,21 +445,17 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "data": {
     "a": 3,
@@ -541,14 +463,12 @@ Merge object
     "c": 5
   }
 }
-
-````
+```
 ### Sample9
 
 #### inputs
 
 ```json
-
 {
   "array": [
     {
@@ -580,21 +500,17 @@ Merge object
     }
   ]
 }
-
-````
+```
 
 #### params
 
 ```json
-
 {}
-
-````
+```
 
 #### result
 
 ```json
-
 {
   "data": {
     "a": {
@@ -618,8 +534,7 @@ Merge object
     }
   }
 }
-
-````
+```
 
 ## Author
 
@@ -632,4 +547,3 @@ https://github.com/receptron/graphai
 ## License
 
 MIT
-
