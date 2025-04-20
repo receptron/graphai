@@ -1,7 +1,9 @@
 # fileReadAgent
 
-
-
+## Package
+[@graphai/vanilla_node_agents](https://www.npmjs.com/package/@graphai/vanilla_node_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_node_agents/src/node_file_agents/file_read_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_node_agents/src/node_file_agents/file_read_agent.ts)
 
 ## Description
 

@@ -1,7 +1,9 @@
 # textInputAgent
 
-
-
+## Package
+[@graphai/input_agents](https://www.npmjs.com/package/@graphai/input_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/input_agents/src/text_input_agent.ts](https://github.com/receptron/graphai/blob/main/agents/input_agents/src/text_input_agent.ts)
 
 ## Description
 

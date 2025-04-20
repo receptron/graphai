@@ -1,7 +1,9 @@
 # anthropicAgent
 
-
-
+## Package
+[@graphai/anthropic_agent](https://www.npmjs.com/package/@graphai/anthropic_agent)
+## Source
+[https://github.com/receptron/graphai/blob/main/llm_agents/anthropic_agent/src/anthropic_agent.ts](https://github.com/receptron/graphai/blob/main/llm_agents/anthropic_agent/src/anthropic_agent.ts)
 
 ## Description
 

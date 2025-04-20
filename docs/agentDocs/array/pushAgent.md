@@ -1,7 +1,9 @@
 # pushAgent
 
-
-
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/push_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/push_agent.ts)
 
 ## Description
 

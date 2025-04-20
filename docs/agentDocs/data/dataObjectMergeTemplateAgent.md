@@ -1,7 +1,9 @@
 # dataObjectMergeTemplateAgent
 
-
-
+## Package
+[@graphai/data_agents](https://www.npmjs.com/package/@graphai/data_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/data_agents/src/data_object_merge_template_agent.ts](https://github.com/receptron/graphai/blob/main/agents/data_agents/src/data_object_merge_template_agent.ts)
 
 ## Description
 

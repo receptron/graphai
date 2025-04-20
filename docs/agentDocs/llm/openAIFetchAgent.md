@@ -1,7 +1,9 @@
 # openAIFetchAgent
 
-
-
+## Package
+[@graphai/openai_fetch_agent](https://www.npmjs.com/package/@graphai/openai_fetch_agent)
+## Source
+[https://github.com/receptron/graphai/blob/main/llm_agents/openai_fetch_agent/src/openai_fetch_agent.ts](https://github.com/receptron/graphai/blob/main/llm_agents/openai_fetch_agent/src/openai_fetch_agent.ts)
 
 ## Description
 

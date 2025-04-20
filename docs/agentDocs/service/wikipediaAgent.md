@@ -1,7 +1,9 @@
 # wikipediaAgent
 
-
-
+## Package
+[@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/service_agents/src/wikipedia_agent.ts](https://github.com/receptron/graphai/blob/main/agents/service_agents/src/wikipedia_agent.ts)
 
 ## Description
 
