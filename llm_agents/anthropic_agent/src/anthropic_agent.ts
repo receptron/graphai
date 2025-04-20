@@ -192,6 +192,8 @@ const anthropicAgentInfo: AgentFunctionInfo = {
   category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/llm_agents/anthropic_agent/src/anthropic_agent.ts",
+  package: "@graphai/llm_agents",
   license: "MIT",
   stream: true,
   environmentVariables: ["ANTHROPIC_API_KEY"],

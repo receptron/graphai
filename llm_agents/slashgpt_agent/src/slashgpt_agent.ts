@@ -64,6 +64,8 @@ const slashGPTAgentInfo: AgentFunctionInfo = {
   category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/llm_agents/slashgpt_agent/src/slashgpt_agent.ts",
+  package: "@graphai/llm_agents",
   license: "MIT",
 
   stream: true,

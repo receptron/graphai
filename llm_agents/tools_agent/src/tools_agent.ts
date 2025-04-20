@@ -177,6 +177,8 @@ const toolsAgentInfo = {
   category: [],
   author: "",
   repository: "",
+  source: "https://github.com/receptron/graphai/blob/main/llm_agents/tools_agent/src/tools_agent.ts",
+  package: "@graphai/llm_agents",
   tools: [],
   license: "",
   hasGraphData: true,
