@@ -55,6 +55,8 @@ const textInputAgentInfo: AgentFunctionInfo = {
   category: ["input"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/input_agents/src/text_input_agent.ts",
+  package: "@graphai/input_agents",
   license: "MIT",
 };
 export default textInputAgentInfo;

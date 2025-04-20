@@ -46,7 +46,7 @@ const wikipediaAgentInfo: AgentFunctionInfo = {
   author: "Receptron",
   repository: "https://github.com/receptron/graphai",
   source: "https://github.com/receptron/graphai/blob/main/agents/service_agents/src/wikipedia_agent.ts",
-  package: "@graphai/agents",
+  package: "@graphai/service_agents",
   license: "MIT",
 };
 export default wikipediaAgentInfo;
