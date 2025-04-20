@@ -108,6 +108,8 @@ const workerAgentInfo = {
     category: ["graph"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/worker_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = workerAgentInfo;

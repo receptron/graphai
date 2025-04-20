@@ -143,6 +143,8 @@ const images2messageAgentInfo = {
     category: ["image"],
     author: "Receptron team",
     repository: "https://github.com/snakajima/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/images_agents/image_to_message_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = images2messageAgentInfo;

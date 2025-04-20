@@ -60,6 +60,8 @@ const stringEmbeddingsAgentInfo = {
     category: ["embedding"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/embedding_agent.ts",
+    package: "@graphai/vanilla",
     cacheType: "pureAgent",
     license: "MIT",
 };

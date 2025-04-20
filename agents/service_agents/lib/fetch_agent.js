@@ -142,6 +142,8 @@ const fetchAgentInfo = {
     category: ["service"],
     author: "Receptron",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/service_agents/src/fetch_agent.ts",
+    package: "@graphai/service_agents",
     license: "MIT",
 };
 exports.default = fetchAgentInfo;

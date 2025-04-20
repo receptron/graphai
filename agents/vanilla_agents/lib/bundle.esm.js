@@ -90,6 +90,8 @@ const stringSplitterAgentInfo = {
     category: ["string"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_splitter_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -190,6 +192,8 @@ const stringTemplateAgentInfo = {
     category: ["string"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_template_agent.ts",
+    package: "@graphai/vanilla",
     cacheType: "pureAgent",
     license: "MIT",
 };
@@ -251,6 +255,8 @@ const jsonParserAgentInfo = {
     category: ["string"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/json_parser_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -306,6 +312,8 @@ const stringCaseVariantsAgentInfo = {
     category: ["string"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_case_variants_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -437,6 +445,8 @@ const nestedAgentInfo = {
     category: ["graph"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/nested_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -511,6 +521,8 @@ const stringUpdateTextAgentInfo = {
     category: [],
     author: "",
     repository: "",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_update_text_agent.ts",
+    package: "@graphai/vanilla",
     tools: [],
     license: "",
     hasGraphData: true,
@@ -686,6 +698,8 @@ const pushAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/push_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1092,6 +1106,8 @@ const dotProductAgentInfo = {
     category: ["matrix"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/dot_product_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1168,6 +1184,8 @@ const sortByValuesAgentInfo = {
     category: ["matrix"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/sort_by_values_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1797,6 +1815,8 @@ const mapAgentInfo = {
     category: ["graph"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/map_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1930,6 +1950,8 @@ const totalAgentInfo = {
     category: ["data"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/snakajima/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/total_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2262,6 +2284,8 @@ const propertyFilterAgentInfo = {
     category: ["data"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/property_filter_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2304,6 +2328,8 @@ const copyAgentInfo = {
     category: ["data"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2369,6 +2395,8 @@ const lookupDictionaryAgentInfo = {
     category: ["data"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/lookup_dictionary_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2583,6 +2611,8 @@ const vanillaFetchAgentInfo = {
     category: ["service"],
     author: "Receptron",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/service_agents/vanilla_fetch_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2612,6 +2642,8 @@ const sleeperAgentInfo = {
     category: ["sleeper"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/sleeper_agents/sleeper_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -3168,6 +3200,8 @@ const compareAgentInfo = {
     category: ["compare"],
     author: "Receptron",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/compare_agents/compare_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -3310,6 +3344,8 @@ const images2messageAgentInfo = {
     category: ["image"],
     author: "Receptron team",
     repository: "https://github.com/snakajima/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/images_agents/image_to_message_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -3371,6 +3407,8 @@ const stringEmbeddingsAgentInfo = {
     category: ["embedding"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/embedding_agent.ts",
+    package: "@graphai/vanilla",
     cacheType: "pureAgent",
     license: "MIT",
 };

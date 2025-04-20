@@ -88,6 +88,8 @@ const fileReadAgentInfo = {
     category: ["fs"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_node_agents/src/node_file_agents/file_read_agent.ts",
+    package: "@graphai/vanilla_node_agents",
     license: "MIT",
 };
 exports.default = fileReadAgentInfo;

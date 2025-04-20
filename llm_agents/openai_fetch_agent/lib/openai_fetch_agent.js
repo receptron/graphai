@@ -337,6 +337,8 @@ const openAIFetchAgentInfo = {
     category: ["llm"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/llm_agents/openai_fetch_agent/src/openai_fetch_agent.ts",
+    package: "@graphai/openai_fetch_agent",
     license: "MIT",
     stream: true,
     npms: ["openai"],
