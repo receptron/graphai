@@ -42,7 +42,7 @@ merge node id agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -54,7 +54,7 @@ merge node id agent
   ":agentId.test"
 ]
 
-````
+```
 
 ## Samples
 
@@ -72,7 +72,7 @@ merge node id agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -80,7 +80,7 @@ merge node id agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -91,7 +91,7 @@ merge node id agent
   "test": "hello"
 }
 
-````
+```
 
 ## Author
 

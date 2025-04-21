@@ -57,7 +57,7 @@ Gemini Agent
   }
 }
 
-````
+```
 
 #### output
 
@@ -67,7 +67,7 @@ Gemini Agent
   "type": "object"
 }
 
-````
+```
 
 ## Input example of the next node
 

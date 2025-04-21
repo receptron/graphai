@@ -19,7 +19,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "type": "object"
 }
 
-````
+```
 
 #### output
 
@@ -39,7 +39,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -51,7 +51,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.model"
 ]
 
-````
+```
 ```json
 
 [
@@ -60,7 +60,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.model"
 ]
 
-````
+```
 ```json
 
 [
@@ -73,7 +73,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.model"
 ]
 
-````
+```
 ```json
 
 [
@@ -88,7 +88,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -98,7 +98,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -117,7 +117,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -129,7 +129,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -148,7 +148,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -160,7 +160,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -179,7 +179,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -198,7 +198,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.range"
 ]
 
-````
+```
 ```json
 
 [
@@ -221,7 +221,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ":agentId.$1.isGM"
 ]
 
-````
+```
 
 ## Samples
 
@@ -243,7 +243,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -251,7 +251,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"include":["color","model"]}
 
-````
+```
 
 #### result
 
@@ -262,7 +262,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "model": "Model 3"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -279,7 +279,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 }
 
-````
+```
 
 #### params
 
@@ -287,7 +287,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"include":["color","model"]}
 
-````
+```
 
 #### result
 
@@ -298,7 +298,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "model": "Model 3"
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -327,7 +327,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -335,7 +335,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"include":["color","model"]}
 
-````
+```
 
 #### result
 
@@ -352,7 +352,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 ]
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -381,7 +381,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -389,7 +389,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"exclude":["color","model"]}
 
-````
+```
 
 #### result
 
@@ -408,7 +408,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 ]
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -425,7 +425,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 }
 
-````
+```
 
 #### params
 
@@ -433,7 +433,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"exclude":["color","model"]}
 
-````
+```
 
 #### result
 
@@ -445,7 +445,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "range": 300
 }
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -474,7 +474,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -482,7 +482,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"alter":{"color":{"red":"blue","blue":"red"}}}
 
-````
+```
 
 #### result
 
@@ -505,7 +505,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 ]
 
-````
+```
 ### Sample6
 
 #### inputs
@@ -522,7 +522,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 }
 
-````
+```
 
 #### params
 
@@ -530,7 +530,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"alter":{"color":{"red":"blue","blue":"red"}}}
 
-````
+```
 
 #### result
 
@@ -544,7 +544,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "range": 300
 }
 
-````
+```
 ### Sample7
 
 #### inputs
@@ -573,7 +573,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -581,7 +581,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"swap":{"maker":"model"}}
 
-````
+```
 
 #### result
 
@@ -604,7 +604,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 ]
 
-````
+```
 ### Sample8
 
 #### inputs
@@ -621,7 +621,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 }
 
-````
+```
 
 #### params
 
@@ -629,7 +629,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"swap":{"maker":"model"}}
 
-````
+```
 
 #### result
 
@@ -643,7 +643,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   "range": 300
 }
 
-````
+```
 ### Sample9
 
 #### inputs
@@ -672,7 +672,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -680,7 +680,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"inject":[{"propId":"maker","from":1}]}
 
-````
+```
 
 #### result
 
@@ -703,7 +703,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 ]
 
-````
+```
 ### Sample10
 
 #### inputs
@@ -732,7 +732,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -740,7 +740,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"inject":[{"propId":"maker","from":1,"index":0}]}
 
-````
+```
 
 #### result
 
@@ -763,7 +763,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 ]
 
-````
+```
 ### Sample11
 
 #### inputs
@@ -792,7 +792,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   ]
 }
 
-````
+```
 
 #### params
 
@@ -800,7 +800,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
 
 {"inspect":[{"propId":"isTesla","equal":"Tesla Motors"},{"propId":"isGM","notEqual":"Tesla Motors","from":1}]}
 
-````
+```
 
 #### result
 
@@ -827,7 +827,7 @@ Filter properties based on property name either with 'include', 'exclude', 'alte
   }
 ]
 
-````
+```
 
 ## Author
 

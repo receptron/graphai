@@ -23,7 +23,7 @@ sleeper and merge Agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -33,7 +33,7 @@ sleeper and merge Agent
   ":agentId"
 ]
 
-````
+```
 ```json
 
 [
@@ -42,7 +42,7 @@ sleeper and merge Agent
   ":agentId.b"
 ]
 
-````
+```
 
 ## Samples
 
@@ -54,7 +54,7 @@ sleeper and merge Agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -62,7 +62,7 @@ sleeper and merge Agent
 
 {"duration":1}
 
-````
+```
 
 #### result
 
@@ -70,7 +70,7 @@ sleeper and merge Agent
 
 {}
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -88,7 +88,7 @@ sleeper and merge Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -96,7 +96,7 @@ sleeper and merge Agent
 
 {"duration":1}
 
-````
+```
 
 #### result
 
@@ -107,7 +107,7 @@ sleeper and merge Agent
   "b": 2
 }
 
-````
+```
 
 ## Author
 

@@ -42,7 +42,7 @@ dotProduct Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -52,7 +52,7 @@ dotProduct Agent
   "type": "array"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -65,7 +65,7 @@ dotProduct Agent
   ":agentId.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -74,7 +74,7 @@ dotProduct Agent
   ":agentId.$1"
 ]
 
-````
+```
 
 ## Samples
 
@@ -105,7 +105,7 @@ dotProduct Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -113,7 +113,7 @@ dotProduct Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -125,7 +125,7 @@ dotProduct Agent
   27
 ]
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -149,7 +149,7 @@ dotProduct Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -157,7 +157,7 @@ dotProduct Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -168,7 +168,7 @@ dotProduct Agent
   8
 ]
 
-````
+```
 
 ## Author
 

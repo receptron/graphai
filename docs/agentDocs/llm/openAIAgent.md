@@ -83,7 +83,7 @@ OpenAI Agent
   }
 }
 
-````
+```
 
 #### output
 
@@ -199,7 +199,7 @@ OpenAI Agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -221,7 +221,7 @@ OpenAI Agent
   ":agentId.model"
 ]
 
-````
+```
 
 ## Samples
 
@@ -235,7 +235,7 @@ OpenAI Agent
   "prompt": "this is response result"
 }
 
-````
+```
 
 #### params
 
@@ -243,7 +243,7 @@ OpenAI Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -267,7 +267,7 @@ OpenAI Agent
   "model": "gpt-4o"
 }
 
-````
+```
 
 ## Author
 

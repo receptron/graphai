@@ -54,7 +54,7 @@ Anthropic Agent
   }
 }
 
-````
+```
 
 #### output
 
@@ -64,7 +64,7 @@ Anthropic Agent
   "type": "object"
 }
 
-````
+```
 
 ## Input example of the next node
 

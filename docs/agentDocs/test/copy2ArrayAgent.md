@@ -38,7 +38,7 @@ Copy2Array agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -68,7 +68,7 @@ Copy2Array agent
   ":agentId.$9.message"
 ]
 
-````
+```
 ```json
 
 [
@@ -95,7 +95,7 @@ Copy2Array agent
   ":agentId.$9.message"
 ]
 
-````
+```
 ```json
 
 [
@@ -112,7 +112,7 @@ Copy2Array agent
   ":agentId.$9"
 ]
 
-````
+```
 
 ## Samples
 
@@ -128,7 +128,7 @@ Copy2Array agent
   }
 }
 
-````
+```
 
 #### params
 
@@ -136,7 +136,7 @@ Copy2Array agent
 
 {"count":10}
 
-````
+```
 
 #### result
 
@@ -175,7 +175,7 @@ Copy2Array agent
   }
 ]
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -186,7 +186,7 @@ Copy2Array agent
   "message": "hello"
 }
 
-````
+```
 
 #### params
 
@@ -194,7 +194,7 @@ Copy2Array agent
 
 {"count":10}
 
-````
+```
 
 #### result
 
@@ -233,7 +233,7 @@ Copy2Array agent
   }
 ]
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -244,7 +244,7 @@ Copy2Array agent
   "item": "hello"
 }
 
-````
+```
 
 #### params
 
@@ -252,7 +252,7 @@ Copy2Array agent
 
 {"count":10}
 
-````
+```
 
 #### result
 
@@ -271,7 +271,7 @@ Copy2Array agent
   "hello"
 ]
 
-````
+```
 
 ## Author
 

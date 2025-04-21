@@ -17,7 +17,7 @@ Replicate Agent
 
 {}
 
-````
+```
 
 #### output
 
@@ -25,7 +25,7 @@ Replicate Agent
 
 {}
 
-````
+```
 
 ## Input example of the next node
 

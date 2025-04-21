@@ -23,7 +23,7 @@ Counting agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -38,7 +38,7 @@ Counting agent
   ":agentId.list.$3"
 ]
 
-````
+```
 
 ## Samples
 
@@ -50,7 +50,7 @@ Counting agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -58,7 +58,7 @@ Counting agent
 
 {"count":4}
 
-````
+```
 
 #### result
 
@@ -73,7 +73,7 @@ Counting agent
   ]
 }
 
-````
+```
 
 ## Author
 

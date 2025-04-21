@@ -31,7 +31,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### output
 
@@ -41,7 +41,7 @@ Returns the sum of input values
   "type": "number"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -52,7 +52,7 @@ Returns the sum of input values
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -60,7 +60,7 @@ Returns the sum of input values
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -68,28 +68,28 @@ Returns the sum of input values
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 
 ## Samples
 
@@ -105,7 +105,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -113,7 +113,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -123,7 +123,7 @@ Returns the sum of input values
   "result": 1
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -137,7 +137,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -145,7 +145,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -155,7 +155,7 @@ Returns the sum of input values
   "result": 3
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -170,7 +170,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -178,7 +178,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -188,7 +188,7 @@ Returns the sum of input values
   "result": 6
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -201,7 +201,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -209,7 +209,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -217,7 +217,7 @@ Returns the sum of input values
 
 1
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -231,7 +231,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -239,7 +239,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -247,7 +247,7 @@ Returns the sum of input values
 
 3
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -262,7 +262,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -270,7 +270,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -278,7 +278,7 @@ Returns the sum of input values
 
 6
 
-````
+```
 
 ## Author
 

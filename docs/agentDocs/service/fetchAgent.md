@@ -51,7 +51,7 @@ Retrieves JSON data from the specified URL
   ]
 }
 
-````
+```
 
 #### output
 
@@ -61,7 +61,7 @@ Retrieves JSON data from the specified URL
   "type": "array"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -76,7 +76,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 ```json
 
 [
@@ -88,7 +88,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 ```json
 
 [
@@ -100,7 +100,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 
 ## Samples
 
@@ -120,7 +120,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 
 #### params
 
@@ -128,7 +128,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -142,7 +142,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -160,7 +160,7 @@ Retrieves JSON data from the specified URL
   "method": "GET"
 }
 
-````
+```
 
 #### params
 
@@ -168,7 +168,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -182,7 +182,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -196,7 +196,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 
 #### params
 
@@ -204,7 +204,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -219,7 +219,7 @@ Retrieves JSON data from the specified URL
   "body": "{\"foo\":\"bar\"}"
 }
 
-````
+```
 
 ## Author
 

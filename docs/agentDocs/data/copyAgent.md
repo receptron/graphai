@@ -32,7 +32,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 
 #### output
 
@@ -55,7 +55,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -67,7 +67,7 @@ Returns namedInputs
   ":agentId.model"
 ]
 
-````
+```
 ```json
 
 [
@@ -77,14 +77,14 @@ Returns namedInputs
   ":agentId.array.$1"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 
 ## Samples
 
@@ -99,7 +99,7 @@ Returns namedInputs
   "model": "Model 3"
 }
 
-````
+```
 
 #### params
 
@@ -107,7 +107,7 @@ Returns namedInputs
 
 {}
 
-````
+```
 
 #### result
 
@@ -118,7 +118,7 @@ Returns namedInputs
   "model": "Model 3"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -132,7 +132,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 
 #### params
 
@@ -140,7 +140,7 @@ Returns namedInputs
 
 {}
 
-````
+```
 
 #### result
 
@@ -153,7 +153,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -165,7 +165,7 @@ Returns namedInputs
   "model": "Model 3"
 }
 
-````
+```
 
 #### params
 
@@ -173,7 +173,7 @@ Returns namedInputs
 
 {"namedKey":"color"}
 
-````
+```
 
 #### result
 
@@ -181,7 +181,7 @@ Returns namedInputs
 
 "red"
 
-````
+```
 
 ## Author
 

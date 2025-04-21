@@ -17,7 +17,7 @@ compare
 
 {}
 
-````
+```
 
 #### output
 
@@ -25,7 +25,7 @@ compare
 
 {}
 
-````
+```
 
 ## Input example of the next node
 
@@ -36,7 +36,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -44,7 +44,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -52,7 +52,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -60,7 +60,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -68,7 +68,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -76,7 +76,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -84,7 +84,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -92,7 +92,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -100,7 +100,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -108,7 +108,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -116,7 +116,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -124,7 +124,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -132,7 +132,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -140,7 +140,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -148,7 +148,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -156,7 +156,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -164,7 +164,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -172,7 +172,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -180,7 +180,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -188,7 +188,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -196,7 +196,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -204,7 +204,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -212,7 +212,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -220,7 +220,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -228,7 +228,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -236,7 +236,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -244,7 +244,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -252,7 +252,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -260,7 +260,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -268,7 +268,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -276,7 +276,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -284,7 +284,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -292,7 +292,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -300,7 +300,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -308,7 +308,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -316,7 +316,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -324,7 +324,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -332,7 +332,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -340,7 +340,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -348,7 +348,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -356,7 +356,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -364,7 +364,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -372,7 +372,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -380,7 +380,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -388,7 +388,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -396,7 +396,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -404,7 +404,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -412,7 +412,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -420,7 +420,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -428,7 +428,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -436,7 +436,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -444,7 +444,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -452,7 +452,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -460,7 +460,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -468,7 +468,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -476,7 +476,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -484,7 +484,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -492,7 +492,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -500,7 +500,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -508,7 +508,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -516,7 +516,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -524,7 +524,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -532,7 +532,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -540,7 +540,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -548,7 +548,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -556,7 +556,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -564,7 +564,7 @@ compare
   ":agentId.result"
 ]
 
-````
+```
 
 ## Samples
 
@@ -582,7 +582,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -590,7 +590,7 @@ compare
 
 {"value":{"true":"a","false":"b"}}
 
-````
+```
 
 #### result
 
@@ -600,7 +600,7 @@ compare
   "result": "a"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -615,7 +615,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -623,7 +623,7 @@ compare
 
 {"value":{"true":"a","false":"b"}}
 
-````
+```
 
 #### result
 
@@ -633,7 +633,7 @@ compare
   "result": "b"
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -648,7 +648,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -656,7 +656,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -666,7 +666,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -681,7 +681,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -689,7 +689,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -699,7 +699,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -714,7 +714,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -722,7 +722,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -732,7 +732,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -747,7 +747,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -755,7 +755,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -765,7 +765,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample6
 
 #### inputs
@@ -780,7 +780,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -788,7 +788,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -798,7 +798,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample7
 
 #### inputs
@@ -813,7 +813,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -821,7 +821,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -831,7 +831,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample8
 
 #### inputs
@@ -846,7 +846,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -854,7 +854,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -864,7 +864,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample9
 
 #### inputs
@@ -879,7 +879,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -887,7 +887,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -897,7 +897,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample10
 
 #### inputs
@@ -912,7 +912,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -920,7 +920,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -930,7 +930,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample11
 
 #### inputs
@@ -945,7 +945,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -953,7 +953,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -963,7 +963,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample12
 
 #### inputs
@@ -978,7 +978,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -986,7 +986,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -996,7 +996,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample13
 
 #### inputs
@@ -1011,7 +1011,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1019,7 +1019,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1029,7 +1029,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample14
 
 #### inputs
@@ -1044,7 +1044,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1052,7 +1052,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1062,7 +1062,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample15
 
 #### inputs
@@ -1077,7 +1077,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1085,7 +1085,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1095,7 +1095,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample16
 
 #### inputs
@@ -1110,7 +1110,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1118,7 +1118,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1128,7 +1128,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample17
 
 #### inputs
@@ -1143,7 +1143,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1151,7 +1151,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1161,7 +1161,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample18
 
 #### inputs
@@ -1176,7 +1176,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1184,7 +1184,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1194,7 +1194,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample19
 
 #### inputs
@@ -1209,7 +1209,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1217,7 +1217,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1227,7 +1227,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample20
 
 #### inputs
@@ -1242,7 +1242,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1250,7 +1250,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1260,7 +1260,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample21
 
 #### inputs
@@ -1275,7 +1275,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1283,7 +1283,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1293,7 +1293,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample22
 
 #### inputs
@@ -1308,7 +1308,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1316,7 +1316,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1326,7 +1326,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample23
 
 #### inputs
@@ -1341,7 +1341,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1349,7 +1349,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1359,7 +1359,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample24
 
 #### inputs
@@ -1374,7 +1374,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1382,7 +1382,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1392,7 +1392,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample25
 
 #### inputs
@@ -1407,7 +1407,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1415,7 +1415,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1425,7 +1425,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample26
 
 #### inputs
@@ -1440,7 +1440,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1448,7 +1448,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1458,7 +1458,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample27
 
 #### inputs
@@ -1473,7 +1473,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1481,7 +1481,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1491,7 +1491,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample28
 
 #### inputs
@@ -1506,7 +1506,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1514,7 +1514,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1524,7 +1524,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample29
 
 #### inputs
@@ -1539,7 +1539,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1547,7 +1547,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1557,7 +1557,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample30
 
 #### inputs
@@ -1572,7 +1572,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1580,7 +1580,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1590,7 +1590,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample31
 
 #### inputs
@@ -1605,7 +1605,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1613,7 +1613,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1623,7 +1623,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample32
 
 #### inputs
@@ -1638,7 +1638,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1646,7 +1646,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1656,7 +1656,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample33
 
 #### inputs
@@ -1671,7 +1671,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1679,7 +1679,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1689,7 +1689,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample34
 
 #### inputs
@@ -1712,7 +1712,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1720,7 +1720,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1730,7 +1730,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample35
 
 #### inputs
@@ -1753,7 +1753,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1761,7 +1761,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1771,7 +1771,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample36
 
 #### inputs
@@ -1802,7 +1802,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1810,7 +1810,7 @@ compare
 
 {}
 
-````
+```
 
 #### result
 
@@ -1820,7 +1820,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample37
 
 #### inputs
@@ -1834,7 +1834,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1842,7 +1842,7 @@ compare
 
 {"value":{"true":"a","false":"b"},"operator":"=="}
 
-````
+```
 
 #### result
 
@@ -1852,7 +1852,7 @@ compare
   "result": "a"
 }
 
-````
+```
 ### Sample38
 
 #### inputs
@@ -1866,7 +1866,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1874,7 +1874,7 @@ compare
 
 {"value":{"true":"a","false":"b"},"operator":"=="}
 
-````
+```
 
 #### result
 
@@ -1884,7 +1884,7 @@ compare
   "result": "b"
 }
 
-````
+```
 ### Sample39
 
 #### inputs
@@ -1898,7 +1898,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1906,7 +1906,7 @@ compare
 
 {"operator":"=="}
 
-````
+```
 
 #### result
 
@@ -1916,7 +1916,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample40
 
 #### inputs
@@ -1930,7 +1930,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1938,7 +1938,7 @@ compare
 
 {"operator":"=="}
 
-````
+```
 
 #### result
 
@@ -1948,7 +1948,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample41
 
 #### inputs
@@ -1962,7 +1962,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -1970,7 +1970,7 @@ compare
 
 {"operator":"!="}
 
-````
+```
 
 #### result
 
@@ -1980,7 +1980,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample42
 
 #### inputs
@@ -1994,7 +1994,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2002,7 +2002,7 @@ compare
 
 {"operator":"!="}
 
-````
+```
 
 #### result
 
@@ -2012,7 +2012,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample43
 
 #### inputs
@@ -2026,7 +2026,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2034,7 +2034,7 @@ compare
 
 {"operator":">"}
 
-````
+```
 
 #### result
 
@@ -2044,7 +2044,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample44
 
 #### inputs
@@ -2058,7 +2058,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2066,7 +2066,7 @@ compare
 
 {"operator":">"}
 
-````
+```
 
 #### result
 
@@ -2076,7 +2076,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample45
 
 #### inputs
@@ -2090,7 +2090,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2098,7 +2098,7 @@ compare
 
 {"operator":">"}
 
-````
+```
 
 #### result
 
@@ -2108,7 +2108,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample46
 
 #### inputs
@@ -2122,7 +2122,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2130,7 +2130,7 @@ compare
 
 {"operator":">"}
 
-````
+```
 
 #### result
 
@@ -2140,7 +2140,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample47
 
 #### inputs
@@ -2154,7 +2154,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2162,7 +2162,7 @@ compare
 
 {"operator":">="}
 
-````
+```
 
 #### result
 
@@ -2172,7 +2172,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample48
 
 #### inputs
@@ -2186,7 +2186,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2194,7 +2194,7 @@ compare
 
 {"operator":">="}
 
-````
+```
 
 #### result
 
@@ -2204,7 +2204,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample49
 
 #### inputs
@@ -2218,7 +2218,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2226,7 +2226,7 @@ compare
 
 {"operator":">="}
 
-````
+```
 
 #### result
 
@@ -2236,7 +2236,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample50
 
 #### inputs
@@ -2250,7 +2250,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2258,7 +2258,7 @@ compare
 
 {"operator":">="}
 
-````
+```
 
 #### result
 
@@ -2268,7 +2268,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample51
 
 #### inputs
@@ -2282,7 +2282,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2290,7 +2290,7 @@ compare
 
 {"operator":">="}
 
-````
+```
 
 #### result
 
@@ -2300,7 +2300,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample52
 
 #### inputs
@@ -2314,7 +2314,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2322,7 +2322,7 @@ compare
 
 {"operator":">="}
 
-````
+```
 
 #### result
 
@@ -2332,7 +2332,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample53
 
 #### inputs
@@ -2346,7 +2346,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2354,7 +2354,7 @@ compare
 
 {"operator":"<"}
 
-````
+```
 
 #### result
 
@@ -2364,7 +2364,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample54
 
 #### inputs
@@ -2378,7 +2378,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2386,7 +2386,7 @@ compare
 
 {"operator":"<"}
 
-````
+```
 
 #### result
 
@@ -2396,7 +2396,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample55
 
 #### inputs
@@ -2410,7 +2410,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2418,7 +2418,7 @@ compare
 
 {"operator":"<"}
 
-````
+```
 
 #### result
 
@@ -2428,7 +2428,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample56
 
 #### inputs
@@ -2442,7 +2442,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2450,7 +2450,7 @@ compare
 
 {"operator":"<"}
 
-````
+```
 
 #### result
 
@@ -2460,7 +2460,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample57
 
 #### inputs
@@ -2474,7 +2474,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2482,7 +2482,7 @@ compare
 
 {"operator":"||"}
 
-````
+```
 
 #### result
 
@@ -2492,7 +2492,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample58
 
 #### inputs
@@ -2506,7 +2506,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2514,7 +2514,7 @@ compare
 
 {"operator":"||"}
 
-````
+```
 
 #### result
 
@@ -2524,7 +2524,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample59
 
 #### inputs
@@ -2538,7 +2538,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2546,7 +2546,7 @@ compare
 
 {"operator":"&&"}
 
-````
+```
 
 #### result
 
@@ -2556,7 +2556,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample60
 
 #### inputs
@@ -2570,7 +2570,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2578,7 +2578,7 @@ compare
 
 {"operator":"&&"}
 
-````
+```
 
 #### result
 
@@ -2588,7 +2588,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample61
 
 #### inputs
@@ -2602,7 +2602,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2610,7 +2610,7 @@ compare
 
 {"operator":"XOR"}
 
-````
+```
 
 #### result
 
@@ -2620,7 +2620,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample62
 
 #### inputs
@@ -2634,7 +2634,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2642,7 +2642,7 @@ compare
 
 {"operator":"XOR"}
 
-````
+```
 
 #### result
 
@@ -2652,7 +2652,7 @@ compare
   "result": true
 }
 
-````
+```
 ### Sample63
 
 #### inputs
@@ -2666,7 +2666,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2674,7 +2674,7 @@ compare
 
 {"operator":"XOR"}
 
-````
+```
 
 #### result
 
@@ -2684,7 +2684,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample64
 
 #### inputs
@@ -2698,7 +2698,7 @@ compare
   ]
 }
 
-````
+```
 
 #### params
 
@@ -2706,7 +2706,7 @@ compare
 
 {"operator":"XOR"}
 
-````
+```
 
 #### result
 
@@ -2716,7 +2716,7 @@ compare
   "result": false
 }
 
-````
+```
 ### Sample65
 
 #### inputs
@@ -2728,7 +2728,7 @@ compare
   "rightValue": "abc"
 }
 
-````
+```
 
 #### params
 
@@ -2736,7 +2736,7 @@ compare
 
 {"value":{"true":"a","false":"b"},"operator":"=="}
 
-````
+```
 
 #### result
 
@@ -2746,7 +2746,7 @@ compare
   "result": "a"
 }
 
-````
+```
 ### Sample66
 
 #### inputs
@@ -2758,7 +2758,7 @@ compare
   "rightValue": "abca"
 }
 
-````
+```
 
 #### params
 
@@ -2766,7 +2766,7 @@ compare
 
 {"value":{"true":"a","false":"b"},"operator":"=="}
 
-````
+```
 
 #### result
 
@@ -2776,7 +2776,7 @@ compare
   "result": "b"
 }
 
-````
+```
 
 ## Author
 

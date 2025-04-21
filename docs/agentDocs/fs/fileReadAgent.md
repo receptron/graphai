@@ -28,7 +28,7 @@ Read data from file system and returns data
   ]
 }
 
-````
+```
 
 #### output
 
@@ -38,7 +38,7 @@ Read data from file system and returns data
   "type": "object"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -56,7 +56,7 @@ Read data from file system and returns data
   ":agentId.array.$0.5"
 ]
 
-````
+```
 ```json
 
 [
@@ -65,7 +65,7 @@ Read data from file system and returns data
   ":agentId.array.$0"
 ]
 
-````
+```
 ```json
 
 [
@@ -74,7 +74,7 @@ Read data from file system and returns data
   ":agentId.array.$0"
 ]
 
-````
+```
 ```json
 
 [
@@ -82,7 +82,7 @@ Read data from file system and returns data
   ":agentId.data"
 ]
 
-````
+```
 
 ## Samples
 
@@ -98,7 +98,7 @@ Read data from file system and returns data
   ]
 }
 
-````
+```
 
 #### params
 
@@ -106,7 +106,7 @@ Read data from file system and returns data
 
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/"}
 
-````
+```
 
 #### result
 
@@ -128,7 +128,7 @@ Read data from file system and returns data
   ]
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -141,7 +141,7 @@ Read data from file system and returns data
   ]
 }
 
-````
+```
 
 #### params
 
@@ -149,7 +149,7 @@ Read data from file system and returns data
 
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"base64"}
 
-````
+```
 
 #### result
 
@@ -161,7 +161,7 @@ Read data from file system and returns data
   ]
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -174,7 +174,7 @@ Read data from file system and returns data
   ]
 }
 
-````
+```
 
 #### params
 
@@ -182,7 +182,7 @@ Read data from file system and returns data
 
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
 
-````
+```
 
 #### result
 
@@ -194,7 +194,7 @@ Read data from file system and returns data
   ]
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -205,7 +205,7 @@ Read data from file system and returns data
   "file": "test.txt"
 }
 
-````
+```
 
 #### params
 
@@ -213,7 +213,7 @@ Read data from file system and returns data
 
 {"baseDir":"/home/runner/work/graphai/graphai/agents/vanilla_node_agents/lib/node_file_agents/../../tests/files/","outputType":"text"}
 
-````
+```
 
 #### result
 
@@ -223,7 +223,7 @@ Read data from file system and returns data
   "data": "hello\n"
 }
 
-````
+```
 
 ## Author
 

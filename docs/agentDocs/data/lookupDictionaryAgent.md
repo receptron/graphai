@@ -28,7 +28,7 @@ Select elements with params
   ]
 }
 
-````
+```
 
 #### output
 
@@ -51,7 +51,7 @@ Select elements with params
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -63,7 +63,7 @@ Select elements with params
   ":agentId.temperature"
 ]
 
-````
+```
 ```json
 
 [
@@ -72,7 +72,7 @@ Select elements with params
   ":agentId.temperature"
 ]
 
-````
+```
 
 ## Samples
 
@@ -86,7 +86,7 @@ Select elements with params
   "namedKey": "openai"
 }
 
-````
+```
 
 #### params
 
@@ -94,7 +94,7 @@ Select elements with params
 
 {"openai":{"model":"gpt4-o","temperature":0.7},"groq":{"model":"llama3-8b-8192","temperature":0.6},"gemini":{"model":"gemini-2.0-pro-exp-02-05","temperature":0.7}}
 
-````
+```
 
 #### result
 
@@ -105,7 +105,7 @@ Select elements with params
   "temperature": 0.7
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -116,7 +116,7 @@ Select elements with params
   "namedKey": "gemini"
 }
 
-````
+```
 
 #### params
 
@@ -124,7 +124,7 @@ Select elements with params
 
 {"openai":{"model":"gpt4-o","temperature":0.7},"groq":{"model":"llama3-8b-8192","temperature":0.6},"gemini":{"model":"gemini-2.0-pro-exp-02-05","temperature":0.7}}
 
-````
+```
 
 #### result
 
@@ -135,7 +135,7 @@ Select elements with params
   "temperature": 0.7
 }
 
-````
+```
 
 ## Author
 

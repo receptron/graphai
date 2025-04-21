@@ -23,7 +23,7 @@ Stream mock agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -34,7 +34,7 @@ Stream mock agent
   ":agentId.message"
 ]
 
-````
+```
 ```json
 
 [
@@ -42,7 +42,7 @@ Stream mock agent
   ":agentId.message"
 ]
 
-````
+```
 
 ## Samples
 
@@ -54,7 +54,7 @@ Stream mock agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -62,7 +62,7 @@ Stream mock agent
 
 {"message":"this is params test"}
 
-````
+```
 
 #### result
 
@@ -72,7 +72,7 @@ Stream mock agent
   "message": "this is params test"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -83,7 +83,7 @@ Stream mock agent
   "message": "this is named inputs test"
 }
 
-````
+```
 
 #### params
 
@@ -91,7 +91,7 @@ Stream mock agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -101,7 +101,7 @@ Stream mock agent
   "message": "this is named inputs test"
 }
 
-````
+```
 
 ## Author
 

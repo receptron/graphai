@@ -79,7 +79,7 @@ Groq Agent
   }
 }
 
-````
+```
 
 #### output
 
@@ -89,7 +89,7 @@ Groq Agent
   "type": "object"
 }
 
-````
+```
 
 ## Input example of the next node
 

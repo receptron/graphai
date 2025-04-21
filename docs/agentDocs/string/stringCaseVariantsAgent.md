@@ -30,7 +30,7 @@ Format String Cases agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -44,7 +44,7 @@ Format String Cases agent
   ":agentId.snakeCase"
 ]
 
-````
+```
 ```json
 
 [
@@ -55,7 +55,7 @@ Format String Cases agent
   ":agentId.snakeCase"
 ]
 
-````
+```
 
 ## Samples
 
@@ -69,7 +69,7 @@ Format String Cases agent
   "text": "this is a pen"
 }
 
-````
+```
 
 #### params
 
@@ -77,7 +77,7 @@ Format String Cases agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -90,7 +90,7 @@ Format String Cases agent
   "snakeCase": "this_is_a_pen"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -101,7 +101,7 @@ Format String Cases agent
   "text": "string case variants"
 }
 
-````
+```
 
 #### params
 
@@ -109,7 +109,7 @@ Format String Cases agent
 
 {"suffix":"agent"}
 
-````
+```
 
 #### result
 
@@ -122,7 +122,7 @@ Format String Cases agent
   "snakeCase": "string_case_variants_agent"
 }
 
-````
+```
 
 ## Author
 

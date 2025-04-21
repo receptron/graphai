@@ -17,7 +17,7 @@ OpenAI Image Agent
 
 {}
 
-````
+```
 
 #### output
 
@@ -25,7 +25,7 @@ OpenAI Image Agent
 
 {}
 
-````
+```
 
 ## Input example of the next node
 

@@ -83,7 +83,7 @@ OpenAI Fetch Agent
   }
 }
 
-````
+```
 
 #### output
 
@@ -199,7 +199,7 @@ OpenAI Fetch Agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -221,7 +221,7 @@ OpenAI Fetch Agent
   ":agentId.model"
 ]
 
-````
+```
 
 ## Samples
 
@@ -235,7 +235,7 @@ OpenAI Fetch Agent
   "prompt": "this is response result"
 }
 
-````
+```
 
 #### params
 
@@ -243,7 +243,7 @@ OpenAI Fetch Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -267,7 +267,7 @@ OpenAI Fetch Agent
   "model": "gpt-3.5-turbo-0125"
 }
 
-````
+```
 
 ## Author
 

@@ -52,7 +52,7 @@ push Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -67,7 +67,7 @@ push Agent
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -81,7 +81,7 @@ push Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -92,7 +92,7 @@ push Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -104,7 +104,7 @@ push Agent
   ":agentId.array.$1.lemon"
 ]
 
-````
+```
 ```json
 
 [
@@ -118,7 +118,7 @@ push Agent
   ":agentId.array.$2.banana"
 ]
 
-````
+```
 
 ## Samples
 
@@ -136,7 +136,7 @@ push Agent
   "item": 3
 }
 
-````
+```
 
 #### params
 
@@ -144,7 +144,7 @@ push Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -158,7 +158,7 @@ push Agent
   ]
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -173,7 +173,7 @@ push Agent
   "item": false
 }
 
-````
+```
 
 #### params
 
@@ -181,7 +181,7 @@ push Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -195,7 +195,7 @@ push Agent
   ]
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -213,7 +213,7 @@ push Agent
   }
 }
 
-````
+```
 
 #### params
 
@@ -221,7 +221,7 @@ push Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -238,7 +238,7 @@ push Agent
   ]
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -261,7 +261,7 @@ push Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -269,7 +269,7 @@ push Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -289,7 +289,7 @@ push Agent
   ]
 }
 
-````
+```
 
 ## Author
 

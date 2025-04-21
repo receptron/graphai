@@ -30,7 +30,7 @@ Retrieves data from wikipedia
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -44,7 +44,7 @@ Retrieves data from wikipedia
   ":agentId.pageid"
 ]
 
-````
+```
 
 ## Samples
 
@@ -58,7 +58,7 @@ Retrieves data from wikipedia
   "query": "steve jobs"
 }
 
-````
+```
 
 #### params
 
@@ -66,7 +66,7 @@ Retrieves data from wikipedia
 
 {"lang":"ja"}
 
-````
+```
 
 #### result
 
@@ -79,7 +79,7 @@ Retrieves data from wikipedia
   "pageid": 43967
 }
 
-````
+```
 
 ## Author
 
