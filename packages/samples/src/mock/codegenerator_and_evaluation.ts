@@ -6,7 +6,11 @@ const main = async () => {
     version: 0.5,
     nodes: {
       argmentsAndReturnPair: {
-        value: [[1, 1],[2, 4],[3 , 9]],
+        value: [
+          [1, 1],
+          [2, 4],
+          [3, 9],
+        ],
       },
       codeGenerator: {
         agent: "copyAgent",
@@ -20,7 +24,7 @@ const main = async () => {
         agent: "mapAgent",
         inputs: {
           rows: ":argmentsAndReturnPair",
-          codeGenerator: ":codeGenerator"
+          codeGenerator: ":codeGenerator",
         },
         isResult: true,
         graph: {
@@ -29,9 +33,9 @@ const main = async () => {
               inputs: {
                 code: "const a = ${:row.$0}; ${:codeGenerator.code} ",
               },
-              agent: (inputs: {code: string}) => {
+              agent: (inputs: { code: string }) => {
                 return {
-                  result: eval(inputs.code)
+                  result: eval(inputs.code),
                 };
               },
               isResult: true,
@@ -44,14 +48,13 @@ const main = async () => {
             // TODO: After this, evaluate all the results.
             //       Improve it so that objects and arrays can also be evaluated.
           },
-        }
-      }
-      
+        },
+      },
     },
   };
   const graphAI = new GraphAI(graphData, vanilla_agents);
   const res = await graphAI.run();
-  
+
   console.log(JSON.stringify(res, null, 2));
 };
 
