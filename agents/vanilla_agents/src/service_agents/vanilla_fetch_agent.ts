@@ -37,8 +37,8 @@ export const vanillaFetchAgent: AgentFunction<
     ...(params.headers ? params.headers : {}),
     ...(namedInputs.headers ? namedInputs.headers : {}),
   };
-  if (config && config.authentication) {
-    headers0["Authorization"] = config.authentication;
+  if (config && config.authorization) {
+    headers0["Authorization"] = config.authorization;
   }
 
   if (queryParams) {
