@@ -2319,7 +2319,7 @@
      Until then, we will set flatResponse to false using vanillaFetch and transition to object-based responses.
      Eventually, this option will be removed, and it will be ignored at runtime, always returning an object.
      */
-    const vanillaFetchAgent = async ({ namedInputs, params }) => {
+    const vanillaFetchAgent = async ({ namedInputs, params, config }) => {
         const { url, method, queryParams, body } = {
             ...params,
             ...namedInputs,
@@ -2331,6 +2331,9 @@
             ...(params.headers ? params.headers : {}),
             ...(namedInputs.headers ? namedInputs.headers : {}),
         };
+        if (config && config.authentication) {
+            headers0["Authorization"] = config.authentication;
+        }
         if (queryParams) {
             const _params = new URLSearchParams(queryParams);
             url0.search = _params.toString();
