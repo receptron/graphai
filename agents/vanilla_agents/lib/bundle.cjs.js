@@ -2330,8 +2330,8 @@ const vanillaFetchAgent = async ({ namedInputs, params, config }) => {
         ...(params.headers ? params.headers : {}),
         ...(namedInputs.headers ? namedInputs.headers : {}),
     };
-    if (config && config.authentication) {
-        headers0["Authorization"] = config.authentication;
+    if (config && config.authorization) {
+        headers0["Authorization"] = config.authorization;
     }
     if (queryParams) {
         const _params = new URLSearchParams(queryParams);
