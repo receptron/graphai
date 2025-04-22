@@ -23,7 +23,7 @@ export const vanillaFetchAgent: AgentFunction<
   Partial<FetchParam & GraphAIDebug & GraphAIThrowError & GraphAIFlatResponse & { type: string }>,
   unknown,
   FetchParam
-> = async ({ namedInputs, params }) => {
+> = async ({ namedInputs, params, config }) => {
   const { url, method, queryParams, body } = {
     ...params,
     ...namedInputs,
@@ -37,6 +37,9 @@ export const vanillaFetchAgent: AgentFunction<
     ...(params.headers ? params.headers : {}),
     ...(namedInputs.headers ? namedInputs.headers : {}),
   };
+  if (config && config.authentication) {
+    headers0["Authorization"] = config.authentication;
+  }
 
   if (queryParams) {
     const _params = new URLSearchParams(queryParams);
