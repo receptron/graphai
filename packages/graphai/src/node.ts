@@ -131,6 +131,7 @@ export class ComputedNode extends Node {
       ...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []),
       ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
       ...(this.agentId ? [parseNodeName(this.agentId)] : []),
+      ...(data.passThrough ? inputs2dataSources(data.passThrough).flat(10) : []),
     ];
     if (data.inputs && Array.isArray(data.inputs)) {
       throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -449,7 +450,7 @@ export class ComputedNode extends Node {
   private getResult(result: ResultData) {
     if (result && this.passThrough) {
       if (isObject(result) && !Array.isArray(result)) {
-        return { ...result, ...this.passThrough };
+        return { ...result, ...this.graph.resultsOf(this.passThrough) };
       } else if (Array.isArray(result)) {
         return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
       }
