@@ -1,6 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
-import { arrayValidate } from "@graphai/agent_utils";
 import type { GraphAIItems } from "@graphai/agent_utils";
 
 export const arrayToObjectAgent: AgentFunction<{key: string}, GraphAIItems, Record<string, any>> = async ({ params, namedInputs }) => {
