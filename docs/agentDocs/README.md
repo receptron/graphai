@@ -6,6 +6,7 @@
 ### [copyAgent](./data/copyAgent.md)
 ### [dataSumTemplateAgent](./data/dataSumTemplateAgent.md)
 ### [lookupDictionaryAgent](./data/lookupDictionaryAgent.md)
+### [mergeObjectAgent](./data/mergeObjectAgent.md)
 ### [propertyFilterAgent](./data/propertyFilterAgent.md)
 ### [totalAgent](./data/totalAgent.md)
 
