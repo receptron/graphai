@@ -2400,6 +2400,38 @@ const lookupDictionaryAgentInfo = {
     license: "MIT",
 };
 
+const mergeObjectAgent = async ({ namedInputs }) => {
+    assert(libExports.isNamedInputs(namedInputs), "mergeObjectAgent: namedInputs is UNDEFINED!");
+    const { items } = namedInputs;
+    assert(items === undefined || Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
+    return Object.assign({}, ...items);
+};
+const mergeObjectAgentInfo = {
+    name: "mergeObjectAgent",
+    agent: mergeObjectAgent,
+    mock: mergeObjectAgent,
+    inputs: {
+        anyOf: [{ type: "object" }],
+    },
+    output: {
+        anyOf: { type: "object" },
+    },
+    samples: [
+        {
+            inputs: { items: [{ color: "red" }, { model: "Model 3" }] },
+            params: {},
+            result: { color: "red", model: "Model 3" },
+        },
+    ],
+    description: "Returns namedInputs",
+    category: ["data"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/merge_objects_agent.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
+};
+
 const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
 const methodsRequiringBody = ["POST", "PUT", "PATCH"];
 /*
@@ -3416,5 +3448,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map

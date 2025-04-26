@@ -2309,6 +2309,38 @@ const lookupDictionaryAgentInfo = {
     license: "MIT",
 };
 
+const mergeObjectAgent = async ({ namedInputs }) => {
+    graphai.assert(agent_utils.isNamedInputs(namedInputs), "mergeObjectAgent: namedInputs is UNDEFINED!");
+    const { items } = namedInputs;
+    graphai.assert(items === undefined || Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
+    return Object.assign({}, ...items);
+};
+const mergeObjectAgentInfo = {
+    name: "mergeObjectAgent",
+    agent: mergeObjectAgent,
+    mock: mergeObjectAgent,
+    inputs: {
+        anyOf: [{ type: "object" }],
+    },
+    output: {
+        anyOf: { type: "object" },
+    },
+    samples: [
+        {
+            inputs: { items: [{ color: "red" }, { model: "Model 3" }] },
+            params: {},
+            result: { color: "red", model: "Model 3" },
+        },
+    ],
+    description: "Returns namedInputs",
+    category: ["data"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/merge_objects_agent.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
+};
+
 const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
 const methodsRequiringBody = ["POST", "PUT", "PATCH"];
 /*
@@ -3340,6 +3372,7 @@ exports.jsonParserAgent = jsonParserAgentInfo;
 exports.lookupDictionaryAgent = lookupDictionaryAgentInfo;
 exports.mapAgent = mapAgentInfo;
 exports.mergeNodeIdAgent = mergeNodeIdAgentInfo;
+exports.mergeObjectAgent = mergeObjectAgentInfo;
 exports.nestedAgent = nestedAgentInfo;
 exports.popAgent = popAgentInfo;
 exports.propertyFilterAgent = propertyFilterAgentInfo;
