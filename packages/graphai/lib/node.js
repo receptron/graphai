@@ -81,6 +81,7 @@ class ComputedNode extends Node {
             ...(data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : []),
             ...(data.params ? (0, nodeUtils_1.inputs2dataSources)(data.params).flat(10) : []),
             ...(this.agentId ? [(0, utils_2.parseNodeName)(this.agentId)] : []),
+            ...(data.passThrough ? (0, nodeUtils_1.inputs2dataSources)(data.passThrough).flat(10) : []),
         ];
         if (data.inputs && Array.isArray(data.inputs)) {
             throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -312,6 +313,9 @@ class ComputedNode extends Node {
         this.result = this.getResult(result);
         if (this.output) {
             this.result = (0, result_1.resultsOf)(this.output, { self: this }, this.graph.propFunctions, true);
+            if (this.passThrough) {
+                this.result = { ...this.result, ...this.graph.resultsOf(this.passThrough) };
+            }
         }
         this.log.onComplete(this, this.graph, localLog);
         this.onSetResult();
@@ -365,10 +369,10 @@ class ComputedNode extends Node {
     getResult(result) {
         if (result && this.passThrough) {
             if ((0, utils_2.isObject)(result) && !Array.isArray(result)) {
-                return { ...result, ...this.passThrough };
+                return { ...result, ...this.graph.resultsOf(this.passThrough) };
             }
             else if (Array.isArray(result)) {
-                return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+                return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.graph.resultsOf(this.passThrough) } : r));
             }
         }
         return result;
