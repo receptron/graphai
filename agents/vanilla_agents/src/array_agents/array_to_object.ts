@@ -7,7 +7,6 @@ export const arrayToObjectAgent: AgentFunction<{key: string}, GraphAIItems, Reco
   const { items } = namedInputs;
   const { key } = params;
 
-  console.log(params, key);
   assert(items !== undefined && Array.isArray(items), "arrayToObjectAgent: namedInputs.items is not array!");
   assert(key !== undefined && key !== null, "arrayToObjectAgent: params.key is UNDEFINED!");
 
