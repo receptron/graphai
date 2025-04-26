@@ -30,6 +30,7 @@ import {
   lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
+  mergeObjectAgentInfo,
   nestedAgent,
   popAgent,
   propertyFilterAgent,
@@ -63,6 +64,7 @@ const agents = {
   lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
+  mergeObjectAgentInfo,
   nestedAgent,
   popAgent,
   propertyFilterAgent,
@@ -100,6 +102,7 @@ const result = await graph.run();
 - lookupDictionaryAgent - Select elements with params
 - mapAgent - Map Agent
 - mergeNodeIdAgent - merge node id agent
+- mergeObjectAgent - Returns namedInputs
 - nestedAgent - nested Agent
 - popAgent - Pop Agent
 - propertyFilterAgent - Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
@@ -132,6 +135,7 @@ const result = await graph.run();
  - [lookupDictionaryAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/lookupDictionaryAgent.md)
  - [mapAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/mapAgent.md)
  - [mergeNodeIdAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/mergeNodeIdAgent.md)
+ - [mergeObjectAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/mergeObjectAgent.md)
  - [nestedAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/nestedAgent.md)
  - [popAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/popAgent.md)
  - [propertyFilterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/propertyFilterAgent.md)
@@ -2035,6 +2039,24 @@ const result = await graph.run();
     "array": [
       {
         "message": "hello"
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+ - mergeObjectAgentInfo
+
+```typescript
+{
+  "inputs": {
+    "items": [
+      {
+        "color": "red"
+      },
+      {
+        "model": "Model 3"
       }
     ]
   },
