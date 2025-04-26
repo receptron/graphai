@@ -30,7 +30,7 @@ import {
   lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
-  mergeObjectAgentInfo,
+  mergeObjectAgent,
   nestedAgent,
   popAgent,
   propertyFilterAgent,
@@ -64,7 +64,7 @@ const agents = {
   lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
-  mergeObjectAgentInfo,
+  mergeObjectAgent,
   nestedAgent,
   popAgent,
   propertyFilterAgent,
@@ -2046,7 +2046,7 @@ const result = await graph.run();
 }
 ```
 
- - mergeObjectAgentInfo
+ - mergeObjectAgent
 
 ```typescript
 {
