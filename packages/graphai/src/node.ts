@@ -391,6 +391,9 @@ export class ComputedNode extends Node {
     this.result = this.getResult(result);
     if (this.output) {
       this.result = resultsOf(this.output, { self: this }, this.graph.propFunctions, true);
+      if (this.passThrough) {
+        this.result = { ...this.result, ...this.graph.resultsOf(this.passThrough) };
+      }
     }
     this.log.onComplete(this, this.graph, localLog);
 
@@ -452,7 +455,7 @@ export class ComputedNode extends Node {
       if (isObject(result) && !Array.isArray(result)) {
         return { ...result, ...this.graph.resultsOf(this.passThrough) };
       } else if (Array.isArray(result)) {
-        return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+        return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.graph.resultsOf(this.passThrough) } : r));
       }
     }
     return result;

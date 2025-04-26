@@ -1,6 +1,6 @@
 import { GraphAI } from "@/index";
 
-import { graph_data_passthrough, graph_data_passthrough2, graph_data_passthrough_god } from "~/units/graph_data";
+import { graph_data_passthrough, graph_data_passthrough2, graph_data_passthrough_god, graph_data_passthrough_god_out } from "~/units/graph_data";
 import * as agents from "~/test_agents";
 
 import test from "node:test";
@@ -62,6 +62,20 @@ test("test passthrough god format", async () => {
         message: "hello",
       },
       type: "hello",
+    },
+  });
+
+  // console.log(JSON.stringify(res, null, 2));
+});
+
+test("test passthrough god format", async () => {
+  const graph = new GraphAI(graph_data_passthrough_god_out, { ...agents });
+  const res = await graph.run();
+
+  assert.deepStrictEqual(res, {
+    copyAgent: {
+      result: "hello",
+      pass: "hello",
     },
   });
 
