@@ -109,3 +109,14 @@ const propBooleanFunction: PropFunction = (result, propId) => {
 };
 
 export const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+
+//
+
+export const utilsFunctions = (input: string) => {
+  if (input.startsWith("$")) {
+    if (input === "$now") {
+      return Date.now();
+    }
+  }
+  return undefined;
+};

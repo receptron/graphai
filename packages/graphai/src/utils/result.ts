@@ -4,6 +4,7 @@ import { GraphNodes } from "../node";
 
 import { parseNodeName, isNamedInputs, isObject, isNull } from "./utils";
 import { getDataFromSource } from "./data_source";
+import { utilsFunctions } from "./prop_function";
 
 const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean = false): ResultData => {
   if (Array.isArray(input)) {
@@ -19,6 +20,12 @@ const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFuncti
       return Array.from(templateMatch.keys()).reduce((tmp, key) => {
         return tmp.replaceAll("${" + templateMatch[key] + "}", (results as any)[key]);
       }, input);
+    }
+    if (input.startsWith("$")) {
+      const ret = utilsFunctions(input);
+      if (ret !== undefined) {
+        return ret;
+      }
     }
   }
   return resultOf(parseNodeName(input, isSelfNode), nodes, propFunctions);
