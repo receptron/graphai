@@ -7,6 +7,7 @@ export type {
   AgentFunctionInfoSample,
   AgentFunctionContext,
   GraphData,
+  GraphOptions,
   ResultDataDictionary,
   ResultData,
   AgentFilterFunction,
