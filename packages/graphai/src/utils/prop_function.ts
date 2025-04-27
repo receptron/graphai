@@ -117,5 +117,7 @@ export const utilsFunctions = (input: string) => {
   if (input === "now_s") {
     return Math.floor(Date.now() / 1000);
   }
-  return input;
+  // If a placeholder does not match any key, replace it with an empty string.
+  console.warn("not match template utility function: ${" + input + "}");
+  return "";
 };

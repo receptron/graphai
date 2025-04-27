@@ -32,3 +32,8 @@ test("test $now_ms timestamp s", async () => {
   assert.ok(Number(timestamp_s) > 1_000_000_000);
   assert.ok(Number(timestamp_s) < 2_000_000_000);
 });
+
+test("test wrong utility function name", async () => {
+  const ret = resultsOf({ time: "${now_ssss}" }, {}, []);
+  assert.ok(ret.time === "");
+});
