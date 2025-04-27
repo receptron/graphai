@@ -3,9 +3,9 @@ import { resultsOf } from "@/utils/result";
 import test from "node:test";
 import assert from "node:assert";
 
-// $now function
-test("test $now timestamp ms", async () => {
-  const ret = resultsOf({ time: "${now}" }, {}, []);
+// ${@now} function
+test("test ${@now} timestamp ms", async () => {
+  const ret = resultsOf({ time: "${@now}" }, {}, []);
   const timestamp_ms = ret.time as number;
 
   assert.ok(typeof timestamp_ms === "string");
@@ -13,9 +13,9 @@ test("test $now timestamp ms", async () => {
   assert.ok(Number(timestamp_ms) < 2_000_000_000_000);
 });
 
-// $now_ms function
-test("test $now_ms timestamp ms", async () => {
-  const ret = resultsOf({ time: "${now_ms}" }, {}, []);
+// ${@now_ms} function
+test("test ${@now_ms} timestamp ms", async () => {
+  const ret = resultsOf({ time: "${@now_ms}" }, {}, []);
   const timestamp_ms = ret.time as number;
 
   assert.ok(typeof timestamp_ms === "string");
@@ -23,9 +23,9 @@ test("test $now_ms timestamp ms", async () => {
   assert.ok(Number(timestamp_ms) < 2_000_000_000_000);
 });
 
-// $now_s function
-test("test $now_ms timestamp s", async () => {
-  const ret = resultsOf({ time: "${now_s}" }, {}, []);
+// ${@now_s} function
+test("test ${@now_s} timestamp s", async () => {
+  const ret = resultsOf({ time: "${@now_s}" }, {}, []);
   const timestamp_s = ret.time as number;
 
   assert.ok(typeof timestamp_s === "string");
@@ -34,6 +34,6 @@ test("test $now_ms timestamp s", async () => {
 });
 
 test("test wrong utility function name", async () => {
-  const ret = resultsOf({ time: "${now_ssss}" }, {}, []);
+  const ret = resultsOf({ time: "${@now_ssss}" }, {}, []);
   assert.ok(ret.time === "");
 });

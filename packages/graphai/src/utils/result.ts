@@ -14,9 +14,9 @@ const replaceTemplatePlaceholders = (input: string, templateMatch: string[], nod
     propFunctions,
     isSelfNode,
   );
-  // utilsFunctions ${now}
+  // utilsFunctions ${@now}
   const utilsFuncResult = templateMatch
-    .filter((text) => !text.startsWith(":"))
+    .filter((text) => text.startsWith("@"))
     .reduce((tmp: Record<string, string | number>, key: string) => {
       tmp[key] = utilsFunctions(key);
       return tmp;
@@ -37,7 +37,7 @@ const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFuncti
     return resultsOf(input, nodes, propFunctions, isSelfNode);
   }
   if (typeof input === "string") {
-    const templateMatch = [...input.matchAll(/\${([^}]+)}/g)].map((m) => m[1]);
+    const templateMatch = [...input.matchAll(/\${([:@][^}]+)}/g)].map((m) => m[1]);
     if (templateMatch.length > 0) {
       return replaceTemplatePlaceholders(input, templateMatch, nodes, propFunctions, isSelfNode);
     }
