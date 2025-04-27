@@ -113,13 +113,11 @@ export const propFunctions = [propArrayFunction, propObjectFunction, propStringF
 //
 
 export const utilsFunctions = (input: string) => {
-  if (input.startsWith("$")) {
-    if (input === "$now" || input === "$now_ms") {
-      return Date.now();
-    }
-    if (input === "$now_s") {
-      return  Math.floor(Date.now() / 1000);
-    }
+  if (input === "now" || input === "now_ms") {
+    return Date.now();
   }
-  return undefined;
+  if (input === "now_s") {
+    return Math.floor(Date.now() / 1000);
+  }
+  return input;
 };
