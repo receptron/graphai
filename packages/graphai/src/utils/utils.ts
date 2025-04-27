@@ -24,7 +24,6 @@ export const parseNodeName = (inputNodeId: any, isSelfNode: boolean = false): Da
     }
     return { nodeId: parts[0], propIds: parts.slice(1) };
   }
-
   return { value: inputNodeId }; // non-string literal
 };
 

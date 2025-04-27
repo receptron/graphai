@@ -142,7 +142,6 @@ export class GraphAI {
     }
     this.retryLimit = graphData.retry; // optional
     this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
-
     this.graphData = graphData;
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.propFunctions = propFunctions;

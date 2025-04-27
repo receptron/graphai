@@ -110,8 +110,6 @@ const propBooleanFunction: PropFunction = (result, propId) => {
 
 export const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
 
-//
-
 export const utilsFunctions = (input: string) => {
   if (input === "now" || input === "now_ms") {
     return Date.now();

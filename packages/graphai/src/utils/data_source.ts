@@ -45,7 +45,6 @@ const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefine
     }
     return ret;
   }
-
   return result;
 };
 
