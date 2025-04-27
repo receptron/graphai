@@ -2,7 +2,7 @@ import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
 import type { GraphAIItems } from "@graphai/agent_utils";
 
-export const arrayToObjectAgent: AgentFunction<{key: string}, GraphAIItems, Record<string, any>> = async ({ params, namedInputs }) => {
+export const arrayToObjectAgent: AgentFunction<{ key: string }, GraphAIItems, Record<string, any>> = async ({ params, namedInputs }) => {
   assert(isNamedInputs(namedInputs), "arrayToObjectAgent: namedInputs is UNDEFINED!");
   const { items } = namedInputs;
   const { key } = params;
@@ -14,7 +14,6 @@ export const arrayToObjectAgent: AgentFunction<{key: string}, GraphAIItems, Reco
     tmp[current[key]] = current;
     return tmp;
   }, {});
-
 };
 
 const arrayToObjectAgentInfo: AgentFunctionInfo = {
@@ -40,11 +39,16 @@ const arrayToObjectAgentInfo: AgentFunctionInfo = {
   },
   samples: [
     {
-      inputs: { items: [{id: 1, data: "a"}, {id: 2, data: "b"}] },
-      params: { key: "id"},
+      inputs: {
+        items: [
+          { id: 1, data: "a" },
+          { id: 2, data: "b" },
+        ],
+      },
+      params: { key: "id" },
       result: {
-        "1": {id: 1, data: "a"},
-        "2": {id: 2, data: "b"}
+        "1": { id: 1, data: "a" },
+        "2": { id: 2, data: "b" },
       },
     },
   ],
@@ -58,4 +62,3 @@ const arrayToObjectAgentInfo: AgentFunctionInfo = {
   license: "MIT",
 };
 export default arrayToObjectAgentInfo;
-

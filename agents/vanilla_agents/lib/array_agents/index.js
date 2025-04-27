@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.arrayJoinAgent = exports.arrayFlatAgent = exports.shiftAgent = exports.popAgent = exports.pushAgent = void 0;
+exports.arrayToObjectAgent = exports.arrayJoinAgent = exports.arrayFlatAgent = exports.shiftAgent = exports.popAgent = exports.pushAgent = void 0;
 const push_agent_1 = __importDefault(require("./push_agent"));
 exports.pushAgent = push_agent_1.default;
 const pop_agent_1 = __importDefault(require("./pop_agent"));
@@ -14,3 +14,5 @@ const array_flat_agent_1 = __importDefault(require("./array_flat_agent"));
 exports.arrayFlatAgent = array_flat_agent_1.default;
 const array_join_agent_1 = __importDefault(require("./array_join_agent"));
 exports.arrayJoinAgent = array_join_agent_1.default;
+const array_to_object_1 = __importDefault(require("./array_to_object"));
+exports.arrayToObjectAgent = array_to_object_1.default;

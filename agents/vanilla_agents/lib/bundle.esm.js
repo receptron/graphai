@@ -1026,6 +1026,58 @@ const arrayJoinAgentInfo = {
     license: "MIT",
 };
 
+const arrayToObjectAgent = async ({ params, namedInputs }) => {
+    assert(libExports.isNamedInputs(namedInputs), "arrayToObjectAgent: namedInputs is UNDEFINED!");
+    const { items } = namedInputs;
+    const { key } = params;
+    assert(items !== undefined && Array.isArray(items), "arrayToObjectAgent: namedInputs.items is not array!");
+    assert(key !== undefined && key !== null, "arrayToObjectAgent: params.key is UNDEFINED!");
+    return namedInputs.items.reduce((tmp, current) => {
+        tmp[current[key]] = current;
+        return tmp;
+    }, {});
+};
+const arrayToObjectAgentInfo = {
+    name: "arrayToObjectAgent",
+    agent: arrayToObjectAgent,
+    mock: arrayToObjectAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            items: {
+                type: "array",
+                description: "the array to pop an item from",
+            },
+        },
+        required: ["items"],
+    },
+    output: {
+        type: "object",
+        properties: {
+            anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+            description: "the item popped from the array",
+        },
+    },
+    samples: [
+        {
+            inputs: { items: [{ id: 1, data: "a" }, { id: 2, data: "b" }] },
+            params: { key: "id" },
+            result: {
+                "1": { id: 1, data: "a" },
+                "2": { id: 2, data: "b" }
+            },
+        },
+    ],
+    description: "Array To Object Agent",
+    category: ["array"],
+    cacheType: "pureAgent",
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_to_object.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
+};
+
 // This agent calculates the dot product of an array of vectors (A[]) and a vector (B),
 // typically used to calculate cosine similarity of embedding vectors.
 // Inputs:
@@ -2403,7 +2455,7 @@ const lookupDictionaryAgentInfo = {
 const mergeObjectAgent = async ({ namedInputs }) => {
     assert(libExports.isNamedInputs(namedInputs), "mergeObjectAgent: namedInputs is UNDEFINED!");
     const { items } = namedInputs;
-    assert(items === undefined || Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
+    assert(items !== undefined && Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
     return Object.assign({}, ...items);
 };
 const mergeObjectAgentInfo = {
@@ -3448,5 +3500,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, arrayToObjectAgentInfo as arrayToObjectAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map
