@@ -32,6 +32,7 @@
 ## array
 ### [arrayFlatAgent](./array/arrayFlatAgent.md)
 ### [arrayJoinAgent](./array/arrayJoinAgent.md)
+### [arrayToObjectAgent](./array/arrayToObjectAgent.md)
 ### [popAgent](./array/popAgent.md)
 ### [pushAgent](./array/pushAgent.md)
 ### [shiftAgent](./array/shiftAgent.md)

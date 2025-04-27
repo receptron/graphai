@@ -17,6 +17,7 @@ import { GraphAI } from "graphai";
 import { 
   arrayFlatAgent,
   arrayJoinAgent,
+  arrayToObjectAgent,
   compareAgent,
   copy2ArrayAgent,
   copyAgent,
@@ -51,6 +52,7 @@ import {
 const agents = { 
   arrayFlatAgent,
   arrayJoinAgent,
+  arrayToObjectAgent,
   compareAgent,
   copy2ArrayAgent,
   copyAgent,
@@ -89,6 +91,7 @@ const result = await graph.run();
 ### Agents description
 - arrayFlatAgent - Array Flat Agent
 - arrayJoinAgent - Array Join Agent
+- arrayToObjectAgent - Array To Object Agent
 - compareAgent - compare
 - copy2ArrayAgent - Copy2Array agent
 - copyAgent - Returns namedInputs
@@ -122,6 +125,7 @@ const result = await graph.run();
 ### Input/Output/Params Schema & samples
  - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
  - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
+ - [arrayToObjectAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayToObjectAgent.md)
  - [compareAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/compare/compareAgent.md)
  - [copy2ArrayAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copy2ArrayAgent.md)
  - [copyAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/copyAgent.md)
@@ -432,6 +436,28 @@ const result = await graph.run();
   "params": {
     "separator": "|",
     "flat": 2
+  }
+}
+```
+
+ - arrayToObjectAgent
+
+```typescript
+{
+  "inputs": {
+    "items": [
+      {
+        "id": 1,
+        "data": "a"
+      },
+      {
+        "id": 2,
+        "data": "b"
+      }
+    ]
+  },
+  "params": {
+    "key": "id"
   }
 }
 ```
