@@ -391,7 +391,7 @@ export class GraphAI {
   }
 
   public resultsOf(inputs?: Record<string, any>, anyInput: boolean = false) {
-    const results = resultsOf(inputs ?? [], this.nodes, this.propFunctions);
+    const results = resultsOf(inputs ?? {}, this.nodes, this.propFunctions);
     if (anyInput) {
       return cleanResult(results);
     }

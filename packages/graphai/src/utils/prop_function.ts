@@ -109,3 +109,15 @@ const propBooleanFunction: PropFunction = (result, propId) => {
 };
 
 export const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+
+export const utilsFunctions = (input: string) => {
+  if (input === "@now" || input === "@now_ms") {
+    return Date.now();
+  }
+  if (input === "@now_s") {
+    return Math.floor(Date.now() / 1000);
+  }
+  // If a placeholder does not match any key, replace it with an empty string.
+  console.warn("not match template utility function: ${" + input + "}");
+  return "";
+};
