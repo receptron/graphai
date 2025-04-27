@@ -969,11 +969,16 @@ const arrayToObjectAgentInfo = {
     },
     samples: [
         {
-            inputs: { items: [{ id: 1, data: "a" }, { id: 2, data: "b" }] },
+            inputs: {
+                items: [
+                    { id: 1, data: "a" },
+                    { id: 2, data: "b" },
+                ],
+            },
             params: { key: "id" },
             result: {
                 "1": { id: 1, data: "a" },
-                "2": { id: 2, data: "b" }
+                "2": { id: 2, data: "b" },
             },
         },
     ],
