@@ -4,7 +4,7 @@ import { isNamedInputs } from "@graphai/agent_utils";
 export const mergeObjectAgent: AgentFunction<null, Record<string, any>, { items: Record<string, any> }> = async ({ namedInputs }) => {
   assert(isNamedInputs(namedInputs), "mergeObjectAgent: namedInputs is UNDEFINED!");
   const { items } = namedInputs;
-  assert(items === undefined || Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
+  assert(items !== undefined && Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
 
   return Object.assign({}, ...items);
 };
