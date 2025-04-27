@@ -330,6 +330,17 @@ const propBooleanFunction = (result, propId) => {
     return undefined;
 };
 const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+const utilsFunctions = (input) => {
+    if (input === "@now" || input === "@now_ms") {
+        return Date.now();
+    }
+    if (input === "@now_s") {
+        return Math.floor(Date.now() / 1000);
+    }
+    // If a placeholder does not match any key, replace it with an empty string.
+    console.warn("not match template utility function: ${" + input + "}");
+    return "";
+};
 
 const getNestedData = (result, propId, propFunctions) => {
     const match = propId.match(propFunctionRegex);
@@ -382,6 +393,23 @@ const getDataFromSource = (result, source, propFunctions = []) => {
     return innerGetDataFromSource(result, source.propIds, propFunctions);
 };
 
+const replaceTemplatePlaceholders = (input, templateMatch, nodes, propFunctions, isSelfNode) => {
+    // GOD format ${:node.prop1.prop2}
+    const godResults = resultsOfInner(templateMatch.filter((text) => text.startsWith(":")), nodes, propFunctions, isSelfNode);
+    // utilsFunctions ${@now}
+    const utilsFuncResult = templateMatch
+        .filter((text) => text.startsWith("@"))
+        .reduce((tmp, key) => {
+        tmp[key] = utilsFunctions(key);
+        return tmp;
+    }, {});
+    return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+        if (templateMatch[key].startsWith(":")) {
+            return tmp.replaceAll("${" + templateMatch[key] + "}", godResults[key]);
+        }
+        return tmp.replaceAll("${" + templateMatch[key] + "}", utilsFuncResult[templateMatch[key]]);
+    }, input);
+};
 const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
     if (Array.isArray(input)) {
         return input.map((inp) => resultsOfInner(inp, nodes, propFunctions, isSelfNode));
@@ -390,12 +418,9 @@ const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
         return resultsOf(input, nodes, propFunctions, isSelfNode);
     }
     if (typeof input === "string") {
-        const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+        const templateMatch = [...input.matchAll(/\${([:@][^}]+)}/g)].map((m) => m[1]);
         if (templateMatch.length > 0) {
-            const results = resultsOfInner(templateMatch, nodes, propFunctions, isSelfNode);
-            return Array.from(templateMatch.keys()).reduce((tmp, key) => {
-                return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
-            }, input);
+            return replaceTemplatePlaceholders(input, templateMatch, nodes, propFunctions, isSelfNode);
         }
     }
     return resultOf(parseNodeName(input, isSelfNode), nodes, propFunctions);
@@ -1453,7 +1478,7 @@ class GraphAI {
         }
     }
     resultsOf(inputs, anyInput = false) {
-        const results = resultsOf(inputs ?? [], this.nodes, this.propFunctions);
+        const results = resultsOf(inputs ?? {}, this.nodes, this.propFunctions);
         if (anyInput) {
             return cleanResult(results);
         }

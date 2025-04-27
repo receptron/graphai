@@ -3,6 +3,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanResult = exports.cleanResultInner = exports.resultOf = exports.resultsOf = void 0;
 const utils_1 = require("./utils");
 const data_source_1 = require("./data_source");
+const prop_function_1 = require("./prop_function");
+const replaceTemplatePlaceholders = (input, templateMatch, nodes, propFunctions, isSelfNode) => {
+    // GOD format ${:node.prop1.prop2}
+    const godResults = resultsOfInner(templateMatch.filter((text) => text.startsWith(":")), nodes, propFunctions, isSelfNode);
+    // utilsFunctions ${@now}
+    const utilsFuncResult = templateMatch
+        .filter((text) => text.startsWith("@"))
+        .reduce((tmp, key) => {
+        tmp[key] = (0, prop_function_1.utilsFunctions)(key);
+        return tmp;
+    }, {});
+    return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+        if (templateMatch[key].startsWith(":")) {
+            return tmp.replaceAll("${" + templateMatch[key] + "}", godResults[key]);
+        }
+        return tmp.replaceAll("${" + templateMatch[key] + "}", utilsFuncResult[templateMatch[key]]);
+    }, input);
+};
 const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
     if (Array.isArray(input)) {
         return input.map((inp) => resultsOfInner(inp, nodes, propFunctions, isSelfNode));
@@ -11,12 +29,9 @@ const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
         return (0, exports.resultsOf)(input, nodes, propFunctions, isSelfNode);
     }
     if (typeof input === "string") {
-        const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+        const templateMatch = [...input.matchAll(/\${([:@][^}]+)}/g)].map((m) => m[1]);
         if (templateMatch.length > 0) {
-            const results = resultsOfInner(templateMatch, nodes, propFunctions, isSelfNode);
-            return Array.from(templateMatch.keys()).reduce((tmp, key) => {
-                return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
-            }, input);
+            return replaceTemplatePlaceholders(input, templateMatch, nodes, propFunctions, isSelfNode);
         }
     }
     return (0, exports.resultOf)((0, utils_1.parseNodeName)(input, isSelfNode), nodes, propFunctions);

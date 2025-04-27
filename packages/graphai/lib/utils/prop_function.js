@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.propFunctions = exports.propFunctionRegex = void 0;
+exports.utilsFunctions = exports.propFunctions = exports.propFunctionRegex = void 0;
 const utils_1 = require("./utils");
 exports.propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
 const propArrayFunction = (result, propId) => {
@@ -104,3 +104,15 @@ const propBooleanFunction = (result, propId) => {
     return undefined;
 };
 exports.propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+const utilsFunctions = (input) => {
+    if (input === "@now" || input === "@now_ms") {
+        return Date.now();
+    }
+    if (input === "@now_s") {
+        return Math.floor(Date.now() / 1000);
+    }
+    // If a placeholder does not match any key, replace it with an empty string.
+    console.warn("not match template utility function: ${" + input + "}");
+    return "";
+};
+exports.utilsFunctions = utilsFunctions;

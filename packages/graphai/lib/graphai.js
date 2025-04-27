@@ -320,7 +320,7 @@ class GraphAI {
         }
     }
     resultsOf(inputs, anyInput = false) {
-        const results = (0, result_1.resultsOf)(inputs ?? [], this.nodes, this.propFunctions);
+        const results = (0, result_1.resultsOf)(inputs ?? {}, this.nodes, this.propFunctions);
         if (anyInput) {
             return (0, result_1.cleanResult)(results);
         }
