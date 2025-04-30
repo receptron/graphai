@@ -55,6 +55,19 @@ Map Agent
 [
   ":agentId",
   ":agentId.$0",
+  ":agentId.$0.test",
+  ":agentId.$0.test.$0",
+  ":agentId.$1",
+  ":agentId.$1.test",
+  ":agentId.$1.test.$0"
+]
+
+```
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
   ":agentId.$0.node2",
   ":agentId.$1",
   ":agentId.$1.node2",
@@ -267,6 +280,47 @@ Map Agent
 
 {
   "rows": [
+    1,
+    2
+  ]
+}
+
+```
+
+#### params
+
+```json
+
+{"rowKey":"myKey"}
+
+```
+
+#### result
+
+```json
+
+[
+  {
+    "test": [
+      1
+    ]
+  },
+  {
+    "test": [
+      2
+    ]
+  }
+]
+
+```
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "rows": [
     "apple",
     "orange",
     "banana",
@@ -316,7 +370,7 @@ Map Agent
 ]
 
 ```
-### Sample2
+### Sample3
 
 #### inputs
 
@@ -357,7 +411,7 @@ Map Agent
 ]
 
 ```
-### Sample3
+### Sample4
 
 #### inputs
 
@@ -400,7 +454,7 @@ Map Agent
 ]
 
 ```
-### Sample4
+### Sample5
 
 #### inputs
 
@@ -445,7 +499,7 @@ Map Agent
 ]
 
 ```
-### Sample5
+### Sample6
 
 #### inputs
 
@@ -502,7 +556,7 @@ Map Agent
 ]
 
 ```
-### Sample6
+### Sample7
 
 #### inputs
 
@@ -541,7 +595,7 @@ Map Agent
 }
 
 ```
-### Sample7
+### Sample8
 
 #### inputs
 
@@ -586,7 +640,7 @@ Map Agent
 }
 
 ```
-### Sample8
+### Sample9
 
 #### inputs
 
@@ -633,7 +687,7 @@ Map Agent
 }
 
 ```
-### Sample9
+### Sample10
 
 #### inputs
 

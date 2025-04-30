@@ -1911,6 +1911,21 @@ const result = await graph.run();
 {
   "inputs": {
     "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "rowKey": "myKey"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
       "apple",
       "orange",
       "banana",
