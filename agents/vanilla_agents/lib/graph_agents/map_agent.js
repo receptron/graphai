@@ -4,7 +4,7 @@ exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { limit, resultAll, compositeResult, throwError } = params;
+    const { limit, resultAll, compositeResult, throwError, rowKey } = params;
     const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
@@ -17,12 +17,13 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
     if (limit && limit < rows.length) {
         rows.length = limit; // trim
     }
+    const rowInputKey = rowKey ?? "row";
     const { nodes } = graphData;
     const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphai_1.graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
     nestedGraphData.nodes["__mapIndex"] = {};
     nodeIds.forEach((nodeId) => {
-        const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
+        const mappedNodeId = nodeId === "rows" ? rowInputKey : nodeId;
         if (nestedGraphData.nodes[mappedNodeId] === undefined) {
             // If the input node does not exist, automatically create a static node
             nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };
@@ -39,7 +40,7 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
         const graphs = rows.map((row, index) => {
             const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, graphOptions);
             debugInfo.subGraphs.set(graphAI.graphId, graphAI);
-            graphAI.injectValue("row", row, "__mapAgent_inputs__");
+            graphAI.injectValue(rowInputKey, row, "__mapAgent_inputs__");
             graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {
@@ -109,6 +110,23 @@ const mapAgentInfo = {
                         agent: "copyAgent",
                         params: { namedKey: "rows" },
                         inputs: { rows: [":row"] },
+                        isResult: true,
+                    },
+                },
+            },
+        },
+        {
+            inputs: {
+                rows: [1, 2],
+            },
+            params: { rowKey: "myKey" },
+            result: [{ test: [1] }, { test: [2] }],
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "copyAgent",
+                        params: { namedKey: "rows" },
+                        inputs: { rows: [":myKey"] },
                         isResult: true,
                     },
                 },
