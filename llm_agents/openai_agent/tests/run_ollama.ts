@@ -5,7 +5,7 @@ import { openAIAgent } from "@/openai_agent";
 import test from "node:test";
 import assert from "node:assert";
 
-test("test oolama", async () => {
+test("test ollama", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
 
   // const model = "gemma";
