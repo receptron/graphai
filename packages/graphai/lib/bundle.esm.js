@@ -238,7 +238,7 @@ const propArrayFunction = (result, propId) => {
             return result.flat();
         }
         if (propId === "toJSON()") {
-            return JSON.stringify(result);
+            return JSON.stringify(result, null, 2);
         }
         if (propId === "isEmpty()") {
             return result.length === 0;
@@ -260,7 +260,7 @@ const propObjectFunction = (result, propId) => {
             return Object.values(result);
         }
         if (propId === "toJSON()") {
-            return JSON.stringify(result);
+            return JSON.stringify(result, null, 2);
         }
     }
     return undefined;
