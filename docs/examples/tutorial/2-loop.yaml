@@ -16,8 +16,9 @@ nodes:
   prompt:
     agent: stringTemplateAgent
     params:
-      template: What is the typical color of ${0}? Just answer the color.
-    inputs: [:shift.item]
+      template: What is the typical color of ${item}? Just answer the color.
+    inputs:
+      item: :shift.item
   llm:
     agent: openAIAgent
     params:
@@ -27,6 +28,6 @@ nodes:
   reducer:
     agent: pushAgent
     inputs:
-      array: :result
+      array: [:result]
       item: :llm.choices.$0.message.content
 
