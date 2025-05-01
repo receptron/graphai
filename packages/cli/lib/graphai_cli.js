@@ -50,7 +50,7 @@ const test_utils_1 = require("@receptron/test_utils");
 const options_1 = require("./options");
 const mermaid_1 = require("./mermaid");
 const fileFullPath = (file) => {
-    return path_1.default.resolve(process.cwd() + "/" + file) || "";
+    return path_1.default.isAbsolute(file) ? file : path_1.default.resolve(process.cwd(), file);
 };
 const agents = {
     ...packages,
