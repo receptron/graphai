@@ -93,7 +93,7 @@ test("test getDataFromSource array flat", async () => {
 test("test getDataFromSource array to_json", async () => {
   const inputId = ":node1.data.toJSON()";
   const result = { data: { sample: [0, [1, [2, [3]]]] } };
-  const data = '{"sample":[0,[1,[2,[3]]]]}';
+  const data = JSON.stringify({ sample: [0, [1, [2, [3]]]] }, null, 2);
 
   const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "toJSON()"] });
