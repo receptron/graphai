@@ -16,7 +16,7 @@ import { option } from "./options";
 import { mermaid } from "./mermaid";
 
 const fileFullPath = (file: string) => {
-  return path.resolve(process.cwd() + "/" + file) || "";
+  return path.isAbsolute(file) ? file : path.resolve(process.cwd(), file);
 };
 
 const agents = {
