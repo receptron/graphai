@@ -142,4 +142,4 @@ export const isStaticNodeData = (node: NodeData): node is StaticNodeData => {
   return !("agent" in node);
 };
 
-export const loopCounterKey = "___loopCounter";
+export const loopCounterKey = "__loopIndex";
