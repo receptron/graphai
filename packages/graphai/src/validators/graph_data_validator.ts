@@ -11,7 +11,8 @@ export const graphNodesValidator = (data: GraphData) => {
   if (Array.isArray(data.nodes)) {
     throw new ValidationError("Invalid Graph Data: nodes must be object");
   }
-  if (Object.keys(data.nodes).length === 0) {
+  const { __loopIndex, ...nodes } = data.nodes;
+  if (Object.keys(nodes).length === 0) {
     throw new ValidationError("Invalid Graph Data: nodes is empty");
   }
   Object.keys(data).forEach((key) => {

@@ -22,7 +22,7 @@ const get_graph_data = (inputs: string) => {
       debug: {
         agent: "copyAgent",
         inputs: {
-          internalCounter: "counter ${:___loopCounter}",
+          internalCounter: "counter ${:__loopIndex}",
           counter: "${@loop}",
         },
         console: { after: true },

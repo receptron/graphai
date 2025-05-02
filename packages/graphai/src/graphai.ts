@@ -142,14 +142,19 @@ export class GraphAI {
     }
     this.retryLimit = graphData.retry; // optional
     this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
-    const nodes = {
-      ...graphData.nodes,
-      [loopCounterKey]: { value: 0, update: `:${loopCounterKey}.add(1)` },
-    };
-    this.graphData = {
-      ...graphData,
-      nodes,
-    };
+    this.graphData = (() => {
+      if (typeof graphData.nodes !== "object" || Array.isArray(graphData.nodes)) {
+        return graphData;
+      }
+      const nodes = {
+        ...graphData.nodes,
+        [loopCounterKey]: { value: 0, update: `:${loopCounterKey}.add(1)` },
+      };
+      return {
+        ...graphData,
+        nodes,
+      }
+    })();
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.propFunctions = propFunctions;
     this.taskManager = options.taskManager ?? new TaskManager(graphData.concurrency ?? defaultConcurrency);
