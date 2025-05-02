@@ -19,6 +19,14 @@ const get_graph_data = (inputs: string) => {
         update: ":add",
         console: { after: true },
       },
+      debug: {
+        agent: "copyAgent",
+        inputs: {
+          internalCounter: "counter ${:___loopCounter}",
+          counter: "${@loop}",
+        },
+        console: { after: true },
+      },
       add: {
         inputs: { counter: inputs },
         agent: async (namedInputs: any) => {

@@ -19,7 +19,7 @@ import { ComputedNode, StaticNode, GraphNodes } from "./node";
 
 import { resultsOf, resultOf, cleanResult } from "./utils/result";
 import { propFunctions } from "./utils/prop_function";
-import { parseNodeName, assert, isLogicallyTrue, isComputedNodeData } from "./utils/utils";
+import { parseNodeName, assert, isLogicallyTrue, isComputedNodeData, loopCounterKey } from "./utils/utils";
 import { getDataFromSource } from "./utils/data_source";
 
 import { validateGraphData, validateAgent } from "./validator";
@@ -142,7 +142,14 @@ export class GraphAI {
     }
     this.retryLimit = graphData.retry; // optional
     this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
-    this.graphData = graphData;
+    const nodes = {
+      ...graphData.nodes,
+      [loopCounterKey]: { value: 0, update: `:${loopCounterKey}.add(1)` },
+    };
+    this.graphData = {
+      ...graphData,
+      nodes,
+    };
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.propFunctions = propFunctions;
     this.taskManager = options.taskManager ?? new TaskManager(graphData.concurrency ?? defaultConcurrency);
@@ -156,10 +163,10 @@ export class GraphAI {
       throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };
 
-    validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
+    validateGraphData(this.graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
     validateAgent(agentFunctionInfoDictionary);
 
-    this.nodes = this.createNodes(graphData);
+    this.nodes = this.createNodes(this.graphData);
     this.initializeStaticNodes(true);
   }
 
