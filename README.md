@@ -9,9 +9,7 @@
 ![NPM Downloads](https://img.shields.io/npm/dw/graphai)
 [![Open Issues](https://img.shields.io/github/issues-raw/receptron/graphai?style=flat-square)](https://github.com/receptron/graphai/issues)
 
-
-
-GraphAI is an asynchronous data flow execution engine, which allows developers to build *agentic applications* by describing *agent workflows* as declarative data flow graphs in YAML or JSON. 
+GraphAI is an asynchronous data flow execution engine, which allows developers to build *agentic applications* by describing *agent workflows* as declarative data flow graphs in YAML or JSON.
 
 ## Documentation
 
@@ -30,12 +28,12 @@ GraphAI is an asynchronous data flow execution engine, which allows developers t
 - [Agent Document](./docs/agentDocs/README.md)
 
 ### Tools
-- [GraphAI cli](./packages/cli/README.md)
+- [GraphAI CLI](./packages/cli/README.md)
 
 ## Application Samples
 - [Tutorial](https://graphai.info/guide/tutorial.html)
-- [GraphAI samples for developer](./packages/samples/README.md)
-- [GraphAI samples for end user](https://github.com/receptron/graphai_samples)
+- [GraphAI samples for developers](./packages/samples/README.md)
+- [GraphAI samples for end users](https://github.com/receptron/graphai_samples)
 
 ## Development
 - [Collaboration](./Collaboration.md)
