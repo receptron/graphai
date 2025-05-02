@@ -143,6 +143,7 @@ export class GraphAI {
     this.retryLimit = graphData.retry; // optional
     this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
     this.graphData = (() => {
+      // If the value is an object, insert the __ node; otherwise, copy it as is in order to produce a correct validation error.
       if (typeof graphData.nodes !== "object" || Array.isArray(graphData.nodes)) {
         return graphData;
       }
