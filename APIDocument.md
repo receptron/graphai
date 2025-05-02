@@ -31,4 +31,3 @@ Injects a result into a specified node. This is used to manually set the result 
 
 - ```nodeId: string```: The ID of the static node into which the result is to be injected.
 - ```result: ResultData```: The result to be injected into the specified node.
-
