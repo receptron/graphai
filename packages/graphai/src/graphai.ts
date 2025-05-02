@@ -197,7 +197,7 @@ export class GraphAI {
   // Public API
   public results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T> {
     return Object.keys(this.nodes)
-      .filter((nodeId) => all || this.nodes[nodeId].isResult)
+      .filter((nodeId) => (all && !nodeId.startsWith("__") )|| this.nodes[nodeId].isResult)
       .reduce((results: ResultDataDictionary<T>, nodeId) => {
         const node = this.nodes[nodeId];
         if (node.result !== undefined) {
