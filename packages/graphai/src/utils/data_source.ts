@@ -1,6 +1,7 @@
 import { ResultData, DataSource, PropFunction } from "../type";
 import { isObject, isNull } from "./utils";
 import { propFunctionRegex } from "./prop_function";
+import { GraphAILogger } from "./GraphAILogger";
 
 const getNestedData = (result: ResultData, propId: string, propFunctions: PropFunction[]) => {
   const match = propId.match(propFunctionRegex);
@@ -38,7 +39,7 @@ const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefine
     const propId = propIds[0];
     const ret = getNestedData(result, propId, propFunctions);
     if (ret === undefined) {
-      console.error(`prop: ${propIds.join(".")} is not hit`);
+      GraphAILogger.error(`prop: ${propIds.join(".")} is not hit`);
     }
     if (propIds.length > 1) {
       return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
