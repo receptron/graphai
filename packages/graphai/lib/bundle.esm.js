@@ -1221,9 +1221,6 @@ class TaskManager {
 
 const defaultConcurrency = 8;
 const graphDataLatestVersion = 0.5;
-GraphAILogger.setLevelEnabled("error", false);
-GraphAILogger.setLevelEnabled("warn", false);
-GraphAILogger.setLevelEnabled("log", false);
 class GraphAI {
     // This method is called when either the GraphAI obect was created,
     // or we are about to start n-th iteration (n>2).
