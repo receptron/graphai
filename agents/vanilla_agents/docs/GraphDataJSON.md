@@ -59,7 +59,7 @@
     },
     "nested": {
       "agent": "nestedAgent",
-      "graph": ":parser",
+      "graph": ":parser.data",
       "isResult": true
     }
   }
@@ -82,7 +82,7 @@
     },
     "nested": {
       "agent": "nestedAgent",
-      "graph": ":parser",
+      "graph": ":parser.data",
       "isResult": true
     }
   }
