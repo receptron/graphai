@@ -12,6 +12,55 @@ var NodeState;
     NodeState["Skipped"] = "skipped";
 })(NodeState || (NodeState = {}));
 
+const enabledLevels = {
+    debug: true,
+    info: true,
+    log: true,
+    warn: true,
+    error: true,
+};
+let customLogger = null;
+function setLevelEnabled(level, enabled) {
+    enabledLevels[level] = enabled;
+}
+function setLogger(logger) {
+    customLogger = logger;
+}
+function output(level, ...args) {
+    if (!enabledLevels[level])
+        return;
+    if (customLogger) {
+        customLogger(level, ...args);
+    }
+    else {
+        (console[level] || console.log)(...args);
+    }
+}
+function debug(...args) {
+    output("debug", ...args);
+}
+function info(...args) {
+    output("info", ...args);
+}
+function log(...args) {
+    output("log", ...args);
+}
+function warn(...args) {
+    output("warn", ...args);
+}
+function error(...args) {
+    output("error", ...args);
+}
+const GraphAILogger = {
+    setLevelEnabled,
+    setLogger,
+    debug,
+    info,
+    log,
+    warn,
+    error,
+};
+
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -42,7 +91,7 @@ function assert(condition, message, isWarn = false) {
         if (!isWarn) {
             throw new Error(message);
         }
-        console.warn("warn: " + message);
+        GraphAILogger.warn("warn: " + message);
     }
 }
 const isObject = (x) => {
@@ -300,7 +349,7 @@ const propStringFunction = (result, propId) => {
             if (sliceMatch[1] !== undefined) {
                 return result.slice(Number(sliceMatch[1]));
             }
-            console.log(sliceMatch);
+            GraphAILogger.warn("slice is not valid format: " + sliceMatch);
         }
         const splitMatch = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
         if (splitMatch) {
@@ -342,7 +391,7 @@ const utilsFunctions = (input, nodes) => {
         return nodes[loopCounterKey].result;
     }
     // If a placeholder does not match any key, replace it with an empty string.
-    console.warn("not match template utility function: ${" + input + "}");
+    GraphAILogger.warn("not match template utility function: ${" + input + "}");
     return "";
 };
 
@@ -381,7 +430,7 @@ const innerGetDataFromSource = (result, propIds, propFunctions) => {
         const propId = propIds[0];
         const ret = getNestedData(result, propId, propFunctions);
         if (ret === undefined) {
-            console.error(`prop: ${propIds.join(".")} is not hit`);
+            GraphAILogger.error(`prop: ${propIds.join(".")} is not hit`);
         }
         if (propIds.length > 1) {
             return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
@@ -495,14 +544,14 @@ class Node {
             return;
         }
         else if (this.console === true || this.console.after === true) {
-            console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
+            GraphAILogger.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
         }
         else if (this.console.after) {
             if (isObject(this.console.after)) {
-                console.log(JSON.stringify(resultsOf(this.console.after, { self: { result } }, this.graph.propFunctions, true), null, 2));
+                GraphAILogger.log(JSON.stringify(resultsOf(this.console.after, { self: { result } }, this.graph.propFunctions, true), null, 2));
             }
             else {
-                console.log(this.console.after);
+                GraphAILogger.log(this.console.after);
             }
         }
     }
@@ -660,7 +709,7 @@ class ComputedNode extends Node {
     // and attempt to retry (if specified).
     executeTimeout(transactionId) {
         if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
-            console.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
+            GraphAILogger.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
             this.retry(NodeState.TimedOut, Error("Timeout"));
         }
     }
@@ -753,7 +802,7 @@ class ComputedNode extends Node {
             if (!this.isCurrentTransaction(transactionId)) {
                 // This condition happens when the agent function returns
                 // after the timeout (either retried or not).
-                console.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
+                GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                 return;
             }
             // after process
@@ -791,20 +840,20 @@ class ComputedNode extends Node {
     // the retry if specified.
     errorProcess(error, transactionId, namedInputs) {
         if (error instanceof Error && error.message !== strIntentionalError) {
-            console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
-            console.error({ namedInputs });
-            console.error(error);
-            console.error("-->");
+            GraphAILogger.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
+            GraphAILogger.error({ namedInputs });
+            GraphAILogger.error(error);
+            GraphAILogger.error("-->");
         }
         if (!this.isCurrentTransaction(transactionId)) {
-            console.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
+            GraphAILogger.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
             return;
         }
         if (error instanceof Error) {
             this.retry(NodeState.Failed, error);
         }
         else {
-            console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
+            GraphAILogger.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
             this.retry(NodeState.Failed, Error("Unknown"));
         }
     }
@@ -852,10 +901,10 @@ class ComputedNode extends Node {
             return;
         }
         else if (this.console === true || this.console.before === true) {
-            console.log(JSON.stringify(context.namedInputs, null, 2));
+            GraphAILogger.log(JSON.stringify(context.namedInputs, null, 2));
         }
         else if (this.console.before) {
-            console.log(this.console.before);
+            GraphAILogger.log(this.console.before);
         }
     }
 }
@@ -1172,6 +1221,9 @@ class TaskManager {
 
 const defaultConcurrency = 8;
 const graphDataLatestVersion = 0.5;
+GraphAILogger.setLevelEnabled("error", false);
+GraphAILogger.setLevelEnabled("warn", false);
+GraphAILogger.setLevelEnabled("log", false);
 class GraphAI {
     // This method is called when either the GraphAI obect was created,
     // or we are about to start n-th iteration (n>2).
@@ -1254,11 +1306,11 @@ class GraphAI {
         this.callbacks = [];
         this.repeatCount = 0;
         if (!graphData.version && !options.taskManager) {
-            console.warn("------------ missing version number");
+            GraphAILogger.warn("------------ missing version number");
         }
         this.version = graphData.version ?? graphDataLatestVersion;
         if (this.version < graphDataLatestVersion) {
-            console.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
+            GraphAILogger.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
         }
         this.retryLimit = graphData.retry; // optional
         this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
@@ -1371,7 +1423,7 @@ class GraphAI {
         }
         this.pushReadyNodesIntoQueue();
         if (!this.isRunning()) {
-            console.warn("-- nothing to execute");
+            GraphAILogger.warn("-- nothing to execute");
             return {};
         }
         return new Promise((resolve, reject) => {
@@ -1499,5 +1551,5 @@ class GraphAI {
     }
 }
 
-export { GraphAI, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
+export { GraphAI, GraphAILogger, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
 //# sourceMappingURL=bundle.esm.js.map

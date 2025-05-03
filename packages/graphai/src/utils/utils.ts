@@ -1,4 +1,5 @@
 import { DataSource, AgentFunction, AgentFunctionInfo, NodeData, StaticNodeData, ComputedNodeData, NodeState } from "../type";
+import { GraphAILogger } from "./GraphAILogger";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -32,7 +33,7 @@ export function assert(condition: boolean, message: string, isWarn: boolean = fa
     if (!isWarn) {
       throw new Error(message);
     }
-    console.warn("warn: " + message);
+    GraphAILogger.warn("warn: " + message);
   }
 }
 

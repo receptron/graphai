@@ -1,6 +1,7 @@
 import { PropFunction } from "../type";
 import { isObject, loopCounterKey } from "./utils";
 import { GraphNodes } from "../node";
+import { GraphAILogger } from "./GraphAILogger";
 
 export const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
 
@@ -76,8 +77,7 @@ const propStringFunction: PropFunction = (result, propId) => {
       if (sliceMatch[1] !== undefined) {
         return result.slice(Number(sliceMatch[1]));
       }
-
-      console.log(sliceMatch);
+      GraphAILogger.warn("slice is not valid format: " + sliceMatch);
     }
 
     const splitMatch = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
@@ -122,6 +122,6 @@ export const utilsFunctions = (input: string, nodes: GraphNodes) => {
     return nodes[loopCounterKey].result as string;
   }
   // If a placeholder does not match any key, replace it with an empty string.
-  console.warn("not match template utility function: ${" + input + "}");
+  GraphAILogger.warn("not match template utility function: ${" + input + "}");
   return "";
 };

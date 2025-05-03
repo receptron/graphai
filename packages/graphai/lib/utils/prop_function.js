@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.utilsFunctions = exports.propFunctions = exports.propFunctionRegex = void 0;
 const utils_1 = require("./utils");
+const GraphAILogger_1 = require("./GraphAILogger");
 exports.propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
 const propArrayFunction = (result, propId) => {
     if (Array.isArray(result)) {
@@ -73,7 +74,7 @@ const propStringFunction = (result, propId) => {
             if (sliceMatch[1] !== undefined) {
                 return result.slice(Number(sliceMatch[1]));
             }
-            console.log(sliceMatch);
+            GraphAILogger_1.GraphAILogger.warn("slice is not valid format: " + sliceMatch);
         }
         const splitMatch = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
         if (splitMatch) {
@@ -115,7 +116,7 @@ const utilsFunctions = (input, nodes) => {
         return nodes[utils_1.loopCounterKey].result;
     }
     // If a placeholder does not match any key, replace it with an empty string.
-    console.warn("not match template utility function: ${" + input + "}");
+    GraphAILogger_1.GraphAILogger.warn("not match template utility function: ${" + input + "}");
     return "";
 };
 exports.utilsFunctions = utilsFunctions;
