@@ -24,6 +24,7 @@ import { getDataFromSource } from "./utils/data_source";
 
 import { validateGraphData, validateAgent } from "./validator";
 import { TaskManager } from "./task_manager";
+import { GraphAILogger } from "./utils/GraphAILogger";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -134,11 +135,11 @@ export class GraphAI {
     },
   ) {
     if (!graphData.version && !options.taskManager) {
-      console.warn("------------ missing version number");
+      GraphAILogger.warn("------------ missing version number");
     }
     this.version = graphData.version ?? graphDataLatestVersion;
     if (this.version < graphDataLatestVersion) {
-      console.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
+      GraphAILogger.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
     }
     this.retryLimit = graphData.retry; // optional
     this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
@@ -267,7 +268,7 @@ export class GraphAI {
     this.pushReadyNodesIntoQueue();
 
     if (!this.isRunning()) {
-      console.warn("-- nothing to execute");
+      GraphAILogger.warn("-- nothing to execute");
       return {};
     }
 
