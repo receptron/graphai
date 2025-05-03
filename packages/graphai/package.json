@@ -1,6 +1,6 @@
 {
   "name": "graphai",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Asynchronous data flow execution engine for agentic AI apps.",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
