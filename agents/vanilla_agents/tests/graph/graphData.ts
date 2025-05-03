@@ -51,7 +51,7 @@ export const dynamicGraphData2 = {
     },
     nested: {
       agent: "nestedAgent",
-      graph: ":parser",
+      graph: ":parser.data",
       isResult: true,
     },
   },
@@ -69,7 +69,7 @@ export const dynamicGraphData3 = {
     },
     nested: {
       agent: "nestedAgent",
-      graph: ":parser",
+      graph: ":parser.data",
       isResult: true,
     },
   },
