@@ -48,7 +48,7 @@ const graph_injection_data = {
 test("test graph", async () => {
   const graph = new GraphAI(graph_data, agents);
   const asString = graph.asString();
-  assert.deepStrictEqual(asString, ["echo: waiting copyAgent", "copyAgent: waiting copyAgent2", "copyAgent2: waiting ",  "__loopIndex: injected "].join("\n"));
+  assert.deepStrictEqual(asString, ["echo: waiting copyAgent", "copyAgent: waiting copyAgent2", "copyAgent2: waiting ", "__loopIndex: injected "].join("\n"));
 
   const beforeResult = graph.results(true);
   assert.deepStrictEqual(beforeResult, {});
