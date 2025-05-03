@@ -3393,7 +3393,7 @@ const result = await graph.run();
     },
     "nested": {
       "agent": "nestedAgent",
-      "graph": ":parser",
+      "graph": ":parser.data",
       "isResult": true
     }
   }
@@ -3416,7 +3416,7 @@ const result = await graph.run();
     },
     "nested": {
       "agent": "nestedAgent",
-      "graph": ":parser",
+      "graph": ":parser.data",
       "isResult": true
     }
   }

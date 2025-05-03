@@ -39,7 +39,29 @@ Template agent
 ```json
 
 {
-  "type": "string"
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "json string"
+    },
+    "data": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ]
+    }
+  }
 }
 
 ```
@@ -49,7 +71,8 @@ Template agent
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.text"
 ]
 
 ```
@@ -57,8 +80,9 @@ Template agent
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
 ```
@@ -66,8 +90,9 @@ Template agent
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
 ```
@@ -75,8 +100,9 @@ Template agent
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
 ```
@@ -84,8 +110,9 @@ Template agent
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
 ```
@@ -119,7 +146,9 @@ Template agent
 
 ```json
 
-"{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
+{
+  "text": "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
+}
 
 ```
 ### Sample1
@@ -147,8 +176,10 @@ Template agent
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
 ```
@@ -177,8 +208,10 @@ Template agent
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
 ```
@@ -207,8 +240,10 @@ Template agent
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
 ```
@@ -237,8 +272,10 @@ Template agent
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
 ```
