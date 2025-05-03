@@ -1,65 +1,55 @@
 type LogLevel = "debug" | "info" | "log" | "warn" | "error";
 type LoggerFunction = (level: LogLevel, ...args: any[]) => void;
 
+const enabledLevels: Record<LogLevel, boolean> = {
+  debug: true,
+  info: true,
+  log: true,
+  warn: true,
+  error: true,
+};
+
+let customLogger: LoggerFunction | null = null;
+
+function setLevelEnabled(level: LogLevel, enabled: boolean) {
+  enabledLevels[level] = enabled;
+}
+
+function setLogger(logger: LoggerFunction) {
+  customLogger = logger;
+}
+
+function output(level: LogLevel, ...args: any[]) {
+  if (!enabledLevels[level]) return;
+  if (customLogger) {
+    customLogger(level, ...args);
+  } else {
+    (console[level] || console.log)(...args);
+  }
+}
+
+function debug(...args: any[]) {
+  output("debug", ...args);
+}
+function info(...args: any[]) {
+  output("info", ...args);
+}
+function log(...args: any[]) {
+  output("log", ...args);
+}
+function warn(...args: any[]) {
+  output("warn", ...args);
+}
+function error(...args: any[]) {
+  output("error", ...args);
+}
+
 export const GraphAILogger = {
-  enabledLevels: {
-    debug: true,
-    info: true,
-    log: true,
-    warn: true,
-    error: true,
-  } as Record<LogLevel, boolean>,
-
-  customLogger: null as LoggerFunction | null,
-
-  setLevelEnabled(level: LogLevel, enabled: boolean) {
-    this.enabledLevels[level] = enabled;
-  },
-
-  setLogger(logger: LoggerFunction) {
-    this.customLogger = logger;
-  },
-
-  debug(...args: any[]) {
-    if (!this.enabledLevels.debug) return;
-    this._output("debug", ...args);
-  },
-
-  info(...args: any[]) {
-    if (!this.enabledLevels.info) return;
-    this._output("info", ...args);
-  },
-
-  log(...args: any[]) {
-    if (!this.enabledLevels.log) return;
-    this._output("log", ...args);
-  },
-
-  warn(...args: any[]) {
-    if (!this.enabledLevels.warn) return;
-    this._output("warn", ...args);
-  },
-
-  error(...args: any[]) {
-    if (!this.enabledLevels.error) return;
-    this._output("error", ...args);
-  },
-
-  _output(level: LogLevel, ...args: any[]) {
-    if (this.customLogger) {
-      this.customLogger(level, ...args);
-    } else {
-      const consoleMethod = {
-        debug: console.debug,
-        info: console.info,
-        log: console.log,
-        warn: console.warn,
-        error: console.error,
-      }[level];
-
-      if (consoleMethod) {
-        consoleMethod(...args);
-      }
-    }
-  },
+  setLevelEnabled,
+  setLogger,
+  debug,
+  info,
+  log,
+  warn,
+  error,
 };
