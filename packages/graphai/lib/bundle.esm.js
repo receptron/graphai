@@ -138,6 +138,7 @@ const isComputedNodeData = (node) => {
 const isStaticNodeData = (node) => {
     return !("agent" in node);
 };
+const loopCounterKey = "__loopIndex";
 
 // for dataSource
 const inputs2dataSources = (inputs) => {
@@ -330,12 +331,15 @@ const propBooleanFunction = (result, propId) => {
     return undefined;
 };
 const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
-const utilsFunctions = (input) => {
+const utilsFunctions = (input, nodes) => {
     if (input === "@now" || input === "@now_ms") {
         return Date.now();
     }
     if (input === "@now_s") {
         return Math.floor(Date.now() / 1000);
+    }
+    if (input === "@loop") {
+        return nodes[loopCounterKey].result;
     }
     // If a placeholder does not match any key, replace it with an empty string.
     console.warn("not match template utility function: ${" + input + "}");
@@ -400,7 +404,7 @@ const replaceTemplatePlaceholders = (input, templateMatch, nodes, propFunctions,
     const utilsFuncResult = templateMatch
         .filter((text) => text.startsWith("@"))
         .reduce((tmp, key) => {
-        tmp[key] = utilsFunctions(key);
+        tmp[key] = utilsFunctions(key, nodes);
         return tmp;
     }, {});
     return Array.from(templateMatch.keys()).reduce((tmp, key) => {
@@ -1258,7 +1262,6 @@ class GraphAI {
         }
         this.retryLimit = graphData.retry; // optional
         this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
-        this.graphData = graphData;
         this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
         this.propFunctions = propFunctions;
         this.taskManager = options.taskManager ?? new TaskManager(graphData.concurrency ?? defaultConcurrency);
@@ -1273,7 +1276,14 @@ class GraphAI {
         };
         validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
         validateAgent(agentFunctionInfoDictionary);
-        this.nodes = this.createNodes(graphData);
+        this.graphData = {
+            ...graphData,
+            nodes: {
+                ...graphData.nodes,
+                [loopCounterKey]: { value: 0, update: `:${loopCounterKey}.add(1)` },
+            }
+        };
+        this.nodes = this.createNodes(this.graphData);
         this.initializeStaticNodes(true);
     }
     getAgentFunctionInfo(agentId) {
@@ -1301,7 +1311,7 @@ class GraphAI {
     // Public API
     results(all) {
         return Object.keys(this.nodes)
-            .filter((nodeId) => all || this.nodes[nodeId].isResult)
+            .filter((nodeId) => (all && nodeId !== loopCounterKey) || this.nodes[nodeId].isResult)
             .reduce((results, nodeId) => {
             const node = this.nodes[nodeId];
             if (node.result !== undefined) {

@@ -100,7 +100,6 @@ class GraphAI {
         }
         this.retryLimit = graphData.retry; // optional
         this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
-        this.graphData = graphData;
         this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
         this.propFunctions = prop_function_1.propFunctions;
         this.taskManager = options.taskManager ?? new task_manager_1.TaskManager(graphData.concurrency ?? exports.defaultConcurrency);
@@ -115,7 +114,14 @@ class GraphAI {
         };
         (0, validator_1.validateGraphData)(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
         (0, validator_1.validateAgent)(agentFunctionInfoDictionary);
-        this.nodes = this.createNodes(graphData);
+        this.graphData = {
+            ...graphData,
+            nodes: {
+                ...graphData.nodes,
+                [utils_1.loopCounterKey]: { value: 0, update: `:${utils_1.loopCounterKey}.add(1)` },
+            }
+        };
+        this.nodes = this.createNodes(this.graphData);
         this.initializeStaticNodes(true);
     }
     getAgentFunctionInfo(agentId) {
@@ -143,7 +149,7 @@ class GraphAI {
     // Public API
     results(all) {
         return Object.keys(this.nodes)
-            .filter((nodeId) => all || this.nodes[nodeId].isResult)
+            .filter((nodeId) => (all && nodeId !== utils_1.loopCounterKey) || this.nodes[nodeId].isResult)
             .reduce((results, nodeId) => {
             const node = this.nodes[nodeId];
             if (node.result !== undefined) {

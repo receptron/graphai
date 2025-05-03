@@ -11,7 +11,7 @@ const replaceTemplatePlaceholders = (input, templateMatch, nodes, propFunctions,
     const utilsFuncResult = templateMatch
         .filter((text) => text.startsWith("@"))
         .reduce((tmp, key) => {
-        tmp[key] = (0, prop_function_1.utilsFunctions)(key);
+        tmp[key] = (0, prop_function_1.utilsFunctions)(key, nodes);
         return tmp;
     }, {});
     return Array.from(templateMatch.keys()).reduce((tmp, key) => {

@@ -104,12 +104,15 @@ const propBooleanFunction = (result, propId) => {
     return undefined;
 };
 exports.propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
-const utilsFunctions = (input) => {
+const utilsFunctions = (input, nodes) => {
     if (input === "@now" || input === "@now_ms") {
         return Date.now();
     }
     if (input === "@now_s") {
         return Math.floor(Date.now() / 1000);
+    }
+    if (input === "@loop") {
+        return nodes[utils_1.loopCounterKey].result;
     }
     // If a placeholder does not match any key, replace it with an empty string.
     console.warn("not match template utility function: ${" + input + "}");

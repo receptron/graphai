@@ -37,3 +37,4 @@ export declare const defaultTestContext: {
 export declare const isNamedInputs: <Values = unknown>(namedInputs: unknown) => namedInputs is Record<string, Values>;
 export declare const isComputedNodeData: (node: NodeData) => node is ComputedNodeData;
 export declare const isStaticNodeData: (node: NodeData) => node is StaticNodeData;
+export declare const loopCounterKey: string;
