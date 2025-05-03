@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loopCounterKey = exports.isStaticNodeData = exports.isComputedNodeData = exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
 exports.assert = assert;
 const type_1 = require("../type");
+const GraphAILogger_1 = require("./GraphAILogger");
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
@@ -35,7 +36,7 @@ function assert(condition, message, isWarn = false) {
         if (!isWarn) {
             throw new Error(message);
         }
-        console.warn("warn: " + message);
+        GraphAILogger_1.GraphAILogger.warn("warn: " + message);
     }
 }
 const isObject = (x) => {

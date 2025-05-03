@@ -8,8 +8,12 @@ const utils_1 = require("./utils/utils");
 const data_source_1 = require("./utils/data_source");
 const validator_1 = require("./validator");
 const task_manager_1 = require("./task_manager");
+const GraphAILogger_1 = require("./utils/GraphAILogger");
 exports.defaultConcurrency = 8;
 exports.graphDataLatestVersion = 0.5;
+GraphAILogger_1.GraphAILogger.setLevelEnabled("error", false);
+GraphAILogger_1.GraphAILogger.setLevelEnabled("warn", false);
+GraphAILogger_1.GraphAILogger.setLevelEnabled("log", false);
 class GraphAI {
     // This method is called when either the GraphAI obect was created,
     // or we are about to start n-th iteration (n>2).
@@ -92,11 +96,11 @@ class GraphAI {
         this.callbacks = [];
         this.repeatCount = 0;
         if (!graphData.version && !options.taskManager) {
-            console.warn("------------ missing version number");
+            GraphAILogger_1.GraphAILogger.warn("------------ missing version number");
         }
         this.version = graphData.version ?? exports.graphDataLatestVersion;
         if (this.version < exports.graphDataLatestVersion) {
-            console.warn(`------------ upgrade to ${exports.graphDataLatestVersion}!`);
+            GraphAILogger_1.GraphAILogger.warn(`------------ upgrade to ${exports.graphDataLatestVersion}!`);
         }
         this.retryLimit = graphData.retry; // optional
         this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
@@ -209,7 +213,7 @@ class GraphAI {
         }
         this.pushReadyNodesIntoQueue();
         if (!this.isRunning()) {
-            console.warn("-- nothing to execute");
+            GraphAILogger_1.GraphAILogger.warn("-- nothing to execute");
             return {};
         }
         return new Promise((resolve, reject) => {
