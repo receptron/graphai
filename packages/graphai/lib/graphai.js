@@ -119,7 +119,7 @@ class GraphAI {
             nodes: {
                 ...graphData.nodes,
                 [utils_1.loopCounterKey]: { value: 0, update: `:${utils_1.loopCounterKey}.add(1)` },
-            }
+            },
         };
         this.nodes = this.createNodes(this.graphData);
         this.initializeStaticNodes(true);
