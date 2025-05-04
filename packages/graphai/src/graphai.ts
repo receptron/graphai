@@ -48,6 +48,7 @@ export class GraphAI {
   public onLogCallback: CallbackFunction = (__log: TransactionLog, __isUpdate: boolean) => {};
   public callbacks: CallbackFunction[] = [];
   public verbose: boolean; // REVIEW: Do we need this?
+  public failOnError: boolean;
 
   private onComplete: (isAbort: boolean) => void;
   private repeatCount = 0;
@@ -152,6 +153,7 @@ export class GraphAI {
     this.graphLoader = options.graphLoader;
     this.loop = graphData.loop;
     this.verbose = graphData.verbose === true;
+    this.failOnError = graphData.failOnError ?? false;
     this.onComplete = (__isAbort: boolean) => {
       throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };

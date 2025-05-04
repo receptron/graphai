@@ -228,6 +228,10 @@ export class ComputedNode extends Node {
       this.retryCount++;
       this.execute();
     } else {
+      if (this.graph.failOnError) {
+        throw error instanceof Error ? error : new Error(String(error));
+      }
+
       this.result = undefined;
       this.error = error;
       this.transactionId = undefined; // This is necessary for timeout case
@@ -425,7 +429,9 @@ export class ComputedNode extends Node {
       GraphAILogger.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
       return;
     }
-
+    if (this.graph.failOnError && this.retryLimit === 0) {
+      throw error instanceof Error ? error : new Error(String(error));
+    }
     if (error instanceof Error) {
       this.retry(NodeState.Failed, error);
     } else {

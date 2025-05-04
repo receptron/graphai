@@ -83,6 +83,7 @@ export type GraphData = {
   loop?: LoopData;
   verbose?: boolean;
   retry?: number;
+  failOnError?: boolean;
   metadata?: any; // Stores information about GraphData. GraphAI itself is not used this data.
 };
 
