@@ -207,6 +207,7 @@ const inputs2dataSources = (inputs) => {
     }
     return parseNodeName(inputs);
 };
+// TODO: Maybe it's a remnant of old array inputs. Check and delete.
 const dataSourceNodeIds = (sources) => {
     if (!Array.isArray(sources)) {
         throw new Error("sources must be array!! maybe inputs is invalid");
