@@ -1,5 +1,13 @@
 # In the design of namedInputs and agent response data, we define the template data types.
 
+These types are defined in the following file:
+
+[https://github.com/receptron/graphai/blob/main/agents/agent_utils/src/type.ts)](https://github.com/receptron/graphai/blob/main/agents/agent_utils/src/type.ts
+)
+
+Please install and use [@graphai/agent_utils](https://www.npmjs.com/package/@graphai/agent_utils).
+
+
 ## array and the data(item)
 
 ```
