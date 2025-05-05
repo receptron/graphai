@@ -216,9 +216,9 @@ class GraphAI {
         return new Promise((resolve, reject) => {
             this.onComplete = (isAbort = false) => {
                 const errors = this.errors();
-                const nodeIds = Object.keys(errors);
-                if (nodeIds.length > 0 || isAbort) {
-                    reject(errors[nodeIds[0]]);
+                const errorNodeIds = Object.keys(errors);
+                if (errorNodeIds.length > 0 || isAbort) {
+                    reject(errors[errorNodeIds[0]]);
                 }
                 else {
                     resolve(this.results(all));
