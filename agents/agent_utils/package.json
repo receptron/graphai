@@ -1,6 +1,6 @@
 {
   "name": "@graphai/agent_utils",
-  "version": "0.0.9",
+  "version": "2.0.0",
   "description": "Agent utils for GraphAI.",
   "main": "lib/index.js",
   "files": [
