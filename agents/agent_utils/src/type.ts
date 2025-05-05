@@ -43,7 +43,8 @@ export type GraphAIResult<Result = unknown> = { result: Result };
 export type GraphAIWithOptionalTextAndData<Item = unknown> = Partial<GraphAIText & GraphAIData<Item>>;
 
 // for result
-export type GraphAIThrowError = { throwError: boolean };
+export type GraphAIThrowError = { throwError: boolean }; // deprecated.  It was used up to version 1.x.
+export type GraphAISupressError = { supressError: boolean }; //  It is used from version 2.0.0 and above.
 export type GraphAIDebug = { debug: boolean };
 
 // for llm
