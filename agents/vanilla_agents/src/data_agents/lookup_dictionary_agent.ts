@@ -1,10 +1,10 @@
 import type { AgentFunction, AgentFunctionInfo, DefaultResultData } from "graphai";
 import { assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
-import type { GraphAIThrowError } from "@graphai/agent_utils";
+import type { GraphAISupressError } from "@graphai/agent_utils";
 
 export const lookupDictionaryAgent: AgentFunction<
-  Record<string, DefaultResultData> & GraphAIThrowError,
+  Record<string, DefaultResultData> & GraphAISupressError,
   DefaultResultData,
   {
     namedKey: string;
@@ -13,7 +13,7 @@ export const lookupDictionaryAgent: AgentFunction<
   const { namedKey } = namedInputs;
   assert(isNamedInputs(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
   const result = params[namedKey];
-  if (params.throwError && result === undefined) {
+  if (!params.supressError && result === undefined) {
     throw new Error(`lookupDictionaryAgent error: ${namedKey} is missing`);
   }
   return result;
