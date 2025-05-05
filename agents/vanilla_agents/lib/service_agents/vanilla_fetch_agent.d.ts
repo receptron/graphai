@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import type { GraphAIDebug, GraphAIThrowError, GraphAIFlatResponse } from "@graphai/agent_utils";
+import type { GraphAIDebug, GraphAISupressError, GraphAIFlatResponse } from "@graphai/agent_utils";
 type FetchParam = {
     url: string;
     method?: string;
@@ -7,7 +7,7 @@ type FetchParam = {
     headers: Record<string, any>;
     body: unknown;
 };
-export declare const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug & GraphAIThrowError & GraphAIFlatResponse & {
+export declare const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug & GraphAISupressError & GraphAIFlatResponse & {
     type: string;
 }>, unknown, FetchParam>;
 declare const vanillaFetchAgentInfo: AgentFunctionInfo;

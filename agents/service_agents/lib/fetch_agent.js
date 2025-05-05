@@ -4,7 +4,7 @@ exports.fetchAgent = void 0;
 const xml2js_1 = require("xml2js");
 const fetchAgent = async ({ namedInputs, params }) => {
     const { url, method, queryParams, headers, body } = namedInputs;
-    const throwError = params.throwError ?? false;
+    const supressError = params.supressError ?? false;
     const url0 = new URL(url);
     const headers0 = headers ? { ...headers } : {};
     if (queryParams) {
@@ -33,16 +33,16 @@ const fetchAgent = async ({ namedInputs, params }) => {
         const status = response.status;
         const type = params?.type ?? "json";
         const error = type === "json" ? await response.json() : await response.text();
-        if (throwError) {
-            throw new Error(`HTTP error: ${status}`);
+        if (supressError) {
+            return {
+                onError: {
+                    message: `HTTP error: ${status}`,
+                    status,
+                    error,
+                },
+            };
         }
-        return {
-            onError: {
-                message: `HTTP error: ${status}`,
-                status,
-                error,
-            },
-        };
+        throw new Error(`HTTP error: ${status}`);
     }
     const result = await (async () => {
         const type = params?.type ?? "json";

@@ -1,6 +1,6 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import type { GraphAIThrowError } from "@graphai/agent_utils";
-export declare const mapAgent: AgentFunction<Partial<GraphAIThrowError & {
+import type { GraphAISupressError } from "@graphai/agent_utils";
+export declare const mapAgent: AgentFunction<Partial<GraphAISupressError & {
     limit: number;
     resultAll: boolean;
     compositeResult: boolean;

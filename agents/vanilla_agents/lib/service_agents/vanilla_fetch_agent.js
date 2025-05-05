@@ -17,7 +17,7 @@ const vanillaFetchAgent = async ({ namedInputs, params, config }) => {
         ...namedInputs,
     };
     (0, graphai_1.assert)(!!url, "fetchAgent: no url");
-    const throwError = params.throwError ?? false;
+    const supressError = params.supressError ?? false;
     const url0 = new URL(url);
     const headers0 = {
         ...(params.headers ? params.headers : {}),
@@ -54,16 +54,16 @@ const vanillaFetchAgent = async ({ namedInputs, params, config }) => {
         const status = response.status;
         const type = params?.type ?? "json";
         const error = type === "json" ? await response.json() : await response.text();
-        if (throwError) {
-            throw new Error(`HTTP error: ${status}`);
+        if (supressError) {
+            return {
+                onError: {
+                    message: `HTTP error: ${status}`,
+                    status,
+                    error,
+                },
+            };
         }
-        return {
-            onError: {
-                message: `HTTP error: ${status}`,
-                status,
-                error,
-            },
-        };
+        throw new Error(`HTTP error: ${status}`);
     }
     const data = await (async () => {
         const type = params?.type ?? "json";

@@ -4,7 +4,7 @@ exports.mapAgent = void 0;
 const graphai_1 = require("graphai");
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { limit, resultAll, compositeResult, throwError, rowKey } = params;
+    const { limit, resultAll, compositeResult, supressError, rowKey } = params;
     const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
@@ -81,7 +81,7 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
         return results;
     }
     catch (error) {
-        if (error instanceof Error && !throwError) {
+        if (error instanceof Error && supressError) {
             return {
                 onError: {
                     message: error.message,

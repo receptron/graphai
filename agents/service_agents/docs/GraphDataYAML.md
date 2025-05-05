@@ -35,6 +35,7 @@ nodes:
     agent: fetchAgent
     params:
       type: text
+      supressError: true
     inputs:
       url: :url
       body: Posting data

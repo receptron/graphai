@@ -8,7 +8,7 @@ const nestedAgentGenerator = (graphData, options) => {
         (0, graphai_1.assert)(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
         const { agents, graphOptions, onLogCallback, callbacks } = forNestedGraph;
         const { taskManager } = graphOptions;
-        const throwError = params.throwError ?? false;
+        const supressError = params.supressError ?? false;
         if (taskManager) {
             const status = taskManager.getStatus(false);
             (0, graphai_1.assert)(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -64,7 +64,7 @@ const nestedAgentGenerator = (graphData, options) => {
             return results;
         }
         catch (error) {
-            if (error instanceof Error && !throwError) {
+            if (error instanceof Error && supressError) {
                 return {
                     onError: {
                         message: error.message,

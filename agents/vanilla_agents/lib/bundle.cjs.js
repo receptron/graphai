@@ -341,7 +341,7 @@ const nestedAgentGenerator = (graphData, options) => {
         graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
         const { agents, graphOptions, onLogCallback, callbacks } = forNestedGraph;
         const { taskManager } = graphOptions;
-        const throwError = params.throwError ?? false;
+        const supressError = params.supressError ?? false;
         if (taskManager) {
             const status = taskManager.getStatus(false);
             graphai.assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -397,7 +397,7 @@ const nestedAgentGenerator = (graphData, options) => {
             return results;
         }
         catch (error) {
-            if (error instanceof Error && !throwError) {
+            if (error instanceof Error && supressError) {
                 return {
                     onError: {
                         message: error.message,
@@ -1411,7 +1411,7 @@ const streamMockAgentInfo = {
 
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { limit, resultAll, compositeResult, throwError, rowKey } = params;
+    const { limit, resultAll, compositeResult, supressError, rowKey } = params;
     const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
@@ -1488,7 +1488,7 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
         return results;
     }
     catch (error) {
-        if (error instanceof Error && !throwError) {
+        if (error instanceof Error && supressError) {
             return {
                 onError: {
                     message: error.message,
@@ -2336,7 +2336,7 @@ const lookupDictionaryAgent = async ({ namedInputs, params }) => {
     const { namedKey } = namedInputs;
     graphai.assert(agent_utils.isNamedInputs(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
     const result = params[namedKey];
-    if (params.throwError && result === undefined) {
+    if (!params.supressError && result === undefined) {
         throw new Error(`lookupDictionaryAgent error: ${namedKey} is missing`);
     }
     return result;
@@ -2446,7 +2446,7 @@ const vanillaFetchAgent = async ({ namedInputs, params, config }) => {
         ...namedInputs,
     };
     graphai.assert(!!url, "fetchAgent: no url");
-    const throwError = params.throwError ?? false;
+    const supressError = params.supressError ?? false;
     const url0 = new URL(url);
     const headers0 = {
         ...(params.headers ? params.headers : {}),
@@ -2483,16 +2483,16 @@ const vanillaFetchAgent = async ({ namedInputs, params, config }) => {
         const status = response.status;
         const type = params?.type ?? "json";
         const error = type === "json" ? await response.json() : await response.text();
-        if (throwError) {
-            throw new Error(`HTTP error: ${status}`);
+        if (supressError) {
+            return {
+                onError: {
+                    message: `HTTP error: ${status}`,
+                    status,
+                    error,
+                },
+            };
         }
-        return {
-            onError: {
-                message: `HTTP error: ${status}`,
-                status,
-                error,
-            },
-        };
+        throw new Error(`HTTP error: ${status}`);
     }
     const data = await (async () => {
         const type = params?.type ?? "json";
