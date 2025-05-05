@@ -1,7 +1,7 @@
 import type { AgentFunction, AgentFunctionInfo, AgentFunctionContext, StaticNodeData, NodeData, GraphData, ResultData, DefaultResultData } from "graphai";
 import { GraphAI, assert, graphDataLatestVersion } from "graphai";
 
-import type { GraphAIThrowError, GraphAIOnError } from "@graphai/agent_utils";
+import type { GraphAISupressError, GraphAIOnError } from "@graphai/agent_utils";
 
 type NestedAgentGeneratorOption = {
   resultNodeId: string;
@@ -19,7 +19,7 @@ export const nestedAgentGenerator: (
 
     const { agents, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
-    const throwError = params.throwError ?? false;
+    const supressError = params.supressError ?? false;
     if (taskManager) {
       const status = taskManager.getStatus(false);
       assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -77,7 +77,7 @@ export const nestedAgentGenerator: (
       }
       return results;
     } catch (error) {
-      if (error instanceof Error && !throwError) {
+      if (error instanceof Error && supressError) {
         return {
           onError: {
             message: error.message,
@@ -90,7 +90,7 @@ export const nestedAgentGenerator: (
   };
 };
 
-export const nestedAgent: AgentFunction<Partial<GraphAIThrowError> & NestedAgentGeneratorOption> = async (context) => {
+export const nestedAgent: AgentFunction<Partial<GraphAISupressError> & NestedAgentGeneratorOption> = async (context) => {
   const { forNestedGraph, params } = context;
   const { graphData } = forNestedGraph ?? { graphData: { nodes: {} } };
   assert(!!graphData, "No GraphData");

@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import type { GraphAIDebug, GraphAIThrowError, GraphAIFlatResponse } from "@graphai/agent_utils";
+import type { GraphAIDebug, GraphAISupressError, GraphAIFlatResponse } from "@graphai/agent_utils";
 
 type FetchParam = {
   url: string;
@@ -20,7 +20,7 @@ const methodsRequiringBody = ["POST", "PUT", "PATCH"];
  */
 
 export const vanillaFetchAgent: AgentFunction<
-  Partial<FetchParam & GraphAIDebug & GraphAIThrowError & GraphAIFlatResponse & { type: string }>,
+  Partial<FetchParam & GraphAIDebug & GraphAISupressError & GraphAIFlatResponse & { type: string }>,
   unknown,
   FetchParam
 > = async ({ namedInputs, params, config }) => {
@@ -30,7 +30,7 @@ export const vanillaFetchAgent: AgentFunction<
   };
   assert(!!url, "fetchAgent: no url");
 
-  const throwError = params.throwError ?? false;
+  const supressError = params.supressError ?? false;
 
   const url0 = new URL(url);
   const headers0 = {
@@ -77,16 +77,16 @@ export const vanillaFetchAgent: AgentFunction<
     const status = response.status;
     const type = params?.type ?? "json";
     const error = type === "json" ? await response.json() : await response.text();
-    if (throwError) {
-      throw new Error(`HTTP error: ${status}`);
+    if (supressError) {
+      return {
+        onError: {
+          message: `HTTP error: ${status}`,
+          status,
+          error,
+        },
+      };
     }
-    return {
-      onError: {
-        message: `HTTP error: ${status}`,
-        status,
-        error,
-      },
-    };
+    throw new Error(`HTTP error: ${status}`);
   }
 
   const data = await (async () => {
