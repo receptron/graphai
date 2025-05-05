@@ -3,7 +3,7 @@
   Normally, please use the vanillaFetchAgent.
  */
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import type { GraphAIDebug, GraphAIThrowError, GraphAIOnError } from "@graphai/agent_utils";
+import type { GraphAIDebug, GraphAISupressError, GraphAIOnError } from "@graphai/agent_utils";
 import { parseStringPromise } from "xml2js";
 
 type GraphAIHttpDebug = {
@@ -14,7 +14,7 @@ type GraphAIHttpDebug = {
 };
 
 export const fetchAgent: AgentFunction<
-  Partial<GraphAIThrowError & GraphAIDebug & { type?: string }>,
+  Partial<GraphAISupressError & GraphAIDebug & { type?: string }>,
   GraphAIOnError<string> | GraphAIHttpDebug | string,
   {
     url: string;
@@ -25,7 +25,7 @@ export const fetchAgent: AgentFunction<
   }
 > = async ({ namedInputs, params }) => {
   const { url, method, queryParams, headers, body } = namedInputs;
-  const throwError = params.throwError ?? false;
+  const supressError = params.supressError ?? false;
 
   const url0 = new URL(url);
   const headers0 = headers ? { ...headers } : {};
@@ -61,16 +61,16 @@ export const fetchAgent: AgentFunction<
     const status = response.status;
     const type = params?.type ?? "json";
     const error = type === "json" ? await response.json() : await response.text();
-    if (throwError) {
-      throw new Error(`HTTP error: ${status}`);
+    if (supressError) {
+      return {
+        onError: {
+          message: `HTTP error: ${status}`,
+          status,
+          error,
+        },
+      };
     }
-    return {
-      onError: {
-        message: `HTTP error: ${status}`,
-        status,
-        error,
-      },
-    };
+    throw new Error(`HTTP error: ${status}`);
   }
 
   const result = await (async () => {
