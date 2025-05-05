@@ -122,6 +122,9 @@ export const graphDataNested = {
       agent: "nestedAgent",
       graph: ":source",
       isResult: true,
+      params: {
+        supressError: true,
+      },
     },
     catch: {
       agent: "propertyFilterAgent",

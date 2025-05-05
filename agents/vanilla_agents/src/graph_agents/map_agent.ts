@@ -1,9 +1,9 @@
 import { GraphAI, AgentFunction, AgentFunctionInfo, assert, graphDataLatestVersion } from "graphai";
-import type { GraphAIThrowError } from "@graphai/agent_utils";
+import type { GraphAISupressError } from "@graphai/agent_utils";
 
 export const mapAgent: AgentFunction<
   Partial<
-    GraphAIThrowError & {
+    GraphAISupressError & {
       limit: number;
       resultAll: boolean;
       compositeResult: boolean;
@@ -14,7 +14,7 @@ export const mapAgent: AgentFunction<
 > = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
   assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
 
-  const { limit, resultAll, compositeResult, throwError, rowKey } = params;
+  const { limit, resultAll, compositeResult, supressError, rowKey } = params;
   const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
   const { taskManager } = graphOptions;
 
@@ -97,7 +97,7 @@ export const mapAgent: AgentFunction<
     }
     return results;
   } catch (error) {
-    if (error instanceof Error && !throwError) {
+    if (error instanceof Error && supressError) {
       return {
         onError: {
           message: error.message,
