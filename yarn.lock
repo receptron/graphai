@@ -2254,10 +2254,10 @@ graphql@^16.8.1:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.9.0.tgz#1c310e63f16a49ce1fbb230bd0a000e99f6f115f"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
-groq-sdk@^0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.20.1.tgz#38c33e403602521f2758e2b2c9334f1e04a622c2"
-  integrity sha512-I/U7mHDcanKHR/P0oKSSS0M6oHR69G1QgtMplqmF3gSejJ5ihV7l+/0OqbNoqOzYoQKG4XH7O4zCqMoTKCztQQ==
+groq-sdk@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.21.0.tgz#d135ed3b3d6571ab830589f76c48136fc473579e"
+  integrity sha512-SZg7oH/DsFvJllmdujNGZbfKUr2ATaU6urq0ZcnyObnmj6+nYM7WCGkyI2JMK+aWDzNiW6MwBNlSH722sHvtEQ==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -3049,10 +3049,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^4.96.2:
-  version "4.96.2"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-4.96.2.tgz#a7d360597f273a5f6ed8dd22914e598013022fa4"
-  integrity sha512-R2XnxvMsizkROr7BV3uNp1q/3skwPZ7fmPjO1bXLnfB4Tu5xKxrT1EVwzjhxn0MZKBKAvOaGWS63jTMN6KrIXA==
+openai@^4.97.0:
+  version "4.97.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-4.97.0.tgz#4e2e85c79499c1d44b58f97b3a8ec1d6bfe403b3"
+  integrity sha512-LRoiy0zvEf819ZUEJhgfV8PfsE8G5WpQi4AwA1uCV8SKvvtXQkoWUFkepD6plqyJQRghy2+AEPQ07FrJFKHZ9Q==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
