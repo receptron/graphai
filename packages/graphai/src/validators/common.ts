@@ -1,4 +1,4 @@
-export const graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version", "metadata"];
+export const graphDataAttributeKeys = ["nodes", "concurrency", "agentId", "loop", "verbose", "version", "metadata", "catchErrors"];
 
 export const computedNodeAttributeKeys = [
   "inputs",
