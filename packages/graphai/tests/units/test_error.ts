@@ -8,7 +8,7 @@ import { anonymization } from "@receptron/test_utils";
 import test from "node:test";
 import assert from "node:assert";
 
-test("test throw error", async () => {
+test("test throw error: agent throw error", async () => {
   const graph_data = {
     version: graphDataLatestVersion,
     nodes: {
@@ -36,7 +36,7 @@ test("test throw error", async () => {
   assert.equal(graph.nodes.errorNode.state, "failed");
 });
 
-test("test throw error", async () => {
+test("test throw error: validation error", async () => {
   const graph_data = anonymization({
     version: graphDataLatestVersion,
     nodes: {
