@@ -214,7 +214,10 @@ const result = await graph.run();
     "nested": {
       "agent": "nestedAgent",
       "graph": ":source",
-      "isResult": true
+      "isResult": true,
+      "params": {
+        "supressError": true
+      }
     },
     "catch": {
       "agent": "propertyFilterAgent",
