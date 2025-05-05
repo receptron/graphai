@@ -1,6 +1,6 @@
 {
   "name": "@graphai/agents",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -30,9 +30,9 @@
     "@graphai/data_agents": "^1.0.0",
     "@graphai/input_agents": "^1.0.1",
     "@graphai/llm_agents": "^1.0.4",
-    "@graphai/service_agents": "^1.0.0",
+    "@graphai/service_agents": "^2.0.1",
     "@graphai/sleeper_agents": "^0.2.0",
-    "@graphai/vanilla": "^1.0.19"
+    "@graphai/vanilla": "^2.0.0"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
