@@ -30,6 +30,9 @@ export type GraphAIWithOptionalTextAndData<Item = unknown> = Partial<GraphAIText
 export type GraphAIThrowError = {
     throwError: boolean;
 };
+export type GraphAISupressError = {
+    supressError: boolean;
+};
 export type GraphAIDebug = {
     debug: boolean;
 };
