@@ -543,6 +543,51 @@ const stringUpdateTextAgentInfo = {
     hasGraphData: true,
 };
 
+const consoleAgent = async ({ namedInputs }) => {
+    const { text } = namedInputs;
+    console.info(text);
+    return {
+        text,
+    };
+};
+const consoleAgentInfo = {
+    name: "consoleAgent",
+    agent: consoleAgent,
+    mock: consoleAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "text",
+            },
+        },
+    },
+    output: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "text",
+            },
+        },
+    },
+    samples: [
+        {
+            inputs: { text: "hello" },
+            params: {},
+            result: { text: "hello" },
+        },
+    ],
+    description: "Just text to console.info",
+    category: ["string"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/console_agent.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
+};
+
 var lib = {};
 
 var type = {};
@@ -3538,5 +3583,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, arrayToObjectAgentInfo as arrayToObjectAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, arrayToObjectAgentInfo as arrayToObjectAgent, compareAgentInfo as compareAgent, consoleAgentInfo as consoleAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map
