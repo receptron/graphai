@@ -132,9 +132,6 @@ export const nestedGraphDataError = {
     nestedNode: {
       agent: "nestedAgent",
       inputs: { source: ":source" },
-      params: {
-        throwError: true,
-      },
       isResult: true,
       graph: {
         nodes: {
