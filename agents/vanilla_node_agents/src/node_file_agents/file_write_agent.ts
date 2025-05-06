@@ -20,6 +20,9 @@ export const fileWriteAgent: AgentFunction<
 
   return {
     result: true,
+    path: filePath,
+    dir: path.dirname(filePath),
+    file: path.basename(filePath),
   };
 };
 
@@ -49,6 +52,9 @@ const fileWriteAgentInfo: AgentFunctionInfo = {
       inputs: { file: "write.txt", text: "hello" },
       params: { baseDir: __dirname + "/../../tests/files/" },
       result: {
+        path: path.resolve(__dirname + "/../../tests/files/write.txt"),
+        dir: path.resolve(__dirname + "/../../tests/files"),
+        file: "write.txt",
         result: true,
       },
     },
