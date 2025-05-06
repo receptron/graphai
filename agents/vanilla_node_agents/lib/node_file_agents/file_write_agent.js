@@ -17,6 +17,9 @@ const fileWriteAgent = async ({ namedInputs, params }) => {
     fs_1.default.writeFileSync(filePath, text ?? buffer ?? "");
     return {
         result: true,
+        path: filePath,
+        dir: path_1.default.dirname(filePath),
+        file: path_1.default.basename(filePath),
     };
 };
 exports.fileWriteAgent = fileWriteAgent;
@@ -46,6 +49,9 @@ const fileWriteAgentInfo = {
             inputs: { file: "write.txt", text: "hello" },
             params: { baseDir: __dirname + "/../../tests/files/" },
             result: {
+                path: path_1.default.resolve(__dirname + "/../../tests/files/write.txt"),
+                dir: path_1.default.resolve(__dirname + "/../../tests/files"),
+                file: "write.txt",
                 result: true,
             },
         },
