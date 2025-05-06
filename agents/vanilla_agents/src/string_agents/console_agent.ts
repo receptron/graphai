@@ -1,7 +1,7 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-import type { GraphAIWithOptionalTextAndData } from "@graphai/agent_utils";
+import type { GraphAINullableText } from "@graphai/agent_utils";
 
-export const consoleAgent: AgentFunction<null, unknown, GraphAIWithOptionalTextAndData> = async ({ namedInputs }) => {
+export const consoleAgent: AgentFunction<null, unknown, GraphAINullableText> = async ({ namedInputs }) => {
   const { text } = namedInputs;
   console.info(text);
   return {
