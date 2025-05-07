@@ -547,6 +547,51 @@
         hasGraphData: true,
     };
 
+    const consoleAgent = async ({ namedInputs }) => {
+        const { text } = namedInputs;
+        console.info(text);
+        return {
+            text,
+        };
+    };
+    const consoleAgentInfo = {
+        name: "consoleAgent",
+        agent: consoleAgent,
+        mock: consoleAgent,
+        inputs: {
+            type: "object",
+            properties: {
+                text: {
+                    type: "string",
+                    description: "text",
+                },
+            },
+        },
+        output: {
+            type: "object",
+            properties: {
+                text: {
+                    type: "string",
+                    description: "text",
+                },
+            },
+        },
+        samples: [
+            {
+                inputs: { text: "hello" },
+                params: {},
+                result: { text: "hello" },
+            },
+        ],
+        description: "Just text to console.info",
+        category: ["string"],
+        author: "Receptron team",
+        repository: "https://github.com/receptron/graphai",
+        source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/console_agent.ts",
+        package: "@graphai/vanilla",
+        license: "MIT",
+    };
+
     const pushAgent = async ({ namedInputs }) => {
         const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
         agent_utils.arrayValidate("pushAgent", namedInputs, extra_message);
@@ -3452,6 +3497,7 @@
     exports.arrayJoinAgent = arrayJoinAgentInfo;
     exports.arrayToObjectAgent = arrayToObjectAgentInfo;
     exports.compareAgent = compareAgentInfo;
+    exports.consoleAgent = consoleAgentInfo;
     exports.copy2ArrayAgent = copy2ArrayAgentInfo;
     exports.copyAgent = copyAgentInfo;
     exports.copyMessageAgent = copyMessageAgentInfo;
