@@ -40,6 +40,13 @@
 ## compare
 ### [compareAgent](./compare/compareAgent.md)
 
+## string
+### [consoleAgent](./string/consoleAgent.md)
+### [jsonParserAgent](./string/jsonParserAgent.md)
+### [stringCaseVariantsAgent](./string/stringCaseVariantsAgent.md)
+### [stringSplitterAgent](./string/stringSplitterAgent.md)
+### [stringTemplateAgent](./string/stringTemplateAgent.md)
+
 ## test
 ### [copy2ArrayAgent](./test/copy2ArrayAgent.md)
 ### [copyMessageAgent](./test/copyMessageAgent.md)
@@ -54,12 +61,6 @@
 
 ## image
 ### [images2messageAgent](./image/images2messageAgent.md)
-
-## string
-### [jsonParserAgent](./string/jsonParserAgent.md)
-### [stringCaseVariantsAgent](./string/stringCaseVariantsAgent.md)
-### [stringSplitterAgent](./string/stringSplitterAgent.md)
-### [stringTemplateAgent](./string/stringTemplateAgent.md)
 
 ## graph
 ### [mapAgent](./graph/mapAgent.md)
