@@ -22,5 +22,4 @@ Below is a brief overview of the agents in this directory:
 General-purpose agents should be developed in personal repositories.
 
 If you wish to contribute, please create a pull request at:
-
 https://github.com/receptron/graphai-agents

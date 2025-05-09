@@ -1,4 +1,3 @@
-
 # @graphai/service_agents for GraphAI
 
 Service agents for GraphAI.
@@ -8,7 +7,6 @@ Service agents for GraphAI.
 ```sh
 yarn add @graphai/service_agents
 ```
-
 
 The fetchAgent included in this package is not well-maintained.
 Use this fetch agent only when XML parsing is required.
@@ -30,7 +28,7 @@ const result = await graph.run();
 
 ### Agents description
 - fetchAgent - Retrieves JSON data from the specified URL
-- wikipediaAgent - Retrieves data from wikipedia
+- wikipediaAgent - Retrieves data from Wikipedia
 
 ### Input/Output/Params Schema & samples
  - [fetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/fetchAgent.md)
@@ -56,7 +54,6 @@ const result = await graph.run();
 }
 ```
 
-
 ```typescript
 {
   "inputs": {
@@ -74,7 +71,6 @@ const result = await graph.run();
   }
 }
 ```
-
 
 ```typescript
 {
@@ -102,11 +98,6 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-
-
 
 ### GraphData Example
 
@@ -191,7 +182,3 @@ const result = await graph.run();
   }
 }
 ```
-
-
-
-
