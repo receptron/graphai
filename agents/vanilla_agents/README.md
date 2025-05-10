@@ -19,6 +19,7 @@ import {
   arrayJoinAgent,
   arrayToObjectAgent,
   compareAgent,
+  consoleAgent,
   copy2ArrayAgent,
   copyAgent,
   copyMessageAgent,
@@ -54,6 +55,7 @@ const agents = {
   arrayJoinAgent,
   arrayToObjectAgent,
   compareAgent,
+  consoleAgent,
   copy2ArrayAgent,
   copyAgent,
   copyMessageAgent,
@@ -93,6 +95,7 @@ const result = await graph.run();
 - arrayJoinAgent - Array Join Agent
 - arrayToObjectAgent - Array To Object Agent
 - compareAgent - compare
+- consoleAgent - Just text to console.info
 - copy2ArrayAgent - Copy2Array agent
 - copyAgent - Returns namedInputs
 - copyMessageAgent - CopyMessage agent
@@ -127,6 +130,7 @@ const result = await graph.run();
  - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
  - [arrayToObjectAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayToObjectAgent.md)
  - [compareAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/compare/compareAgent.md)
+ - [consoleAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/consoleAgent.md)
  - [copy2ArrayAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copy2ArrayAgent.md)
  - [copyAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/copyAgent.md)
  - [copyMessageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copyMessageAgent.md)
@@ -1482,6 +1486,17 @@ const result = await graph.run();
     },
     "operator": "=="
   }
+}
+```
+
+ - consoleAgent
+
+```typescript
+{
+  "inputs": {
+    "text": "hello"
+  },
+  "params": {}
 }
 ```
 

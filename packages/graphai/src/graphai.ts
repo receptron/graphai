@@ -34,6 +34,7 @@ export class GraphAI {
   public readonly graphId: string;
   private readonly graphData: GraphData;
   private readonly loop?: LoopData;
+  private readonly forceLoop: boolean;
   private readonly logs: Array<TransactionLog> = [];
   public readonly bypassAgentIds: string[];
   public readonly config?: ConfigDataDictionary = {};
@@ -132,6 +133,7 @@ export class GraphAI {
       bypassAgentIds: [],
       config: {},
       graphLoader: undefined,
+      forceLoop: false,
     },
   ) {
     if (!graphData.version && !options.taskManager) {
@@ -150,6 +152,7 @@ export class GraphAI {
     this.bypassAgentIds = options.bypassAgentIds ?? [];
     this.config = options.config;
     this.graphLoader = options.graphLoader;
+    this.forceLoop = options.forceLoop ?? false;
     this.loop = graphData.loop;
     this.verbose = graphData.verbose === true;
     this.onComplete = (__isAbort: boolean) => {
@@ -321,6 +324,11 @@ export class GraphAI {
   // Check if there is any running computed nodes.
   // In case of no running computed note, start the another iteration if ncessary (loop)
   private processLoopIfNecessary() {
+    //
+    if (!this.forceLoop && Object.keys(this.errors()).length > 0) {
+      return false;
+    }
+
     this.repeatCount++;
     const loop = this.loop;
     if (!loop) {
