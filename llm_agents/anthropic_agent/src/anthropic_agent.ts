@@ -67,6 +67,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
 
   const messagesCopy: Array<Anthropic.MessageParam> = messages ? messages.map((m) => m) : [];
+  const messageSystemPrompt = messagesCopy[0] && (messagesCopy[0] as any).role === "system" ? (messagesCopy[0].content as string) : "";
 
   if (userPrompt) {
     messagesCopy.push({
@@ -94,10 +95,10 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   const anthropic = new Anthropic({ apiKey, dangerouslyAllowBrowser: !!forWeb });
   const chatParams = {
     model: model ?? "claude-3-5-sonnet-latest",
-    messages: messagesCopy,
+    messages: messagesCopy.filter((m) => (m.role as any) !== "system"),
     tools: anthropic_tools,
     tool_choice,
-    system: systemPrompt,
+    system: systemPrompt || messageSystemPrompt,
     temperature: temperature ?? 0.7,
     max_tokens: max_tokens ?? 1024,
   };
@@ -154,13 +155,6 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   });
 
   return convertOpenAIChatCompletion(streamResponse, messagesCopy);
-  /*
-  
-  const content = contents.join("");
-  const message = { role: "assistant" as const, content: content };
-  messagesCopy.push(message);
-  return { choices: [{ message }], text: content, message, messages: messagesCopy };
-  */
 };
 
 const anthropicAgentInfo: AgentFunctionInfo = {
