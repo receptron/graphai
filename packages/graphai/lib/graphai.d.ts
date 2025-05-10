@@ -9,6 +9,7 @@ export declare class GraphAI {
     readonly graphId: string;
     private readonly graphData;
     private readonly loop?;
+    private readonly forceLoop;
     private readonly logs;
     readonly bypassAgentIds: string[];
     readonly config?: ConfigDataDictionary;

@@ -86,6 +86,7 @@ class GraphAI {
         bypassAgentIds: [],
         config: {},
         graphLoader: undefined,
+        forceLoop: false,
     }) {
         this.logs = [];
         this.config = {};
@@ -108,6 +109,7 @@ class GraphAI {
         this.bypassAgentIds = options.bypassAgentIds ?? [];
         this.config = options.config;
         this.graphLoader = options.graphLoader;
+        this.forceLoop = options.forceLoop ?? false;
         this.loop = graphData.loop;
         this.verbose = graphData.verbose === true;
         this.onComplete = (__isAbort) => {
@@ -259,6 +261,10 @@ class GraphAI {
     // Check if there is any running computed nodes.
     // In case of no running computed note, start the another iteration if ncessary (loop)
     processLoopIfNecessary() {
+        //
+        if (!this.forceLoop && Object.keys(this.errors()).length > 0) {
+            return false;
+        }
         this.repeatCount++;
         const loop = this.loop;
         if (!loop) {
