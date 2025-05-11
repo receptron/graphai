@@ -1,7 +1,7 @@
 
 # @graphai/agent_utils for GraphAI
 
-Agent utils for GraphAI.
+Agent utilities for GraphAI.
 
 ### Install
 
