@@ -1,6 +1,6 @@
 {
   "name": "@graphai/step_runner_agent_filters",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Step Runner Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [

@@ -16,7 +16,7 @@ It can be used via:
 
 ```typescript
 
-import { consoleStepRunner } from "@graphai/agent_filters";
+import { consoleStepRunner } from "@graphai/step_runner_agent_filters";
 
 const agentFilters = [
   {
