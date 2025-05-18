@@ -170,3 +170,35 @@ https://github.com/receptron/graphai_utils/blob/main/packages/express/src/expres
 
 test
 https://github.com/isamu/graphai/blob/agentFilter/packages/agent_filters/tests/filters/test_filter_runner.ts
+
+
+### ConsoleStepRunner
+
+To debug graph data in the console, you can execute each agent step by step.
+
+You need to install the @inquirer/input npm package.
+
+It can be used via:
+
+```
+
+import { consoleStepRunner } from "@graphai/agent_filters";
+
+const agentFilters = [
+  {
+    name: "consoleStepRunner",
+    agent: consoleStepRunner,
+  },
+];
+
+const graph = new GraphAI(
+  graph_data,
+  {
+    ...agents,
+  },
+  { agentFilters },
+);
+await graph.run();
+```
+
+
