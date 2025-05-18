@@ -29,6 +29,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
     "@graphai/stream_agent_filters": "2.0.1",
+    "@graphai/step_runner_agent_filters": "2.0.0",
     "@noble/hashes": "^1.8.0",
     "ajv": "^8.16.0"
   },
