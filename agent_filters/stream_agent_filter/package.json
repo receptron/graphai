@@ -1,18 +1,16 @@
 {
-  "name": "@graphai/agent_filters",
-  "version": "1.0.3",
-  "description": "Agent filters for GraphAI.",
-  "main": "lib/bundle.cjs.js",
-  "module": "lib/bundle.esm.js",
-  "browser": "lib/bundle.umd.js",
+  "name": "@graphai/stream_agent_filters",
+  "version": "2.0.1",
+  "description": "Stream Agent filters for GraphAI.",
+  "main": "lib/index.js",
   "files": [
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
+    "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
+    "test": "node --test  --require ts-node/register ./tests/test_*.ts",
     "doc": "echo nothing",
     "http_server": "npx ts-node -r tsconfig-paths/register tests/express/server.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
@@ -27,17 +25,8 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "dependencies": {
-    "@graphai/stream_agent_filters": "2.0.1",
-    "@noble/hashes": "^1.8.0",
-    "ajv": "^8.16.0"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.18",
-    "@types/express": "^4.17.21",
-    "cors": "^2.8.5",
-    "express": "^4.21.2"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

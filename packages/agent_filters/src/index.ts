@@ -1,4 +1,4 @@
-export * from "./filters/stream";
+export * from "@graphai/stream_agent_filters";
 export * from "./filters/namedinput_validator";
 export * from "./filters/http_client";
 export * from "./filters/cache";
