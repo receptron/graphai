@@ -1,7 +1,7 @@
 import type { AgentFunctionContext } from "graphai";
 import { GraphAI, graphDataLatestVersion, sleep } from "graphai";
 import * as agents from "@graphai/agents";
-import { streamAgentFilterGenerator } from "@/index";
+import { streamAgentFilterGenerator } from "../src/index";
 
 import test from "node:test";
 import assert from "node:assert";
