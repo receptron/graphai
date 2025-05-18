@@ -8,15 +8,13 @@ Agent filter collections for GraphAI.
 yarn add @graphai/step_runner_agent_filters
 ```
 
-### ConsoleStepRunner
+### USAGE
 
 To debug graph data in the console, you can execute each agent step by step.
 
-You need to install the @inquirer/input npm package.
-
 It can be used via:
 
-```
+```typescript
 
 import { consoleStepRunner } from "@graphai/agent_filters";
 
