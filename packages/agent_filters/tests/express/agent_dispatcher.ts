@@ -2,7 +2,7 @@ import express from "express";
 import * as agents from "@graphai/agents";
 
 import { streamAgentFilterGenerator } from "@graphai/stream_agent_filters";
-import { agentFilterRunnerBuilder } from "../src/index";
+import { agentFilterRunnerBuilder } from "../../src/index";
 import { AgentFunctionContext, AgentFunctionInfoDictionary, NodeState } from "graphai";
 
 export const agentDispatcher = async (req: express.Request, res: express.Response) => {
