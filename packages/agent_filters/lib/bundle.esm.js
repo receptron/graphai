@@ -1,21 +1,8 @@
-import { NodeState, isObject } from 'graphai';
+export * from '@graphai/stream_agent_filters';
 import Ajv from 'ajv';
+import { isObject } from 'graphai';
 import { sha256 } from '@noble/hashes/sha2';
 import input from '@inquirer/input';
-
-const streamAgentFilterGenerator = (callback) => {
-    const streamAgentFilter = async (context, next) => {
-        if (context.debugInfo.isResult) {
-            context.filterParams.streamTokenCallback = (data) => {
-                if (context.debugInfo.state === NodeState.Executing) {
-                    callback(context, data);
-                }
-            };
-        }
-        return next(context);
-    };
-    return streamAgentFilter;
-};
 
 // export for test
 const agentInputValidator = (inputSchema, namedInputs, nodeId, agentId) => {
@@ -210,5 +197,5 @@ const agentFilterRunnerBuilder = (__agentFilters) => {
     return agentFilterRunner;
 };
 
-export { agentFilterRunnerBuilder, agentInputValidator, cacheAgentFilterGenerator, consoleStepRunner, httpAgentFilter, namedInputValidatorFilter, sortObjectKeys, stepRunnerGenerator, streamAgentFilterGenerator };
+export { agentFilterRunnerBuilder, agentInputValidator, cacheAgentFilterGenerator, consoleStepRunner, httpAgentFilter, namedInputValidatorFilter, sortObjectKeys, stepRunnerGenerator };
 //# sourceMappingURL=bundle.esm.js.map
