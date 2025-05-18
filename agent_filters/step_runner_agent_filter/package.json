@@ -1,7 +1,7 @@
 {
-  "name": "@graphai/stream_agent_filters",
-  "version": "2.0.1",
-  "description": "Stream Agent filters for GraphAI.",
+  "name": "@graphai/step_runner_agent_filters",
+  "version": "2.0.2",
+  "description": "Step Runner Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [
     "./lib"
@@ -10,7 +10,8 @@
     "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "node --test  --require ts-node/register ./tests/test_*.ts",
+    "test": "echo nothing",
+    "test_run": "node --test  --require ts-node/register ./tests/test_*.ts",
     "doc": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
@@ -24,7 +25,9 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@inquirer/input": "^4.1.10"
+  },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {

@@ -1,8 +1,8 @@
+export * from '@graphai/step_runner_agent_filters';
 export * from '@graphai/stream_agent_filters';
 import Ajv from 'ajv';
 import { isObject } from 'graphai';
 import { sha256 } from '@noble/hashes/sha2';
-import input from '@inquirer/input';
 
 // export for test
 const agentInputValidator = (inputSchema, namedInputs, nodeId, agentId) => {
@@ -162,24 +162,6 @@ const cacheAgentFilterGenerator = (cacheRepository) => {
     return cacheAgentFilter;
 };
 
-const stepRunnerGenerator = (awaitStep) => {
-    const stepRunnerFilter = async (context, next) => {
-        const result = await next(context);
-        await awaitStep(context, result);
-        return result;
-    };
-    return stepRunnerFilter;
-};
-
-const awaitStep = async (context, result) => {
-    const { params, namedInputs, debugInfo } = context;
-    const { nodeId, agentId, retry, state } = debugInfo;
-    console.log({ nodeId, agentId, params, namedInputs, result, state, retry });
-    const message = "Puress enter to next";
-    await input({ message: message });
-};
-const consoleStepRunner = stepRunnerGenerator(awaitStep);
-
 // for test and server.
 const agentFilterRunnerBuilder = (__agentFilters) => {
     const agentFilters = __agentFilters;
@@ -197,5 +179,5 @@ const agentFilterRunnerBuilder = (__agentFilters) => {
     return agentFilterRunner;
 };
 
-export { agentFilterRunnerBuilder, agentInputValidator, cacheAgentFilterGenerator, consoleStepRunner, httpAgentFilter, namedInputValidatorFilter, sortObjectKeys, stepRunnerGenerator };
+export { agentFilterRunnerBuilder, agentInputValidator, cacheAgentFilterGenerator, httpAgentFilter, namedInputValidatorFilter, sortObjectKeys };
 //# sourceMappingURL=bundle.esm.js.map

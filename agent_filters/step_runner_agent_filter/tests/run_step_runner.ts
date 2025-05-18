@@ -1,6 +1,6 @@
 import { GraphAI } from "graphai";
 import * as agents from "@graphai/vanilla";
-import { consoleStepRunner } from "../../src/filters/console_step_runner";
+import { consoleStepRunner } from "../src/";
 
 const graph_data = {
   version: 0.5,
