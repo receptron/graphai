@@ -35,6 +35,7 @@
   "workspaces": [
     "packages/*",
     "agents/*",
+    "agent_filters/*",
     "llm_agents/*"
   ],
   "author": "",

@@ -1,0 +1,36 @@
+{
+  "name": "@graphai/stream_agent_filters",
+  "version": "2.0.0",
+  "description": "Stream Agent filters for GraphAI.",
+  "main": "lib/bundle.cjs.js",
+  "module": "lib/bundle.esm.js",
+  "browser": "lib/bundle.umd.js",
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
+    "eslint": "eslint",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
+    "doc": "echo nothing",
+    "http_server": "npx ts-node -r tsconfig-paths/register tests/express/server.ts",
+    "b": "yarn run format && yarn run eslint && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "author": "Satoshi Nakajima, Isamu Arimoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai#readme",
+  "dependencies": {},
+  "devDependencies": {},
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  }
+}
