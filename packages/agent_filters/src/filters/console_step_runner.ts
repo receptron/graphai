@@ -11,4 +11,4 @@ const awaitStep: StepRunnerAwaitFunction = async (context, result) => {
   await input({ message: message ?? "Next" });
 };
 
-export const stepRunner = stepRunnerGenerator(awaitStep);
+export const consoleStepRunner = stepRunnerGenerator(awaitStep);

@@ -1,6 +1,6 @@
 import { GraphAI } from "graphai";
 import * as agents from "@graphai/vanilla";
-import { stepRunner } from "../../src/filters/step_runner_console";
+import { consoleStepRunner } from "../../src/filters/console_step_runner";
 
 const graph_data = {
   version: 0.5,
@@ -44,8 +44,8 @@ const graph_data = {
 const main = async () => {
   const agentFilters = [
     {
-      name: "stepRunner",
-      agent: stepRunner,
+      name: "consoleStepRunner",
+      agent: consoleStepRunner,
     },
   ];
 
