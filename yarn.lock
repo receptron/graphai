@@ -122,6 +122,30 @@
   resolved "https://registry.npmjs.org/@google/generative-ai/-/generative-ai-0.24.1.tgz"
   integrity sha512-MqO+MLfM6kjxcKoy0p1wRzG3b4ZZXtPI+z2IE26UogS2Cm/XHO+7gGRBh6gcJsOiIVoH93UwKvW4HdgiOZCy9Q==
 
+"@graphai/agent_filters@^1.0.1":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@graphai/agent_filters/-/agent_filters-1.0.7.tgz#82c5c72e0ed2a226133100394250b55c5a04682a"
+  integrity sha512-JNyDVFrN7rIgThgayLlxOVBwqe/+M9fHglr8eTwS1E3HJZNXNxdCiYAxQiiJ8PD6AxEO88+mBg06cHQ/aBbi6g==
+  dependencies:
+    "@graphai/agent_filter_utils" "2.0.0"
+    "@graphai/cache_agent_filter" "2.0.0"
+    "@graphai/step_runner_agent_filter" "2.0.3"
+    "@graphai/stream_agent_filter" "2.0.1"
+    "@noble/hashes" "^1.8.0"
+    ajv "^8.16.0"
+
+"@graphai/cache_agent_filter@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@graphai/cache_agent_filter/-/cache_agent_filter-2.0.0.tgz#89657f00e994354c8ba49c705f8108f7a6a82725"
+  integrity sha512-oxT6RQqh7s85xi2jGFFZGx0saUpmAslz+EC1aL3aZhrpySFLZouFruGL18CikTMA1xkBE1SlilAPBqLWQBRxgg==
+
+"@graphai/namedinput_validator_agent_filter@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@graphai/namedinput_validator_agent_filter/-/namedinput_validator_agent_filter-2.0.1.tgz#73fa8afc739de876c236e22a23d5c126826d53c5"
+  integrity sha512-bqUSEkC6mu9Bo7Arh+gnOxsa0QmlpSDAcv90x+bvm6fBkYl5/ir+SBxjsxVnX1K3bWY6/h+HUphf+9UNW0397A==
+  dependencies:
+    ajv "^8.16.0"
+
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.2.0.tgz"
