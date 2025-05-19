@@ -22,9 +22,10 @@ type OpenAIConfig = {
   stream?: boolean;
   forWeb?: boolean;
   model?: string;
+  dataStream?: boolean;
 };
 
-type OpenAIParams = OpenAIInputs & OpenAIConfig;
+type OpenAIParams = OpenAIInputs & OpenAIConfig & { dataStream?: boolean };
 
 type OpenAIResult = Partial<
   GraphAINullableText &
@@ -97,7 +98,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     ...namedInputs,
   };
 
-  const { apiKey, stream, forWeb, model, baseURL } = {
+  const { apiKey, stream, dataStream, forWeb, model, baseURL } = {
     ...(config || {}),
     ...params,
   };
@@ -163,16 +164,45 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
   });
 
   // streaming
-  for await (const chunk of chatStream) {
-    // usage chunk have empty choices
-    if (chunk.choices[0]) {
-      const token = chunk.choices[0].delta.content;
-      if (filterParams && filterParams.streamTokenCallback && token) {
-        filterParams.streamTokenCallback(token);
+  if (dataStream) {
+    filterParams.streamTokenCallback({
+      type: "response.created",
+      response: {},
+    });
+    for await (const chunk of chatStream) {
+      // usage chunk have empty choices
+      if (chunk.choices[0]) {
+        const token = chunk.choices[0].delta.content;
+        if (filterParams && filterParams.streamTokenCallback && token) {
+          filterParams.streamTokenCallback({
+            type: "response.in_progress",
+            response: {
+              output: [
+                {
+                  type: "text",
+                  text: token,
+                },
+              ],
+            },
+          });
+        }
+      }
+    }
+    filterParams.streamTokenCallback({
+      type: "response.completed",
+      response: {},
+    });
+  } else {
+    for await (const chunk of chatStream) {
+      // usage chunk have empty choices
+      if (chunk.choices[0]) {
+        const token = chunk.choices[0].delta.content;
+        if (filterParams && filterParams.streamTokenCallback && token) {
+          filterParams.streamTokenCallback(token);
+        }
       }
     }
   }
-
   const chatCompletion = await chatStream.finalChatCompletion();
   return convertOpenAIChatCompletion(chatCompletion, messagesCopy);
 };

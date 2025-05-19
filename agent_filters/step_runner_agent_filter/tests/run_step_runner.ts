@@ -12,6 +12,7 @@ const graph_data = {
       agent: "copyAgent",
       inputs: {
         message: "hello",
+        counter: "@loop",
       },
       // console: { after: true },
     },
