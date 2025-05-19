@@ -1361,9 +1361,9 @@ class GraphAI {
             .join("\n");
     }
     // Public API
-    results(all) {
+    results(all, internalUse = false) {
         return Object.keys(this.nodes)
-            .filter((nodeId) => (all && nodeId !== loopCounterKey) || this.nodes[nodeId].isResult)
+            .filter((nodeId) => (all && (internalUse || nodeId !== loopCounterKey)) || this.nodes[nodeId].isResult)
             .reduce((results, nodeId) => {
             const node = this.nodes[nodeId];
             if (node.result !== undefined) {
@@ -1482,12 +1482,12 @@ class GraphAI {
             return false;
         }
         // We need to update static nodes, before checking the condition
-        const previousResults = this.results(true); // results from previous loop
+        const previousResults = this.results(true, true); // results from previous loop
         this.updateStaticNodes(previousResults);
         if (loop.count === undefined || this.repeatCount < loop.count) {
             if (loop.while) {
                 const source = parseNodeName(loop.while);
-                const value = this.getValueFromResults(source, this.results(true));
+                const value = this.getValueFromResults(source, this.results(true, true));
                 // NOTE: We treat an empty array as false.
                 if (!isLogicallyTrue(value)) {
                     return false; // while condition is not met

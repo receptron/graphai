@@ -37,7 +37,7 @@ export declare class GraphAI {
         cacheType: undefined;
     };
     asString(): string;
-    results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T>;
+    results<T = DefaultResultData>(all: boolean, internalUse?: boolean): ResultDataDictionary<T>;
     errors(): Record<string, Error>;
     private pushReadyNodesIntoQueue;
     private pushQueueIfReady;
