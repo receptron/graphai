@@ -1,6 +1,6 @@
 {
   "name": "@graphai/cache_agent_filter",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Cache Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [
