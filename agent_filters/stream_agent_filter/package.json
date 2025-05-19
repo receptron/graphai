@@ -6,6 +6,21 @@
   "files": [
     "./lib"
   ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./node": {
+      "import": "./lib/node.js",
+      "types": "./lib/node.d.ts"
+    },
+    "./console": {
+      "import": "./lib/console.js",
+      "types": "./lib/console.d.ts"
+    }
+  },
   "scripts": {
     "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
