@@ -1,6 +1,6 @@
 {
   "name": "@graphai/agent_filters",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Agent filters for GraphAI.",
   "main": "lib/bundle.cjs.js",
   "module": "lib/bundle.esm.js",
@@ -28,6 +28,8 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
+    "@graphai/agent_filter_utils": "2.0.0",
+    "@graphai/cache_agent_filter": "2.0.0",
     "@graphai/stream_agent_filter": "2.0.1",
     "@graphai/step_runner_agent_filter": "2.0.3",
     "@noble/hashes": "^1.8.0",
