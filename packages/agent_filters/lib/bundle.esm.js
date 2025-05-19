@@ -1,30 +1,9 @@
 export { consoleStepRunner, stepRunnerGenerator } from '@graphai/step_runner_agent_filter';
 export { streamAgentFilterGenerator } from '@graphai/stream_agent_filter';
 export { cacheAgentFilterGenerator, sortObjectKeys } from '@graphai/cache_agent_filter';
-import Ajv from 'ajv';
+export { agentInputValidator, namedInputValidatorFilter } from '@graphai/namedinput_validator_agent_filter';
 import { isObject } from 'graphai';
 export { agentFilterRunnerBuilder } from '@graphai/agent_filter_utils';
-
-// export for test
-const agentInputValidator = (inputSchema, namedInputs, nodeId, agentId) => {
-    const ajv = new Ajv();
-    const validateSchema = ajv.compile(inputSchema);
-    if (!validateSchema(namedInputs)) {
-        // console.log(validateSchema.errors);
-        throw new Error(`${nodeId}(${agentId ?? "func"}) schema not matched`);
-    }
-    return true;
-};
-const namedInputValidatorFilter = async (context, next) => {
-    const { inputSchema, namedInputs } = context;
-    const { agentId, nodeId } = context.debugInfo;
-    if (inputSchema) {
-        if (inputSchema.type !== "array") {
-            agentInputValidator(inputSchema, namedInputs || {}, nodeId, agentId);
-        }
-    }
-    return next(context);
-};
 
 async function* streamChatCompletion(url, postData, userHeaders) {
     const { params, namedInputs, debugInfo, filterParams } = postData;
@@ -110,5 +89,5 @@ const httpAgentFilter = async (context, next) => {
     return next(context);
 };
 
-export { agentInputValidator, httpAgentFilter, namedInputValidatorFilter };
+export { httpAgentFilter };
 //# sourceMappingURL=bundle.esm.js.map

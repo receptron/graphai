@@ -12,7 +12,7 @@
     "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
+    "test": "echo nothing",
     "doc": "echo nothing",
     "http_server": "npx ts-node -r tsconfig-paths/register tests/express/server.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
@@ -30,6 +30,7 @@
   "dependencies": {
     "@graphai/agent_filter_utils": "2.0.0",
     "@graphai/cache_agent_filter": "2.0.0",
+    "@graphai/namedinput_validator_agent_filter": "2.0.1",
     "@graphai/stream_agent_filter": "2.0.1",
     "@graphai/step_runner_agent_filter": "2.0.3",
     "@noble/hashes": "^1.8.0",
