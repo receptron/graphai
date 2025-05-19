@@ -122,11 +122,6 @@
   resolved "https://registry.npmjs.org/@google/generative-ai/-/generative-ai-0.24.1.tgz"
   integrity sha512-MqO+MLfM6kjxcKoy0p1wRzG3b4ZZXtPI+z2IE26UogS2Cm/XHO+7gGRBh6gcJsOiIVoH93UwKvW4HdgiOZCy9Q==
 
-"@graphai/stream_agent_filters@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@graphai/stream_agent_filters/-/stream_agent_filters-2.0.2.tgz#56d226be2481e8a6b3eb4af4a27f85188b21ab17"
-  integrity sha512-iYU6Wri1Fpk9E6Mj/bn2oQtXoFYgM8j8uZn4DZMY8C0AfGhxt3Yb2oNbAg1Lu5O/xR3sfVk6fl99Kurx8W/4jQ==
-
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.2.0.tgz"
