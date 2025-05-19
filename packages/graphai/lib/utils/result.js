@@ -34,7 +34,8 @@ const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
             return replaceTemplatePlaceholders(input, templateMatch, nodes, propFunctions, isSelfNode);
         }
     }
-    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input, isSelfNode), nodes, propFunctions);
+    // :node.prod
+    return (0, exports.resultOf)((0, utils_1.parseNodeName)(input, isSelfNode, nodes), nodes, propFunctions);
 };
 const resultsOf = (inputs, nodes, propFunctions, isSelfNode = false) => {
     return Object.keys(inputs).reduce((tmp, key) => {

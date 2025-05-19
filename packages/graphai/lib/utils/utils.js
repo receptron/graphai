@@ -4,11 +4,12 @@ exports.loopCounterKey = exports.isStaticNodeData = exports.isComputedNodeData =
 exports.assert = assert;
 const type_1 = require("../type");
 const GraphAILogger_1 = require("./GraphAILogger");
+const prop_function_1 = require("./prop_function");
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 exports.sleep = sleep;
-const parseNodeName = (inputNodeId, isSelfNode = false) => {
+const parseNodeName = (inputNodeId, isSelfNode = false, nodes) => {
     if (isSelfNode) {
         if (typeof inputNodeId === "string" && inputNodeId[0] === ".") {
             const parts = inputNodeId.split(".");
@@ -19,14 +20,19 @@ const parseNodeName = (inputNodeId, isSelfNode = false) => {
     if (typeof inputNodeId === "string") {
         const regex = /^:(.*)$/;
         const match = inputNodeId.match(regex);
-        if (!match) {
-            return { value: inputNodeId }; // string literal
+        if (match) {
+            const parts = match[1].split(/(?<!\()\.(?!\))/);
+            if (parts.length == 1) {
+                return { nodeId: parts[0] };
+            }
+            return { nodeId: parts[0], propIds: parts.slice(1) };
         }
-        const parts = match[1].split(/(?<!\()\.(?!\))/);
-        if (parts.length == 1) {
-            return { nodeId: parts[0] };
+        const regexUtil = /^@(.*)$/;
+        const matchUtil = inputNodeId.match(regexUtil);
+        // Only when just called from resultsOfInner
+        if (nodes && matchUtil) {
+            return { value: (0, prop_function_1.utilsFunctions)(inputNodeId, nodes) };
         }
-        return { nodeId: parts[0], propIds: parts.slice(1) };
     }
     return { value: inputNodeId }; // non-string literal
 };
