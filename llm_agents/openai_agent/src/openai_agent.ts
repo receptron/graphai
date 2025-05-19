@@ -177,11 +177,13 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
           filterParams.streamTokenCallback({
             type: "response.in_progress",
             response: {
-              output: [{
-                type: "text",
-                text: token,
-              }],
-            }
+              output: [
+                {
+                  type: "text",
+                  text: token,
+                },
+              ],
+            },
           });
         }
       }

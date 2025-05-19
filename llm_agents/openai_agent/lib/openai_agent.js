@@ -135,11 +135,13 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
                     filterParams.streamTokenCallback({
                         type: "response.in_progress",
                         response: {
-                            output: [{
+                            output: [
+                                {
                                     type: "text",
                                     text: token,
-                                }],
-                        }
+                                },
+                            ],
+                        },
                     });
                 }
             }
