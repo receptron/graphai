@@ -1,5 +1,5 @@
 {
-  "name": "@graphai/http_client__agent_filter",
+  "name": "@graphai/http_client_agent_filter",
   "version": "2.0.0",
   "description": "Http client Agent filters for GraphAI.",
   "main": "lib/index.js",
