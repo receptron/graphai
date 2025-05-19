@@ -198,9 +198,9 @@ export class GraphAI {
   }
 
   // Public API
-  public results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T> {
+  public results<T = DefaultResultData>(all: boolean, internalUse: boolean = false): ResultDataDictionary<T> {
     return Object.keys(this.nodes)
-      .filter((nodeId) => all || this.nodes[nodeId].isResult)
+      .filter((nodeId) => (all && (internalUse || nodeId !== loopCounterKey)) || this.nodes[nodeId].isResult)
       .reduce((results: ResultDataDictionary<T>, nodeId) => {
         const node = this.nodes[nodeId];
         if (node.result !== undefined) {
@@ -342,7 +342,7 @@ export class GraphAI {
     if (loop.count === undefined || this.repeatCount < loop.count) {
       if (loop.while) {
         const source = parseNodeName(loop.while);
-        const value = this.getValueFromResults(source, this.results(true));
+        const value = this.getValueFromResults(source, this.results(true, true));
         // NOTE: We treat an empty array as false.
         if (!isLogicallyTrue(value)) {
           return false; // while condition is not met
