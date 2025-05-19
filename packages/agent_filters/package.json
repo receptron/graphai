@@ -29,12 +29,11 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
     "@graphai/agent_filter_utils": "2.0.0",
-    "@graphai/cache_agent_filter": "2.0.0",
+    "@graphai/cache_agent_filter": "2.0.2",
+    "@graphai/http_client_agent_filter": "2.0.1",
     "@graphai/namedinput_validator_agent_filter": "2.0.1",
     "@graphai/stream_agent_filter": "2.0.1",
-    "@graphai/step_runner_agent_filter": "2.0.3",
-    "@noble/hashes": "^1.8.0",
-    "ajv": "^8.16.0"
+    "@graphai/step_runner_agent_filter": "2.0.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.18",

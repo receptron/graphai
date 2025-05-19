@@ -12,7 +12,7 @@ Object.defineProperty(exports, "sortObjectKeys", { enumerable: true, get: functi
 const namedinput_validator_agent_filter_1 = require("@graphai/namedinput_validator_agent_filter");
 Object.defineProperty(exports, "namedInputValidatorFilter", { enumerable: true, get: function () { return namedinput_validator_agent_filter_1.namedInputValidatorFilter; } });
 Object.defineProperty(exports, "agentInputValidator", { enumerable: true, get: function () { return namedinput_validator_agent_filter_1.agentInputValidator; } });
-const http_client_1 = require("./filters/http_client");
-Object.defineProperty(exports, "httpAgentFilter", { enumerable: true, get: function () { return http_client_1.httpAgentFilter; } });
+const http_client_agent_filter_1 = require("@graphai/http_client_agent_filter");
+Object.defineProperty(exports, "httpAgentFilter", { enumerable: true, get: function () { return http_client_agent_filter_1.httpAgentFilter; } });
 const agent_filter_utils_1 = require("@graphai/agent_filter_utils");
 Object.defineProperty(exports, "agentFilterRunnerBuilder", { enumerable: true, get: function () { return agent_filter_utils_1.agentFilterRunnerBuilder; } });
