@@ -1,6 +1,7 @@
 # @graphai/step_runner_agent_filter for GraphAI
 
-Agent filter collections for GraphAI.
+Agent filter for step-by-step execution of GraphAI's agents for debugging purposes.
+
 
 ## Install
 
