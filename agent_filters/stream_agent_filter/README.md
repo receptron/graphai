@@ -1,9 +1,9 @@
-# @graphai/stream_agent_filters for GraphAI
+# @graphai/stream_agent_filter for GraphAI
 
 ## Install
 
 ```
-yarn add @graphai/stream_agent_filters
+yarn add @graphai/stream_agent_filter
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ https://github.com/receptron/graphai_utils/blob/main/packages/express/src/expres
 
 express server
 ```typescript
-    import { streamAgentFilterGenerator } from  "@graphai/stream_agent_filters";
+    import { streamAgentFilterGenerator } from  "@graphai/stream_agent_filter";
     
     return async (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
@@ -52,7 +52,7 @@ express server
 https://github.com/isamu/graphai-stream-web/blob/main/src/views/Home.vue
 
 ```typescript
-import { streamAgentFilterGenerator } from  "@graphai/stream_agent_filters";
+import { streamAgentFilterGenerator } from  "@graphai/stream_agent_filter";
 
 const useAgentFilter = (callback: (context: AgentFunctionContext, data: T) => void) => {
   const streamAgentFilter = streamAgentFilterGenerator(callback);

@@ -1,31 +1,16 @@
 {
-  "name": "@graphai/stream_agent_filter",
-  "version": "2.0.1",
-  "description": "Stream Agent filters for GraphAI.",
+  "name": "@graphai/cache_agent_filter",
+  "version": "2.0.0",
+  "description": "Cache Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [
     "./lib"
   ],
-  "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./lib/index.js",
-      "types": "./lib/index.d.ts"
-    },
-    "./node": {
-      "import": "./lib/node.js",
-      "types": "./lib/node.d.ts"
-    },
-    "./console": {
-      "import": "./lib/console.js",
-      "types": "./lib/console.d.ts"
-    }
-  },
   "scripts": {
     "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "node --test  --require ts-node/register ./tests/test_*.ts",
+    "test": "node --test --require ts-node/register ./tests/test_*.ts",
     "doc": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },

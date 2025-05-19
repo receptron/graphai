@@ -1,4 +1,4 @@
-import { sortObjectKeys } from "@/index";
+import { sortObjectKeys } from "../src/index";
 
 import test from "node:test";
 import assert from "node:assert";

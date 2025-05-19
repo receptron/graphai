@@ -1,7 +1,8 @@
 import { defaultTestContext } from "graphai";
 import { echoAgent } from "@graphai/vanilla";
 
-import { agentFilterRunnerBuilder, cacheAgentFilterGenerator } from "@/index";
+import { cacheAgentFilterGenerator } from "../src/index";
+import { agentFilterRunnerBuilder } from "@graphai/agent_filter_utils";
 
 import test from "node:test";
 import assert from "node:assert";

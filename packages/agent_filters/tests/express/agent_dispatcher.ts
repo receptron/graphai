@@ -1,7 +1,7 @@
 import express from "express";
 import * as agents from "@graphai/agents";
 
-import { streamAgentFilterGenerator } from "@graphai/stream_agent_filters";
+import { streamAgentFilterGenerator } from "@graphai/stream_agent_filter";
 import { agentFilterRunnerBuilder } from "../../src/index";
 import { AgentFunctionContext, AgentFunctionInfoDictionary, NodeState } from "graphai";
 
