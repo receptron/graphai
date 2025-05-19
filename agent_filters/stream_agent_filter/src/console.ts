@@ -11,4 +11,3 @@ export const consoleStreamDataAgentFilter = streamAgentFilterGenerator<GraphAILL
 export const consoleStreamAgentFilter = streamAgentFilterGenerator<string>((context, data) => {
   console.log(data);
 });
-
