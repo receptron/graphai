@@ -42,7 +42,8 @@ const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFuncti
       return replaceTemplatePlaceholders(input, templateMatch, nodes, propFunctions, isSelfNode);
     }
   }
-  return resultOf(parseNodeName(input, isSelfNode), nodes, propFunctions);
+  // :node.prod
+  return resultOf(parseNodeName(input, isSelfNode, nodes), nodes, propFunctions);
 };
 
 export const resultsOf = (inputs: Record<string, any>, nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean = false) => {
