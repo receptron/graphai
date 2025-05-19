@@ -1,7 +1,7 @@
 {
-  "name": "@graphai/agent_filters",
-  "version": "2.0.0",
-  "description": "Agent filters for GraphAI.",
+  "name": "@graphai/http_client_agent_filter",
+  "version": "2.0.1",
+  "description": "Http client Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [
     "./lib"
@@ -12,7 +12,6 @@
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",
     "doc": "echo nothing",
-    "http_server": "npx ts-node -r tsconfig-paths/register tests/express/server.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
@@ -25,20 +24,8 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "dependencies": {
-    "@graphai/agent_filter_utils": "2.0.0",
-    "@graphai/cache_agent_filter": "2.0.2",
-    "@graphai/http_client_agent_filter": "2.0.1",
-    "@graphai/namedinput_validator_agent_filter": "2.0.1",
-    "@graphai/stream_agent_filter": "2.0.1",
-    "@graphai/step_runner_agent_filter": "2.0.3"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.18",
-    "@types/express": "^4.17.21",
-    "cors": "^2.8.5",
-    "express": "^4.21.2"
-  },
+  "dependencies": { },
+  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"

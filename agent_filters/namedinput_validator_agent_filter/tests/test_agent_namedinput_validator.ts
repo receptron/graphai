@@ -1,6 +1,6 @@
 import { GraphAI, graphDataLatestVersion } from "graphai";
 import * as agents from "@graphai/agents";
-import { namedInputValidatorFilter } from "@/index";
+import { namedInputValidatorFilter } from "../src/index";
 
 import test from "node:test";
 import assert from "node:assert";

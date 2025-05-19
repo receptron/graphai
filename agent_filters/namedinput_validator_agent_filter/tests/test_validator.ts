@@ -1,5 +1,5 @@
 import * as agents from "@graphai/agents";
-import { agentInputValidator } from "@/index";
+import { agentInputValidator } from "../src/index";
 
 import test from "node:test";
 // import assert from "node:assert";

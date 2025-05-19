@@ -1,6 +1,6 @@
 {
   "name": "@graphai/cache_agent_filter",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "Cache Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -24,7 +24,9 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@noble/hashes": "^1.8.0"
+  },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
