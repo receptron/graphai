@@ -2,14 +2,12 @@
   "name": "@graphai/agent_filters",
   "version": "1.0.7",
   "description": "Agent filters for GraphAI.",
-  "main": "lib/bundle.cjs.js",
-  "module": "lib/bundle.esm.js",
-  "browser": "lib/bundle.umd.js",
+  "main": "lib/index.js",
   "files": [
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && npx rollup -c && tsc-alias",
+    "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",
