@@ -1,11 +1,11 @@
-# @graphai/step_runner_agent_filters for GraphAI
+# @graphai/step_runner_agent_filter for GraphAI
 
 Agent filter collections for GraphAI.
 
 ## Install
 
 ```
-yarn add @graphai/step_runner_agent_filters
+yarn add @graphai/step_runner_agent_filter
 ```
 
 ### USAGE
@@ -16,7 +16,7 @@ It can be used via:
 
 ```typescript
 
-import { consoleStepRunner } from "@graphai/step_runner_agent_filters";
+import { consoleStepRunner } from "@graphai/step_runner_agent_filter";
 
 const agentFilters = [
   {
