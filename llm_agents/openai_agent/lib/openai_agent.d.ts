@@ -20,8 +20,11 @@ type OpenAIConfig = {
     stream?: boolean;
     forWeb?: boolean;
     model?: string;
+    dataStream?: boolean;
 };
-type OpenAIParams = OpenAIInputs & OpenAIConfig;
+type OpenAIParams = OpenAIInputs & OpenAIConfig & {
+    dataStream?: boolean;
+};
 type OpenAIResult = Partial<GraphAINullableText & GraphAITool & GraphAIToolCalls & {
     message: OpenAI.ChatCompletionMessageParam | null;
 } & {
