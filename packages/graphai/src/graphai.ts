@@ -336,7 +336,7 @@ export class GraphAI {
     }
 
     // We need to update static nodes, before checking the condition
-    const previousResults = this.results(true); // results from previous loop
+    const previousResults = this.results(true, true); // results from previous loop
     this.updateStaticNodes(previousResults);
 
     if (loop.count === undefined || this.repeatCount < loop.count) {
