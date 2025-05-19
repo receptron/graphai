@@ -8,6 +8,27 @@ export type GraphAILLMInputBase = {
   mergeableSystem?: GraphAILLInputType;
 };
 
+export type GraphAILLMStreamDataCreate = {
+  type: "response.created",
+  response: object,
+}; 
+export type GraphAILLMStreamDataProgress = {
+  type: "response.in_progress",
+  response: {
+    output: {
+      type: "text",
+      text: string,
+    }[],
+  },
+};
+
+export type GraphAILLMStreamDataCompleted = {
+  type: "response.completed",
+  response: object,
+};
+
+export type GraphAILLMStreamData = GraphAILLMStreamDataCreate | GraphAILLMStreamDataProgress | GraphAILLMStreamDataCompleted;
+
 export const flatString = (input: GraphAILLInputType): string => {
   return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };

@@ -1,6 +1,6 @@
 {
   "name": "@graphai/llm_utils",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "description": "LLM utils for GraphAI.",
   "main": "lib/index.js",
   "files": [
