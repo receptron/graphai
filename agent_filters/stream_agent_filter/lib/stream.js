@@ -5,7 +5,7 @@ const graphai_1 = require("graphai");
 const streamAgentFilterGenerator = (callback) => {
     const streamAgentFilter = async (context, next) => {
         if (context.debugInfo.isResult) {
-            context.filterParams.streamDataCallback = (data) => {
+            context.filterParams.streamTokenCallback = (data) => {
                 if (context.debugInfo.state === graphai_1.NodeState.Executing) {
                     callback(context, data);
                 }

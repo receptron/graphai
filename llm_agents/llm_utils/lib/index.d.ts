@@ -5,6 +5,24 @@ export type GraphAILLMInputBase = {
     mergeablePrompts?: GraphAILLInputType;
     mergeableSystem?: GraphAILLInputType;
 };
+export type GraphAILLMStreamDataCreate = {
+    type: "response.created";
+    response: object;
+};
+export type GraphAILLMStreamDataProgress = {
+    type: "response.in_progress";
+    response: {
+        output: {
+            type: "text";
+            text: string;
+        }[];
+    };
+};
+export type GraphAILLMStreamDataCompleted = {
+    type: "response.completed";
+    response: object;
+};
+export type GraphAILLMStreamData = GraphAILLMStreamDataCreate | GraphAILLMStreamDataProgress | GraphAILLMStreamDataCompleted;
 export declare const flatString: (input: GraphAILLInputType) => string;
 export declare const getMergeValue: (namedInputs: GraphAILLMInputBase, params: GraphAILLMInputBase, key: "mergeablePrompts" | "mergeableSystem", values: GraphAILLInputType) => string;
 export type GraphAILlmMessage = {

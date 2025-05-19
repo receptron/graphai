@@ -64,7 +64,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         ...params,
         ...namedInputs,
     };
-    const { apiKey, stream, forWeb, model, baseURL } = {
+    const { apiKey, stream, dataStream, forWeb, model, baseURL } = {
         ...(config || {}),
         ...params,
     };
@@ -122,12 +122,43 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         stream_options: { include_usage: true },
     });
     // streaming
-    for await (const chunk of chatStream) {
-        // usage chunk have empty choices
-        if (chunk.choices[0]) {
-            const token = chunk.choices[0].delta.content;
-            if (filterParams && filterParams.streamTokenCallback && token) {
-                filterParams.streamTokenCallback(token);
+    if (dataStream) {
+        filterParams.streamTokenCallback({
+            type: "response.created",
+            response: {},
+        });
+        for await (const chunk of chatStream) {
+            // usage chunk have empty choices
+            if (chunk.choices[0]) {
+                const token = chunk.choices[0].delta.content;
+                if (filterParams && filterParams.streamTokenCallback && token) {
+                    filterParams.streamTokenCallback({
+                        type: "response.in_progress",
+                        response: {
+                            output: [
+                                {
+                                    type: "text",
+                                    text: token,
+                                },
+                            ],
+                        },
+                    });
+                }
+            }
+        }
+        filterParams.streamTokenCallback({
+            type: "response.completed",
+            response: {},
+        });
+    }
+    else {
+        for await (const chunk of chatStream) {
+            // usage chunk have empty choices
+            if (chunk.choices[0]) {
+                const token = chunk.choices[0].delta.content;
+                if (filterParams && filterParams.streamTokenCallback && token) {
+                    filterParams.streamTokenCallback(token);
+                }
             }
         }
     }

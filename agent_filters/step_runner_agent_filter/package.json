@@ -11,7 +11,7 @@
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "test": "echo nothing",
-    "test_run": "node --test  --require ts-node/register ./tests/test_*.ts",
+    "test_run": "npx ts-node tests/run_step_runner.ts",
     "doc": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
