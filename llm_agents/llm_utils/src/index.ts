@@ -9,22 +9,22 @@ export type GraphAILLMInputBase = {
 };
 
 export type GraphAILLMStreamDataCreate = {
-  type: "response.created",
-  response: object,
-}; 
+  type: "response.created";
+  response: object;
+};
 export type GraphAILLMStreamDataProgress = {
-  type: "response.in_progress",
+  type: "response.in_progress";
   response: {
     output: {
-      type: "text",
-      text: string,
-    }[],
-  },
+      type: "text";
+      text: string;
+    }[];
+  };
 };
 
 export type GraphAILLMStreamDataCompleted = {
-  type: "response.completed",
-  response: object,
+  type: "response.completed";
+  response: object;
 };
 
 export type GraphAILLMStreamData = GraphAILLMStreamDataCreate | GraphAILLMStreamDataProgress | GraphAILLMStreamDataCompleted;
