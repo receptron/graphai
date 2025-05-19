@@ -1,11 +1,13 @@
 import { DataSource, AgentFunction, AgentFunctionInfo, NodeData, StaticNodeData, ComputedNodeData, NodeState } from "../type";
+import type { GraphNodes } from "../node";
 import { GraphAILogger } from "./GraphAILogger";
+import { utilsFunctions } from "./prop_function";
 
 export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-export const parseNodeName = (inputNodeId: any, isSelfNode: boolean = false): DataSource => {
+export const parseNodeName = (inputNodeId: any, isSelfNode: boolean = false, nodes?: GraphNodes): DataSource => {
   if (isSelfNode) {
     if (typeof inputNodeId === "string" && inputNodeId[0] === ".") {
       const parts = inputNodeId.split(".");
@@ -16,14 +18,19 @@ export const parseNodeName = (inputNodeId: any, isSelfNode: boolean = false): Da
   if (typeof inputNodeId === "string") {
     const regex = /^:(.*)$/;
     const match = inputNodeId.match(regex);
-    if (!match) {
-      return { value: inputNodeId }; // string literal
+    if (match) {
+      const parts = match[1].split(/(?<!\()\.(?!\))/);
+      if (parts.length == 1) {
+        return { nodeId: parts[0] };
+      }
+      return { nodeId: parts[0], propIds: parts.slice(1) };
     }
-    const parts = match[1].split(/(?<!\()\.(?!\))/);
-    if (parts.length == 1) {
-      return { nodeId: parts[0] };
+    const regexUtil = /^@(.*)$/;
+    const matchUtil = inputNodeId.match(regexUtil);
+    // Only when just called from resultsOfInner
+    if (nodes && matchUtil) {
+      return { value: utilsFunctions(inputNodeId, nodes) };
     }
-    return { nodeId: parts[0], propIds: parts.slice(1) };
   }
   return { value: inputNodeId }; // non-string literal
 };

@@ -24,6 +24,7 @@ const get_graph_data = (inputs: string) => {
         inputs: {
           // internalCounter: "counter ${:__loopIndex}",
           counter: "${@loop}",
+          counter2: "@loop",
         },
         console: { after: true },
       },
