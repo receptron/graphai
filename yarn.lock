@@ -122,23 +122,6 @@
   resolved "https://registry.npmjs.org/@google/generative-ai/-/generative-ai-0.24.1.tgz"
   integrity sha512-MqO+MLfM6kjxcKoy0p1wRzG3b4ZZXtPI+z2IE26UogS2Cm/XHO+7gGRBh6gcJsOiIVoH93UwKvW4HdgiOZCy9Q==
 
-"@graphai/agent_filters@^1.0.1":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@graphai/agent_filters/-/agent_filters-1.0.7.tgz#82c5c72e0ed2a226133100394250b55c5a04682a"
-  integrity sha512-JNyDVFrN7rIgThgayLlxOVBwqe/+M9fHglr8eTwS1E3HJZNXNxdCiYAxQiiJ8PD6AxEO88+mBg06cHQ/aBbi6g==
-  dependencies:
-    "@graphai/agent_filter_utils" "2.0.0"
-    "@graphai/cache_agent_filter" "2.0.0"
-    "@graphai/step_runner_agent_filter" "2.0.3"
-    "@graphai/stream_agent_filter" "2.0.1"
-    "@noble/hashes" "^1.8.0"
-    ajv "^8.16.0"
-
-"@graphai/cache_agent_filter@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@graphai/cache_agent_filter/-/cache_agent_filter-2.0.0.tgz#89657f00e994354c8ba49c705f8108f7a6a82725"
-  integrity sha512-oxT6RQqh7s85xi2jGFFZGx0saUpmAslz+EC1aL3aZhrpySFLZouFruGL18CikTMA1xkBE1SlilAPBqLWQBRxgg==
-
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.2.0.tgz"
@@ -728,10 +711,10 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@^22.15.19":
-  version "22.15.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.19.tgz#ba9f321675243af0456d607fa82a4865931e0cef"
-  integrity sha512-3vMNr4TzNQyjHcRZadojpRaD9Ofr6LsonZAoQ+HMUa/9ORTPoxVIw0e0mpqWpdjj8xybyCM+oKOUH2vwFu/oEw==
+"@types/node@^22.15.20":
+  version "22.15.20"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.20.tgz#ce4f947a8ff31120032f66d46b0851554e9f25f6"
+  integrity sha512-A6BohGFRGHAscJsTslDCA9JG7qSJr/DWUvrvY8yi9IgnGtMxCyat7vvQ//MFa0DnLsyuS3wYTpLdw4Hf+Q5JXw==
   dependencies:
     undici-types "~6.21.0"
 
