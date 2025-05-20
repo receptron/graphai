@@ -1,4 +1,4 @@
-import { mapAgent, stringTemplateAgent } from "@/index";
+import { mapAgent, stringTemplateAgent, copyAgent } from "@/index";
 import { defaultTestContext } from "graphai";
 
 import test from "node:test";
@@ -91,5 +91,50 @@ test("test map_agent 3", async () => {
   });
   assert.deepStrictEqual(result, {
     node2: ["You like apple.", "You like orange.", "You like banana.", "You like lemon."],
+  });
+});
+
+test("test map_agent 3", async () => {
+  const result = await mapAgent.agent({
+    ...defaultTestContext,
+    forNestedGraph: {
+      agents: { mapAgent, copyAgent },
+      graphData: {
+        version: 0.5,
+        nodes: {
+          node2: {
+            agent: "copyAgent",
+            inputs: { a: ":row", b: ":color" },
+            isResult: true,
+          },
+        },
+      },
+      graphOptions: {},
+    },
+    params: {
+      compositeResult: true,
+      expandKeys: ["color"],
+    },
+    namedInputs: { rows: ["apple", "orange", "banana", "lemon"], color: ["red", "orange", "yellow", "yellow"] },
+  });
+  assert.deepStrictEqual(result, {
+    node2: [
+      {
+        a: "apple",
+        b: "red",
+      },
+      {
+        a: "orange",
+        b: "orange",
+      },
+      {
+        a: "banana",
+        b: "yellow",
+      },
+      {
+        a: "lemon",
+        b: "yellow",
+      },
+    ],
   });
 });
