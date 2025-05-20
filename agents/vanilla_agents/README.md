@@ -1913,6 +1913,32 @@ const result = await graph.run();
 {
   "inputs": {
     "rows": [
+      "apple",
+      "orange",
+      "banana",
+      "lemon"
+    ],
+    "color": [
+      "red",
+      "orange",
+      "yellow",
+      "yellow"
+    ]
+  },
+  "params": {
+    "compositeResult": true,
+    "expandKeys": [
+      "color"
+    ]
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
       1,
       2
     ]
