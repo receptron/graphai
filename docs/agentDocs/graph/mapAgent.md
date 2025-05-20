@@ -26,10 +26,18 @@ Map Agent
         "required": [],
         "properties": {}
       }
+    },
+    "color": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
     }
   },
   "required": [
-    "rows"
+    "rows",
+    "color"
   ]
 }
 
@@ -37,6 +45,26 @@ Map Agent
 
 ## Input example of the next node
 
+```json
+
+[
+  ":agentId",
+  ":agentId.node2",
+  ":agentId.node2.$0",
+  ":agentId.node2.$0.a",
+  ":agentId.node2.$0.b",
+  ":agentId.node2.$1",
+  ":agentId.node2.$1.a",
+  ":agentId.node2.$1.b",
+  ":agentId.node2.$2",
+  ":agentId.node2.$2.a",
+  ":agentId.node2.$2.b",
+  ":agentId.node2.$3",
+  ":agentId.node2.$3.a",
+  ":agentId.node2.$3.b"
+]
+
+```
 ```json
 
 [
@@ -239,6 +267,63 @@ Map Agent
 
 {
   "rows": [
+    "apple",
+    "orange",
+    "banana",
+    "lemon"
+  ],
+  "color": [
+    "red",
+    "orange",
+    "yellow",
+    "yellow"
+  ]
+}
+
+```
+
+#### params
+
+```json
+
+{"compositeResult":true,"expandKeys":["color"]}
+
+```
+
+#### result
+
+```json
+
+{
+  "node2": [
+    {
+      "a": "apple",
+      "b": "red"
+    },
+    {
+      "a": "orange",
+      "b": "orange"
+    },
+    {
+      "a": "banana",
+      "b": "yellow"
+    },
+    {
+      "a": "lemon",
+      "b": "yellow"
+    }
+  ]
+}
+
+```
+### Sample1
+
+#### inputs
+
+```json
+
+{
+  "rows": [
     1,
     2
   ]
@@ -272,7 +357,7 @@ Map Agent
 ]
 
 ```
-### Sample1
+### Sample2
 
 #### inputs
 
@@ -313,7 +398,7 @@ Map Agent
 ]
 
 ```
-### Sample2
+### Sample3
 
 #### inputs
 
@@ -370,7 +455,7 @@ Map Agent
 ]
 
 ```
-### Sample3
+### Sample4
 
 #### inputs
 
@@ -411,7 +496,7 @@ Map Agent
 ]
 
 ```
-### Sample4
+### Sample5
 
 #### inputs
 
@@ -454,7 +539,7 @@ Map Agent
 ]
 
 ```
-### Sample5
+### Sample6
 
 #### inputs
 
@@ -499,7 +584,7 @@ Map Agent
 ]
 
 ```
-### Sample6
+### Sample7
 
 #### inputs
 
@@ -556,7 +641,7 @@ Map Agent
 ]
 
 ```
-### Sample7
+### Sample8
 
 #### inputs
 
@@ -595,7 +680,7 @@ Map Agent
 }
 
 ```
-### Sample8
+### Sample9
 
 #### inputs
 
@@ -640,7 +725,7 @@ Map Agent
 }
 
 ```
-### Sample9
+### Sample10
 
 #### inputs
 
@@ -687,7 +772,7 @@ Map Agent
 }
 
 ```
-### Sample10
+### Sample11
 
 #### inputs
 
