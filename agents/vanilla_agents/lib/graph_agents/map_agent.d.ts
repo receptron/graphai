@@ -5,6 +5,7 @@ export declare const mapAgent: AgentFunction<Partial<GraphAISupressError & {
     resultAll: boolean;
     compositeResult: boolean;
     rowKey: string;
+    expandKeys: string[];
 }>, Record<string, any>>;
 declare const mapAgentInfo: AgentFunctionInfo;
 export default mapAgentInfo;

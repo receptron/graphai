@@ -1456,7 +1456,7 @@ const streamMockAgentInfo = {
 
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { limit, resultAll, compositeResult, supressError, rowKey } = params;
+    const { limit, resultAll, compositeResult, supressError, rowKey, expandKeys } = params;
     const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
@@ -1494,6 +1494,11 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
             debugInfo.subGraphs.set(graphAI.graphId, graphAI);
             graphAI.injectValue(rowInputKey, row, "__mapAgent_inputs__");
             graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
+            if (expandKeys && expandKeys.length > 0) {
+                expandKeys.map((expandKey) => {
+                    graphAI.injectValue(expandKey, namedInputs[expandKey]?.[index]);
+                });
+            }
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {
                 graphAI.onLogCallback = onLogCallback;
@@ -1549,6 +1554,46 @@ const mapAgentInfo = {
     agent: mapAgent,
     mock: mapAgent,
     samples: [
+        {
+            inputs: {
+                rows: ["apple", "orange", "banana", "lemon"],
+                color: ["red", "orange", "yellow", "yellow"],
+            },
+            params: {
+                compositeResult: true,
+                expandKeys: ["color"],
+            },
+            graph: {
+                version: 0.5,
+                nodes: {
+                    node2: {
+                        agent: "copyAgent",
+                        inputs: { a: ":row", b: ":color" },
+                        isResult: true,
+                    },
+                },
+            },
+            result: {
+                node2: [
+                    {
+                        a: "apple",
+                        b: "red",
+                    },
+                    {
+                        a: "orange",
+                        b: "orange",
+                    },
+                    {
+                        a: "banana",
+                        b: "yellow",
+                    },
+                    {
+                        a: "lemon",
+                        b: "yellow",
+                    },
+                ],
+            },
+        },
         {
             inputs: {
                 rows: [1, 2],
