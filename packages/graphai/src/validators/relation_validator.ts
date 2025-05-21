@@ -31,10 +31,12 @@ export const relationValidator = (graphData: GraphData, staticNodeIds: string[],
         const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
         dataSourceValidator("Inputs", sourceNodeIds);
       }
+      /*
       if (nodeData.params) {
         const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.params));
         dataSourceValidator("Params", sourceNodeIds);
       }
+      */
       if (nodeData.if) {
         const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ if: nodeData.if }));
         dataSourceValidator("If", sourceNodeIds);
