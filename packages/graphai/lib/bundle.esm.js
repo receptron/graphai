@@ -593,7 +593,7 @@ class ComputedNode extends Node {
         this.output = data.output;
         this.dataSources = [
             ...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []),
-            ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
+            // ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
             ...(this.agentId ? [parseNodeName(this.agentId)] : []),
             ...(data.passThrough ? inputs2dataSources(data.passThrough).flat(10) : []),
         ];
@@ -869,7 +869,8 @@ class ComputedNode extends Node {
         // From graphAgent(nested, map), set the instance of graphai, and use abort on the child graphai.
         this.debugInfo = this.getDebugInfo(agentId);
         const context = {
-            params: this.graph.resultsOf(this.params),
+            //params: this.graph.resultsOf(this.params),
+            params: this.params,
             namedInputs: previousResults,
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
             debugInfo: this.debugInfo,

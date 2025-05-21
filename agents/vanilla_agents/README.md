@@ -3819,9 +3819,8 @@ const result = await graph.run();
             "update": ":reducer.array"
           },
           "item": {
-            "agent": "sleepAndMergeAgent",
-            "params": {
-              "duration": 10,
+            "agent": "copyAgent",
+            "inputs": {
               "value": ":source"
             }
           },
@@ -3829,7 +3828,7 @@ const result = await graph.run();
             "agent": "pushAgent",
             "inputs": {
               "array": ":array",
-              "item": ":item"
+              "item": ":item.value"
             },
             "isResult": true
           }
@@ -3916,9 +3915,8 @@ const result = await graph.run();
             "update": ":reducer.array"
           },
           "item": {
-            "agent": "sleepAndMergeAgent",
-            "params": {
-              "duration": 10,
+            "agent": "copyAgent",
+            "inputs": {
               "value": ":inner_source"
             }
           },
@@ -3926,7 +3924,7 @@ const result = await graph.run();
             "agent": "pushAgent",
             "inputs": {
               "array": ":array",
-              "item": ":item"
+              "item": ":item.value"
             },
             "isResult": true
           }
