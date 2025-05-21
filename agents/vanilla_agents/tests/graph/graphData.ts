@@ -368,15 +368,14 @@ export const graphDataNested = {
             update: ":reducer.array",
           },
           item: {
-            agent: "sleepAndMergeAgent",
-            params: {
-              duration: 10,
+            agent: "copyAgent",
+            inputs: {
               value: ":source",
             },
           },
           reducer: {
             agent: "pushAgent",
-            inputs: { array: ":array", item: ":item" },
+            inputs: { array: ":array", item: ":item.value" },
             isResult: true,
           },
         },
@@ -443,15 +442,14 @@ export const graphDataNestedInjection = {
             update: ":reducer.array",
           },
           item: {
-            agent: "sleepAndMergeAgent",
-            params: {
-              duration: 10,
+            agent: "copyAgent",
+            inputs: {
               value: ":inner_source",
             },
           },
           reducer: {
             agent: "pushAgent",
-            inputs: { array: ":array", item: ":item" },
+            inputs: { array: ":array", item: ":item.value" },
             isResult: true,
           },
         },
