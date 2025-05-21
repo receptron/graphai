@@ -32,15 +32,15 @@ const graph_data = {
   },
 };
 
-test("test graph", async () => {
+test("test graph. dynamic_params is disabled", async () => {
   const graph = new GraphAI(graph_data, agents);
   const result = await graph.run();
   assert.deepStrictEqual(result, {
     result: {
       test: {
-        test: "Hello World",
+        test: ":message",
       },
-      array: ["1", { a: "2 value" }],
+      array: [":one", { a: ":two.value" }],
     },
   });
 });

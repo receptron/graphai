@@ -52,7 +52,13 @@ const graphData_literal = {
 test("test params", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graphData_literal, { testAgent: agentInfoWrapper(testAgent), ...agents }, () => {}, false);
   assert.deepStrictEqual(result, {
-    test1: { fruit: { apple: "red" }, color: "yellow" },
-    test2: { fruit: { apple: "red" }, color: "yellow" },
+    test1: {
+      fruit: ":source1",
+      color: ":source2.lemon",
+    },
+    test2: {
+      fruit: ":delayed1",
+      color: ":delayed2.lemon",
+    },
   });
 });
