@@ -318,15 +318,14 @@ nodes:
           value: []
           update: :reducer.array
         item:
-          agent: sleepAndMergeAgent
-          params:
-            duration: 10
+          agent: copyAgent
+          inputs:
             value: :source
         reducer:
           agent: pushAgent
           inputs:
             array: :array
-            item: :item
+            item: :item.value
           isResult: true
 
 ```
@@ -387,15 +386,14 @@ nodes:
           value: []
           update: :reducer.array
         item:
-          agent: sleepAndMergeAgent
-          params:
-            duration: 10
+          agent: copyAgent
+          inputs:
             value: :inner_source
         reducer:
           agent: pushAgent
           inputs:
             array: :array
-            item: :item
+            item: :item.value
           isResult: true
 
 ```

@@ -444,9 +444,8 @@
             "update": ":reducer.array"
           },
           "item": {
-            "agent": "sleepAndMergeAgent",
-            "params": {
-              "duration": 10,
+            "agent": "copyAgent",
+            "inputs": {
               "value": ":source"
             }
           },
@@ -454,7 +453,7 @@
             "agent": "pushAgent",
             "inputs": {
               "array": ":array",
-              "item": ":item"
+              "item": ":item.value"
             },
             "isResult": true
           }
@@ -541,9 +540,8 @@
             "update": ":reducer.array"
           },
           "item": {
-            "agent": "sleepAndMergeAgent",
-            "params": {
-              "duration": 10,
+            "agent": "copyAgent",
+            "inputs": {
               "value": ":inner_source"
             }
           },
@@ -551,7 +549,7 @@
             "agent": "pushAgent",
             "inputs": {
               "array": ":array",
-              "item": ":item"
+              "item": ":item.value"
             },
             "isResult": true
           }
