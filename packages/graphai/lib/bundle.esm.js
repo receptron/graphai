@@ -1057,10 +1057,12 @@ const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
                 const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.inputs));
                 dataSourceValidator("Inputs", sourceNodeIds);
             }
+            /*
             if (nodeData.params) {
-                const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.params));
-                dataSourceValidator("Params", sourceNodeIds);
+              const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.params));
+              dataSourceValidator("Params", sourceNodeIds);
             }
+            */
             if (nodeData.if) {
                 const sourceNodeIds = dataSourceNodeIds(inputs2dataSources({ if: nodeData.if }));
                 dataSourceValidator("If", sourceNodeIds);

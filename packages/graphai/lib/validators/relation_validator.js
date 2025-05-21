@@ -29,10 +29,12 @@ const relationValidator = (graphData, staticNodeIds, computedNodeIds) => {
                 const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)(nodeData.inputs));
                 dataSourceValidator("Inputs", sourceNodeIds);
             }
+            /*
             if (nodeData.params) {
-                const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)(nodeData.params));
-                dataSourceValidator("Params", sourceNodeIds);
+              const sourceNodeIds = dataSourceNodeIds(inputs2dataSources(nodeData.params));
+              dataSourceValidator("Params", sourceNodeIds);
             }
+            */
             if (nodeData.if) {
                 const sourceNodeIds = (0, nodeUtils_1.dataSourceNodeIds)((0, nodeUtils_1.inputs2dataSources)({ if: nodeData.if }));
                 dataSourceValidator("If", sourceNodeIds);
