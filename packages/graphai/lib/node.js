@@ -7,6 +7,7 @@ const type_1 = require("./type");
 const utils_2 = require("./utils/utils");
 const transaction_log_1 = require("./transaction_log");
 const result_1 = require("./utils/result");
+const GraphAILogger_1 = require("./utils/GraphAILogger");
 class Node {
     constructor(nodeId, graph) {
         this.waitlist = new Set(); // List of nodes which need data from this node.
@@ -36,14 +37,14 @@ class Node {
             return;
         }
         else if (this.console === true || this.console.after === true) {
-            console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
+            GraphAILogger_1.GraphAILogger.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
         }
         else if (this.console.after) {
             if ((0, utils_2.isObject)(this.console.after)) {
-                console.log(JSON.stringify((0, result_1.resultsOf)(this.console.after, { self: { result } }, this.graph.propFunctions, true), null, 2));
+                GraphAILogger_1.GraphAILogger.log(JSON.stringify((0, result_1.resultsOf)(this.console.after, { self: { result } }, this.graph.propFunctions, true), null, 2));
             }
             else {
-                console.log(this.console.after);
+                GraphAILogger_1.GraphAILogger.log(this.console.after);
             }
         }
     }
@@ -81,6 +82,7 @@ class ComputedNode extends Node {
             ...(data.inputs ? (0, nodeUtils_1.inputs2dataSources)(data.inputs).flat(10) : []),
             ...(data.params ? (0, nodeUtils_1.inputs2dataSources)(data.params).flat(10) : []),
             ...(this.agentId ? [(0, utils_2.parseNodeName)(this.agentId)] : []),
+            ...(data.passThrough ? (0, nodeUtils_1.inputs2dataSources)(data.passThrough).flat(10) : []),
         ];
         if (data.inputs && Array.isArray(data.inputs)) {
             throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -201,7 +203,7 @@ class ComputedNode extends Node {
     // and attempt to retry (if specified).
     executeTimeout(transactionId) {
         if (this.state === type_1.NodeState.Executing && this.isCurrentTransaction(transactionId)) {
-            console.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
+            GraphAILogger_1.GraphAILogger.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
             this.retry(type_1.NodeState.TimedOut, Error("Timeout"));
         }
     }
@@ -294,7 +296,7 @@ class ComputedNode extends Node {
             if (!this.isCurrentTransaction(transactionId)) {
                 // This condition happens when the agent function returns
                 // after the timeout (either retried or not).
-                console.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
+                GraphAILogger_1.GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                 return;
             }
             // after process
@@ -312,6 +314,9 @@ class ComputedNode extends Node {
         this.result = this.getResult(result);
         if (this.output) {
             this.result = (0, result_1.resultsOf)(this.output, { self: this }, this.graph.propFunctions, true);
+            if (this.passThrough) {
+                this.result = { ...this.result, ...this.graph.resultsOf(this.passThrough) };
+            }
         }
         this.log.onComplete(this, this.graph, localLog);
         this.onSetResult();
@@ -329,20 +334,20 @@ class ComputedNode extends Node {
     // the retry if specified.
     errorProcess(error, transactionId, namedInputs) {
         if (error instanceof Error && error.message !== utils_1.strIntentionalError) {
-            console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
-            console.error({ namedInputs });
-            console.error(error);
-            console.error("-->");
+            GraphAILogger_1.GraphAILogger.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
+            GraphAILogger_1.GraphAILogger.error({ namedInputs });
+            GraphAILogger_1.GraphAILogger.error(error);
+            GraphAILogger_1.GraphAILogger.error("-->");
         }
         if (!this.isCurrentTransaction(transactionId)) {
-            console.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
+            GraphAILogger_1.GraphAILogger.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
             return;
         }
         if (error instanceof Error) {
             this.retry(type_1.NodeState.Failed, error);
         }
         else {
-            console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
+            GraphAILogger_1.GraphAILogger.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
             this.retry(type_1.NodeState.Failed, Error("Unknown"));
         }
     }
@@ -365,10 +370,10 @@ class ComputedNode extends Node {
     getResult(result) {
         if (result && this.passThrough) {
             if ((0, utils_2.isObject)(result) && !Array.isArray(result)) {
-                return { ...result, ...this.passThrough };
+                return { ...result, ...this.graph.resultsOf(this.passThrough) };
             }
             else if (Array.isArray(result)) {
-                return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+                return result.map((r) => ((0, utils_2.isObject)(r) && !Array.isArray(r) ? { ...r, ...this.graph.resultsOf(this.passThrough) } : r));
             }
         }
         return result;
@@ -390,10 +395,10 @@ class ComputedNode extends Node {
             return;
         }
         else if (this.console === true || this.console.before === true) {
-            console.log(JSON.stringify(context.namedInputs, null, 2));
+            GraphAILogger_1.GraphAILogger.log(JSON.stringify(context.namedInputs, null, 2));
         }
         else if (this.console.before) {
-            console.log(this.console.before);
+            GraphAILogger_1.GraphAILogger.log(this.console.before);
         }
     }
 }

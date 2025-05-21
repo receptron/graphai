@@ -43,6 +43,8 @@ const copyAgentInfo = {
     category: ["data"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = copyAgentInfo;

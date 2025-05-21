@@ -1,5 +1,10 @@
 # echoAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/echo_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/echo_agent.ts)
+
 ## Description
 
 Echo agent
@@ -18,7 +23,7 @@ Echo agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -29,14 +34,14 @@ Echo agent
   ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 
 ## Samples
 
@@ -48,7 +53,7 @@ Echo agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -56,7 +61,7 @@ Echo agent
 
 {"text":"this is test"}
 
-````
+```
 
 #### result
 
@@ -66,7 +71,7 @@ Echo agent
   "text": "this is test"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -75,7 +80,7 @@ Echo agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -83,7 +88,7 @@ Echo agent
 
 {"text":"If you add filterParams option, it will respond to filterParams","filterParams":true}
 
-````
+```
 
 #### result
 
@@ -91,7 +96,7 @@ Echo agent
 
 {}
 
-````
+```
 
 ## Author
 

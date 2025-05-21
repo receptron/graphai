@@ -1,5 +1,10 @@
 # vanillaFetchAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/service_agents/vanilla_fetch_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/service_agents/vanilla_fetch_agent.ts)
+
 ## Description
 
 Retrieves JSON data from the specified URL
@@ -44,7 +49,7 @@ Retrieves JSON data from the specified URL
   "required": []
 }
 
-````
+```
 
 #### output
 
@@ -54,7 +59,7 @@ Retrieves JSON data from the specified URL
   "type": "array"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -69,7 +74,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 ```json
 
 [
@@ -81,7 +86,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 ```json
 
 [
@@ -93,7 +98,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 ```json
 
 [
@@ -104,7 +109,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 ```json
 
 [
@@ -116,7 +121,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 ```json
 
 [
@@ -129,7 +134,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 
 ## Samples
 
@@ -149,7 +154,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 
 #### params
 
@@ -157,7 +162,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -171,7 +176,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -185,7 +190,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 
 #### params
 
@@ -193,7 +198,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -208,7 +213,7 @@ Retrieves JSON data from the specified URL
   "body": "{\"foo\":\"bar\"}"
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -223,7 +228,7 @@ Retrieves JSON data from the specified URL
   "method": "PUT"
 }
 
-````
+```
 
 #### params
 
@@ -231,7 +236,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -246,7 +251,7 @@ Retrieves JSON data from the specified URL
   "body": "{\"foo\":\"bar\"}"
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -258,7 +263,7 @@ Retrieves JSON data from the specified URL
   "method": "options"
 }
 
-````
+```
 
 #### params
 
@@ -266,7 +271,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -278,7 +283,7 @@ Retrieves JSON data from the specified URL
   "headers": {}
 }
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -287,7 +292,7 @@ Retrieves JSON data from the specified URL
 
 {}
 
-````
+```
 
 #### params
 
@@ -295,7 +300,7 @@ Retrieves JSON data from the specified URL
 
 {"url":"https://example.com","body":{"foo":"bar"},"method":"PUT","debug":true}
 
-````
+```
 
 #### result
 
@@ -310,7 +315,7 @@ Retrieves JSON data from the specified URL
   "body": "{\"foo\":\"bar\"}"
 }
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -324,7 +329,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 
 #### params
 
@@ -332,7 +337,7 @@ Retrieves JSON data from the specified URL
 
 {"url":"https://example.com","body":{"foo":"bar"},"method":"PUT","headers":{"Content-Type":"application/json"},"debug":true}
 
-````
+```
 
 #### result
 
@@ -348,7 +353,7 @@ Retrieves JSON data from the specified URL
   "body": "{\"foo\":\"bar\"}"
 }
 
-````
+```
 
 ## Author
 

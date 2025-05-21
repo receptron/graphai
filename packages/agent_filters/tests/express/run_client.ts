@@ -4,7 +4,7 @@
 //     npx ts-node -r tsconfig-paths/register tests/express/run_client.ts
 //
 
-import { httpAgentFilter } from "@/index";
+import { httpAgentFilter } from "../../src/index";
 import { GraphAI, GraphData, graphDataLatestVersion } from "graphai";
 import * as agents from "@graphai/agents";
 

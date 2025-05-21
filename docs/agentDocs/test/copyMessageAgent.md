@@ -1,5 +1,10 @@
 # copyMessageAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy_message_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy_message_agent.ts)
+
 ## Description
 
 CopyMessage agent
@@ -18,7 +23,7 @@ CopyMessage agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -33,7 +38,7 @@ CopyMessage agent
   ":agentId.messages.$3"
 ]
 
-````
+```
 
 ## Samples
 
@@ -45,7 +50,7 @@ CopyMessage agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -53,7 +58,7 @@ CopyMessage agent
 
 {"count":4,"message":"hello"}
 
-````
+```
 
 #### result
 
@@ -68,7 +73,7 @@ CopyMessage agent
   ]
 }
 
-````
+```
 
 ## Author
 

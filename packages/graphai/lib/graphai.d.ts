@@ -9,6 +9,7 @@ export declare class GraphAI {
     readonly graphId: string;
     private readonly graphData;
     private readonly loop?;
+    private readonly forceLoop;
     private readonly logs;
     readonly bypassAgentIds: string[];
     readonly config?: ConfigDataDictionary;
@@ -36,7 +37,7 @@ export declare class GraphAI {
         cacheType: undefined;
     };
     asString(): string;
-    results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T>;
+    results<T = DefaultResultData>(all: boolean, internalUse?: boolean): ResultDataDictionary<T>;
     errors(): Record<string, Error>;
     private pushReadyNodesIntoQueue;
     private pushQueueIfReady;

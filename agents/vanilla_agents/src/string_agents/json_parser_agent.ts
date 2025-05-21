@@ -5,13 +5,19 @@ export const jsonParserAgent: AgentFunction<null, unknown, GraphAIWithOptionalTe
   const { text, data } = namedInputs;
 
   if (data) {
-    return JSON.stringify(data, null, 2);
+    return {
+      text: JSON.stringify(data, null, 2),
+    };
   }
   const match = ("\n" + text).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
   if (match) {
-    return JSON.parse(match[1]);
+    return {
+      data: JSON.parse(match[1]),
+    };
   }
-  return JSON.parse(text ?? "");
+  return {
+    data: JSON.parse(text ?? ""),
+  };
 };
 
 const sample_object = { apple: "red", lemon: "yellow" };
@@ -31,39 +37,50 @@ const jsonParserAgentInfo: AgentFunctionInfo = {
     anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
   },
   output: {
-    type: "string",
+    type: "object",
+    properties: {
+      text: {
+        type: "string",
+        description: "json string",
+      },
+      data: {
+        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+      },
+    },
   },
   samples: [
     {
       inputs: { data: sample_object },
       params: {},
-      result: JSON.stringify(sample_object, null, 2),
+      result: { text: JSON.stringify(sample_object, null, 2) },
     },
     {
       inputs: { text: JSON.stringify(sample_object, null, 2) },
       params: {},
-      result: sample_object,
+      result: { data: sample_object },
     },
     {
       inputs: { text: md_json1 },
       params: {},
-      result: sample_object,
+      result: { data: sample_object },
     },
     {
       inputs: { text: md_json2 },
       params: {},
-      result: sample_object,
+      result: { data: sample_object },
     },
     {
       inputs: { text: md_json3 },
       params: {},
-      result: sample_object,
+      result: { data: sample_object },
     },
   ],
   description: "Template agent",
   category: ["string"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/json_parser_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default jsonParserAgentInfo;

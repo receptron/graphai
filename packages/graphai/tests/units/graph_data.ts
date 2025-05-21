@@ -79,3 +79,46 @@ export const graph_data_passthrough2 = {
     },
   },
 };
+
+export const graph_data_passthrough_god = {
+  version: graphDataLatestVersion,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    copyAgent: {
+      isResult: true,
+      agent: "copyAgent",
+      inputs: { echo: ":echo" },
+      passThrough: {
+        type: ":echo.message",
+      },
+    },
+  },
+};
+
+export const graph_data_passthrough_god_out = {
+  version: graphDataLatestVersion,
+  nodes: {
+    echo: {
+      agent: "echoAgent",
+      params: {
+        message: "hello",
+      },
+    },
+    copyAgent: {
+      isResult: true,
+      agent: "copyAgent",
+      inputs: { echo: ":echo" },
+      passThrough: {
+        pass: ":echo.message",
+      },
+      output: {
+        result: ".echo.message",
+      },
+    },
+  },
+};

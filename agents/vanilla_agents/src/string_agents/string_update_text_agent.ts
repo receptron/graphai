@@ -74,6 +74,8 @@ const stringUpdateTextAgentInfo: AgentFunctionInfo = {
   category: [],
   author: "",
   repository: "",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_update_text_agent.ts",
+  package: "@graphai/vanilla",
   tools: [],
   license: "",
   hasGraphData: true,

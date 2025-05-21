@@ -1,5 +1,10 @@
 # countingAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/counting_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/counting_agent.ts)
+
 ## Description
 
 Counting agent
@@ -18,7 +23,7 @@ Counting agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -33,7 +38,7 @@ Counting agent
   ":agentId.list.$3"
 ]
 
-````
+```
 
 ## Samples
 
@@ -45,7 +50,7 @@ Counting agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -53,7 +58,7 @@ Counting agent
 
 {"count":4}
 
-````
+```
 
 #### result
 
@@ -68,7 +73,7 @@ Counting agent
   ]
 }
 
-````
+```
 
 ## Author
 

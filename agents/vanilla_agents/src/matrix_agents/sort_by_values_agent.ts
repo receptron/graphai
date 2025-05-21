@@ -84,6 +84,8 @@ const sortByValuesAgentInfo: AgentFunctionInfo = {
   category: ["matrix"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/sort_by_values_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default sortByValuesAgentInfo;

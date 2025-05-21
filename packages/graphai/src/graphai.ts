@@ -19,11 +19,12 @@ import { ComputedNode, StaticNode, GraphNodes } from "./node";
 
 import { resultsOf, resultOf, cleanResult } from "./utils/result";
 import { propFunctions } from "./utils/prop_function";
-import { parseNodeName, assert, isLogicallyTrue, isComputedNodeData } from "./utils/utils";
+import { parseNodeName, assert, isLogicallyTrue, isComputedNodeData, loopCounterKey } from "./utils/utils";
 import { getDataFromSource } from "./utils/data_source";
 
 import { validateGraphData, validateAgent } from "./validator";
 import { TaskManager } from "./task_manager";
+import { GraphAILogger } from "./utils/GraphAILogger";
 
 export const defaultConcurrency = 8;
 export const graphDataLatestVersion = 0.5;
@@ -33,6 +34,7 @@ export class GraphAI {
   public readonly graphId: string;
   private readonly graphData: GraphData;
   private readonly loop?: LoopData;
+  private readonly forceLoop: boolean;
   private readonly logs: Array<TransactionLog> = [];
   public readonly bypassAgentIds: string[];
   public readonly config?: ConfigDataDictionary = {};
@@ -131,18 +133,18 @@ export class GraphAI {
       bypassAgentIds: [],
       config: {},
       graphLoader: undefined,
+      forceLoop: false,
     },
   ) {
     if (!graphData.version && !options.taskManager) {
-      console.warn("------------ missing version number");
+      GraphAILogger.warn("------------ missing version number");
     }
     this.version = graphData.version ?? graphDataLatestVersion;
     if (this.version < graphDataLatestVersion) {
-      console.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
+      GraphAILogger.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
     }
     this.retryLimit = graphData.retry; // optional
-    this.graphId = URL.createObjectURL(new Blob()).slice(-36);
-    this.graphData = graphData;
+    this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.propFunctions = propFunctions;
     this.taskManager = options.taskManager ?? new TaskManager(graphData.concurrency ?? defaultConcurrency);
@@ -150,6 +152,7 @@ export class GraphAI {
     this.bypassAgentIds = options.bypassAgentIds ?? [];
     this.config = options.config;
     this.graphLoader = options.graphLoader;
+    this.forceLoop = options.forceLoop ?? false;
     this.loop = graphData.loop;
     this.verbose = graphData.verbose === true;
     this.onComplete = (__isAbort: boolean) => {
@@ -159,7 +162,14 @@ export class GraphAI {
     validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
     validateAgent(agentFunctionInfoDictionary);
 
-    this.nodes = this.createNodes(graphData);
+    this.graphData = {
+      ...graphData,
+      nodes: {
+        ...graphData.nodes,
+        [loopCounterKey]: { value: 0, update: `:${loopCounterKey}.add(1)` },
+      },
+    };
+    this.nodes = this.createNodes(this.graphData);
     this.initializeStaticNodes(true);
   }
 
@@ -188,9 +198,9 @@ export class GraphAI {
   }
 
   // Public API
-  public results<T = DefaultResultData>(all: boolean): ResultDataDictionary<T> {
+  public results<T = DefaultResultData>(all: boolean, internalUse: boolean = false): ResultDataDictionary<T> {
     return Object.keys(this.nodes)
-      .filter((nodeId) => all || this.nodes[nodeId].isResult)
+      .filter((nodeId) => (all && (internalUse || nodeId !== loopCounterKey)) || this.nodes[nodeId].isResult)
       .reduce((results: ResultDataDictionary<T>, nodeId) => {
         const node = this.nodes[nodeId];
         if (node.result !== undefined) {
@@ -261,16 +271,16 @@ export class GraphAI {
     this.pushReadyNodesIntoQueue();
 
     if (!this.isRunning()) {
-      console.warn("-- nothing to execute");
+      GraphAILogger.warn("-- nothing to execute");
       return {};
     }
 
     return new Promise((resolve, reject) => {
       this.onComplete = (isAbort: boolean = false) => {
         const errors = this.errors();
-        const nodeIds = Object.keys(errors);
-        if (nodeIds.length > 0 || isAbort) {
-          reject(errors[nodeIds[0]]);
+        const errorNodeIds = Object.keys(errors);
+        if (errorNodeIds.length > 0 || isAbort) {
+          reject(errors[errorNodeIds[0]]);
         } else {
           resolve(this.results(all));
         }
@@ -314,6 +324,11 @@ export class GraphAI {
   // Check if there is any running computed nodes.
   // In case of no running computed note, start the another iteration if ncessary (loop)
   private processLoopIfNecessary() {
+    //
+    if (!this.forceLoop && Object.keys(this.errors()).length > 0) {
+      return false;
+    }
+
     this.repeatCount++;
     const loop = this.loop;
     if (!loop) {
@@ -321,13 +336,13 @@ export class GraphAI {
     }
 
     // We need to update static nodes, before checking the condition
-    const previousResults = this.results(true); // results from previous loop
+    const previousResults = this.results(true, true); // results from previous loop
     this.updateStaticNodes(previousResults);
 
     if (loop.count === undefined || this.repeatCount < loop.count) {
       if (loop.while) {
         const source = parseNodeName(loop.while);
-        const value = this.getValueFromResults(source, this.results(true));
+        const value = this.getValueFromResults(source, this.results(true, true));
         // NOTE: We treat an empty array as false.
         if (!isLogicallyTrue(value)) {
           return false; // while condition is not met
@@ -391,7 +406,7 @@ export class GraphAI {
   }
 
   public resultsOf(inputs?: Record<string, any>, anyInput: boolean = false) {
-    const results = resultsOf(inputs ?? [], this.nodes, this.propFunctions);
+    const results = resultsOf(inputs ?? {}, this.nodes, this.propFunctions);
     if (anyInput) {
       return cleanResult(results);
     }

@@ -1,5 +1,10 @@
 # popAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/pop_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/pop_agent.ts)
+
 ## Description
 
 Pop Agent
@@ -23,7 +28,7 @@ Pop Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -56,7 +61,7 @@ Pop Agent
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -70,7 +75,7 @@ Pop Agent
   ":agentId.item"
 ]
 
-````
+```
 ```json
 
 [
@@ -81,7 +86,7 @@ Pop Agent
   ":agentId.item"
 ]
 
-````
+```
 ```json
 
 [
@@ -92,7 +97,7 @@ Pop Agent
   ":agentId.item"
 ]
 
-````
+```
 
 ## Samples
 
@@ -110,7 +115,7 @@ Pop Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -118,7 +123,7 @@ Pop Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -132,7 +137,7 @@ Pop Agent
   "item": 3
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -147,7 +152,7 @@ Pop Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -155,7 +160,7 @@ Pop Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -169,7 +174,7 @@ Pop Agent
   "item": "c"
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -189,7 +194,7 @@ Pop Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -197,7 +202,7 @@ Pop Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -211,7 +216,7 @@ Pop Agent
   "item": 3
 }
 
-````
+```
 
 ## Author
 

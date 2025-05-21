@@ -12,6 +12,7 @@ type OpenAIInputs = {
   verbose?: boolean;
   temperature?: number;
   messages?: Array<OpenAI.ChatCompletionMessageParam>;
+  message?: OpenAI.ChatCompletionMessageParam;
   response_format?: OpenAI.ResponseFormatText | OpenAI.ResponseFormatJSONObject | OpenAI.ResponseFormatJSONSchema;
 } & GraphAILLMInputBase;
 
@@ -21,9 +22,10 @@ type OpenAIConfig = {
   stream?: boolean;
   forWeb?: boolean;
   model?: string;
+  dataStream?: boolean;
 };
 
-type OpenAIParams = OpenAIInputs & OpenAIConfig;
+type OpenAIParams = OpenAIInputs & OpenAIConfig & { dataStream?: boolean };
 
 type OpenAIResult = Partial<
   GraphAINullableText &
@@ -78,6 +80,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
   if (message) {
     messages.push(message);
   }
+
   return {
     ...response,
     text,
@@ -85,16 +88,17 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
     tool_calls,
     message,
     messages,
+    usage: response.usage,
   };
 };
 
 export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig> = async ({ filterParams, params, namedInputs, config }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, message, response_format } = {
     ...params,
     ...namedInputs,
   };
 
-  const { apiKey, stream, forWeb, model, baseURL } = {
+  const { apiKey, stream, dataStream, forWeb, model, baseURL } = {
     ...(config || {}),
     ...params,
   };
@@ -104,7 +108,9 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
 
   const messagesCopy = getMessages<OpenAI.ChatCompletionMessageParam>(systemPrompt, messages);
 
-  if (userPrompt) {
+  if (message) {
+    messagesCopy.push(message);
+  } else if (userPrompt) {
     messagesCopy.push({
       role: "user",
       content: userPrompt,
@@ -154,16 +160,49 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
   const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
     stream: true,
+    stream_options: { include_usage: true },
   });
 
   // streaming
-  for await (const message of chatStream) {
-    const token = message.choices[0].delta.content;
-    if (filterParams && filterParams.streamTokenCallback && token) {
-      filterParams.streamTokenCallback(token);
+  if (dataStream) {
+    filterParams.streamTokenCallback({
+      type: "response.created",
+      response: {},
+    });
+    for await (const chunk of chatStream) {
+      // usage chunk have empty choices
+      if (chunk.choices[0]) {
+        const token = chunk.choices[0].delta.content;
+        if (filterParams && filterParams.streamTokenCallback && token) {
+          filterParams.streamTokenCallback({
+            type: "response.in_progress",
+            response: {
+              output: [
+                {
+                  type: "text",
+                  text: token,
+                },
+              ],
+            },
+          });
+        }
+      }
+    }
+    filterParams.streamTokenCallback({
+      type: "response.completed",
+      response: {},
+    });
+  } else {
+    for await (const chunk of chatStream) {
+      // usage chunk have empty choices
+      if (chunk.choices[0]) {
+        const token = chunk.choices[0].delta.content;
+        if (filterParams && filterParams.streamTokenCallback && token) {
+          filterParams.streamTokenCallback(token);
+        }
+      }
     }
   }
-
   const chatCompletion = await chatStream.finalChatCompletion();
   return convertOpenAIChatCompletion(chatCompletion, messagesCopy);
 };
@@ -187,25 +226,22 @@ const result_sample = {
   model: "gpt-4o",
 };
 
-export const openAIMockAgent: AgentFunction<
-  {
-    model?: string;
-    query?: string;
-    system?: string;
-    verbose?: boolean;
-    temperature?: number;
-  },
-  Record<string, any> | string,
-  string | Array<any>
-> = async ({ filterParams }) => {
+export const openAIMockAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig> = async ({ filterParams }) => {
   for await (const token of input_sample.split("")) {
     if (filterParams && filterParams.streamTokenCallback && token) {
       await sleep(100);
       filterParams.streamTokenCallback(token);
     }
   }
-
-  return result_sample;
+  const message = {
+    role: "user" as const,
+    content: input_sample,
+  };
+  return {
+    text: input_sample,
+    message,
+    messages: [message],
+  };
 };
 const openaiAgentInfo: AgentFunctionInfo = {
   name: "openAIAgent",
@@ -359,6 +395,8 @@ const openaiAgentInfo: AgentFunctionInfo = {
   category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/src/openai_agent.ts",
+  package: "@graphai/openai_agent",
   license: "MIT",
   stream: true,
   npms: ["openai"],

@@ -90,6 +90,9 @@ const graphdataMapped = {
       graph: ":source",
       isResult: true,
       inputs: { rows: ":array" },
+      params: {
+        supressError: true,
+      },
     },
     catch: {
       agent: "propertyFilterAgent",

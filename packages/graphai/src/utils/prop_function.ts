@@ -1,5 +1,7 @@
 import { PropFunction } from "../type";
-import { isObject } from "./utils";
+import { isObject, loopCounterKey } from "./utils";
+import { GraphNodes } from "../node";
+import { GraphAILogger } from "./GraphAILogger";
 
 export const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
 
@@ -12,7 +14,7 @@ const propArrayFunction: PropFunction = (result, propId) => {
       return result.flat();
     }
     if (propId === "toJSON()") {
-      return JSON.stringify(result);
+      return JSON.stringify(result, null, 2);
     }
     if (propId === "isEmpty()") {
       return result.length === 0;
@@ -35,7 +37,7 @@ const propObjectFunction: PropFunction = (result, propId) => {
       return Object.values(result);
     }
     if (propId === "toJSON()") {
-      return JSON.stringify(result);
+      return JSON.stringify(result, null, 2);
     }
   }
   return undefined;
@@ -67,9 +69,20 @@ const propStringFunction: PropFunction = (result, propId) => {
     if (propId === "toUpperCase()") {
       return result.toUpperCase();
     }
-    const match = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
-    if (match) {
-      return result.split(match[1]);
+    const sliceMatch = propId.match(/^slice\((-?\d+)(?:,\s*(-?\d+))?\)/);
+    if (sliceMatch) {
+      if (sliceMatch[2] !== undefined) {
+        return result.slice(Number(sliceMatch[1]), Number(sliceMatch[2]));
+      }
+      if (sliceMatch[1] !== undefined) {
+        return result.slice(Number(sliceMatch[1]));
+      }
+      GraphAILogger.warn("slice is not valid format: " + sliceMatch);
+    }
+
+    const splitMatch = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
+    if (splitMatch) {
+      return result.split(splitMatch[1]);
     }
   }
   return undefined;
@@ -97,3 +110,18 @@ const propBooleanFunction: PropFunction = (result, propId) => {
 };
 
 export const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+
+export const utilsFunctions = (input: string, nodes: GraphNodes) => {
+  if (input === "@now" || input === "@now_ms") {
+    return Date.now();
+  }
+  if (input === "@now_s") {
+    return Math.floor(Date.now() / 1000);
+  }
+  if (input === "@loop") {
+    return nodes[loopCounterKey].result as string;
+  }
+  // If a placeholder does not match any key, replace it with an empty string.
+  GraphAILogger.warn("not match template utility function: ${" + input + "}");
+  return "";
+};

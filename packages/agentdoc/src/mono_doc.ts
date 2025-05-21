@@ -16,15 +16,15 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
           "#### inputs",
           "```json",
           JSON.stringify(sample.inputs, null, 2),
-          "````",
+          "```",
           "#### params",
           "```json",
           JSON.stringify(sample.params),
-          "````",
+          "```",
           "#### result",
           "```json",
           JSON.stringify(sample.result, null, 2),
-          "````",
+          "```",
         ].join("\n\n");
         // return JSON.stringify(agentInfo.samples, null, 2);
       })
@@ -36,25 +36,37 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
         "#### inputs",
         "```json",
         JSON.stringify(agentInfo.inputs, null, 2),
-        "````",
+        "```",
         "#### output",
         "```json",
         JSON.stringify(agentInfo.output, null, 2),
-        "````",
+        "```",
       ].join("\n\n");
     }
     if (agentInfo.samples && agentInfo.samples[0]) {
       const sample = agentInfo.samples[0];
-      return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "````"].join("\n\n");
+      return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "```"].join("\n\n");
     }
     return "";
   }
   if (key === "resultKey") {
     return agentInfo.samples
       .map((sample) => {
-        return ["```json", JSON.stringify(debugResultKey("agentId", sample.result), null, 2), "````"].join("\n\n");
+        return ["```json", JSON.stringify(debugResultKey("agentId", sample.result), null, 2), "```"].join("\n\n");
       })
       .join("\n");
+  }
+  if (key === "package") {
+    if (agentInfo.package) {
+      return ["## Package", `[${agentInfo.package}](https://www.npmjs.com/package/${agentInfo.package})`].join("\n");
+    }
+    return "";
+  }
+  if (key === "source") {
+    if (agentInfo.source) {
+      return ["## Source", `[${agentInfo.source}](${agentInfo.source})`].join("\n");
+    }
+    return "";
   }
   return agentInfo[key as keyof AgentFunctionInfo] as string;
 };
@@ -65,7 +77,7 @@ export const readTemplate = (file: string) => {
 
 const agentMd = (agentInfo: AgentFunctionInfo) => {
   const template = readTemplate("agent.md");
-  const md = ["name", "description", "author", "repository", "license", "samples", "schemas", "resultKey"].reduce((tmp, key) => {
+  const md = ["name", "description", "author", "repository", "license", "samples", "schemas", "resultKey", "package", "source"].reduce((tmp, key) => {
     tmp = tmp.replace("{" + key + "}", agentAttribute(agentInfo, key));
     return tmp;
   }, template);

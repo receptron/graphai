@@ -1,5 +1,10 @@
 # wikipediaAgent
 
+## Package
+[@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/service_agents/src/wikipedia_agent.ts](https://github.com/receptron/graphai/blob/main/agents/service_agents/src/wikipedia_agent.ts)
+
 ## Description
 
 Retrieves data from wikipedia
@@ -25,7 +30,7 @@ Retrieves data from wikipedia
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -39,7 +44,7 @@ Retrieves data from wikipedia
   ":agentId.pageid"
 ]
 
-````
+```
 
 ## Samples
 
@@ -53,7 +58,7 @@ Retrieves data from wikipedia
   "query": "steve jobs"
 }
 
-````
+```
 
 #### params
 
@@ -61,7 +66,7 @@ Retrieves data from wikipedia
 
 {"lang":"ja"}
 
-````
+```
 
 #### result
 
@@ -74,7 +79,7 @@ Retrieves data from wikipedia
   "pageid": 43967
 }
 
-````
+```
 
 ## Author
 

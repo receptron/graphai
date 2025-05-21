@@ -17,7 +17,9 @@ import { GraphAI } from "graphai";
 import { 
   arrayFlatAgent,
   arrayJoinAgent,
+  arrayToObjectAgent,
   compareAgent,
+  consoleAgent,
   copy2ArrayAgent,
   copyAgent,
   copyMessageAgent,
@@ -27,8 +29,10 @@ import {
   echoAgent,
   images2messageAgent,
   jsonParserAgent,
+  lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
+  mergeObjectAgent,
   nestedAgent,
   popAgent,
   propertyFilterAgent,
@@ -49,7 +53,9 @@ import {
 const agents = { 
   arrayFlatAgent,
   arrayJoinAgent,
+  arrayToObjectAgent,
   compareAgent,
+  consoleAgent,
   copy2ArrayAgent,
   copyAgent,
   copyMessageAgent,
@@ -59,8 +65,10 @@ const agents = {
   echoAgent,
   images2messageAgent,
   jsonParserAgent,
+  lookupDictionaryAgent,
   mapAgent,
   mergeNodeIdAgent,
+  mergeObjectAgent,
   nestedAgent,
   popAgent,
   propertyFilterAgent,
@@ -85,7 +93,9 @@ const result = await graph.run();
 ### Agents description
 - arrayFlatAgent - Array Flat Agent
 - arrayJoinAgent - Array Join Agent
+- arrayToObjectAgent - Array To Object Agent
 - compareAgent - compare
+- consoleAgent - Just text to console.info
 - copy2ArrayAgent - Copy2Array agent
 - copyAgent - Returns namedInputs
 - copyMessageAgent - CopyMessage agent
@@ -95,8 +105,10 @@ const result = await graph.run();
 - echoAgent - Echo agent
 - images2messageAgent - Returns the message data for llm include image
 - jsonParserAgent - Template agent
+- lookupDictionaryAgent - Select elements with params
 - mapAgent - Map Agent
 - mergeNodeIdAgent - merge node id agent
+- mergeObjectAgent - Returns namedInputs
 - nestedAgent - nested Agent
 - popAgent - Pop Agent
 - propertyFilterAgent - Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
@@ -116,7 +128,9 @@ const result = await graph.run();
 ### Input/Output/Params Schema & samples
  - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
  - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
+ - [arrayToObjectAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayToObjectAgent.md)
  - [compareAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/compare/compareAgent.md)
+ - [consoleAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/consoleAgent.md)
  - [copy2ArrayAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copy2ArrayAgent.md)
  - [copyAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/copyAgent.md)
  - [copyMessageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/copyMessageAgent.md)
@@ -126,8 +140,10 @@ const result = await graph.run();
  - [echoAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/echoAgent.md)
  - [images2messageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/image/images2messageAgent.md)
  - [jsonParserAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/string/jsonParserAgent.md)
+ - [lookupDictionaryAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/lookupDictionaryAgent.md)
  - [mapAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/mapAgent.md)
  - [mergeNodeIdAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/test/mergeNodeIdAgent.md)
+ - [mergeObjectAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/mergeObjectAgent.md)
  - [nestedAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/graph/nestedAgent.md)
  - [popAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/popAgent.md)
  - [propertyFilterAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/data/propertyFilterAgent.md)
@@ -424,6 +440,28 @@ const result = await graph.run();
   "params": {
     "separator": "|",
     "flat": 2
+  }
+}
+```
+
+ - arrayToObjectAgent
+
+```typescript
+{
+  "inputs": {
+    "items": [
+      {
+        "id": 1,
+        "data": "a"
+      },
+      {
+        "id": 2,
+        "data": "b"
+      }
+    ]
+  },
+  "params": {
+    "key": "id"
   }
 }
 ```
@@ -1451,6 +1489,17 @@ const result = await graph.run();
 }
 ```
 
+ - consoleAgent
+
+```typescript
+{
+  "inputs": {
+    "text": "hello"
+  },
+  "params": {}
+}
+```
+
  - copy2ArrayAgent
 
 ```typescript
@@ -1811,7 +1860,80 @@ const result = await graph.run();
 }
 ```
 
+ - lookupDictionaryAgent
+
+```typescript
+{
+  "inputs": {
+    "namedKey": "openai"
+  },
+  "params": {
+    "openai": {
+      "model": "gpt4-o",
+      "temperature": 0.7
+    },
+    "groq": {
+      "model": "llama3-8b-8192",
+      "temperature": 0.6
+    },
+    "gemini": {
+      "model": "gemini-2.0-pro-exp-02-05",
+      "temperature": 0.7
+    }
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "namedKey": "gemini"
+  },
+  "params": {
+    "openai": {
+      "model": "gpt4-o",
+      "temperature": 0.7
+    },
+    "groq": {
+      "model": "llama3-8b-8192",
+      "temperature": 0.6
+    },
+    "gemini": {
+      "model": "gemini-2.0-pro-exp-02-05",
+      "temperature": 0.7
+    }
+  }
+}
+```
+
  - mapAgent
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      "apple",
+      "orange",
+      "banana",
+      "lemon"
+    ],
+    "color": [
+      "red",
+      "orange",
+      "yellow",
+      "yellow"
+    ]
+  },
+  "params": {
+    "compositeResult": true,
+    "expandKeys": [
+      "color"
+    ]
+  }
+}
+```
+
 
 ```typescript
 {
@@ -1822,6 +1944,21 @@ const result = await graph.run();
     ]
   },
   "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
+      1,
+      2
+    ]
+  },
+  "params": {
+    "rowKey": "myKey"
+  }
 }
 ```
 
@@ -1984,6 +2121,24 @@ const result = await graph.run();
     "array": [
       {
         "message": "hello"
+      }
+    ]
+  },
+  "params": {}
+}
+```
+
+ - mergeObjectAgent
+
+```typescript
+{
+  "inputs": {
+    "items": [
+      {
+        "color": "red"
+      },
+      {
+        "model": "Model 3"
       }
     ]
   },
@@ -2425,6 +2580,20 @@ const result = await graph.run();
       2
     ],
     "item": 3
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      true,
+      false
+    ],
+    "item": false
   },
   "params": {}
 }
@@ -3265,7 +3434,7 @@ const result = await graph.run();
     },
     "nested": {
       "agent": "nestedAgent",
-      "graph": ":parser",
+      "graph": ":parser.data",
       "isResult": true
     }
   }
@@ -3288,7 +3457,7 @@ const result = await graph.run();
     },
     "nested": {
       "agent": "nestedAgent",
-      "graph": ":parser",
+      "graph": ":parser.data",
       "isResult": true
     }
   }

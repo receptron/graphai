@@ -1,5 +1,10 @@
 # totalAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/total_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/total_agent.ts)
+
 ## Description
 
 Returns the sum of input values
@@ -23,7 +28,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### output
 
@@ -33,7 +38,7 @@ Returns the sum of input values
   "type": "object"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -45,7 +50,7 @@ Returns the sum of input values
   ":agentId.data.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -57,7 +62,7 @@ Returns the sum of input values
   ":agentId.data.d"
 ]
 
-````
+```
 ```json
 
 [
@@ -66,7 +71,7 @@ Returns the sum of input values
   ":agentId.data.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -75,7 +80,7 @@ Returns the sum of input values
   ":agentId.data.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -84,7 +89,7 @@ Returns the sum of input values
   ":agentId.data.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -94,7 +99,7 @@ Returns the sum of input values
   ":agentId.data.b"
 ]
 
-````
+```
 ```json
 
 [
@@ -104,7 +109,7 @@ Returns the sum of input values
   ":agentId.data.b"
 ]
 
-````
+```
 ```json
 
 [
@@ -112,7 +117,7 @@ Returns the sum of input values
   ":agentId.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -123,7 +128,7 @@ Returns the sum of input values
   ":agentId.d"
 ]
 
-````
+```
 ```json
 
 [
@@ -131,7 +136,7 @@ Returns the sum of input values
   ":agentId.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -139,7 +144,7 @@ Returns the sum of input values
   ":agentId.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -147,7 +152,7 @@ Returns the sum of input values
   ":agentId.a"
 ]
 
-````
+```
 ```json
 
 [
@@ -156,7 +161,7 @@ Returns the sum of input values
   ":agentId.b"
 ]
 
-````
+```
 ```json
 
 [
@@ -165,7 +170,7 @@ Returns the sum of input values
   ":agentId.b"
 ]
 
-````
+```
 
 ## Samples
 
@@ -189,7 +194,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -197,7 +202,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -209,7 +214,7 @@ Returns the sum of input values
   }
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -245,7 +250,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -253,7 +258,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -268,7 +273,7 @@ Returns the sum of input values
   }
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -283,7 +288,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -291,7 +296,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -303,7 +308,7 @@ Returns the sum of input values
   }
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -321,7 +326,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -329,7 +334,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -341,7 +346,7 @@ Returns the sum of input values
   }
 }
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -362,7 +367,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -370,7 +375,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -382,7 +387,7 @@ Returns the sum of input values
   }
 }
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -406,7 +411,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -414,7 +419,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -427,7 +432,7 @@ Returns the sum of input values
   }
 }
 
-````
+```
 ### Sample6
 
 #### inputs
@@ -450,7 +455,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -458,7 +463,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -471,7 +476,7 @@ Returns the sum of input values
   }
 }
 
-````
+```
 ### Sample7
 
 #### inputs
@@ -492,7 +497,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -500,7 +505,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -510,7 +515,7 @@ Returns the sum of input values
   "a": 6
 }
 
-````
+```
 ### Sample8
 
 #### inputs
@@ -546,7 +551,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -554,7 +559,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -567,7 +572,7 @@ Returns the sum of input values
   "d": -10
 }
 
-````
+```
 ### Sample9
 
 #### inputs
@@ -582,7 +587,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -590,7 +595,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -600,7 +605,7 @@ Returns the sum of input values
   "a": 1
 }
 
-````
+```
 ### Sample10
 
 #### inputs
@@ -618,7 +623,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -626,7 +631,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -636,7 +641,7 @@ Returns the sum of input values
   "a": 3
 }
 
-````
+```
 ### Sample11
 
 #### inputs
@@ -657,7 +662,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -665,7 +670,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -675,7 +680,7 @@ Returns the sum of input values
   "a": 6
 }
 
-````
+```
 ### Sample12
 
 #### inputs
@@ -699,7 +704,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -707,7 +712,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -718,7 +723,7 @@ Returns the sum of input values
   "b": 3
 }
 
-````
+```
 ### Sample13
 
 #### inputs
@@ -741,7 +746,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -749,7 +754,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -760,7 +765,7 @@ Returns the sum of input values
   "b": 2
 }
 
-````
+```
 
 ## Author
 

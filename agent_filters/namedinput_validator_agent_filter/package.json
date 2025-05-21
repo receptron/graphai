@@ -1,0 +1,35 @@
+{
+  "name": "@graphai/namedinput_validator_agent_filter",
+  "version": "2.0.1",
+  "description": "namedinput validator Agent filters for GraphAI.",
+  "main": "lib/index.js",
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "rm -r lib/* && tsc",
+    "eslint": "eslint",
+    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "test": "node --test --require ts-node/register ./tests/test_*.ts",
+    "doc": "echo nothing",
+    "b": "yarn run format && yarn run eslint && yarn run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "author": "Satoshi Nakajima, Isamu Arimoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai#readme",
+  "dependencies": {
+    "ajv": "^8.16.0"
+  },
+  "devDependencies": {},
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  }
+}

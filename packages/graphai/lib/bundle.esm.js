@@ -12,10 +12,176 @@ var NodeState;
     NodeState["Skipped"] = "skipped";
 })(NodeState || (NodeState = {}));
 
+const enabledLevels = {
+    debug: true,
+    info: true,
+    log: true,
+    warn: true,
+    error: true,
+};
+let customLogger = null;
+function setLevelEnabled(level, enabled) {
+    enabledLevels[level] = enabled;
+}
+function setLogger(logger) {
+    customLogger = logger;
+}
+function output(level, ...args) {
+    if (!enabledLevels[level])
+        return;
+    if (customLogger) {
+        customLogger(level, ...args);
+    }
+    else {
+        (console[level] || console.log)(...args);
+    }
+}
+function debug(...args) {
+    output("debug", ...args);
+}
+function info(...args) {
+    output("info", ...args);
+}
+function log(...args) {
+    output("log", ...args);
+}
+function warn(...args) {
+    output("warn", ...args);
+}
+function error(...args) {
+    output("error", ...args);
+}
+const GraphAILogger = {
+    setLevelEnabled,
+    setLogger,
+    debug,
+    info,
+    log,
+    warn,
+    error,
+};
+
+const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
+const propArrayFunction = (result, propId) => {
+    if (Array.isArray(result)) {
+        if (propId === "length()") {
+            return result.length;
+        }
+        if (propId === "flat()") {
+            return result.flat();
+        }
+        if (propId === "toJSON()") {
+            return JSON.stringify(result, null, 2);
+        }
+        if (propId === "isEmpty()") {
+            return result.length === 0;
+        }
+        // array join
+        const matchJoin = propId.match(/^join\(([,-\s]?)\)$/);
+        if (matchJoin && Array.isArray(matchJoin)) {
+            return result.join(matchJoin[1] ?? "");
+        }
+    }
+    return undefined;
+};
+const propObjectFunction = (result, propId) => {
+    if (isObject(result)) {
+        if (propId === "keys()") {
+            return Object.keys(result);
+        }
+        if (propId === "values()") {
+            return Object.values(result);
+        }
+        if (propId === "toJSON()") {
+            return JSON.stringify(result, null, 2);
+        }
+    }
+    return undefined;
+};
+const propStringFunction = (result, propId) => {
+    if (typeof result === "string") {
+        if (propId === "codeBlock()") {
+            const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+            if (match) {
+                return match[1];
+            }
+        }
+        if (propId === "jsonParse()") {
+            return JSON.parse(result);
+        }
+        if (propId === "toNumber()") {
+            const ret = Number(result);
+            if (!isNaN(ret)) {
+                return ret;
+            }
+        }
+        if (propId === "trim()") {
+            return result.trim();
+        }
+        if (propId === "toLowerCase()") {
+            return result.toLowerCase();
+        }
+        if (propId === "toUpperCase()") {
+            return result.toUpperCase();
+        }
+        const sliceMatch = propId.match(/^slice\((-?\d+)(?:,\s*(-?\d+))?\)/);
+        if (sliceMatch) {
+            if (sliceMatch[2] !== undefined) {
+                return result.slice(Number(sliceMatch[1]), Number(sliceMatch[2]));
+            }
+            if (sliceMatch[1] !== undefined) {
+                return result.slice(Number(sliceMatch[1]));
+            }
+            GraphAILogger.warn("slice is not valid format: " + sliceMatch);
+        }
+        const splitMatch = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
+        if (splitMatch) {
+            return result.split(splitMatch[1]);
+        }
+    }
+    return undefined;
+};
+const propNumberFunction = (result, propId) => {
+    if (result !== undefined && Number.isFinite(result)) {
+        if (propId === "toString()") {
+            return String(result);
+        }
+        const regex = /^add\((-?\d+)\)$/;
+        const match = propId.match(regex);
+        if (match) {
+            return Number(result) + Number(match[1]);
+        }
+    }
+    return undefined;
+};
+const propBooleanFunction = (result, propId) => {
+    if (typeof result === "boolean") {
+        if (propId === "not()") {
+            return !result;
+        }
+    }
+    return undefined;
+};
+const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+const utilsFunctions = (input, nodes) => {
+    if (input === "@now" || input === "@now_ms") {
+        return Date.now();
+    }
+    if (input === "@now_s") {
+        return Math.floor(Date.now() / 1000);
+    }
+    if (input === "@loop") {
+        return nodes[loopCounterKey].result;
+    }
+    // If a placeholder does not match any key, replace it with an empty string.
+    GraphAILogger.warn("not match template utility function: ${" + input + "}");
+    return "";
+};
+
 const sleep = async (milliseconds) => {
     return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
-const parseNodeName = (inputNodeId, isSelfNode = false) => {
+const parseNodeName = (inputNodeId, isSelfNode = false, nodes) => {
     if (isSelfNode) {
         if (typeof inputNodeId === "string" && inputNodeId[0] === ".") {
             const parts = inputNodeId.split(".");
@@ -26,14 +192,19 @@ const parseNodeName = (inputNodeId, isSelfNode = false) => {
     if (typeof inputNodeId === "string") {
         const regex = /^:(.*)$/;
         const match = inputNodeId.match(regex);
-        if (!match) {
-            return { value: inputNodeId }; // string literal
+        if (match) {
+            const parts = match[1].split(/(?<!\()\.(?!\))/);
+            if (parts.length == 1) {
+                return { nodeId: parts[0] };
+            }
+            return { nodeId: parts[0], propIds: parts.slice(1) };
         }
-        const parts = match[1].split(".");
-        if (parts.length == 1) {
-            return { nodeId: parts[0] };
+        const regexUtil = /^@(.*)$/;
+        const matchUtil = inputNodeId.match(regexUtil);
+        // Only when just called from resultsOfInner
+        if (nodes && matchUtil) {
+            return { value: utilsFunctions(inputNodeId, nodes) };
         }
-        return { nodeId: parts[0], propIds: parts.slice(1) };
     }
     return { value: inputNodeId }; // non-string literal
 };
@@ -42,7 +213,7 @@ function assert(condition, message, isWarn = false) {
         if (!isWarn) {
             throw new Error(message);
         }
-        console.warn("warn: " + message);
+        GraphAILogger.warn("warn: " + message);
     }
 }
 const isObject = (x) => {
@@ -138,6 +309,7 @@ const isComputedNodeData = (node) => {
 const isStaticNodeData = (node) => {
     return !("agent" in node);
 };
+const loopCounterKey = "__loopIndex";
 
 // for dataSource
 const inputs2dataSources = (inputs) => {
@@ -157,7 +329,11 @@ const inputs2dataSources = (inputs) => {
     }
     return parseNodeName(inputs);
 };
+// TODO: Maybe it's a remnant of old array inputs. Check and delete.
 const dataSourceNodeIds = (sources) => {
+    if (!Array.isArray(sources)) {
+        throw new Error("sources must be array!! maybe inputs is invalid");
+    }
     return sources.filter((source) => source.nodeId).map((source) => source.nodeId);
 };
 
@@ -225,99 +401,6 @@ class TransactionLog {
     }
 }
 
-const propFunctionRegex = /^[a-zA-Z]+\([^)]*\)$/;
-const propArrayFunction = (result, propId) => {
-    if (Array.isArray(result)) {
-        if (propId === "length()") {
-            return result.length;
-        }
-        if (propId === "flat()") {
-            return result.flat();
-        }
-        if (propId === "toJSON()") {
-            return JSON.stringify(result);
-        }
-        if (propId === "isEmpty()") {
-            return result.length === 0;
-        }
-        // array join
-        const matchJoin = propId.match(/^join\(([,-\s]?)\)$/);
-        if (matchJoin && Array.isArray(matchJoin)) {
-            return result.join(matchJoin[1] ?? "");
-        }
-    }
-    return undefined;
-};
-const propObjectFunction = (result, propId) => {
-    if (isObject(result)) {
-        if (propId === "keys()") {
-            return Object.keys(result);
-        }
-        if (propId === "values()") {
-            return Object.values(result);
-        }
-        if (propId === "toJSON()") {
-            return JSON.stringify(result);
-        }
-    }
-    return undefined;
-};
-const propStringFunction = (result, propId) => {
-    if (typeof result === "string") {
-        if (propId === "codeBlock()") {
-            const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
-            if (match) {
-                return match[1];
-            }
-        }
-        if (propId === "jsonParse()") {
-            return JSON.parse(result);
-        }
-        if (propId === "toNumber()") {
-            const ret = Number(result);
-            if (!isNaN(ret)) {
-                return ret;
-            }
-        }
-        if (propId === "trim()") {
-            return result.trim();
-        }
-        if (propId === "toLowerCase()") {
-            return result.toLowerCase();
-        }
-        if (propId === "toUpperCase()") {
-            return result.toUpperCase();
-        }
-        const match = propId.match(/^split\(([-_:;.,\s\n]+)\)$/);
-        if (match) {
-            return result.split(match[1]);
-        }
-    }
-    return undefined;
-};
-const propNumberFunction = (result, propId) => {
-    if (result !== undefined && Number.isFinite(result)) {
-        if (propId === "toString()") {
-            return String(result);
-        }
-        const regex = /^add\((-?\d+)\)$/;
-        const match = propId.match(regex);
-        if (match) {
-            return Number(result) + Number(match[1]);
-        }
-    }
-    return undefined;
-};
-const propBooleanFunction = (result, propId) => {
-    if (typeof result === "boolean") {
-        if (propId === "not()") {
-            return !result;
-        }
-    }
-    return undefined;
-};
-const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
-
 const getNestedData = (result, propId, propFunctions) => {
     const match = propId.match(propFunctionRegex);
     if (match) {
@@ -353,7 +436,7 @@ const innerGetDataFromSource = (result, propIds, propFunctions) => {
         const propId = propIds[0];
         const ret = getNestedData(result, propId, propFunctions);
         if (ret === undefined) {
-            console.error(`prop: ${propIds.join(".")} is not hit`);
+            GraphAILogger.error(`prop: ${propIds.join(".")} is not hit`);
         }
         if (propIds.length > 1) {
             return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
@@ -369,6 +452,23 @@ const getDataFromSource = (result, source, propFunctions = []) => {
     return innerGetDataFromSource(result, source.propIds, propFunctions);
 };
 
+const replaceTemplatePlaceholders = (input, templateMatch, nodes, propFunctions, isSelfNode) => {
+    // GOD format ${:node.prop1.prop2}
+    const godResults = resultsOfInner(templateMatch.filter((text) => text.startsWith(":")), nodes, propFunctions, isSelfNode);
+    // utilsFunctions ${@now}
+    const utilsFuncResult = templateMatch
+        .filter((text) => text.startsWith("@"))
+        .reduce((tmp, key) => {
+        tmp[key] = utilsFunctions(key, nodes);
+        return tmp;
+    }, {});
+    return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+        if (templateMatch[key].startsWith(":")) {
+            return tmp.replaceAll("${" + templateMatch[key] + "}", godResults[key]);
+        }
+        return tmp.replaceAll("${" + templateMatch[key] + "}", utilsFuncResult[templateMatch[key]]);
+    }, input);
+};
 const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
     if (Array.isArray(input)) {
         return input.map((inp) => resultsOfInner(inp, nodes, propFunctions, isSelfNode));
@@ -377,15 +477,13 @@ const resultsOfInner = (input, nodes, propFunctions, isSelfNode = false) => {
         return resultsOf(input, nodes, propFunctions, isSelfNode);
     }
     if (typeof input === "string") {
-        const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+        const templateMatch = [...input.matchAll(/\${([:@][^}]+)}/g)].map((m) => m[1]);
         if (templateMatch.length > 0) {
-            const results = resultsOfInner(templateMatch, nodes, propFunctions, isSelfNode);
-            return Array.from(templateMatch.keys()).reduce((tmp, key) => {
-                return tmp.replaceAll("${" + templateMatch[key] + "}", results[key]);
-            }, input);
+            return replaceTemplatePlaceholders(input, templateMatch, nodes, propFunctions, isSelfNode);
         }
     }
-    return resultOf(parseNodeName(input, isSelfNode), nodes, propFunctions);
+    // :node.prod
+    return resultOf(parseNodeName(input, isSelfNode, nodes), nodes, propFunctions);
 };
 const resultsOf = (inputs, nodes, propFunctions, isSelfNode = false) => {
     return Object.keys(inputs).reduce((tmp, key) => {
@@ -453,14 +551,14 @@ class Node {
             return;
         }
         else if (this.console === true || this.console.after === true) {
-            console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
+            GraphAILogger.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
         }
         else if (this.console.after) {
             if (isObject(this.console.after)) {
-                console.log(JSON.stringify(resultsOf(this.console.after, { self: { result } }, this.graph.propFunctions, true), null, 2));
+                GraphAILogger.log(JSON.stringify(resultsOf(this.console.after, { self: { result } }, this.graph.propFunctions, true), null, 2));
             }
             else {
-                console.log(this.console.after);
+                GraphAILogger.log(this.console.after);
             }
         }
     }
@@ -497,6 +595,7 @@ class ComputedNode extends Node {
             ...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []),
             ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
             ...(this.agentId ? [parseNodeName(this.agentId)] : []),
+            ...(data.passThrough ? inputs2dataSources(data.passThrough).flat(10) : []),
         ];
         if (data.inputs && Array.isArray(data.inputs)) {
             throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -617,7 +716,7 @@ class ComputedNode extends Node {
     // and attempt to retry (if specified).
     executeTimeout(transactionId) {
         if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
-            console.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
+            GraphAILogger.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
             this.retry(NodeState.TimedOut, Error("Timeout"));
         }
     }
@@ -710,7 +809,7 @@ class ComputedNode extends Node {
             if (!this.isCurrentTransaction(transactionId)) {
                 // This condition happens when the agent function returns
                 // after the timeout (either retried or not).
-                console.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
+                GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                 return;
             }
             // after process
@@ -728,6 +827,9 @@ class ComputedNode extends Node {
         this.result = this.getResult(result);
         if (this.output) {
             this.result = resultsOf(this.output, { self: this }, this.graph.propFunctions, true);
+            if (this.passThrough) {
+                this.result = { ...this.result, ...this.graph.resultsOf(this.passThrough) };
+            }
         }
         this.log.onComplete(this, this.graph, localLog);
         this.onSetResult();
@@ -745,20 +847,20 @@ class ComputedNode extends Node {
     // the retry if specified.
     errorProcess(error, transactionId, namedInputs) {
         if (error instanceof Error && error.message !== strIntentionalError) {
-            console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
-            console.error({ namedInputs });
-            console.error(error);
-            console.error("-->");
+            GraphAILogger.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
+            GraphAILogger.error({ namedInputs });
+            GraphAILogger.error(error);
+            GraphAILogger.error("-->");
         }
         if (!this.isCurrentTransaction(transactionId)) {
-            console.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
+            GraphAILogger.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
             return;
         }
         if (error instanceof Error) {
             this.retry(NodeState.Failed, error);
         }
         else {
-            console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
+            GraphAILogger.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
             this.retry(NodeState.Failed, Error("Unknown"));
         }
     }
@@ -781,10 +883,10 @@ class ComputedNode extends Node {
     getResult(result) {
         if (result && this.passThrough) {
             if (isObject(result) && !Array.isArray(result)) {
-                return { ...result, ...this.passThrough };
+                return { ...result, ...this.graph.resultsOf(this.passThrough) };
             }
             else if (Array.isArray(result)) {
-                return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+                return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.graph.resultsOf(this.passThrough) } : r));
             }
         }
         return result;
@@ -806,10 +908,10 @@ class ComputedNode extends Node {
             return;
         }
         else if (this.console === true || this.console.before === true) {
-            console.log(JSON.stringify(context.namedInputs, null, 2));
+            GraphAILogger.log(JSON.stringify(context.namedInputs, null, 2));
         }
         else if (this.console.before) {
-            console.log(this.console.before);
+            GraphAILogger.log(this.console.before);
         }
     }
 }
@@ -1201,6 +1303,7 @@ class GraphAI {
         bypassAgentIds: [],
         config: {},
         graphLoader: undefined,
+        forceLoop: false,
     }) {
         this.logs = [];
         this.config = {};
@@ -1208,15 +1311,14 @@ class GraphAI {
         this.callbacks = [];
         this.repeatCount = 0;
         if (!graphData.version && !options.taskManager) {
-            console.warn("------------ missing version number");
+            GraphAILogger.warn("------------ missing version number");
         }
         this.version = graphData.version ?? graphDataLatestVersion;
         if (this.version < graphDataLatestVersion) {
-            console.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
+            GraphAILogger.warn(`------------ upgrade to ${graphDataLatestVersion}!`);
         }
         this.retryLimit = graphData.retry; // optional
-        this.graphId = URL.createObjectURL(new Blob()).slice(-36);
-        this.graphData = graphData;
+        this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
         this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
         this.propFunctions = propFunctions;
         this.taskManager = options.taskManager ?? new TaskManager(graphData.concurrency ?? defaultConcurrency);
@@ -1224,6 +1326,7 @@ class GraphAI {
         this.bypassAgentIds = options.bypassAgentIds ?? [];
         this.config = options.config;
         this.graphLoader = options.graphLoader;
+        this.forceLoop = options.forceLoop ?? false;
         this.loop = graphData.loop;
         this.verbose = graphData.verbose === true;
         this.onComplete = (__isAbort) => {
@@ -1231,7 +1334,14 @@ class GraphAI {
         };
         validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
         validateAgent(agentFunctionInfoDictionary);
-        this.nodes = this.createNodes(graphData);
+        this.graphData = {
+            ...graphData,
+            nodes: {
+                ...graphData.nodes,
+                [loopCounterKey]: { value: 0, update: `:${loopCounterKey}.add(1)` },
+            },
+        };
+        this.nodes = this.createNodes(this.graphData);
         this.initializeStaticNodes(true);
     }
     getAgentFunctionInfo(agentId) {
@@ -1257,9 +1367,9 @@ class GraphAI {
             .join("\n");
     }
     // Public API
-    results(all) {
+    results(all, internalUse = false) {
         return Object.keys(this.nodes)
-            .filter((nodeId) => all || this.nodes[nodeId].isResult)
+            .filter((nodeId) => (all && (internalUse || nodeId !== loopCounterKey)) || this.nodes[nodeId].isResult)
             .reduce((results, nodeId) => {
             const node = this.nodes[nodeId];
             if (node.result !== undefined) {
@@ -1319,15 +1429,15 @@ class GraphAI {
         }
         this.pushReadyNodesIntoQueue();
         if (!this.isRunning()) {
-            console.warn("-- nothing to execute");
+            GraphAILogger.warn("-- nothing to execute");
             return {};
         }
         return new Promise((resolve, reject) => {
             this.onComplete = (isAbort = false) => {
                 const errors = this.errors();
-                const nodeIds = Object.keys(errors);
-                if (nodeIds.length > 0 || isAbort) {
-                    reject(errors[nodeIds[0]]);
+                const errorNodeIds = Object.keys(errors);
+                if (errorNodeIds.length > 0 || isAbort) {
+                    reject(errors[errorNodeIds[0]]);
                 }
                 else {
                     resolve(this.results(all));
@@ -1368,18 +1478,22 @@ class GraphAI {
     // Check if there is any running computed nodes.
     // In case of no running computed note, start the another iteration if ncessary (loop)
     processLoopIfNecessary() {
+        //
+        if (!this.forceLoop && Object.keys(this.errors()).length > 0) {
+            return false;
+        }
         this.repeatCount++;
         const loop = this.loop;
         if (!loop) {
             return false;
         }
         // We need to update static nodes, before checking the condition
-        const previousResults = this.results(true); // results from previous loop
+        const previousResults = this.results(true, true); // results from previous loop
         this.updateStaticNodes(previousResults);
         if (loop.count === undefined || this.repeatCount < loop.count) {
             if (loop.while) {
                 const source = parseNodeName(loop.while);
-                const value = this.getValueFromResults(source, this.results(true));
+                const value = this.getValueFromResults(source, this.results(true, true));
                 // NOTE: We treat an empty array as false.
                 if (!isLogicallyTrue(value)) {
                     return false; // while condition is not met
@@ -1436,7 +1550,7 @@ class GraphAI {
         }
     }
     resultsOf(inputs, anyInput = false) {
-        const results = resultsOf(inputs ?? [], this.nodes, this.propFunctions);
+        const results = resultsOf(inputs ?? {}, this.nodes, this.propFunctions);
         if (anyInput) {
             return cleanResult(results);
         }
@@ -1447,5 +1561,5 @@ class GraphAI {
     }
 }
 
-export { GraphAI, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
+export { GraphAI, GraphAILogger, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
 //# sourceMappingURL=bundle.esm.js.map

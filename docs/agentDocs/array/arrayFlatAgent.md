@@ -1,5 +1,10 @@
 # arrayFlatAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts)
+
 ## Description
 
 Array Flat Agent
@@ -15,7 +20,7 @@ Array Flat Agent
   "properties": {
     "array": {
       "type": "array",
-      "description": "flat array"
+      "description": "The array to be flattened"
     }
   },
   "required": [
@@ -23,7 +28,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -34,12 +39,12 @@ Array Flat Agent
   "properties": {
     "array": {
       "type": "array",
-      "description": "the remaining array"
+      "description": "flattened array"
     }
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -53,7 +58,7 @@ Array Flat Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -65,7 +70,7 @@ Array Flat Agent
   ":agentId.array.$2.$0"
 ]
 
-````
+```
 ```json
 
 [
@@ -76,7 +81,7 @@ Array Flat Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -87,7 +92,7 @@ Array Flat Agent
   ":agentId.array.$2"
 ]
 
-````
+```
 
 ## Samples
 
@@ -111,7 +116,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -119,7 +124,7 @@ Array Flat Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -133,7 +138,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -156,7 +161,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -164,7 +169,7 @@ Array Flat Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -180,7 +185,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -203,7 +208,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -211,7 +216,7 @@ Array Flat Agent
 
 {"depth":2}
 
-````
+```
 
 #### result
 
@@ -225,7 +230,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -246,7 +251,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -254,7 +259,7 @@ Array Flat Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -268,7 +273,7 @@ Array Flat Agent
   ]
 }
 
-````
+```
 
 ## Author
 

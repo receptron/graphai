@@ -1,4 +1,5 @@
-import { AgentFunctionInfo, defaultTestContext } from "graphai";
+import { defaultTestContext } from "graphai";
+import type { AgentFunctionInfo, ConfigData } from "graphai/lib/type";
 
 import * as agents from "@graphai/vanilla";
 
@@ -6,7 +7,7 @@ import test from "node:test";
 import assert from "node:assert";
 
 // for agent
-export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
+export const agentTestRunner = async (agentInfo: AgentFunctionInfo, config: ConfigData = {}) => {
   const { agent, samples, inputs: inputSchema, hasGraphData } = agentInfo;
   if (samples.length === 0) {
     console.log(`test ${agentInfo.name}: No test`);
@@ -31,6 +32,7 @@ export const agentTestRunner = async (agentInfo: AgentFunctionInfo) => {
                   graphOptions: {},
                 }
               : undefined,
+          config,
         });
         assert.deepStrictEqual(actual, result);
       });

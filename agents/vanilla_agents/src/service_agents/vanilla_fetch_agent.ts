@@ -1,33 +1,45 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import type { GraphAIDebug, GraphAIThrowError } from "@graphai/agent_utils";
+import type { GraphAIDebug, GraphAISupressError, GraphAIFlatResponse } from "@graphai/agent_utils";
 
 type FetchParam = {
   url: string;
   method?: string;
   queryParams: any;
-  headers: any;
+  headers: Record<string, any>;
   body: unknown;
 };
 const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
 const methodsRequiringBody = ["POST", "PUT", "PATCH"];
 
-export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug & GraphAIThrowError & { type: string }>, unknown, FetchParam> = async ({
-  namedInputs,
-  params,
-}) => {
+/*
+  For compatibility, we are adding GraphAIFlatResponse to the parameters.
+ By default, it is usually set to false, but it will be set to true for use in tutorials and similar cases.
+ In the future, flat responses (non-object results) will be deprecated.
+ Until then, we will set flatResponse to false using vanillaFetch and transition to object-based responses.
+ Eventually, this option will be removed, and it will be ignored at runtime, always returning an object.
+ */
+
+export const vanillaFetchAgent: AgentFunction<
+  Partial<FetchParam & GraphAIDebug & GraphAISupressError & GraphAIFlatResponse & { type: string }>,
+  unknown,
+  FetchParam
+> = async ({ namedInputs, params, config }) => {
   const { url, method, queryParams, body } = {
     ...params,
     ...namedInputs,
   };
   assert(!!url, "fetchAgent: no url");
 
-  const throwError = params.throwError ?? false;
+  const supressError = params.supressError ?? false;
 
   const url0 = new URL(url);
   const headers0 = {
     ...(params.headers ? params.headers : {}),
     ...(namedInputs.headers ? namedInputs.headers : {}),
   };
+  if (config && config.authorization) {
+    headers0["Authorization"] = config.authorization;
+  }
 
   if (queryParams) {
     const _params = new URLSearchParams(queryParams);
@@ -65,19 +77,19 @@ export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug 
     const status = response.status;
     const type = params?.type ?? "json";
     const error = type === "json" ? await response.json() : await response.text();
-    if (throwError) {
-      throw new Error(`HTTP error: ${status}`);
+    if (supressError) {
+      return {
+        onError: {
+          message: `HTTP error: ${status}`,
+          status,
+          error,
+        },
+      };
     }
-    return {
-      onError: {
-        message: `HTTP error: ${status}`,
-        status,
-        error,
-      },
-    };
+    throw new Error(`HTTP error: ${status}`);
   }
 
-  const result = await (async () => {
+  const data = await (async () => {
     const type = params?.type ?? "json";
     if (type === "json") {
       return await response.json();
@@ -87,7 +99,10 @@ export const vanillaFetchAgent: AgentFunction<Partial<FetchParam & GraphAIDebug 
     throw new Error(`Unknown Type! ${type}`);
   })();
 
-  return result;
+  if (params.flatResponse === false) {
+    return { data };
+  }
+  return data;
 };
 
 const vanillaFetchAgentInfo: AgentFunctionInfo = {
@@ -226,6 +241,8 @@ const vanillaFetchAgentInfo: AgentFunctionInfo = {
   category: ["service"],
   author: "Receptron",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/service_agents/vanilla_fetch_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default vanillaFetchAgentInfo;

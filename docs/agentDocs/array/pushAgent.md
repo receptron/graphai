@@ -1,5 +1,10 @@
 # pushAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/push_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/push_agent.ts)
+
 ## Description
 
 push Agent
@@ -30,26 +35,16 @@ push Agent
         },
         {
           "type": "array"
+        },
+        {
+          "type": "boolean"
         }
       ],
       "description": "the item push into the array"
     },
     "items": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "integer"
-        },
-        {
-          "type": "object"
-        },
-        {
-          "type": "array"
-        }
-      ],
-      "description": "the item push into the array"
+      "type": "array",
+      "description": "items push into the array"
     }
   },
   "required": [
@@ -57,7 +52,7 @@ push Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -72,7 +67,7 @@ push Agent
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -86,7 +81,18 @@ push Agent
   ":agentId.array.$2"
 ]
 
-````
+```
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.array.$2"
+]
+
+```
 ```json
 
 [
@@ -98,7 +104,7 @@ push Agent
   ":agentId.array.$1.lemon"
 ]
 
-````
+```
 ```json
 
 [
@@ -112,7 +118,7 @@ push Agent
   ":agentId.array.$2.banana"
 ]
 
-````
+```
 
 ## Samples
 
@@ -130,7 +136,7 @@ push Agent
   "item": 3
 }
 
-````
+```
 
 #### params
 
@@ -138,7 +144,7 @@ push Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -152,8 +158,45 @@ push Agent
   ]
 }
 
-````
+```
 ### Sample1
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    true,
+    false
+  ],
+  "item": false
+}
+
+```
+
+#### params
+
+```json
+
+{}
+
+```
+
+#### result
+
+```json
+
+{
+  "array": [
+    true,
+    false,
+    false
+  ]
+}
+
+```
+### Sample2
 
 #### inputs
 
@@ -170,7 +213,7 @@ push Agent
   }
 }
 
-````
+```
 
 #### params
 
@@ -178,7 +221,7 @@ push Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -195,8 +238,8 @@ push Agent
   ]
 }
 
-````
-### Sample2
+```
+### Sample3
 
 #### inputs
 
@@ -218,7 +261,7 @@ push Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -226,7 +269,7 @@ push Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -246,7 +289,7 @@ push Agent
   ]
 }
 
-````
+```
 
 ## Author
 

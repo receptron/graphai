@@ -1,5 +1,10 @@
 # dataSumTemplateAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/data_sum_template_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/data_sum_template_agent.ts)
+
 ## Description
 
 Returns the sum of input values
@@ -26,7 +31,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### output
 
@@ -36,7 +41,7 @@ Returns the sum of input values
   "type": "number"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -47,7 +52,7 @@ Returns the sum of input values
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -55,7 +60,7 @@ Returns the sum of input values
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
@@ -63,28 +68,28 @@ Returns the sum of input values
   ":agentId.result"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 
 ## Samples
 
@@ -100,7 +105,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -108,7 +113,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -118,7 +123,7 @@ Returns the sum of input values
   "result": 1
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -132,7 +137,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -140,7 +145,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -150,7 +155,7 @@ Returns the sum of input values
   "result": 3
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -165,7 +170,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -173,7 +178,7 @@ Returns the sum of input values
 
 {}
 
-````
+```
 
 #### result
 
@@ -183,7 +188,7 @@ Returns the sum of input values
   "result": 6
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -196,7 +201,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -204,7 +209,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -212,7 +217,7 @@ Returns the sum of input values
 
 1
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -226,7 +231,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -234,7 +239,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -242,7 +247,7 @@ Returns the sum of input values
 
 3
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -257,7 +262,7 @@ Returns the sum of input values
   ]
 }
 
-````
+```
 
 #### params
 
@@ -265,7 +270,7 @@ Returns the sum of input values
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -273,7 +278,7 @@ Returns the sum of input values
 
 6
 
-````
+```
 
 ## Author
 

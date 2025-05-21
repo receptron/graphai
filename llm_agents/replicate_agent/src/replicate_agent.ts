@@ -45,6 +45,8 @@ const replicateAgentInfo: AgentFunctionInfo = {
   category: ["llm"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/llm_agents/replicate_agent/src/replicate_agent.ts",
+  package: "@graphai/replicate_agent",
   license: "MIT",
   stream: false,
   npms: ["replicate"],

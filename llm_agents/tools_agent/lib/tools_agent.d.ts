@@ -40,6 +40,8 @@ declare const toolsAgentInfo: {
     category: never[];
     author: string;
     repository: string;
+    source: string;
+    package: string;
     tools: never[];
     license: string;
     hasGraphData: boolean;

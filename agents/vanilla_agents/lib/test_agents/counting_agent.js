@@ -26,6 +26,8 @@ const countingAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/counting_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = countingAgentInfo;

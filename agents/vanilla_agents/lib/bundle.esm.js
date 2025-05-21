@@ -90,6 +90,8 @@ const stringSplitterAgentInfo = {
     category: ["string"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_splitter_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -190,19 +192,28 @@ const stringTemplateAgentInfo = {
     category: ["string"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_template_agent.ts",
+    package: "@graphai/vanilla",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 
 const jsonParserAgent = async ({ namedInputs }) => {
     const { text, data } = namedInputs;
     if (data) {
-        return JSON.stringify(data, null, 2);
+        return {
+            text: JSON.stringify(data, null, 2),
+        };
     }
     const match = ("\n" + text).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
     if (match) {
-        return JSON.parse(match[1]);
+        return {
+            data: JSON.parse(match[1]),
+        };
     }
-    return JSON.parse(text ?? "");
+    return {
+        data: JSON.parse(text ?? ""),
+    };
 };
 const sample_object = { apple: "red", lemon: "yellow" };
 const json_str = JSON.stringify(sample_object);
@@ -217,39 +228,50 @@ const jsonParserAgentInfo = {
         anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
     },
     output: {
-        type: "string",
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "json string",
+            },
+            data: {
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+            },
+        },
     },
     samples: [
         {
             inputs: { data: sample_object },
             params: {},
-            result: JSON.stringify(sample_object, null, 2),
+            result: { text: JSON.stringify(sample_object, null, 2) },
         },
         {
             inputs: { text: JSON.stringify(sample_object, null, 2) },
             params: {},
-            result: sample_object,
+            result: { data: sample_object },
         },
         {
             inputs: { text: md_json1 },
             params: {},
-            result: sample_object,
+            result: { data: sample_object },
         },
         {
             inputs: { text: md_json2 },
             params: {},
-            result: sample_object,
+            result: { data: sample_object },
         },
         {
             inputs: { text: md_json3 },
             params: {},
-            result: sample_object,
+            result: { data: sample_object },
         },
     ],
     description: "Template agent",
     category: ["string"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/json_parser_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -305,6 +327,8 @@ const stringCaseVariantsAgentInfo = {
     category: ["string"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_case_variants_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -314,7 +338,7 @@ const nestedAgentGenerator = (graphData, options) => {
         assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
         const { agents, graphOptions, onLogCallback, callbacks } = forNestedGraph;
         const { taskManager } = graphOptions;
-        const throwError = params.throwError ?? false;
+        const supressError = params.supressError ?? false;
         if (taskManager) {
             const status = taskManager.getStatus(false);
             assert(status.concurrency > status.running, `nestedAgent: Concurrency is too low: ${status.concurrency}`);
@@ -370,7 +394,7 @@ const nestedAgentGenerator = (graphData, options) => {
             return results;
         }
         catch (error) {
-            if (error instanceof Error && !throwError) {
+            if (error instanceof Error && supressError) {
                 return {
                     onError: {
                         message: error.message,
@@ -436,6 +460,8 @@ const nestedAgentInfo = {
     category: ["graph"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/nested_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -510,9 +536,56 @@ const stringUpdateTextAgentInfo = {
     category: [],
     author: "",
     repository: "",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_update_text_agent.ts",
+    package: "@graphai/vanilla",
     tools: [],
     license: "",
     hasGraphData: true,
+};
+
+const consoleAgent = async ({ namedInputs }) => {
+    const { text } = namedInputs;
+    console.info(text);
+    return {
+        text,
+    };
+};
+const consoleAgentInfo = {
+    name: "consoleAgent",
+    agent: consoleAgent,
+    mock: consoleAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "text",
+            },
+        },
+    },
+    output: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "text",
+            },
+        },
+    },
+    samples: [
+        {
+            inputs: { text: "hello" },
+            params: {},
+            result: { text: "hello" },
+        },
+    ],
+    description: "Just text to console.info",
+    category: ["string"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/console_agent.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
 };
 
 var lib = {};
@@ -613,10 +686,10 @@ const pushAgent = async ({ namedInputs }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     libExports.arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    assert(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
-    assert(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
+    assert(item !== undefined || items !== undefined, "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+    assert(items === undefined || Array.isArray(items), "pushAgent: namedInputs.items is not array!");
     const array = namedInputs.array.map((item) => item); // shallow copy
-    if (item) {
+    if (item !== undefined) {
         array.push(item);
     }
     if (items) {
@@ -640,12 +713,12 @@ const pushAgentInfo = {
                 description: "the array to push an item to",
             },
             item: {
-                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }, { type: "boolean" }],
                 description: "the item push into the array",
             },
             items: {
-                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
-                description: "the item push into the array",
+                type: "array",
+                description: "items push into the array",
             },
         },
         required: ["array"],
@@ -665,6 +738,11 @@ const pushAgentInfo = {
             result: { array: [1, 2, 3] },
         },
         {
+            inputs: { array: [true, false], item: false },
+            params: {},
+            result: { array: [true, false, false] },
+        },
+        {
             inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
             params: {},
             result: { array: [{ apple: 1 }, { lemon: 2 }] },
@@ -680,12 +758,14 @@ const pushAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/push_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
 const popAgent = async ({ namedInputs }) => {
     libExports.arrayValidate("popAgent", namedInputs);
-    const array = namedInputs.array.map((item) => item); // shallow copy
+    const array = [...namedInputs.array]; // shallow copy
     const item = array.pop();
     return { array, item };
 };
@@ -750,6 +830,8 @@ const popAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/pop_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -809,6 +891,8 @@ const shiftAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/shift_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -827,7 +911,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "flat array",
+                description: "The array to be flattened",
             },
         },
         required: ["array"],
@@ -837,7 +921,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the remaining array",
+                description: "flattened array",
             },
         },
     },
@@ -846,7 +930,7 @@ const arrayFlatAgentInfo = {
         properties: {
             depth: {
                 type: "number",
-                description: "array depth",
+                description: "flattening depth",
             },
         },
     },
@@ -884,6 +968,8 @@ const arrayFlatAgentInfo = {
     category: ["array"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts",
+    package: "@graphai/vanilla",
     cacheType: "pureAgent",
     license: "MIT",
 };
@@ -995,6 +1081,65 @@ const arrayJoinAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_join_agent.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
+};
+
+const arrayToObjectAgent = async ({ params, namedInputs }) => {
+    assert(libExports.isNamedInputs(namedInputs), "arrayToObjectAgent: namedInputs is UNDEFINED!");
+    const { items } = namedInputs;
+    const { key } = params;
+    assert(items !== undefined && Array.isArray(items), "arrayToObjectAgent: namedInputs.items is not array!");
+    assert(key !== undefined && key !== null, "arrayToObjectAgent: params.key is UNDEFINED!");
+    return namedInputs.items.reduce((tmp, current) => {
+        tmp[current[key]] = current;
+        return tmp;
+    }, {});
+};
+const arrayToObjectAgentInfo = {
+    name: "arrayToObjectAgent",
+    agent: arrayToObjectAgent,
+    mock: arrayToObjectAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            items: {
+                type: "array",
+                description: "the array to pop an item from",
+            },
+        },
+        required: ["items"],
+    },
+    output: {
+        type: "object",
+        properties: {
+            anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+            description: "the item popped from the array",
+        },
+    },
+    samples: [
+        {
+            inputs: {
+                items: [
+                    { id: 1, data: "a" },
+                    { id: 2, data: "b" },
+                ],
+            },
+            params: { key: "id" },
+            result: {
+                "1": { id: 1, data: "a" },
+                "2": { id: 2, data: "b" },
+            },
+        },
+    ],
+    description: "Array To Object Agent",
+    category: ["array"],
+    cacheType: "pureAgent",
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_to_object.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1078,6 +1223,8 @@ const dotProductAgentInfo = {
     category: ["matrix"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/dot_product_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1154,6 +1301,8 @@ const sortByValuesAgentInfo = {
     category: ["matrix"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/sort_by_values_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1188,6 +1337,8 @@ const echoAgentInfo = {
     cacheType: "pureAgent",
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/echo_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1215,6 +1366,8 @@ const countingAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/counting_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1242,6 +1395,8 @@ const copyMessageAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy_message_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1301,6 +1456,8 @@ const copy2ArrayAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy2array_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1330,6 +1487,8 @@ const mergeNodeIdAgentInfo = {
     category: ["test"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/merge_node_id_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1380,13 +1539,15 @@ const streamMockAgentInfo = {
     category: ["test"],
     author: "Isamu Arimoto",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/stream_mock_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
     stream: true,
 };
 
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { limit, resultAll, compositeResult, throwError } = params;
+    const { limit, resultAll, compositeResult, supressError, rowKey, expandKeys } = params;
     const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
@@ -1399,12 +1560,13 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
     if (limit && limit < rows.length) {
         rows.length = limit; // trim
     }
+    const rowInputKey = rowKey ?? "row";
     const { nodes } = graphData;
     const nestedGraphData = { ...graphData, nodes: { ...nodes }, version: graphDataLatestVersion }; // deep enough copy
     const nodeIds = Object.keys(namedInputs);
     nestedGraphData.nodes["__mapIndex"] = {};
     nodeIds.forEach((nodeId) => {
-        const mappedNodeId = nodeId === "rows" ? "row" : nodeId;
+        const mappedNodeId = nodeId === "rows" ? rowInputKey : nodeId;
         if (nestedGraphData.nodes[mappedNodeId] === undefined) {
             // If the input node does not exist, automatically create a static node
             nestedGraphData.nodes[mappedNodeId] = { value: namedInputs[nodeId] };
@@ -1421,8 +1583,13 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
         const graphs = rows.map((row, index) => {
             const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
             debugInfo.subGraphs.set(graphAI.graphId, graphAI);
-            graphAI.injectValue("row", row, "__mapAgent_inputs__");
+            graphAI.injectValue(rowInputKey, row, "__mapAgent_inputs__");
             graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
+            if (expandKeys && expandKeys.length > 0) {
+                expandKeys.map((expandKey) => {
+                    graphAI.injectValue(expandKey, namedInputs[expandKey]?.[index]);
+                });
+            }
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {
                 graphAI.onLogCallback = onLogCallback;
@@ -1462,7 +1629,7 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
         return results;
     }
     catch (error) {
-        if (error instanceof Error && !throwError) {
+        if (error instanceof Error && supressError) {
             return {
                 onError: {
                     message: error.message,
@@ -1480,6 +1647,46 @@ const mapAgentInfo = {
     samples: [
         {
             inputs: {
+                rows: ["apple", "orange", "banana", "lemon"],
+                color: ["red", "orange", "yellow", "yellow"],
+            },
+            params: {
+                compositeResult: true,
+                expandKeys: ["color"],
+            },
+            graph: {
+                version: 0.5,
+                nodes: {
+                    node2: {
+                        agent: "copyAgent",
+                        inputs: { a: ":row", b: ":color" },
+                        isResult: true,
+                    },
+                },
+            },
+            result: {
+                node2: [
+                    {
+                        a: "apple",
+                        b: "red",
+                    },
+                    {
+                        a: "orange",
+                        b: "orange",
+                    },
+                    {
+                        a: "banana",
+                        b: "yellow",
+                    },
+                    {
+                        a: "lemon",
+                        b: "yellow",
+                    },
+                ],
+            },
+        },
+        {
+            inputs: {
                 rows: [1, 2],
             },
             params: {},
@@ -1490,6 +1697,23 @@ const mapAgentInfo = {
                         agent: "copyAgent",
                         params: { namedKey: "rows" },
                         inputs: { rows: [":row"] },
+                        isResult: true,
+                    },
+                },
+            },
+        },
+        {
+            inputs: {
+                rows: [1, 2],
+            },
+            params: { rowKey: "myKey" },
+            result: [{ test: [1] }, { test: [2] }],
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "copyAgent",
+                        params: { namedKey: "rows" },
+                        inputs: { rows: [":myKey"] },
                         isResult: true,
                     },
                 },
@@ -1771,10 +1995,12 @@ const mapAgentInfo = {
     category: ["graph"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/map_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
-const totalAgent = async ({ namedInputs, params }) => {
+const totalAgent = async ({ namedInputs, params, }) => {
     const { flatResponse } = params;
     assert(libExports.isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
@@ -1904,6 +2130,8 @@ const totalAgentInfo = {
     category: ["data"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/snakajima/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/total_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -1975,6 +2203,8 @@ const dataSumTemplateAgentInfo = {
     category: ["data"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/data_sum_template_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2234,6 +2464,8 @@ const propertyFilterAgentInfo = {
     category: ["data"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/property_filter_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2276,23 +2508,134 @@ const copyAgentInfo = {
     category: ["data"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
+};
+
+const lookupDictionaryAgent = async ({ namedInputs, params }) => {
+    const { namedKey } = namedInputs;
+    assert(libExports.isNamedInputs(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
+    const result = params[namedKey];
+    if (!params.supressError && result === undefined) {
+        throw new Error(`lookupDictionaryAgent error: ${namedKey} is missing`);
+    }
+    return result;
+};
+const exampleParams = {
+    openai: {
+        model: "gpt4-o",
+        temperature: 0.7,
+    },
+    groq: {
+        model: "llama3-8b-8192",
+        temperature: 0.6,
+    },
+    gemini: {
+        model: "gemini-2.0-pro-exp-02-05",
+        temperature: 0.7,
+    },
+};
+const lookupDictionaryAgentInfo = {
+    name: "lookupDictionaryAgent",
+    agent: lookupDictionaryAgent,
+    mock: lookupDictionaryAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            namedKey: {
+                type: "string",
+                description: "key of params",
+            },
+        },
+        required: ["namedKey"],
+    },
+    output: {
+        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+    },
+    samples: [
+        {
+            inputs: { namedKey: "openai" },
+            params: exampleParams,
+            result: {
+                model: "gpt4-o",
+                temperature: 0.7,
+            },
+        },
+        {
+            inputs: { namedKey: "gemini" },
+            params: exampleParams,
+            result: {
+                model: "gemini-2.0-pro-exp-02-05",
+                temperature: 0.7,
+            },
+        },
+    ],
+    description: "Select elements with params",
+    category: ["data"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/lookup_dictionary_agent.ts",
+    package: "@graphai/vanilla",
+    license: "MIT",
+};
+
+const mergeObjectAgent = async ({ namedInputs }) => {
+    assert(libExports.isNamedInputs(namedInputs), "mergeObjectAgent: namedInputs is UNDEFINED!");
+    const { items } = namedInputs;
+    assert(items !== undefined && Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
+    return Object.assign({}, ...items);
+};
+const mergeObjectAgentInfo = {
+    name: "mergeObjectAgent",
+    agent: mergeObjectAgent,
+    mock: mergeObjectAgent,
+    inputs: {
+        anyOf: [{ type: "object" }],
+    },
+    output: {
+        anyOf: { type: "object" },
+    },
+    samples: [
+        {
+            inputs: { items: [{ color: "red" }, { model: "Model 3" }] },
+            params: {},
+            result: { color: "red", model: "Model 3" },
+        },
+    ],
+    description: "Returns namedInputs",
+    category: ["data"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/merge_objects_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
 const allowedMethods = ["GET", "HEAD", "POST", "OPTIONS", "PUT", "DELETE", "PATCH" /* "TRACE" */];
 const methodsRequiringBody = ["POST", "PUT", "PATCH"];
-const vanillaFetchAgent = async ({ namedInputs, params, }) => {
+/*
+  For compatibility, we are adding GraphAIFlatResponse to the parameters.
+ By default, it is usually set to false, but it will be set to true for use in tutorials and similar cases.
+ In the future, flat responses (non-object results) will be deprecated.
+ Until then, we will set flatResponse to false using vanillaFetch and transition to object-based responses.
+ Eventually, this option will be removed, and it will be ignored at runtime, always returning an object.
+ */
+const vanillaFetchAgent = async ({ namedInputs, params, config }) => {
     const { url, method, queryParams, body } = {
         ...params,
         ...namedInputs,
     };
     assert(!!url, "fetchAgent: no url");
-    const throwError = params.throwError ?? false;
+    const supressError = params.supressError ?? false;
     const url0 = new URL(url);
     const headers0 = {
         ...(params.headers ? params.headers : {}),
         ...(namedInputs.headers ? namedInputs.headers : {}),
     };
+    if (config && config.authorization) {
+        headers0["Authorization"] = config.authorization;
+    }
     if (queryParams) {
         const _params = new URLSearchParams(queryParams);
         url0.search = _params.toString();
@@ -2321,18 +2664,18 @@ const vanillaFetchAgent = async ({ namedInputs, params, }) => {
         const status = response.status;
         const type = params?.type ?? "json";
         const error = type === "json" ? await response.json() : await response.text();
-        if (throwError) {
-            throw new Error(`HTTP error: ${status}`);
+        if (supressError) {
+            return {
+                onError: {
+                    message: `HTTP error: ${status}`,
+                    status,
+                    error,
+                },
+            };
         }
-        return {
-            onError: {
-                message: `HTTP error: ${status}`,
-                status,
-                error,
-            },
-        };
+        throw new Error(`HTTP error: ${status}`);
     }
-    const result = await (async () => {
+    const data = await (async () => {
         const type = params?.type ?? "json";
         if (type === "json") {
             return await response.json();
@@ -2342,7 +2685,10 @@ const vanillaFetchAgent = async ({ namedInputs, params, }) => {
         }
         throw new Error(`Unknown Type! ${type}`);
     })();
-    return result;
+    if (params.flatResponse === false) {
+        return { data };
+    }
+    return data;
 };
 const vanillaFetchAgentInfo = {
     name: "vanillaFetchAgent",
@@ -2480,6 +2826,8 @@ const vanillaFetchAgentInfo = {
     category: ["service"],
     author: "Receptron",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/service_agents/vanilla_fetch_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -2509,6 +2857,8 @@ const sleeperAgentInfo = {
     category: ["sleeper"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/sleeper_agents/sleeper_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -3065,6 +3415,8 @@ const compareAgentInfo = {
     category: ["compare"],
     author: "Receptron",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/compare_agents/compare_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -3207,6 +3559,8 @@ const images2messageAgentInfo = {
     category: ["image"],
     author: "Receptron team",
     repository: "https://github.com/snakajima/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/images_agents/image_to_message_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 
@@ -3222,33 +3576,42 @@ const OpenAI_embedding_API = "https://api.openai.com/v1/embeddings";
 // Result:
 //   contents: Array<Array<number>>
 //
-const stringEmbeddingsAgent = async ({ params, namedInputs }) => {
+const stringEmbeddingsAgent = async ({ params, namedInputs, config, }) => {
     const { array, item } = namedInputs;
-    const sources = array ?? [item];
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-        throw new Error("OPENAI_API_KEY key is not set in environment variables.");
-    }
+    const { apiKey, model, baseURL } = {
+        ...(config || {}),
+        ...params,
+    };
+    const url = baseURL ?? OpenAI_embedding_API;
+    const theModel = model ?? defaultEmbeddingModel;
+    const openAIKey = apiKey ?? process.env.OPENAI_API_KEY;
     const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: openAIKey ? `Bearer ${openAIKey}` : "",
     };
-    const response = await fetch(OpenAI_embedding_API, {
+    const sources = array ?? [item];
+    const response = await fetch(url, {
         method: "POST",
-        headers: headers,
+        headers,
         body: JSON.stringify({
             input: sources,
-            model: params?.model ?? defaultEmbeddingModel,
+            model: theModel,
         }),
     });
     const jsonResponse = await response.json();
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const embeddings = jsonResponse.data.map((object) => {
-        return object.embedding;
-    });
-    return embeddings;
+    if ("data" in jsonResponse) {
+        // maybe openAI
+        return jsonResponse.data.map((object) => {
+            return object.embedding;
+        });
+    }
+    if ("embeddings" in jsonResponse) {
+        // ollama
+        return jsonResponse.embeddings;
+    }
 };
 const stringEmbeddingsAgentInfo = {
     name: "stringEmbeddingsAgent",
@@ -3259,8 +3622,11 @@ const stringEmbeddingsAgentInfo = {
     category: ["embedding"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/embedding_agent.ts",
+    package: "@graphai/vanilla",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, compareAgentInfo as compareAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, arrayToObjectAgentInfo as arrayToObjectAgent, compareAgentInfo as compareAgent, consoleAgentInfo as consoleAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map

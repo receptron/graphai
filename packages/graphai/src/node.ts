@@ -23,6 +23,7 @@ import {
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "./utils/utils";
 import { TransactionLog } from "./transaction_log";
 import { resultsOf } from "./utils/result";
+import { GraphAILogger } from "./utils/GraphAILogger";
 
 export class Node {
   public readonly nodeId: string;
@@ -61,14 +62,14 @@ export class Node {
     if (this.console === false) {
       return;
     } else if (this.console === true || this.console.after === true) {
-      console.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
+      GraphAILogger.log(typeof result === "string" ? result : JSON.stringify(result, null, 2));
     } else if (this.console.after) {
       if (isObject(this.console.after)) {
-        console.log(
+        GraphAILogger.log(
           JSON.stringify(resultsOf(this.console.after, { self: { result } as unknown as ComputedNode | StaticNode }, this.graph.propFunctions, true), null, 2),
         );
       } else {
-        console.log(this.console.after);
+        GraphAILogger.log(this.console.after);
       }
     }
   }
@@ -131,6 +132,7 @@ export class ComputedNode extends Node {
       ...(data.inputs ? inputs2dataSources(data.inputs).flat(10) : []),
       // ...(data.params ? inputs2dataSources(data.params).flat(10) : []),
       ...(this.agentId ? [parseNodeName(this.agentId)] : []),
+      ...(data.passThrough ? inputs2dataSources(data.passThrough).flat(10) : []),
     ];
     if (data.inputs && Array.isArray(data.inputs)) {
       throw new Error(`array inputs have been deprecated. nodeId: ${nodeId}: see https://github.com/receptron/graphai/blob/main/docs/NamedInputs.md`);
@@ -266,7 +268,7 @@ export class ComputedNode extends Node {
   // and attempt to retry (if specified).
   private executeTimeout(transactionId: number) {
     if (this.state === NodeState.Executing && this.isCurrentTransaction(transactionId)) {
-      console.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
+      GraphAILogger.warn(`-- timeout ${this.timeout} with ${this.nodeId}`);
       this.retry(NodeState.TimedOut, Error("Timeout"));
     }
   }
@@ -371,7 +373,7 @@ export class ComputedNode extends Node {
       if (!this.isCurrentTransaction(transactionId)) {
         // This condition happens when the agent function returns
         // after the timeout (either retried or not).
-        console.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
+        GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
         return;
       }
 
@@ -390,6 +392,9 @@ export class ComputedNode extends Node {
     this.result = this.getResult(result);
     if (this.output) {
       this.result = resultsOf(this.output, { self: this }, this.graph.propFunctions, true);
+      if (this.passThrough) {
+        this.result = { ...this.result, ...this.graph.resultsOf(this.passThrough) };
+      }
     }
     this.log.onComplete(this, this.graph, localLog);
 
@@ -411,20 +416,20 @@ export class ComputedNode extends Node {
   // the retry if specified.
   private errorProcess(error: unknown, transactionId: number, namedInputs: DefaultInputData) {
     if (error instanceof Error && error.message !== strIntentionalError) {
-      console.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
-      console.error({ namedInputs });
-      console.error(error);
-      console.error("-->");
+      GraphAILogger.error(`<-- NodeId: ${this.nodeId}, Agent: ${this.agentId}`);
+      GraphAILogger.error({ namedInputs });
+      GraphAILogger.error(error);
+      GraphAILogger.error("-->");
     }
     if (!this.isCurrentTransaction(transactionId)) {
-      console.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
+      GraphAILogger.warn(`-- transactionId mismatch with ${this.nodeId} (not timeout)`);
       return;
     }
 
     if (error instanceof Error) {
       this.retry(NodeState.Failed, error);
     } else {
-      console.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
+      GraphAILogger.error(`-- NodeId: ${this.nodeId}: Unknown error was caught`);
       this.retry(NodeState.Failed, Error("Unknown"));
     }
   }
@@ -450,9 +455,9 @@ export class ComputedNode extends Node {
   private getResult(result: ResultData) {
     if (result && this.passThrough) {
       if (isObject(result) && !Array.isArray(result)) {
-        return { ...result, ...this.passThrough };
+        return { ...result, ...this.graph.resultsOf(this.passThrough) };
       } else if (Array.isArray(result)) {
-        return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.passThrough } : r));
+        return result.map((r) => (isObject(r) && !Array.isArray(r) ? { ...r, ...this.graph.resultsOf(this.passThrough) } : r));
       }
     }
     return result;
@@ -475,9 +480,9 @@ export class ComputedNode extends Node {
     if (this.console === false) {
       return;
     } else if (this.console === true || this.console.before === true) {
-      console.log(JSON.stringify(context.namedInputs, null, 2));
+      GraphAILogger.log(JSON.stringify(context.namedInputs, null, 2));
     } else if (this.console.before) {
-      console.log(this.console.before);
+      GraphAILogger.log(this.console.before);
     }
   }
 }

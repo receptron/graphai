@@ -1,5 +1,10 @@
 # nestedAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/nested_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/nested_agent.ts)
+
 ## Description
 
 nested Agent
@@ -25,7 +30,7 @@ nested Agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -37,7 +42,7 @@ nested Agent
   ":agentId.test.$0"
 ]
 
-````
+```
 ```json
 
 [
@@ -45,7 +50,7 @@ nested Agent
   ":agentId.$0"
 ]
 
-````
+```
 
 ## Samples
 
@@ -59,7 +64,7 @@ nested Agent
   "message": "hello"
 }
 
-````
+```
 
 #### params
 
@@ -67,7 +72,7 @@ nested Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -79,7 +84,7 @@ nested Agent
   ]
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -90,7 +95,7 @@ nested Agent
   "message": "hello"
 }
 
-````
+```
 
 #### params
 
@@ -98,7 +103,7 @@ nested Agent
 
 {"resultNodeId":"test"}
 
-````
+```
 
 #### result
 
@@ -108,7 +113,7 @@ nested Agent
   "hello"
 ]
 
-````
+```
 
 ## Author
 

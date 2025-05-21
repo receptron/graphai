@@ -1,5 +1,10 @@
 # shiftAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/shift_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/shift_agent.ts)
+
 ## Description
 
 shift Agent
@@ -23,7 +28,7 @@ shift Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -56,7 +61,7 @@ shift Agent
   }
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -70,7 +75,7 @@ shift Agent
   ":agentId.item"
 ]
 
-````
+```
 ```json
 
 [
@@ -81,7 +86,7 @@ shift Agent
   ":agentId.item"
 ]
 
-````
+```
 
 ## Samples
 
@@ -99,7 +104,7 @@ shift Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -107,7 +112,7 @@ shift Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -121,7 +126,7 @@ shift Agent
   "item": 1
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -136,7 +141,7 @@ shift Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -144,7 +149,7 @@ shift Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -158,7 +163,7 @@ shift Agent
   "item": "a"
 }
 
-````
+```
 
 ## Author
 

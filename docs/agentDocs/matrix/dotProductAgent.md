@@ -1,5 +1,10 @@
 # dotProductAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/dot_product_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/dot_product_agent.ts)
+
 ## Description
 
 dotProduct Agent
@@ -37,7 +42,7 @@ dotProduct Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -47,7 +52,7 @@ dotProduct Agent
   "type": "array"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -60,7 +65,7 @@ dotProduct Agent
   ":agentId.$2"
 ]
 
-````
+```
 ```json
 
 [
@@ -69,7 +74,7 @@ dotProduct Agent
   ":agentId.$1"
 ]
 
-````
+```
 
 ## Samples
 
@@ -100,7 +105,7 @@ dotProduct Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -108,7 +113,7 @@ dotProduct Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -120,7 +125,7 @@ dotProduct Agent
   27
 ]
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -144,7 +149,7 @@ dotProduct Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -152,7 +157,7 @@ dotProduct Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -163,7 +168,7 @@ dotProduct Agent
   8
 ]
 
-````
+```
 
 ## Author
 

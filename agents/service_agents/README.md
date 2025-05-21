@@ -10,6 +10,12 @@ yarn add @graphai/service_agents
 ```
 
 
+The fetchAgent included in this package is not well-maintained.
+Use this fetch agent only when XML parsing is required.
+For fetching JSON or text, use vanillaFetchAgent instead, as it is better maintained.
+
+https://www.npmjs.com/package/@graphai/vanilla
+
 ### Usage
 
 ```typescript
@@ -43,6 +49,25 @@ const result = await graph.run();
     "headers": {
       "x-myHeader": "secret"
     }
+  },
+  "params": {
+    "debug": true
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "url": "https://www.google.com",
+    "queryParams": {
+      "foo": "bar"
+    },
+    "headers": {
+      "x-myHeader": "secret"
+    },
+    "method": "GET"
   },
   "params": {
     "debug": true
@@ -133,7 +158,8 @@ const result = await graph.run();
     "fetch": {
       "agent": "fetchAgent",
       "params": {
-        "type": "text"
+        "type": "text",
+        "supressError": true
       },
       "inputs": {
         "url": ":url",

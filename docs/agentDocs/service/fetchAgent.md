@@ -1,5 +1,10 @@
 # fetchAgent
 
+## Package
+[@graphai/service_agents](https://www.npmjs.com/package/@graphai/service_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/service_agents/src/fetch_agent.ts](https://github.com/receptron/graphai/blob/main/agents/service_agents/src/fetch_agent.ts)
+
 ## Description
 
 Retrieves JSON data from the specified URL
@@ -46,7 +51,7 @@ Retrieves JSON data from the specified URL
   ]
 }
 
-````
+```
 
 #### output
 
@@ -56,7 +61,7 @@ Retrieves JSON data from the specified URL
   "type": "array"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -71,7 +76,19 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
+```json
+
+[
+  ":agentId",
+  ":agentId.method",
+  ":agentId.url",
+  ":agentId.headers",
+  ":agentId.headers.x-myHeader",
+  ":agentId.body"
+]
+
+```
 ```json
 
 [
@@ -83,7 +100,7 @@ Retrieves JSON data from the specified URL
   ":agentId.body"
 ]
 
-````
+```
 
 ## Samples
 
@@ -103,7 +120,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 
 #### params
 
@@ -111,7 +128,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -125,8 +142,48 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 ### Sample1
+
+#### inputs
+
+```json
+
+{
+  "url": "https://www.google.com",
+  "queryParams": {
+    "foo": "bar"
+  },
+  "headers": {
+    "x-myHeader": "secret"
+  },
+  "method": "GET"
+}
+
+```
+
+#### params
+
+```json
+
+{"debug":true}
+
+```
+
+#### result
+
+```json
+
+{
+  "method": "GET",
+  "url": "https://www.google.com/?foo=bar",
+  "headers": {
+    "x-myHeader": "secret"
+  }
+}
+
+```
+### Sample2
 
 #### inputs
 
@@ -139,7 +196,7 @@ Retrieves JSON data from the specified URL
   }
 }
 
-````
+```
 
 #### params
 
@@ -147,7 +204,7 @@ Retrieves JSON data from the specified URL
 
 {"debug":true}
 
-````
+```
 
 #### result
 
@@ -162,7 +219,7 @@ Retrieves JSON data from the specified URL
   "body": "{\"foo\":\"bar\"}"
 }
 
-````
+```
 
 ## Author
 

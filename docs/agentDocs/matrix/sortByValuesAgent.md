@@ -1,5 +1,10 @@
 # sortByValuesAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/sort_by_values_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/sort_by_values_agent.ts)
+
 ## Description
 
 sortByValues Agent
@@ -28,7 +33,7 @@ sortByValues Agent
   ]
 }
 
-````
+```
 
 #### output
 
@@ -38,7 +43,7 @@ sortByValues Agent
   "type": "array"
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -52,7 +57,7 @@ sortByValues Agent
   ":agentId.$3"
 ]
 
-````
+```
 ```json
 
 [
@@ -63,7 +68,7 @@ sortByValues Agent
   ":agentId.$3"
 ]
 
-````
+```
 
 ## Samples
 
@@ -88,7 +93,7 @@ sortByValues Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -96,7 +101,7 @@ sortByValues Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -109,7 +114,7 @@ sortByValues Agent
   "banana"
 ]
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -131,7 +136,7 @@ sortByValues Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -139,7 +144,7 @@ sortByValues Agent
 
 {"assendant":true}
 
-````
+```
 
 #### result
 
@@ -152,7 +157,7 @@ sortByValues Agent
   "lemon"
 ]
 
-````
+```
 
 ## Author
 

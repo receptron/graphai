@@ -48,7 +48,8 @@
     "fetch": {
       "agent": "fetchAgent",
       "params": {
-        "type": "text"
+        "type": "text",
+        "supressError": true
       },
       "inputs": {
         "url": ":url",

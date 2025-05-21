@@ -1,5 +1,10 @@
 # mapAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/map_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/graph_agents/map_agent.ts)
+
 ## Description
 
 Map Agent
@@ -21,17 +26,45 @@ Map Agent
         "required": [],
         "properties": {}
       }
+    },
+    "color": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
     }
   },
   "required": [
-    "rows"
+    "rows",
+    "color"
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
+```json
+
+[
+  ":agentId",
+  ":agentId.node2",
+  ":agentId.node2.$0",
+  ":agentId.node2.$0.a",
+  ":agentId.node2.$0.b",
+  ":agentId.node2.$1",
+  ":agentId.node2.$1.a",
+  ":agentId.node2.$1.b",
+  ":agentId.node2.$2",
+  ":agentId.node2.$2.a",
+  ":agentId.node2.$2.b",
+  ":agentId.node2.$3",
+  ":agentId.node2.$3.a",
+  ":agentId.node2.$3.b"
+]
+
+```
 ```json
 
 [
@@ -44,7 +77,20 @@ Map Agent
   ":agentId.$1.test.$0"
 ]
 
-````
+```
+```json
+
+[
+  ":agentId",
+  ":agentId.$0",
+  ":agentId.$0.test",
+  ":agentId.$0.test.$0",
+  ":agentId.$1",
+  ":agentId.$1.test",
+  ":agentId.$1.test.$0"
+]
+
+```
 ```json
 
 [
@@ -65,7 +111,7 @@ Map Agent
   ":agentId.$6.node2"
 ]
 
-````
+```
 ```json
 
 [
@@ -76,7 +122,7 @@ Map Agent
   ":agentId.$1.node2"
 ]
 
-````
+```
 ```json
 
 [
@@ -87,7 +133,7 @@ Map Agent
   ":agentId.$1.node2"
 ]
 
-````
+```
 ```json
 
 [
@@ -104,7 +150,7 @@ Map Agent
   ":agentId.$1.row"
 ]
 
-````
+```
 ```json
 
 [
@@ -129,7 +175,7 @@ Map Agent
   ":agentId.$1.row"
 ]
 
-````
+```
 ```json
 
 [
@@ -141,7 +187,7 @@ Map Agent
   ":agentId.test.$1.$0"
 ]
 
-````
+```
 ```json
 
 [
@@ -156,7 +202,7 @@ Map Agent
   ":agentId.node2.$6"
 ]
 
-````
+```
 ```json
 
 [
@@ -174,7 +220,7 @@ Map Agent
   ":agentId.row.$1"
 ]
 
-````
+```
 ```json
 
 [
@@ -209,11 +255,68 @@ Map Agent
   ":agentId.row.$1"
 ]
 
-````
+```
 
 ## Samples
 
 ### Sample0
+
+#### inputs
+
+```json
+
+{
+  "rows": [
+    "apple",
+    "orange",
+    "banana",
+    "lemon"
+  ],
+  "color": [
+    "red",
+    "orange",
+    "yellow",
+    "yellow"
+  ]
+}
+
+```
+
+#### params
+
+```json
+
+{"compositeResult":true,"expandKeys":["color"]}
+
+```
+
+#### result
+
+```json
+
+{
+  "node2": [
+    {
+      "a": "apple",
+      "b": "red"
+    },
+    {
+      "a": "orange",
+      "b": "orange"
+    },
+    {
+      "a": "banana",
+      "b": "yellow"
+    },
+    {
+      "a": "lemon",
+      "b": "yellow"
+    }
+  ]
+}
+
+```
+### Sample1
 
 #### inputs
 
@@ -226,7 +329,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -234,7 +337,7 @@ Map Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -253,8 +356,49 @@ Map Agent
   }
 ]
 
-````
-### Sample1
+```
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "rows": [
+    1,
+    2
+  ]
+}
+
+```
+
+#### params
+
+```json
+
+{"rowKey":"myKey"}
+
+```
+
+#### result
+
+```json
+
+[
+  {
+    "test": [
+      1
+    ]
+  },
+  {
+    "test": [
+      2
+    ]
+  }
+]
+
+```
+### Sample3
 
 #### inputs
 
@@ -272,7 +416,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -280,7 +424,7 @@ Map Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -310,8 +454,8 @@ Map Agent
   }
 ]
 
-````
-### Sample2
+```
+### Sample4
 
 #### inputs
 
@@ -328,7 +472,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -336,7 +480,7 @@ Map Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -351,8 +495,8 @@ Map Agent
   }
 ]
 
-````
-### Sample3
+```
+### Sample5
 
 #### inputs
 
@@ -371,7 +515,7 @@ Map Agent
   "verb": "like"
 }
 
-````
+```
 
 #### params
 
@@ -379,7 +523,7 @@ Map Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -394,8 +538,8 @@ Map Agent
   }
 ]
 
-````
-### Sample4
+```
+### Sample6
 
 #### inputs
 
@@ -408,7 +552,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -416,7 +560,7 @@ Map Agent
 
 {"resultAll":true}
 
-````
+```
 
 #### result
 
@@ -439,8 +583,8 @@ Map Agent
   }
 ]
 
-````
-### Sample5
+```
+### Sample7
 
 #### inputs
 
@@ -453,7 +597,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -461,7 +605,7 @@ Map Agent
 
 {"resultAll":true}
 
-````
+```
 
 #### result
 
@@ -496,8 +640,8 @@ Map Agent
   }
 ]
 
-````
-### Sample6
+```
+### Sample8
 
 #### inputs
 
@@ -510,7 +654,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -518,7 +662,7 @@ Map Agent
 
 {"compositeResult":true}
 
-````
+```
 
 #### result
 
@@ -535,8 +679,8 @@ Map Agent
   ]
 }
 
-````
-### Sample7
+```
+### Sample9
 
 #### inputs
 
@@ -554,7 +698,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -562,7 +706,7 @@ Map Agent
 
 {"compositeResult":true}
 
-````
+```
 
 #### result
 
@@ -580,8 +724,8 @@ Map Agent
   ]
 }
 
-````
-### Sample8
+```
+### Sample10
 
 #### inputs
 
@@ -594,7 +738,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -602,7 +746,7 @@ Map Agent
 
 {"resultAll":true,"compositeResult":true}
 
-````
+```
 
 #### result
 
@@ -627,8 +771,8 @@ Map Agent
   ]
 }
 
-````
-### Sample9
+```
+### Sample11
 
 #### inputs
 
@@ -641,7 +785,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -649,7 +793,7 @@ Map Agent
 
 {"resultAll":true,"compositeResult":true}
 
-````
+```
 
 #### result
 
@@ -704,7 +848,7 @@ Map Agent
   ]
 }
 
-````
+```
 
 ## Author
 

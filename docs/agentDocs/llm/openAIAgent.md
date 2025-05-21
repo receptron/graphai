@@ -1,5 +1,10 @@
 # openAIAgent
 
+## Package
+[@graphai/openai_agent](https://www.npmjs.com/package/@graphai/openai_agent)
+## Source
+[https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/src/openai_agent.ts](https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/src/openai_agent.ts)
+
 ## Description
 
 OpenAI Agent
@@ -78,7 +83,7 @@ OpenAI Agent
   }
 }
 
-````
+```
 
 #### output
 
@@ -194,7 +199,7 @@ OpenAI Agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -216,7 +221,7 @@ OpenAI Agent
   ":agentId.model"
 ]
 
-````
+```
 
 ## Samples
 
@@ -230,7 +235,7 @@ OpenAI Agent
   "prompt": "this is response result"
 }
 
-````
+```
 
 #### params
 
@@ -238,7 +243,7 @@ OpenAI Agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -262,7 +267,7 @@ OpenAI Agent
   "model": "gpt-4o"
 }
 
-````
+```
 
 ## Author
 

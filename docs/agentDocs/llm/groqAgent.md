@@ -1,5 +1,10 @@
 # groqAgent
 
+## Package
+[@graphai/groq_agent](https://www.npmjs.com/package/@graphai/groq_agent)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/sleeper_agents/src/sleep_and_merge_agent.ts](https://github.com/receptron/graphai/blob/main/agents/sleeper_agents/src/sleep_and_merge_agent.ts)
+
 ## Description
 
 Groq Agent
@@ -74,7 +79,7 @@ Groq Agent
   }
 }
 
-````
+```
 
 #### output
 
@@ -84,7 +89,7 @@ Groq Agent
   "type": "object"
 }
 
-````
+```
 
 ## Input example of the next node
 

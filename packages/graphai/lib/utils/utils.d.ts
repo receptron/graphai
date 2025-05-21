@@ -1,6 +1,7 @@
 import { DataSource, AgentFunction, AgentFunctionInfo, NodeData, StaticNodeData, ComputedNodeData, NodeState } from "../type";
+import type { GraphNodes } from "../node";
 export declare const sleep: (milliseconds: number) => Promise<unknown>;
-export declare const parseNodeName: (inputNodeId: any, isSelfNode?: boolean) => DataSource;
+export declare const parseNodeName: (inputNodeId: any, isSelfNode?: boolean, nodes?: GraphNodes) => DataSource;
 export declare function assert(condition: boolean, message: string, isWarn?: boolean): asserts condition;
 export declare const isObject: <Values = unknown>(x: unknown) => x is Record<string, Values>;
 export declare const isNull: (data: unknown) => data is null | undefined;
@@ -37,3 +38,4 @@ export declare const defaultTestContext: {
 export declare const isNamedInputs: <Values = unknown>(namedInputs: unknown) => namedInputs is Record<string, Values>;
 export declare const isComputedNodeData: (node: NodeData) => node is ComputedNodeData;
 export declare const isStaticNodeData: (node: NodeData) => node is StaticNodeData;
+export declare const loopCounterKey: string;

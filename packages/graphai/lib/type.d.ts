@@ -85,6 +85,7 @@ export type GraphOptions = {
     bypassAgentIds?: string[] | undefined;
     config?: ConfigDataDictionary;
     graphLoader?: GraphDataLoader;
+    forceLoop?: boolean;
 };
 export type CacheTypes = "pureAgent" | "impureAgent";
 export type AgentFunctionContextDebugInfo = {
@@ -144,6 +145,8 @@ export type AgentFunctionInfo = {
     category: string[];
     author: string;
     repository: string;
+    source?: string;
+    package?: string;
     license: string;
     cacheType?: CacheTypes;
     environmentVariables?: string[];

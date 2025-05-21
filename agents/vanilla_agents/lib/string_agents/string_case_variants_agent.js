@@ -54,6 +54,8 @@ const stringCaseVariantsAgentInfo = {
     category: ["string"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/string_case_variants_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = stringCaseVariantsAgentInfo;

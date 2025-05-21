@@ -122,6 +122,8 @@ const dataObjectMergeTemplateAgentInfo = {
     category: ["data"],
     author: "Satoshi Nakajima",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/data_agents/src/data_object_merge_template_agent.ts",
+    package: "@graphai/data_agents",
     license: "MIT",
 };
 exports.default = dataObjectMergeTemplateAgentInfo;

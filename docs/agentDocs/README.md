@@ -5,6 +5,8 @@
 ### [dataObjectMergeTemplateAgent](./data/dataObjectMergeTemplateAgent.md)
 ### [copyAgent](./data/copyAgent.md)
 ### [dataSumTemplateAgent](./data/dataSumTemplateAgent.md)
+### [lookupDictionaryAgent](./data/lookupDictionaryAgent.md)
+### [mergeObjectAgent](./data/mergeObjectAgent.md)
 ### [propertyFilterAgent](./data/propertyFilterAgent.md)
 ### [totalAgent](./data/totalAgent.md)
 
@@ -14,6 +16,7 @@
 ### [groqAgent](./llm/groqAgent.md)
 ### [openAIAgent](./llm/openAIAgent.md)
 ### [openAIImageAgent](./llm/openAIImageAgent.md)
+### [openAIFetchAgent](./llm/openAIFetchAgent.md)
 ### [replicateAgent](./llm/replicateAgent.md)
 
 ## service
@@ -29,12 +32,20 @@
 ## array
 ### [arrayFlatAgent](./array/arrayFlatAgent.md)
 ### [arrayJoinAgent](./array/arrayJoinAgent.md)
+### [arrayToObjectAgent](./array/arrayToObjectAgent.md)
 ### [popAgent](./array/popAgent.md)
 ### [pushAgent](./array/pushAgent.md)
 ### [shiftAgent](./array/shiftAgent.md)
 
 ## compare
 ### [compareAgent](./compare/compareAgent.md)
+
+## string
+### [consoleAgent](./string/consoleAgent.md)
+### [jsonParserAgent](./string/jsonParserAgent.md)
+### [stringCaseVariantsAgent](./string/stringCaseVariantsAgent.md)
+### [stringSplitterAgent](./string/stringSplitterAgent.md)
+### [stringTemplateAgent](./string/stringTemplateAgent.md)
 
 ## test
 ### [copy2ArrayAgent](./test/copy2ArrayAgent.md)
@@ -50,12 +61,6 @@
 
 ## image
 ### [images2messageAgent](./image/images2messageAgent.md)
-
-## string
-### [jsonParserAgent](./string/jsonParserAgent.md)
-### [stringCaseVariantsAgent](./string/stringCaseVariantsAgent.md)
-### [stringSplitterAgent](./string/stringSplitterAgent.md)
-### [stringTemplateAgent](./string/stringTemplateAgent.md)
 
 ## graph
 ### [mapAgent](./graph/mapAgent.md)

@@ -1,5 +1,10 @@
 # jsonParserAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/json_parser_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/string_agents/json_parser_agent.ts)
+
 ## Description
 
 Template agent
@@ -27,63 +32,90 @@ Template agent
   ]
 }
 
-````
+```
 
 #### output
 
 ```json
 
 {
-  "type": "string"
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "json string"
+    },
+    "data": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ]
+    }
+  }
 }
 
-````
+```
 
 ## Input example of the next node
 
 ```json
 
 [
-  ":agentId"
+  ":agentId",
+  ":agentId.text"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId",
-  ":agentId.apple",
-  ":agentId.lemon"
+  ":agentId.data",
+  ":agentId.data.apple",
+  ":agentId.data.lemon"
 ]
 
-````
+```
 
 ## Samples
 
@@ -100,7 +132,7 @@ Template agent
   }
 }
 
-````
+```
 
 #### params
 
@@ -108,15 +140,17 @@ Template agent
 
 {}
 
-````
+```
 
 #### result
 
 ```json
 
-"{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
+{
+  "text": "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
+}
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -127,7 +161,7 @@ Template agent
   "text": "{\n  \"apple\": \"red\",\n  \"lemon\": \"yellow\"\n}"
 }
 
-````
+```
 
 #### params
 
@@ -135,18 +169,20 @@ Template agent
 
 {}
 
-````
+```
 
 #### result
 
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -157,7 +193,7 @@ Template agent
   "text": "```\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
 }
 
-````
+```
 
 #### params
 
@@ -165,18 +201,20 @@ Template agent
 
 {}
 
-````
+```
 
 #### result
 
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -187,7 +225,7 @@ Template agent
   "text": "```json\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
 }
 
-````
+```
 
 #### params
 
@@ -195,18 +233,20 @@ Template agent
 
 {}
 
-````
+```
 
 #### result
 
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -217,7 +257,7 @@ Template agent
   "text": "```JSON\n{\"apple\":\"red\",\"lemon\":\"yellow\"}\n```"
 }
 
-````
+```
 
 #### params
 
@@ -225,18 +265,20 @@ Template agent
 
 {}
 
-````
+```
 
 #### result
 
 ```json
 
 {
-  "apple": "red",
-  "lemon": "yellow"
+  "data": {
+    "apple": "red",
+    "lemon": "yellow"
+  }
 }
 
-````
+```
 
 ## Author
 

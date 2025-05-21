@@ -1,8 +1,8 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { isNamedInputs } from "@graphai/agent_utils";
-import type { GraphAIArray, GraphAIResult } from "@graphai/agent_utils";
+import type { GraphAIArray, GraphAIResult, GraphAIFlatResponse } from "@graphai/agent_utils";
 
-export const dataSumTemplateAgent: AgentFunction<{ flatResponse?: boolean }, number | GraphAIResult<number>, GraphAIArray<number>> = async ({
+export const dataSumTemplateAgent: AgentFunction<Partial<GraphAIFlatResponse>, number | GraphAIResult<number>, GraphAIArray<number>> = async ({
   namedInputs,
   params,
 }) => {
@@ -77,6 +77,8 @@ const dataSumTemplateAgentInfo: AgentFunctionInfo = {
   category: ["data"],
   author: "Satoshi Nakajima",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/data_sum_template_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default dataSumTemplateAgentInfo;

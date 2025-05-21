@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDataFromSource = void 0;
 const utils_1 = require("./utils");
 const prop_function_1 = require("./prop_function");
+const GraphAILogger_1 = require("./GraphAILogger");
 const getNestedData = (result, propId, propFunctions) => {
     const match = propId.match(prop_function_1.propFunctionRegex);
     if (match) {
@@ -38,7 +39,7 @@ const innerGetDataFromSource = (result, propIds, propFunctions) => {
         const propId = propIds[0];
         const ret = getNestedData(result, propId, propFunctions);
         if (ret === undefined) {
-            console.error(`prop: ${propIds.join(".")} is not hit`);
+            GraphAILogger_1.GraphAILogger.error(`prop: ${propIds.join(".")} is not hit`);
         }
         if (propIds.length > 1) {
             return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);

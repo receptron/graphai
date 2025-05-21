@@ -18,7 +18,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "flat array",
+                description: "The array to be flattened",
             },
         },
         required: ["array"],
@@ -28,7 +28,7 @@ const arrayFlatAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the remaining array",
+                description: "flattened array",
             },
         },
     },
@@ -37,7 +37,7 @@ const arrayFlatAgentInfo = {
         properties: {
             depth: {
                 type: "number",
-                description: "array depth",
+                description: "flattening depth",
             },
         },
     },
@@ -75,6 +75,8 @@ const arrayFlatAgentInfo = {
     category: ["array"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts",
+    package: "@graphai/vanilla",
     cacheType: "pureAgent",
     license: "MIT",
 };

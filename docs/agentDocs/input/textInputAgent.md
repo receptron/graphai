@@ -1,5 +1,10 @@
 # textInputAgent
 
+## Package
+[@graphai/input_agents](https://www.npmjs.com/package/@graphai/input_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/input_agents/src/text_input_agent.ts](https://github.com/receptron/graphai/blob/main/agents/input_agents/src/text_input_agent.ts)
+
 ## Description
 
 Text Input Agent
@@ -18,7 +23,7 @@ Text Input Agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -32,7 +37,7 @@ Text Input Agent
   ":agentId.content.content"
 ]
 
-````
+```
 ```json
 
 [
@@ -43,7 +48,7 @@ Text Input Agent
   ":agentId.content.content"
 ]
 
-````
+```
 
 ## Samples
 
@@ -55,7 +60,7 @@ Text Input Agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -63,7 +68,7 @@ Text Input Agent
 
 {"message":"Enter your message to AI."}
 
-````
+```
 
 #### result
 
@@ -77,7 +82,7 @@ Text Input Agent
   }
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -86,7 +91,7 @@ Text Input Agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -94,7 +99,7 @@ Text Input Agent
 
 {"message":"Enter your message to AI.","role":"system"}
 
-````
+```
 
 #### result
 
@@ -108,7 +113,7 @@ Text Input Agent
   }
 }
 
-````
+```
 
 ## Author
 

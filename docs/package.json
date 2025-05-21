@@ -1,0 +1,24 @@
+{
+  "name": "@graphai/website",
+  "description": "GraphAI Official Website",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Satoshi Nakajima, Isamu Arimoto, Kawamata Ryo",
+  "bugs": {
+    "url": "https://github.com/receptron/graphai/issues"
+  },
+  "homepage": "https://github.com/receptron/graphai#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/graphai"
+  },
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "deploy": "yarn build && firebase deploy --only hosting"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  }
+}

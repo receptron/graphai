@@ -13,6 +13,8 @@ typedoc used.
 
 ## agentDoc
 
+Automatically generate a README.md for each agent package.
+
 https://github.com/receptron/graphai/blob/main/docs/agentDocs/README.md
 
 in graphai/packages/cli
@@ -81,3 +83,17 @@ in `packages/samples/`
 ```
 yarn run doc
 ```
+
+### docs/agentDocs
+
+Generate agent docs as mono repository documents collectively.
+
+```
+yarn run monoRepoAgentDoc
+```
+
+This script includes meta-agent packages, so you need to maintain them.
+Anything not included in the meta-package needs to be specified separately.
+
+
+src/monoRepoAgentDocs.ts

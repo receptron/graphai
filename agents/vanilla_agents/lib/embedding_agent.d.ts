@@ -1,9 +1,12 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const stringEmbeddingsAgent: AgentFunction<{
+type EmbeddingAIParams = {
+    baseURL?: string;
+    apiKey?: string;
     model?: string;
-}, number[][], {
+};
+export declare const stringEmbeddingsAgent: AgentFunction<EmbeddingAIParams, number[][], {
     array: Array<string>;
     item: string;
-}>;
+}, EmbeddingAIParams>;
 declare const stringEmbeddingsAgentInfo: AgentFunctionInfo;
 export default stringEmbeddingsAgentInfo;

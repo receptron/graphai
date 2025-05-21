@@ -37,6 +37,8 @@ const sleeperAndMergeInfo = {
     category: ["sleeper"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/sleeper_agents/src/sleep_and_merge_agent.ts",
+    package: "@graphai/sleeper_agents",
     license: "MIT",
 };
 exports.default = sleeperAndMergeInfo;

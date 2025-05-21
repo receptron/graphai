@@ -7,6 +7,7 @@ export type {
   AgentFunctionInfoSample,
   AgentFunctionContext,
   GraphData,
+  GraphOptions,
   ResultDataDictionary,
   ResultData,
   AgentFilterFunction,
@@ -20,6 +21,7 @@ export type {
   GraphDataLoaderOption,
   GraphDataLoader,
   ConfigDataDictionary,
+  ConfigData,
   DefaultConfigData,
   CallbackFunction,
   LoopData,
@@ -45,3 +47,5 @@ export {
 export { inputs2dataSources } from "./utils/nodeUtils";
 
 export { ValidationError } from "./validators/common";
+
+export { GraphAILogger } from "./utils/GraphAILogger";

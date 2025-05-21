@@ -11,4 +11,4 @@ nodes:
     console:
       after: true
     inputs:
-      - :llm.choices.$0.message.content
+      contant: ":llm.choices.$0.message.content"

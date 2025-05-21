@@ -1,5 +1,10 @@
 # copyAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/data_agents/copy_agent.ts)
+
 ## Description
 
 Returns namedInputs
@@ -27,7 +32,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 
 #### output
 
@@ -50,7 +55,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -62,7 +67,7 @@ Returns namedInputs
   ":agentId.model"
 ]
 
-````
+```
 ```json
 
 [
@@ -72,14 +77,14 @@ Returns namedInputs
   ":agentId.array.$1"
 ]
 
-````
+```
 ```json
 
 [
   ":agentId"
 ]
 
-````
+```
 
 ## Samples
 
@@ -94,7 +99,7 @@ Returns namedInputs
   "model": "Model 3"
 }
 
-````
+```
 
 #### params
 
@@ -102,7 +107,7 @@ Returns namedInputs
 
 {}
 
-````
+```
 
 #### result
 
@@ -113,7 +118,7 @@ Returns namedInputs
   "model": "Model 3"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -127,7 +132,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 
 #### params
 
@@ -135,7 +140,7 @@ Returns namedInputs
 
 {}
 
-````
+```
 
 #### result
 
@@ -148,7 +153,7 @@ Returns namedInputs
   ]
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -160,7 +165,7 @@ Returns namedInputs
   "model": "Model 3"
 }
 
-````
+```
 
 #### params
 
@@ -168,7 +173,7 @@ Returns namedInputs
 
 {"namedKey":"color"}
 
-````
+```
 
 #### result
 
@@ -176,7 +181,7 @@ Returns namedInputs
 
 "red"
 
-````
+```
 
 ## Author
 

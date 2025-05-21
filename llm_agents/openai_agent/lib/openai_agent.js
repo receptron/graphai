@@ -56,21 +56,25 @@ const convertOpenAIChatCompletion = (response, messages) => {
         tool_calls,
         message,
         messages,
+        usage: response.usage,
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, message, response_format } = {
         ...params,
         ...namedInputs,
     };
-    const { apiKey, stream, forWeb, model, baseURL } = {
+    const { apiKey, stream, dataStream, forWeb, model, baseURL } = {
         ...(config || {}),
         ...params,
     };
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     const messagesCopy = (0, llm_utils_1.getMessages)(systemPrompt, messages);
-    if (userPrompt) {
+    if (message) {
+        messagesCopy.push(message);
+    }
+    else if (userPrompt) {
         messagesCopy.push({
             role: "user",
             content: userPrompt,
@@ -115,12 +119,47 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     const chatStream = openai.beta.chat.completions.stream({
         ...chatParams,
         stream: true,
+        stream_options: { include_usage: true },
     });
     // streaming
-    for await (const message of chatStream) {
-        const token = message.choices[0].delta.content;
-        if (filterParams && filterParams.streamTokenCallback && token) {
-            filterParams.streamTokenCallback(token);
+    if (dataStream) {
+        filterParams.streamTokenCallback({
+            type: "response.created",
+            response: {},
+        });
+        for await (const chunk of chatStream) {
+            // usage chunk have empty choices
+            if (chunk.choices[0]) {
+                const token = chunk.choices[0].delta.content;
+                if (filterParams && filterParams.streamTokenCallback && token) {
+                    filterParams.streamTokenCallback({
+                        type: "response.in_progress",
+                        response: {
+                            output: [
+                                {
+                                    type: "text",
+                                    text: token,
+                                },
+                            ],
+                        },
+                    });
+                }
+            }
+        }
+        filterParams.streamTokenCallback({
+            type: "response.completed",
+            response: {},
+        });
+    }
+    else {
+        for await (const chunk of chatStream) {
+            // usage chunk have empty choices
+            if (chunk.choices[0]) {
+                const token = chunk.choices[0].delta.content;
+                if (filterParams && filterParams.streamTokenCallback && token) {
+                    filterParams.streamTokenCallback(token);
+                }
+            }
         }
     }
     const chatCompletion = await chatStream.finalChatCompletion();
@@ -152,7 +191,15 @@ const openAIMockAgent = async ({ filterParams }) => {
             filterParams.streamTokenCallback(token);
         }
     }
-    return result_sample;
+    const message = {
+        role: "user",
+        content: input_sample,
+    };
+    return {
+        text: input_sample,
+        message,
+        messages: [message],
+    };
 };
 exports.openAIMockAgent = openAIMockAgent;
 const openaiAgentInfo = {
@@ -307,6 +354,8 @@ const openaiAgentInfo = {
     category: ["llm"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/llm_agents/openai_agent/src/openai_agent.ts",
+    package: "@graphai/openai_agent",
     license: "MIT",
     stream: true,
     npms: ["openai"],

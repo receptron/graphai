@@ -4,7 +4,7 @@ exports.fetchAgent = void 0;
 const xml2js_1 = require("xml2js");
 const fetchAgent = async ({ namedInputs, params }) => {
     const { url, method, queryParams, headers, body } = namedInputs;
-    const throwError = params.throwError ?? false;
+    const supressError = params.supressError ?? false;
     const url0 = new URL(url);
     const headers0 = headers ? { ...headers } : {};
     if (queryParams) {
@@ -15,7 +15,8 @@ const fetchAgent = async ({ namedInputs, params }) => {
         headers0["Content-Type"] = "application/json";
     }
     const fetchOptions = {
-        method: (method ?? body) ? "POST" : "GET",
+        // method: (method ?? body) ? "POST" : "GET",
+        method: method ? method.toUpperCase() : body ? "POST" : "GET",
         headers: new Headers(headers0),
         body: body ? JSON.stringify(body) : undefined,
     };
@@ -32,16 +33,16 @@ const fetchAgent = async ({ namedInputs, params }) => {
         const status = response.status;
         const type = params?.type ?? "json";
         const error = type === "json" ? await response.json() : await response.text();
-        if (throwError) {
-            throw new Error(`HTTP error: ${status}`);
+        if (supressError) {
+            return {
+                onError: {
+                    message: `HTTP error: ${status}`,
+                    status,
+                    error,
+                },
+            };
         }
-        return {
-            onError: {
-                message: `HTTP error: ${status}`,
-                status,
-                error,
-            },
-        };
+        throw new Error(`HTTP error: ${status}`);
     }
     const result = await (async () => {
         const type = params?.type ?? "json";
@@ -109,6 +110,20 @@ const fetchAgentInfo = {
             },
         },
         {
+            inputs: { url: "https://www.google.com", queryParams: { foo: "bar" }, headers: { "x-myHeader": "secret" }, method: "GET" },
+            params: {
+                debug: true,
+            },
+            result: {
+                method: "GET",
+                url: "https://www.google.com/?foo=bar",
+                headers: {
+                    "x-myHeader": "secret",
+                },
+                body: undefined,
+            },
+        },
+        {
             inputs: { url: "https://www.google.com", body: { foo: "bar" } },
             params: {
                 debug: true,
@@ -127,6 +142,8 @@ const fetchAgentInfo = {
     category: ["service"],
     author: "Receptron",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/service_agents/src/fetch_agent.ts",
+    package: "@graphai/service_agents",
     license: "MIT",
 };
 exports.default = fetchAgentInfo;

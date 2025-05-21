@@ -1,5 +1,10 @@
 # mergeNodeIdAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/merge_node_id_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/merge_node_id_agent.ts)
+
 ## Description
 
 merge node id agent
@@ -37,7 +42,7 @@ merge node id agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -49,7 +54,7 @@ merge node id agent
   ":agentId.test"
 ]
 
-````
+```
 
 ## Samples
 
@@ -67,7 +72,7 @@ merge node id agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -75,7 +80,7 @@ merge node id agent
 
 {}
 
-````
+```
 
 #### result
 
@@ -86,7 +91,7 @@ merge node id agent
   "test": "hello"
 }
 
-````
+```
 
 ## Author
 

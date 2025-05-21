@@ -41,7 +41,7 @@ nodes:
       text: :source
   nested:
     agent: nestedAgent
-    graph: :parser
+    graph: :parser.data
     isResult: true
 
 ```
@@ -61,7 +61,7 @@ nodes:
       text: :source
   nested:
     agent: nestedAgent
-    graph: :parser
+    graph: :parser.data
     isResult: true
 
 ```

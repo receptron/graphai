@@ -1,5 +1,10 @@
 # sleepAndMergeAgent
 
+## Package
+[@graphai/sleeper_agents](https://www.npmjs.com/package/@graphai/sleeper_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/sleeper_agents/src/sleep_and_merge_agent.ts](https://github.com/receptron/graphai/blob/main/agents/sleeper_agents/src/sleep_and_merge_agent.ts)
+
 ## Description
 
 sleeper and merge Agent
@@ -18,7 +23,7 @@ sleeper and merge Agent
   "required": []
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -28,7 +33,7 @@ sleeper and merge Agent
   ":agentId"
 ]
 
-````
+```
 ```json
 
 [
@@ -37,7 +42,7 @@ sleeper and merge Agent
   ":agentId.b"
 ]
 
-````
+```
 
 ## Samples
 
@@ -49,7 +54,7 @@ sleeper and merge Agent
 
 {}
 
-````
+```
 
 #### params
 
@@ -57,7 +62,7 @@ sleeper and merge Agent
 
 {"duration":1}
 
-````
+```
 
 #### result
 
@@ -65,7 +70,7 @@ sleeper and merge Agent
 
 {}
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -83,7 +88,7 @@ sleeper and merge Agent
   ]
 }
 
-````
+```
 
 #### params
 
@@ -91,7 +96,7 @@ sleeper and merge Agent
 
 {"duration":1}
 
-````
+```
 
 #### result
 
@@ -102,7 +107,7 @@ sleeper and merge Agent
   "b": 2
 }
 
-````
+```
 
 ## Author
 

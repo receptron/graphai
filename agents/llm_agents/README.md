@@ -29,6 +29,7 @@ import {
   geminiAgent,
   groqAgent,
   openAIAgent,
+  openAIFetchAgent,
   openAIImageAgent,
   replicateAgent
  } from "@graphai/llm_agents";
@@ -38,6 +39,7 @@ const agents = {
   geminiAgent,
   groqAgent,
   openAIAgent,
+  openAIFetchAgent,
   openAIImageAgent,
   replicateAgent
  };
@@ -51,6 +53,7 @@ const result = await graph.run();
 - geminiAgent - Gemini Agent
 - groqAgent - Groq Agent
 - openAIAgent - OpenAI Agent
+- openAIFetchAgent - OpenAI Fetch Agent
 - openAIImageAgent - OpenAI Image Agent
 - replicateAgent - Replicate Agent
 
@@ -59,11 +62,23 @@ const result = await graph.run();
  - [geminiAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/geminiAgent.md)
  - [groqAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/groqAgent.md)
  - [openAIAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIAgent.md)
+ - [openAIFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIFetchAgent.md)
  - [openAIImageAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/openAIImageAgent.md)
  - [replicateAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/llm/replicateAgent.md)
 
 ### Input/Params example
  - openAIAgent
+
+```typescript
+{
+  "inputs": {
+    "prompt": "this is response result"
+  },
+  "params": {}
+}
+```
+
+ - openAIFetchAgent
 
 ```typescript
 {
@@ -94,6 +109,7 @@ const result = await graph.run();
  - [@graphai/gemini_agent](https://www.npmjs.com/package/@graphai/gemini_agent)
  - [@graphai/groq_agent](https://www.npmjs.com/package/@graphai/groq_agent)
  - [@graphai/openai_agent](https://www.npmjs.com/package/@graphai/openai_agent)
+ - [@graphai/openai_fetch_agent](https://www.npmjs.com/package/@graphai/openai_fetch_agent)
  - [@graphai/replicate_agent](https://www.npmjs.com/package/@graphai/replicate_agent)
 
 

@@ -7,10 +7,10 @@ const pushAgent = async ({ namedInputs }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     (0, agent_utils_1.arrayValidate)("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
-    (0, graphai_1.assert)(!!(item || items), "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
-    (0, graphai_1.assert)(!!(!items || Array.isArray(items)), "pushAgent: namedInputs.items is not array!");
+    (0, graphai_1.assert)(item !== undefined || items !== undefined, "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
+    (0, graphai_1.assert)(items === undefined || Array.isArray(items), "pushAgent: namedInputs.items is not array!");
     const array = namedInputs.array.map((item) => item); // shallow copy
-    if (item) {
+    if (item !== undefined) {
         array.push(item);
     }
     if (items) {
@@ -35,12 +35,12 @@ const pushAgentInfo = {
                 description: "the array to push an item to",
             },
             item: {
-                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }, { type: "boolean" }],
                 description: "the item push into the array",
             },
             items: {
-                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
-                description: "the item push into the array",
+                type: "array",
+                description: "items push into the array",
             },
         },
         required: ["array"],
@@ -60,6 +60,11 @@ const pushAgentInfo = {
             result: { array: [1, 2, 3] },
         },
         {
+            inputs: { array: [true, false], item: false },
+            params: {},
+            result: { array: [true, false, false] },
+        },
+        {
             inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
             params: {},
             result: { array: [{ apple: 1 }, { lemon: 2 }] },
@@ -75,6 +80,8 @@ const pushAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/push_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = pushAgentInfo;

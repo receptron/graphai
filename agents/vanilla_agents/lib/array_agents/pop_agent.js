@@ -4,7 +4,7 @@ exports.popAgent = void 0;
 const agent_utils_1 = require("@graphai/agent_utils");
 const popAgent = async ({ namedInputs }) => {
     (0, agent_utils_1.arrayValidate)("popAgent", namedInputs);
-    const array = namedInputs.array.map((item) => item); // shallow copy
+    const array = [...namedInputs.array]; // shallow copy
     const item = array.pop();
     return { array, item };
 };
@@ -70,6 +70,8 @@ const popAgentInfo = {
     cacheType: "pureAgent",
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/pop_agent.ts",
+    package: "@graphai/vanilla",
     license: "MIT",
 };
 exports.default = popAgentInfo;

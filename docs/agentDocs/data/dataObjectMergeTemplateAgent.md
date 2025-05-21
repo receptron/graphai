@@ -1,5 +1,10 @@
 # dataObjectMergeTemplateAgent
 
+## Package
+[@graphai/data_agents](https://www.npmjs.com/package/@graphai/data_agents)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/data_agents/src/data_object_merge_template_agent.ts](https://github.com/receptron/graphai/blob/main/agents/data_agents/src/data_object_merge_template_agent.ts)
+
 ## Description
 
 Merge object
@@ -37,7 +42,7 @@ Merge object
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -49,7 +54,7 @@ Merge object
   ":agentId.content2"
 ]
 
-````
+```
 ```json
 
 [
@@ -57,7 +62,7 @@ Merge object
   ":agentId.content1"
 ]
 
-````
+```
 ```json
 
 [
@@ -65,7 +70,7 @@ Merge object
   ":agentId.content"
 ]
 
-````
+```
 ```json
 
 [
@@ -75,7 +80,7 @@ Merge object
   ":agentId.c"
 ]
 
-````
+```
 ```json
 
 [
@@ -93,7 +98,7 @@ Merge object
   ":agentId.b.d.e.f"
 ]
 
-````
+```
 ```json
 
 [
@@ -103,7 +108,7 @@ Merge object
   ":agentId.data.content2"
 ]
 
-````
+```
 ```json
 
 [
@@ -112,7 +117,7 @@ Merge object
   ":agentId.data.content1"
 ]
 
-````
+```
 ```json
 
 [
@@ -121,7 +126,7 @@ Merge object
   ":agentId.data.content"
 ]
 
-````
+```
 ```json
 
 [
@@ -132,7 +137,7 @@ Merge object
   ":agentId.data.c"
 ]
 
-````
+```
 ```json
 
 [
@@ -151,7 +156,7 @@ Merge object
   ":agentId.data.b.d.e.f"
 ]
 
-````
+```
 
 ## Samples
 
@@ -172,7 +177,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -180,7 +185,7 @@ Merge object
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -191,7 +196,7 @@ Merge object
   "content2": "test"
 }
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -206,7 +211,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -214,7 +219,7 @@ Merge object
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -224,7 +229,7 @@ Merge object
   "content1": "hello"
 }
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -242,7 +247,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -250,7 +255,7 @@ Merge object
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -260,7 +265,7 @@ Merge object
   "content": "hello2"
 }
 
-````
+```
 ### Sample3
 
 #### inputs
@@ -285,7 +290,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -293,7 +298,7 @@ Merge object
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -305,7 +310,7 @@ Merge object
   "c": 5
 }
 
-````
+```
 ### Sample4
 
 #### inputs
@@ -344,7 +349,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -352,7 +357,7 @@ Merge object
 
 {"flatResponse":true}
 
-````
+```
 
 #### result
 
@@ -380,7 +385,7 @@ Merge object
   }
 }
 
-````
+```
 ### Sample5
 
 #### inputs
@@ -398,7 +403,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -406,7 +411,7 @@ Merge object
 
 {}
 
-````
+```
 
 #### result
 
@@ -419,7 +424,7 @@ Merge object
   }
 }
 
-````
+```
 ### Sample6
 
 #### inputs
@@ -434,7 +439,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -442,7 +447,7 @@ Merge object
 
 {}
 
-````
+```
 
 #### result
 
@@ -454,7 +459,7 @@ Merge object
   }
 }
 
-````
+```
 ### Sample7
 
 #### inputs
@@ -472,7 +477,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -480,7 +485,7 @@ Merge object
 
 {}
 
-````
+```
 
 #### result
 
@@ -492,7 +497,7 @@ Merge object
   }
 }
 
-````
+```
 ### Sample8
 
 #### inputs
@@ -517,7 +522,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -525,7 +530,7 @@ Merge object
 
 {}
 
-````
+```
 
 #### result
 
@@ -539,7 +544,7 @@ Merge object
   }
 }
 
-````
+```
 ### Sample9
 
 #### inputs
@@ -578,7 +583,7 @@ Merge object
   ]
 }
 
-````
+```
 
 #### params
 
@@ -586,7 +591,7 @@ Merge object
 
 {}
 
-````
+```
 
 #### result
 
@@ -616,7 +621,7 @@ Merge object
   }
 }
 
-````
+```
 
 ## Author
 

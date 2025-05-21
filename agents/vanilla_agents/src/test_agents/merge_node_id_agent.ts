@@ -37,6 +37,8 @@ const mergeNodeIdAgentInfo: AgentFunctionInfo = {
   category: ["test"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/merge_node_id_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 

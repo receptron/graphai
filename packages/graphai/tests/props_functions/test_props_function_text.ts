@@ -139,3 +139,63 @@ test("test getDataFromSource string split", async () => {
   const res = getDataFromSource(result, source, propFunctions);
   assert.deepStrictEqual(res, data);
 });
+
+test("test getDataFromSource string split(.)", async () => {
+  const inputId = ":node1.data.split(.)";
+  const result = { data: "Ab.Cd" };
+  const data = ["Ab", "Cd"];
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "split(.)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string slice", async () => {
+  const inputId = ":node1.data.slice(1, 3)";
+  const result = { data: "abcdefg" };
+  const data = "bc";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "slice(1, 3)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string slice 2", async () => {
+  const inputId = ":node1.data.slice(1)";
+  const result = { data: "abcdefg" };
+  const data = "bcdefg";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "slice(1)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string slice 3", async () => {
+  const inputId = ":node1.data.slice(-4)";
+  const result = { data: "abcdefg" };
+  const data = "defg";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "slice(-4)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string slice 4", async () => {
+  const inputId = ":node1.data.slice(-6,  -4)";
+  const result = { data: "abcdefg" };
+  const data = "bc";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "slice(-6,  -4)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});

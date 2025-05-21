@@ -4,7 +4,7 @@ loop:
 nodes:
   continue:
     value: true
-    update: :checkInput
+    update: :checkInput.result
   messages:
     value:
       - role: system

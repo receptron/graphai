@@ -11,6 +11,7 @@ type OpenAIInputs = {
     verbose?: boolean;
     temperature?: number;
     messages?: Array<OpenAI.ChatCompletionMessageParam>;
+    message?: OpenAI.ChatCompletionMessageParam;
     response_format?: OpenAI.ResponseFormatText | OpenAI.ResponseFormatJSONObject | OpenAI.ResponseFormatJSONSchema;
 } & GraphAILLMInputBase;
 type OpenAIConfig = {
@@ -19,20 +20,17 @@ type OpenAIConfig = {
     stream?: boolean;
     forWeb?: boolean;
     model?: string;
+    dataStream?: boolean;
 };
-type OpenAIParams = OpenAIInputs & OpenAIConfig;
+type OpenAIParams = OpenAIInputs & OpenAIConfig & {
+    dataStream?: boolean;
+};
 type OpenAIResult = Partial<GraphAINullableText & GraphAITool & GraphAIToolCalls & {
     message: OpenAI.ChatCompletionMessageParam | null;
 } & {
     messages: OpenAI.ChatCompletionMessageParam[];
 }>;
 export declare const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig>;
-export declare const openAIMockAgent: AgentFunction<{
-    model?: string;
-    query?: string;
-    system?: string;
-    verbose?: boolean;
-    temperature?: number;
-}, Record<string, any> | string, string | Array<any>>;
+export declare const openAIMockAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig>;
 declare const openaiAgentInfo: AgentFunctionInfo;
 export default openaiAgentInfo;

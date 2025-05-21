@@ -138,6 +138,8 @@ const geminiAgentInfo = {
     category: ["llm"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/llm_agents/gemini_agent/src/gemini_agent.ts",
+    package: "@graphai/gemini_agent",
     license: "MIT",
     stream: true,
     npms: ["@anthropic-ai/sdk"],

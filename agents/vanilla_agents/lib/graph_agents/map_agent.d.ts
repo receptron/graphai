@@ -1,9 +1,11 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-export declare const mapAgent: AgentFunction<{
-    limit?: number;
-    resultAll?: boolean;
-    compositeResult?: boolean;
-    throwError?: boolean;
-}, Record<string, any>>;
+import type { GraphAISupressError } from "@graphai/agent_utils";
+export declare const mapAgent: AgentFunction<Partial<GraphAISupressError & {
+    limit: number;
+    resultAll: boolean;
+    compositeResult: boolean;
+    rowKey: string;
+    expandKeys: string[];
+}>, Record<string, any>>;
 declare const mapAgentInfo: AgentFunctionInfo;
 export default mapAgentInfo;

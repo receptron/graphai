@@ -4,6 +4,30 @@ import { GraphNodes } from "../node";
 
 import { parseNodeName, isNamedInputs, isObject, isNull } from "./utils";
 import { getDataFromSource } from "./data_source";
+import { utilsFunctions } from "./prop_function";
+
+const replaceTemplatePlaceholders = (input: string, templateMatch: string[], nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean) => {
+  // GOD format ${:node.prop1.prop2}
+  const godResults = resultsOfInner(
+    templateMatch.filter((text) => text.startsWith(":")),
+    nodes,
+    propFunctions,
+    isSelfNode,
+  );
+  // utilsFunctions ${@now}
+  const utilsFuncResult = templateMatch
+    .filter((text) => text.startsWith("@"))
+    .reduce((tmp: Record<string, string | number>, key: string) => {
+      tmp[key] = utilsFunctions(key, nodes);
+      return tmp;
+    }, {});
+  return Array.from(templateMatch.keys()).reduce((tmp, key) => {
+    if (templateMatch[key].startsWith(":")) {
+      return tmp.replaceAll("${" + templateMatch[key] + "}", (godResults as any)[key]);
+    }
+    return tmp.replaceAll("${" + templateMatch[key] + "}", (utilsFuncResult as any)[templateMatch[key]]);
+  }, input);
+};
 
 const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean = false): ResultData => {
   if (Array.isArray(input)) {
@@ -13,15 +37,13 @@ const resultsOfInner = (input: any, nodes: GraphNodes, propFunctions: PropFuncti
     return resultsOf(input, nodes, propFunctions, isSelfNode);
   }
   if (typeof input === "string") {
-    const templateMatch = [...input.matchAll(/\${(:[^}]+)}/g)].map((m) => m[1]);
+    const templateMatch = [...input.matchAll(/\${([:@][^}]+)}/g)].map((m) => m[1]);
     if (templateMatch.length > 0) {
-      const results = resultsOfInner(templateMatch, nodes, propFunctions, isSelfNode);
-      return Array.from(templateMatch.keys()).reduce((tmp, key) => {
-        return tmp.replaceAll("${" + templateMatch[key] + "}", (results as any)[key]);
-      }, input);
+      return replaceTemplatePlaceholders(input, templateMatch, nodes, propFunctions, isSelfNode);
     }
   }
-  return resultOf(parseNodeName(input, isSelfNode), nodes, propFunctions);
+  // :node.prod
+  return resultOf(parseNodeName(input, isSelfNode, nodes), nodes, propFunctions);
 };
 
 export const resultsOf = (inputs: Record<string, any>, nodes: GraphNodes, propFunctions: PropFunction[], isSelfNode: boolean = false) => {

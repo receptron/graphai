@@ -1,5 +1,10 @@
 # copy2ArrayAgent
 
+## Package
+[@graphai/vanilla](https://www.npmjs.com/package/@graphai/vanilla)
+## Source
+[https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy2array_agent.ts](https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/test_agents/copy2array_agent.ts)
+
 ## Description
 
 Copy2Array agent
@@ -33,7 +38,7 @@ Copy2Array agent
   ]
 }
 
-````
+```
 
 ## Input example of the next node
 
@@ -63,7 +68,7 @@ Copy2Array agent
   ":agentId.$9.message"
 ]
 
-````
+```
 ```json
 
 [
@@ -90,7 +95,7 @@ Copy2Array agent
   ":agentId.$9.message"
 ]
 
-````
+```
 ```json
 
 [
@@ -107,7 +112,7 @@ Copy2Array agent
   ":agentId.$9"
 ]
 
-````
+```
 
 ## Samples
 
@@ -123,7 +128,7 @@ Copy2Array agent
   }
 }
 
-````
+```
 
 #### params
 
@@ -131,7 +136,7 @@ Copy2Array agent
 
 {"count":10}
 
-````
+```
 
 #### result
 
@@ -170,7 +175,7 @@ Copy2Array agent
   }
 ]
 
-````
+```
 ### Sample1
 
 #### inputs
@@ -181,7 +186,7 @@ Copy2Array agent
   "message": "hello"
 }
 
-````
+```
 
 #### params
 
@@ -189,7 +194,7 @@ Copy2Array agent
 
 {"count":10}
 
-````
+```
 
 #### result
 
@@ -228,7 +233,7 @@ Copy2Array agent
   }
 ]
 
-````
+```
 ### Sample2
 
 #### inputs
@@ -239,7 +244,7 @@ Copy2Array agent
   "item": "hello"
 }
 
-````
+```
 
 #### params
 
@@ -247,7 +252,7 @@ Copy2Array agent
 
 {"count":10}
 
-````
+```
 
 #### result
 
@@ -266,7 +271,7 @@ Copy2Array agent
   "hello"
 ]
 
-````
+```
 
 ## Author
 

@@ -83,6 +83,8 @@ const dotProductAgentInfo: AgentFunctionInfo = {
   category: ["matrix"],
   author: "Receptron team",
   repository: "https://github.com/receptron/graphai",
+  source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/matrix_agents/dot_product_agent.ts",
+  package: "@graphai/vanilla",
   license: "MIT",
 };
 export default dotProductAgentInfo;
