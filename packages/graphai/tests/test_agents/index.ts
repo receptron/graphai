@@ -7,5 +7,6 @@ import nestedAgent from "./nested_agent";
 import mapAgent from "./map_agent";
 import pushAgent from "./push_agent";
 import sleeperAgent from "./sleeper_agent";
+import lookupDictionaryAgent from "./lookup_dictionary_agent";
 
-export { echoAgent, copyAgent, copyConfigAgent, streamMockAgent, nestedAgent, mapAgent, pushAgent, sleeperAgent };
+export { echoAgent, copyAgent, copyConfigAgent, streamMockAgent, nestedAgent, mapAgent, pushAgent, sleeperAgent, lookupDictionaryAgent };
