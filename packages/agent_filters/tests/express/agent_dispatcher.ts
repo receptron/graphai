@@ -15,7 +15,7 @@ export const agentDispatcher: RequestHandler = async (req: express.Request, res:
 
   if (agentInfo === undefined) {
     res.status(404).send({ message: "Agent not found" });
-    return
+    return;
   }
 
   const context = {
@@ -35,7 +35,7 @@ export const agentDispatcher: RequestHandler = async (req: express.Request, res:
   if (!stream) {
     const result = await agentInfo.agent(context);
     res.json(result);
-    return
+    return;
   }
 
   res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
