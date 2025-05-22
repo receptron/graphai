@@ -1,11 +1,12 @@
 import express from "express";
+import type { RequestHandler } from "express";
 import * as agents from "@graphai/agents";
 
 import { streamAgentFilterGenerator } from "@graphai/stream_agent_filter";
 import { agentFilterRunnerBuilder } from "../../src/index";
 import { AgentFunctionContext, AgentFunctionInfoDictionary, NodeState } from "graphai";
 
-export const agentDispatcher = async (req: express.Request, res: express.Response) => {
+export const agentDispatcher: RequestHandler = async (req: express.Request, res: express.Response) => {
   const { params } = req;
   const { agentId } = params; // from url
   const { nodeId, retry, params: agentParams, inputs, namedInputs } = req.body; // post body
@@ -13,7 +14,8 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
   const stream = agentParams?.stream || false;
 
   if (agentInfo === undefined) {
-    return res.status(404).send({ message: "Agent not found" });
+    res.status(404).send({ message: "Agent not found" });
+    return
   }
 
   const context = {
@@ -32,7 +34,8 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
   };
   if (!stream) {
     const result = await agentInfo.agent(context);
-    return res.json(result);
+    res.json(result);
+    return
   }
 
   res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
@@ -59,5 +62,5 @@ export const agentDispatcher = async (req: express.Request, res: express.Respons
   const json_data = JSON.stringify(result);
   res.write("___END___");
   res.write(json_data);
-  return res.end();
+  res.end();
 };
