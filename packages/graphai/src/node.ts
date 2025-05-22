@@ -1,5 +1,5 @@
 import type { GraphAI, GraphData } from "./index";
-import { strIntentionalError } from "./utils/utils";
+import { strIntentionalError, isNamedInputs } from "./utils/utils";
 import { inputs2dataSources, dataSourceNodeIds } from "./utils/nodeUtils";
 
 import {
@@ -438,9 +438,13 @@ export class ComputedNode extends Node {
     // Pass debugInfo by reference, and the state of this node will be received by agent/agentFilter.
     // From graphAgent(nested, map), set the instance of graphai, and use abort on the child graphai.
     this.debugInfo = this.getDebugInfo(agentId);
+    const params = {
+      ...(this.params ?? {}),
+      ...(isNamedInputs(previousResults?.params) ? previousResults?.params : {}),
+    };
     const context: AgentFunctionContext<DefaultParamsType, DefaultInputData | string | number | boolean | undefined> = {
       //params: this.graph.resultsOf(this.params),
-      params: this.params,
+      params,
       namedInputs: previousResults,
       inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
       debugInfo: this.debugInfo,

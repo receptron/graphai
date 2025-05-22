@@ -21,11 +21,13 @@ const graph_data = {
     },
     result: {
       agent: "echoAgent",
-      params: {
-        test: {
-          test: ":message",
+      inputs: {
+        params: {
+          test: {
+            test: ":message",
+          },
+          array: [":one", { a: ":two.value" }],
         },
-        array: [":one", { a: ":two.value" }],
       },
       isResult: true,
     },
@@ -38,9 +40,9 @@ test("test graph. dynamic_params is disabled", async () => {
   assert.deepStrictEqual(result, {
     result: {
       test: {
-        test: ":message",
+        test: "Hello World",
       },
-      array: [":one", { a: ":two.value" }],
+      array: ["1", { a: "2 value" }],
     },
   });
 });
