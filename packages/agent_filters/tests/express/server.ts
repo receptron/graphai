@@ -19,7 +19,6 @@ const options: cors.CorsOptions = {
 app.use(express.json());
 app.use(cors(options));
 
-app.use(express.json());
 app.get("/", hello);
 app.get("/mock", graphAISample);
 
