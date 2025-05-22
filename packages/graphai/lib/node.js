@@ -355,9 +355,13 @@ class ComputedNode extends Node {
         // Pass debugInfo by reference, and the state of this node will be received by agent/agentFilter.
         // From graphAgent(nested, map), set the instance of graphai, and use abort on the child graphai.
         this.debugInfo = this.getDebugInfo(agentId);
+        const params = {
+            ...(this.params ?? {}),
+            ...((0, utils_1.isNamedInputs)(previousResults?.params) ? previousResults?.params : {}),
+        };
         const context = {
             //params: this.graph.resultsOf(this.params),
-            params: this.params,
+            params,
             namedInputs: previousResults,
             inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
             debugInfo: this.debugInfo,
