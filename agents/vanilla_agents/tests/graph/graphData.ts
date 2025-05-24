@@ -294,6 +294,50 @@ export const graphDataMap5 = {
   },
 };
 
+export const graphDataMap6 = {
+  version: 0.5,
+  nodes: {
+    source1: {
+      value: ["hello", "hello2"],
+    },
+    nestedNode: {
+      agent: "mapAgent",
+      inputs: {
+        rows: ":source1",
+      },
+      graph: {
+        loop: {
+          count: 5,
+        },
+        version: 0.5,
+        nodes: {
+          row: {
+            update: ":row",
+          },
+          node1: {
+            console: { before: true },
+            agent: "copyAgent",
+            params: { namedKey: "row" },
+            inputs: { row: ":row" },
+            isResult: true,
+          },
+        },
+      },
+      params: {
+        compositeResult: true,
+      },
+    },
+    result: {
+      agent: "copyAgent",
+      params: {
+        flat: 2,
+        namedKey: "res",
+      },
+      inputs: { res: ":nestedNode.node1" },
+    },
+  },
+};
+
 // test_loop_push
 
 export const graphDataPush = {

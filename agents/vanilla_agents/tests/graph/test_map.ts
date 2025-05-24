@@ -6,7 +6,7 @@ const agents = {
   ...vanilla_agents,
 };
 
-import { graphDataMap1, graphDataMap3, graphDataMap4, graphDataMap5 } from "./graphData";
+import { graphDataMap1, graphDataMap3, graphDataMap4, graphDataMap5, graphDataMap6 } from "./graphData";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -38,6 +38,12 @@ test("test map 4", async () => {
 
 test("test map 5", async () => {
   const result = await graphDataTestRunner(__dirname, "test_map5", graphDataMap5, agents);
+
+  assert.deepStrictEqual(result.result, ["hello", "hello2"]);
+});
+
+test("test map 6", async () => {
+  const result = await graphDataTestRunner(__dirname, "test_map6", graphDataMap6, agents);
 
   assert.deepStrictEqual(result.result, ["hello", "hello2"]);
 });
