@@ -351,7 +351,6 @@ export class GraphAI {
           return false; // while condition is not met
         }
       }
-      // this.initializeGraphAI();
       this.nodes = this.createNodes(this.graphData);
       this.updateStaticNodes(previousResults, true);
       this.setStaticNodeResults();
