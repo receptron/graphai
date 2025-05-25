@@ -57,7 +57,8 @@ const getStaticNode = (nodeId: string, value?: string) => {
   const dataSource = { value: undefined };
   const node = new StaticNode(nodeId, dataSource, graph);
   if (value) {
-    node.injectValue(value);
+    node.updateValue(value);
+    node.setResultValue(value);
   }
   return node;
 };

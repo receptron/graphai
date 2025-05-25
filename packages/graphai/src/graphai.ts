@@ -405,7 +405,8 @@ export class GraphAI {
   private privateInjectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     const node = this.nodes[nodeId];
     if (node && node.isStaticNode) {
-      node.injectValue(value, injectFrom);
+      node.updateValue(value, injectFrom);
+      node.setResultValue(value, injectFrom);
     } else {
       throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
     }

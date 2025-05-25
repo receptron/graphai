@@ -15,7 +15,8 @@ test("test static node injection", async () => {
   assert.equal(undefined, node.result);
   assert.equal(node.state, NodeState.Waiting);
 
-  node.injectValue({ updated: "abc" });
+  node.updateValue({ updated: "abc" });
+  node.setResultValue({ updated: "abc" });
   assert.deepStrictEqual(node.result, { updated: "abc" });
   assert.equal(node.state, NodeState.Injected);
 });
