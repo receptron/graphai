@@ -418,10 +418,13 @@ class StaticNode extends Node {
         this.isResult = data.isResult ?? false;
         this.console = data.console ?? {};
     }
-    injectValue(value, injectFrom) {
-        this.state = type_1.NodeState.Injected;
+    updateValue(value, injectFrom) {
         this.value = value;
-        this.result = value;
+        this.log.onInjected(this, this.graph, injectFrom);
+    }
+    setResultValue(injectFrom) {
+        this.state = type_1.NodeState.Injected;
+        this.result = this.value;
         this.log.onInjected(this, this.graph, injectFrom);
         this.onSetResult();
     }

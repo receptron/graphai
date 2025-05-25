@@ -21,7 +21,8 @@ class GraphAI {
                 _nodes[nodeId] = new node_1.ComputedNode(this.graphId, nodeId, nodeData, this);
             }
             else {
-                _nodes[nodeId] = new node_1.StaticNode(nodeId, nodeData, this);
+                const updateValue = this.staticNodeInitData[nodeId];
+                _nodes[nodeId] = new node_1.StaticNode(nodeId, updateValue !== undefined ? { ...nodeData, value: updateValue } : nodeData, this);
             }
             return _nodes;
         }, {});
@@ -45,7 +46,7 @@ class GraphAI {
         return (0, data_source_1.getDataFromSource)(source.nodeId ? results[source.nodeId] : undefined, source, this.propFunctions);
     }
     // for static
-    initializeStaticNodes(enableConsoleLog = false) {
+    setStaticNodeResults(enableConsoleLog = false) {
         // If the result property is specified, inject it.
         // If the previousResults exists (indicating we are in a loop),
         // process the update property (nodeId or nodeId.propId).
@@ -54,7 +55,7 @@ class GraphAI {
             if (node?.isStaticNode) {
                 const value = node?.value;
                 if (value !== undefined) {
-                    this.injectValue(nodeId, value, nodeId);
+                    node.setResultValue(nodeId);
                 }
                 if (enableConsoleLog) {
                     node.consoleLog();
@@ -72,7 +73,7 @@ class GraphAI {
                 const update = node?.update;
                 if (update && previousResults) {
                     const result = this.getValueFromResults(update, previousResults);
-                    this.injectValue(nodeId, result, update.nodeId);
+                    this.updateStaticNodeValue(nodeId, result, update.nodeId);
                 }
                 if (enableConsoleLog) {
                     node.consoleLog();
@@ -88,6 +89,7 @@ class GraphAI {
         graphLoader: undefined,
         forceLoop: false,
     }) {
+        this.staticNodeInitData = {};
         this.logs = [];
         this.config = {};
         this.onLogCallback = (__log, __isUpdate) => { };
@@ -125,7 +127,6 @@ class GraphAI {
             },
         };
         this.nodes = this.createNodes(this.graphData);
-        this.initializeStaticNodes(true);
     }
     getAgentFunctionInfo(agentId) {
         if (agentId && this.agentFunctionInfoDictionary[agentId]) {
@@ -202,6 +203,7 @@ class GraphAI {
     }
     // Public API
     async run(all = false) {
+        this.setStaticNodeResults();
         if (Object.values(this.nodes)
             .filter((node) => node.isStaticNode)
             .some((node) => node.result === undefined && node.update === undefined)) {
@@ -273,6 +275,7 @@ class GraphAI {
         // We need to update static nodes, before checking the condition
         const previousResults = this.results(true, true); // results from previous loop
         this.updateStaticNodes(previousResults);
+        this.setStaticNodeResults();
         if (loop.count === undefined || this.repeatCount < loop.count) {
             if (loop.while) {
                 const source = (0, utils_1.parseNodeName)(loop.while);
@@ -282,8 +285,9 @@ class GraphAI {
                     return false; // while condition is not met
                 }
             }
-            this.initializeGraphAI();
+            this.nodes = this.createNodes(this.graphData);
             this.updateStaticNodes(previousResults, true);
+            this.setStaticNodeResults();
             this.pushReadyNodesIntoQueue();
             return true; // Indicating that we are going to continue.
         }
@@ -294,7 +298,7 @@ class GraphAI {
             throw new Error("This GraphAI instance is running");
         }
         this.nodes = this.createNodes(this.graphData);
-        this.initializeStaticNodes();
+        this.setStaticNodeResults();
     }
     setPreviousResults(previousResults) {
         this.updateStaticNodes(previousResults);
@@ -324,9 +328,13 @@ class GraphAI {
     }
     // Public API
     injectValue(nodeId, value, injectFrom) {
+        this.staticNodeInitData[nodeId] = value;
+        this.updateStaticNodeValue(nodeId, value, injectFrom);
+    }
+    updateStaticNodeValue(nodeId, value, injectFrom) {
         const node = this.nodes[nodeId];
         if (node && node.isStaticNode) {
-            node.injectValue(value, injectFrom);
+            node.updateValue(value, injectFrom);
         }
         else {
             throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);

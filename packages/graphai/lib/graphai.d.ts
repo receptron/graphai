@@ -8,6 +8,7 @@ export declare class GraphAI {
     readonly version: number;
     readonly graphId: string;
     private readonly graphData;
+    private staticNodeInitData;
     private readonly loop?;
     private readonly forceLoop;
     private readonly logs;
@@ -27,7 +28,7 @@ export declare class GraphAI {
     private repeatCount;
     private createNodes;
     private getValueFromResults;
-    private initializeStaticNodes;
+    private setStaticNodeResults;
     private updateStaticNodes;
     constructor(graphData: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: GraphOptions);
     getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo | {
@@ -58,6 +59,7 @@ export declare class GraphAI {
     clearCallbacks(): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
+    private updateStaticNodeValue;
     resultsOf(inputs?: Record<string, any>, anyInput?: boolean): Record<string, ResultData>;
     resultOf(source: DataSource): ResultData;
 }

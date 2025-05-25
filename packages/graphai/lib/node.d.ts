@@ -72,7 +72,8 @@ export declare class StaticNode extends Node {
     readonly isStaticNode = true;
     readonly isComputedNode = false;
     constructor(nodeId: string, data: StaticNodeData, graph: GraphAI);
-    injectValue(value: ResultData, injectFrom?: string): void;
+    updateValue(value: ResultData, injectFrom?: string): void;
+    setResultValue(injectFrom?: string): void;
     consoleLog(): void;
 }
 export type GraphNodes = Record<string, ComputedNode | StaticNode>;
