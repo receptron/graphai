@@ -98,7 +98,7 @@ export class GraphAI {
       if (node?.isStaticNode) {
         const value = node?.value;
         if (value !== undefined) {
-          this.privateUpdateStaticValue(nodeId, value, nodeId);
+          // this.privateUpdateStaticValue(nodeId, value, nodeId);
           this.privateSetStaticResultValue(nodeId, nodeId);
         }
         if (enableConsoleLog) {
@@ -119,7 +119,7 @@ export class GraphAI {
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
           this.privateUpdateStaticValue(nodeId, result, update.nodeId);
-          this.privateSetStaticResultValue(nodeId, update.nodeId);
+          // this.privateSetStaticResultValue(nodeId, update.nodeId);
         }
         if (enableConsoleLog) {
           node.consoleLog();
@@ -174,7 +174,6 @@ export class GraphAI {
       },
     };
     this.nodes = this.createNodes(this.graphData);
-    this.initializeStaticNodes(true);
   }
 
   public getAgentFunctionInfo(agentId?: string) {
@@ -261,6 +260,7 @@ export class GraphAI {
 
   // Public API
   public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictionary<T>> {
+    this.initializeStaticNodes();
     if (
       Object.values(this.nodes)
         .filter((node) => node.isStaticNode)
@@ -352,8 +352,11 @@ export class GraphAI {
           return false; // while condition is not met
         }
       }
-      this.initializeGraphAI();
+      // this.initializeGraphAI();
+      this.nodes = this.createNodes(this.graphData);
       this.updateStaticNodes(previousResults, true);
+      this.initializeStaticNodes();
+      
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.
     }
@@ -403,7 +406,7 @@ export class GraphAI {
   public injectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     this.staticNodeInitData[nodeId] = value;
     this.privateUpdateStaticValue(nodeId, value, injectFrom);
-    this.privateSetStaticResultValue(nodeId, injectFrom);
+    // this.privateSetStaticResultValue(nodeId, injectFrom);
   }
   private privateUpdateStaticValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     const node = this.nodes[nodeId];
