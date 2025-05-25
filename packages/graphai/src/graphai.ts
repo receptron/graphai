@@ -98,7 +98,8 @@ export class GraphAI {
       if (node?.isStaticNode) {
         const value = node?.value;
         if (value !== undefined) {
-          this.privateInjectValue(nodeId, value, nodeId);
+          this.privateUpdateStaticValue(nodeId, value, nodeId);
+          this.privateSetStaticResultValue(nodeId, nodeId);
         }
         if (enableConsoleLog) {
           node.consoleLog();
@@ -117,7 +118,8 @@ export class GraphAI {
         const update = node?.update;
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
-          this.privateInjectValue(nodeId, result, update.nodeId);
+          this.privateUpdateStaticValue(nodeId, result, update.nodeId);
+          this.privateSetStaticResultValue(nodeId, update.nodeId);
         }
         if (enableConsoleLog) {
           node.consoleLog();
@@ -400,13 +402,21 @@ export class GraphAI {
   // Public API
   public injectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     this.staticNodeInitData[nodeId] = value;
-    this.privateInjectValue(nodeId, value, injectFrom);
+    this.privateUpdateStaticValue(nodeId, value, injectFrom);
+    this.privateSetStaticResultValue(nodeId, injectFrom);
   }
-  private privateInjectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
+  private privateUpdateStaticValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     const node = this.nodes[nodeId];
     if (node && node.isStaticNode) {
       node.updateValue(value, injectFrom);
-      node.setResultValue(value, injectFrom);
+    } else {
+      throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
+    }
+  }
+  private privateSetStaticResultValue(nodeId: string, injectFrom?: string): void {
+    const node = this.nodes[nodeId];
+    if (node && node.isStaticNode) {
+      node.setResultValue(injectFrom);
     } else {
       throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
     }
