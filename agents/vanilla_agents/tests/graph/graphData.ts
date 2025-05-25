@@ -311,9 +311,6 @@ export const graphDataMap6 = {
         },
         version: 0.5,
         nodes: {
-          row: {
-            update: ":row",
-          },
           node1: {
             console: { before: true },
             agent: "copyAgent",

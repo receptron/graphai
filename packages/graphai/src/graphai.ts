@@ -33,6 +33,7 @@ export class GraphAI {
   public readonly version: number;
   public readonly graphId: string;
   private readonly graphData: GraphData;
+  private staticNodeInitData: Record<string, ResultData> = {};
   private readonly loop?: LoopData;
   private readonly forceLoop: boolean;
   private readonly logs: Array<TransactionLog> = [];
@@ -61,7 +62,8 @@ export class GraphAI {
       if (isComputedNodeData(nodeData)) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       } else {
-        _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
+        const updateValue = this.staticNodeInitData[nodeId];
+        _nodes[nodeId] = new StaticNode(nodeId, updateValue !== undefined ? { ...nodeData, value: updateValue } : nodeData, this);
       }
       return _nodes;
     }, {});
@@ -87,7 +89,7 @@ export class GraphAI {
   }
 
   // for static
-  private initializeStaticNodes(enableConsoleLog: boolean = false) {
+  private setStaticNodeResults(enableConsoleLog: boolean = false) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
@@ -96,7 +98,7 @@ export class GraphAI {
       if (node?.isStaticNode) {
         const value = node?.value;
         if (value !== undefined) {
-          this.injectValue(nodeId, value, nodeId);
+          node.setResultValue(nodeId);
         }
         if (enableConsoleLog) {
           node.consoleLog();
@@ -115,7 +117,7 @@ export class GraphAI {
         const update = node?.update;
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
-          this.injectValue(nodeId, result, update.nodeId);
+          this.updateStaticNodeValue(nodeId, result, update.nodeId);
         }
         if (enableConsoleLog) {
           node.consoleLog();
@@ -170,7 +172,6 @@ export class GraphAI {
       },
     };
     this.nodes = this.createNodes(this.graphData);
-    this.initializeStaticNodes(true);
   }
 
   public getAgentFunctionInfo(agentId?: string) {
@@ -257,6 +258,7 @@ export class GraphAI {
 
   // Public API
   public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictionary<T>> {
+    this.setStaticNodeResults();
     if (
       Object.values(this.nodes)
         .filter((node) => node.isStaticNode)
@@ -338,6 +340,7 @@ export class GraphAI {
     // We need to update static nodes, before checking the condition
     const previousResults = this.results(true, true); // results from previous loop
     this.updateStaticNodes(previousResults);
+    this.setStaticNodeResults();
 
     if (loop.count === undefined || this.repeatCount < loop.count) {
       if (loop.while) {
@@ -348,8 +351,10 @@ export class GraphAI {
           return false; // while condition is not met
         }
       }
-      this.initializeGraphAI();
+      this.nodes = this.createNodes(this.graphData);
       this.updateStaticNodes(previousResults, true);
+      this.setStaticNodeResults();
+
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.
     }
@@ -361,7 +366,7 @@ export class GraphAI {
       throw new Error("This GraphAI instance is running");
     }
     this.nodes = this.createNodes(this.graphData);
-    this.initializeStaticNodes();
+    this.setStaticNodeResults();
   }
   public setPreviousResults(previousResults: ResultDataDictionary<DefaultResultData>) {
     this.updateStaticNodes(previousResults);
@@ -397,14 +402,17 @@ export class GraphAI {
 
   // Public API
   public injectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
+    this.staticNodeInitData[nodeId] = value;
+    this.updateStaticNodeValue(nodeId, value, injectFrom);
+  }
+  private updateStaticNodeValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     const node = this.nodes[nodeId];
     if (node && node.isStaticNode) {
-      node.injectValue(value, injectFrom);
+      node.updateValue(value, injectFrom);
     } else {
       throw new Error(`injectValue with Invalid nodeId, ${nodeId}`);
     }
   }
-
   public resultsOf(inputs?: Record<string, any>, anyInput: boolean = false) {
     const results = resultsOf(inputs ?? {}, this.nodes, this.propFunctions);
     if (anyInput) {

@@ -38,7 +38,18 @@ test("test nested agent 3", async () => {
   await graph.run();
   // console.log(logIds);
 
-  assert.deepStrictEqual(logIds, ["nestedNode", "nestedNode", "resultInner", "resultInner", "resultInner", "nestedNode"]);
+  assert.deepStrictEqual(logIds, [
+    "source",
+    "__loopIndex",
+    "nestedNode",
+    "nestedNode",
+    "inner0",
+    "__loopIndex",
+    "resultInner",
+    "resultInner",
+    "resultInner",
+    "nestedNode",
+  ]);
 });
 
 test("test nested agent 4", async () => {

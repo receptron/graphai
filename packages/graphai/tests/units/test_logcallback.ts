@@ -54,7 +54,9 @@ test("test logCallback", async () => {
   const graph = new GraphAI(graph_data, agents);
   graph.onLogCallback = (log) => {
     const { nodeId, state, agentId } = log;
-    logs.push({ nodeId, state, agentId });
+    if (state !== "injected" && state !== "waiting") {
+      logs.push({ nodeId, state, agentId });
+    }
   };
   await graph.run(true);
   assert.deepStrictEqual(logs, [
@@ -98,11 +100,15 @@ test("test logRegister", async () => {
   const graph = new GraphAI(graph_data, agents);
   graph.registerCallback((log) => {
     const { nodeId, state } = log;
-    logs1.push({ nodeId, state });
+    if (state !== "injected" && state !== "waiting") {
+      logs1.push({ nodeId, state });
+    }
   });
   graph.registerCallback((log) => {
     const { state, agentId } = log;
-    logs2.push({ state, agentId });
+    if (state !== "injected" && state !== "waiting") {
+      logs2.push({ state, agentId });
+    }
   });
   await graph.run(true);
 
