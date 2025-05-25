@@ -207,6 +207,20 @@ Map Agent
 
 [
   ":agentId",
+  ":agentId.$0",
+  ":agentId.$1",
+  ":agentId.$2",
+  ":agentId.$3",
+  ":agentId.$4",
+  ":agentId.$5",
+  ":agentId.$6"
+]
+
+```
+```json
+
+[
+  ":agentId",
   ":agentId.test",
   ":agentId.test.$0",
   ":agentId.test.$0.$0",
@@ -733,6 +747,49 @@ Map Agent
 
 {
   "rows": [
+    "apple",
+    "orange",
+    "banana",
+    "lemon",
+    "melon",
+    "pineapple",
+    "tomato"
+  ]
+}
+
+```
+
+#### params
+
+```json
+
+{"compositeResult":true,"compositeResultKey":"node2"}
+
+```
+
+#### result
+
+```json
+
+[
+  "I love apple.",
+  "I love orange.",
+  "I love banana.",
+  "I love lemon.",
+  "I love melon.",
+  "I love pineapple.",
+  "I love tomato."
+]
+
+```
+### Sample11
+
+#### inputs
+
+```json
+
+{
+  "rows": [
     1,
     2
   ]
@@ -772,7 +829,7 @@ Map Agent
 }
 
 ```
-### Sample11
+### Sample12
 
 #### inputs
 

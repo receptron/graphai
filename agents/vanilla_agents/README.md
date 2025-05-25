@@ -2086,6 +2086,27 @@ const result = await graph.run();
 {
   "inputs": {
     "rows": [
+      "apple",
+      "orange",
+      "banana",
+      "lemon",
+      "melon",
+      "pineapple",
+      "tomato"
+    ]
+  },
+  "params": {
+    "compositeResult": true,
+    "compositeResultKey": "node2"
+  }
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "rows": [
       1,
       2
     ]
