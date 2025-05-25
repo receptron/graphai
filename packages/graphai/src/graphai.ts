@@ -33,6 +33,7 @@ export class GraphAI {
   public readonly version: number;
   public readonly graphId: string;
   private readonly graphData: GraphData;
+  private staticNodeInitData: Record<string, ResultData> = {};
   private readonly loop?: LoopData;
   private readonly forceLoop: boolean;
   private readonly logs: Array<TransactionLog> = [];
@@ -61,7 +62,8 @@ export class GraphAI {
       if (isComputedNodeData(nodeData)) {
         _nodes[nodeId] = new ComputedNode(this.graphId, nodeId, nodeData, this);
       } else {
-        _nodes[nodeId] = new StaticNode(nodeId, nodeData, this);
+        const updateValue = this.staticNodeInitData[nodeId];
+        _nodes[nodeId] = new StaticNode(nodeId, updateValue !== undefined ? { ...nodeData, value: updateValue } : nodeData, this);
       }
       return _nodes;
     }, {});
@@ -96,7 +98,7 @@ export class GraphAI {
       if (node?.isStaticNode) {
         const value = node?.value;
         if (value !== undefined) {
-          this.injectValue(nodeId, value, nodeId);
+          this.privateInjectValue(nodeId, value, nodeId);
         }
         if (enableConsoleLog) {
           node.consoleLog();
@@ -115,7 +117,7 @@ export class GraphAI {
         const update = node?.update;
         if (update && previousResults) {
           const result = this.getValueFromResults(update, previousResults);
-          this.injectValue(nodeId, result, update.nodeId);
+          this.privateInjectValue(nodeId, result, update.nodeId);
         }
         if (enableConsoleLog) {
           node.consoleLog();
@@ -397,6 +399,10 @@ export class GraphAI {
 
   // Public API
   public injectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
+    this.staticNodeInitData[nodeId] = value;
+    this.privateInjectValue(nodeId, value, injectFrom);
+  }
+  private privateInjectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     const node = this.nodes[nodeId];
     if (node && node.isStaticNode) {
       node.injectValue(value, injectFrom);
