@@ -89,7 +89,7 @@ export class GraphAI {
   }
 
   // for static
-  private initializeStaticNodes(enableConsoleLog: boolean = false) {
+  private setStaticNodeResults(enableConsoleLog: boolean = false) {
     // If the result property is specified, inject it.
     // If the previousResults exists (indicating we are in a loop),
     // process the update property (nodeId or nodeId.propId).
@@ -260,7 +260,7 @@ export class GraphAI {
 
   // Public API
   public async run<T = DefaultResultData>(all: boolean = false): Promise<ResultDataDictionary<T>> {
-    this.initializeStaticNodes();
+    this.setStaticNodeResults();
     if (
       Object.values(this.nodes)
         .filter((node) => node.isStaticNode)
@@ -355,7 +355,7 @@ export class GraphAI {
       // this.initializeGraphAI();
       this.nodes = this.createNodes(this.graphData);
       this.updateStaticNodes(previousResults, true);
-      this.initializeStaticNodes();
+      this.setStaticNodeResults();
       
       this.pushReadyNodesIntoQueue();
       return true; // Indicating that we are going to continue.
@@ -368,7 +368,7 @@ export class GraphAI {
       throw new Error("This GraphAI instance is running");
     }
     this.nodes = this.createNodes(this.graphData);
-    this.initializeStaticNodes();
+    this.setStaticNodeResults();
   }
   public setPreviousResults(previousResults: ResultDataDictionary<DefaultResultData>) {
     this.updateStaticNodes(previousResults);
