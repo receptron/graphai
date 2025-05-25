@@ -4,6 +4,7 @@ export declare const mapAgent: AgentFunction<Partial<GraphAISupressError & {
     limit: number;
     resultAll: boolean;
     compositeResult: boolean;
+    compositeResultKey: string;
     rowKey: string;
     expandKeys: string[];
 }>, Record<string, any>>;

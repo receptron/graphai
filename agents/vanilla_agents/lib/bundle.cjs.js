@@ -1456,7 +1456,7 @@ const streamMockAgentInfo = {
 
 const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph }) => {
     graphai.assert(!!forNestedGraph, "Please update graphai to 0.5.19 or higher");
-    const { limit, resultAll, compositeResult, supressError, rowKey, expandKeys } = params;
+    const { limit, resultAll, compositeResult, compositeResultKey, supressError, rowKey, expandKeys } = params;
     const { agents, graphData, graphOptions, onLogCallback, callbacks } = forNestedGraph;
     const { taskManager } = graphOptions;
     if (taskManager) {
@@ -1526,14 +1526,17 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
             });
             log.push(...logs.flat());
         }
-        if (compositeResult) {
-            const compositeResult = nodeIds.reduce((tmp, nodeId) => {
+        if (compositeResult || compositeResultKey) {
+            const _compositeResult = nodeIds.reduce((tmp, nodeId) => {
                 tmp[nodeId] = results.map((result) => {
                     return result[nodeId];
                 });
                 return tmp;
             }, {});
-            return compositeResult;
+            if (compositeResultKey) {
+                return _compositeResult[compositeResultKey];
+            }
+            return _compositeResult;
         }
         return results;
     }
@@ -1827,6 +1830,28 @@ const mapAgentInfo = {
             result: {
                 node2: ["I love apple.", "I love orange.", "I love banana.", "I love lemon.", "I love melon.", "I love pineapple.", "I love tomato."],
             },
+        },
+        {
+            inputs: {
+                rows: ["apple", "orange", "banana", "lemon", "melon", "pineapple", "tomato"],
+            },
+            params: {
+                compositeResult: true,
+                compositeResultKey: "node2",
+            },
+            graph: {
+                nodes: {
+                    node2: {
+                        agent: "stringTemplateAgent",
+                        params: {
+                            template: "I love ${row}.",
+                        },
+                        inputs: { row: ":row" },
+                        isResult: true,
+                    },
+                },
+            },
+            result: ["I love apple.", "I love orange.", "I love banana.", "I love lemon.", "I love melon.", "I love pineapple.", "I love tomato."],
         },
         {
             inputs: {
