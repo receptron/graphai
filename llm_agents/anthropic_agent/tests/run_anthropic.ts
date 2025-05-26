@@ -18,7 +18,7 @@ test("test anthropicAgent", async () => {
 
 test("test anthropicAgent stream", async () => {
   const namedInputs = { prompt: ["hello, let me the world history"] };
-  const params = { stream: true };
+  const params = { dataStream: true };
   const opt = {
     ...defaultTestContext,
     namedInputs,
