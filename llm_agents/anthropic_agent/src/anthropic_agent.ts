@@ -4,7 +4,6 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 import {
   GraphAILLMInputBase,
   getMergeValue,
-  LLMMetaResponse,
   LLMMetaData,
   convertMeta,
   initLLMMetaData,
