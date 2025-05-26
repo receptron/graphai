@@ -114,7 +114,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     if (!modelName.startsWith("o1") && !modelName.startsWith("o3")) {
         chatParams.temperature = temperature ?? 0.7;
     }
-    if (!stream) {
+    if (!stream && !dataStream) {
         const result = await openai.chat.completions.create(chatParams);
         (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
         return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData);
@@ -125,8 +125,8 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         stream_options: { include_usage: true },
     });
     // streaming
-    if (dataStream) {
-        if (filterParams && filterParams.streamTokenCallback) {
+    if (dataStream || stream) {
+        if (dataStream && filterParams && filterParams.streamTokenCallback) {
             filterParams.streamTokenCallback({
                 type: "response.created",
                 response: {},
@@ -138,37 +138,30 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
                 (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
                 const token = chunk.choices[0].delta.content;
                 if (filterParams && filterParams.streamTokenCallback && token) {
-                    filterParams.streamTokenCallback({
-                        type: "response.in_progress",
-                        response: {
-                            output: [
-                                {
-                                    type: "text",
-                                    text: token,
-                                },
-                            ],
-                        },
-                    });
+                    if (dataStream) {
+                        filterParams.streamTokenCallback({
+                            type: "response.in_progress",
+                            response: {
+                                output: [
+                                    {
+                                        type: "text",
+                                        text: token,
+                                    },
+                                ],
+                            },
+                        });
+                    }
+                    else {
+                        filterParams.streamTokenCallback(token);
+                    }
                 }
             }
         }
-        if (filterParams && filterParams.streamTokenCallback) {
+        if (dataStream && filterParams && filterParams.streamTokenCallback) {
             filterParams.streamTokenCallback({
                 type: "response.completed",
                 response: {},
             });
-        }
-    }
-    else {
-        for await (const chunk of chatStream) {
-            (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
-            // usage chunk have empty choices
-            if (chunk.choices[0]) {
-                const token = chunk.choices[0].delta.content;
-                if (filterParams && filterParams.streamTokenCallback && token) {
-                    filterParams.streamTokenCallback(token);
-                }
-            }
         }
     }
     const chatCompletion = await chatStream.finalChatCompletion();
