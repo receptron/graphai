@@ -29,6 +29,29 @@ export type GraphAILLMStreamDataCompleted = {
 
 export type GraphAILLMStreamData = GraphAILLMStreamDataCreate | GraphAILLMStreamDataProgress | GraphAILLMStreamDataCompleted;
 
+export type LLMMetaResponse = {
+  timing: {
+    start: string;
+    firstToken?: string;
+    end: string;
+    latencyToFirstToken?: number;
+    duration?: number;
+    totalElapsed: number;
+  };
+};
+
+export type LLMMetaData = {
+  timing: {
+    start: number;
+    firstToken?: number;
+    end: number;
+    latencyToFirstToken?: number;
+    duration?: number;
+    totalElapsed: number;
+  };
+};
+
+
 export const flatString = (input: GraphAILLInputType): string => {
   return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
@@ -54,4 +77,38 @@ export type GraphAILlmMessage = {
 export const getMessages = <MessageType>(systemPrompt?: string, messages?: MessageType[]): MessageType[] => {
   const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt } as MessageType] : []), ...(messages ?? [])];
   return messagesCopy;
+};
+
+
+//
+export const convertMeta = (llmMetaData: LLMMetaData): LLMMetaResponse => {
+  const { start, firstToken, end } = llmMetaData.timing;
+  const latencyToFirstToken = firstToken ? firstToken - start : undefined;
+  const duration = firstToken ? end - firstToken : undefined;
+  const totalElapsed = end - start;
+
+  return {
+    timing: {
+      start: new Date(start).toISOString(),
+      firstToken: firstToken ? new Date(firstToken).toISOString() : undefined,
+      end: new Date(end).toISOString(),
+      latencyToFirstToken,
+      duration,
+      totalElapsed,
+    },
+  };
+};
+
+export const initLLMMetaData = () => {
+  const llmMetaData: LLMMetaData = { timing: { start: Date.now(), end: 0, totalElapsed: 0 } };
+  return llmMetaData;
+};
+
+export const llmMetaDataEndTime = (llmMetaData: LLMMetaData) => {
+  llmMetaData.timing.end = Date.now();
+};
+export const llmMetaDataFirstTokenTime = (llmMetaData: LLMMetaData) => {
+  if (llmMetaData.timing.firstToken === undefined) {
+    llmMetaData.timing.firstToken = Date.now();
+  }
 };

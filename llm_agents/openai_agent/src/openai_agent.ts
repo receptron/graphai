@@ -1,6 +1,16 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
-import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
+import {
+  GraphAILLMInputBase,
+  getMergeValue,
+  getMessages,
+  LLMMetaResponse,
+  LLMMetaData,
+  convertMeta,
+  initLLMMetaData,
+  llmMetaDataEndTime,
+  llmMetaDataFirstTokenTime,
+} from "@graphai/llm_utils";
 import type { GraphAINullableText, GraphAITool, GraphAIToolCalls } from "@graphai/agent_utils";
 
 type OpenAIInputs = {
@@ -30,7 +40,7 @@ type OpenAIParams = OpenAIInputs & OpenAIConfig & { dataStream?: boolean };
 type OpenAIResult = Partial<
   GraphAINullableText &
     GraphAITool &
-    GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & { messages: OpenAI.ChatCompletionMessageParam[] }
+    GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & { messages: OpenAI.ChatCompletionMessageParam[] } & LLMMetaResponse
 >;
 
 const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageToolCall) => {
@@ -48,7 +58,7 @@ const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageTo
   };
 };
 
-const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[]) => {
+const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[], llmMetaData: LLMMetaData) => {
   const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
 
   const text = newMessage && newMessage.content ? newMessage.content : null;
@@ -89,6 +99,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
     message,
     messages,
     usage: response.usage,
+    metadata: convertMeta(llmMetaData),
   };
 };
 
@@ -102,6 +113,8 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     ...(config || {}),
     ...params,
   };
+
+  const llmMetaData = initLLMMetaData();
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
@@ -155,7 +168,8 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
 
   if (!stream) {
     const result = await openai.chat.completions.create(chatParams);
-    return convertOpenAIChatCompletion(result, messagesCopy);
+    llmMetaDataEndTime(llmMetaData);
+    return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData);
   }
   const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
@@ -172,6 +186,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     for await (const chunk of chatStream) {
       // usage chunk have empty choices
       if (chunk.choices[0]) {
+        llmMetaDataFirstTokenTime(llmMetaData);
         const token = chunk.choices[0].delta.content;
         if (filterParams && filterParams.streamTokenCallback && token) {
           filterParams.streamTokenCallback({
@@ -194,6 +209,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     });
   } else {
     for await (const chunk of chatStream) {
+      llmMetaDataFirstTokenTime(llmMetaData);
       // usage chunk have empty choices
       if (chunk.choices[0]) {
         const token = chunk.choices[0].delta.content;
@@ -204,7 +220,9 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     }
   }
   const chatCompletion = await chatStream.finalChatCompletion();
-  return convertOpenAIChatCompletion(chatCompletion, messagesCopy);
+  llmMetaDataEndTime(llmMetaData);
+
+  return convertOpenAIChatCompletion(chatCompletion, messagesCopy, llmMetaData);
 };
 
 const input_sample = "this is response result";
