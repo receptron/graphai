@@ -26,6 +26,7 @@ type GroqInputs = {
 type GroqConfig = {
   apiKey?: string;
   stream?: boolean;
+  dataStream?: boolean;
   forWeb?: boolean;
 };
 
@@ -92,7 +93,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
 export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqConfig> = async ({ params, namedInputs, filterParams, config }) => {
   const { verbose, system, tools, tool_choice, max_tokens, temperature, prompt, messages } = { ...params, ...namedInputs };
 
-  const { apiKey, stream, forWeb, model } = {
+  const { apiKey, stream, dataStream, forWeb, model } = {
     ...params,
     ...(config || {}),
   };
@@ -128,7 +129,7 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
     temperature: temperature ?? 0.7,
   };
 
-  const options: ChatCompletionCreateParams = stream ? streamOption : nonStreamOption;
+  const options: ChatCompletionCreateParams = stream || dataStream ? streamOption : nonStreamOption;
   if (max_tokens) {
     options.max_tokens = max_tokens;
   }
@@ -145,15 +146,51 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
   const pipe = await groq.chat.completions.create(options);
   let lastMessage = null;
   const contents = [];
-  for await (const _message of pipe) {
-    const token = _message.choices[0].delta.content;
-    if (token) {
-      if (filterParams && filterParams.streamTokenCallback) {
-        filterParams.streamTokenCallback(token);
-      }
-      contents.push(token);
+  if (dataStream) {
+    console.log("FFFF", filterParams);
+    if (filterParams && filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback({
+        type: "response.created",
+        response: {},
+      });
     }
-    lastMessage = _message as any;
+    for await (const _message of pipe) {
+      const token = _message.choices[0].delta.content;
+      if (token) {
+        if (filterParams && filterParams.streamTokenCallback) {
+          filterParams.streamTokenCallback({
+            type: "response.in_progress",
+            response: {
+              output: [
+                {
+                  type: "text",
+                  text: token,
+                },
+              ],
+            },
+          });
+        }
+        contents.push(token);
+      }
+      lastMessage = _message as any;
+    }
+    if (filterParams && filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback({
+        type: "response.completed",
+        response: {},
+      });
+    }
+  } else {
+    for await (const _message of pipe) {
+      const token = _message.choices[0].delta.content;
+      if (token) {
+        if (filterParams && filterParams.streamTokenCallback) {
+          filterParams.streamTokenCallback(token);
+        }
+        contents.push(token);
+      }
+      lastMessage = _message as any;
+    }
   }
   const text = contents.join("");
   const message: ChatCompletionAssistantMessageParam = { role: "assistant", content: text };
