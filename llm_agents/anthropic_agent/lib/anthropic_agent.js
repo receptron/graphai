@@ -11,7 +11,7 @@ const convToolCall = (tool_call) => {
     return { id, name, arguments: input };
 };
 // https://docs.anthropic.com/ja/api/messages
-const convertOpenAIChatCompletion = (response, messages) => {
+const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
     // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
     const text = response.content[0].text;
     const functionResponses = response.content.filter((content) => content.type === "tool_use") ?? [];
@@ -19,7 +19,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
     const tool = tool_calls[0] ? tool_calls[0] : undefined;
     const message = { role: response.role, content: text };
     messages.push(message);
-    return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
+    return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: (0, llm_utils_1.convertMeta)(llmMetaData) };
 };
 const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) => {
     const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages } = { ...params, ...namedInputs };
@@ -27,6 +27,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
         ...params,
         ...(config || {}),
     };
+    const llmMetaData = (0, llm_utils_1.initLLMMetaData)();
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     const messagesCopy = messages ? messages.map((m) => m) : [];
@@ -63,7 +64,8 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
     };
     if (!stream) {
         const messageResponse = await anthropic.messages.create(chatParams);
-        return convertOpenAIChatCompletion(messageResponse, messagesCopy);
+        (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
+        return convertOpenAIChatCompletion(messageResponse, messagesCopy, llmMetaData);
     }
     const chatStream = await anthropic.messages.create({
         ...chatParams,
@@ -73,6 +75,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
     const partials = [];
     let streamResponse = null;
     for await (const messageStreamEvent of chatStream) {
+        (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
         if (messageStreamEvent.type === "message_start") {
             streamResponse = messageStreamEvent.message;
         }
@@ -110,7 +113,8 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
             streamResponse.content[index].input = JSON.parse(partial);
         }
     });
-    return convertOpenAIChatCompletion(streamResponse, messagesCopy);
+    (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
+    return convertOpenAIChatCompletion(streamResponse, messagesCopy, llmMetaData);
 };
 exports.anthropicAgent = anthropicAgent;
 const anthropicAgentInfo = {
