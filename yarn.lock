@@ -16,10 +16,10 @@
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-"@anthropic-ai/sdk@^0.50.3":
-  version "0.50.3"
-  resolved "https://registry.npmjs.org/@anthropic-ai/sdk/-/sdk-0.50.3.tgz"
-  integrity sha512-DrCym4bNTwC60Y+cYVUmHKsXva3xhYAnOOFYi7/CwDHwAyBtqrUIic3xkvOpPveEHhe4s/ELAflssrlipk5tOg==
+"@anthropic-ai/sdk@^0.52.0":
+  version "0.52.0"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.52.0.tgz#fa521708f926963da78d7bea50dd29bf786f465b"
+  integrity sha512-d4c+fg+xy9e46c8+YnrrgIQR45CZlAi7PwdzIfDXDM6ACxEZli1/fxhURsq30ZpMZy6LvSkr41jGq5aF5TD7rQ==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
