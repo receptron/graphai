@@ -46,7 +46,6 @@ test("test groq tools", async () => {
     model: "llama3-8b-8192",
   };
   const res = (await groqAgent({ ...defaultTestContext, namedInputs, params })) as any;
-
   if (res) {
     console.log(res.tool);
   }

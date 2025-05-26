@@ -11,7 +11,14 @@ import {
   ChatCompletion,
 } from "groq-sdk/resources/chat/completions";
 
-import { GraphAILLMInputBase, getMergeValue, getMessages } from "@graphai/llm_utils";
+import { GraphAILLMInputBase, getMergeValue, getMessages,
+  LLMMetaData,
+  convertMeta,
+  initLLMMetaData,
+  llmMetaDataEndTime,
+  llmMetaDataFirstTokenTime,
+
+       } from "@graphai/llm_utils";
 import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 type GroqInputs = {
@@ -55,7 +62,7 @@ type GroqResult = Partial<GraphAIText & GraphAITool & GraphAIToolCalls & GraphAI
 // https://console.groq.com/docs/quickstart
 //
 
-const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCompletionMessageParam[]) => {
+const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCompletionMessageParam[], llmMetaData: LLMMetaData) => {
   const message = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
   const text = message && message.content ? message.content : null;
 
@@ -87,6 +94,7 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
     tool_calls,
     message,
     messages,
+    metadata: convertMeta(llmMetaData),
   };
 };
 
@@ -100,6 +108,8 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
   const key = apiKey ?? (process !== undefined ? process.env.GROQ_API_KEY : undefined);
   assert(key !== undefined, "The GROQ_API_KEY environment variable adn apiKey is missing.");
   const groq = new Groq({ apiKey, dangerouslyAllowBrowser: !!forWeb });
+
+  const llmMetaData = initLLMMetaData();
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
@@ -139,25 +149,26 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
   }
   if (!options.stream) {
     const result = await groq.chat.completions.create(options);
-
-    return convertOpenAIChatCompletion(result, messagesCopy);
+    llmMetaDataEndTime(llmMetaData);
+    return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData);
   }
   // streaming
   const pipe = await groq.chat.completions.create(options);
   let lastMessage = null;
   const contents = [];
-  if (dataStream) {
-    console.log("FFFF", filterParams);
-    if (filterParams && filterParams.streamTokenCallback) {
-      filterParams.streamTokenCallback({
-        type: "response.created",
-        response: {},
-      });
-    }
-    for await (const _message of pipe) {
-      const token = _message.choices[0].delta.content;
-      if (token) {
-        if (filterParams && filterParams.streamTokenCallback) {
+
+  if (dataStream && filterParams && filterParams.streamTokenCallback) {
+    filterParams.streamTokenCallback({
+      type: "response.created",
+      response: {},
+    });
+  }
+  for await (const _message of pipe) {
+    llmMetaDataFirstTokenTime(llmMetaData);
+    const token = _message.choices[0].delta.content;
+    if (token) {
+      if (filterParams && filterParams.streamTokenCallback) {
+        if (dataStream) {
           filterParams.streamTokenCallback({
             type: "response.in_progress",
             response: {
@@ -169,28 +180,19 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
               ],
             },
           });
-        }
-        contents.push(token);
-      }
-      lastMessage = _message as any;
-    }
-    if (filterParams && filterParams.streamTokenCallback) {
-      filterParams.streamTokenCallback({
-        type: "response.completed",
-        response: {},
-      });
-    }
-  } else {
-    for await (const _message of pipe) {
-      const token = _message.choices[0].delta.content;
-      if (token) {
-        if (filterParams && filterParams.streamTokenCallback) {
+        } else {
           filterParams.streamTokenCallback(token);
         }
-        contents.push(token);
       }
-      lastMessage = _message as any;
+      contents.push(token);
     }
+    lastMessage = _message as any;
+  }
+  if (dataStream && filterParams && filterParams.streamTokenCallback) {
+    filterParams.streamTokenCallback({
+      type: "response.completed",
+      response: {},
+    });
   }
   const text = contents.join("");
   const message: ChatCompletionAssistantMessageParam = { role: "assistant", content: text };
@@ -199,11 +201,14 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
   }
   // maybe not suppor tool when streaming
   messagesCopy.push(message);
+
+  llmMetaDataEndTime(llmMetaData);
   return {
     ...lastMessage,
     text,
     message,
     messages: messagesCopy,
+    metadata: convertMeta(llmMetaData),
   };
 };
 
