@@ -55,7 +55,7 @@ test("test gemini tools", async () => {
 
 test("test gemini stream", async () => {
   const namedInputs = { prompt: ["tell me world history"] };
-  const params = { stream: true };
+  const params = { dataStream: true };
   const res = (await geminiAgent({
     ...defaultTestContext,
     namedInputs,
