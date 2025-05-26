@@ -1,7 +1,16 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { AgentFunction, AgentFunctionInfo } from "graphai";
 
-import { GraphAILLMInputBase, getMergeValue } from "@graphai/llm_utils";
+import {
+  GraphAILLMInputBase,
+  getMergeValue,
+  LLMMetaResponse,
+  LLMMetaData,
+  convertMeta,
+  initLLMMetaData,
+  llmMetaDataEndTime,
+  llmMetaDataFirstTokenTime,
+} from "@graphai/llm_utils";
 import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 type AnthropicInputs = {
@@ -37,7 +46,7 @@ const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
 
 type Response = Anthropic.Message & { _request_id?: string | null | undefined };
 // https://docs.anthropic.com/ja/api/messages
-const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[]) => {
+const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[], llmMetaData: LLMMetaData) => {
   // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
 
   const text = (response.content[0] as Anthropic.TextBlock).text;
@@ -47,7 +56,7 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
 
   const message = { role: response.role, content: text };
   messages.push(message);
-  return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
+  return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: convertMeta(llmMetaData) };
 };
 
 export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({
@@ -62,6 +71,8 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     ...params,
     ...(config || {}),
   };
+
+  const llmMetaData = initLLMMetaData();
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
@@ -105,7 +116,8 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
 
   if (!stream) {
     const messageResponse = await anthropic.messages.create(chatParams);
-    return convertOpenAIChatCompletion(messageResponse, messagesCopy);
+    llmMetaDataEndTime(llmMetaData);
+    return convertOpenAIChatCompletion(messageResponse, messagesCopy, llmMetaData);
   }
   const chatStream = await anthropic.messages.create({
     ...chatParams,
@@ -116,6 +128,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   let streamResponse: Response | null = null;
 
   for await (const messageStreamEvent of chatStream) {
+    llmMetaDataFirstTokenTime(llmMetaData);
     if (messageStreamEvent.type === "message_start") {
       streamResponse = messageStreamEvent.message;
     }
@@ -154,7 +167,8 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     }
   });
 
-  return convertOpenAIChatCompletion(streamResponse, messagesCopy);
+  llmMetaDataEndTime(llmMetaData);
+  return convertOpenAIChatCompletion(streamResponse, messagesCopy, llmMetaData);
 };
 
 const anthropicAgentInfo: AgentFunctionInfo = {
