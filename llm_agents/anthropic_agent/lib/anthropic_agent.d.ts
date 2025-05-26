@@ -14,6 +14,7 @@ type AnthropicInputs = {
 type AnthropicConfig = {
     apiKey?: string;
     stream?: boolean;
+    dataStream?: boolean;
     forWeb?: boolean;
 };
 type AnthropicParams = AnthropicInputs & AnthropicConfig;

@@ -23,7 +23,7 @@ const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
 };
 const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) => {
     const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages } = { ...params, ...namedInputs };
-    const { apiKey, stream, forWeb, model } = {
+    const { apiKey, stream, dataStream, forWeb, model } = {
         ...params,
         ...(config || {}),
     };
@@ -62,7 +62,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
         temperature: temperature ?? 0.7,
         max_tokens: max_tokens ?? 1024,
     };
-    if (!stream) {
+    if (!stream && !dataStream) {
         const messageResponse = await anthropic.messages.create(chatParams);
         (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
         return convertOpenAIChatCompletion(messageResponse, messagesCopy, llmMetaData);
@@ -74,6 +74,12 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
     const contents = [];
     const partials = [];
     let streamResponse = null;
+    if (dataStream && filterParams && filterParams.streamTokenCallback) {
+        filterParams.streamTokenCallback({
+            type: "response.created",
+            response: {},
+        });
+    }
     for await (const messageStreamEvent of chatStream) {
         (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
         if (messageStreamEvent.type === "message_start") {
@@ -98,9 +104,30 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
             const token = messageStreamEvent.delta.text;
             contents.push(token);
             if (filterParams && filterParams.streamTokenCallback && token) {
-                filterParams.streamTokenCallback(token);
+                if (dataStream) {
+                    filterParams.streamTokenCallback({
+                        type: "response.in_progress",
+                        response: {
+                            output: [
+                                {
+                                    type: "text",
+                                    text: token,
+                                },
+                            ],
+                        },
+                    });
+                }
+                else {
+                    filterParams.streamTokenCallback(token);
+                }
             }
         }
+    }
+    if (dataStream && filterParams && filterParams.streamTokenCallback) {
+        filterParams.streamTokenCallback({
+            type: "response.completed",
+            response: {},
+        });
     }
     if (streamResponse === null) {
         throw new Error("Anthoropic no response");
