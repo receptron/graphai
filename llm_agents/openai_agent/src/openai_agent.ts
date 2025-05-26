@@ -179,10 +179,12 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
 
   // streaming
   if (dataStream) {
-    filterParams.streamTokenCallback({
-      type: "response.created",
-      response: {},
-    });
+    if (filterParams && filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback({
+        type: "response.created",
+        response: {},
+      });
+    }
     for await (const chunk of chatStream) {
       // usage chunk have empty choices
       if (chunk.choices[0]) {
@@ -203,10 +205,12 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
         }
       }
     }
-    filterParams.streamTokenCallback({
-      type: "response.completed",
-      response: {},
-    });
+    if (filterParams && filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback({
+        type: "response.completed",
+        response: {},
+      });
+    }
   } else {
     for await (const chunk of chatStream) {
       llmMetaDataFirstTokenTime(llmMetaData);

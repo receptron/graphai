@@ -55,8 +55,17 @@ test("test groq tools", async () => {
 
 test("test groq stream", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const params = { model: "llama3-8b-8192", stream: true };
-  const res = (await groqAgent({ ...defaultTestContext, namedInputs, params })) as any;
+  const params = { model: "llama3-8b-8192", dataStream: true };
+  const res = (await groqAgent({
+    ...defaultTestContext,
+    namedInputs,
+    params,
+    filterParams: {
+      streamTokenCallback: (data: any) => {
+        console.log(JSON.stringify(data, null, 2));
+      },
+    },
+  })) as any;
 
   if (res) {
     console.log(res.choices[0].message["content"]);
