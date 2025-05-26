@@ -117,64 +117,10 @@
     "@shikijs/types" "^3.2.1"
     "@shikijs/vscode-textmate" "^10.0.2"
 
-"@google/generative-ai@^0.23.0":
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.23.0.tgz#e5b8add3a394ae7c64b46ca06c85540d8ac65d55"
-  integrity sha512-8vGoguvLG22U3t9XpXvbxjxy/yfBhE27pqptz5QVKXwBSh9sUXXmZWS8ZdGMqifK7kiuZQCG2cjGJNUdBsgX+g==
-
 "@google/generative-ai@^0.24.1":
   version "0.24.1"
   resolved "https://registry.npmjs.org/@google/generative-ai/-/generative-ai-0.24.1.tgz"
   integrity sha512-MqO+MLfM6kjxcKoy0p1wRzG3b4ZZXtPI+z2IE26UogS2Cm/XHO+7gGRBh6gcJsOiIVoH93UwKvW4HdgiOZCy9Q==
-
-"@graphai/gemini_agent@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/gemini_agent/-/gemini_agent-1.0.1.tgz#caeed5c1d241d21a8b69a36cf68aff22594db824"
-  integrity sha512-zOx2ljGL7IHS3a+0g9JsaH6bONlr/Wyd2tYSzgJaim4a5iWFbtK23PFaN6VrAfixExnmycWaGCnfipdkIrcSjg==
-  dependencies:
-    "@google/generative-ai" "^0.23.0"
-    "@graphai/llm_utils" "^0.2.0"
-
-"@graphai/groq_agent@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/groq_agent/-/groq_agent-1.0.1.tgz#7a769fb02b965c811bb8a052de7e89271bbc7a44"
-  integrity sha512-s/xH4dzDR9DS9SmV1Qbn+maz19XjXie1ztC7tSWaAU8I7lk6QMEuMb8HXTP10YA0N4lMOBWIBLXsFy3wz4eIDg==
-  dependencies:
-    "@graphai/llm_utils" "^0.2.0"
-    groq-sdk "^0.15.0"
-
-"@graphai/llm_agents@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@graphai/llm_agents/-/llm_agents-1.0.5.tgz#d22114eaba7df7edf6cc3937cc5acdacab470896"
-  integrity sha512-fBZVMs66ZOn0Yy1ahT1D/fsLOJXcJStSr5k+ibxnFmHpUgl5AFFqkE+AcdWhL/rBNtMKZdokGyBM9qL9/JVZFg==
-  dependencies:
-    "@graphai/anthropic_agent" "^2.0.0"
-    "@graphai/gemini_agent" "^1.0.1"
-    "@graphai/groq_agent" "^1.0.1"
-    "@graphai/openai_agent" "^1.0.5"
-    "@graphai/openai_fetch_agent" "^0.2.2"
-    "@graphai/replicate_agent" "^1.0.1"
-
-"@graphai/llm_utils@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@graphai/llm_utils/-/llm_utils-0.2.0.tgz#03de706c5dc91f4650fa540bb75a15646dc79d88"
-  integrity sha512-8QJxmrbXz2tMPfJVfx0OG4hQzMDLQbs2Mv7sMnYEDbOdZuS11l3kLZeDoA9KGGlts3cT15WjQ/V9tqhT7I24mA==
-
-"@graphai/openai_agent@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@graphai/openai_agent/-/openai_agent-1.0.5.tgz#dcd855a1d4f571cff9d6561f678fb52c00130d3a"
-  integrity sha512-KtMmveYOjuN6UNei9lMWrH/SHxrnDfnvUZO1bq+kICpQCPnYKiiZKi5tUcWyOQJZSCgXNqCBedouKn3Y03WnCw==
-  dependencies:
-    "@graphai/llm_utils" "^0.2.0"
-    openai "^4.86.2"
-
-"@graphai/replicate_agent@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@graphai/replicate_agent/-/replicate_agent-1.0.1.tgz#07effff4dbbd9628574e9ba601988ff1c0016ad7"
-  integrity sha512-Z0N4SY5GwwzzTcR7AGhUVkfZ6RDseQ8wwA32AHRZVFBN9DjwSjtM/4JY6E8xrNvbtmB/tcSHxYgStZoEvCfQww==
-  dependencies:
-    "@graphai/llm_utils" "^0.2.0"
-    replicate "^1.0.1"
 
 "@graphql-typed-document-node/core@^3.2.0":
   version "3.2.0"
@@ -2106,19 +2052,6 @@ graphql@^16.8.1:
   resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
-groq-sdk@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.15.0.tgz#7ff1ea457551bb0424e1380c15e285cff67fe691"
-  integrity sha512-aYDEdr4qczx3cLCRRe+Beb37I7g/9bD5kHF+EEDxcrREWw1vKoRcfP3vHEkJB7Ud/8oOuF0scRwDpwWostTWuQ==
-  dependencies:
-    "@types/node" "^18.11.18"
-    "@types/node-fetch" "^2.6.4"
-    abort-controller "^3.0.0"
-    agentkeepalive "^4.2.1"
-    form-data-encoder "1.7.2"
-    formdata-node "^4.3.2"
-    node-fetch "^2.6.7"
-
 groq-sdk@^0.22.0:
   version "0.22.0"
   resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.22.0.tgz#bf3b4e19e849c97727634214f085af5984ddd33e"
@@ -2853,7 +2786,7 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-openai@^4.103.0, openai@^4.86.2:
+openai@^4.103.0:
   version "4.103.0"
   resolved "https://registry.yarnpkg.com/openai/-/openai-4.103.0.tgz#84ee52fec22f3486dcc107338b2eaf568ef4924b"
   integrity sha512-eWcz9kdurkGOFDtd5ySS5y251H2uBgq9+1a2lTBnjMMzlexJ40Am5t6Mu76SSE87VvitPa0dkIAp75F+dZVC0g==
