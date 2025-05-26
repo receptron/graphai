@@ -22,7 +22,8 @@ const convToolCall = (tool_call) => {
         })(),
     };
 };
-const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
+const convertOpenAIChatCompletion = (response, messages, llmMetaData, maybeResponseFormat) => {
+    (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
     const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = newMessage && newMessage.content ? newMessage.content : null;
     const functionResponses = newMessage?.tool_calls && Array.isArray(newMessage?.tool_calls) ? newMessage?.tool_calls : [];
@@ -49,6 +50,15 @@ const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
     if (message) {
         messages.push(message);
     }
+    const responseFormat = (() => {
+        if (maybeResponseFormat && text) {
+            const parsed = JSON.parse(text);
+            if (typeof parsed === "object" && parsed !== null) {
+                return parsed;
+            }
+        }
+        return null;
+    })();
     return {
         ...response,
         text,
@@ -58,6 +68,7 @@ const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
         messages,
         usage: response.usage,
         metadata: (0, llm_utils_1.convertMeta)(llmMetaData),
+        responseFormat,
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
@@ -116,8 +127,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     }
     if (!stream && !dataStream) {
         const result = await openai.chat.completions.create(chatParams);
-        (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
-        return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData);
+        return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData, !!response_format);
     }
     const chatStream = openai.beta.chat.completions.stream({
         ...chatParams,
@@ -165,8 +175,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         }
     }
     const chatCompletion = await chatStream.finalChatCompletion();
-    (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
-    return convertOpenAIChatCompletion(chatCompletion, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(chatCompletion, messagesCopy, llmMetaData, !!response_format);
 };
 exports.openAIAgent = openAIAgent;
 const input_sample = "this is response result";

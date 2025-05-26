@@ -39,8 +39,9 @@ type OpenAIParams = OpenAIInputs & OpenAIConfig & { dataStream?: boolean };
 
 type OpenAIResult = Partial<
   GraphAINullableText &
-    GraphAITool &
-    GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & { messages: OpenAI.ChatCompletionMessageParam[] } & LLMMetaResponse
+    GraphAITool & { responseFormat: any } & GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & {
+      messages: OpenAI.ChatCompletionMessageParam[];
+    } & LLMMetaResponse
 >;
 
 const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageToolCall) => {
@@ -58,7 +59,13 @@ const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageTo
   };
 };
 
-const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[], llmMetaData: LLMMetaData) => {
+const convertOpenAIChatCompletion = (
+  response: OpenAI.ChatCompletion,
+  messages: OpenAI.ChatCompletionMessageParam[],
+  llmMetaData: LLMMetaData,
+  maybeResponseFormat: boolean,
+) => {
+  llmMetaDataEndTime(llmMetaData);
   const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
 
   const text = newMessage && newMessage.content ? newMessage.content : null;
@@ -91,6 +98,16 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
     messages.push(message);
   }
 
+  const responseFormat = (() => {
+    if (maybeResponseFormat && text) {
+      const parsed = JSON.parse(text);
+      if (typeof parsed === "object" && parsed !== null) {
+        return parsed;
+      }
+    }
+    return null;
+  })();
+
   return {
     ...response,
     text,
@@ -100,6 +117,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
     messages,
     usage: response.usage,
     metadata: convertMeta(llmMetaData),
+    responseFormat,
   };
 };
 
@@ -168,8 +186,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
 
   if (!stream && !dataStream) {
     const result = await openai.chat.completions.create(chatParams);
-    llmMetaDataEndTime(llmMetaData);
-    return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData, !!response_format);
   }
   const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
@@ -217,9 +234,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     }
   }
   const chatCompletion = await chatStream.finalChatCompletion();
-  llmMetaDataEndTime(llmMetaData);
-
-  return convertOpenAIChatCompletion(chatCompletion, messagesCopy, llmMetaData);
+  return convertOpenAIChatCompletion(chatCompletion, messagesCopy, llmMetaData, !!response_format);
 };
 
 const input_sample = "this is response result";
