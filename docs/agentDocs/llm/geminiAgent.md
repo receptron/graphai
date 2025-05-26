@@ -1,9 +1,7 @@
 # geminiAgent
 
-## Package
-[@graphai/gemini_agent](https://www.npmjs.com/package/@graphai/gemini_agent)
-## Source
-[https://github.com/receptron/graphai/blob/main/llm_agents/gemini_agent/src/gemini_agent.ts](https://github.com/receptron/graphai/blob/main/llm_agents/gemini_agent/src/gemini_agent.ts)
+
+
 
 ## Description
 
