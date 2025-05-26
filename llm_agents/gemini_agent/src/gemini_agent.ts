@@ -126,10 +126,12 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
   messagesCopy.push(lastMessage);
 
   if (dataStream) {
-    filterParams.streamTokenCallback({
-      type: "response.created",
-      response: {},
-    });
+    if (filterParams && filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback({
+        type: "response.created",
+        response: {},
+      });
+    }
     const result = await chat.sendMessageStream(lastMessage.content);
     for await (const chunk of result.stream) {
       const chunkText = chunk.text();
@@ -149,10 +151,12 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       }
     }
     const response = await result.response;
-    filterParams.streamTokenCallback({
-      type: "response.completed",
-      response: {},
-    });
+    if (filterParams && filterParams.streamTokenCallback) {
+      filterParams.streamTokenCallback({
+        type: "response.completed",
+        response: {},
+      });
+    }
     return convertOpenAIChatCompletion(response, messagesCopy);
   }
   if (stream) {
