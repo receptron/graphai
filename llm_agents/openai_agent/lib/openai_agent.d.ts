@@ -25,7 +25,9 @@ type OpenAIConfig = {
 type OpenAIParams = OpenAIInputs & OpenAIConfig & {
     dataStream?: boolean;
 };
-type OpenAIResult = Partial<GraphAINullableText & GraphAITool & GraphAIToolCalls & {
+type OpenAIResult = Partial<GraphAINullableText & GraphAITool & {
+    responseFormat: any;
+} & GraphAIToolCalls & {
     message: OpenAI.ChatCompletionMessageParam | null;
 } & {
     messages: OpenAI.ChatCompletionMessageParam[];
