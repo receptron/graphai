@@ -57,7 +57,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
 };
 const groqAgent = async ({ params, namedInputs, filterParams, config }) => {
     const { verbose, system, tools, tool_choice, max_tokens, temperature, prompt, messages } = { ...params, ...namedInputs };
-    const { apiKey, stream, forWeb, model } = {
+    const { apiKey, stream, dataStream, forWeb, model } = {
         ...params,
         ...(config || {}),
     };
@@ -88,7 +88,7 @@ const groqAgent = async ({ params, namedInputs, filterParams, config }) => {
         model,
         temperature: temperature ?? 0.7,
     };
-    const options = stream ? streamOption : nonStreamOption;
+    const options = stream || dataStream ? streamOption : nonStreamOption;
     if (max_tokens) {
         options.max_tokens = max_tokens;
     }
@@ -104,15 +104,52 @@ const groqAgent = async ({ params, namedInputs, filterParams, config }) => {
     const pipe = await groq.chat.completions.create(options);
     let lastMessage = null;
     const contents = [];
-    for await (const _message of pipe) {
-        const token = _message.choices[0].delta.content;
-        if (token) {
-            if (filterParams && filterParams.streamTokenCallback) {
-                filterParams.streamTokenCallback(token);
-            }
-            contents.push(token);
+    if (dataStream) {
+        console.log("FFFF", filterParams);
+        if (filterParams && filterParams.streamTokenCallback) {
+            filterParams.streamTokenCallback({
+                type: "response.created",
+                response: {},
+            });
         }
-        lastMessage = _message;
+        for await (const _message of pipe) {
+            const token = _message.choices[0].delta.content;
+            if (token) {
+                if (filterParams && filterParams.streamTokenCallback) {
+                    filterParams.streamTokenCallback({
+                        type: "response.in_progress",
+                        response: {
+                            output: [
+                                {
+                                    type: "text",
+                                    text: token,
+                                },
+                            ],
+                        },
+                    });
+                }
+                contents.push(token);
+            }
+            lastMessage = _message;
+        }
+        if (filterParams && filterParams.streamTokenCallback) {
+            filterParams.streamTokenCallback({
+                type: "response.completed",
+                response: {},
+            });
+        }
+    }
+    else {
+        for await (const _message of pipe) {
+            const token = _message.choices[0].delta.content;
+            if (token) {
+                if (filterParams && filterParams.streamTokenCallback) {
+                    filterParams.streamTokenCallback(token);
+                }
+                contents.push(token);
+            }
+            lastMessage = _message;
+        }
     }
     const text = contents.join("");
     const message = { role: "assistant", content: text };

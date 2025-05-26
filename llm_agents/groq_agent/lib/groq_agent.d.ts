@@ -13,6 +13,7 @@ type GroqInputs = {
 type GroqConfig = {
     apiKey?: string;
     stream?: boolean;
+    dataStream?: boolean;
     forWeb?: boolean;
 };
 type GroqParams = GroqInputs & GroqConfig & {
