@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
-import { openAIAgent } from "@/openai_agent";
+import { openAIAgent } from "../src/openai_agent";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -54,6 +54,7 @@ test("test openai o3-mini stream", async () => {
     },
   })) as any;
 
+  console.log(res);
   if (res) {
     console.log(res.choices[0].message["content"]);
   }

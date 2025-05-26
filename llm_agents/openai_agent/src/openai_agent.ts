@@ -27,11 +27,33 @@ type OpenAIConfig = {
 
 type OpenAIParams = OpenAIInputs & OpenAIConfig & { dataStream?: boolean };
 
+type LLMMetaResponse = {
+  timing: {
+    start: string;
+    firstToken?: string;
+    end: string;
+    latencyToFirstToken?: number;
+    duration?: number;
+    totalElapsed: number;
+  };
+};
+
 type OpenAIResult = Partial<
   GraphAINullableText &
     GraphAITool &
-    GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & { messages: OpenAI.ChatCompletionMessageParam[] }
+    GraphAIToolCalls & { message: OpenAI.ChatCompletionMessageParam | null } & { messages: OpenAI.ChatCompletionMessageParam[] } & LLMMetaResponse
 >;
+
+type LLMMetaData = {
+  timing: {
+    start: number;
+    firstToken?: number;
+    end: number;
+    latencyToFirstToken?: number;
+    duration?: number;
+    totalElapsed: number;
+  };
+};
 
 const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageToolCall) => {
   return {
@@ -48,7 +70,25 @@ const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageTo
   };
 };
 
-const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[]) => {
+const convertMeta = (llmMetaData: LLMMetaData): LLMMetaResponse => {
+  const { start, firstToken, end } = llmMetaData.timing;
+  const latencyToFirstToken = firstToken ? firstToken - start : undefined;
+  const duration = firstToken ? end - firstToken : undefined;
+  const totalElapsed = end - start;
+
+  return {
+    timing: {
+      start: new Date(start).toISOString(),
+      firstToken: firstToken ? new Date(firstToken).toISOString() : undefined,
+      end: new Date(end).toISOString(),
+      latencyToFirstToken,
+      duration,
+      totalElapsed,
+    },
+  };
+};
+
+const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: OpenAI.ChatCompletionMessageParam[], llmMetaData: LLMMetaData) => {
   const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
 
   const text = newMessage && newMessage.content ? newMessage.content : null;
@@ -89,6 +129,7 @@ const convertOpenAIChatCompletion = (response: OpenAI.ChatCompletion, messages: 
     message,
     messages,
     usage: response.usage,
+    metadata: convertMeta(llmMetaData),
   };
 };
 
@@ -102,6 +143,8 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     ...(config || {}),
     ...params,
   };
+
+  const llmMetaData: LLMMetaData = { timing: { start: Date.now(), end: 0, totalElapsed: 0 } };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
   const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
@@ -155,7 +198,8 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
 
   if (!stream) {
     const result = await openai.chat.completions.create(chatParams);
-    return convertOpenAIChatCompletion(result, messagesCopy);
+    llmMetaData.timing.end = Date.now();
+    return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData);
   }
   const chatStream = openai.beta.chat.completions.stream({
     ...chatParams,
@@ -172,6 +216,9 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     for await (const chunk of chatStream) {
       // usage chunk have empty choices
       if (chunk.choices[0]) {
+        if (llmMetaData.timing.firstToken === undefined) {
+          llmMetaData.timing.firstToken = Date.now();
+        }
         const token = chunk.choices[0].delta.content;
         if (filterParams && filterParams.streamTokenCallback && token) {
           filterParams.streamTokenCallback({
@@ -194,6 +241,9 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     });
   } else {
     for await (const chunk of chatStream) {
+      if (llmMetaData.timing.firstToken === undefined) {
+        llmMetaData.timing.firstToken = Date.now();
+      }
       // usage chunk have empty choices
       if (chunk.choices[0]) {
         const token = chunk.choices[0].delta.content;
@@ -204,7 +254,9 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     }
   }
   const chatCompletion = await chatStream.finalChatCompletion();
-  return convertOpenAIChatCompletion(chatCompletion, messagesCopy);
+  llmMetaData.timing.end = Date.now();
+
+  return convertOpenAIChatCompletion(chatCompletion, messagesCopy, llmMetaData);
 };
 
 const input_sample = "this is response result";
