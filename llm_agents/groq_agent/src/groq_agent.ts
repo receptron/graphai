@@ -11,14 +11,16 @@ import {
   ChatCompletion,
 } from "groq-sdk/resources/chat/completions";
 
-import { GraphAILLMInputBase, getMergeValue, getMessages,
+import {
+  GraphAILLMInputBase,
+  getMergeValue,
+  getMessages,
   LLMMetaData,
   convertMeta,
   initLLMMetaData,
   llmMetaDataEndTime,
   llmMetaDataFirstTokenTime,
-
-       } from "@graphai/llm_utils";
+} from "@graphai/llm_utils";
 import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 type GroqInputs = {
