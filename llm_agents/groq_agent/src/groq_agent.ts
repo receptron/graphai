@@ -146,18 +146,18 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
   const pipe = await groq.chat.completions.create(options);
   let lastMessage = null;
   const contents = [];
-  if (dataStream) {
-    console.log("FFFF", filterParams);
-    if (filterParams && filterParams.streamTokenCallback) {
-      filterParams.streamTokenCallback({
-        type: "response.created",
-        response: {},
-      });
-    }
-    for await (const _message of pipe) {
-      const token = _message.choices[0].delta.content;
-      if (token) {
-        if (filterParams && filterParams.streamTokenCallback) {
+
+  if (dataStream && filterParams && filterParams.streamTokenCallback) {
+    filterParams.streamTokenCallback({
+      type: "response.created",
+      response: {},
+    });
+  }
+  for await (const _message of pipe) {
+    const token = _message.choices[0].delta.content;
+    if (token) {
+      if (filterParams && filterParams.streamTokenCallback) {
+        if (dataStream) {
           filterParams.streamTokenCallback({
             type: "response.in_progress",
             response: {
@@ -169,28 +169,19 @@ export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqCo
               ],
             },
           });
-        }
-        contents.push(token);
-      }
-      lastMessage = _message as any;
-    }
-    if (filterParams && filterParams.streamTokenCallback) {
-      filterParams.streamTokenCallback({
-        type: "response.completed",
-        response: {},
-      });
-    }
-  } else {
-    for await (const _message of pipe) {
-      const token = _message.choices[0].delta.content;
-      if (token) {
-        if (filterParams && filterParams.streamTokenCallback) {
+        } else {
           filterParams.streamTokenCallback(token);
         }
-        contents.push(token);
       }
-      lastMessage = _message as any;
+      contents.push(token);
     }
+    lastMessage = _message as any;
+  }
+  if (dataStream && filterParams && filterParams.streamTokenCallback) {
+    filterParams.streamTokenCallback({
+      type: "response.completed",
+      response: {},
+    });
   }
   const text = contents.join("");
   const message: ChatCompletionAssistantMessageParam = { role: "assistant", content: text };
