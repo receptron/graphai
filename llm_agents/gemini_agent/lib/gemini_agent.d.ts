@@ -12,6 +12,7 @@ type GeminiInputs = {
 type GeminiConfig = {
     apiKey?: string;
     stream?: boolean;
+    dataStream?: boolean;
 };
 type GeminiParams = GeminiInputs & GeminiConfig;
 type GeminiResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & {
