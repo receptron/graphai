@@ -22,7 +22,7 @@ const convToolCall = (tool_call) => {
         })(),
     };
 };
-const convertOpenAIChatCompletion = (response, messages) => {
+const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
     const newMessage = response?.choices[0] && response?.choices[0].message ? response?.choices[0].message : null;
     const text = newMessage && newMessage.content ? newMessage.content : null;
     const functionResponses = newMessage?.tool_calls && Array.isArray(newMessage?.tool_calls) ? newMessage?.tool_calls : [];
@@ -57,6 +57,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
         message,
         messages,
         usage: response.usage,
+        metadata: (0, llm_utils_1.convertMeta)(llmMetaData),
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
@@ -68,6 +69,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         ...(config || {}),
         ...params,
     };
+    const llmMetaData = (0, llm_utils_1.initLLMMetaData)();
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     const messagesCopy = (0, llm_utils_1.getMessages)(systemPrompt, messages);
@@ -114,7 +116,8 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     }
     if (!stream) {
         const result = await openai.chat.completions.create(chatParams);
-        return convertOpenAIChatCompletion(result, messagesCopy);
+        (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
+        return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData);
     }
     const chatStream = openai.beta.chat.completions.stream({
         ...chatParams,
@@ -130,6 +133,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         for await (const chunk of chatStream) {
             // usage chunk have empty choices
             if (chunk.choices[0]) {
+                (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
                 const token = chunk.choices[0].delta.content;
                 if (filterParams && filterParams.streamTokenCallback && token) {
                     filterParams.streamTokenCallback({
@@ -153,6 +157,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     }
     else {
         for await (const chunk of chatStream) {
+            (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
             // usage chunk have empty choices
             if (chunk.choices[0]) {
                 const token = chunk.choices[0].delta.content;
@@ -163,7 +168,8 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         }
     }
     const chatCompletion = await chatStream.finalChatCompletion();
-    return convertOpenAIChatCompletion(chatCompletion, messagesCopy);
+    (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
+    return convertOpenAIChatCompletion(chatCompletion, messagesCopy, llmMetaData);
 };
 exports.openAIAgent = openAIAgent;
 const input_sample = "this is response result";

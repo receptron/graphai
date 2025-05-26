@@ -1,9 +1,16 @@
 import OpenAI from "openai";
 import { AgentFunction, AgentFunctionInfo, sleep } from "graphai";
-import { GraphAILLMInputBase, getMergeValue, getMessages,
-         LLMMetaResponse, LLMMetaData, convertMeta, initLLMMetaData,
-         llmMetaDataEndTime, llmMetaDataFirstTokenTime
-       } from "@graphai/llm_utils";
+import {
+  GraphAILLMInputBase,
+  getMergeValue,
+  getMessages,
+  LLMMetaResponse,
+  LLMMetaData,
+  convertMeta,
+  initLLMMetaData,
+  llmMetaDataEndTime,
+  llmMetaDataFirstTokenTime,
+} from "@graphai/llm_utils";
 import type { GraphAINullableText, GraphAITool, GraphAIToolCalls } from "@graphai/agent_utils";
 
 type OpenAIInputs = {
