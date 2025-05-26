@@ -18,6 +18,7 @@ type GeminiInputs = {
 type GeminiConfig = {
   apiKey?: string;
   stream?: boolean;
+  dataStream?: boolean;
 };
 
 type GeminiParams = GeminiInputs & GeminiConfig;
@@ -52,7 +53,7 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
 export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
   const { system, temperature, tools, max_tokens, prompt, messages /* response_format */ } = { ...params, ...namedInputs };
 
-  const { apiKey, stream, model } = {
+  const { apiKey, stream, dataStream, model } = {
     ...params,
     ...(config || {}),
   };
@@ -124,6 +125,36 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
   });
   messagesCopy.push(lastMessage);
 
+  if (dataStream) {
+    filterParams.streamTokenCallback({
+      type: "response.created",
+      response: {},
+    });
+    const result = await chat.sendMessageStream(lastMessage.content);
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      if (filterParams && filterParams.streamTokenCallback && chunkText) {
+        filterParams.streamTokenCallback(chunkText);
+        filterParams.streamTokenCallback({
+          type: "response.in_progress",
+          response: {
+            output: [
+              {
+                type: "text",
+                text: chunkText,
+              },
+            ],
+          },
+        });
+      }
+    }
+    const response = await result.response;
+    filterParams.streamTokenCallback({
+      type: "response.completed",
+      response: {},
+    });
+    return convertOpenAIChatCompletion(response, messagesCopy);
+  }
   if (stream) {
     const result = await chat.sendMessageStream(lastMessage.content);
     for await (const chunk of result.stream) {
