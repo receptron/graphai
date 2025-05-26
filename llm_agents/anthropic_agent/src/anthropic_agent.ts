@@ -25,6 +25,7 @@ type AnthropicInputs = {
 type AnthropicConfig = {
   apiKey?: string;
   stream?: boolean;
+  dataStream?: boolean;
   forWeb?: boolean;
 };
 
@@ -66,7 +67,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
 }) => {
   const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages } = { ...params, ...namedInputs };
 
-  const { apiKey, stream, forWeb, model } = {
+  const { apiKey, stream, dataStream, forWeb, model } = {
     ...params,
     ...(config || {}),
   };
@@ -113,7 +114,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     max_tokens: max_tokens ?? 1024,
   };
 
-  if (!stream) {
+  if (!stream && !dataStream) {
     const messageResponse = await anthropic.messages.create(chatParams);
     llmMetaDataEndTime(llmMetaData);
     return convertOpenAIChatCompletion(messageResponse, messagesCopy, llmMetaData);
@@ -126,6 +127,12 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   const partials = [];
   let streamResponse: Response | null = null;
 
+  if (dataStream && filterParams && filterParams.streamTokenCallback) {
+    filterParams.streamTokenCallback({
+      type: "response.created",
+      response: {},
+    });
+  }
   for await (const messageStreamEvent of chatStream) {
     llmMetaDataFirstTokenTime(llmMetaData);
     if (messageStreamEvent.type === "message_start") {
@@ -150,9 +157,29 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
       const token = messageStreamEvent.delta.text;
       contents.push(token);
       if (filterParams && filterParams.streamTokenCallback && token) {
-        filterParams.streamTokenCallback(token);
+        if (dataStream) {
+          filterParams.streamTokenCallback({
+            type: "response.in_progress",
+            response: {
+              output: [
+                {
+                  type: "text",
+                  text: token,
+                },
+              ],
+            },
+          });
+        } else {
+          filterParams.streamTokenCallback(token);
+        }
       }
     }
+  }
+  if (dataStream && filterParams && filterParams.streamTokenCallback) {
+    filterParams.streamTokenCallback({
+      type: "response.completed",
+      response: {},
+    });
   }
   if (streamResponse === null) {
     throw new Error("Anthoropic no response");
