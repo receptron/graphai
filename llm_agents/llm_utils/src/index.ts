@@ -51,7 +51,6 @@ export type LLMMetaData = {
   };
 };
 
-
 export const flatString = (input: GraphAILLInputType): string => {
   return Array.isArray(input) ? input.filter((a) => a).join("\n") : (input ?? "");
 };
@@ -78,7 +77,6 @@ export const getMessages = <MessageType>(systemPrompt?: string, messages?: Messa
   const messagesCopy = [...(systemPrompt ? [{ role: "system" as const, content: systemPrompt } as MessageType] : []), ...(messages ?? [])];
   return messagesCopy;
 };
-
 
 //
 export const convertMeta = (llmMetaData: LLMMetaData): LLMMetaResponse => {
