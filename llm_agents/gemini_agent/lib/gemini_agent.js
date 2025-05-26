@@ -4,7 +4,7 @@ exports.geminiAgent = void 0;
 const graphai_1 = require("graphai");
 const generative_ai_1 = require("@google/generative-ai");
 const llm_utils_1 = require("@graphai/llm_utils");
-const convertOpenAIChatCompletion = (response, messages) => {
+const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
     const text = response.text();
     const message = { role: "assistant", content: text };
     // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
@@ -25,7 +25,7 @@ const convertOpenAIChatCompletion = (response, messages) => {
         : [];
     const tool = tool_calls && tool_calls[0] ? tool_calls[0] : undefined;
     messages.push(message);
-    return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages };
+    return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: (0, llm_utils_1.convertMeta)(llmMetaData) };
 };
 const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
     const { system, temperature, tools, max_tokens, prompt, messages /* response_format */ } = { ...params, ...namedInputs };
@@ -33,6 +33,7 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
         ...params,
         ...(config || {}),
     };
+    const llmMetaData = (0, llm_utils_1.initLLMMetaData)();
     const userPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeablePrompts", prompt);
     const systemPrompt = (0, llm_utils_1.getMergeValue)(namedInputs, params, "mergeableSystem", system);
     const messagesCopy = (0, llm_utils_1.getMessages)(systemPrompt, messages);
@@ -92,8 +93,8 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
         generationConfig,
     });
     messagesCopy.push(lastMessage);
-    if (dataStream) {
-        if (filterParams && filterParams.streamTokenCallback) {
+    if (stream || dataStream) {
+        if (dataStream && filterParams && filterParams.streamTokenCallback) {
             filterParams.streamTokenCallback({
                 type: "response.created",
                 response: {},
@@ -101,45 +102,41 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
         }
         const result = await chat.sendMessageStream(lastMessage.content);
         for await (const chunk of result.stream) {
+            (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
             const chunkText = chunk.text();
             if (filterParams && filterParams.streamTokenCallback && chunkText) {
-                filterParams.streamTokenCallback(chunkText);
-                filterParams.streamTokenCallback({
-                    type: "response.in_progress",
-                    response: {
-                        output: [
-                            {
-                                type: "text",
-                                text: chunkText,
-                            },
-                        ],
-                    },
-                });
+                if (dataStream) {
+                    filterParams.streamTokenCallback({
+                        type: "response.in_progress",
+                        response: {
+                            output: [
+                                {
+                                    type: "text",
+                                    text: chunkText,
+                                },
+                            ],
+                        },
+                    });
+                }
+                else {
+                    filterParams.streamTokenCallback(chunkText);
+                }
             }
         }
         const response = await result.response;
-        if (filterParams && filterParams.streamTokenCallback) {
+        if (dataStream && filterParams && filterParams.streamTokenCallback) {
             filterParams.streamTokenCallback({
                 type: "response.completed",
                 response: {},
             });
         }
-        return convertOpenAIChatCompletion(response, messagesCopy);
-    }
-    if (stream) {
-        const result = await chat.sendMessageStream(lastMessage.content);
-        for await (const chunk of result.stream) {
-            const chunkText = chunk.text();
-            if (filterParams && filterParams.streamTokenCallback && chunkText) {
-                filterParams.streamTokenCallback(chunkText);
-            }
-        }
-        const response = await result.response;
-        return convertOpenAIChatCompletion(response, messagesCopy);
+        (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
+        return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
     }
     const result = await chat.sendMessage(lastMessage.content);
     const response = result.response;
-    return convertOpenAIChatCompletion(response, messagesCopy);
+    (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
+    return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
 };
 exports.geminiAgent = geminiAgent;
 const geminiAgentInfo = {
