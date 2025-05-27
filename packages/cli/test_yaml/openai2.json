@@ -1,0 +1,22 @@
+{
+  "version": 0.5,
+  "nodes": {
+    "llm": {
+      "agent": "openAIAgent",
+      "isResult": true,
+      "params": { "stream": true },
+      "inputs": { "prompt": ["Who is Taylor swift and why is she famous?"] }
+    },
+    "llm2": {
+      "agent": "openAIAgent",
+      "isResult": true,
+      "params": { "stream": true },
+      "inputs": { "prompt": ["Taylor swiftってだれ？なぜ人気なの？？"] }
+    },
+    "copyAgent2": {
+      "agent": "copyAgent",
+      "isResult": true,
+      "inputs": { "text1": ":llm.text", "text2": ":llm2.text" }
+    }
+  }
+}

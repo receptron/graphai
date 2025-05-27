@@ -88,13 +88,33 @@ const main = async () => {
             console.log(yaml_1.default.stringify(graph_data, null, 2));
             return;
         }
+        const fds = {};
+        let fdsIndex = 3;
+        const getFd = (nodeId) => {
+            if (fds[nodeId]) {
+                return fds[nodeId];
+            }
+            fds[nodeId] = fs_1.default.createWriteStream(null, { fd: fdsIndex });
+            fds[nodeId].on("error", () => {
+                // nothing
+            });
+            fdsIndex = fdsIndex + 1;
+            return fds[nodeId];
+        };
         const consoleStreamAgentFilter = (0, stream_agent_filter_1.streamAgentFilterGenerator)((context, data) => {
+            const fd = getFd(context.debugInfo.nodeId);
+            try {
+                fd.write(data);
+            }
+            catch (e) {
+                // nothinfg
+            }
             process.stdout.write(data);
         });
         const agentFilters = [
             {
                 name: "consoleStreamAgentFilter",
-                agent: consoleStreamAgentFilter
+                agent: consoleStreamAgentFilter,
             },
         ];
         const graph = new graphai_1.GraphAI(graph_data, agents, { agentFilters });

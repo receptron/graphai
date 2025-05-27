@@ -56,8 +56,27 @@ const main = async () => {
       console.log(yaml.stringify(graph_data, null, 2));
       return;
     }
+    const fds: Record<string, any> = {};
+    let fdsIndex = 3;
+    const getFd = (nodeId: string) => {
+      if (fds[nodeId]) {
+        return fds[nodeId];
+      }
+      fds[nodeId] = fs.createWriteStream(null as any, { fd: fdsIndex });
+      fds[nodeId].on("error", () => {
+        // nothing
+      });
+      fdsIndex = fdsIndex + 1;
+      return fds[nodeId];
+    };
 
     const consoleStreamAgentFilter = streamAgentFilterGenerator<string>((context, data) => {
+      const fd = getFd(context.debugInfo.nodeId);
+      try {
+        fd.write(data);
+      } catch (__e) {
+        // nothinfg
+      }
       process.stdout.write(data);
     });
 
