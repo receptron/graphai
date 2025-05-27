@@ -1,0 +1,15 @@
+{
+  "version": 0.5,
+  "nodes": {
+    "llm": {
+      "agent": "openAIAgent",
+      "params": { "stream": true },
+      "inputs": { "prompt": ["Who is Taylor swift and why is she famous?"] }
+    },
+    "copyAgent2": {
+      "agent": "copyAgent",
+      "isResult": true,
+      "inputs": { "text": ":llm.text", "meta": ":llm.metadata" }
+    }
+  }
+}
