@@ -106,7 +106,7 @@ const main = async () => {
             try {
                 fd.write(data);
             }
-            catch (e) {
+            catch (__e) {
                 // nothinfg
             }
             process.stdout.write(data);
