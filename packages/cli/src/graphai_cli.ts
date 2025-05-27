@@ -64,7 +64,7 @@ const main = async () => {
     const agentFilters = [
       {
         name: "consoleStreamAgentFilter",
-        agent: consoleStreamAgentFilter
+        agent: consoleStreamAgentFilter,
       },
     ];
     const graph = new GraphAI(graph_data, agents, { agentFilters });
