@@ -1,12 +1,19 @@
 {
   "name": "@graphai/stream_agent_filter",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Stream Agent filters for GraphAI.",
   "main": "lib/index.js",
   "files": [
     "./lib"
   ],
+  "typesVersions": {
+    "*": {
+      "console": ["lib/console.d.ts"],
+      "node": ["lib/node.d.ts"]
+    }
+  },
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "import": "./lib/index.js",
       "require": "./lib/index.js",
