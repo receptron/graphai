@@ -3,6 +3,7 @@
   "nodes": {
     "llm": {
       "agent": "openAIAgent",
+      "isResult": true,
       "params": { "stream": true },
       "inputs": { "prompt": ["Who is Taylor swift and why is she famous?"] }
     },

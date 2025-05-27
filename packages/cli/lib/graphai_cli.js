@@ -42,6 +42,7 @@ const graphai_1 = require("graphai");
 const packages = __importStar(require("@graphai/agents"));
 const token_bound_string_agent_1 = require("@graphai/token_bound_string_agent");
 const vanilla_node_agents_1 = require("@graphai/vanilla_node_agents");
+const stream_agent_filter_1 = require("@graphai/stream_agent_filter");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const yaml_1 = __importDefault(require("yaml"));
@@ -87,7 +88,16 @@ const main = async () => {
             console.log(yaml_1.default.stringify(graph_data, null, 2));
             return;
         }
-        const graph = new graphai_1.GraphAI(graph_data, agents);
+        const consoleStreamAgentFilter = (0, stream_agent_filter_1.streamAgentFilterGenerator)((context, data) => {
+            process.stdout.write(data);
+        });
+        const agentFilters = [
+            {
+                name: "consoleStreamAgentFilter",
+                agent: consoleStreamAgentFilter
+            },
+        ];
+        const graph = new graphai_1.GraphAI(graph_data, agents, { agentFilters });
         if (args_1.args.verbose) {
             graph.onLogCallback = test_utils_1.callbackLog;
         }

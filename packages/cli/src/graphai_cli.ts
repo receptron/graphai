@@ -5,7 +5,7 @@ import { GraphAI } from "graphai";
 import * as packages from "@graphai/agents";
 import { tokenBoundStringsAgent } from "@graphai/token_bound_string_agent";
 import { fileReadAgent, fileWriteAgent, pathUtilsAgent } from "@graphai/vanilla_node_agents";
-
+import { streamAgentFilterGenerator } from "@graphai/stream_agent_filter";
 import fs from "fs";
 import path from "path";
 import yaml from "yaml";
@@ -57,7 +57,17 @@ const main = async () => {
       return;
     }
 
-    const graph = new GraphAI(graph_data, agents);
+    const consoleStreamAgentFilter = streamAgentFilterGenerator<string>((context, data) => {
+      process.stdout.write(data);
+    });
+
+    const agentFilters = [
+      {
+        name: "consoleStreamAgentFilter",
+        agent: consoleStreamAgentFilter
+      },
+    ];
+    const graph = new GraphAI(graph_data, agents, { agentFilters });
 
     if (args.verbose) {
       graph.onLogCallback = callbackLog;
