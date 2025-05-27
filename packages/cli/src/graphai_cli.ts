@@ -74,7 +74,7 @@ const main = async () => {
       const fd = getFd(context.debugInfo.nodeId);
       try {
         fd.write(data);
-      } catch (e) {
+      } catch (__e) {
         // nothinfg
       }
       process.stdout.write(data);
