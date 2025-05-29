@@ -163,6 +163,7 @@ const result = await graph.run();
 ### Input/Params example
  - arrayFlatAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -249,6 +250,7 @@ const result = await graph.run();
 ```
 
  - arrayJoinAgent
+
 
 ```typescript
 {
@@ -446,6 +448,7 @@ const result = await graph.run();
 
  - arrayToObjectAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -467,6 +470,7 @@ const result = await graph.run();
 ```
 
  - compareAgent
+
 
 ```typescript
 {
@@ -1491,6 +1495,7 @@ const result = await graph.run();
 
  - consoleAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -1501,6 +1506,7 @@ const result = await graph.run();
 ```
 
  - copy2ArrayAgent
+
 
 ```typescript
 {
@@ -1541,6 +1547,7 @@ const result = await graph.run();
 
  - copyAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -1579,6 +1586,7 @@ const result = await graph.run();
 
  - copyMessageAgent
 
+
 ```typescript
 {
   "inputs": {},
@@ -1591,6 +1599,7 @@ const result = await graph.run();
 
  - countingAgent
 
+
 ```typescript
 {
   "inputs": {},
@@ -1601,6 +1610,7 @@ const result = await graph.run();
 ```
 
  - dataSumTemplateAgent
+
 
 ```typescript
 {
@@ -1687,6 +1697,7 @@ const result = await graph.run();
 
  - dotProductAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -1738,6 +1749,7 @@ const result = await graph.run();
 
  - echoAgent
 
+
 ```typescript
 {
   "inputs": {},
@@ -1759,6 +1771,7 @@ const result = await graph.run();
 ```
 
  - images2messageAgent
+
 
 ```typescript
 {
@@ -1807,6 +1820,7 @@ const result = await graph.run();
 ```
 
  - jsonParserAgent
+
 
 ```typescript
 {
@@ -1862,6 +1876,7 @@ const result = await graph.run();
 
  - lookupDictionaryAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -1908,6 +1923,7 @@ const result = await graph.run();
 ```
 
  - mapAgent
+
 
 ```typescript
 {
@@ -2136,6 +2152,7 @@ const result = await graph.run();
 
  - mergeNodeIdAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -2150,6 +2167,7 @@ const result = await graph.run();
 ```
 
  - mergeObjectAgent
+
 
 ```typescript
 {
@@ -2168,6 +2186,7 @@ const result = await graph.run();
 ```
 
  - nestedAgent
+
 
 ```typescript
 {
@@ -2191,6 +2210,7 @@ const result = await graph.run();
 ```
 
  - popAgent
+
 
 ```typescript
 {
@@ -2239,6 +2259,7 @@ const result = await graph.run();
 ```
 
  - propertyFilterAgent
+
 
 ```typescript
 {
@@ -2593,6 +2614,7 @@ const result = await graph.run();
 
  - pushAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -2661,6 +2683,7 @@ const result = await graph.run();
 
  - shiftAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -2689,6 +2712,7 @@ const result = await graph.run();
 ```
 
  - sleeperAgent
+
 
 ```typescript
 {
@@ -2719,6 +2743,7 @@ const result = await graph.run();
 ```
 
  - sortByValuesAgent
+
 
 ```typescript
 {
@@ -2765,6 +2790,7 @@ const result = await graph.run();
 
  - streamMockAgent
 
+
 ```typescript
 {
   "inputs": {},
@@ -2785,6 +2811,7 @@ const result = await graph.run();
 ```
 
  - stringCaseVariantsAgent
+
 
 ```typescript
 {
@@ -2809,6 +2836,7 @@ const result = await graph.run();
 
  - stringSplitterAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -2821,6 +2849,7 @@ const result = await graph.run();
 ```
 
  - stringTemplateAgent
+
 
 ```typescript
 {
@@ -2932,6 +2961,7 @@ const result = await graph.run();
 
  - stringUpdateTextAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -2972,6 +3002,7 @@ const result = await graph.run();
 ```
 
  - totalAgent
+
 
 ```typescript
 {
@@ -3289,6 +3320,7 @@ const result = await graph.run();
 ```
 
  - vanillaFetchAgent
+
 
 ```typescript
 {

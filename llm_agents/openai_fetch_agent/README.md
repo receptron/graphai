@@ -31,6 +31,7 @@ const result = await graph.run();
 ### Input/Params example
  - openAIFetchAgent
 
+
 ```typescript
 {
   "inputs": {

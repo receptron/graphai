@@ -69,6 +69,7 @@ const result = await graph.run();
 ### Input/Params example
  - openAIAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -79,6 +80,7 @@ const result = await graph.run();
 ```
 
  - openAIFetchAgent
+
 
 ```typescript
 {

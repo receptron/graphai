@@ -18,13 +18,29 @@ Read data from file system and returns data
 {
   "type": "object",
   "properties": {
+    "file": {
+      "type": "string",
+      "description": "Name of a single file to read"
+    },
     "array": {
       "type": "array",
-      "description": "file names"
+      "items": {
+        "type": "string"
+      },
+      "description": "List of multiple file names to read"
     }
   },
-  "required": [
-    "array"
+  "oneOf": [
+    {
+      "required": [
+        "file"
+      ]
+    },
+    {
+      "required": [
+        "array"
+      ]
+    }
   ]
 }
 
@@ -35,7 +51,67 @@ Read data from file system and returns data
 ```json
 
 {
-  "type": "object"
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "Text or base64 depending on outputType"
+            },
+            {
+              "type": "object",
+              "description": "Readable stream (not serializable in JSON)"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "description": "Buffer (as byte array)"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "array"
+      ],
+      "properties": {
+        "array": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Text or base64 string"
+              },
+              {
+                "type": "object",
+                "description": "Readable stream (not serializable in JSON)"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "Buffer (as byte array)"
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
 }
 
 ```

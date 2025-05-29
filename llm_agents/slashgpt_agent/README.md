@@ -33,6 +33,7 @@ const result = await graph.run();
 ### Input/Params example
  - slashGPTAgent
 
+
 ```typescript
 {
   "inputs": {},

@@ -39,6 +39,7 @@ const result = await graph.run();
 ### Input/Params example
  - fetchAgent
 
+
 ```typescript
 {
   "inputs": {
@@ -91,6 +92,7 @@ const result = await graph.run();
 ```
 
  - wikipediaAgent
+
 
 ```typescript
 {

@@ -31,6 +31,7 @@ const result = await graph.run();
 ### Input/Params example
  - dataObjectMergeTemplateAgent
 
+
 ```typescript
 {
   "inputs": {
