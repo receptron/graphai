@@ -44,15 +44,68 @@ const fileReadAgentInfo = {
     inputs: {
         type: "object",
         properties: {
+            file: {
+                type: "string",
+                description: "Name of a single file to read",
+            },
             array: {
                 type: "array",
-                description: "file names",
+                items: {
+                    type: "string",
+                },
+                description: "List of multiple file names to read",
             },
         },
-        required: ["array"],
+        oneOf: [{ required: ["file"] }, { required: ["array"] }],
+    },
+    params: {
+        type: "object",
+        properties: {
+            baseDir: {
+                type: "string",
+                description: "Base directory where the file(s) are located",
+            },
+            outputType: {
+                type: "string",
+                enum: ["text", "base64", "stream"],
+                description: "Desired output format. If omitted, returns raw Buffer",
+            },
+        },
     },
     output: {
-        type: "object",
+        oneOf: [
+            {
+                type: "object",
+                required: ["data"],
+                properties: {
+                    data: {
+                        oneOf: [
+                            { type: "string", description: "Text or base64 depending on outputType" },
+                            { type: "object", description: "Readable stream (not serializable in JSON)" },
+                            { type: "array", items: { type: "number" }, description: "Buffer (as byte array)" },
+                        ],
+                    },
+                },
+                additionalProperties: false,
+            },
+            {
+                type: "object",
+                required: ["array"],
+                properties: {
+                    array: {
+                        type: "array",
+                        items: {
+                            oneOf: [
+                                { type: "string", description: "Text or base64 string" },
+                                { type: "object", description: "Readable stream (not serializable in JSON)" },
+                                { type: "array", items: { type: "number" }, description: "Buffer (as byte array)" },
+                            ],
+                        },
+                    },
+                },
+                additionalProperties: false,
+            },
+        ],
     },
     samples: [
         {
@@ -82,9 +135,16 @@ const fileReadAgentInfo = {
             result: {
                 data: "hello\n",
             },
+            description: "Reads a single file named 'test.txt' from the given base directory and returns its contents as a UTF-8 string.",
         },
     ],
     description: "Read data from file system and returns data",
+    usage: [
+        "`inputs.file` specifies a single file name to read.",
+        "`inputs.array` specifies multiple file names to read.",
+        "`params.baseDir` is required and defines the root directory where files are located.",
+        "`params.outputType` optionally controls the output format: 'text' for UTF-8 string, 'base64' for Base64-encoded string, 'stream' for readable stream, or omit for Buffer output."
+    ],
     category: ["fs"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
