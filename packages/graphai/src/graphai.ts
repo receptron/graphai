@@ -371,6 +371,9 @@ export class GraphAI {
   public setPreviousResults(previousResults: ResultDataDictionary<DefaultResultData>) {
     this.updateStaticNodes(previousResults);
   }
+  public setConcurrency(concurrency: number) {
+    this.taskManager.setConcurrency(concurrency)
+  }
   public setLoopLog(log: TransactionLog) {
     log.isLoop = !!this.loop;
     log.repeatCount = this.repeatCount;

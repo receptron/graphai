@@ -82,4 +82,11 @@ export class TaskManager {
       ...nodes,
     };
   }
+
+  public setConcurrency(concurrency: number) {
+    if (this.taskQueue.length > 0 || this.runningNodes.size > 0) {
+      throw new Error("Set concurrency error: This GraphAI instance is already running.");
+    }
+    this.concurrency = concurrency;
+  }
 }
