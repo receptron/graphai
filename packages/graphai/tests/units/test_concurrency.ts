@@ -33,7 +33,7 @@ const graph_data = {
 test("test add & loop", async () => {
   const graph = new GraphAI(graph_data, { ...agents });
   graph.setConcurrency(1)
-  const res = await graph.run();
+  await graph.run();
   // assert.deepStrictEqual(res, { add: 6 });
 });
 
@@ -42,7 +42,7 @@ test("test add & loop", async () => {
 
   await assert.rejects(
     async () => {
-      const res = graph.run();
+      graph.run();
       graph.setConcurrency(1)
 
     },
