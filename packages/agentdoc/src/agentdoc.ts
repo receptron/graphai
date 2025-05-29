@@ -41,9 +41,12 @@ const getExamples = (agentKeys: string[], agents: AgentFunctionInfoDictionary) =
       "### Input/Params example",
       targets.map((target) => [
         ` - ${target}`,
+        agents[target].usage ? (Array.isArray(agents[target].usage) ? agents[target].usage.join("\n") : agents[target].usage) : "",
         agents[target].samples.map(
-          (sample: any) => `\n\`\`\`typescript\n${JSON.stringify({ inputs: sample.inputs, params: sample.params }, null, 2)}\n\`\`\`\n`,
-        ),
+          (sample: any) => {
+            return (sample.description ? sample.description + "\n\n" : "") + `\n\`\`\`typescript\n${JSON.stringify({ inputs: sample.inputs, params: sample.params }, null, 2)}\n\`\`\`\n`
+          }
+        )
       ]),
     ]
       .flat(4)
