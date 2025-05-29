@@ -129,6 +129,7 @@ export type AgentFunctionInfoSample = {
     params: DefaultParamsType;
     result: any;
     graph?: GraphData;
+    description?: string;
 };
 export type AgentFunctionInfo = {
     name: string;
@@ -142,6 +143,7 @@ export type AgentFunctionInfo = {
     tools?: Record<string, any>[];
     samples: AgentFunctionInfoSample[];
     description: string;
+    usage?: string | string[];
     category: string[];
     author: string;
     repository: string;
