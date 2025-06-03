@@ -47,82 +47,82 @@ const stringTemplateAgentInfo: AgentFunctionInfo = {
   name: "stringTemplateAgent",
   agent: stringTemplateAgent,
   mock: stringTemplateAgent,
-  inputs: {
-    type: "object",
-    description: "A key-value object providing variables to be substituted into the template. Keys correspond to placeholders like ${key}.",
-    additionalProperties: {
-      type: "string",
-      description: "A string value to be substituted for a corresponding template placeholder.",
-    },
+  "inputs": {
+    "type": "object",
+    "description": "Key-value pairs where each key corresponds to a variable used in the template (e.g., ${key}).",
+    "additionalProperties": {
+      "type": ["string", "number", "boolean", "object", "array"],
+      "description": "Any value to be substituted into the template. Objects and arrays are injected directly if the entire field is a placeholder."
+    }
   },
-  params: {
-    type: "object",
-    properties: {
-      template: {
-        description:
-          "The template structure where placeholders like ${key} will be replaced by input values. Can be a string, array of strings, object, or nested combinations.",
-        anyOf: [
-          { type: "string" },
+  "params": {
+    "type": "object",
+    "description": "The template to apply substitutions to. Supports strings, arrays, and deeply nested object structures with placeholder strings.",
+    "properties": {
+      "template": {
+        "description": "The template structure where placeholders like ${key} will be replaced with values from 'inputs'.",
+        "anyOf": [
+          { "type": "string" },
           {
-            type: "array",
-            items: {
-              anyOf: [
-                { type: "string" },
+            "type": "array",
+            "items": {
+              "anyOf": [
+                { "type": "string" },
                 {
-                  type: "object",
-                  additionalProperties: { type: "string" },
-                },
-              ],
-            },
+                  "type": "object",
+                  "additionalProperties": {
+                    "anyOf": [
+                      { "type": "string" },
+                      { "type": "array", "items": { "type": "string" } }
+                    ]
+                  }
+                }
+              ]
+            }
           },
           {
-            type: "object",
-            additionalProperties: {
-              anyOf: [
-                { type: "string" },
+            "type": "object",
+            "additionalProperties": {
+              "anyOf": [
+                { "type": "string" },
                 {
-                  type: "array",
-                  items: { type: "string" },
+                  "type": "array",
+                  "items": { "type": "string" }
                 },
-              ],
-            },
-          },
-        ],
-      },
+                {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
-    required: ["template"],
-    additionalProperties: false,
+    "required": ["template"],
+    "additionalProperties": false
   },
-  output: {
-    description:
-      "The result after recursively replacing all placeholders in the template with the corresponding values from 'inputs'. The output format matches the input template type.",
-    anyOf: [
-      { type: "string" },
+  "output": {
+    "description": "The result after placeholder substitution, matching the structure and type of the original template.",
+    "anyOf": [
+      { "type": "string" },
       {
-        type: "array",
-        items: {
-          anyOf: [
-            { type: "string" },
+        "type": "array",
+        "items": {
+          "anyOf": [
+            { "type": "string" },
             {
-              type: "object",
-              additionalProperties: { type: "string" },
-            },
-          ],
-        },
+              "type": "object",
+              "additionalProperties": true
+            }
+          ]
+        }
       },
       {
-        type: "object",
-        additionalProperties: {
-          anyOf: [
-            { type: "string" },
-            {
-              type: "array",
-              items: { type: "string" },
-            },
-          ],
-        },
-      },
-    ],
+        "type": "object",
+        "additionalProperties": true
+      }
+    ]
   },
   samples: [
     // named
