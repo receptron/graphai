@@ -1,5 +1,6 @@
 import { PackageJson } from "type-fest";
 export declare const getAgents: (agentKeys: string[]) => string | undefined;
+export declare const extractDescriptions: (schema: any) => string;
 export declare const getGitRep: (repository: string | {
     url: string;
 }) => string;
