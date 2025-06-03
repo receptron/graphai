@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.streamMockAgent = exports.mergeNodeIdAgent = exports.copy2ArrayAgent = exports.copyMessageAgent = exports.countingAgent = exports.echoAgent = void 0;
 const echo_agent_1 = __importDefault(require("./echo_agent"));
 exports.echoAgent = echo_agent_1.default;
-// import bypassAgent from "./bypass_agent";
 const counting_agent_1 = __importDefault(require("./counting_agent"));
 exports.countingAgent = counting_agent_1.default;
 const copy_message_agent_1 = __importDefault(require("./copy_message_agent"));
