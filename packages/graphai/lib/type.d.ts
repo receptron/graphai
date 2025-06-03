@@ -143,7 +143,6 @@ export type AgentFunctionInfo = {
     tools?: Record<string, any>[];
     samples: AgentFunctionInfoSample[];
     description: string;
-    usage?: string | string[];
     category: string[];
     author: string;
     repository: string;

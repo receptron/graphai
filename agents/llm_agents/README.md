@@ -68,7 +68,16 @@ const result = await graph.run();
 
 ### Input/Params example
  - openAIAgent
-
+   - inputs
+     - prompt(string)
+       - query string
+     - messages(undefined)
+       - chat messages
+   - params
+     - prompt(string)
+       - query string
+     - messages(undefined)
+       - chat messages
 
 ```typescript
 {
@@ -80,7 +89,16 @@ const result = await graph.run();
 ```
 
  - openAIFetchAgent
-
+   - inputs
+     - prompt(string)
+       - query string
+     - messages(undefined)
+       - chat messages
+   - params
+     - prompt(string)
+       - query string
+     - messages(undefined)
+       - chat messages
 
 ```typescript
 {

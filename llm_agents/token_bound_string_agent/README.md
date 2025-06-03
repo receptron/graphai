@@ -30,6 +30,9 @@ const result = await graph.run();
 
 ### Input/Params example
  - tokenBoundStringsAgent
+   - inputs
+     - chunks(array)
+       - an array of strings
 
 
 ```typescript

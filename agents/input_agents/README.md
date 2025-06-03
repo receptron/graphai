@@ -32,6 +32,7 @@ const result = await graph.run();
  - textInputAgent
 
 
+
 ```typescript
 {
   "inputs": {},

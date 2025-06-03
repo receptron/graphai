@@ -34,15 +34,16 @@ const result = await graph.run();
 
 ### Input/Params example
  - fileReadAgent
-
-
-`inputs.file` specifies a single file name to read.
-
-`inputs.array` specifies multiple file names to read.
-
-`params.baseDir` is required and defines the root directory where files are located.
-
-`params.outputType` optionally controls the output format: 'text' for UTF-8 string, 'base64' for Base64-encoded string, 'stream' for readable stream, or omit for Buffer output.
+   - inputs
+     - file(string)
+       - Name of a single file to read
+     - array(array)
+       - List of multiple file names to read
+   - params
+     - baseDir(string)
+       - Base directory where the file(s) are located
+     - outputType(string)
+       - Desired output format. If omitted, returns raw Buffer
 
 ```typescript
 {
@@ -102,6 +103,11 @@ const result = await graph.run();
 ```
 
  - fileWriteAgent
+   - inputs
+     - text(string)
+       - text data
+     - file(string)
+       - file name
 
 
 ```typescript
@@ -117,6 +123,9 @@ const result = await graph.run();
 ```
 
  - pathUtilsAgent
+   - inputs
+     - dirs(array)
+       - directory names
 
 
 ```typescript

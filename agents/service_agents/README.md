@@ -38,6 +38,17 @@ const result = await graph.run();
 
 ### Input/Params example
  - fetchAgent
+   - inputs
+     - url(string)
+       - baseurl
+     - method(string)
+       - HTTP method
+     - headers(object)
+       - HTTP headers
+     - quaryParams(object)
+       - Query parameters
+     - body(undefined)
+       - body
 
 
 ```typescript
@@ -92,6 +103,7 @@ const result = await graph.run();
 ```
 
  - wikipediaAgent
+
 
 
 ```typescript

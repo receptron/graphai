@@ -61,13 +61,13 @@ const getAgents = (agentKeys) => {
 exports.getAgents = getAgents;
 const extractDescriptions = (schema) => {
     const result = [];
-    Object.keys(schema.properties || {}).map(key => {
+    Object.keys(schema.properties || {}).map((key) => {
         const prop = schema.properties[key];
         if (prop && prop.description) {
             result.push(`     - ${key}(${prop.type})\n       - ${prop.description}`);
         }
     });
-    return result.join('\n');
+    return result.join("\n");
 };
 exports.extractDescriptions = extractDescriptions;
 const getRelatedAgents = (packageJson) => {
@@ -84,8 +84,8 @@ const getExamples = (agentKeys, agents) => {
             "### Input/Params example",
             targets.map((target) => [
                 ` - ${target}`,
-                agents[target].inputs ? "   - inputs\n" + ((0, exports.extractDescriptions)(agents[target].inputs)) : "",
-                agents[target].params ? "   - params\n" + ((0, exports.extractDescriptions)(agents[target].params)) : "",
+                agents[target].inputs ? "   - inputs\n" + (0, exports.extractDescriptions)(agents[target].inputs) : "",
+                agents[target].params ? "   - params\n" + (0, exports.extractDescriptions)(agents[target].params) : "",
                 agents[target].samples.map((sample) => {
                     return [
                         `\n\`\`\`typescript\n`,

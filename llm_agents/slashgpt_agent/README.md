@@ -34,6 +34,7 @@ const result = await graph.run();
  - slashGPTAgent
 
 
+
 ```typescript
 {
   "inputs": {},

@@ -162,7 +162,12 @@ const result = await graph.run();
 
 ### Input/Params example
  - arrayFlatAgent
-
+   - inputs
+     - array(array)
+       - The array to be flattened
+   - params
+     - depth(number)
+       - flattening depth
 
 ```typescript
 {
@@ -250,7 +255,14 @@ const result = await graph.run();
 ```
 
  - arrayJoinAgent
-
+   - inputs
+     - array(array)
+       - array join
+   - params
+     - separator(string)
+       - array join separator
+     - flat(number)
+       - array flat depth
 
 ```typescript
 {
@@ -447,6 +459,9 @@ const result = await graph.run();
 ```
 
  - arrayToObjectAgent
+   - inputs
+     - items(array)
+       - the array to pop an item from
 
 
 ```typescript
@@ -470,6 +485,8 @@ const result = await graph.run();
 ```
 
  - compareAgent
+   - inputs
+
 
 
 ```typescript
@@ -1494,6 +1511,9 @@ const result = await graph.run();
 ```
 
  - consoleAgent
+   - inputs
+     - text(string)
+       - text
 
 
 ```typescript
@@ -1506,6 +1526,7 @@ const result = await graph.run();
 ```
 
  - copy2ArrayAgent
+
 
 
 ```typescript
@@ -1546,6 +1567,8 @@ const result = await graph.run();
 ```
 
  - copyAgent
+   - inputs
+
 
 
 ```typescript
@@ -1587,6 +1610,7 @@ const result = await graph.run();
  - copyMessageAgent
 
 
+
 ```typescript
 {
   "inputs": {},
@@ -1600,6 +1624,7 @@ const result = await graph.run();
  - countingAgent
 
 
+
 ```typescript
 {
   "inputs": {},
@@ -1610,6 +1635,9 @@ const result = await graph.run();
 ```
 
  - dataSumTemplateAgent
+   - inputs
+     - array(array)
+       - the array of numbers to calculate the sum of
 
 
 ```typescript
@@ -1696,6 +1724,11 @@ const result = await graph.run();
 ```
 
  - dotProductAgent
+   - inputs
+     - matrix(array)
+       - two dimentional matrix
+     - vector(array)
+       - the vector
 
 
 ```typescript
@@ -1750,6 +1783,7 @@ const result = await graph.run();
  - echoAgent
 
 
+
 ```typescript
 {
   "inputs": {},
@@ -1771,6 +1805,11 @@ const result = await graph.run();
 ```
 
  - images2messageAgent
+   - inputs
+     - array(array)
+       - the array of base64 image data
+     - prompt(string)
+       - prompt message
 
 
 ```typescript
@@ -1820,6 +1859,8 @@ const result = await graph.run();
 ```
 
  - jsonParserAgent
+   - inputs
+
 
 
 ```typescript
@@ -1875,6 +1916,9 @@ const result = await graph.run();
 ```
 
  - lookupDictionaryAgent
+   - inputs
+     - namedKey(string)
+       - key of params
 
 
 ```typescript
@@ -1923,6 +1967,7 @@ const result = await graph.run();
 ```
 
  - mapAgent
+
 
 
 ```typescript
@@ -2153,6 +2198,7 @@ const result = await graph.run();
  - mergeNodeIdAgent
 
 
+
 ```typescript
 {
   "inputs": {
@@ -2167,6 +2213,8 @@ const result = await graph.run();
 ```
 
  - mergeObjectAgent
+   - inputs
+
 
 
 ```typescript
@@ -2186,6 +2234,7 @@ const result = await graph.run();
 ```
 
  - nestedAgent
+
 
 
 ```typescript
@@ -2210,6 +2259,9 @@ const result = await graph.run();
 ```
 
  - popAgent
+   - inputs
+     - array(array)
+       - the array to pop an item from
 
 
 ```typescript
@@ -2259,6 +2311,8 @@ const result = await graph.run();
 ```
 
  - propertyFilterAgent
+   - inputs
+
 
 
 ```typescript
@@ -2613,6 +2667,13 @@ const result = await graph.run();
 ```
 
  - pushAgent
+   - inputs
+     - array(array)
+       - the array to push an item to
+     - item(undefined)
+       - the item push into the array
+     - items(array)
+       - items push into the array
 
 
 ```typescript
@@ -2682,6 +2743,9 @@ const result = await graph.run();
 ```
 
  - shiftAgent
+   - inputs
+     - array(array)
+       - the array to shift an item from
 
 
 ```typescript
@@ -2714,6 +2778,7 @@ const result = await graph.run();
  - sleeperAgent
 
 
+
 ```typescript
 {
   "inputs": {},
@@ -2743,6 +2808,11 @@ const result = await graph.run();
 ```
 
  - sortByValuesAgent
+   - inputs
+     - array(array)
+       - the array to sort
+     - values(array)
+       - values associated with items in the array
 
 
 ```typescript
@@ -2789,6 +2859,8 @@ const result = await graph.run();
 ```
 
  - streamMockAgent
+   - inputs
+
 
 
 ```typescript
@@ -2813,6 +2885,7 @@ const result = await graph.run();
  - stringCaseVariantsAgent
 
 
+
 ```typescript
 {
   "inputs": {
@@ -2835,6 +2908,9 @@ const result = await graph.run();
 ```
 
  - stringSplitterAgent
+   - inputs
+     - text(string)
+       - text to be chuncked
 
 
 ```typescript
@@ -2849,6 +2925,7 @@ const result = await graph.run();
 ```
 
  - stringTemplateAgent
+
 
 
 ```typescript
@@ -2962,6 +3039,7 @@ const result = await graph.run();
  - stringUpdateTextAgent
 
 
+
 ```typescript
 {
   "inputs": {
@@ -3002,6 +3080,9 @@ const result = await graph.run();
 ```
 
  - totalAgent
+   - inputs
+     - array(array)
+       - the array
 
 
 ```typescript
@@ -3320,6 +3401,17 @@ const result = await graph.run();
 ```
 
  - vanillaFetchAgent
+   - inputs
+     - url(string)
+       - baseurl
+     - method(string)
+       - HTTP method
+     - headers(object)
+       - HTTP headers
+     - quaryParams(object)
+       - Query parameters
+     - body(undefined)
+       - body
 
 
 ```typescript
