@@ -2,12 +2,22 @@
   "name": "@graphai/agent_utils",
   "version": "2.0.0",
   "description": "Agent utils for GraphAI.",
-  "main": "lib/index.js",
+  "main": "lib/bundle.cjs.js",
+  "module": "lib/bundle.esm.js",
+  "browser": "./lib/bundle.umd.js",
+  "exports": {
+    ".": {
+      "import": "./lib/bundle.esm.js",
+      "require": "./lib/bundle.cjs.js",
+      "browser": "./lib/bundle.umd.js",
+      "types": "./lib/index.d.ts"
+    }
+  },
   "files": [
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && tsc-alias",
+    "build": "rm -r lib/* && tsc && npx rollup -c",
     "eslint": "eslint",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
     "doc": "echo nothing",
@@ -25,7 +35,6 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/agent_utils/README.md",
   "dependencies": {},
-  "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
