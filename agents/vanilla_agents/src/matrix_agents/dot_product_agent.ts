@@ -33,26 +33,41 @@ const dotProductAgentInfo: AgentFunctionInfo = {
     properties: {
       matrix: {
         type: "array",
-        description: "two dimentional matrix",
+        description: "A two-dimensional array of numbers. Each inner array represents a vector to be compared.",
         items: {
           type: "array",
           items: {
             type: "number",
+            description: "A numeric value within a vector.",
           },
+          description: "A vector of numbers (row in the matrix).",
         },
       },
       vector: {
         type: "array",
-        description: "the vector",
+        description: "A single vector of numbers to compute dot products with each vector in the matrix.",
         items: {
           type: "number",
+          description: "A numeric component of the target vector.",
         },
       },
     },
     required: ["matrix", "vector"],
+    additionalProperties: false,
+  },
+  params: {
+    type: "object",
+    description: "No parameters are used in this agent.",
+    properties: {},
+    additionalProperties: false,
   },
   output: {
     type: "array",
+    description: "An array of numbers representing the dot products between each vector in 'matrix' and the input 'vector'.",
+    items: {
+      type: "number",
+      description: "The result of a dot product between a matrix row and the input vector.",
+    },
   },
   samples: [
     {

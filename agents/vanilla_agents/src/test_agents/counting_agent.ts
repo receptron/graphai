@@ -13,6 +13,40 @@ const countingAgentInfo: AgentFunctionInfo = {
   name: "countingAgent",
   agent: countingAgent,
   mock: countingAgent,
+  inputs: {
+    type: "object",
+    description: "This agent does not require any inputs. Leave empty.",
+    properties: {},
+    additionalProperties: false,
+  },
+  params: {
+    type: "object",
+    description: "Parameter that defines how many numbers to generate, starting from 0.",
+    properties: {
+      count: {
+        type: "integer",
+        minimum: 0,
+        description: "The number of integers to generate, starting from 0 up to count - 1.",
+      },
+    },
+    required: ["count"],
+    additionalProperties: false,
+  },
+  output: {
+    type: "object",
+    description: "An object containing a list of sequential integers.",
+    properties: {
+      list: {
+        type: "array",
+        description: "An array of integers from 0 to count - 1.",
+        items: {
+          type: "integer",
+        },
+      },
+    },
+    required: ["list"],
+    additionalProperties: false,
+  },
   samples: [
     {
       inputs: {},

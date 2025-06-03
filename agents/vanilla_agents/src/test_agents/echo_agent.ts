@@ -12,6 +12,29 @@ const echoAgentInfo: AgentFunctionInfo = {
   name: "echoAgent",
   agent: echoAgent,
   mock: echoAgent,
+  inputs: {
+    type: "object",
+    description: "This agent does not use inputs. Leave empty.",
+    properties: {},
+    additionalProperties: false,
+  },
+  params: {
+    type: "object",
+    description: "Any parameters you want to echo back. If 'filterParams' is true, only filtered parameters will be returned.",
+    properties: {
+      filterParams: {
+        type: "boolean",
+        description: "If true, returns 'filterParams' instead of the full 'params'.",
+      },
+    },
+    additionalProperties: true,
+  },
+  output: {
+    type: "object",
+    description: "Returns the full 'params' object or the 'filterParams' object if 'filterParams' is set to true.",
+    additionalProperties: true,
+  },
+
   samples: [
     {
       inputs: {},

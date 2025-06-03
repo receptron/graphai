@@ -14,6 +14,38 @@ const copy2ArrayAgentInfo: AgentFunctionInfo = {
   name: "copy2ArrayAgent",
   agent: copy2ArrayAgent,
   mock: copy2ArrayAgent,
+  inputs: {
+    type: "object",
+    description: "The input item to be duplicated. Can be provided as 'item' or as a free-form object.",
+    properties: {
+      item: {
+        description: "The item to be copied into each element of the resulting array.",
+        anyOf: [{ type: "object" }, { type: "string" }, { type: "number" }, { type: "array" }, { type: "boolean" }],
+      },
+    },
+    additionalProperties: true,
+  },
+  params: {
+    type: "object",
+    description: "Parameters controlling the number of copies to return.",
+    properties: {
+      count: {
+        type: "integer",
+        description: "The number of times to copy the input item into the output array.",
+        minimum: 1,
+      },
+    },
+    required: ["count"],
+    additionalProperties: false,
+  },
+  output: {
+    type: "array",
+    description: "An array of 'count' copies of the input item.",
+    items: {
+      description: "A duplicated copy of the input item.",
+      anyOf: [{ type: "object" }, { type: "string" }, { type: "number" }, { type: "array" }, { type: "boolean" }],
+    },
+  },
   samples: [
     {
       inputs: { item: { message: "hello" } },

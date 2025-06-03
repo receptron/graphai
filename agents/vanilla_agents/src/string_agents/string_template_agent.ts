@@ -47,6 +47,83 @@ const stringTemplateAgentInfo: AgentFunctionInfo = {
   name: "stringTemplateAgent",
   agent: stringTemplateAgent,
   mock: stringTemplateAgent,
+  inputs: {
+    type: "object",
+    description: "A key-value object providing variables to be substituted into the template. Keys correspond to placeholders like ${key}.",
+    additionalProperties: {
+      type: "string",
+      description: "A string value to be substituted for a corresponding template placeholder.",
+    },
+  },
+  params: {
+    type: "object",
+    properties: {
+      template: {
+        description:
+          "The template structure where placeholders like ${key} will be replaced by input values. Can be a string, array of strings, object, or nested combinations.",
+        anyOf: [
+          { type: "string" },
+          {
+            type: "array",
+            items: {
+              anyOf: [
+                { type: "string" },
+                {
+                  type: "object",
+                  additionalProperties: { type: "string" },
+                },
+              ],
+            },
+          },
+          {
+            type: "object",
+            additionalProperties: {
+              anyOf: [
+                { type: "string" },
+                {
+                  type: "array",
+                  items: { type: "string" },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    required: ["template"],
+    additionalProperties: false,
+  },
+  output: {
+    description:
+      "The result after recursively replacing all placeholders in the template with the corresponding values from 'inputs'. The output format matches the input template type.",
+    anyOf: [
+      { type: "string" },
+      {
+        type: "array",
+        items: {
+          anyOf: [
+            { type: "string" },
+            {
+              type: "object",
+              additionalProperties: { type: "string" },
+            },
+          ],
+        },
+      },
+      {
+        type: "object",
+        additionalProperties: {
+          anyOf: [
+            { type: "string" },
+            {
+              type: "array",
+              items: { type: "string" },
+            },
+          ],
+        },
+      },
+    ],
+  },
   samples: [
     // named
     {
