@@ -588,103 +588,18 @@ const consoleAgentInfo = {
     license: "MIT",
 };
 
-var lib = {};
-
-var type = {};
-
-var hasRequiredType;
-
-function requireType () {
-	if (hasRequiredType) return type;
-	hasRequiredType = 1;
-	// Type definitions for the main types used in `namedInputs` and agent response data.
-	// In GraphAI, follow these definitions as closely as possible to standardize inputs and outputs.
-	// Related document
-	//  https://github.com/receptron/graphai/blob/main/docs/inputs.md
-	Object.defineProperty(type, "__esModule", { value: true });
-	return type;
-}
-
-var hasRequiredLib;
-
-function requireLib () {
-	if (hasRequiredLib) return lib;
-	hasRequiredLib = 1;
-	(function (exports) {
-		var __createBinding = (lib && lib.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-		    if (k2 === undefined) k2 = k;
-		    var desc = Object.getOwnPropertyDescriptor(m, k);
-		    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-		      desc = { enumerable: true, get: function() { return m[k]; } };
-		    }
-		    Object.defineProperty(o, k2, desc);
-		}) : (function(o, m, k, k2) {
-		    if (k2 === undefined) k2 = k;
-		    o[k2] = m[k];
-		}));
-		var __exportStar = (lib && lib.__exportStar) || function(m, exports) {
-		    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-		};
-		Object.defineProperty(exports, "__esModule", { value: true });
-		exports.isNull = exports.arrayValidate = exports.isNamedInputs = exports.sample2GraphData = void 0;
-		const graphai_1 = require("graphai");
-		__exportStar(requireType(), exports);
-		const sample2GraphData = (sample, agentName) => {
-		    const nodes = {};
-		    const inputs = (() => {
-		        if (Array.isArray(sample.inputs)) {
-		            Array.from(sample.inputs.keys()).forEach((key) => {
-		                nodes["sampleInput" + key] = {
-		                    value: sample.inputs[key],
-		                };
-		            });
-		            return Object.keys(nodes).map((k) => ":" + k);
-		        }
-		        nodes["sampleInput"] = {
-		            value: sample.inputs,
-		        };
-		        return Object.keys(sample.inputs).reduce((tmp, key) => {
-		            tmp[key] = `:sampleInput.` + key;
-		            return tmp;
-		        }, {});
-		    })();
-		    nodes["node"] = {
-		        isResult: true,
-		        agent: agentName,
-		        params: sample.params,
-		        inputs: inputs,
-		        graph: sample.graph,
-		    };
-		    const graphData = {
-		        version: 0.5,
-		        nodes,
-		    };
-		    return graphData;
-		};
-		exports.sample2GraphData = sample2GraphData;
-		const isNamedInputs = (namedInputs) => {
-		    return Object.keys(namedInputs || {}).length > 0;
-		};
-		exports.isNamedInputs = isNamedInputs;
-		const arrayValidate = (agentName, namedInputs, extra_message = "") => {
-		    (0, graphai_1.assert)((0, exports.isNamedInputs)(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
-		    (0, graphai_1.assert)(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
-		    (0, graphai_1.assert)(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
-		};
-		exports.arrayValidate = arrayValidate;
-		const isNull = (data) => {
-		    return data === null || data === undefined;
-		};
-		exports.isNull = isNull; 
-	} (lib));
-	return lib;
-}
-
-var libExports = requireLib();
+const isNamedInputs = (namedInputs) => {
+    return Object.keys(namedInputs || {}).length > 0;
+};
+const arrayValidate = (agentName, namedInputs, extra_message = "") => {
+    assert(isNamedInputs(namedInputs), `${agentName}: namedInputs is UNDEFINED!` + extra_message);
+    assert(!!namedInputs.array, `${agentName}: namedInputs.array is UNDEFINED!` + extra_message);
+    assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
+};
 
 const pushAgent = async ({ namedInputs }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
-    libExports.arrayValidate("pushAgent", namedInputs, extra_message);
+    arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
     assert(item !== undefined || items !== undefined, "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
     assert(items === undefined || Array.isArray(items), "pushAgent: namedInputs.items is not array!");
@@ -764,7 +679,7 @@ const pushAgentInfo = {
 };
 
 const popAgent = async ({ namedInputs }) => {
-    libExports.arrayValidate("popAgent", namedInputs);
+    arrayValidate("popAgent", namedInputs);
     const array = [...namedInputs.array]; // shallow copy
     const item = array.pop();
     return { array, item };
@@ -836,7 +751,7 @@ const popAgentInfo = {
 };
 
 const shiftAgent = async ({ namedInputs }) => {
-    libExports.arrayValidate("shiftAgent", namedInputs);
+    arrayValidate("shiftAgent", namedInputs);
     const array = namedInputs.array.map((item) => item); // shallow copy
     const item = array.shift();
     return { array, item };
@@ -897,7 +812,7 @@ const shiftAgentInfo = {
 };
 
 const arrayFlatAgent = async ({ namedInputs, params }) => {
-    libExports.arrayValidate("arrayFlatAgent", namedInputs);
+    arrayValidate("arrayFlatAgent", namedInputs);
     const depth = params.depth ?? 1;
     const array = namedInputs.array.map((item) => item); // shallow copy
     return { array: array.flat(depth) };
@@ -975,7 +890,7 @@ const arrayFlatAgentInfo = {
 };
 
 const arrayJoinAgent = async ({ namedInputs, params }) => {
-    libExports.arrayValidate("arrayJoinAgent", namedInputs);
+    arrayValidate("arrayJoinAgent", namedInputs);
     const separator = params.separator ?? "";
     const { flat } = params;
     const text = flat ? namedInputs.array.flat(flat).join(separator) : namedInputs.array.join(separator);
@@ -1087,7 +1002,7 @@ const arrayJoinAgentInfo = {
 };
 
 const arrayToObjectAgent = async ({ params, namedInputs }) => {
-    assert(libExports.isNamedInputs(namedInputs), "arrayToObjectAgent: namedInputs is UNDEFINED!");
+    assert(isNamedInputs(namedInputs), "arrayToObjectAgent: namedInputs is UNDEFINED!");
     const { items } = namedInputs;
     const { key } = params;
     assert(items !== undefined && Array.isArray(items), "arrayToObjectAgent: namedInputs.items is not array!");
@@ -1401,7 +1316,7 @@ const copyMessageAgentInfo = {
 };
 
 const copy2ArrayAgent = async ({ namedInputs, params }) => {
-    assert(libExports.isNamedInputs(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
+    assert(isNamedInputs(namedInputs), "copy2ArrayAgent: namedInputs is UNDEFINED!");
     const input = namedInputs.item ? namedInputs.item : namedInputs;
     return new Array(params.count).fill(undefined).map(() => {
         return input;
@@ -1462,7 +1377,7 @@ const copy2ArrayAgentInfo = {
 };
 
 const mergeNodeIdAgent = async ({ debugInfo: { nodeId }, namedInputs, }) => {
-    libExports.arrayValidate("mergeNodeIdAgent", namedInputs);
+    arrayValidate("mergeNodeIdAgent", namedInputs);
     const dataSet = namedInputs.array;
     return dataSet.reduce((tmp, input) => {
         return { ...tmp, ...input };
@@ -2027,7 +1942,7 @@ const mapAgentInfo = {
 
 const totalAgent = async ({ namedInputs, params, }) => {
     const { flatResponse } = params;
-    assert(libExports.isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    assert(isNamedInputs(namedInputs), "totalAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     assert(!!namedInputs?.array, "totalAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     const response = namedInputs.array.reduce((result, input) => {
         const inputArray = Array.isArray(input) ? input : [input];
@@ -2162,7 +2077,7 @@ const totalAgentInfo = {
 
 const dataSumTemplateAgent = async ({ namedInputs, params, }) => {
     const { flatResponse } = params;
-    assert(libExports.isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
+    assert(isNamedInputs(namedInputs), "dataSumTemplateAgent: namedInputs is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     assert(!!namedInputs?.array, "dataSumTemplateAgent: namedInputs.array is UNDEFINED! Set inputs: { array: :arrayNodeId }");
     const sum = namedInputs.array.reduce((tmp, input) => {
         return tmp + input;
@@ -2496,7 +2411,7 @@ const propertyFilterAgentInfo = {
 
 const copyAgent = async ({ namedInputs, params }) => {
     const { namedKey } = params;
-    assert(libExports.isNamedInputs(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
+    assert(isNamedInputs(namedInputs), "copyAgent: namedInputs is UNDEFINED!");
     if (namedKey) {
         return namedInputs[namedKey];
     }
@@ -2540,7 +2455,7 @@ const copyAgentInfo = {
 
 const lookupDictionaryAgent = async ({ namedInputs, params }) => {
     const { namedKey } = namedInputs;
-    assert(libExports.isNamedInputs(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
+    assert(isNamedInputs(namedInputs), "lookupDictionaryAgent: namedInputs is UNDEFINED!");
     const result = params[namedKey];
     if (!params.supressError && result === undefined) {
         throw new Error(`lookupDictionaryAgent error: ${namedKey} is missing`);
@@ -2606,7 +2521,7 @@ const lookupDictionaryAgentInfo = {
 };
 
 const mergeObjectAgent = async ({ namedInputs }) => {
-    assert(libExports.isNamedInputs(namedInputs), "mergeObjectAgent: namedInputs is UNDEFINED!");
+    assert(isNamedInputs(namedInputs), "mergeObjectAgent: namedInputs is UNDEFINED!");
     const { items } = namedInputs;
     assert(items !== undefined && Array.isArray(items), "mergeObjectAgent: namedInputs.items is not array!");
     return Object.assign({}, ...items);
@@ -3461,7 +3376,7 @@ const getImageUrl = (data, imageType, detail) => {
 const images2messageAgent = async ({ namedInputs, params }) => {
     const { imageType, detail } = params;
     const { array, prompt } = namedInputs;
-    libExports.arrayValidate("images2messageAgent", namedInputs);
+    arrayValidate("images2messageAgent", namedInputs);
     assert(!!imageType, "images2messageAgent: params.imageType is UNDEFINED! Set Type: png, jpg...");
     const contents = array.map((base64ImageData) => {
         const image_url = getImageUrl(base64ImageData, imageType, detail);
