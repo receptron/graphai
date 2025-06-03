@@ -139,12 +139,6 @@ const fileReadAgentInfo = {
         },
     ],
     description: "Read data from file system and returns data",
-    usage: [
-        "`inputs.file` specifies a single file name to read.",
-        "`inputs.array` specifies multiple file names to read.",
-        "`params.baseDir` is required and defines the root directory where files are located.",
-        "`params.outputType` optionally controls the output format: 'text' for UTF-8 string, 'base64' for Base64-encoded string, 'stream' for readable stream, or omit for Buffer output.",
-    ],
     category: ["fs"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
