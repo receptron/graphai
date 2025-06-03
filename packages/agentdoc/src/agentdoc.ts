@@ -24,6 +24,17 @@ export const getAgents = (agentKeys: string[]) => {
   }
 };
 
+export const extractDescriptions = (schema: any) => {
+  const result: string[] = [];
+  Object.keys(schema.properties || {}).map((key) => {
+    const prop = schema.properties[key];
+    if (prop && prop.description) {
+      result.push(`     - ${key}(${prop.type})\n       - ${prop.description}`);
+    }
+  });
+  return result.join("\n");
+};
+
 const getRelatedAgents = (packageJson: PackageJson) => {
   const agents = Object.keys(packageJson.dependencies ?? {}).filter(
     (depend) => (depend.match(/^@graphai/) && depend.match(/_agents?$/)) || depend === "@graphai/vanilla",
@@ -41,7 +52,8 @@ const getExamples = (agentKeys: string[], agents: AgentFunctionInfoDictionary) =
       "### Input/Params example",
       targets.map((target) => [
         ` - ${target}`,
-        agents[target].usage ? "\n\n" + (Array.isArray(agents[target].usage) ? agents[target].usage.join("\n\n") : agents[target].usage + "\n") : "",
+        agents[target].inputs ? "   - inputs\n" + extractDescriptions(agents[target].inputs) : "",
+        agents[target].params ? "   - params\n" + extractDescriptions(agents[target].params) : "",
         agents[target].samples.map((sample: any) => {
           return [
             `\n\`\`\`typescript\n`,
