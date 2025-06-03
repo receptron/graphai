@@ -20,12 +20,28 @@ Returns the sum of input values
   "properties": {
     "array": {
       "type": "array",
-      "description": "the array"
+      "description": "An array of objects or arrays of objects. Each inner object must have numeric values which will be aggregated by key.",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "description": "A flat object containing numeric values to be summed."
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Nested array of objects, each containing numeric values to be summed."
+            }
+          }
+        ]
+      }
     }
   },
   "required": [
     "array"
-  ]
+  ],
+  "additionalProperties": false
 }
 
 ```

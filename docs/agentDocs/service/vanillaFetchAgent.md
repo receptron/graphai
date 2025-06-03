@@ -20,21 +20,22 @@ Retrieves JSON data from the specified URL
   "properties": {
     "url": {
       "type": "string",
-      "description": "baseurl"
+      "description": "The request URL. Can be provided in either 'inputs' or 'params'."
     },
     "method": {
       "type": "string",
-      "description": "HTTP method"
+      "description": "The HTTP method to use (GET, POST, PUT, etc.). Defaults to GET if not specified and no body is provided; otherwise POST."
     },
     "headers": {
       "type": "object",
-      "description": "HTTP headers"
+      "description": "Optional HTTP headers to include in the request. Values from both inputs and params are merged."
     },
-    "quaryParams": {
+    "queryParams": {
       "type": "object",
-      "description": "Query parameters"
+      "description": "Optional query parameters to append to the URL."
     },
     "body": {
+      "description": "Optional request body to send with POST, PUT, or PATCH methods.",
       "anyOf": [
         {
           "type": "string"
@@ -42,11 +43,11 @@ Retrieves JSON data from the specified URL
         {
           "type": "object"
         }
-      ],
-      "description": "body"
+      ]
     }
   },
-  "required": []
+  "required": [],
+  "additionalProperties": false
 }
 
 ```
@@ -56,7 +57,68 @@ Retrieves JSON data from the specified URL
 ```json
 
 {
-  "type": "array"
+  "description": "Returns either the HTTP response body or a debug object. If an error occurs and 'supressError' is true, returns an object with an 'onError' key.",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "onError": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "status": {
+              "type": "integer"
+            },
+            "error": {}
+          },
+          "required": [
+            "message",
+            "status",
+            "error"
+          ]
+        }
+      },
+      "required": [
+        "onError"
+      ],
+      "additionalProperties": true
+    },
+    {
+      "type": "object",
+      "description": "Debug information returned when 'debug' is true.",
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object"
+        },
+        "body": {}
+      },
+      "required": [
+        "method",
+        "url",
+        "headers"
+      ]
+    },
+    {},
+    {
+      "type": "object",
+      "description": "When 'flatResponse' is false, the response is wrapped as { data: ... }.",
+      "properties": {
+        "data": {}
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": true
+    }
+  ]
 }
 
 ```

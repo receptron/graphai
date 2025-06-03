@@ -15,7 +15,40 @@ compare
 
 ```json
 
-{}
+{
+  "type": "object",
+  "properties": {
+    "array": {
+      "type": "array",
+      "description": "A 3-element array in the form [leftOperand, operator, rightOperand]. Used for direct comparison logic.",
+      "items": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "array"
+        ]
+      }
+    },
+    "leftValue": {
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ],
+      "description": "Left-hand operand used when 'array' is not provided. Used with 'rightValue' and 'params.operator'."
+    },
+    "rightValue": {
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ],
+      "description": "Right-hand operand used when 'array' is not provided. Used with 'leftValue' and 'params.operator'."
+    }
+  },
+  "additionalProperties": false
+}
 
 ```
 

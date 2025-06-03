@@ -16,11 +16,22 @@ Echo agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
+  "description": "This agent does not use inputs. Leave empty.",
   "properties": {},
-  "required": []
+  "additionalProperties": false
+}
+
+```
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "description": "Returns the full 'params' object or the 'filterParams' object if 'filterParams' is set to true.",
+  "additionalProperties": true
 }
 
 ```

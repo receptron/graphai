@@ -20,16 +20,21 @@ Returns the message data for llm include image
   "properties": {
     "array": {
       "type": "array",
-      "description": "the array of base64 image data"
+      "description": "An array of base64-encoded image data strings or image URLs. These will be converted into OpenAI Vision-compatible image message format.",
+      "items": {
+        "type": "string",
+        "description": "Base64 image string or HTTP URL depending on 'imageType'."
+      }
     },
     "prompt": {
       "type": "string",
-      "description": "prompt message"
+      "description": "Optional prompt text to include as the first message content before images."
     }
   },
   "required": [
     "array"
-  ]
+  ],
+  "additionalProperties": false
 }
 
 ```
@@ -39,7 +44,87 @@ Returns the message data for llm include image
 ```json
 
 {
-  "type": "object"
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "object",
+      "description": "OpenAI-compatible chat message including images and optional prompt text.",
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "user"
+          ],
+          "description": "Message role, always 'user' for this agent."
+        },
+        "content": {
+          "type": "array",
+          "description": "The array of message content elements, including optional text and one or more images.",
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "text"
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Prompt message text."
+                  }
+                },
+                "required": [
+                  "type",
+                  "text"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "image_url"
+                  },
+                  "image_url": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "description": "URL or data URL of the image."
+                      },
+                      "detail": {
+                        "type": "string",
+                        "description": "Image detail level (e.g., 'high', 'low', 'auto'). Optional for base64."
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "type",
+                  "image_url"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "message"
+  ],
+  "additionalProperties": false
 }
 
 ```

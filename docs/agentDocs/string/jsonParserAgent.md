@@ -16,20 +16,33 @@ Template agent
 ```json
 
 {
-  "anyOf": [
-    {
-      "type": "string"
+  "type": "object",
+  "description": "The input object containing either a JSON string in 'text' or a raw JavaScript object in 'data'. One of them is required.",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "A JSON string, possibly embedded in a Markdown code block. If provided, it will be parsed into a data object."
     },
-    {
-      "type": "integer"
-    },
-    {
-      "type": "object"
-    },
-    {
-      "type": "array"
+    "data": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "description": "Raw data to be converted into a formatted JSON string in the 'text' output."
     }
-  ]
+  },
+  "required": [],
+  "additionalProperties": false
 }
 
 ```
@@ -40,28 +53,32 @@ Template agent
 
 {
   "type": "object",
+  "description": "Returns either a parsed data object (from 'text') or a formatted JSON string (from 'data').",
   "properties": {
     "text": {
       "type": "string",
-      "description": "json string"
+      "description": "A pretty-printed JSON string generated from the 'data' input, if provided."
     },
     "data": {
       "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "integer"
-        },
         {
           "type": "object"
         },
         {
           "type": "array"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
         }
-      ]
+      ],
+      "description": "Parsed data object from the 'text' input, or the original 'data' if no parsing was required."
     }
-  }
+  },
+  "required": [],
+  "additionalProperties": false
 }
 
 ```

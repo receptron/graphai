@@ -114,7 +114,7 @@ const result = await graph.run();
 - propertyFilterAgent - Filter properties based on property name either with 'include', 'exclude', 'alter', 'swap', 'inject', 'inspect'
 - pushAgent - push Agent
 - shiftAgent - shift Agent
-- sleeperAgent - sleeper Agent
+- sleeperAgent - sleeper Agent for test and debug
 - sortByValuesAgent - sortByValues Agent
 - streamMockAgent - Stream mock agent
 - stringCaseVariantsAgent - Format String Cases agent
@@ -486,8 +486,17 @@ const result = await graph.run();
 
  - compareAgent
    - inputs
-
-
+     - array(array)
+       - A 3-element array in the form [leftOperand, operator, rightOperand]. Used for direct comparison logic.
+     - leftValue(string,number,boolean)
+       - Left-hand operand used when 'array' is not provided. Used with 'rightValue' and 'params.operator'.
+     - rightValue(string,number,boolean)
+       - Right-hand operand used when 'array' is not provided. Used with 'leftValue' and 'params.operator'.
+   - params
+     - operator(string)
+       - The comparison operator to apply, such as '==', '!=', '>', '>=', '<', '<=', '||', '&&', or 'XOR'. Required if 'array' does not include the operator.
+     - value(object)
+       - An optional mapping for the comparison result. If provided, it must contain keys 'true' and/or 'false' to return custom values instead of booleans.
 
 ```typescript
 {
@@ -1526,8 +1535,12 @@ const result = await graph.run();
 ```
 
  - copy2ArrayAgent
-
-
+   - inputs
+     - item(undefined)
+       - The item to be copied into each element of the resulting array.
+   - params
+     - count(integer)
+       - The number of times to copy the input item into the output array.
 
 ```typescript
 {
@@ -1569,7 +1582,9 @@ const result = await graph.run();
  - copyAgent
    - inputs
 
-
+   - params
+     - namedKey(string)
+       - If specified, the agent will return only the value associated with this key from namedInputs.
 
 ```typescript
 {
@@ -1608,8 +1623,13 @@ const result = await graph.run();
 ```
 
  - copyMessageAgent
+   - inputs
 
-
+   - params
+     - count(integer)
+       - The number of times the message should be duplicated in the array.
+     - message(string)
+       - The message string to be repeated.
 
 ```typescript
 {
@@ -1622,8 +1642,11 @@ const result = await graph.run();
 ```
 
  - countingAgent
+   - inputs
 
-
+   - params
+     - count(integer)
+       - The number of integers to generate, starting from 0 up to count - 1.
 
 ```typescript
 {
@@ -1726,9 +1749,10 @@ const result = await graph.run();
  - dotProductAgent
    - inputs
      - matrix(array)
-       - two dimentional matrix
+       - A two-dimensional array of numbers. Each inner array represents a vector to be compared.
      - vector(array)
-       - the vector
+       - A single vector of numbers to compute dot products with each vector in the matrix.
+   - params
 
 
 ```typescript
@@ -1781,8 +1805,11 @@ const result = await graph.run();
 ```
 
  - echoAgent
+   - inputs
 
-
+   - params
+     - filterParams(boolean)
+       - If true, returns 'filterParams' instead of the full 'params'.
 
 ```typescript
 {
@@ -1807,10 +1834,14 @@ const result = await graph.run();
  - images2messageAgent
    - inputs
      - array(array)
-       - the array of base64 image data
+       - An array of base64-encoded image data strings or image URLs. These will be converted into OpenAI Vision-compatible image message format.
      - prompt(string)
-       - prompt message
-
+       - Optional prompt text to include as the first message content before images.
+   - params
+     - imageType(string)
+       - The type of image input: 'png', 'jpg', etc. for base64, or 'http' for image URLs.
+     - detail(string)
+       - The level of image detail requested by the model (e.g., 'auto', 'low', 'high'). Optional.
 
 ```typescript
 {
@@ -1860,7 +1891,11 @@ const result = await graph.run();
 
  - jsonParserAgent
    - inputs
-
+     - text(string)
+       - A JSON string, possibly embedded in a Markdown code block. If provided, it will be parsed into a data object.
+     - data(undefined)
+       - Raw data to be converted into a formatted JSON string in the 'text' output.
+   - params
 
 
 ```typescript
@@ -1918,7 +1953,10 @@ const result = await graph.run();
  - lookupDictionaryAgent
    - inputs
      - namedKey(string)
-       - key of params
+       - The key to look up in the dictionary provided by 'params'.
+     - supressError(boolean)
+       - If true, prevents the agent from throwing an error when the key is missing in 'params'. Optional.
+   - params
 
 
 ```typescript
@@ -2196,7 +2234,10 @@ const result = await graph.run();
 ```
 
  - mergeNodeIdAgent
-
+   - inputs
+     - array(array)
+       - An array of objects to be merged together into a single object. Each object represents a partial result or state.
+   - params
 
 
 ```typescript
@@ -2214,7 +2255,9 @@ const result = await graph.run();
 
  - mergeObjectAgent
    - inputs
-
+     - items(array)
+       - An array of objects whose key-value pairs will be merged into a single object. Later objects override earlier ones on key conflict.
+   - params
 
 
 ```typescript
@@ -2776,8 +2819,11 @@ const result = await graph.run();
 ```
 
  - sleeperAgent
+   - inputs
 
-
+   - params
+     - duration(number)
+       - Optional duration in milliseconds to pause execution before returning the input. Defaults to 10ms.
 
 ```typescript
 {
@@ -2810,10 +2856,12 @@ const result = await graph.run();
  - sortByValuesAgent
    - inputs
      - array(array)
-       - the array to sort
+       - The array of items to be sorted. Each item will be paired with a corresponding numeric value from the 'values' array.
      - values(array)
-       - values associated with items in the array
-
+       - An array of numeric values used to determine the sort order of the 'array' items. Must be the same length as 'array'.
+   - params
+     - assendant(boolean)
+       - If true, sorts in ascending order; otherwise, in descending order (default).
 
 ```typescript
 {
@@ -2883,8 +2931,12 @@ const result = await graph.run();
 ```
 
  - stringCaseVariantsAgent
-
-
+   - inputs
+     - text(string)
+       - The input string to be transformed into various casing styles.
+   - params
+     - suffix(string)
+       - An optional suffix to append to the input string before transforming cases.
 
 ```typescript
 {
@@ -2925,8 +2977,11 @@ const result = await graph.run();
 ```
 
  - stringTemplateAgent
+   - inputs
 
-
+   - params
+     - template(undefined)
+       - The template structure where placeholders like ${key} will be replaced with values from 'inputs'.
 
 ```typescript
 {
@@ -3037,7 +3092,12 @@ const result = await graph.run();
 ```
 
  - stringUpdateTextAgent
-
+   - inputs
+     - newText(string)
+       - The new text to use if provided and not empty.
+     - oldText(string)
+       - The fallback text used if 'newText' is empty or not provided.
+   - params
 
 
 ```typescript
@@ -3082,8 +3142,10 @@ const result = await graph.run();
  - totalAgent
    - inputs
      - array(array)
-       - the array
-
+       - An array of objects or arrays of objects. Each inner object must have numeric values which will be aggregated by key.
+   - params
+     - flatResponse(boolean)
+       - If true, the result will be returned as a plain object (e.g., { a: 6 }); otherwise, wrapped in { data: {...} }.
 
 ```typescript
 {
@@ -3403,16 +3465,34 @@ const result = await graph.run();
  - vanillaFetchAgent
    - inputs
      - url(string)
-       - baseurl
+       - The request URL. Can be provided in either 'inputs' or 'params'.
      - method(string)
-       - HTTP method
+       - The HTTP method to use (GET, POST, PUT, etc.). Defaults to GET if not specified and no body is provided; otherwise POST.
      - headers(object)
-       - HTTP headers
-     - quaryParams(object)
-       - Query parameters
+       - Optional HTTP headers to include in the request. Values from both inputs and params are merged.
+     - queryParams(object)
+       - Optional query parameters to append to the URL.
      - body(undefined)
-       - body
-
+       - Optional request body to send with POST, PUT, or PATCH methods.
+   - params
+     - url(string)
+       - The request URL (overridden if also specified in inputs).
+     - method(string)
+       - The HTTP method (overridden if also specified in inputs).
+     - headers(object)
+       - Additional headers. Merged with inputs.headers.
+     - queryParams(object)
+       - Query parameters to append to the URL.
+     - body(undefined)
+       - Request body to be sent, used with POST/PUT/PATCH.
+     - debug(boolean)
+       - If true, returns the prepared request details instead of performing the actual fetch.
+     - supressError(boolean)
+       - If true, suppresses thrown errors and returns the error response instead.
+     - flatResponse(boolean)
+       - If true, returns the raw response. If false, wraps the response in an object with a 'data' key. Default is false.
+     - type(string)
+       - Response type to parse. Either 'json' or 'text'. Defaults to 'json'.
 
 ```typescript
 {

@@ -7,7 +7,7 @@
 
 ## Description
 
-sleeper Agent
+sleeper Agent for test and debug
 
 ## Schema
 
@@ -16,11 +16,21 @@ sleeper Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
-  "properties": {},
-  "required": []
+  "description": "Arbitrary input data. This agent does not modify it and returns it unchanged after a delay.",
+  "additionalProperties": true
+}
+
+```
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "description": "Returns the same object passed as 'inputs', unchanged.",
+  "additionalProperties": true
 }
 
 ```

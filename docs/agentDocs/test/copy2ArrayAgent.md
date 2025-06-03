@@ -16,26 +16,62 @@ Copy2Array agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
+  "description": "The input item to be duplicated. Can be provided as 'item' or as a free-form object.",
   "properties": {
     "item": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "minLength": 1
+      "description": "The item to be copied into each element of the resulting array.",
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "boolean"
         }
-      },
-      "required": [
-        "message"
       ]
     }
   },
-  "required": [
-    "item"
-  ]
+  "additionalProperties": true
+}
+
+```
+
+#### output
+
+```json
+
+{
+  "type": "array",
+  "description": "An array of 'count' copies of the input item.",
+  "items": {
+    "description": "A duplicated copy of the input item.",
+    "anyOf": [
+      {
+        "type": "object"
+      },
+      {
+        "type": "string"
+      },
+      {
+        "type": "number"
+      },
+      {
+        "type": "array"
+      },
+      {
+        "type": "boolean"
+      }
+    ]
+  }
 }
 
 ```

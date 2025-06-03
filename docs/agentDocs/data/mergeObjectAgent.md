@@ -16,11 +16,21 @@ Returns namedInputs
 ```json
 
 {
-  "anyOf": [
-    {
-      "type": "object"
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "An array of objects whose key-value pairs will be merged into a single object. Later objects override earlier ones on key conflict.",
+      "items": {
+        "type": "object",
+        "description": "An individual object contributing to the merged result."
+      }
     }
-  ]
+  },
+  "required": [
+    "items"
+  ],
+  "additionalProperties": false
 }
 
 ```

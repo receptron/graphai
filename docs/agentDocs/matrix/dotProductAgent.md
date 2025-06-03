@@ -20,26 +20,30 @@ dotProduct Agent
   "properties": {
     "matrix": {
       "type": "array",
-      "description": "two dimentional matrix",
+      "description": "A two-dimensional array of numbers. Each inner array represents a vector to be compared.",
       "items": {
         "type": "array",
         "items": {
-          "type": "number"
-        }
+          "type": "number",
+          "description": "A numeric value within a vector."
+        },
+        "description": "A vector of numbers (row in the matrix)."
       }
     },
     "vector": {
       "type": "array",
-      "description": "the vector",
+      "description": "A single vector of numbers to compute dot products with each vector in the matrix.",
       "items": {
-        "type": "number"
+        "type": "number",
+        "description": "A numeric component of the target vector."
       }
     }
   },
   "required": [
     "matrix",
     "vector"
-  ]
+  ],
+  "additionalProperties": false
 }
 
 ```
@@ -49,7 +53,12 @@ dotProduct Agent
 ```json
 
 {
-  "type": "array"
+  "type": "array",
+  "description": "An array of numbers representing the dot products between each vector in 'matrix' and the input 'vector'.",
+  "items": {
+    "type": "number",
+    "description": "The result of a dot product between a matrix row and the input vector."
+  }
 }
 
 ```

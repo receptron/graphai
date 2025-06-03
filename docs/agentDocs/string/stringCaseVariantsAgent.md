@@ -16,18 +16,52 @@ Format String Cases agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "text": {
       "type": "string",
-      "minLength": 1
+      "description": "The input string to be transformed into various casing styles."
     }
   },
   "required": [
     "text"
-  ]
+  ],
+  "additionalProperties": false
+}
+
+```
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "properties": {
+    "kebabCase": {
+      "type": "string",
+      "description": "The input string converted to kebab-case (e.g., 'this-is-a-pen')."
+    },
+    "snakeCase": {
+      "type": "string",
+      "description": "The input string converted to snake_case (e.g., 'this_is_a_pen')."
+    },
+    "lowerCamelCase": {
+      "type": "string",
+      "description": "The input string converted to lowerCamelCase (e.g., 'thisIsAPen')."
+    },
+    "normalized": {
+      "type": "string",
+      "description": "The original string, optionally appended with the suffix, in lowercase with normalized spacing."
+    }
+  },
+  "required": [
+    "kebabCase",
+    "snakeCase",
+    "lowerCamelCase",
+    "normalized"
+  ],
+  "additionalProperties": false
 }
 
 ```

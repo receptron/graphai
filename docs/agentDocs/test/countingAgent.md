@@ -16,11 +16,34 @@ Counting agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
+  "description": "This agent does not require any inputs. Leave empty.",
   "properties": {},
-  "required": []
+  "additionalProperties": false
+}
+
+```
+
+#### output
+
+```json
+
+{
+  "type": "object",
+  "description": "An object containing a list of sequential integers.",
+  "properties": {
+    "list": {
+      "type": "array",
+      "description": "An array of integers from 0 to count - 1.",
+      "items": {
+        "type": "integer"
+      }
+    }
+  },
+  "required": [
+    "list"
+  ],
+  "additionalProperties": false
 }
 
 ```

@@ -50,7 +50,8 @@ const result = await graph.run();
       },
       "inputs": {
         "a": ":source",
-        "b": "orange"
+        "b": "orange",
+        "c": null
       },
       "isResult": true
     },

@@ -16,22 +16,51 @@ Template agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
-  "properties": {
-    "message1": {
-      "type": "string",
-      "minLength": 1
+  "description": "Key-value pairs where each key corresponds to a variable used in the template (e.g., ${key}).",
+  "additionalProperties": {
+    "type": [
+      "string",
+      "number",
+      "boolean",
+      "object",
+      "array",
+      "null"
+    ],
+    "description": "Any value to be substituted into the template. Objects and arrays are injected directly if the entire field is a placeholder."
+  }
+}
+
+```
+
+#### output
+
+```json
+
+{
+  "description": "The result after placeholder substitution, matching the structure and type of the original template.",
+  "anyOf": [
+    {
+      "type": "string"
     },
-    "message2": {
-      "type": "string",
-      "minLength": 1
+    {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": true
     }
-  },
-  "required": [
-    "message1",
-    "message2"
   ]
 }
 

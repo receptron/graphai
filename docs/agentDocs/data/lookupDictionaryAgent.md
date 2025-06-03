@@ -20,12 +20,17 @@ Select elements with params
   "properties": {
     "namedKey": {
       "type": "string",
-      "description": "key of params"
+      "description": "The key to look up in the dictionary provided by 'params'."
+    },
+    "supressError": {
+      "type": "boolean",
+      "description": "If true, prevents the agent from throwing an error when the key is missing in 'params'. Optional."
     }
   },
   "required": [
     "namedKey"
-  ]
+  ],
+  "additionalProperties": false
 }
 
 ```
