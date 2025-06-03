@@ -73,7 +73,7 @@ const getExamples = (agentKeys, agents) => {
             "### Input/Params example",
             targets.map((target) => [
                 ` - ${target}`,
-                agents[target].usage ? ("\n\n" + (Array.isArray(agents[target].usage) ? agents[target].usage.join("\n\n") : (agents[target].usage + "\n"))) : "",
+                agents[target].usage ? "\n\n" + (Array.isArray(agents[target].usage) ? agents[target].usage.join("\n\n") : agents[target].usage + "\n") : "",
                 agents[target].samples.map((sample) => {
                     return [
                         `\n\`\`\`typescript\n`,
