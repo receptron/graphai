@@ -168,7 +168,6 @@ export type AgentFunctionInfo = {
   tools?: Record<string, any>[]; // function calling(tools) schema.
   samples: AgentFunctionInfoSample[]; // sample data. This is for document and unit test.
   description: string;
-  usage?: string | string[];
   category: string[];
   author: string;
   repository: string;
