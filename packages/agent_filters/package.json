@@ -31,7 +31,7 @@
     "@graphai/http_client_agent_filter": "2.0.1",
     "@graphai/namedinput_validator_agent_filter": "2.0.1",
     "@graphai/step_runner_agent_filter": "2.0.3",
-    "@graphai/stream_agent_filter": "2.0.1"
+    "@graphai/stream_agent_filter": "2.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.18",
