@@ -51,7 +51,7 @@ const stringTemplateAgentInfo: AgentFunctionInfo = {
     type: "object",
     description: "Key-value pairs where each key corresponds to a variable used in the template (e.g., ${key}).",
     additionalProperties: {
-      type: ["string", "number", "boolean", "object", "array"],
+      type: ["string", "number", "boolean", "object", "array", "null"],
       description: "Any value to be substituted into the template. Objects and arrays are injected directly if the entire field is a placeholder.",
     },
   },
