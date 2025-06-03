@@ -35,12 +35,6 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/agent_utils/README.md",
   "dependencies": {},
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.3",
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.2",
-    "rollup": "^4.41.1"
-  },
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
