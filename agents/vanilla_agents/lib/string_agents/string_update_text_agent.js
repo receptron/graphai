@@ -47,6 +47,37 @@ const stringUpdateTextAgentInfo = {
     name: "stringUpdateTextAgent",
     agent: stringUpdateTextAgent,
     mock: stringUpdateTextAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            newText: {
+                type: "string",
+                description: "The new text to use if provided and not empty.",
+            },
+            oldText: {
+                type: "string",
+                description: "The fallback text used if 'newText' is empty or not provided.",
+            },
+        },
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "No parameters are used in this agent.",
+        properties: {},
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "The resulting text. It is either the value of 'newText' if non-empty, otherwise 'oldText', or an empty string if both are missing.",
+            },
+        },
+        required: ["text"],
+        additionalProperties: false,
+    },
     samples: [
         {
             inputs: { newText: "new", oldText: "old" },

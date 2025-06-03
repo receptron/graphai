@@ -38,10 +38,36 @@ const totalAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the array",
+                description: "An array of objects or arrays of objects. Each inner object must have numeric values which will be aggregated by key.",
+                items: {
+                    anyOf: [
+                        {
+                            type: "object",
+                            description: "A flat object containing numeric values to be summed.",
+                        },
+                        {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                description: "Nested array of objects, each containing numeric values to be summed.",
+                            },
+                        },
+                    ],
+                },
             },
         },
         required: ["array"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            flatResponse: {
+                type: "boolean",
+                description: "If true, the result will be returned as a plain object (e.g., { a: 6 }); otherwise, wrapped in { data: {...} }.",
+            },
+        },
+        additionalProperties: false,
     },
     output: {
         type: "object",

@@ -17,7 +17,22 @@ const copyAgentInfo = {
     agent: exports.copyAgent,
     mock: exports.copyAgent,
     inputs: {
-        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+        type: "object",
+        description: "A dynamic object containing any number of named input fields. The agent either returns the whole object or a single value by key.",
+        additionalProperties: {
+            type: ["string", "number", "boolean", "object", "array", "null"],
+            description: "A value associated with a named input key. Can be any JSON-compatible type.",
+        },
+    },
+    params: {
+        type: "object",
+        properties: {
+            namedKey: {
+                type: "string",
+                description: "If specified, the agent will return only the value associated with this key from namedInputs.",
+            },
+        },
+        additionalProperties: false,
     },
     output: {
         anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],

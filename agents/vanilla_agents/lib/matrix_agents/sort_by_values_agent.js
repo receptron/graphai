@@ -40,17 +40,35 @@ const sortByValuesAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the array to sort",
+                description: "The array of items to be sorted. Each item will be paired with a corresponding numeric value from the 'values' array.",
             },
             values: {
                 type: "array",
-                description: "values associated with items in the array",
+                description: "An array of numeric values used to determine the sort order of the 'array' items. Must be the same length as 'array'.",
+                items: {
+                    type: "number",
+                },
             },
         },
         required: ["array", "values"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            assendant: {
+                type: "boolean",
+                description: "If true, sorts in ascending order; otherwise, in descending order (default).",
+            },
+        },
+        additionalProperties: false,
     },
     output: {
         type: "array",
+        description: "A new array where items from 'array' are sorted based on their corresponding values in 'values'.",
+        items: {
+            type: "any",
+        },
     },
     samples: [
         {

@@ -38,6 +38,80 @@ const stringTemplateAgentInfo = {
     name: "stringTemplateAgent",
     agent: exports.stringTemplateAgent,
     mock: exports.stringTemplateAgent,
+    inputs: {
+        type: "object",
+        description: "Key-value pairs where each key corresponds to a variable used in the template (e.g., ${key}).",
+        additionalProperties: {
+            type: ["string", "number", "boolean", "object", "array", "null"],
+            description: "Any value to be substituted into the template. Objects and arrays are injected directly if the entire field is a placeholder.",
+        },
+    },
+    params: {
+        type: "object",
+        description: "The template to apply substitutions to. Supports strings, arrays, and deeply nested object structures with placeholder strings.",
+        properties: {
+            template: {
+                description: "The template structure where placeholders like ${key} will be replaced with values from 'inputs'.",
+                anyOf: [
+                    { type: "string" },
+                    {
+                        type: "array",
+                        items: {
+                            anyOf: [
+                                { type: "string" },
+                                {
+                                    type: "object",
+                                    additionalProperties: {
+                                        anyOf: [{ type: "string" }, { type: "array", items: { type: "string" } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        type: "object",
+                        additionalProperties: {
+                            anyOf: [
+                                { type: "string" },
+                                {
+                                    type: "array",
+                                    items: { type: "string" },
+                                },
+                                {
+                                    type: "object",
+                                    additionalProperties: true,
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        required: ["template"],
+        additionalProperties: false,
+    },
+    output: {
+        description: "The result after placeholder substitution, matching the structure and type of the original template.",
+        anyOf: [
+            { type: "string" },
+            {
+                type: "array",
+                items: {
+                    anyOf: [
+                        { type: "string" },
+                        {
+                            type: "object",
+                            additionalProperties: true,
+                        },
+                    ],
+                },
+            },
+            {
+                type: "object",
+                additionalProperties: true,
+            },
+        ],
+    },
     samples: [
         // named
         {

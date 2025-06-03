@@ -36,10 +36,23 @@ const lookupDictionaryAgentInfo = {
         properties: {
             namedKey: {
                 type: "string",
-                description: "key of params",
+                description: "The key to look up in the dictionary provided by 'params'.",
+            },
+            supressError: {
+                type: "boolean",
+                description: "If true, prevents the agent from throwing an error when the key is missing in 'params'. Optional.",
             },
         },
         required: ["namedKey"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "A dictionary of values from which one is selected using the 'namedKey'.",
+        additionalProperties: {
+            type: ["string", "number", "boolean", "object", "array", "null"],
+            description: "Any JSON-compatible value associated with a key in the dictionary.",
+        },
     },
     output: {
         anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],

@@ -15,6 +15,27 @@ const mergeNodeIdAgentInfo = {
     name: "mergeNodeIdAgent",
     agent: exports.mergeNodeIdAgent,
     mock: exports.mergeNodeIdAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "An array of objects to be merged together into a single object. Each object represents a partial result or state.",
+                items: {
+                    type: "object",
+                    description: "A single object containing key-value pairs to merge.",
+                },
+            },
+        },
+        required: ["array"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "This agent does not take any parameters. The object must be empty.",
+        properties: {},
+        additionalProperties: false,
+    },
     samples: [
         {
             inputs: { array: [{ message: "hello" }] },

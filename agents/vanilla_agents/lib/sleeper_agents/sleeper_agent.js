@@ -11,6 +11,26 @@ const sleeperAgentInfo = {
     name: "sleeperAgent",
     agent: exports.sleeperAgent,
     mock: exports.sleeperAgent,
+    inputs: {
+        type: "object",
+        description: "Arbitrary input data. This agent does not modify it and returns it unchanged after a delay.",
+        additionalProperties: true,
+    },
+    params: {
+        type: "object",
+        properties: {
+            duration: {
+                type: "number",
+                description: "Optional duration in milliseconds to pause execution before returning the input. Defaults to 10ms.",
+            },
+        },
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        description: "Returns the same object passed as 'inputs', unchanged.",
+        additionalProperties: true,
+    },
     samples: [
         {
             inputs: {},
@@ -25,7 +45,7 @@ const sleeperAgentInfo = {
             },
         },
     ],
-    description: "sleeper Agent",
+    description: "sleeper Agent for test and debug",
     category: ["sleeper"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",

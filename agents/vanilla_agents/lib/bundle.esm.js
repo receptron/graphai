@@ -130,6 +130,80 @@ const stringTemplateAgentInfo = {
     name: "stringTemplateAgent",
     agent: stringTemplateAgent,
     mock: stringTemplateAgent,
+    inputs: {
+        type: "object",
+        description: "Key-value pairs where each key corresponds to a variable used in the template (e.g., ${key}).",
+        additionalProperties: {
+            type: ["string", "number", "boolean", "object", "array", "null"],
+            description: "Any value to be substituted into the template. Objects and arrays are injected directly if the entire field is a placeholder.",
+        },
+    },
+    params: {
+        type: "object",
+        description: "The template to apply substitutions to. Supports strings, arrays, and deeply nested object structures with placeholder strings.",
+        properties: {
+            template: {
+                description: "The template structure where placeholders like ${key} will be replaced with values from 'inputs'.",
+                anyOf: [
+                    { type: "string" },
+                    {
+                        type: "array",
+                        items: {
+                            anyOf: [
+                                { type: "string" },
+                                {
+                                    type: "object",
+                                    additionalProperties: {
+                                        anyOf: [{ type: "string" }, { type: "array", items: { type: "string" } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        type: "object",
+                        additionalProperties: {
+                            anyOf: [
+                                { type: "string" },
+                                {
+                                    type: "array",
+                                    items: { type: "string" },
+                                },
+                                {
+                                    type: "object",
+                                    additionalProperties: true,
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        required: ["template"],
+        additionalProperties: false,
+    },
+    output: {
+        description: "The result after placeholder substitution, matching the structure and type of the original template.",
+        anyOf: [
+            { type: "string" },
+            {
+                type: "array",
+                items: {
+                    anyOf: [
+                        { type: "string" },
+                        {
+                            type: "object",
+                            additionalProperties: true,
+                        },
+                    ],
+                },
+            },
+            {
+                type: "object",
+                additionalProperties: true,
+            },
+        ],
+    },
     samples: [
         // named
         {
@@ -225,19 +299,42 @@ const jsonParserAgentInfo = {
     agent: jsonParserAgent,
     mock: jsonParserAgent,
     inputs: {
-        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
-    },
-    output: {
         type: "object",
+        description: "The input object containing either a JSON string in 'text' or a raw JavaScript object in 'data'. One of them is required.",
         properties: {
             text: {
                 type: "string",
-                description: "json string",
+                description: "A JSON string, possibly embedded in a Markdown code block. If provided, it will be parsed into a data object.",
             },
             data: {
-                anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+                anyOf: [{ type: "object" }, { type: "array" }, { type: "string" }, { type: "number" }],
+                description: "Raw data to be converted into a formatted JSON string in the 'text' output.",
             },
         },
+        required: [],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "No parameters are required for this agent.",
+        properties: {},
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        description: "Returns either a parsed data object (from 'text') or a formatted JSON string (from 'data').",
+        properties: {
+            text: {
+                type: "string",
+                description: "A pretty-printed JSON string generated from the 'data' input, if provided.",
+            },
+            data: {
+                anyOf: [{ type: "object" }, { type: "array" }, { type: "string" }, { type: "number" }],
+                description: "Parsed data object from the 'text' input, or the original 'data' if no parsing was required.",
+            },
+        },
+        required: [],
+        additionalProperties: false,
     },
     samples: [
         {
@@ -301,6 +398,50 @@ const stringCaseVariantsAgentInfo = {
     name: "stringCaseVariantsAgent",
     agent: stringCaseVariantsAgent,
     mock: stringCaseVariantsAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "The input string to be transformed into various casing styles.",
+            },
+        },
+        required: ["text"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            suffix: {
+                type: "string",
+                description: "An optional suffix to append to the input string before transforming cases.",
+            },
+        },
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        properties: {
+            kebabCase: {
+                type: "string",
+                description: "The input string converted to kebab-case (e.g., 'this-is-a-pen').",
+            },
+            snakeCase: {
+                type: "string",
+                description: "The input string converted to snake_case (e.g., 'this_is_a_pen').",
+            },
+            lowerCamelCase: {
+                type: "string",
+                description: "The input string converted to lowerCamelCase (e.g., 'thisIsAPen').",
+            },
+            normalized: {
+                type: "string",
+                description: "The original string, optionally appended with the suffix, in lowercase with normalized spacing.",
+            },
+        },
+        required: ["kebabCase", "snakeCase", "lowerCamelCase", "normalized"],
+        additionalProperties: false,
+    },
     samples: [
         {
             inputs: { text: "this is a pen" },
@@ -510,6 +651,37 @@ const stringUpdateTextAgentInfo = {
     name: "stringUpdateTextAgent",
     agent: stringUpdateTextAgent,
     mock: stringUpdateTextAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            newText: {
+                type: "string",
+                description: "The new text to use if provided and not empty.",
+            },
+            oldText: {
+                type: "string",
+                description: "The fallback text used if 'newText' is empty or not provided.",
+            },
+        },
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "No parameters are used in this agent.",
+        properties: {},
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        properties: {
+            text: {
+                type: "string",
+                description: "The resulting text. It is either the value of 'newText' if non-empty, otherwise 'oldText', or an empty string if both are missing.",
+            },
+        },
+        required: ["text"],
+        additionalProperties: false,
+    },
     samples: [
         {
             inputs: { newText: "new", oldText: "old" },
@@ -1088,26 +1260,41 @@ const dotProductAgentInfo = {
         properties: {
             matrix: {
                 type: "array",
-                description: "two dimentional matrix",
+                description: "A two-dimensional array of numbers. Each inner array represents a vector to be compared.",
                 items: {
                     type: "array",
                     items: {
                         type: "number",
+                        description: "A numeric value within a vector.",
                     },
+                    description: "A vector of numbers (row in the matrix).",
                 },
             },
             vector: {
                 type: "array",
-                description: "the vector",
+                description: "A single vector of numbers to compute dot products with each vector in the matrix.",
                 items: {
                     type: "number",
+                    description: "A numeric component of the target vector.",
                 },
             },
         },
         required: ["matrix", "vector"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "No parameters are used in this agent.",
+        properties: {},
+        additionalProperties: false,
     },
     output: {
         type: "array",
+        description: "An array of numbers representing the dot products between each vector in 'matrix' and the input 'vector'.",
+        items: {
+            type: "number",
+            description: "The result of a dot product between a matrix row and the input vector.",
+        },
     },
     samples: [
         {
@@ -1180,17 +1367,35 @@ const sortByValuesAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the array to sort",
+                description: "The array of items to be sorted. Each item will be paired with a corresponding numeric value from the 'values' array.",
             },
             values: {
                 type: "array",
-                description: "values associated with items in the array",
+                description: "An array of numeric values used to determine the sort order of the 'array' items. Must be the same length as 'array'.",
+                items: {
+                    type: "number",
+                },
             },
         },
         required: ["array", "values"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            assendant: {
+                type: "boolean",
+                description: "If true, sorts in ascending order; otherwise, in descending order (default).",
+            },
+        },
+        additionalProperties: false,
     },
     output: {
         type: "array",
+        description: "A new array where items from 'array' are sorted based on their corresponding values in 'values'.",
+        items: {
+            type: "any",
+        },
     },
     samples: [
         {
@@ -1232,6 +1437,28 @@ const echoAgentInfo = {
     name: "echoAgent",
     agent: echoAgent,
     mock: echoAgent,
+    inputs: {
+        type: "object",
+        description: "This agent does not use inputs. Leave empty.",
+        properties: {},
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "Any parameters you want to echo back. If 'filterParams' is true, only filtered parameters will be returned.",
+        properties: {
+            filterParams: {
+                type: "boolean",
+                description: "If true, returns 'filterParams' instead of the full 'params'.",
+            },
+        },
+        additionalProperties: true,
+    },
+    output: {
+        type: "object",
+        description: "Returns the full 'params' object or the 'filterParams' object if 'filterParams' is set to true.",
+        additionalProperties: true,
+    },
     samples: [
         {
             inputs: {},
@@ -1269,6 +1496,40 @@ const countingAgentInfo = {
     name: "countingAgent",
     agent: countingAgent,
     mock: countingAgent,
+    inputs: {
+        type: "object",
+        description: "This agent does not require any inputs. Leave empty.",
+        properties: {},
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "Parameter that defines how many numbers to generate, starting from 0.",
+        properties: {
+            count: {
+                type: "integer",
+                minimum: 0,
+                description: "The number of integers to generate, starting from 0 up to count - 1.",
+            },
+        },
+        required: ["count"],
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        description: "An object containing a list of sequential integers.",
+        properties: {
+            list: {
+                type: "array",
+                description: "An array of integers from 0 to count - 1.",
+                items: {
+                    type: "integer",
+                },
+            },
+        },
+        required: ["list"],
+        additionalProperties: false,
+    },
     samples: [
         {
             inputs: {},
@@ -1298,6 +1559,44 @@ const copyMessageAgentInfo = {
     name: "copyMessageAgent",
     agent: copyMessageAgent,
     mock: copyMessageAgent,
+    inputs: {
+        type: "object",
+        description: "This agent does not use any inputs. Leave empty.",
+        properties: {},
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "Parameters to define the message and how many times to repeat it.",
+        properties: {
+            count: {
+                type: "integer",
+                minimum: 1,
+                description: "The number of times the message should be duplicated in the array.",
+            },
+            message: {
+                type: "string",
+                description: "The message string to be repeated.",
+            },
+        },
+        required: ["count", "message"],
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        description: "An object containing the repeated messages.",
+        properties: {
+            messages: {
+                type: "array",
+                description: "An array of repeated message strings.",
+                items: {
+                    type: "string",
+                },
+            },
+        },
+        required: ["messages"],
+        additionalProperties: false,
+    },
     samples: [
         {
             inputs: {},
@@ -1327,6 +1626,38 @@ const copy2ArrayAgentInfo = {
     name: "copy2ArrayAgent",
     agent: copy2ArrayAgent,
     mock: copy2ArrayAgent,
+    inputs: {
+        type: "object",
+        description: "The input item to be duplicated. Can be provided as 'item' or as a free-form object.",
+        properties: {
+            item: {
+                description: "The item to be copied into each element of the resulting array.",
+                anyOf: [{ type: "object" }, { type: "string" }, { type: "number" }, { type: "array" }, { type: "boolean" }],
+            },
+        },
+        additionalProperties: true,
+    },
+    params: {
+        type: "object",
+        description: "Parameters controlling the number of copies to return.",
+        properties: {
+            count: {
+                type: "integer",
+                description: "The number of times to copy the input item into the output array.",
+                minimum: 1,
+            },
+        },
+        required: ["count"],
+        additionalProperties: false,
+    },
+    output: {
+        type: "array",
+        description: "An array of 'count' copies of the input item.",
+        items: {
+            description: "A duplicated copy of the input item.",
+            anyOf: [{ type: "object" }, { type: "string" }, { type: "number" }, { type: "array" }, { type: "boolean" }],
+        },
+    },
     samples: [
         {
             inputs: { item: { message: "hello" } },
@@ -1388,6 +1719,27 @@ const mergeNodeIdAgentInfo = {
     name: "mergeNodeIdAgent",
     agent: mergeNodeIdAgent,
     mock: mergeNodeIdAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "An array of objects to be merged together into a single object. Each object represents a partial result or state.",
+                items: {
+                    type: "object",
+                    description: "A single object containing key-value pairs to merge.",
+                },
+            },
+        },
+        required: ["array"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "This agent does not take any parameters. The object must be empty.",
+        properties: {},
+        additionalProperties: false,
+    },
     samples: [
         {
             inputs: { array: [{ message: "hello" }] },
@@ -1974,10 +2326,36 @@ const totalAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the array",
+                description: "An array of objects or arrays of objects. Each inner object must have numeric values which will be aggregated by key.",
+                items: {
+                    anyOf: [
+                        {
+                            type: "object",
+                            description: "A flat object containing numeric values to be summed.",
+                        },
+                        {
+                            type: "array",
+                            items: {
+                                type: "object",
+                                description: "Nested array of objects, each containing numeric values to be summed.",
+                            },
+                        },
+                    ],
+                },
             },
         },
         required: ["array"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            flatResponse: {
+                type: "boolean",
+                description: "If true, the result will be returned as a plain object (e.g., { a: 6 }); otherwise, wrapped in { data: {...} }.",
+            },
+        },
+        additionalProperties: false,
     },
     output: {
         type: "object",
@@ -2422,7 +2800,22 @@ const copyAgentInfo = {
     agent: copyAgent,
     mock: copyAgent,
     inputs: {
-        anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
+        type: "object",
+        description: "A dynamic object containing any number of named input fields. The agent either returns the whole object or a single value by key.",
+        additionalProperties: {
+            type: ["string", "number", "boolean", "object", "array", "null"],
+            description: "A value associated with a named input key. Can be any JSON-compatible type.",
+        },
+    },
+    params: {
+        type: "object",
+        properties: {
+            namedKey: {
+                type: "string",
+                description: "If specified, the agent will return only the value associated with this key from namedInputs.",
+            },
+        },
+        additionalProperties: false,
     },
     output: {
         anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
@@ -2485,10 +2878,23 @@ const lookupDictionaryAgentInfo = {
         properties: {
             namedKey: {
                 type: "string",
-                description: "key of params",
+                description: "The key to look up in the dictionary provided by 'params'.",
+            },
+            supressError: {
+                type: "boolean",
+                description: "If true, prevents the agent from throwing an error when the key is missing in 'params'. Optional.",
             },
         },
         required: ["namedKey"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "A dictionary of values from which one is selected using the 'namedKey'.",
+        additionalProperties: {
+            type: ["string", "number", "boolean", "object", "array", "null"],
+            description: "Any JSON-compatible value associated with a key in the dictionary.",
+        },
     },
     output: {
         anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
@@ -2531,7 +2937,25 @@ const mergeObjectAgentInfo = {
     agent: mergeObjectAgent,
     mock: mergeObjectAgent,
     inputs: {
-        anyOf: [{ type: "object" }],
+        type: "object",
+        properties: {
+            items: {
+                type: "array",
+                description: "An array of objects whose key-value pairs will be merged into a single object. Later objects override earlier ones on key conflict.",
+                items: {
+                    type: "object",
+                    description: "An individual object contributing to the merged result.",
+                },
+            },
+        },
+        required: ["items"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "This agent does not take any parameters. The object must be empty.",
+        properties: {},
+        additionalProperties: false,
     },
     output: {
         anyOf: { type: "object" },
@@ -2639,29 +3063,113 @@ const vanillaFetchAgentInfo = {
         properties: {
             url: {
                 type: "string",
-                description: "baseurl",
+                description: "The request URL. Can be provided in either 'inputs' or 'params'.",
             },
             method: {
                 type: "string",
-                description: "HTTP method",
+                description: "The HTTP method to use (GET, POST, PUT, etc.). Defaults to GET if not specified and no body is provided; otherwise POST.",
             },
             headers: {
                 type: "object",
-                description: "HTTP headers",
+                description: "Optional HTTP headers to include in the request. Values from both inputs and params are merged.",
             },
-            quaryParams: {
+            queryParams: {
                 type: "object",
-                description: "Query parameters",
+                description: "Optional query parameters to append to the URL.",
             },
             body: {
+                description: "Optional request body to send with POST, PUT, or PATCH methods.",
                 anyOf: [{ type: "string" }, { type: "object" }],
-                description: "body",
             },
         },
         required: [],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            url: {
+                type: "string",
+                description: "The request URL (overridden if also specified in inputs).",
+            },
+            method: {
+                type: "string",
+                description: "The HTTP method (overridden if also specified in inputs).",
+            },
+            headers: {
+                type: "object",
+                description: "Additional headers. Merged with inputs.headers.",
+            },
+            queryParams: {
+                type: "object",
+                description: "Query parameters to append to the URL.",
+            },
+            body: {
+                description: "Request body to be sent, used with POST/PUT/PATCH.",
+                anyOf: [{ type: "string" }, { type: "object" }],
+            },
+            debug: {
+                type: "boolean",
+                description: "If true, returns the prepared request details instead of performing the actual fetch.",
+            },
+            supressError: {
+                type: "boolean",
+                description: "If true, suppresses thrown errors and returns the error response instead.",
+            },
+            flatResponse: {
+                type: "boolean",
+                description: "If true, returns the raw response. If false, wraps the response in an object with a 'data' key. Default is false.",
+            },
+            type: {
+                type: "string",
+                enum: ["json", "text"],
+                description: "Response type to parse. Either 'json' or 'text'. Defaults to 'json'.",
+            },
+        },
+        required: [],
+        additionalProperties: false,
     },
     output: {
-        type: "array",
+        description: "Returns either the HTTP response body or a debug object. If an error occurs and 'supressError' is true, returns an object with an 'onError' key.",
+        anyOf: [
+            {
+                type: "object",
+                properties: {
+                    onError: {
+                        type: "object",
+                        properties: {
+                            message: { type: "string" },
+                            status: { type: "integer" },
+                            error: {},
+                        },
+                        required: ["message", "status", "error"],
+                    },
+                },
+                required: ["onError"],
+                additionalProperties: true,
+            },
+            {
+                type: "object",
+                description: "Debug information returned when 'debug' is true.",
+                properties: {
+                    method: { type: "string" },
+                    url: { type: "string" },
+                    headers: { type: "object" },
+                    body: {},
+                },
+                required: ["method", "url", "headers"],
+            },
+            {},
+            {
+                type: "object",
+                description: "When 'flatResponse' is false, the response is wrapped as { data: ... }.",
+                properties: {
+                    data: {},
+                },
+                required: ["data"],
+                additionalProperties: true,
+            },
+        ],
     },
     samples: [
         {
@@ -2779,6 +3287,26 @@ const sleeperAgentInfo = {
     name: "sleeperAgent",
     agent: sleeperAgent,
     mock: sleeperAgent,
+    inputs: {
+        type: "object",
+        description: "Arbitrary input data. This agent does not modify it and returns it unchanged after a delay.",
+        additionalProperties: true,
+    },
+    params: {
+        type: "object",
+        properties: {
+            duration: {
+                type: "number",
+                description: "Optional duration in milliseconds to pause execution before returning the input. Defaults to 10ms.",
+            },
+        },
+        additionalProperties: false,
+    },
+    output: {
+        type: "object",
+        description: "Returns the same object passed as 'inputs', unchanged.",
+        additionalProperties: true,
+    },
     samples: [
         {
             inputs: {},
@@ -2793,7 +3321,7 @@ const sleeperAgentInfo = {
             },
         },
     ],
-    description: "sleeper Agent",
+    description: "sleeper Agent for test and debug",
     category: ["sleeper"],
     author: "Receptron team",
     repository: "https://github.com/receptron/graphai",
@@ -2872,7 +3400,52 @@ const compareAgentInfo = {
     name: "compareAgent",
     agent: compareAgent,
     mock: compareAgent,
-    inputs: {},
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "A 3-element array in the form [leftOperand, operator, rightOperand]. Used for direct comparison logic.",
+                items: {
+                    type: ["string", "number", "boolean", "array"],
+                },
+            },
+            leftValue: {
+                type: ["string", "number", "boolean"],
+                description: "Left-hand operand used when 'array' is not provided. Used with 'rightValue' and 'params.operator'.",
+            },
+            rightValue: {
+                type: ["string", "number", "boolean"],
+                description: "Right-hand operand used when 'array' is not provided. Used with 'leftValue' and 'params.operator'.",
+            },
+        },
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            operator: {
+                type: "string",
+                description: "The comparison operator to apply, such as '==', '!=', '>', '>=', '<', '<=', '||', '&&', or 'XOR'. Required if 'array' does not include the operator.",
+            },
+            value: {
+                type: "object",
+                description: "An optional mapping for the comparison result. If provided, it must contain keys 'true' and/or 'false' to return custom values instead of booleans.",
+                properties: {
+                    true: {
+                        type: ["string", "number", "boolean"],
+                        description: "Custom result to return when the comparison evaluates to true.",
+                    },
+                    false: {
+                        type: ["string", "number", "boolean"],
+                        description: "Custom result to return when the comparison evaluates to false.",
+                    },
+                },
+                additionalProperties: false,
+            },
+        },
+        additionalProperties: false,
+    },
     output: {},
     samples: [
         {
@@ -3404,17 +3977,102 @@ const images2messageAgentInfo = {
         properties: {
             array: {
                 type: "array",
-                description: "the array of base64 image data",
+                description: "An array of base64-encoded image data strings or image URLs. These will be converted into OpenAI Vision-compatible image message format.",
+                items: {
+                    type: "string",
+                    description: "Base64 image string or HTTP URL depending on 'imageType'.",
+                },
             },
             prompt: {
                 type: "string",
-                description: "prompt message",
+                description: "Optional prompt text to include as the first message content before images.",
             },
         },
         required: ["array"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        properties: {
+            imageType: {
+                type: "string",
+                description: "The type of image input: 'png', 'jpg', etc. for base64, or 'http' for image URLs.",
+            },
+            detail: {
+                type: "string",
+                description: "The level of image detail requested by the model (e.g., 'auto', 'low', 'high'). Optional.",
+            },
+        },
+        required: ["imageType"],
+        additionalProperties: false,
     },
     output: {
         type: "object",
+        properties: {
+            message: {
+                type: "object",
+                description: "OpenAI-compatible chat message including images and optional prompt text.",
+                properties: {
+                    role: {
+                        type: "string",
+                        enum: ["user"],
+                        description: "Message role, always 'user' for this agent.",
+                    },
+                    content: {
+                        type: "array",
+                        description: "The array of message content elements, including optional text and one or more images.",
+                        items: {
+                            type: "object",
+                            oneOf: [
+                                {
+                                    properties: {
+                                        type: {
+                                            type: "string",
+                                            const: "text",
+                                        },
+                                        text: {
+                                            type: "string",
+                                            description: "Prompt message text.",
+                                        },
+                                    },
+                                    required: ["type", "text"],
+                                    additionalProperties: false,
+                                },
+                                {
+                                    properties: {
+                                        type: {
+                                            type: "string",
+                                            const: "image_url",
+                                        },
+                                        image_url: {
+                                            type: "object",
+                                            properties: {
+                                                url: {
+                                                    type: "string",
+                                                    description: "URL or data URL of the image.",
+                                                },
+                                                detail: {
+                                                    type: "string",
+                                                    description: "Image detail level (e.g., 'high', 'low', 'auto'). Optional for base64.",
+                                                },
+                                            },
+                                            required: ["url"],
+                                            additionalProperties: false,
+                                        },
+                                    },
+                                    required: ["type", "image_url"],
+                                    additionalProperties: false,
+                                },
+                            ],
+                        },
+                    },
+                },
+                required: ["role", "content"],
+                additionalProperties: false,
+            },
+        },
+        required: ["message"],
+        additionalProperties: false,
     },
     samples: [
         {

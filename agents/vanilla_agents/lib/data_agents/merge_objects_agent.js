@@ -15,7 +15,25 @@ const mergeObjectAgentInfo = {
     agent: exports.mergeObjectAgent,
     mock: exports.mergeObjectAgent,
     inputs: {
-        anyOf: [{ type: "object" }],
+        type: "object",
+        properties: {
+            items: {
+                type: "array",
+                description: "An array of objects whose key-value pairs will be merged into a single object. Later objects override earlier ones on key conflict.",
+                items: {
+                    type: "object",
+                    description: "An individual object contributing to the merged result.",
+                },
+            },
+        },
+        required: ["items"],
+        additionalProperties: false,
+    },
+    params: {
+        type: "object",
+        description: "This agent does not take any parameters. The object must be empty.",
+        properties: {},
+        additionalProperties: false,
     },
     output: {
         anyOf: { type: "object" },

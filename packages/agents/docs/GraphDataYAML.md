@@ -14,6 +14,7 @@ nodes:
     inputs:
       a: :source
       b: orange
+      c: null
     isResult: true
   step2:
     agent: sleepAndMergeAgent
