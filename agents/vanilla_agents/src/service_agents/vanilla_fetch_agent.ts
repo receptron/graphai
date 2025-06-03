@@ -109,34 +109,120 @@ const vanillaFetchAgentInfo: AgentFunctionInfo = {
   name: "vanillaFetchAgent",
   agent: vanillaFetchAgent,
   mock: vanillaFetchAgent,
+
   inputs: {
     type: "object",
     properties: {
       url: {
         type: "string",
-        description: "baseurl",
+        description: "The request URL. Can be provided in either 'inputs' or 'params'.",
       },
       method: {
         type: "string",
-        description: "HTTP method",
+        description: "The HTTP method to use (GET, POST, PUT, etc.). Defaults to GET if not specified and no body is provided; otherwise POST.",
       },
       headers: {
         type: "object",
-        description: "HTTP headers",
+        description: "Optional HTTP headers to include in the request. Values from both inputs and params are merged.",
       },
-      quaryParams: {
+      queryParams: {
         type: "object",
-        description: "Query parameters",
+        description: "Optional query parameters to append to the URL.",
       },
       body: {
+        description: "Optional request body to send with POST, PUT, or PATCH methods.",
         anyOf: [{ type: "string" }, { type: "object" }],
-        description: "body",
       },
     },
     required: [],
+    additionalProperties: false,
+  },
+  params: {
+    type: "object",
+    properties: {
+      url: {
+        type: "string",
+        description: "The request URL (overridden if also specified in inputs).",
+      },
+      method: {
+        type: "string",
+        description: "The HTTP method (overridden if also specified in inputs).",
+      },
+      headers: {
+        type: "object",
+        description: "Additional headers. Merged with inputs.headers.",
+      },
+      queryParams: {
+        type: "object",
+        description: "Query parameters to append to the URL.",
+      },
+      body: {
+        description: "Request body to be sent, used with POST/PUT/PATCH.",
+        anyOf: [{ type: "string" }, { type: "object" }],
+      },
+      debug: {
+        type: "boolean",
+        description: "If true, returns the prepared request details instead of performing the actual fetch.",
+      },
+      supressError: {
+        type: "boolean",
+        description: "If true, suppresses thrown errors and returns the error response instead.",
+      },
+      flatResponse: {
+        type: "boolean",
+        description: "If true, returns the raw response. If false, wraps the response in an object with a 'data' key. Default is false.",
+      },
+      type: {
+        type: "string",
+        enum: ["json", "text"],
+        description: "Response type to parse. Either 'json' or 'text'. Defaults to 'json'.",
+      },
+    },
+    required: [],
+    additionalProperties: false,
   },
   output: {
-    type: "array",
+    description:
+      "Returns either the HTTP response body or a debug object. If an error occurs and 'supressError' is true, returns an object with an 'onError' key.",
+    anyOf: [
+      {
+        type: "object",
+        properties: {
+          onError: {
+            type: "object",
+            properties: {
+              message: { type: "string" },
+              status: { type: "integer" },
+              error: {},
+            },
+            required: ["message", "status", "error"],
+          },
+        },
+        required: ["onError"],
+        additionalProperties: true,
+      },
+      {
+        type: "object",
+        description: "Debug information returned when 'debug' is true.",
+        properties: {
+          method: { type: "string" },
+          url: { type: "string" },
+          headers: { type: "object" },
+          body: {},
+        },
+        required: ["method", "url", "headers"],
+      },
+      {},
+      {
+        type: "object",
+        description: "When 'flatResponse' is false, the response is wrapped as { data: ... }.",
+        properties: {
+          data: {},
+        },
+        required: ["data"],
+        additionalProperties: true,
+      },
+    ],
   },
   samples: [
     {

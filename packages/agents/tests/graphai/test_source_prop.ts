@@ -40,7 +40,7 @@ test("test source props test", async () => {
 test("test retry", async () => {
   const result = await graphDataTestRunner(__dirname, __filename, graphDataLiteral, agents, () => {}, false);
   assert.deepStrictEqual(result, {
-    step1: "apple, orange, undefined.",
+    step1: "apple, orange, null.",
     step2: { apple: "red", lemon: "yellow" },
   });
 });

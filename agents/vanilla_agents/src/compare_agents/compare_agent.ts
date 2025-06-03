@@ -81,7 +81,54 @@ const compareAgentInfo: AgentFunctionInfo = {
   name: "compareAgent",
   agent: compareAgent,
   mock: compareAgent,
-  inputs: {},
+  inputs: {
+    type: "object",
+    properties: {
+      array: {
+        type: "array",
+        description: "A 3-element array in the form [leftOperand, operator, rightOperand]. Used for direct comparison logic.",
+        items: {
+          type: ["string", "number", "boolean", "array"],
+        },
+      },
+      leftValue: {
+        type: ["string", "number", "boolean"],
+        description: "Left-hand operand used when 'array' is not provided. Used with 'rightValue' and 'params.operator'.",
+      },
+      rightValue: {
+        type: ["string", "number", "boolean"],
+        description: "Right-hand operand used when 'array' is not provided. Used with 'leftValue' and 'params.operator'.",
+      },
+    },
+    additionalProperties: false,
+  },
+  params: {
+    type: "object",
+    properties: {
+      operator: {
+        type: "string",
+        description:
+          "The comparison operator to apply, such as '==', '!=', '>', '>=', '<', '<=', '||', '&&', or 'XOR'. Required if 'array' does not include the operator.",
+      },
+      value: {
+        type: "object",
+        description:
+          "An optional mapping for the comparison result. If provided, it must contain keys 'true' and/or 'false' to return custom values instead of booleans.",
+        properties: {
+          true: {
+            type: ["string", "number", "boolean"],
+            description: "Custom result to return when the comparison evaluates to true.",
+          },
+          false: {
+            type: ["string", "number", "boolean"],
+            description: "Custom result to return when the comparison evaluates to false.",
+          },
+        },
+        additionalProperties: false,
+      },
+    },
+    additionalProperties: false,
+  },
   output: {},
   samples: [
     {

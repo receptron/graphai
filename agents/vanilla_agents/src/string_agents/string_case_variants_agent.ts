@@ -34,6 +34,50 @@ const stringCaseVariantsAgentInfo: AgentFunctionInfo = {
   name: "stringCaseVariantsAgent",
   agent: stringCaseVariantsAgent,
   mock: stringCaseVariantsAgent,
+  inputs: {
+    type: "object",
+    properties: {
+      text: {
+        type: "string",
+        description: "The input string to be transformed into various casing styles.",
+      },
+    },
+    required: ["text"],
+    additionalProperties: false,
+  },
+  params: {
+    type: "object",
+    properties: {
+      suffix: {
+        type: "string",
+        description: "An optional suffix to append to the input string before transforming cases.",
+      },
+    },
+    additionalProperties: false,
+  },
+  output: {
+    type: "object",
+    properties: {
+      kebabCase: {
+        type: "string",
+        description: "The input string converted to kebab-case (e.g., 'this-is-a-pen').",
+      },
+      snakeCase: {
+        type: "string",
+        description: "The input string converted to snake_case (e.g., 'this_is_a_pen').",
+      },
+      lowerCamelCase: {
+        type: "string",
+        description: "The input string converted to lowerCamelCase (e.g., 'thisIsAPen').",
+      },
+      normalized: {
+        type: "string",
+        description: "The original string, optionally appended with the suffix, in lowercase with normalized spacing.",
+      },
+    },
+    required: ["kebabCase", "snakeCase", "lowerCamelCase", "normalized"],
+    additionalProperties: false,
+  },
   samples: [
     {
       inputs: { text: "this is a pen" },
