@@ -14,7 +14,7 @@ export const graphDataLiteral = {
       params: {
         template: "${a}, ${b}, ${c}.",
       },
-      inputs: { a: ":source", b: "orange", c: undefined },
+      inputs: { a: ":source", b: "orange", c: null },
       isResult: true,
     },
     step2: {
