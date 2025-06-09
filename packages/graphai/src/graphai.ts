@@ -293,7 +293,10 @@ export class GraphAI {
   public abort() {
     if (this.isRunning()) {
       this.resetPending();
+      // Stop All Running node.
+      this.taskManager.reset();
     }
+
     // For an agent like an event agent, where an external promise remains unresolved,
     // aborting and then retrying can cause nodes or the graph to execute again.
     // To prevent this, the transactionId is updated to ensure the retry fails.
