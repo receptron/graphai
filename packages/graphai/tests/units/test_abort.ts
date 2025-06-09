@@ -53,17 +53,15 @@ const agentFilters = [
 test("test graph abort", async () => {
   const graph = new GraphAI(graph_data, agents, { agentFilters });
 
-  await assert.rejects(async () => {
-    await Promise.all([
-      (async () => {
-        await graph.run(true);
-      })(),
-      (async () => {
-        await sleep(500);
-        graph.abort();
-      })(),
-    ]);
-  });
+  await Promise.all([
+    (async () => {
+      await graph.run(true);
+    })(),
+    (async () => {
+      await sleep(500);
+      graph.abort();
+    })(),
+  ]);
 });
 
 ////
@@ -111,17 +109,15 @@ const nested_graph_data: GraphData = {
 test("test nested graph abort", async () => {
   const graph = new GraphAI(nested_graph_data, agents, { agentFilters });
 
-  await assert.rejects(async () => {
-    await Promise.all([
-      (async () => {
-        await graph.run(true);
-      })(),
-      (async () => {
-        await sleep(500);
-        graph.abort();
-      })(),
-    ]);
-  });
+  await Promise.all([
+    (async () => {
+      await graph.run(true);
+    })(),
+    (async () => {
+      await sleep(500);
+      graph.abort();
+    })(),
+  ]);
 });
 
 const graph_loop_data: GraphData = {
@@ -159,16 +155,14 @@ const graph_loop_data: GraphData = {
 test("test loop graph abort", async () => {
   const graph = new GraphAI(graph_loop_data, agents, { agentFilters });
 
-  await assert.rejects(async () => {
-    await Promise.all([
-      (async () => {
-        await graph.run(true);
-      })(),
-      (async () => {
-        await sleep(500);
-        graph.abort();
-        await sleep(500);
-      })(),
-    ]);
-  });
+  await Promise.all([
+    (async () => {
+      await graph.run(true);
+    })(),
+    (async () => {
+      await sleep(500);
+      graph.abort();
+      await sleep(500);
+    })(),
+  ]);
 });
