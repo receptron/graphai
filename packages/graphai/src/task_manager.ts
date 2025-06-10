@@ -82,4 +82,9 @@ export class TaskManager {
       ...nodes,
     };
   }
+
+  public reset() {
+    this.taskQueue.length = 0;
+    this.runningNodes.clear();
+  }
 }

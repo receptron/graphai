@@ -101,7 +101,6 @@ export class ComputedNode extends Node {
   private defaultValue?: ResultData;
   private isSkip: boolean = false;
   private debugInfo?: AgentFunctionContextDebugInfo;
-
   public readonly isStaticNode = false;
   public readonly isComputedNode = true;
 
@@ -196,7 +195,7 @@ export class ComputedNode extends Node {
       this.updateState(NodeState.Abort);
     }
     if (this.debugInfo && this.debugInfo.subGraphs) {
-      this.debugInfo.subGraphs.forEach((graph) => graph.abort());
+      this.debugInfo.subGraphs.forEach((graph) => graph.abort(true));
     }
   }
 
