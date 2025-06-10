@@ -290,7 +290,7 @@ export class GraphAI {
     });
   }
 
-  public abort(isChild=false) {
+  public abort(isChild = false) {
     if (this.isRunning()) {
       this.resetPending();
       // Stop All Running node.
