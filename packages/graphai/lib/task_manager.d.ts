@@ -23,4 +23,5 @@ export declare class TaskManager {
         queue: number;
         running: number;
     };
+    reset(): void;
 }

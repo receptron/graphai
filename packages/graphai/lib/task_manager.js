@@ -68,5 +68,9 @@ class TaskManager {
             ...nodes,
         };
     }
+    reset() {
+        this.taskQueue.length = 0;
+        this.runningNodes.clear();
+    }
 }
 exports.TaskManager = TaskManager;

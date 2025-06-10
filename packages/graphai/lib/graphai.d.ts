@@ -45,7 +45,7 @@ export declare class GraphAI {
     pushQueueIfReadyAndRunning(node: ComputedNode): void;
     pushQueue(node: ComputedNode): void;
     run<T = DefaultResultData>(all?: boolean): Promise<ResultDataDictionary<T>>;
-    abort(): void;
+    abort(isChild?: boolean): void;
     resetPending(): void;
     isRunning(): boolean;
     onExecutionComplete(node: ComputedNode): void;

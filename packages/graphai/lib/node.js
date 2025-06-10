@@ -140,7 +140,7 @@ class ComputedNode extends Node {
             this.updateState(type_1.NodeState.Abort);
         }
         if (this.debugInfo && this.debugInfo.subGraphs) {
-            this.debugInfo.subGraphs.forEach((graph) => graph.abort());
+            this.debugInfo.subGraphs.forEach((graph) => graph.abort(true));
         }
     }
     isReadyNode() {

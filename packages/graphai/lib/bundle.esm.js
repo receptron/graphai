@@ -653,7 +653,7 @@ class ComputedNode extends Node {
             this.updateState(NodeState.Abort);
         }
         if (this.debugInfo && this.debugInfo.subGraphs) {
-            this.debugInfo.subGraphs.forEach((graph) => graph.abort());
+            this.debugInfo.subGraphs.forEach((graph) => graph.abort(true));
         }
     }
     isReadyNode() {
@@ -1235,6 +1235,10 @@ class TaskManager {
             ...nodes,
         };
     }
+    reset() {
+        this.taskQueue.length = 0;
+        this.runningNodes.clear();
+    }
 }
 
 const defaultConcurrency = 8;
@@ -1458,14 +1462,18 @@ class GraphAI {
             };
         });
     }
-    abort() {
+    abort(isChild = false) {
         if (this.isRunning()) {
             this.resetPending();
+            // Stop All Running node.
         }
         // For an agent like an event agent, where an external promise remains unresolved,
         // aborting and then retrying can cause nodes or the graph to execute again.
         // To prevent this, the transactionId is updated to ensure the retry fails.
         Object.values(this.nodes).forEach((node) => node.isComputedNode && (node.transactionId = undefined));
+        if (!isChild) {
+            this.taskManager.reset();
+        }
         this.onComplete(this.isRunning());
     }
     resetPending() {
