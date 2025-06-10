@@ -107,5 +107,5 @@ test("test map agent filter", async () => {
   const graph = new GraphAI({ ...graph_data }, { ...agents }, { agentFilters });
   const result = await graph.run();
   console.log(JSON.stringify(result));
-  assert.deepStrictEqual(result, {"nested1":[{"copyAgent":[{"simple":["1","2"]}]},{"copyAgent":[{"simple":["1","2"]}]}]})
+  assert.deepStrictEqual(result, { nested1: [{ copyAgent: [{ simple: ["1", "2"] }] }, { copyAgent: [{ simple: ["1", "2"] }] }] });
 });
