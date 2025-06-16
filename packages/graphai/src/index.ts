@@ -49,3 +49,5 @@ export { inputs2dataSources } from "./utils/nodeUtils";
 export { ValidationError } from "./validators/common";
 
 export { GraphAILogger } from "./utils/GraphAILogger";
+
+export { TaskManager } from "./task_manager";
