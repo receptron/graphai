@@ -34,7 +34,7 @@
     "@graphai/stream_agent_filter": "2.0.2"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.18",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0"
