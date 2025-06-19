@@ -205,7 +205,8 @@ class GraphAI {
     async run(all = false) {
         this.setStaticNodeResults();
         const invalidStaticNodes = Object.values(this.nodes)
-            .filter((node) => node.isStaticNode).filter((node) => node.result === undefined && node.update === undefined);
+            .filter((node) => node.isStaticNode)
+            .filter((node) => node.result === undefined && node.update === undefined);
         if (invalidStaticNodes.length > 0) {
             const nodeIds = invalidStaticNodes.map((node) => node.nodeId).join(", ");
             throw new Error(`Static node(s) must have value. Set value, injectValue, or set update. Affected nodeIds: ${nodeIds}`);
