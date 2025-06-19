@@ -38,6 +38,6 @@ test("test injection static node", async () => {
     async () => {
       await graph.run();
     },
-    { name: "Error", message: "Static node must have value. Set value or injectValue or set update" },
+    { name: "Error", message: "Static node(s) must have value. Set value, injectValue, or set update. Affected nodeIds: inject1, inject2" },
   );
 });
