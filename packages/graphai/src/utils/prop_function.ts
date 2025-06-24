@@ -51,6 +51,13 @@ const propStringFunction: PropFunction = (result, propId) => {
         return match[1];
       }
     }
+    if (propId === "codeBlockOrRaw()") {
+      const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+      if (match) {
+        return match[1];
+      }
+      return result;
+    }
     if (propId === "jsonParse()") {
       return JSON.parse(result);
     }
