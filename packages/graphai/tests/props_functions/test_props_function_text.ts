@@ -56,11 +56,46 @@ test("test getDataFromSource string number", async () => {
 
 test("test getDataFromSource string codeBlack", async () => {
   const inputId = ":node1.text.codeBlock()";
-  const result = { text: '```\nimport * as a from "aa";\n\nconsole.log("hello");\n```\n\n' };
+  const result = { text: 'aaa\n```\nimport * as a from "aa";\n\nconsole.log("hello");\n```\n\naaa' };
   const data = '\nimport * as a from "aa";\n\nconsole.log("hello");';
 
   const source = parseNodeName(inputId);
   assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["text", "codeBlock()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string codeBlack not match", async () => {
+  const inputId = ":node1.text.codeBlock()";
+  const result = { text: 'aaa\n\nimport * as a from "aa";\n\nconsole.log("hello");\n\n\naaa' };
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["text", "codeBlock()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, undefined);
+});
+
+test("test getDataFromSource string codeBlackOrRaw", async () => {
+  const inputId = ":node1.text.codeBlockOrRaw()";
+  const result = { text: '```\nimport * as a from "aa";\n\nconsole.log("hello");\n```\n\n' };
+  const data = '\nimport * as a from "aa";\n\nconsole.log("hello");';
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["text", "codeBlockOrRaw()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string codeBlackOrRaw", async () => {
+  const inputId = ":node1.text.codeBlockOrRaw()";
+  const result = { text: "hello world" };
+  const data = "hello world";
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["text", "codeBlockOrRaw()"] });
 
   const res = getDataFromSource(result, source, propFunctions);
   assert.deepStrictEqual(res, data);
