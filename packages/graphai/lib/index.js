@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GraphAILogger = exports.ValidationError = exports.inputs2dataSources = exports.isStaticNodeData = exports.isComputedNodeData = exports.debugResultKey = exports.parseNodeName = exports.isObject = exports.sleep = exports.assert = exports.strIntentionalError = exports.defaultTestContext = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.NodeState = exports.graphDataLatestVersion = exports.defaultConcurrency = exports.GraphAI = void 0;
+exports.TaskManager = exports.GraphAILogger = exports.ValidationError = exports.inputs2dataSources = exports.isStaticNodeData = exports.isComputedNodeData = exports.debugResultKey = exports.parseNodeName = exports.isObject = exports.sleep = exports.assert = exports.strIntentionalError = exports.defaultTestContext = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.NodeState = exports.graphDataLatestVersion = exports.defaultConcurrency = exports.GraphAI = void 0;
 var graphai_1 = require("./graphai");
 Object.defineProperty(exports, "GraphAI", { enumerable: true, get: function () { return graphai_1.GraphAI; } });
 Object.defineProperty(exports, "defaultConcurrency", { enumerable: true, get: function () { return graphai_1.defaultConcurrency; } });
@@ -25,3 +25,5 @@ var common_1 = require("./validators/common");
 Object.defineProperty(exports, "ValidationError", { enumerable: true, get: function () { return common_1.ValidationError; } });
 var GraphAILogger_1 = require("./utils/GraphAILogger");
 Object.defineProperty(exports, "GraphAILogger", { enumerable: true, get: function () { return GraphAILogger_1.GraphAILogger; } });
+var task_manager_1 = require("./task_manager");
+Object.defineProperty(exports, "TaskManager", { enumerable: true, get: function () { return task_manager_1.TaskManager; } });

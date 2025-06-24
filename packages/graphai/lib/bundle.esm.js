@@ -106,6 +106,13 @@ const propStringFunction = (result, propId) => {
                 return match[1];
             }
         }
+        if (propId === "codeBlockOrRaw()") {
+            const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+            if (match) {
+                return match[1];
+            }
+            return result;
+        }
         if (propId === "jsonParse()") {
             return JSON.parse(result);
         }
@@ -1590,5 +1597,5 @@ class GraphAI {
     }
 }
 
-export { GraphAI, GraphAILogger, NodeState, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
+export { GraphAI, GraphAILogger, NodeState, TaskManager, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
 //# sourceMappingURL=bundle.esm.js.map
