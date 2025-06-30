@@ -39,9 +39,9 @@
     "@graphai/token_bound_string_agent": "^1.0.1",
     "@graphai/vanilla_node_agents": "^2.0.1",
     "@receptron/test_utils": "^2.0.0",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.0.0",
     "graphai": "^2.0.5",
-    "yargs": "^17.7.2"
+    "yargs": "^18.0.0"
   },
   "types": "./lib/graphai_cli.d.ts",
   "directories": {
