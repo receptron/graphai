@@ -1,8 +1,9 @@
-import yargs from "yargs";
+import yargs from "yargs/yargs";
+import { hideBin } from "yargs/helpers";
 
 export const hasOption = ["-l", "--list", "-d", "--detail", "-s", "--sample"].some((o) => process.argv.includes(o));
 
-export const args = yargs
+export const args = yargs(hideBin(process.argv))
   .scriptName("graphai")
   .option("list", {
     alias: "l",

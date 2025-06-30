@@ -4,9 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.args = exports.hasOption = void 0;
-const yargs_1 = __importDefault(require("yargs"));
+const yargs_1 = __importDefault(require("yargs/yargs"));
+const helpers_1 = require("yargs/helpers");
 exports.hasOption = ["-l", "--list", "-d", "--detail", "-s", "--sample"].some((o) => process.argv.includes(o));
-exports.args = yargs_1.default
+exports.args = (0, yargs_1.default)((0, helpers_1.hideBin)(process.argv))
     .scriptName("graphai")
     .option("list", {
     alias: "l",
