@@ -188,7 +188,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     const result = await openai.chat.completions.create(chatParams);
     return convertOpenAIChatCompletion(result, messagesCopy, llmMetaData, !!response_format);
   }
-  const chatStream = openai.beta.chat.completions.stream({
+  const chatStream = openai.chat.completions.stream({
     ...chatParams,
     stream: true,
     stream_options: { include_usage: true },
