@@ -46,13 +46,13 @@ const propObjectFunction: PropFunction = (result, propId) => {
 const propStringFunction: PropFunction = (result, propId) => {
   if (typeof result === "string") {
     if (propId === "codeBlock()") {
-      const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+      const match = ("\n" + result).match(/\n```[a-zA-Z]*([\s\S]*?)\n```/);
       if (match) {
         return match[1];
       }
     }
     if (propId === "codeBlockOrRaw()") {
-      const match = ("\n" + result).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+      const match = ("\n" + result).match(/\n```[a-zA-Z]*([\s\S]*?)\n```/);
       if (match) {
         return match[1];
       }
