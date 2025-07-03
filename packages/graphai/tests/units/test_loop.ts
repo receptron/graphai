@@ -60,7 +60,6 @@ test("test add & loop 2 only int failed", async () => {
   assert.deepStrictEqual(res, {});
 });
 
-
 test("test setLoopCount", async () => {
   const graph = new GraphAI(get_graph_data(":data.add(1)"), { ...agents });
   graph.setLoopCount(10);
