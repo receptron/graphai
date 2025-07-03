@@ -1,5 +1,5 @@
 import "dotenv/config";
-import * as agent from "@/index";
+import * as agent from "../src/index";
 
 import { graphDataTestRunner } from "@receptron/test_utils";
 
