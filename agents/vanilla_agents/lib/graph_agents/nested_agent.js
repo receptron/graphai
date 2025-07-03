@@ -47,6 +47,9 @@ const nestedAgentGenerator = (graphData, options) => {
                 nestedGraphData.version = debugInfo.version;
             }
             const graphAI = new graphai_1.GraphAI(nestedGraphData, agents || {}, graphOptions);
+            if (namedInputs.loopCount) {
+                graphAI.setLoopCount(namedInputs.loopCount);
+            }
             // for backward compatibility. Remove 'if' later
             if (onLogCallback) {
                 graphAI.onLogCallback = onLogCallback;
@@ -122,6 +125,25 @@ const nestedAgentInfo = {
                         agent: "copyAgent",
                         params: { namedKey: "messages" },
                         inputs: { messages: [":message"] },
+                        isResult: true,
+                    },
+                },
+            },
+        },
+        {
+            inputs: {
+                loopCount: 5,
+            },
+            params: {
+                resultNodeId: "test",
+            },
+            result: 4,
+            graph: {
+                nodes: {
+                    test: {
+                        agent: "copyAgent",
+                        params: { namedKey: "count" },
+                        inputs: { count: "@loop" },
                         isResult: true,
                     },
                 },
