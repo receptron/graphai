@@ -76,6 +76,18 @@ const propArrayFunction = (result, propId) => {
         if (propId === "isEmpty()") {
             return result.length === 0;
         }
+        if (propId === "average()" || propId === "mean()") {
+            return result.length ? result.reduce((a, b) => a + b, 0) / result.length : 0;
+        }
+        if (propId === "sum()") {
+            return result.reduce((a, b) => a + b, 0);
+        }
+        if (propId === "max()") {
+            return result.length ? Math.max(...result) : 0;
+        }
+        if (propId === "min()") {
+            return result.length ? Math.min(...result) : 0;
+        }
         // array join
         const matchJoin = propId.match(/^join\(([,-\s]?)\)$/);
         if (matchJoin && Array.isArray(matchJoin)) {
