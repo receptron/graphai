@@ -3,6 +3,7 @@ import { AgentFunction, AgentFunctionInfo } from "graphai";
 
 import {
   GraphAILLMInputBase,
+  GraphAILLInputType,
   getMergeValue,
   LLMMetaData,
   convertMeta,
@@ -20,6 +21,7 @@ type AnthropicInputs = {
   tools?: any[];
   tool_choice?: any;
   messages?: Array<Anthropic.MessageParam>;
+  response_format?: any;
 } & GraphAILLMInputBase;
 
 type AnthropicConfig = {
@@ -46,7 +48,9 @@ const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
 
 type Response = Anthropic.Message & { _request_id?: string | null | undefined };
 // https://docs.anthropic.com/ja/api/messages
-const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[], llmMetaData: LLMMetaData) => {
+const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[], llmMetaData: LLMMetaData, maybeResponseFormat: boolean) => {
+  llmMetaDataEndTime(llmMetaData);
+
   // SDK bug https://github.com/anthropics/anthropic-sdk-typescript/issues/432
 
   const text = (response.content[0] as Anthropic.TextBlock).text;
@@ -56,7 +60,35 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
 
   const message = { role: response.role, content: text };
   messages.push(message);
-  return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: convertMeta(llmMetaData) };
+
+  const responseFormat = (() => {
+    if (maybeResponseFormat && text) {
+      const parsed = JSON.parse(text);
+      if (typeof parsed === "object" && parsed !== null) {
+        return parsed;
+      }
+    }
+    return null;
+  })();
+
+  return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: convertMeta(llmMetaData), responseFormat };
+};
+
+export const system_with_response_format = (system: GraphAILLInputType, response_format?: any) => {
+  if (response_format) {
+    if (system) {
+      return [
+        "Please return the following json object for the specified content.",
+        JSON.stringify(response_format, null, 2),
+        "",
+        "<description>",
+        system,
+        "</description>",
+      ].join("\n");
+    }
+    return ["Please return the following json object for the specified content.", JSON.stringify(response_format, null, 2)].join("\n");
+  }
+  return system;
 };
 
 export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({
@@ -65,7 +97,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   filterParams,
   config,
 }) => {
-  const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages } = { ...params, ...namedInputs };
+  const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
 
   const { apiKey, stream, dataStream, forWeb, model } = {
     ...params,
@@ -75,7 +107,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   const llmMetaData = initLLMMetaData();
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
-  const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system);
+  const systemPrompt = getMergeValue(namedInputs, params, "mergeableSystem", system_with_response_format(system, response_format));
 
   const messagesCopy: Array<Anthropic.MessageParam> = messages ? messages.map((m) => m) : [];
   const messageSystemPrompt = messagesCopy[0] && (messagesCopy[0] as any).role === "system" ? (messagesCopy[0].content as string) : "";
@@ -116,8 +148,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
 
   if (!stream && !dataStream) {
     const messageResponse = await anthropic.messages.create(chatParams);
-    llmMetaDataEndTime(llmMetaData);
-    return convertOpenAIChatCompletion(messageResponse, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(messageResponse, messagesCopy, llmMetaData, !!response_format);
   }
   const chatStream = await anthropic.messages.create({
     ...chatParams,
@@ -193,8 +224,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
     }
   });
 
-  llmMetaDataEndTime(llmMetaData);
-  return convertOpenAIChatCompletion(streamResponse, messagesCopy, llmMetaData);
+  return convertOpenAIChatCompletion(streamResponse, messagesCopy, llmMetaData, !!response_format);
 };
 
 const anthropicAgentInfo: AgentFunctionInfo = {
