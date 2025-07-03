@@ -51,6 +51,13 @@ nested Agent
 ]
 
 ```
+```json
+
+[
+  ":agentId"
+]
+
+```
 
 ## Samples
 
@@ -112,6 +119,33 @@ nested Agent
 [
   "hello"
 ]
+
+```
+### Sample2
+
+#### inputs
+
+```json
+
+{
+  "loopCount": 5
+}
+
+```
+
+#### params
+
+```json
+
+{"resultNodeId":"test"}
+
+```
+
+#### result
+
+```json
+
+4
 
 ```
 

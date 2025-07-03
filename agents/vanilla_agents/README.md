@@ -2301,6 +2301,18 @@ const result = await graph.run();
 }
 ```
 
+
+```typescript
+{
+  "inputs": {
+    "loopCount": 5
+  },
+  "params": {
+    "resultNodeId": "test"
+  }
+}
+```
+
  - popAgent
    - inputs
      - array(array)
