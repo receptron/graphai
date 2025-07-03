@@ -34,7 +34,7 @@ export class GraphAI {
   public readonly graphId: string;
   private readonly graphData: GraphData;
   private staticNodeInitData: Record<string, ResultData> = {};
-  private readonly loop?: LoopData;
+  private loop?: LoopData;
   private readonly forceLoop: boolean;
   private readonly logs: Array<TransactionLog> = [];
   public readonly bypassAgentIds: string[];
@@ -410,6 +410,11 @@ export class GraphAI {
   public injectValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     this.staticNodeInitData[nodeId] = value;
     this.updateStaticNodeValue(nodeId, value, injectFrom);
+  }
+  public injectLoopCount(count: number): void {
+    this.loop = {
+      count,
+    };
   }
   private updateStaticNodeValue(nodeId: string, value: ResultData, injectFrom?: string): void {
     const node = this.nodes[nodeId];

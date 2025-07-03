@@ -17,7 +17,6 @@ const get_graph_data = (inputs: string) => {
       data: {
         value: 1,
         update: ":add",
-        console: { after: true },
       },
       debug: {
         agent: "copyAgent",
@@ -59,4 +58,14 @@ test("test add & loop 2 only int failed", async () => {
   const res = await graph.run();
 
   assert.deepStrictEqual(res, {});
+});
+
+
+test("test injectLoopCount", async () => {
+  const graph = new GraphAI(get_graph_data(":data.add(1)"), { ...agents });
+  graph.injectLoopCount(10);
+  const res = await graph.run();
+
+  // console.log(JSON.stringify(res, null, 2));
+  assert.deepStrictEqual(res, { add: 11 });
 });
