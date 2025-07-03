@@ -411,7 +411,7 @@ export class GraphAI {
     this.staticNodeInitData[nodeId] = value;
     this.updateStaticNodeValue(nodeId, value, injectFrom);
   }
-  public injectLoopCount(count: number): void {
+  public setLoopCount(count: number): void {
     this.loop = {
       count,
     };

@@ -61,9 +61,9 @@ test("test add & loop 2 only int failed", async () => {
 });
 
 
-test("test injectLoopCount", async () => {
+test("test setLoopCount", async () => {
   const graph = new GraphAI(get_graph_data(":data.add(1)"), { ...agents });
-  graph.injectLoopCount(10);
+  graph.setLoopCount(10);
   const res = await graph.run();
 
   // console.log(JSON.stringify(res, null, 2));
