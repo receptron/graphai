@@ -1588,6 +1588,11 @@ class GraphAI {
         this.staticNodeInitData[nodeId] = value;
         this.updateStaticNodeValue(nodeId, value, injectFrom);
     }
+    setLoopCount(count) {
+        this.loop = {
+            count,
+        };
+    }
     updateStaticNodeValue(nodeId, value, injectFrom) {
         const node = this.nodes[nodeId];
         if (node && node.isStaticNode) {

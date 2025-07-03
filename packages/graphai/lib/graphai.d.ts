@@ -9,7 +9,7 @@ export declare class GraphAI {
     readonly graphId: string;
     private readonly graphData;
     private staticNodeInitData;
-    private readonly loop?;
+    private loop?;
     private readonly forceLoop;
     private readonly logs;
     readonly bypassAgentIds: string[];
@@ -59,6 +59,7 @@ export declare class GraphAI {
     clearCallbacks(): void;
     transactionLogs(): TransactionLog[];
     injectValue(nodeId: string, value: ResultData, injectFrom?: string): void;
+    setLoopCount(count: number): void;
     private updateStaticNodeValue;
     resultsOf(inputs?: Record<string, any>, anyInput?: boolean): Record<string, ResultData>;
     resultOf(source: DataSource): ResultData;
