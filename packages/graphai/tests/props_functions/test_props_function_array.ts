@@ -125,3 +125,133 @@ test("test getDataFromSource array isEmpty2", async () => {
   const res = getDataFromSource(result, source, propFunctions);
   assert.deepStrictEqual(res, data);
 });
+
+test("test getDataFromSource array average", async () => {
+  const inputId = ":node1.data.average()";
+  const result = { data: [1, 2, 3, 4] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "average()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 2.5);
+});
+
+test("test getDataFromSource array average empty", async () => {
+  const inputId = ":node1.data.average()";
+  const result = { data: [] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "average()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 0);
+});
+
+test("test getDataFromSource array sum", async () => {
+  const inputId = ":node1.data.sum()";
+  const result = { data: [1, 2, 3] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sum()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 6);
+});
+
+test("test getDataFromSource array max", async () => {
+  const inputId = ":node1.data.max()";
+  const result = { data: [1, 8, 3] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "max()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 8);
+});
+
+test("test getDataFromSource array min", async () => {
+  const inputId = ":node1.data.min()";
+  const result = { data: [1, 8, -2] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "min()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, -2);
+});
+
+test("test getDataFromSource array sum empty", async () => {
+  const inputId = ":node1.data.sum()";
+  const result = { data: [] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sum()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 0);
+});
+
+test("test getDataFromSource array max empty", async () => {
+  const inputId = ":node1.data.max()";
+  const result = { data: [] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "max()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 0);
+});
+
+test("test getDataFromSource array min empty", async () => {
+  const inputId = ":node1.data.min()";
+  const result = { data: [] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "min()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 0);
+});
+
+test("test getDataFromSource array average single element", async () => {
+  const inputId = ":node1.data.average()";
+  const result = { data: [42] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "average()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 42);
+});
+
+test("test getDataFromSource array sum single element", async () => {
+  const inputId = ":node1.data.sum()";
+  const result = { data: [42] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "sum()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 42);
+});
+
+test("test getDataFromSource array max single element", async () => {
+  const inputId = ":node1.data.max()";
+  const result = { data: [42] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "max()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 42);
+});
+
+test("test getDataFromSource array min single element", async () => {
+  const inputId = ":node1.data.min()";
+  const result = { data: [42] };
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "min()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 42);
+});
+
+test("test getDataFromSource array average with negative and float", async () => {
+  const inputId = ":node1.data.average()";
+  const result = { data: [1.5, -0.5, 2.0] }; // sum: 3.0, len: 3
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "average()"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, 1.0);
+});
