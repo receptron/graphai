@@ -283,7 +283,7 @@
                 text: JSON.stringify(data, null, 2),
             };
         }
-        const match = ("\n" + text).match(/\n```[a-zA-z]*([\s\S]*?)\n```/);
+        const match = ("\n" + text).match(/\n```[a-zA-Z]*([\s\S]*?)\n```/);
         if (match) {
             return {
                 data: JSON.parse(match[1]),
