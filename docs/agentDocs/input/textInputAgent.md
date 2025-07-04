@@ -16,8 +16,6 @@ Text Input Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {},
   "required": []

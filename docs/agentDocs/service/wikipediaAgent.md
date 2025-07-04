@@ -16,13 +16,10 @@ Retrieves data from wikipedia
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "query": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     }
   },
   "required": [
