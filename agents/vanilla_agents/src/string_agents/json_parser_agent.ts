@@ -9,10 +9,27 @@ export const jsonParserAgent: AgentFunction<null, unknown, GraphAIWithOptionalTe
       text: JSON.stringify(data, null, 2),
     };
   }
-  const match = ("\n" + text).match(/\n```[a-zA-Z]*([\s\S]*?)\n```/);
-  if (match) {
+  const codeBlock = (() => {
+    if (!text) {
+      return undefined;
+    }
+    const start = text.indexOf("\n```");
+    if (start === -1) {
+      return undefined;
+    }
+    const firstNewLine = text.indexOf("\n", start + 4);
+    if (firstNewLine === -1) {
+      return undefined;
+    }
+    const end = text.indexOf("\n```", firstNewLine + 1);
+    if (end === -1) {
+      return undefined;
+    }
+    return text.slice(firstNewLine + 1, end);
+  })();
+  if (codeBlock !== undefined) {
     return {
-      data: JSON.parse(match[1]),
+      data: JSON.parse(codeBlock),
     };
   }
   return {
