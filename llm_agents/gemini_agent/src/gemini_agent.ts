@@ -57,7 +57,27 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
   const tool = tool_calls && tool_calls[0] ? tool_calls[0] : undefined;
   messages.push(message);
 
-  return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: convertMeta(llmMetaData) };
+  const usageMetadata: any = (response as any).usageMetadata;
+  const extraUsage = usageMetadata
+    ? {
+        prompt_tokens: usageMetadata.promptTokenCount ?? usageMetadata.prompt_tokens,
+        completion_tokens:
+          usageMetadata.candidatesTokenCount ?? usageMetadata.completionTokenCount ?? usageMetadata.completion_tokens,
+        total_tokens: usageMetadata.totalTokenCount ?? usageMetadata.total_tokens,
+      }
+    : {};
+
+  return {
+    ...response,
+    choices: [{ message }],
+    text,
+    tool,
+    tool_calls,
+    message,
+    messages,
+    metadata: convertMeta(llmMetaData),
+    usage: usageMetadata ? { ...usageMetadata, ...extraUsage } : undefined,
+  };
 };
 
 export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
