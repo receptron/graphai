@@ -71,7 +71,28 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
     return null;
   })();
 
-  return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: convertMeta(llmMetaData), responseFormat };
+  const { usage } = response;
+
+  const extraUsage = usage
+    ? {
+        prompt_tokens: usage.input_tokens,
+        completion_tokens: usage.output_tokens,
+        total_tokens: usage.input_tokens + usage.output_tokens,
+      }
+    : {};
+
+  return {
+    ...response,
+    choices: [{ message }],
+    text,
+    tool,
+    tool_calls,
+    message,
+    messages,
+    metadata: convertMeta(llmMetaData),
+    responseFormat,
+    usage: { ...usage, ...extraUsage },
+  };
 };
 
 export const system_with_response_format = (system: GraphAILLInputType, response_format?: any) => {
