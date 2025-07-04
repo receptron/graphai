@@ -1,4 +1,4 @@
-import { debugResultKey } from "@/utils/utils";
+import { debugResultKey } from "../../src/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

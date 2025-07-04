@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, assert, graphDataLatestVersion } from "@/index";
+import { GraphAI, AgentFunction, AgentFunctionInfo, assert, graphDataLatestVersion } from "../../src/index";
 import type { GraphAISupressError } from "@graphai/agent_utils";
 
 export const mapAgent: AgentFunction<

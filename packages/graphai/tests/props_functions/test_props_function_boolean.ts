@@ -1,6 +1,6 @@
-import { parseNodeName } from "@/utils/utils";
-import { propFunctions } from "@/utils/prop_function";
-import { getDataFromSource } from "@/utils/data_source";
+import { parseNodeName } from "../../src/utils/utils";
+import { propFunctions } from "../../src/utils/prop_function";
+import { getDataFromSource } from "../../src/utils/data_source";
 
 import test from "node:test";
 import assert from "node:assert";

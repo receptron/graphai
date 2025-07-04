@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "@/index";
+import { AgentFunction, AgentFunctionInfo } from "../../src/index";
 
 export const copyConfigAgent: AgentFunction<{ namedKey?: string }> = async ({ params, config }) => {
   const { namedKey } = params;

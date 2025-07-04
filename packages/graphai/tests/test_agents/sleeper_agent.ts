@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo, sleep } from "@/index";
+import { AgentFunction, AgentFunctionInfo, sleep } from "../../src/index";
 
 export const sleeperAgent: AgentFunction<{ duration?: number }> = async ({ params, namedInputs }) => {
   await sleep(params?.duration ?? 10);

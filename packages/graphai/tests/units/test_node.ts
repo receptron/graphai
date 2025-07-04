@@ -1,8 +1,8 @@
-import { GraphAI } from "@/index";
-import { StaticNode } from "@/node";
-import { NodeState } from "@/type";
+import { GraphAI } from "../../src/index";
+import { StaticNode } from "../../src/node";
+import { NodeState } from "../../src/type";
 
-import { graph_data } from "~/units/graph_data";
+import { graph_data } from "../units/graph_data";
 
 import test from "node:test";
 import assert from "node:assert";

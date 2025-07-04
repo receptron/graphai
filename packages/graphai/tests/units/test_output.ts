@@ -1,6 +1,6 @@
-import { GraphAI } from "@/index";
-import { graphDataLatestVersion } from "~/common";
-import * as agents from "~/test_agents";
+import { GraphAI } from "../../src/index";
+import { graphDataLatestVersion } from "../common";
+import * as agents from "../test_agents";
 
 import test from "node:test";
 import assert from "node:assert";

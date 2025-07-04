@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo, assert } from "@/index";
+import { AgentFunction, AgentFunctionInfo, assert } from "../../src/index";
 import { arrayValidate } from "@graphai/agent_utils";
 
 export const pushAgent: AgentFunction<null, { array: Array<unknown> }, { array: Array<unknown>; item?: unknown; items: Array<unknown> }> = async ({

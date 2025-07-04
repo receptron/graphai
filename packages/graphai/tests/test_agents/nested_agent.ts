@@ -1,4 +1,4 @@
-import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, NodeData, assert, graphDataLatestVersion } from "@/index";
+import { GraphAI, AgentFunction, AgentFunctionInfo, StaticNodeData, NodeData, assert, graphDataLatestVersion } from "../../src/index";
 
 export const nestedAgent: AgentFunction<{
   namedInputs?: Array<string>;

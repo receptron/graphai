@@ -1,4 +1,4 @@
-import { inputs2dataSources, dataSourceNodeIds } from "@/utils/nodeUtils";
+import { inputs2dataSources, dataSourceNodeIds } from "../../src/utils/nodeUtils";
 
 import test from "node:test";
 import assert from "node:assert";

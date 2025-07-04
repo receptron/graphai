@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo } from "@/index";
+import { AgentFunction, AgentFunctionInfo } from "../../src/index";
 
 export const echoAgent: AgentFunction = async ({ params, filterParams }) => {
   if (params.filterParams) {

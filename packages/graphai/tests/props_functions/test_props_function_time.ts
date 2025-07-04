@@ -1,4 +1,4 @@
-import { resultsOf } from "@/utils/result";
+import { resultsOf } from "../../src/utils/result";
 
 import test from "node:test";
 import assert from "node:assert";

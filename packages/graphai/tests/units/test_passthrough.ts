@@ -1,7 +1,7 @@
-import { GraphAI } from "@/index";
+import { GraphAI } from "../../src/index";
 
-import { graph_data_passthrough, graph_data_passthrough2, graph_data_passthrough_god, graph_data_passthrough_god_out } from "~/units/graph_data";
-import * as agents from "~/test_agents";
+import { graph_data_passthrough, graph_data_passthrough2, graph_data_passthrough_god, graph_data_passthrough_god_out } from "../units/graph_data";
+import * as agents from "../test_agents";
 
 import test from "node:test";
 import assert from "node:assert";

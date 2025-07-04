@@ -1,6 +1,6 @@
-import { GraphAI } from "@/index";
-import { AgentFilterFunction } from "@/type";
-import { graph_data } from "~/units/graph_data";
+import { GraphAI } from "../../src/index";
+import { AgentFilterFunction } from "../../src/type";
+import { graph_data } from "../units/graph_data";
 
 import test from "node:test";
 import assert from "node:assert";
