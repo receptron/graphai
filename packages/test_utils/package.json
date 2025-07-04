@@ -7,7 +7,7 @@
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && tsc-alias",
+    "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "test": "echo hello",
     "doc": "echo nothing",

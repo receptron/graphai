@@ -10,14 +10,14 @@
     "./lib"
   ],
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "tsc",
     "eslint": "eslint --fix",
     "doc": "echo nothing",
     "format": "prettier --write '{src,test_yaml,samples}/**/*.{yaml,ts,json}'",
     "test": "yarn run test_sh",
     "test_sh": "./scripts/test.sh",
-    "test_node": "node --test  -r tsconfig-paths/register --require ts-node/register ./test_yaml/test_*.ts",
-    "cli": "node --require ts-node/register  -r tsconfig-paths/register ./src/graphai_cli.ts",
+    "test_node": "node --test --require ts-node/register ./test_yaml/test_*.ts",
+    "cli": "node --require ts-node/register ./src/graphai_cli.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {
