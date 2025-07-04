@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as agents from "@/index";
+import * as agents from "../../src/index";
 import { sleepAndMergeAgent } from "@graphai/sleeper_agents";
 
 import { dynamicGraphData, dynamicGraphData2, dynamicGraphData3 } from "./graphData";

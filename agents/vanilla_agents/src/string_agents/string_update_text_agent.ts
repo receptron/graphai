@@ -1,4 +1,4 @@
-import { nestedAgentGenerator } from "@/generator";
+import { nestedAgentGenerator } from "../generator";
 import { graphDataLatestVersion, AgentFunctionInfo } from "graphai";
 
 const stringUpdateTextGraph = {

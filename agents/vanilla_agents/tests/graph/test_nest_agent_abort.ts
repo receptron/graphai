@@ -1,5 +1,5 @@
 import { GraphAI, GraphData, sleep, NodeState, graphDataLatestVersion, AgentFilterFunction } from "graphai";
-import * as agents from "@/index";
+import * as agents from "../../src/index";
 
 import test from "node:test";
 import assert from "node:assert";
