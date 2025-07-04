@@ -1,5 +1,5 @@
 import path from "path";
-import { getPackageJson, getAgents, getGitRep } from "@/agentdoc";
+import { getPackageJson, getAgents, getGitRep } from "../src/agentdoc";
 // import * as agents from "@graphai/agents"
 
 import test from "node:test";
