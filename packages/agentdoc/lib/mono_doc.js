@@ -77,12 +77,7 @@ const agentAttribute = (agentInfo, key) => {
         }
         if (agentInfo.samples && agentInfo.samples[0]) {
             const sample = agentInfo.samples[0];
-            return [
-                "#### inputs",
-                "```json",
-                JSON.stringify(generateSchema(sample.inputs), null, 2),
-                "```",
-            ].join("\n\n");
+            return ["#### inputs", "```json", JSON.stringify(generateSchema(sample.inputs), null, 2), "```"].join("\n\n");
         }
         return "";
     }
