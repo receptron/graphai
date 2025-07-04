@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
-import { replicateAgent } from "@/replicate_agent";
+import { replicateAgent } from "../src/replicate_agent";
 
 import test from "node:test";
 import assert from "node:assert";

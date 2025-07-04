@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { toolsAgent } from "@/index";
+import { toolsAgent } from "../src/index";
 
 import { AgentFunction, AgentFunctionInfo, defaultTestContext, agentInfoWrapper } from "graphai";
 

@@ -1,4 +1,4 @@
-import { flatString, getMergeValue, getMessages } from "@/index";
+import { flatString, getMergeValue, getMessages } from "../src/index";
 
 import test from "node:test";
 import assert from "node:assert";
