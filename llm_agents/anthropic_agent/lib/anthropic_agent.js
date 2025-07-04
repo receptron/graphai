@@ -29,7 +29,26 @@ const convertOpenAIChatCompletion = (response, messages, llmMetaData, maybeRespo
         }
         return null;
     })();
-    return { ...response, choices: [{ message }], text, tool, tool_calls, message, messages, metadata: (0, llm_utils_1.convertMeta)(llmMetaData), responseFormat };
+    const { usage } = response;
+    const extraUsage = usage
+        ? {
+            prompt_tokens: usage.input_tokens,
+            completion_tokens: usage.output_tokens,
+            total_tokens: usage.input_tokens + usage.output_tokens,
+        }
+        : {};
+    return {
+        ...response,
+        choices: [{ message }],
+        text,
+        tool,
+        tool_calls,
+        message,
+        messages,
+        metadata: (0, llm_utils_1.convertMeta)(llmMetaData),
+        responseFormat,
+        usage: { ...usage, ...extraUsage },
+    };
 };
 const system_with_response_format = (system, response_format) => {
     if (response_format) {
