@@ -7,13 +7,19 @@ import {
   GraphAILlmMessage,
   getMessages,
   LLMMetaData,
+  LLMMetaResponse,
   convertMeta,
   initLLMMetaData,
   llmMetaDataEndTime,
   llmMetaDataFirstTokenTime,
 } from "@graphai/llm_utils";
 
-import type { GraphAITool, GraphAIToolCalls, GraphAIMessage } from "@graphai/agent_utils";
+import type {
+  GraphAINullableText,
+  GraphAITool,
+  GraphAIToolCalls,
+  GraphAIMessage,
+} from "@graphai/agent_utils";
 
 type GeminiInputs = {
   model?: string;
@@ -33,9 +39,24 @@ type GeminiConfig = {
 
 type GeminiParams = GeminiInputs & GeminiConfig;
 
-type GeminiResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & { messages: GraphAILlmMessage[] }> | [];
+type GeminiResult =
+  | Partial<
+      GraphAINullableText &
+        GraphAITool &
+        { responseFormat: any } &
+        GraphAIToolCalls &
+        GraphAIMessage &
+        { messages: GraphAILlmMessage[] } &
+        LLMMetaResponse
+    >
+  | [];
 
-const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, messages: GraphAILlmMessage[], llmMetaData: LLMMetaData) => {
+const convertOpenAIChatCompletion = (
+  response: EnhancedGenerateContentResponse,
+  messages: GraphAILlmMessage[],
+  llmMetaData: LLMMetaData,
+  maybeResponseFormat: boolean,
+) => {
   const text = response.text();
   const message: any = { role: "assistant", content: text };
   // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
@@ -66,6 +87,20 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
       }
     : {};
 
+  const responseFormat = (() => {
+    if (maybeResponseFormat && text) {
+      try {
+        const parsed = JSON.parse(text);
+        if (typeof parsed === "object" && parsed !== null) {
+          return parsed;
+        }
+      } catch {
+        /* empty */
+      }
+    }
+    return null;
+  })();
+
   return {
     ...response,
     choices: [{ message }],
@@ -76,11 +111,12 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
     messages,
     metadata: convertMeta(llmMetaData),
     usage: usageMetadata ? { ...usageMetadata, ...extraUsage } : undefined,
+    responseFormat,
   };
 };
 
 export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
-  const { system, temperature, tools, max_tokens, prompt, messages /* response_format */ } = { ...params, ...namedInputs };
+  const { system, temperature, tools, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
 
   const { apiKey, stream, dataStream, model } = {
     ...params,
@@ -121,14 +157,12 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
     model: model ?? "gemini-1.5-flash",
     safetySettings,
   };
-  /*
   if (response_format) {
     modelParams.generationConfig = {
       responseMimeType: "application/json",
       responseSchema: response_format,
     };
   }
-  */
 
   if (tools) {
     const functions = tools.map((tool: any) => {
@@ -193,14 +227,24 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       });
     }
     llmMetaDataEndTime(llmMetaData);
-    return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(
+      response,
+      messagesCopy,
+      llmMetaData,
+      !!response_format,
+    );
   }
 
   const result = await chat.sendMessage(lastMessage.content);
   const response = result.response;
 
   llmMetaDataEndTime(llmMetaData);
-  return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
+  return convertOpenAIChatCompletion(
+    response,
+    messagesCopy,
+    llmMetaData,
+    !!response_format,
+  );
 };
 
 const geminiAgentInfo: AgentFunctionInfo = {
@@ -219,6 +263,7 @@ const geminiAgentInfo: AgentFunctionInfo = {
         type: "string",
         description: "query string",
       },
+      response_format: { type: "object" },
       messages: {
         anyOf: [{ type: "string" }, { type: "integer" }, { type: "object" }, { type: "array" }],
         description: "chat messages",
