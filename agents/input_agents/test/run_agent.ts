@@ -1,4 +1,4 @@
-import * as packages from "@/index";
+import * as packages from "../src/index";
 import { defaultTestContext } from "graphai";
 
 const main = async () => {
