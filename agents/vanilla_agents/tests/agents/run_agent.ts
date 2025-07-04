@@ -2,7 +2,7 @@
 //   yarn run sample tests/agents/run_agent.ts
 
 import "dotenv/config";
-import * as packages from "@/index";
+import * as packages from "../../src/index";
 import { defaultTestContext } from "graphai";
 
 const main = async () => {

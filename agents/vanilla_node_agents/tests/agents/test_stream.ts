@@ -1,5 +1,5 @@
 import { NodeState } from "graphai";
-import { fileReadAgent } from "@/index";
+import { fileReadAgent } from "../../src/index";
 
 const main = async () => {
   const res = await fileReadAgent.agent({

@@ -1,4 +1,4 @@
-import { mapAgent, stringTemplateAgent, copyAgent } from "@/index";
+import { mapAgent, stringTemplateAgent, copyAgent } from "../../src/index";
 import { defaultTestContext } from "graphai";
 
 import test from "node:test";

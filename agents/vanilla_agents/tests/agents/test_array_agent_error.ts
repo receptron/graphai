@@ -1,4 +1,4 @@
-import { popAgent, pushAgent } from "@/index";
+import { popAgent, pushAgent } from "../../src/index";
 import { defaultTestContext } from "graphai";
 
 import test from "node:test";

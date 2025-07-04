@@ -2,7 +2,7 @@ import * as vanilla_agent from "@graphai/vanilla";
 
 import { GraphAI } from "graphai";
 
-import { sample2GraphData } from "@/index";
+import { sample2GraphData } from "../src/index";
 
 import test from "node:test";
 import assert from "node:assert";

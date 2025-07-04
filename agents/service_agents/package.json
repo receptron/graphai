@@ -7,12 +7,12 @@
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && tsc-alias",
+    "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "doc": "npm run examplesDoc && npx agentdoc",
-    "examplesDoc": "npx ts-node  -r tsconfig-paths/register tests/examples.ts",
+    "examplesDoc": "npx ts-node tests/examples.ts",
     "format": "prettier --write '{src,tests,samples}/**/*.ts'",
-    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/test_*.ts",
+    "test": "node --test --require ts-node/register ./tests/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
   "repository": {

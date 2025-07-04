@@ -1,4 +1,4 @@
-import { fetchAgent } from "@/index";
+import { fetchAgent } from "../src/index";
 import { agentTestRunner } from "@receptron/test_utils";
 
 const main = async () => {
