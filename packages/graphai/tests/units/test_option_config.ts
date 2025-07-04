@@ -1,5 +1,5 @@
-import { GraphAI, AgentFunction, agentInfoWrapper } from "@/index";
-import { graphDataLatestVersion } from "~/common";
+import { GraphAI, AgentFunction, agentInfoWrapper } from "../../src/index";
+import { graphDataLatestVersion } from "../common";
 import * as testAgents from "../test_agents";
 
 import test from "node:test";

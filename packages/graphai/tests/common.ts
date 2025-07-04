@@ -1,1 +1,1 @@
-export { graphDataLatestVersion } from "@/index";
+export { graphDataLatestVersion } from "../src/index";

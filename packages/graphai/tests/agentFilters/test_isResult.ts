@@ -1,8 +1,8 @@
-import { GraphAI } from "@/index";
-import { AgentFilterFunction } from "@/type";
+import { GraphAI } from "../../src/index";
+import { AgentFilterFunction } from "../../src/type";
 
-import * as agents from "~/test_agents";
-import { graphDataLatestVersion } from "~/common";
+import * as agents from "../test_agents";
+import { graphDataLatestVersion } from "../common";
 
 import test from "node:test";
 import assert from "node:assert";

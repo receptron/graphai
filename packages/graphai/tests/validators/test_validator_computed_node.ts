@@ -1,5 +1,5 @@
 import { anonymization, rejectTest } from "@receptron/test_utils";
-import { graphDataLatestVersion } from "~/common";
+import { graphDataLatestVersion } from "../common";
 
 import test from "node:test";
 

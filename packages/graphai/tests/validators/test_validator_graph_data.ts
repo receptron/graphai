@@ -1,6 +1,6 @@
 import { anonymization, rejectTest } from "@receptron/test_utils";
-import { graphDataLatestVersion } from "~/common";
-import { validateGraphData } from "@/validator";
+import { graphDataLatestVersion } from "../common";
+import { validateGraphData } from "../../src/validator";
 
 import test from "node:test";
 

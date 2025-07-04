@@ -1,7 +1,7 @@
 import { anonymization } from "@receptron/test_utils";
-import { validateAgent, validateGraphData } from "@/validator";
-import { ValidationError } from "@/validators/common";
-import { graphDataLatestVersion } from "~/common";
+import { validateAgent, validateGraphData } from "../../src/validator";
+import { ValidationError } from "../../src/validators/common";
+import { graphDataLatestVersion } from "../common";
 
 import test from "node:test";
 import assert from "node:assert";

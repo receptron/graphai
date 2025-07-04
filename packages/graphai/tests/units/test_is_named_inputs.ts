@@ -1,4 +1,4 @@
-import { isNamedInputs } from "@/utils/utils";
+import { isNamedInputs } from "../../src/utils/utils";
 
 import test from "node:test";
 import assert from "node:assert";

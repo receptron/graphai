@@ -1,5 +1,5 @@
-import { AgentFunction, AgentFunctionInfo } from "@/index";
-import { sleep } from "@/utils/utils";
+import { AgentFunction, AgentFunctionInfo } from "../../src/index";
+import { sleep } from "../../src/utils/utils";
 
 export const streamMockAgent: AgentFunction = async ({ params, filterParams }) => {
   const message = params.message || "";

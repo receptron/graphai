@@ -1,4 +1,4 @@
-import { cleanResult } from "@/utils/result";
+import { cleanResult } from "../../src/utils/result";
 
 import test from "node:test";
 import assert from "node:assert";

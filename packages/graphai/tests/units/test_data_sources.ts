@@ -1,5 +1,5 @@
-import { parseNodeName } from "@/utils/utils";
-import { getDataFromSource } from "@/utils/data_source";
+import { parseNodeName } from "../../src/utils/utils";
+import { getDataFromSource } from "../../src/utils/data_source";
 
 import test from "node:test";
 import assert from "node:assert";

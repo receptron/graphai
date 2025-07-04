@@ -1,7 +1,7 @@
-import { GraphAI, GraphData, sleep, NodeState } from "@/index";
-import { graphDataLatestVersion } from "~/common";
-import * as agents from "~/test_agents";
-import { AgentFilterFunction } from "@/type";
+import { GraphAI, GraphData, sleep, NodeState } from "../../src/index";
+import { graphDataLatestVersion } from "../common";
+import * as agents from "../test_agents";
+import { AgentFilterFunction } from "../../src/type";
 
 import test from "node:test";
 // import assert from "node:assert";

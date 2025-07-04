@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { GraphAI } from "../../src";
-import * as agents from "~/test_agents";
+import * as agents from "../test_agents";
 
 import test from "node:test";
 import assert from "node:assert";

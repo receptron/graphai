@@ -1,9 +1,9 @@
-import { graphDataLatestVersion } from "~/common";
-import { StaticNode, ComputedNode } from "@/node";
-import { resultsOf, cleanResult } from "@/utils/result";
-import { propFunctions } from "@/utils/prop_function";
-import { TaskManager } from "@/task_manager";
-import { GraphAI } from "@/graphai";
+import { graphDataLatestVersion } from "../common";
+import { StaticNode, ComputedNode } from "../../src/node";
+import { resultsOf, cleanResult } from "../../src/utils/result";
+import { propFunctions } from "../../src/utils/prop_function";
+import { TaskManager } from "../../src/task_manager";
+import { GraphAI } from "../../src/graphai";
 
 // import { graph_data } from "./graph_data";
 import * as agents from "../test_agents";

@@ -1,4 +1,4 @@
-import { graphDataLatestVersion } from "~/common";
+import { graphDataLatestVersion } from "../common";
 
 export const graph_data = {
   version: graphDataLatestVersion,

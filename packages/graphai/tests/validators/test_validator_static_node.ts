@@ -2,7 +2,7 @@ import { anonymization, rejectTest } from "@receptron/test_utils";
 
 import test from "node:test";
 
-import { graphDataLatestVersion } from "~/common";
+import { graphDataLatestVersion } from "../common";
 
 test("test static node validation inputs", async () => {
   const graph_data = anonymization({

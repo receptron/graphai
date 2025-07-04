@@ -1,5 +1,5 @@
-import { GraphAI } from "@/index";
-import { graphDataLatestVersion } from "~/common";
+import { GraphAI } from "../../src/index";
+import { graphDataLatestVersion } from "../common";
 import { copyAgent } from "../test_agents";
 import test from "node:test";
 import assert from "node:assert";

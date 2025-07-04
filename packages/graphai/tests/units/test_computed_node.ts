@@ -1,7 +1,7 @@
-import { GraphAI, NodeState } from "@/index";
-import { ComputedNode } from "@/node";
+import { GraphAI, NodeState } from "../../src/index";
+import { ComputedNode } from "../../src/node";
 
-import { graph_data } from "~/units/graph_data";
+import { graph_data } from "../units/graph_data";
 
 import test from "node:test";
 import assert from "node:assert";

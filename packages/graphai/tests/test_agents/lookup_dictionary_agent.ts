@@ -1,5 +1,5 @@
-import type { AgentFunction, AgentFunctionInfo, DefaultResultData } from "@/index";
-import { assert } from "@/index";
+import type { AgentFunction, AgentFunctionInfo, DefaultResultData } from "../../src/index";
+import { assert } from "../../src/index";
 import { isNamedInputs } from "@graphai/agent_utils";
 import type { GraphAISupressError } from "@graphai/agent_utils";
 
