@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "@receptron/test_utils";
-import { fetchAgent } from "@/index";
+import { fetchAgent } from "../src/index";
 import { propertyFilterAgent, copyAgent } from "@graphai/vanilla";
 
 import { graphDataFetch, graphDataPost } from "./graphData";

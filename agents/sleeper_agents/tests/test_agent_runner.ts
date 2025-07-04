@@ -1,4 +1,4 @@
-import * as packages from "@/index";
+import * as packages from "../src/index";
 import { agentTestRunner } from "@receptron/test_utils";
 
 const main = async () => {

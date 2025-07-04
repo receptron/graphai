@@ -7,15 +7,15 @@
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && tsc-alias",
+    "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "doc": "npx agentdoc",
     "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
-    "test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/test_*.ts",
-    "http_test": "node --test  -r tsconfig-paths/register --require ts-node/register ./tests/**/http_*.ts",
+    "test": "node --test --require ts-node/register ./tests/**/test_*.ts",
+    "http_test": "node --test --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
-    "samples": "npx ts-node  -r tsconfig-paths/register samples/sample_runner.ts",
-    "sample": "npx ts-node  -r tsconfig-paths/register"
+    "samples": "npx ts-node samples/sample_runner.ts",
+    "sample": "npx ts-node"
   },
   "repository": {
     "type": "git",

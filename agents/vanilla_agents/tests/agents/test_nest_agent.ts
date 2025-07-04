@@ -1,5 +1,5 @@
-import { nestedAgent, copyAgent } from "@/index";
-import { nestedAgentGenerator } from "@/generator";
+import { nestedAgent, copyAgent } from "../../src/index";
+import { nestedAgentGenerator } from "../../src/generator";
 
 import { sleepAndMergeAgent } from "@graphai/sleeper_agents";
 import { defaultTestContext, graphDataLatestVersion, agentInfoWrapper } from "graphai";
