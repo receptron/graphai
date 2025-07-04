@@ -234,3 +234,27 @@ test("test getDataFromSource string slice 4", async () => {
   const res = getDataFromSource(result, source, propFunctions);
   assert.deepStrictEqual(res, data);
 });
+
+test("test getDataFromSource string equal", async () => {
+  const inputId = ":node1.data.equal(hello)";
+  const result = { data: "hello" };
+  const data = true;
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "equal(hello)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource string equal", async () => {
+  const inputId = ":node1.data.equal(hello)";
+  const result = { data: "hello2" };
+  const data = false;
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "equal(hello)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
