@@ -11,7 +11,7 @@
     "eslint": "eslint",
     "doc": "npm run examplesDoc && npx agentdoc",
     "examplesDoc": "npx ts-node tests/graphai/examples.ts",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "format": "prettier --write '{src,tests}/**/*.ts'",
     "test": "node --test --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"

@@ -9,11 +9,10 @@
   "scripts": {
     "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "format": "prettier --write '{src,tests}/**/*.ts'",
     "doc": "npx agentdoc",
     "test": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build",
-    "samples": "npx ts-node samples/sample_runner.ts",
     "sample": "npx ts-node"
   },
   "repository": {

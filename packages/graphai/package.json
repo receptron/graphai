@@ -14,7 +14,7 @@
     "typedoc": "npx typedoc src/index.ts --out ../../docs/apiDoc",
     "typedoc:md": "npx typedoc src/index.ts --out ../../docs/apiDocMd --plugin typedoc-plugin-markdown",
     "doc": "echo nothing",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
+    "format": "prettier --write '{src,tests}/**/*.ts' *.mjs",
     "test": "node --test --require ts-node/register ./tests/**/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },

@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "format": "prettier --write '{src,tests}/**/*.ts'",
     "doc": "npx agentdoc",
     "test": "echo hello",
     "test_run": "node --test  --require ts-node/register ./tests/run_*.ts # just run locally",
