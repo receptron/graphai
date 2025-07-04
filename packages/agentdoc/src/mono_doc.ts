@@ -1,7 +1,37 @@
 import { AgentFunctionInfo, AgentFunctionInfoDictionary } from "graphai";
 import { debugResultKey } from "graphai/lib/utils/utils";
 
-import jsonSchemaGenerator from "json-schema-generator";
+// json-schema-generator was unmaintained, replace with a simple schema generator
+const generateSchema = (value: any): any => {
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return { type: "array" };
+    }
+    return { type: "array", items: generateSchema(value[0]) };
+  }
+  if (value === null) {
+    return { type: "null" };
+  }
+  if (typeof value === "object") {
+    const properties: Record<string, any> = {};
+    const required: string[] = [];
+    for (const key of Object.keys(value)) {
+      properties[key] = generateSchema((value as any)[key]);
+      required.push(key);
+    }
+    return { type: "object", properties, required };
+  }
+  if (typeof value === "string") {
+    return { type: "string" };
+  }
+  if (typeof value === "number") {
+    return { type: "number" };
+  }
+  if (typeof value === "boolean") {
+    return { type: "boolean" };
+  }
+  return { type: "any" };
+};
 
 import fs from "fs";
 import path from "path";
@@ -45,7 +75,12 @@ const agentAttribute = (agentInfo: AgentFunctionInfo, key: string) => {
     }
     if (agentInfo.samples && agentInfo.samples[0]) {
       const sample = agentInfo.samples[0];
-      return ["#### inputs", "```json", JSON.stringify(jsonSchemaGenerator(sample.inputs), null, 2), "```"].join("\n\n");
+      return [
+        "#### inputs",
+        "```json",
+        JSON.stringify(generateSchema(sample.inputs), null, 2),
+        "```",
+      ].join("\n\n");
     }
     return "";
   }
