@@ -16,22 +16,18 @@ Map Agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "rows": {
       "type": "array",
       "items": {
-        "required": [],
-        "properties": {}
+        "type": "string"
       }
     },
     "color": {
       "type": "array",
       "items": {
-        "required": [],
-        "properties": {}
+        "type": "string"
       }
     }
   },

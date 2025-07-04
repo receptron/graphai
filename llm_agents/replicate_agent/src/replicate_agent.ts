@@ -29,7 +29,12 @@ export const replicateAgent: AgentFunction<ReplicateInputs, ReplicateResult, Rep
 
   const content = (output as string[]).join("");
   const message: GraphAIMessagePayload = { role: "assistant", content };
-  return { choices: [{ message }], text: content, message };
+  return {
+    choices: [{ message }],
+    text: content,
+    message,
+    usage: {},
+  };
 };
 
 const replicateAgentInfo: AgentFunctionInfo = {

@@ -16,24 +16,20 @@ Merge object
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "array": {
       "type": "array",
-      "uniqueItems": true,
-      "minItems": 1,
       "items": {
-        "required": [
-          "content1"
-        ],
+        "type": "object",
         "properties": {
           "content1": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "content1"
+        ]
       }
     }
   },

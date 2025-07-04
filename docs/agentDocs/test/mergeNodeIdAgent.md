@@ -16,24 +16,20 @@ merge node id agent
 ```json
 
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "",
   "type": "object",
   "properties": {
     "array": {
       "type": "array",
-      "uniqueItems": true,
-      "minItems": 1,
       "items": {
-        "required": [
-          "message"
-        ],
+        "type": "object",
         "properties": {
           "message": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "message"
+        ]
       }
     }
   },
