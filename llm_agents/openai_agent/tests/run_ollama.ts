@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
-import { openAIAgent } from "@/openai_agent";
+import { openAIAgent } from "../src/openai_agent";
 
 import test from "node:test";
 import assert from "node:assert";

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { openAIFetchAgent } from "@/openai_fetch_agent";
+import { openAIFetchAgent } from "../src/openai_fetch_agent";
 
 import test from "node:test";
 import assert from "node:assert";

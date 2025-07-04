@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
-import { groqAgent } from "@/groq_agent";
+import { groqAgent } from "../src/groq_agent";
 
 import test from "node:test";
 import assert from "node:assert";

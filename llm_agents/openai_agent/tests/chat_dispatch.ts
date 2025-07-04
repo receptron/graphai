@@ -1,5 +1,5 @@
 import "dotenv/config";
-import * as agent from "@/index";
+import * as agent from "../src/index";
 import { textInputAgent } from "@graphai/input_agents";
 import * as vanilla from "@graphai/vanilla";
 import { GraphAI } from "graphai";

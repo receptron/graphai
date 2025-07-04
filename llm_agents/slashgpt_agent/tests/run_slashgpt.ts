@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { slashGPTAgent } from "@/slashgpt_agent";
+import { slashGPTAgent } from "../src/slashgpt_agent";
 
 import test from "node:test";
 import assert from "node:assert";
