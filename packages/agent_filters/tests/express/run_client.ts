@@ -1,7 +1,7 @@
 // run server:
 //     yarn run http_server
 // run test:
-//     npx ts-node -r tsconfig-paths/register tests/express/run_client.ts
+//     npx ts-node tests/express/run_client.ts
 //
 
 import { httpAgentFilter } from "../../src/index";
