@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "format": "prettier --write '{src,tests}/**/*.ts'",
     "test": "echo nothing",
     "doc": "echo nothing",
     "http_server": "npx ts-node tests/express/server.ts",

@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts'",
+    "format": "prettier --write '{src,tests}/**/*.ts'",
     "doc": "npm run examplesDoc && npx agentdoc",
     "examplesDoc": "npx ts-node  tests/examples.ts",
     "test": "echo hello",

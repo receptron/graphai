@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc",
     "eslint": "eslint --fix",
-    "format": "prettier --write '{src,test_yaml,samples}/**/*.{yaml,ts,json}'",
+    "format": "prettier --write '{src,test_yaml}/**/*.{yaml,ts,json}'",
     "doc": "echo nothing",
     "test": "node --test --require ts-node/register ./tests/test_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"

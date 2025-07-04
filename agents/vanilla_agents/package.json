@@ -13,11 +13,10 @@
     "eslint": "eslint",
     "doc": "npm run examplesDoc && npx agentdoc",
     "examplesDoc": "npx ts-node tests/graph/examples.ts",
-    "format": "prettier --write '{src,tests,samples}/**/*.ts' *.mjs",
+    "format": "prettier --write '{src,tests}/**/*.ts' *.mjs",
     "test": "node --test --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
-    "samples": "npx ts-node samples/sample_runner.ts",
     "sample": "npx ts-node"
   },
   "repository": {
