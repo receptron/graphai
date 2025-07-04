@@ -24,7 +24,7 @@ test("test getDataFromSource string equal", async () => {
   const data = true;
 
   const source = parseNodeName(inputId);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "equal(hello)"] });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "equal(12)"] });
 
   const res = getDataFromSource(result, source, propFunctions);
   assert.deepStrictEqual(res, data);
@@ -36,7 +36,7 @@ test("test getDataFromSource string equal", async () => {
   const data = false;
 
   const source = parseNodeName(inputId);
-  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "equal(hello)"] });
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "equal(12)"] });
 
   const res = getDataFromSource(result, source, propFunctions);
   assert.deepStrictEqual(res, data);

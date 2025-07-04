@@ -90,7 +90,7 @@ const propStringFunction: PropFunction = (result, propId) => {
       return result.toUpperCase();
     }
     const equalMatch = propId.match(/^equal\(([A-Za-z0-9!#$%&()*+,\-./:;<=>?@]+)\)/);
-    if (equalMatch && equalMatch[1]) {
+    if (equalMatch) {
       return result === equalMatch[1];
     }
 
@@ -124,8 +124,8 @@ const propNumberFunction: PropFunction = (result, propId) => {
     }
 
     const equalMatch = propId.match(/^equal\(([A-Za-z0-9!#$%&()*+,\-./:;<=>?@]+)\)/);
-    if (equalMatch && equalMatch[1]) {
-      return result === equalMatch[1];
+    if (equalMatch) {
+      return result === Number(equalMatch[1]);
     }
   }
   return undefined;
