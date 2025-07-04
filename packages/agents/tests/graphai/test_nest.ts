@@ -1,6 +1,6 @@
 import { GraphAI } from "graphai";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import { nestedAgent, copyAgent, propertyFilterAgent, mapAgent } from "@/index";
+import { nestedAgent, copyAgent, propertyFilterAgent, mapAgent } from "../../src/index";
 
 import { validChildGraph, graphDataNested } from "./graphData";
 

@@ -1,5 +1,5 @@
 import { graphDataTestRunner } from "@receptron/test_utils";
-import { sleepAndMergeAgent } from "@/index";
+import { sleepAndMergeAgent } from "../../src/index";
 
 import { graphDataInputs } from "./graphData";
 

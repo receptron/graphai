@@ -1,6 +1,6 @@
 import { AgentFunction } from "graphai";
 import { graphDataTestRunner } from "@receptron/test_utils";
-import * as agents from "@/index";
+import * as agents from "../../src/index";
 import { agentInfoWrapper } from "graphai";
 
 import { graphDataLiteral } from "./graphData";
