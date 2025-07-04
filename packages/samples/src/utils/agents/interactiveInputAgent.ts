@@ -1,5 +1,5 @@
 import { AgentFunction } from "graphai";
-import { select } from "@inquirer/prompts";
+import select from "@inquirer/select";
 
 export const interactiveInputSelectAgent: AgentFunction<{ resultKey?: string; isReturnString: boolean }, string | { [x: string]: string }> = async ({
   namedInputs,
