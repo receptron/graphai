@@ -1,6 +1,6 @@
 import { AgentFunction, sleep, agentInfoWrapper } from "graphai";
 
-import * as agents from "@/index";
+import * as agents from "../../src/index";
 import { fileTestRunner } from "@receptron/test_utils";
 
 import test from "node:test";

@@ -1,7 +1,7 @@
 import { GraphAI, strIntentionalError } from "graphai";
 import { fileTestRunner, rejectFileTest } from "@receptron/test_utils";
 
-import * as agents from "@/index";
+import * as agents from "../../src/index";
 
 import test from "node:test";
 import assert from "node:assert";
