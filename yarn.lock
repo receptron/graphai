@@ -671,12 +671,6 @@
   resolved "https://registry.npmjs.org/@types/http-errors/-/http-errors-2.0.4.tgz"
   integrity sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==
 
-"@types/json-schema-generator@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/@types/json-schema-generator/-/json-schema-generator-2.0.3.tgz"
-  integrity sha512-DxsHiv9zvKa0yMiW4slLrOdsK+Vm/ZgWb5tkMXHuGwF9cbiBS1uHabf0M7lRVXNgLlk3tYLOYNNjSF+GObqU4w==
-  dependencies:
-    "@types/json-schema" "*"
 
 "@types/json-schema@*", "@types/json-schema@^7.0.15":
   version "7.0.15"
@@ -2328,16 +2322,6 @@ json-promise@^1.1.8:
   dependencies:
     bluebird "*"
 
-json-schema-generator@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/json-schema-generator/-/json-schema-generator-2.0.6.tgz#f6f2bef5c52117f51137a9b7b1c32677239e17ca"
-  integrity sha512-WyWDTK3jnv/OBI43uWw7pTGoDQ62PfccySZCHTBsOfS6D9QhsQr+95Wcwq5lqjzkiDQkTNkWzXEqHOhswfufmw==
-  dependencies:
-    json-promise "^1.1.8"
-    mkdirp "^0.5.0"
-    optimist "^0.6.1"
-    pretty-data "^0.40.0"
-    request "^2.81.0"
 
 json-schema-traverse@^0.4.1:
   version "0.4.1"

@@ -5,7 +5,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateMonoDoc = exports.readTemplate = void 0;
 const utils_1 = require("graphai/lib/utils/utils");
-const json_schema_generator_1 = __importDefault(require("json-schema-generator"));
+// json-schema-generator was unmaintained, replace with a simple schema generator
+const generateSchema = (value) => {
+    if (Array.isArray(value)) {
+        if (value.length === 0) {
+            return { type: "array" };
+        }
+        return { type: "array", items: generateSchema(value[0]) };
+    }
+    if (value === null) {
+        return { type: "null" };
+    }
+    if (typeof value === "object") {
+        const properties = {};
+        const required = [];
+        for (const key of Object.keys(value)) {
+            properties[key] = generateSchema(value[key]);
+            required.push(key);
+        }
+        return { type: "object", properties, required };
+    }
+    if (typeof value === "string") {
+        return { type: "string" };
+    }
+    if (typeof value === "number") {
+        return { type: "number" };
+    }
+    if (typeof value === "boolean") {
+        return { type: "boolean" };
+    }
+    return { type: "any" };
+};
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const agentAttribute = (agentInfo, key) => {
@@ -47,7 +77,7 @@ const agentAttribute = (agentInfo, key) => {
         }
         if (agentInfo.samples && agentInfo.samples[0]) {
             const sample = agentInfo.samples[0];
-            return ["#### inputs", "```json", JSON.stringify((0, json_schema_generator_1.default)(sample.inputs), null, 2), "```"].join("\n\n");
+            return ["#### inputs", "```json", JSON.stringify(generateSchema(sample.inputs), null, 2), "```"].join("\n\n");
         }
         return "";
     }
