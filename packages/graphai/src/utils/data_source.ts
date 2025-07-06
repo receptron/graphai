@@ -35,7 +35,7 @@ const getNestedData = (result: ResultData, propId: string, propFunctions: PropFu
 };
 
 const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined, propFunctions: PropFunction[]): ResultData | undefined => {
-  if (!isNull(result) && propIds && propIds.length > 0) {
+  if (propIds && propIds.length > 0) {
     const propId = propIds[0];
     const ret = getNestedData(result, propId, propFunctions);
     if (ret === undefined) {

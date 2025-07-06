@@ -139,7 +139,22 @@ const propBooleanFunction: PropFunction = (result, propId) => {
   return undefined;
 };
 
-export const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction];
+const propUndefinrdFunction: PropFunction = (result, propId) => {
+  if (result === undefined) {
+    const equalMatch = propId.match(/^default\(([A-Za-z0-9!#$%&()*+,\-./:;<=>?@]+)\)/);
+    if (equalMatch) {
+      if (equalMatch[1].match(/^[0-9.\-]+$/)) {
+        return Number(equalMatch[1]);
+      }
+      return equalMatch[1];
+    }
+  }
+  return undefined;
+};
+
+// TODO if (result === undefined) {default()}
+
+export const propFunctions = [propArrayFunction, propObjectFunction, propStringFunction, propNumberFunction, propBooleanFunction, propUndefinrdFunction];
 
 export const utilsFunctions = (input: string, nodes: GraphNodes) => {
   if (input === "@now" || input === "@now_ms") {
