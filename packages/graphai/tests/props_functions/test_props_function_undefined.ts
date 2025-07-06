@@ -20,6 +20,18 @@ test("test getDataFromSource undefined", async () => {
 
 
 test("test getDataFromSource undefined", async () => {
+  const inputId = ":node1.data.default(-123)";
+  const result = { data: undefined };
+  const data = -123;
+
+  const source = parseNodeName(inputId);
+  assert.deepStrictEqual(source, { nodeId: "node1", propIds: ["data", "default(-123)"] });
+
+  const res = getDataFromSource(result, source, propFunctions);
+  assert.deepStrictEqual(res, data);
+});
+
+test("test getDataFromSource undefined", async () => {
   const inputId = ":node1.data.default(abc)";
   const result = { data: undefined };
   const data = "abc";

@@ -123,7 +123,7 @@ const propNumberFunction: PropFunction = (result, propId) => {
       return Number(result) + Number(match[1]);
     }
 
-    const equalMatch = propId.match(/^equal\(([A-Za-z0-9!#$%&()*+,\-./:;<=>?@]+)\)/);
+    const equalMatch = propId.match(/^equal\(([A-Za-z0-9!#$%&()*+,\-/:;<=>?@]+)\)/);
     if (equalMatch) {
       return result === Number(equalMatch[1]);
     }
@@ -141,9 +141,9 @@ const propBooleanFunction: PropFunction = (result, propId) => {
 
 const propUndefinrdFunction: PropFunction = (result, propId) => {
   if (result === undefined) {
-    const equalMatch = propId.match(/^default\(([A-Za-z0-9!#$%&()*+,\-./:;<=>?@]+)\)/);
+    const equalMatch = propId.match(/^default\(([A-Za-z0-9!#$%&()*+,\-/:;<=>?@]+)\)/);
     if (equalMatch) {
-      if (equalMatch[1].match(/^[0-9.\-]+$/)) {
+      if (equalMatch[1].match(/^[0-9\-]+$/)) {
         return Number(equalMatch[1]);
       }
       return equalMatch[1];
