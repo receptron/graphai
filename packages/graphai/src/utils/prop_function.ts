@@ -143,7 +143,7 @@ const propUndefinrdFunction: PropFunction = (result, propId) => {
   if (result === undefined) {
     const equalMatch = propId.match(/^default\(([A-Za-z0-9!#$%&()*+,\-/:;<=>?@]+)\)/);
     if (equalMatch) {
-      if (equalMatch[1].match(/^[0-9\-]+$/)) {
+      if (equalMatch[1].match(/^[0-9-]+$/)) {
         return Number(equalMatch[1]);
       }
       return equalMatch[1];
