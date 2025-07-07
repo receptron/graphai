@@ -18,7 +18,6 @@ test("test getDataFromSource undefined", async () => {
   assert.deepStrictEqual(res, data);
 });
 
-
 test("test getDataFromSource undefined", async () => {
   const inputId = ":node1.data.default(-123)";
   const result = { data: undefined };
