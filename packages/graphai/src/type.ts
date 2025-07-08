@@ -49,6 +49,10 @@ export type AgentFilterParams = Record<string, any>;
 
 export type GraphDataLoaderOption = { fileName: string; option?: any };
 
+export type RepeatUntil = {
+  exists?: string;
+};
+
 export type ComputedNodeData = {
   agent: string | AgentAnonymousFunction;
   inputs?: Record<string, any>;
@@ -57,6 +61,7 @@ export type ComputedNodeData = {
   params?: NodeDataParams;
   filterParams?: AgentFilterParams; // agent filter
   retry?: number;
+  repeatUntil?: RepeatUntil;
   timeout?: number; // msec
   if?: string; // conditional execution
   unless?: string; // conditional execution

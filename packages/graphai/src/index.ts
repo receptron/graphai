@@ -43,6 +43,7 @@ export {
   debugResultKey,
   isComputedNodeData,
   isStaticNodeData,
+  isNull,
 } from "./utils/utils";
 export { inputs2dataSources } from "./utils/nodeUtils";
 

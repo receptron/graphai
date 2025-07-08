@@ -1,5 +1,5 @@
 import type { GraphAI, GraphData } from "./index";
-import { strIntentionalError, isNamedInputs } from "./utils/utils";
+import { strIntentionalError, isNamedInputs, isNull } from "./utils/utils";
 import { inputs2dataSources, dataSourceNodeIds } from "./utils/nodeUtils";
 
 import {
@@ -19,6 +19,7 @@ import {
   PassThrough,
   ConsoleElement,
   ConfigData,
+  RepeatUntil,
 } from "./type";
 import { parseNodeName, assert, isLogicallyTrue, isObject } from "./utils/utils";
 import { TransactionLog } from "./transaction_log";
@@ -83,6 +84,7 @@ export class ComputedNode extends Node {
   public readonly nestedGraph?: GraphData | DataSource;
   public readonly retryLimit: number;
   public retryCount: number = 0;
+  private readonly repeatUntil?: RepeatUntil;
   private readonly agentId?: string;
   private agentFunction?: AgentFunction<any, any, any, any>;
   public readonly timeout?: number; // msec
@@ -112,6 +114,7 @@ export class ComputedNode extends Node {
     this.filterParams = data.filterParams ?? {};
     this.passThrough = data.passThrough;
     this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
+    this.repeatUntil = data.repeatUntil;
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
     this.priority = data.priority ?? 0;
@@ -374,6 +377,15 @@ export class ComputedNode extends Node {
         // after the timeout (either retried or not).
         GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
         return;
+      }
+
+      if (this.repeatUntil?.exists) {
+        const dummyResult = { self: { result: this.getResult(result) } as unknown as ComputedNode };
+        const repeatResult = resultsOf({ data: this.repeatUntil?.exists }, dummyResult, [], true);
+        if (isNull(repeatResult?.data)) {
+          this.retry(NodeState.Failed, Error("Repeat Until"));
+          return;
+        }
       }
 
       // after process
