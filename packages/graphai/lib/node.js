@@ -64,6 +64,7 @@ class ComputedNode extends Node {
         this.filterParams = data.filterParams ?? {};
         this.passThrough = data.passThrough;
         this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
+        this.repeatUntil = data.repeatUntil;
         this.timeout = data.timeout;
         this.isResult = data.isResult ?? false;
         this.priority = data.priority ?? 0;
@@ -298,6 +299,14 @@ class ComputedNode extends Node {
                 // after the timeout (either retried or not).
                 GraphAILogger_1.GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                 return;
+            }
+            if (this.repeatUntil?.exists) {
+                const dummyResult = { self: { result: this.getResult(result) } };
+                const repeatResult = (0, result_1.resultsOf)({ data: this.repeatUntil?.exists }, dummyResult, [], true);
+                if ((0, utils_1.isNull)(repeatResult?.data)) {
+                    this.retry(type_1.NodeState.Failed, Error("Repeat Until"));
+                    return;
+                }
             }
             // after process
             this.afterExecute(result, localLog);

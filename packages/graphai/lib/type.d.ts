@@ -45,6 +45,9 @@ export type GraphDataLoaderOption = {
     fileName: string;
     option?: any;
 };
+export type RepeatUntil = {
+    exists?: string;
+};
 export type ComputedNodeData = {
     agent: string | AgentAnonymousFunction;
     inputs?: Record<string, any>;
@@ -53,6 +56,7 @@ export type ComputedNodeData = {
     params?: NodeDataParams;
     filterParams?: AgentFilterParams;
     retry?: number;
+    repeatUntil?: RepeatUntil;
     timeout?: number;
     if?: string;
     unless?: string;

@@ -8,6 +8,7 @@ exports.computedNodeAttributeKeys = [
     "anyInput",
     "params",
     "retry",
+    "repeatUntil",
     "timeout",
     "agent",
     "graph",

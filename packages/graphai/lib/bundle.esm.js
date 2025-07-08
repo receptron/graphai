@@ -617,6 +617,7 @@ class ComputedNode extends Node {
         this.filterParams = data.filterParams ?? {};
         this.passThrough = data.passThrough;
         this.retryLimit = data.retry ?? graph.retryLimit ?? 0;
+        this.repeatUntil = data.repeatUntil;
         this.timeout = data.timeout;
         this.isResult = data.isResult ?? false;
         this.priority = data.priority ?? 0;
@@ -852,6 +853,14 @@ class ComputedNode extends Node {
                 GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                 return;
             }
+            if (this.repeatUntil?.exists) {
+                const dummyResult = { self: { result: this.getResult(result) } };
+                const repeatResult = resultsOf({ data: this.repeatUntil?.exists }, dummyResult, [], true);
+                if (isNull(repeatResult?.data)) {
+                    this.retry(NodeState.Failed, Error("Repeat Until"));
+                    return;
+                }
+            }
             // after process
             this.afterExecute(result, localLog);
         }
@@ -992,6 +1001,7 @@ const computedNodeAttributeKeys = [
     "anyInput",
     "params",
     "retry",
+    "repeatUntil",
     "timeout",
     "agent",
     "graph",
@@ -1635,5 +1645,5 @@ class GraphAI {
     }
 }
 
-export { GraphAI, GraphAILogger, NodeState, TaskManager, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
+export { GraphAI, GraphAILogger, NodeState, TaskManager, ValidationError, agentInfoWrapper, assert, debugResultKey, defaultAgentInfo, defaultConcurrency, defaultTestContext, graphDataLatestVersion, inputs2dataSources, isComputedNodeData, isNull, isObject, isStaticNodeData, parseNodeName, sleep, strIntentionalError };
 //# sourceMappingURL=bundle.esm.js.map
