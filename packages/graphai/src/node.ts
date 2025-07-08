@@ -1,5 +1,5 @@
 import type { GraphAI, GraphData } from "./index";
-import { strIntentionalError, isNamedInputs } from "./utils/utils";
+import { strIntentionalError, isNamedInputs, isNull } from "./utils/utils";
 import { inputs2dataSources, dataSourceNodeIds } from "./utils/nodeUtils";
 
 import {
@@ -382,7 +382,7 @@ export class ComputedNode extends Node {
       if (this.repeatUntil?.exists) {
         const dummyResult = { self: { result: this.getResult(result) } as unknown as ComputedNode };
         const repeatResult = resultsOf({ data: this.repeatUntil?.exists }, dummyResult, [], true);
-        if (!repeatResult?.data) {
+        if (isNull(repeatResult?.data)) {
           this.retry(NodeState.Failed, Error("Releat Until"));
           return;
         }
