@@ -383,7 +383,7 @@ export class ComputedNode extends Node {
         const dummyResult = { self: { result: this.getResult(result) } as unknown as ComputedNode };
         const repeatResult = resultsOf({ data: this.repeatUntil?.exists }, dummyResult, [], true);
         if (isNull(repeatResult?.data)) {
-          this.retry(NodeState.Failed, Error("Releat Until"));
+          this.retry(NodeState.Failed, Error("Repeat Until"));
           return;
         }
       }
