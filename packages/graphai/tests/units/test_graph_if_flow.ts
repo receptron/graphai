@@ -1,10 +1,9 @@
 import { GraphAI, GraphData } from "../../src/index";
 import { graphDataLatestVersion } from "../common";
 import * as agents from "../test_agents";
-import { GraphDataLoaderOption } from "../../src/type";
 
 import test from "node:test";
-import assert from "node:assert";
+// import assert from "node:assert";
 
 const graph_data: GraphData = {
   version: graphDataLatestVersion,
