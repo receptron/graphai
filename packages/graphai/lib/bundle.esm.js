@@ -1545,6 +1545,12 @@ class GraphAI {
         if (this.isRunning() || this.processLoopIfNecessary()) {
             return; // continue running
         }
+        if (this.verbose) {
+            const notExecutedNodes = Object.values(this.nodes).filter((node) => node.isComputedNode && node.state !== "completed");
+            if (notExecutedNodes.length > 0) {
+                console.log("Those nodes are not running. " + notExecutedNodes.map((node) => `${node.nodeId}: ${node.state}`).join(", "));
+            }
+        }
         this.onComplete(false); // Nothing to run. Finish it.
     }
     // Must be called only from onExecutionComplete righ after removeRunning
