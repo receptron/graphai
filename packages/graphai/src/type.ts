@@ -100,6 +100,7 @@ export type GraphOptions = {
   config?: ConfigDataDictionary;
   graphLoader?: GraphDataLoader;
   forceLoop?: boolean;
+  mapIndex?: number;
 };
 
 export type CacheTypes = "pureAgent" | "impureAgent";

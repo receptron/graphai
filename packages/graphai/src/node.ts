@@ -39,7 +39,7 @@ export class Node {
   constructor(nodeId: string, graph: GraphAI) {
     this.nodeId = nodeId;
     this.graph = graph;
-    this.log = new TransactionLog(nodeId);
+    this.log = new TransactionLog(nodeId, this.graph.mapIndex);
     this.console = {};
   }
 

@@ -54,7 +54,7 @@ export const mapAgent: AgentFunction<
       nestedGraphData.version = debugInfo.version;
     }
     const graphs: Array<GraphAI> = rows.map((row: any, index: number) => {
-      const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
+      const graphAI = new GraphAI(nestedGraphData, agents || {}, { ...(graphOptions ?? {}), mapIndex: index });
       debugInfo.subGraphs.set(graphAI.graphId, graphAI);
       graphAI.injectValue(rowInputKey, row, "__mapAgent_inputs__");
       graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
