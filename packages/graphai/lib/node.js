@@ -15,7 +15,7 @@ class Node {
         this.result = undefined;
         this.nodeId = nodeId;
         this.graph = graph;
-        this.log = new transaction_log_1.TransactionLog(nodeId);
+        this.log = new transaction_log_1.TransactionLog(nodeId, this.graph.mapIndex);
         this.console = {};
     }
     asString() {

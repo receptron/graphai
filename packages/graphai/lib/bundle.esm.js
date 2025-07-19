@@ -378,9 +378,10 @@ const dataSourceNodeIds = (sources) => {
 };
 
 class TransactionLog {
-    constructor(nodeId) {
+    constructor(nodeId, mapIndex) {
         this.nodeId = nodeId;
         this.state = NodeState.Waiting;
+        this.mapIndex = mapIndex;
     }
     initForComputedNode(node, graph) {
         this.agentId = node.getAgentId();
@@ -569,7 +570,7 @@ class Node {
         this.result = undefined;
         this.nodeId = nodeId;
         this.graph = graph;
-        this.log = new TransactionLog(nodeId);
+        this.log = new TransactionLog(nodeId, this.graph.mapIndex);
         this.console = {};
     }
     asString() {
@@ -1370,6 +1371,7 @@ class GraphAI {
         config: {},
         graphLoader: undefined,
         forceLoop: false,
+        mapIndex: undefined,
     }) {
         this.staticNodeInitData = {};
         this.logs = [];
@@ -1394,6 +1396,7 @@ class GraphAI {
         this.config = options.config;
         this.graphLoader = options.graphLoader;
         this.forceLoop = options.forceLoop ?? false;
+        this.mapIndex = options.mapIndex;
         this.loop = graphData.loop;
         this.verbose = graphData.verbose === true;
         this.onComplete = (__isAbort) => {

@@ -88,6 +88,7 @@ class GraphAI {
         config: {},
         graphLoader: undefined,
         forceLoop: false,
+        mapIndex: undefined,
     }) {
         this.staticNodeInitData = {};
         this.logs = [];
@@ -112,6 +113,7 @@ class GraphAI {
         this.config = options.config;
         this.graphLoader = options.graphLoader;
         this.forceLoop = options.forceLoop ?? false;
+        this.mapIndex = options.mapIndex;
         this.loop = graphData.loop;
         this.verbose = graphData.verbose === true;
         this.onComplete = (__isAbort) => {

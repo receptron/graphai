@@ -5,9 +5,10 @@ const type_1 = require("./type");
 const utils_1 = require("./utils/utils");
 const nodeUtils_1 = require("./utils/nodeUtils");
 class TransactionLog {
-    constructor(nodeId) {
+    constructor(nodeId, mapIndex) {
         this.nodeId = nodeId;
         this.state = type_1.NodeState.Waiting;
+        this.mapIndex = mapIndex;
     }
     initForComputedNode(node, graph) {
         this.agentId = node.getAgentId();

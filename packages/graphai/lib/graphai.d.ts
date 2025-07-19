@@ -12,6 +12,7 @@ export declare class GraphAI {
     private loop?;
     private readonly forceLoop;
     private readonly logs;
+    readonly mapIndex?: number;
     readonly bypassAgentIds: string[];
     readonly config?: ConfigDataDictionary;
     readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;

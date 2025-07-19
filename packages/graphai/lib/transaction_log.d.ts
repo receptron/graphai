@@ -19,7 +19,7 @@ export declare class TransactionLog {
     isLoop?: boolean;
     repeatCount?: number;
     log?: TransactionLog[];
-    constructor(nodeId: string);
+    constructor(nodeId: string, mapIndex?: number);
     initForComputedNode(node: ComputedNode, graph: GraphAI): void;
     onInjected(node: StaticNode, graph: GraphAI, injectFrom?: string): void;
     onComplete(node: ComputedNode, graph: GraphAI, localLog: TransactionLog[]): void;
