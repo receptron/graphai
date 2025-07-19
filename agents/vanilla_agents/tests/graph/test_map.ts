@@ -1,3 +1,4 @@
+import { GraphAI } from "graphai";
 import { graphDataTestRunner } from "@receptron/test_utils";
 import * as vanilla_agents from "../../src/index";
 import { sleepAndMergeAgent } from "@graphai/sleeper_agents";
@@ -46,4 +47,10 @@ test("test map 6", async () => {
   const result = await graphDataTestRunner(__dirname, "test_map6", graphDataMap6, agents);
 
   assert.deepStrictEqual(result.result, ["hello", "hello2"]);
+});
+
+test("test map 6", async () => {
+  const graph = new GraphAI(graphDataMap1, agents);
+  graph.callbacks = [console.log];
+  await graph.run();
 });

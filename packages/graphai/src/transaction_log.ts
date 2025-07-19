@@ -22,9 +22,10 @@ export class TransactionLog {
   public isLoop?: boolean;
   public repeatCount?: number;
   public log?: TransactionLog[];
-  constructor(nodeId: string) {
+  constructor(nodeId: string, mapIndex?: number) {
     this.nodeId = nodeId;
     this.state = NodeState.Waiting;
+    this.mapIndex = mapIndex;
   }
 
   public initForComputedNode(node: ComputedNode, graph: GraphAI) {

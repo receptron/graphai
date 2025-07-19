@@ -37,6 +37,7 @@ export class GraphAI {
   private loop?: LoopData;
   private readonly forceLoop: boolean;
   private readonly logs: Array<TransactionLog> = [];
+  public readonly mapIndex?: number;
   public readonly bypassAgentIds: string[];
   public readonly config?: ConfigDataDictionary = {};
   public readonly agentFunctionInfoDictionary: AgentFunctionInfoDictionary;
@@ -136,6 +137,7 @@ export class GraphAI {
       config: {},
       graphLoader: undefined,
       forceLoop: false,
+      mapIndex: undefined,
     },
   ) {
     if (!graphData.version && !options.taskManager) {
@@ -155,6 +157,7 @@ export class GraphAI {
     this.config = options.config;
     this.graphLoader = options.graphLoader;
     this.forceLoop = options.forceLoop ?? false;
+    this.mapIndex = options.mapIndex;
     this.loop = graphData.loop;
     this.verbose = graphData.verbose === true;
     this.onComplete = (__isAbort: boolean) => {
