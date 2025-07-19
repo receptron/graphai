@@ -1870,7 +1870,7 @@ const mapAgent = async ({ params, namedInputs, log, debugInfo, forNestedGraph })
             nestedGraphData.version = debugInfo.version;
         }
         const graphs = rows.map((row, index) => {
-            const graphAI = new GraphAI(nestedGraphData, agents || {}, graphOptions);
+            const graphAI = new GraphAI(nestedGraphData, agents || {}, { ...(graphOptions ?? {}), mapIndex: index });
             debugInfo.subGraphs.set(graphAI.graphId, graphAI);
             graphAI.injectValue(rowInputKey, row, "__mapAgent_inputs__");
             graphAI.injectValue("__mapIndex", index, "__mapAgent_inputs__");
