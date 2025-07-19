@@ -1835,10 +1835,10 @@ graphql@^16.8.1:
   resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
-groq-sdk@^0.26.0:
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.26.0.tgz#0ef82219197d6909b281c77a026e49cd6dd0806d"
-  integrity sha512-2ehKqPYHw4NpikaJQ/z+YYmvMgQj7Hf84YQKgElU3ORobiUYwdPTXZkgnTJ7walxqOjgI5NdpK7iYxBBaZ94Hg==
+groq-sdk@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.27.0.tgz#268316194170f5bc0a4e5233682a1875e4be62de"
+  integrity sha512-fiEou5jdIgXGolo6fz5N2G++0fGMRhC/GzAqKtSnagt9eOwFn7C8FYjVeqs7ah6/VN/yygEUvFVJa0XD6T+3mg==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
