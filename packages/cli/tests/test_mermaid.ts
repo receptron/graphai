@@ -7,7 +7,7 @@ const captureConsoleOutput = (fn: () => void): string => {
   const originalLog = console.log;
   const output: string[] = [];
   console.log = (message: string) => output.push(message);
-  
+
   try {
     fn();
     return output.join("\n");
