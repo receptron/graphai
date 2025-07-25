@@ -9,6 +9,8 @@
 
 Gemini Agent
 
+This agent returns results in a format compatible with OpenAI's Chat Completion API.
+
 ## Schema
 
 #### inputs
@@ -36,6 +38,9 @@ Gemini Agent
     "prompt": {
       "type": "string",
       "description": "query string"
+    },
+    "response_format": {
+      "type": "object"
     },
     "messages": {
       "anyOf": [
