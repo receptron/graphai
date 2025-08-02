@@ -39,7 +39,7 @@
     "@graphai/token_bound_string_agent": "^1.0.1",
     "@graphai/vanilla_node_agents": "^2.0.1",
     "@receptron/test_utils": "^2.0.0",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.1",
     "graphai": "^2.0.5",
     "yargs": "^18.0.0"
   },
