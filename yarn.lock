@@ -16,10 +16,10 @@
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-"@anthropic-ai/sdk@^0.56.0":
-  version "0.56.0"
-  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.56.0.tgz#8b6366d5d22235c3ec978c05b2c9420fdf426ed9"
-  integrity sha512-SLCB8M8+VMg1cpCucnA1XWHGWqVSZtIWzmOdDOEu3eTFZMB+A0sGZ1ESO5MHDnqrNTXz3safMrWx9x4rMZSOqA==
+"@anthropic-ai/sdk@^0.57.0":
+  version "0.57.0"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.57.0.tgz#d2ef7bd3a80b07e41df79600f0a797db94434060"
+  integrity sha512-z5LMy0MWu0+w2hflUgj4RlJr1R+0BxKXL7ldXTO8FasU8fu599STghO+QKwId2dAD0d464aHtU+ChWuRHw4FNw==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -1828,10 +1828,10 @@ graphql@^16.8.1:
   resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
-groq-sdk@^0.26.0:
-  version "0.26.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.26.0.tgz#0ef82219197d6909b281c77a026e49cd6dd0806d"
-  integrity sha512-2ehKqPYHw4NpikaJQ/z+YYmvMgQj7Hf84YQKgElU3ORobiUYwdPTXZkgnTJ7walxqOjgI5NdpK7iYxBBaZ94Hg==
+groq-sdk@^0.29.0:
+  version "0.29.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.29.0.tgz#1c8497ba07b0efc250ab93fda4c08f624f693a97"
+  integrity sha512-oDbTqE5yg7mEzSRG0WnvezA/loaM6rY+hHl1Es8MbeOs/zgZFw+DZu3zTXJ0ik4fdNQ3/N6MluOjmytUMkZHtQ==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -2455,10 +2455,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^5.10.1:
-  version "5.10.1"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-5.10.1.tgz#4535a9603f4d03b2392bb2ca41a618a80fdcfacd"
-  integrity sha512-fq6xVfv1/gpLbsj8fArEt3b6B9jBxdhAK+VJ+bDvbUvNd+KTLlA3bnDeYZaBsGH9LUhJ1M1yXfp9sEyBLMx6eA==
+openai@^5.11.0:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-5.11.0.tgz#0d746e65b1caaf50f56facb0d8fd31012872ee93"
+  integrity sha512-+AuTc5pVjlnTuA9zvn8rA/k+1RluPIx9AD4eDcnutv6JNwHHZxIhkFy+tmMKCvmMFDQzfA/r1ujvPWB19DQkYg==
 
 optionator@^0.9.3:
   version "0.9.4"
