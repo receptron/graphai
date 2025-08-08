@@ -10,9 +10,12 @@ const toolWorkFlowStep = {
             params: {
                 forWeb: true,
                 stream: true,
+            },
+            inputs: {
+                messages: ":messages",
+                prompt: ":userInput.text",
                 tools: ":tools",
             },
-            inputs: { messages: ":messages", prompt: ":userInput.text" },
         },
         textMessage: {
             unless: ":llm.tool.id",
