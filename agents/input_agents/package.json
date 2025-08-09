@@ -1,6 +1,6 @@
 {
   "name": "@graphai/input_agents",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Input agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
