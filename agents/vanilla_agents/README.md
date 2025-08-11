@@ -3058,7 +3058,7 @@ const result = await graph.run();
  - stringSplitterAgent
    - inputs
      - text(string)
-       - text to be chuncked
+       - text to be chunked
 
 
 ```typescript

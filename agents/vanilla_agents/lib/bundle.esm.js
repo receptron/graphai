@@ -53,7 +53,7 @@ const stringSplitterAgentInfo = {
         properties: {
             text: {
                 type: "string",
-                description: "text to be chuncked",
+                description: "text to be chunked",
             },
         },
         required: ["text"],

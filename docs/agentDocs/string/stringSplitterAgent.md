@@ -20,7 +20,7 @@ This agent strip one long string into chunks using following parameters
   "properties": {
     "text": {
       "type": "string",
-      "description": "text to be chuncked"
+      "description": "text to be chunked"
     }
   },
   "required": [
