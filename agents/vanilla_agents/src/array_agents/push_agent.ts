@@ -2,7 +2,10 @@ import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
 import { arrayValidate } from "@graphai/agent_utils";
 import type { GraphAIArray, GraphAIArrayWithOptionalItemAndItems } from "@graphai/agent_utils";
 
-export const pushAgent: AgentFunction<null, GraphAIArray, GraphAIArrayWithOptionalItemAndItems> = async ({ namedInputs }) => {
+export const pushAgent: AgentFunction<{ arrayKey?: string }, GraphAIArray | Record<string, unknown[]>, GraphAIArrayWithOptionalItemAndItems> = async ({
+  namedInputs,
+  params,
+}) => {
   const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
   arrayValidate("pushAgent", namedInputs, extra_message);
   const { item, items } = namedInputs;
@@ -17,6 +20,11 @@ export const pushAgent: AgentFunction<null, GraphAIArray, GraphAIArrayWithOption
     items.forEach((item) => {
       array.push(item);
     });
+  }
+  if (params.arrayKey) {
+    return {
+      [params.arrayKey]: array,
+    };
   }
   return {
     array,
@@ -73,6 +81,11 @@ const pushAgentInfo: AgentFunctionInfo = {
       inputs: { array: [{ apple: 1 }], items: [{ lemon: 2 }, { banana: 3 }] },
       params: {},
       result: { array: [{ apple: 1 }, { lemon: 2 }, { banana: 3 }] },
+    },
+    {
+      inputs: { array: [1, 2], item: 3 },
+      params: { arrayKey: "test" },
+      result: { test: [1, 2, 3] },
     },
   ],
   description: "push Agent",
