@@ -24,7 +24,7 @@ const toolsTestDummyAgent: AgentFunction = async ({ namedInputs }) => {
 const toolsTestAgent = agentInfoWrapper(toolsTestDummyAgent);
 
 const llmDummy: AgentFunction = async ({ namedInputs }) => {
-  const { prompt } = namedInputs;
+  const { prompt, messages } = namedInputs;
 
   const tool = (() => {
     if (prompt === "test1") {
@@ -38,23 +38,41 @@ const llmDummy: AgentFunction = async ({ namedInputs }) => {
       return {
         id: "call_2",
         name: "toolsTestAgent--textSpeach",
-        arguments: { location: "hello" },
+        arguments: { location: "hello tokyo!!" },
       };
     }
+    return null;
   })();
+
+  if (tool) {
+    return {
+      message: {
+        role: "assistant",
+        tool_calls: [tool],
+      },
+      tool,
+      tool_calls: [tool],
+    };
+  }
+  if (messages.length > 0 && messages[messages.length - 1].role === "tool") {
+    return {
+      message: {
+        role: "assistant",
+        content: "tool",
+      },
+    };
+  }
 
   return {
     message: {
       role: "assistant",
-      tool_calls: [tool],
+      content: "hello",
     },
-    tool,
-    tool_calls: [tool],
   };
 };
 const llmAgent = agentInfoWrapper(llmDummy);
 
-test("test tools", async () => {
+test("test tools no tools", async () => {
   const graph = {
     version: 0.5,
     nodes: {
@@ -66,9 +84,44 @@ test("test tools", async () => {
         agent: "toolsAgent",
         inputs: {
           messages: [],
-          // userInput: { text: "test1"},
+          userInput: { text: "hello" },
+          tools: [{}], // In fact, you set the tools schema here.
+          llmAgent: "llmAgent",
+        },
+      },
+    },
+  };
+
+  const graphai = new GraphAI(graph, { ...agents, toolsAgent, toolsTestAgent, llmAgent });
+  const res = await graphai.run();
+  // console.log(JSON.stringify(res, null, 2));
+  const expect = {
+    tools: {
+      messages: [
+        {
+          content: "hello",
+          role: "assistant",
+        },
+      ],
+    },
+  };
+  assert.deepStrictEqual(expect, res);
+});
+
+test("test tools with next", async () => {
+  const graph = {
+    version: 0.5,
+    nodes: {
+      hoge: {
+        value: true,
+      },
+      tools: {
+        isResult: true,
+        agent: "toolsAgent",
+        inputs: {
+          messages: [],
           userInput: { text: "testWithNext" },
-          tools: [{}],
+          tools: [{}], // In fact, you set the tools schema here.
           llmAgent: "llmAgent",
         },
       },
@@ -94,7 +147,7 @@ test("test tools", async () => {
               id: "call_2",
               name: "toolsTestAgent--textSpeach",
               arguments: {
-                location: "hello",
+                location: "hello tokyo!!",
               },
             },
           ],
@@ -107,14 +160,14 @@ test("test tools", async () => {
           extra: {
             agent: "toolsTestAgent",
             arg: {
-              location: "hello",
+              location: "hello tokyo!!",
             },
             func: "textSpeach",
           },
         },
         {
           role: "assistant",
-          tool_calls: [],
+          content: "tool",
         },
       ],
     },
@@ -135,7 +188,7 @@ test("test tools", async () => {
         inputs: {
           messages: [],
           userInput: { text: "test1" },
-          tools: [{}],
+          tools: [{}], // In fact, you set the tools schema here.
           llmAgent: "llmAgent",
         },
       },
