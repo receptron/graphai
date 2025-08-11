@@ -2797,6 +2797,22 @@ const result = await graph.run();
 }
 ```
 
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      1,
+      2
+    ],
+    "item": 3
+  },
+  "params": {
+    "arrayKey": "test"
+  }
+}
+```
+
  - shiftAgent
    - inputs
      - array(array)

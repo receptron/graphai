@@ -119,6 +119,17 @@ push Agent
 ]
 
 ```
+```json
+
+[
+  ":agentId",
+  ":agentId.test",
+  ":agentId.test.$0",
+  ":agentId.test.$1",
+  ":agentId.test.$2"
+]
+
+```
 
 ## Samples
 
@@ -286,6 +297,43 @@ push Agent
     {
       "banana": 3
     }
+  ]
+}
+
+```
+### Sample4
+
+#### inputs
+
+```json
+
+{
+  "array": [
+    1,
+    2
+  ],
+  "item": 3
+}
+
+```
+
+#### params
+
+```json
+
+{"arrayKey":"test"}
+
+```
+
+#### result
+
+```json
+
+{
+  "test": [
+    1,
+    2,
+    3
   ]
 }
 
