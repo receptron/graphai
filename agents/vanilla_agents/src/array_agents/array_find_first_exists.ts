@@ -2,7 +2,7 @@ import { AgentFunction, AgentFunctionInfo, isNull } from "graphai";
 import { arrayValidate } from "@graphai/agent_utils";
 import type { GraphAIArray } from "@graphai/agent_utils";
 
-export const arrayFindFirstExistsAgent: AgentFunction<null, unknown, GraphAIArray> = async ({ namedInputs, params }) => {
+export const arrayFindFirstExistsAgent: AgentFunction<null, unknown, GraphAIArray> = async ({ namedInputs }) => {
   arrayValidate("arrayFindFirstExistsAgent", namedInputs);
   return namedInputs.array.find((item) => !isNull(item));
 };
