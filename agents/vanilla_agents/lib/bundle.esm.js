@@ -1,4 +1,4 @@
-import { assert, isObject, graphDataLatestVersion, GraphAI, sleep } from 'graphai';
+import { assert, isObject, graphDataLatestVersion, GraphAI, isNull as isNull$1, sleep } from 'graphai';
 
 // This agent strip one long string into chunks using following parameters
 //
@@ -1266,6 +1266,55 @@ const arrayToObjectAgentInfo = {
     repository: "https://github.com/receptron/graphai",
     source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_to_object.ts",
     package: "@graphai/vanilla",
+    license: "MIT",
+};
+
+const arrayFindFirstExistsAgent = async ({ namedInputs }) => {
+    arrayValidate("arrayFindFirstExistsAgent", namedInputs);
+    return namedInputs.array.find((item) => !isNull$1(item));
+};
+const arrayFindFirstExistsAgentInfo = {
+    name: "arrayFindFirstExistsAgent",
+    agent: arrayFindFirstExistsAgent,
+    mock: arrayFindFirstExistsAgent,
+    inputs: {
+        type: "object",
+        properties: {
+            array: {
+                type: "array",
+                description: "The array to be find",
+            },
+        },
+        required: ["array"],
+    },
+    output: {
+        type: "object",
+    },
+    params: {},
+    samples: [
+        {
+            inputs: { array: [null, 2] },
+            params: {},
+            result: 2,
+        },
+        {
+            inputs: { array: [undefined, null, 3] },
+            params: {},
+            result: 3,
+        },
+        {
+            inputs: { array: [undefined, null, 0] },
+            result: 0,
+            params: {},
+        },
+    ],
+    description: "Array Flat Agent",
+    category: ["array"],
+    author: "Receptron team",
+    repository: "https://github.com/receptron/graphai",
+    source: "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/src/array_agents/array_flat_agent.ts",
+    package: "@graphai/vanilla",
+    cacheType: "pureAgent",
     license: "MIT",
 };
 
@@ -4265,5 +4314,5 @@ const stringEmbeddingsAgentInfo = {
     license: "MIT",
 };
 
-export { arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, arrayToObjectAgentInfo as arrayToObjectAgent, compareAgentInfo as compareAgent, consoleAgentInfo as consoleAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
+export { arrayFindFirstExistsAgentInfo as arrayFindFirstExistsAgent, arrayFlatAgentInfo as arrayFlatAgent, arrayJoinAgentInfo as arrayJoinAgent, arrayToObjectAgentInfo as arrayToObjectAgent, compareAgentInfo as compareAgent, consoleAgentInfo as consoleAgent, copy2ArrayAgentInfo as copy2ArrayAgent, copyAgentInfo as copyAgent, copyMessageAgentInfo as copyMessageAgent, countingAgentInfo as countingAgent, dataSumTemplateAgentInfo as dataSumTemplateAgent, dotProductAgentInfo as dotProductAgent, echoAgentInfo as echoAgent, images2messageAgentInfo as images2messageAgent, jsonParserAgentInfo as jsonParserAgent, lookupDictionaryAgentInfo as lookupDictionaryAgent, mapAgentInfo as mapAgent, mergeNodeIdAgentInfo as mergeNodeIdAgent, mergeObjectAgentInfo as mergeObjectAgent, nestedAgentInfo as nestedAgent, popAgentInfo as popAgent, propertyFilterAgentInfo as propertyFilterAgent, pushAgentInfo as pushAgent, shiftAgentInfo as shiftAgent, sleeperAgentInfo as sleeperAgent, sortByValuesAgentInfo as sortByValuesAgent, streamMockAgentInfo as streamMockAgent, stringCaseVariantsAgentInfo as stringCaseVariantsAgent, stringEmbeddingsAgentInfo as stringEmbeddingsAgent, stringSplitterAgentInfo as stringSplitterAgent, stringTemplateAgentInfo as stringTemplateAgent, stringUpdateTextAgentInfo as stringUpdateTextAgent, totalAgentInfo as totalAgent, vanillaFetchAgentInfo as vanillaFetchAgent };
 //# sourceMappingURL=bundle.esm.js.map
