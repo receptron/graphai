@@ -30,6 +30,7 @@
 ### [sleeperAgent](./sleeper/sleeperAgent.md)
 
 ## array
+### [arrayFindFirstExistsAgent](./array/arrayFindFirstExistsAgent.md)
 ### [arrayFlatAgent](./array/arrayFlatAgent.md)
 ### [arrayJoinAgent](./array/arrayJoinAgent.md)
 ### [arrayToObjectAgent](./array/arrayToObjectAgent.md)

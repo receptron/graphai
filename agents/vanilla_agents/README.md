@@ -15,6 +15,7 @@ yarn add @graphai/vanilla
 ```typescript
 import { GraphAI } from "graphai";
 import { 
+  arrayFindFirstExistsAgent,
   arrayFlatAgent,
   arrayJoinAgent,
   arrayToObjectAgent,
@@ -51,6 +52,7 @@ import {
  } from "@graphai/vanilla";
 
 const agents = { 
+  arrayFindFirstExistsAgent,
   arrayFlatAgent,
   arrayJoinAgent,
   arrayToObjectAgent,
@@ -91,6 +93,7 @@ const result = await graph.run();
 ```
 
 ### Agents description
+- arrayFindFirstExistsAgent - Array Flat Agent
 - arrayFlatAgent - Array Flat Agent
 - arrayJoinAgent - Array Join Agent
 - arrayToObjectAgent - Array To Object Agent
@@ -126,6 +129,7 @@ const result = await graph.run();
 - vanillaFetchAgent - Retrieves JSON data from the specified URL
 
 ### Input/Output/Params Schema & samples
+ - [arrayFindFirstExistsAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFindFirstExistsAgent.md)
  - [arrayFlatAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayFlatAgent.md)
  - [arrayJoinAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayJoinAgent.md)
  - [arrayToObjectAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/array/arrayToObjectAgent.md)
@@ -161,6 +165,53 @@ const result = await graph.run();
  - [vanillaFetchAgent](https://github.com/receptron/graphai/blob/main/docs/agentDocs/service/vanillaFetchAgent.md)
 
 ### Input/Params example
+ - arrayFindFirstExistsAgent
+   - inputs
+     - array(array)
+       - The array to be find
+   - params
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      null,
+      2
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      null,
+      null,
+      3
+    ]
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
+      null,
+      null,
+      0
+    ]
+  },
+  "params": {}
+}
+```
+
  - arrayFlatAgent
    - inputs
      - array(array)
