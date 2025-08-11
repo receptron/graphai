@@ -791,7 +791,7 @@ const arrayValidate = (agentName, namedInputs, extra_message = "") => {
     assert(Array.isArray(namedInputs.array), `${agentName}: namedInputs.array is not Array.` + extra_message);
 };
 
-const pushAgent = async ({ namedInputs }) => {
+const pushAgent = async ({ namedInputs, params, }) => {
     const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
     arrayValidate("pushAgent", namedInputs, extra_message);
     const { item, items } = namedInputs;
@@ -805,6 +805,11 @@ const pushAgent = async ({ namedInputs }) => {
         items.forEach((item) => {
             array.push(item);
         });
+    }
+    if (params.arrayKey) {
+        return {
+            [params.arrayKey]: array,
+        };
     }
     return {
         array,
@@ -860,6 +865,11 @@ const pushAgentInfo = {
             inputs: { array: [{ apple: 1 }], items: [{ lemon: 2 }, { banana: 3 }] },
             params: {},
             result: { array: [{ apple: 1 }, { lemon: 2 }, { banana: 3 }] },
+        },
+        {
+            inputs: { array: [1, 2], item: 3 },
+            params: { arrayKey: "test" },
+            result: { test: [1, 2, 3] },
         },
     ],
     description: "push Agent",
