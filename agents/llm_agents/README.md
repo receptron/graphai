@@ -131,6 +131,7 @@ const result = await graph.run();
  - [@graphai/openai_agent](https://www.npmjs.com/package/@graphai/openai_agent)
  - [@graphai/openai_fetch_agent](https://www.npmjs.com/package/@graphai/openai_fetch_agent)
  - [@graphai/replicate_agent](https://www.npmjs.com/package/@graphai/replicate_agent)
+ - [@graphai/tools_agent](https://www.npmjs.com/package/@graphai/tools_agent)
 
 
 
