@@ -2763,6 +2763,23 @@ const result = await graph.run();
 {
   "inputs": {
     "array": [
+      1,
+      2
+    ],
+    "item": 3,
+    "data": {
+      "example": "hello"
+    }
+  },
+  "params": {}
+}
+```
+
+
+```typescript
+{
+  "inputs": {
+    "array": [
       {
         "apple": 1
       }

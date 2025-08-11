@@ -99,6 +99,19 @@ push Agent
   ":agentId",
   ":agentId.array",
   ":agentId.array.$0",
+  ":agentId.array.$1",
+  ":agentId.array.$2",
+  ":agentId.data",
+  ":agentId.data.example"
+]
+
+```
+```json
+
+[
+  ":agentId",
+  ":agentId.array",
+  ":agentId.array.$0",
   ":agentId.array.$0.apple",
   ":agentId.array.$1",
   ":agentId.array.$1.lemon"
@@ -215,6 +228,49 @@ push Agent
 
 {
   "array": [
+    1,
+    2
+  ],
+  "item": 3,
+  "data": {
+    "example": "hello"
+  }
+}
+
+```
+
+#### params
+
+```json
+
+{}
+
+```
+
+#### result
+
+```json
+
+{
+  "array": [
+    1,
+    2,
+    3
+  ],
+  "data": {
+    "example": "hello"
+  }
+}
+
+```
+### Sample3
+
+#### inputs
+
+```json
+
+{
+  "array": [
     {
       "apple": 1
     }
@@ -250,7 +306,7 @@ push Agent
 }
 
 ```
-### Sample3
+### Sample4
 
 #### inputs
 
@@ -301,7 +357,7 @@ push Agent
 }
 
 ```
-### Sample4
+### Sample5
 
 #### inputs
 
