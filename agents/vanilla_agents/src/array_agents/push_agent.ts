@@ -8,26 +8,28 @@ export const pushAgent: AgentFunction<{ arrayKey?: string }, GraphAIArray | Reco
 }) => {
   const extra_message = " Set inputs: { array: :arrayNodeId, item: :itemNodeId }";
   arrayValidate("pushAgent", namedInputs, extra_message);
-  const { item, items } = namedInputs;
+  const { item, items, array, ...rest } = namedInputs;
   assert(item !== undefined || items !== undefined, "pushAgent: namedInputs.item and namedInputs.items are UNDEFINED!" + extra_message);
   assert(items === undefined || Array.isArray(items), "pushAgent: namedInputs.items is not array!");
 
-  const array = namedInputs.array.map((item: any) => item); // shallow copy
+  const arrayCopy = array.map((item: any) => item); // shallow copy
   if (item !== undefined) {
-    array.push(item);
+    arrayCopy.push(item);
   }
   if (items) {
     items.forEach((item) => {
-      array.push(item);
+      arrayCopy.push(item);
     });
   }
   if (params.arrayKey) {
     return {
-      [params.arrayKey]: array,
+      ...rest,
+      [params.arrayKey]: arrayCopy,
     };
   }
   return {
-    array,
+    ...rest,
+    array: arrayCopy,
   };
 };
 
@@ -71,6 +73,11 @@ const pushAgentInfo: AgentFunctionInfo = {
       inputs: { array: [true, false], item: false },
       params: {},
       result: { array: [true, false, false] },
+    },
+    {
+      inputs: { array: [1, 2], item: 3, data: { example: "hello"} },
+      params: {},
+      result: { array: [1, 2, 3], data: { example: "hello"} },
     },
     {
       inputs: { array: [{ apple: 1 }], item: { lemon: 2 } },
