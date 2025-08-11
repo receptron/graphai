@@ -2,7 +2,7 @@ import eslintBase from "../../config/eslint.config.base.mjs";
 
 export default [
   {
-    files: ["{src,test,samles}/**/*.{js,ts,yaml,yml,json}"],
+    files: ["{src,test,samples}/**/*.{js,ts,yaml,yml,json}"],
   },
   {
     ignores: ["lib/**/*", "*.ts"],
