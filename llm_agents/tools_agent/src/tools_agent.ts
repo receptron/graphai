@@ -1,9 +1,11 @@
+import type { AgentFunctionInfo } from "graphai";
 import { nestedAgentGenerator } from "@graphai/vanilla/lib/generator";
 
 const toolWorkFlowStep = {
   version: 0.5,
   nodes: {
-    llm: {
+    passthrough: { value: {} },
+    llmCallWithTools: {
       agent: ":llmAgent",
       isResult: true,
       params: {
@@ -16,40 +18,68 @@ const toolWorkFlowStep = {
         tools: ":tools",
       },
     },
-    textMessage: {
-      unless: ":llm.tool.id",
-      agent: "copyAgent",
+    // case1. return just messages
+    justTextMessagesResult: {
+      unless: ":llmCallWithTools.tool.id",
+      agent: "pushAgent",
+      params: {
+        arrayKey: "messages",
+      },
       inputs: {
-        messages: [":userInput.message", { role: "assistant", content: ":llm.message.content" }],
+        array: ":messages",
+        items: [":userInput.message", ":llmCallWithTools.message"],
       },
     },
-    tool_calls: {
-      if: ":llm.tool_calls",
+    // Call agents specified in the tools result
+    llmToolAgentCallMap: {
+      if: ":llmCallWithTools.tool_calls",
       agent: "mapAgent",
-      inputs: { rows: ":llm.tool_calls" },
+      inputs: {
+        rows: ":llmCallWithTools.tool_calls",
+        passthrough: ":passthrough",
+      },
       params: {
         compositeResult: true,
+        rowKey: "llmToolCall",
       },
       graph: {
         version: 0.5,
         nodes: {
-          tool: {
-            isResult: true,
-            agent: ":row.name.split(--).$0",
+          data: {
+            agent: ({ passthrough, agentName }: { passthrough: Record<string, unknown>; agentName: string }) => {
+              if (passthrough && passthrough[agentName]) {
+                return passthrough[agentName];
+              }
+              return {};
+            },
             inputs: {
-              arg: ":row.arguments",
-              func: ":row.name.split(--).$1",
-              tool_call: ":row",
+              passthrough: ":passthrough",
+              agentName: ":llmToolCall.name.split(--).$0",
             },
           },
-          message: {
+          toolCallAgent: {
+            isResult: true,
+            agent: ":llmToolCall.name.split(--).$0",
+            inputs: {
+              arg: ":llmToolCall.arguments",
+              func: ":llmToolCall.name.split(--).$1",
+              tool_call: ":llmToolCall",
+              data: ":data",
+            },
+          },
+          toolsAgentResponseMessage: {
             isResult: true,
             agent: "copyAgent",
             inputs: {
               role: "tool",
-              tool_call_id: ":row.id",
-              name: ":row.name",
-              content: ":tool.result",
+              tool_call_id: ":llmToolCall.id",
+              name: ":llmToolCall.name",
+              content: ":toolCallAgent.content",
+              extra: {
+                agent: ":llmToolCall.name.split(--).$0",
+                arg: ":llmToolCall.arguments",
+                func: ":llmToolCall.name.split(--).$1",
+              },
             },
           },
         },
@@ -59,16 +89,16 @@ const toolWorkFlowStep = {
     toolsMessage: {
       agent: "pushAgent",
       inputs: {
-        array: [":userInput.message", ":llm.message"],
-        items: ":tool_calls.message",
+        array: [":userInput.message", ":llmCallWithTools.message"],
+        items: ":llmToolAgentCallMap.toolsAgentResponseMessage",
       },
     },
-    tool_call_response: {
+    toLLMToolCallAgentResponse: {
       agent: "nestedAgent",
       inputs: {
-        toolsResponse: ":tool_calls.tool",
         llmAgent: ":llmAgent",
-        toolsMessage: ":toolsMessage",
+        toolsAgentResponse: ":llmToolAgentCallMap.toolCallAgent",
+        toolsMessages: ":toolsMessage.array",
       },
       graph: {
         nodes: {
@@ -77,9 +107,10 @@ const toolWorkFlowStep = {
               return namedInputs.array.some((ele) => ele.hasNext);
             },
             inputs: {
-              array: ":toolsResponse",
+              array: ":toolsAgentResponse",
             },
           },
+          // next llm flow
           toolsResponseLLM: {
             if: ":hasNext",
             agent: ":llmAgent",
@@ -88,51 +119,71 @@ const toolWorkFlowStep = {
               forWeb: true,
               stream: true,
             },
-            inputs: { messages: ":toolsMessage.array" },
+            inputs: { messages: ":toolsMessages" },
           },
-          toolsResMessage: {
+          toolsResponseMessages: {
             agent: "pushAgent",
             inputs: {
-              array: ":toolsMessage.array",
+              array: ":toolsMessages",
               item: ":toolsResponseLLM.message",
             },
           },
+          // no llm flow, just return tools response
           skipToolsResponseLLM: {
             unless: ":hasNext",
             agent: "copyAgent",
             inputs: {
-              array: ":toolsMessage.array",
+              array: ":toolsMessages",
             },
           },
-          mergeToolsResponse: {
+          choiceToolsResponseMessages: {
             isResult: true,
-            agent: "copyAgent",
+            agent: "arrayFindFirstExistsAgent",
             anyInput: true,
-            inputs: { array: [":toolsResMessage.array", ":skipToolsResponseLLM.array"] },
+            inputs: {
+              array: [":toolsResponseMessages.array", ":skipToolsResponseLLM.array"],
+            },
           },
         },
       },
     },
-    buffer: {
-      agent: "copyAgent",
-      anyInput: true,
-      inputs: { array: [":textMessage.messages", ":tool_call_response.mergeToolsResponse.array.$0"] },
+    mergedData: {
+      inputs: {
+        data: ":llmToolAgentCallMap.toolCallAgent",
+        llmToolCalls: ":llmCallWithTools.tool_calls",
+      },
+      agent: ({ llmToolCalls, data }: { llmToolCalls: { name: string }[]; data: unknown[] }) => {
+        const ret: Record<string, unknown> = {};
+        llmToolCalls.forEach((tool, index) => {
+          const { name } = tool;
+          ret[name] = data[index];
+        });
+        return ret;
+      },
     },
-    reducer: {
+    toolsResult: {
       agent: "pushAgent",
-      inputs: { array: ":messages", items: ":buffer.array.$0" },
+      params: {
+        arrayKey: "messages",
+      },
+      inputs: {
+        array: ":messages",
+        items: ":toLLMToolCallAgentResponse.choiceToolsResponseMessages",
+        data: ":mergedData",
+      },
     },
     result: {
-      agent: "copyAgent",
       isResult: true,
-      inputs: { messages: ":reducer.array" },
+      anyInput: true,
+      agent: "arrayFindFirstExistsAgent",
+      inputs: { array: [":justTextMessagesResult", ":toolsResult"] },
     },
   },
 };
 
 const toolsAgent = nestedAgentGenerator(toolWorkFlowStep, { resultNodeId: "result" });
 
-const toolsAgentInfo = {
+const toolsAgentInfo: AgentFunctionInfo = {
   name: "toolsAgent",
   agent: toolsAgent,
   mock: toolsAgent,
@@ -182,7 +233,6 @@ const toolsAgentInfo = {
   repository: "",
   source: "https://github.com/receptron/graphai/blob/main/llm_agents/tools_agent/src/tools_agent.ts",
   package: "@graphai/tools_agent",
-  tools: [],
   license: "",
   hasGraphData: true,
 };
