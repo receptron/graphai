@@ -1,5 +1,4 @@
 import "dotenv/config";
-import { defaultTestContext } from "graphai";
 import toolsAgent from "../src/tools_agent";
 import { GraphAI, agentInfoWrapper, type AgentFunction } from "graphai";
 import * as agents from "@graphai/vanilla";
@@ -25,7 +24,7 @@ const toolsTestDummyAgent: AgentFunction = async ({ namedInputs }) => {
 const toolsTestAgent = agentInfoWrapper(toolsTestDummyAgent);
 
 const llmDummy: AgentFunction = async ({ namedInputs }) => {
-  const { messages, prompt, tools } = namedInputs;
+  const { prompt } = namedInputs;
 
   const tool = (() => {
     if (prompt === "test1") {
