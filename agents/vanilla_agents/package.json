@@ -2,14 +2,12 @@
   "name": "@graphai/vanilla",
   "version": "2.0.9",
   "description": "Vanilla agents for GraphAI.",
-  "main": "lib/bundle.cjs.js",
-  "module": "lib/bundle.esm.js",
-  "browser": "lib/bundle.umd.js",
+  "main": "lib/index.js",
   "files": [
     "./lib"
   ],
   "scripts": {
-    "build": "rm -r lib/* && tsc && npx rollup -c",
+    "build": "rm -r lib/* && tsc",
     "eslint": "eslint",
     "doc": "npm run examplesDoc && npx agentdoc",
     "examplesDoc": "npx ts-node tests/graph/examples.ts",
@@ -29,7 +27,7 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "dependencies": {
-    "@graphai/agent_utils": "^2.0.1"
+    "@graphai/agent_utils": "^2.0.2"
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/vanilla_agents/README.md",
   "types": "./lib/index.d.ts",
