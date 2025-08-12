@@ -45,12 +45,14 @@ type OpenAIResult = Partial<
 >;
 
 const convToolCall = (tool_call: OpenAI.Chat.Completions.ChatCompletionMessageToolCall) => {
+  // OpenAI.Chat.Completions.ChatCompletionMessageFunctionToolCall
+
   return {
     id: tool_call.id,
-    name: tool_call.function.name,
+    name: tool_call.type === "function" ? tool_call.function.name : "",
     arguments: (() => {
       try {
-        return JSON.parse(tool_call.function.arguments);
+        return JSON.parse(tool_call.type === "function" ? tool_call.function.arguments : "{}");
       } catch (__e) {
         console.log(__e);
         return undefined;
