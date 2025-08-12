@@ -10,7 +10,7 @@ const toolWorkFlowStep = {
       isResult: true,
       params: {
         forWeb: true,
-        stream: true,
+        dataStream: true,
       },
       inputs: {
         messages: ":messages",
@@ -117,7 +117,7 @@ const toolWorkFlowStep = {
             isResult: true,
             params: {
               forWeb: true,
-              stream: true,
+              dataStream: true,
             },
             inputs: { messages: ":toolsMessages" },
           },
