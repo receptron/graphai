@@ -147,23 +147,31 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
             // usage chunk have empty choices
             if (chunk.choices[0]) {
                 (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
-                const token = chunk.choices[0].delta.content;
-                if (filterParams && filterParams.streamTokenCallback && token) {
-                    if (dataStream) {
+                const { content, tool_calls } = chunk.choices[0].delta;
+                if (filterParams && filterParams.streamTokenCallback) {
+                    if (dataStream && (!(0, graphai_1.isNull)(content) || !(0, graphai_1.isNull)(tool_calls))) {
+                        const payload = !(0, graphai_1.isNull)(content)
+                            ? [
+                                {
+                                    type: "text",
+                                    text: content,
+                                },
+                            ]
+                            : [
+                                {
+                                    type: "tool_calls",
+                                    data: tool_calls,
+                                },
+                            ];
                         filterParams.streamTokenCallback({
                             type: "response.in_progress",
                             response: {
-                                output: [
-                                    {
-                                        type: "text",
-                                        text: token,
-                                    },
-                                ],
+                                output: payload,
                             },
                         });
                     }
-                    else {
-                        filterParams.streamTokenCallback(token);
+                    else if (!(0, graphai_1.isNull)(content)) {
+                        filterParams.streamTokenCallback(content);
                     }
                 }
             }

@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { type AgentFunction, type AgentFunctionInfo } from "graphai";
 import { GraphAILLMInputBase, LLMMetaResponse } from "@graphai/llm_utils";
 import type { GraphAINullableText, GraphAITool, GraphAIToolCalls } from "@graphai/agent_utils";
 type OpenAIInputs = {
