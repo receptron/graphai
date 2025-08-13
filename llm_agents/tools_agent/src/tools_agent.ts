@@ -102,9 +102,9 @@ const toolWorkFlowStep = {
       },
       graph: {
         nodes: {
-          hasNext: {
-            agent: (namedInputs: { array: { hasNext: boolean }[] }) => {
-              return namedInputs.array.some((ele) => ele.hasNext);
+          skipNext: {
+            agent: (namedInputs: { array: { skipNext: boolean }[] }) => {
+              return namedInputs.array.some((ele) => ele.skipNext);
             },
             inputs: {
               array: ":toolsAgentResponse",
@@ -112,7 +112,7 @@ const toolWorkFlowStep = {
           },
           // next llm flow
           toolsResponseLLM: {
-            if: ":hasNext",
+            unless: ":skipNext",
             agent: ":llmAgent",
             isResult: true,
             params: {
@@ -130,7 +130,7 @@ const toolWorkFlowStep = {
           },
           // no llm flow, just return tools response
           skipToolsResponseLLM: {
-            unless: ":hasNext",
+            if: ":skipNext",
             agent: "copyAgent",
             inputs: {
               array: ":toolsMessages",
