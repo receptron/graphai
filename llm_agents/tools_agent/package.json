@@ -1,6 +1,6 @@
 {
   "name": "@graphai/tools_agent",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "General tools agents",
   "main": "lib/index.js",
   "files": [
@@ -12,7 +12,7 @@
     "format": "prettier --write '{src,tests}/**/*.ts'",
     "doc": "npx agentdoc",
     "examplesDoc": "npx ts-node  tests/examples.ts",
-    "test": "echo nothing",
+    "test": "node --test --require ts-node/register ./tests/test_*.ts",
     "test_run": "node --test  --require ts-node/register ./tests/run_*.ts # just run locally",
     "chat": "node -r ts-node/register ./tests/chat_dispatch.ts",
     "b": "yarn run format && yarn run eslint && yarn run build"

@@ -11,12 +11,12 @@ const toolsTestDummyAgent: AgentFunction = async ({ namedInputs }) => {
   if (func === "getWeather") {
     return {
       content: "getWeather " + arg.location,
+      skipNext: true,
     };
   }
   if (func === "textSpeach") {
     return {
       content: "speech",
-      hasNext: true,
     };
   }
   return {};
@@ -136,7 +136,6 @@ test("test tools with next", async () => {
       data: {
         "toolsTestAgent--textSpeach": {
           content: "speech",
-          hasNext: true,
         },
       },
       messages: [
@@ -203,6 +202,7 @@ test("test tools", async () => {
       data: {
         "toolsTestAgent--getWeather": {
           content: "getWeather Tokyo",
+          skipNext: true
         },
       },
       messages: [
