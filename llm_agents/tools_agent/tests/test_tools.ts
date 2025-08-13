@@ -202,7 +202,7 @@ test("test tools", async () => {
       data: {
         "toolsTestAgent--getWeather": {
           content: "getWeather Tokyo",
-          skipNext: true
+          skipNext: true,
         },
       },
       messages: [
