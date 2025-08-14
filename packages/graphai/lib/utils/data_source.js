@@ -39,7 +39,7 @@ const innerGetDataFromSource = (result, propIds, propFunctions) => {
         const propId = propIds[0];
         const ret = getNestedData(result, propId, propFunctions);
         if (ret === undefined) {
-            GraphAILogger_1.GraphAILogger.error(`prop: ${propIds.join(".")} is not hit`);
+            GraphAILogger_1.GraphAILogger.info(`prop: ${propIds.join(".")} is not hit`);
         }
         if (propIds.length > 1) {
             return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
