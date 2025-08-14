@@ -328,7 +328,7 @@ export class ComputedNode extends Node {
     const config: ConfigData | undefined = this.getConfig(hasNestedGraph, agentId);
 
     const transactionId = Date.now();
-    this.prepareExecute(transactionId, Object.values(previousResults));
+    this.prepareExecute(transactionId, previousResults, agentId);
 
     if (this.timeout && this.timeout > 0) {
       setTimeout(() => {
@@ -416,9 +416,9 @@ export class ComputedNode extends Node {
 
   // This private method (called only by execute()) prepares the ComputedNode object
   // for execution, and create a new transaction to record it.
-  private prepareExecute(transactionId: number, inputs: Array<ResultData>) {
+  private prepareExecute(transactionId: number, namedInputs: Record<string, ResultData>, agentId?: string) {
     this.updateState(NodeState.Executing);
-    this.log.beforeExecute(this, this.graph, transactionId, inputs);
+    this.log.beforeExecute(this, this.graph, transactionId, namedInputs, agentId);
     this.transactionId = transactionId;
   }
 
