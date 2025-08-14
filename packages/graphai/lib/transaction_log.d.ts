@@ -11,6 +11,7 @@ export declare class TransactionLog {
     params?: NodeDataParams;
     inputs?: string[];
     inputsData?: Array<ResultData>;
+    namedInputs?: Record<string, ResultData>;
     injectFrom?: string;
     errorMessage?: string;
     result?: ResultData;
@@ -23,7 +24,7 @@ export declare class TransactionLog {
     initForComputedNode(node: ComputedNode, graph: GraphAI): void;
     onInjected(node: StaticNode, graph: GraphAI, injectFrom?: string): void;
     onComplete(node: ComputedNode, graph: GraphAI, localLog: TransactionLog[]): void;
-    beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, inputs: ResultData[]): void;
+    beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, namedInputs: Record<string, ResultData>, agentId?: string): void;
     beforeAddTask(node: ComputedNode, graph: GraphAI): void;
     onError(node: ComputedNode, graph: GraphAI, errorMessage: string): void;
     onSkipped(node: ComputedNode, graph: GraphAI): void;
