@@ -1,6 +1,6 @@
 import { GraphAI } from "graphai";
 import * as vanilla_agents from "@graphai/vanilla";
-import { cacheAgentFilterGenerator } from "@graphai/agent_filters";
+import { cacheAgentFilterGenerator } from "@graphai/cache_agent_filter";
 
 import sqlite3 from "sqlite3";
 

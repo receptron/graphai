@@ -1,6 +1,6 @@
 import { GraphAI, GraphData, AgentFunctionInfoDictionary, DefaultResultData, ValidationError } from "graphai";
 import * as defaultTestAgents from "@graphai/vanilla";
-import { namedInputValidatorFilter } from "@graphai/agent_filters";
+import { namedInputValidatorFilter } from "@graphai/namedinput_validator_agent_filter";
 
 import { readGraphaiData, mkdirLogDir, fileBaseName } from "./file_utils";
 import { callbackLog } from "./utils";
