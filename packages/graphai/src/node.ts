@@ -238,7 +238,8 @@ export class ComputedNode extends Node {
   }
 
   private checkDataAvailability() {
-    return Object.values(this.graph.resultsOf(this.inputs))
+    const { params: __, ...cleanInput } = this.inputs ?? {};
+    return Object.values(this.graph.resultsOf(cleanInput))
       .flat()
       .some((result) => result !== undefined);
   }
