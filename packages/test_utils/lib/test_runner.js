@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.rejectTest = exports.rejectFileTest = exports.graphDataTestRunner = exports.fileTestRunner = exports.readGraphData = void 0;
 const graphai_1 = require("graphai");
 const defaultTestAgents = __importStar(require("@graphai/vanilla"));
-const agent_filters_1 = require("@graphai/agent_filters");
+const namedinput_validator_agent_filter_1 = require("@graphai/namedinput_validator_agent_filter");
 const file_utils_1 = require("./file_utils");
 const utils_1 = require("./utils");
 const path_1 = __importDefault(require("path"));
@@ -58,7 +58,7 @@ const graphDataTestRunner = async (logBaseDir, logFileName, graph_data, agentFun
     const agentFilters = [
         {
             name: "namedInputValidatorFilter",
-            agent: agent_filters_1.namedInputValidatorFilter,
+            agent: namedinput_validator_agent_filter_1.namedInputValidatorFilter,
         },
     ];
     const baseDir = path_1.default.resolve(logBaseDir) + "/../logs/";
