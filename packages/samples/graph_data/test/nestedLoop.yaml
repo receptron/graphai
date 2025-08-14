@@ -28,7 +28,7 @@ nodes:
         query:
           agent: copyAgent
           inputs:
-            data: 
+            data:
               name: :retriever.item
         reducer:
           agent: pushAgent
