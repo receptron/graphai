@@ -1,0 +1,37 @@
+version: 0.5
+nodes:
+  data:
+    value:
+      - Steve Jobs
+      - Elon Musk
+      - Nikola Tesla
+  nested:
+    agent: nestedAgent
+    isResult: true
+    inputs:
+      people: :data
+    graph:
+      version: 0.5
+      loop:
+        while: :people
+      nodes:
+        people:
+          update: :retriever.array
+        result:
+          value: []
+          update: :reducer.array
+          isResult: true
+        retriever:
+          agent: shiftAgent
+          inputs:
+            array: :people
+        query:
+          agent: copyAgent
+          inputs:
+            data: 
+              name: :retriever.item
+        reducer:
+          agent: pushAgent
+          inputs:
+            array: :result
+            item: :query.data
