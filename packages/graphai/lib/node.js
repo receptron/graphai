@@ -256,7 +256,7 @@ class ComputedNode extends Node {
         const hasNestedGraph = Boolean(this.nestedGraph) || Boolean(agentId && this.graph.getAgentFunctionInfo(agentId).hasGraphData);
         const config = this.getConfig(hasNestedGraph, agentId);
         const transactionId = Date.now();
-        this.prepareExecute(transactionId, Object.values(previousResults));
+        this.prepareExecute(transactionId, previousResults, agentId);
         if (this.timeout && this.timeout > 0) {
             setTimeout(() => {
                 this.executeTimeout(transactionId);
@@ -333,9 +333,9 @@ class ComputedNode extends Node {
     }
     // This private method (called only by execute()) prepares the ComputedNode object
     // for execution, and create a new transaction to record it.
-    prepareExecute(transactionId, inputs) {
+    prepareExecute(transactionId, namedInputs, agentId) {
         this.updateState(type_1.NodeState.Executing);
-        this.log.beforeExecute(this, this.graph, transactionId, inputs);
+        this.log.beforeExecute(this, this.graph, transactionId, namedInputs, agentId);
         this.transactionId = transactionId;
     }
     // This private method (called only by execute) processes an error received from

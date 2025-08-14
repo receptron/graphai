@@ -41,12 +41,15 @@ class TransactionLog {
         }
         graph.updateLog(this);
     }
-    beforeExecute(node, graph, transactionId, inputs) {
+    beforeExecute(node, graph, transactionId, namedInputs, agentId) {
+        this.agentId = agentId;
         this.state = node.state;
         this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
         this.startTime = transactionId;
         this.inputs = (0, nodeUtils_1.dataSourceNodeIds)(node.dataSources);
+        const inputs = Object.values(namedInputs);
         this.inputsData = inputs.length > 0 ? inputs : undefined;
+        this.namedInputs = namedInputs;
         graph.setLoopLog(this);
         graph.appendLog(this);
     }
