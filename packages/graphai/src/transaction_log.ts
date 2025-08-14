@@ -14,6 +14,7 @@ export class TransactionLog {
   public params?: NodeDataParams;
   public inputs?: string[];
   public inputsData?: Array<ResultData>;
+  public namedInputs?: Record<string, ResultData>;
   public injectFrom?: string;
   public errorMessage?: string;
   public result?: ResultData;
@@ -61,12 +62,15 @@ export class TransactionLog {
     graph.updateLog(this);
   }
 
-  public beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, inputs: ResultData[]) {
+  public beforeExecute(node: ComputedNode, graph: GraphAI, transactionId: number, namedInputs: Record<string, ResultData>, agentId?: string) {
+    this.agentId = agentId;
     this.state = node.state;
     this.retryCount = node.retryCount > 0 ? node.retryCount : undefined;
     this.startTime = transactionId;
     this.inputs = dataSourceNodeIds(node.dataSources);
+    const inputs = Object.values(namedInputs);
     this.inputsData = inputs.length > 0 ? inputs : undefined;
+    this.namedInputs = namedInputs;
     graph.setLoopLog(this);
     graph.appendLog(this);
   }
