@@ -191,6 +191,18 @@ test("test tools 1", async () => {
           content: "success getWeather Tokyo",
         },
       ],
+      toolsResults: [
+        {
+          agent: "toolsTestAgent",
+          data: {
+            content: "getWeather Tokyo",
+            data: {
+              weather: "fine",
+            },
+          },
+          func: "getWeather",
+        },
+      ],
     },
   };
   assert.deepStrictEqual(expect, res);
@@ -282,6 +294,110 @@ test("test tools 2", async () => {
         {
           role: "assistant",
           content: "success speech",
+        },
+      ],
+      toolsResults: [
+        {
+          agent: "toolsTestAgent",
+          data: {
+            content: "getWeather Tokyo",
+            data: {
+              weather: "fine",
+            },
+          },
+          func: "getWeather",
+        },
+        {
+          agent: "toolsTestAgent",
+          data: {
+            content: "speech",
+            data: {
+              talk: "snow",
+            },
+          },
+          func: "textSpeach",
+        },
+      ],
+    },
+  };
+  assert.deepStrictEqual(expect, res);
+});
+
+test("test tools 3", async () => {
+  const graph = {
+    version: 0.5,
+    nodes: {
+      hoge: {
+        value: true,
+      },
+      tools: {
+        isResult: true,
+        agent: "toolsAgent",
+        inputs: {
+          messages: [{}, {}],
+          userInput: { text: "test1" },
+          tools: [{}], // In fact, you set the tools schema here.
+          llmAgent: "llmAgent",
+        },
+      },
+    },
+  };
+
+  const graphai = new GraphAI(graph, { ...agents, toolsAgent, toolsTestAgent, llmAgent });
+  const res = await graphai.run();
+  // console.log(JSON.stringify(res, null, 2));
+  const expect = {
+    tools: {
+      messages: [
+        {},
+        {},
+        {
+          content: "test1",
+          role: "user",
+        },
+        {
+          role: "assistant",
+          tool_calls: [
+            {
+              id: "call_1",
+              name: "toolsTestAgent--getWeather",
+              arguments: {
+                location: "Tokyo",
+              },
+            },
+          ],
+        },
+        {
+          role: "tool",
+          tool_call_id: "call_1",
+          name: "toolsTestAgent--getWeather",
+          content: "getWeather Tokyo",
+          extra: {
+            agent: "toolsTestAgent",
+            arg: {
+              location: "Tokyo",
+            },
+            data: {
+              weather: "fine",
+            },
+            func: "getWeather",
+          },
+        },
+        {
+          role: "assistant",
+          content: "success getWeather Tokyo",
+        },
+      ],
+      toolsResults: [
+        {
+          agent: "toolsTestAgent",
+          data: {
+            content: "getWeather Tokyo",
+            data: {
+              weather: "fine",
+            },
+          },
+          func: "getWeather",
         },
       ],
     },
