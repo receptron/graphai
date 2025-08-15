@@ -254,7 +254,7 @@ class ComputedNode extends Node {
         if (typeof agentId === "function") {
             this.agentFunction = agentId;
         }
-        const hasNestedGraph = Boolean(this.nestedGraph) || Boolean(agentId && this.graph.getAgentFunctionInfo(agentId).hasGraphData);
+        const hasNestedGraph = Boolean(this.nestedGraph) || Boolean(typeof agentId === "string" && this.graph.getAgentFunctionInfo(agentId, this.nodeId).hasGraphData);
         const config = this.getConfig(hasNestedGraph, agentId);
         const transactionId = Date.now();
         this.prepareExecute(transactionId, previousResults, agentId);
@@ -264,7 +264,7 @@ class ComputedNode extends Node {
             }, this.timeout);
         }
         try {
-            const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(agentId).agent;
+            const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(agentId, this.nodeId).agent;
             const localLog = [];
             const context = this.getContext(previousResults, localLog, agentId, config);
             // NOTE: We use the existence of graph object in the agent-specific params to determine
@@ -373,9 +373,9 @@ class ComputedNode extends Node {
             //params: this.graph.resultsOf(this.params),
             params,
             namedInputs: previousResults,
-            inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.inputs,
+            inputSchema: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId, this.nodeId)?.inputs,
             debugInfo: this.debugInfo,
-            cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId)?.cacheType,
+            cacheType: this.agentFunction ? undefined : this.graph.getAgentFunctionInfo(agentId, this.nodeId)?.cacheType,
             filterParams: this.filterParams,
             config,
             log: localLog,

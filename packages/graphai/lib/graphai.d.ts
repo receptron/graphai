@@ -32,7 +32,7 @@ export declare class GraphAI {
     private setStaticNodeResults;
     private updateStaticNodes;
     constructor(graphData: GraphData, agentFunctionInfoDictionary: AgentFunctionInfoDictionary, options?: GraphOptions);
-    getAgentFunctionInfo(agentId?: string): import("./type").AgentFunctionInfo | {
+    getAgentFunctionInfo(agentId?: string, nodeId?: string): import("./type").AgentFunctionInfo | {
         agent: () => Promise<null>;
         hasGraphData: boolean;
         inputs: null;
