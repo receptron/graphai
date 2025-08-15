@@ -325,7 +325,9 @@ export class ComputedNode extends Node {
     if (typeof agentId === "function") {
       this.agentFunction = agentId;
     }
-    const hasNestedGraph = Boolean(this.nestedGraph) || Boolean(agentId && this.graph.getAgentFunctionInfo(agentId, this.nodeId).hasGraphData);
+    const hasNestedGraph =
+      Boolean(this.nestedGraph) ||
+      (typeof agentId === "string" && this.graph.getAgentFunctionInfo(agentId, this.nodeId).hasGraphData);
     const config: ConfigData | undefined = this.getConfig(hasNestedGraph, agentId);
 
     const transactionId = Date.now();
