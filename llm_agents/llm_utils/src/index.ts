@@ -22,12 +22,34 @@ export type GraphAILLMStreamDataProgress = {
   };
 };
 
+export type GraphAILLMStreamDataToolsProgress = {
+  type: "response.in_progress";
+  response: {
+    output: {
+      type: "tool_calls";
+      data: {
+        id?: string;
+        type: "function";
+        function: {
+          arguments: string;
+          name: string;
+        };
+        index: number;
+      }[];
+    }[];
+  };
+};
+
 export type GraphAILLMStreamDataCompleted = {
   type: "response.completed";
   response: object;
 };
 
-export type GraphAILLMStreamData = GraphAILLMStreamDataCreate | GraphAILLMStreamDataProgress | GraphAILLMStreamDataCompleted;
+export type GraphAILLMStreamData =
+  | GraphAILLMStreamDataCreate
+  | GraphAILLMStreamDataProgress
+  | GraphAILLMStreamDataCompleted
+  | GraphAILLMStreamDataToolsProgress;
 
 export type LLMMetaResponse = {
   timing: {
