@@ -26,9 +26,10 @@ export type GraphAILLMStreamDataToolsProgress = {
   type: "response.in_progress";
   response: {
     output: {
+      type: "tool_calls";
       data: {
         id?: string;
-        type?: "tool_calls";
+        type: "function";
         function: {
           arguments: string;
           name: string;
