@@ -152,44 +152,46 @@ test("test tools 1", async () => {
   const res = await graphai.run();
   // console.log(JSON.stringify(res, null, 2));
   const expect = {
-    tools: [
-      {
-        content: "test1",
-        role: "user",
-      },
-      {
-        role: "assistant",
-        tool_calls: [
-          {
-            id: "call_1",
-            name: "toolsTestAgent--getWeather",
-            arguments: {
+    tools: {
+      messages: [
+        {
+          content: "test1",
+          role: "user",
+        },
+        {
+          role: "assistant",
+          tool_calls: [
+            {
+              id: "call_1",
+              name: "toolsTestAgent--getWeather",
+              arguments: {
+                location: "Tokyo",
+              },
+            },
+          ],
+        },
+        {
+          role: "tool",
+          tool_call_id: "call_1",
+          name: "toolsTestAgent--getWeather",
+          content: "getWeather Tokyo",
+          extra: {
+            agent: "toolsTestAgent",
+            arg: {
               location: "Tokyo",
             },
+            data: {
+              weather: "fine",
+            },
+            func: "getWeather",
           },
-        ],
-      },
-      {
-        role: "tool",
-        tool_call_id: "call_1",
-        name: "toolsTestAgent--getWeather",
-        content: "getWeather Tokyo",
-        extra: {
-          agent: "toolsTestAgent",
-          arg: {
-            location: "Tokyo",
-          },
-          data: {
-            weather: "fine",
-          },
-          func: "getWeather",
         },
-      },
-      {
-        role: "assistant",
-        content: "success getWeather Tokyo",
-      },
-    ],
+        {
+          role: "assistant",
+          content: "success getWeather Tokyo",
+        },
+      ],
+    },
   };
   assert.deepStrictEqual(expect, res);
 });
@@ -218,69 +220,71 @@ test("test tools 2", async () => {
   const res = await graphai.run();
   // console.log(JSON.stringify(res, null, 2));
   const expect = {
-    tools: [
-      {
-        content: "test2",
-        role: "user",
-      },
-      {
-        role: "assistant",
-        tool_calls: [
-          {
-            id: "call_1",
-            name: "toolsTestAgent--getWeather",
-            arguments: { location: "Tokyo" },
+    tools: {
+      messages: [
+        {
+          content: "test2",
+          role: "user",
+        },
+        {
+          role: "assistant",
+          tool_calls: [
+            {
+              id: "call_1",
+              name: "toolsTestAgent--getWeather",
+              arguments: { location: "Tokyo" },
+            },
+            {
+              id: "call_2",
+              name: "toolsTestAgent--textSpeach",
+              arguments: {
+                location: "hello tokyo!!",
+              },
+            },
+          ],
+        },
+        {
+          role: "tool",
+          tool_call_id: "call_1",
+          name: "toolsTestAgent--getWeather",
+          content: "getWeather Tokyo",
+          extra: {
+            agent: "toolsTestAgent",
+            arg: {
+              location: "Tokyo",
+            },
+            data: {
+              weather: "fine",
+            },
+            func: "getWeather",
           },
-          {
-            id: "call_2",
-            name: "toolsTestAgent--textSpeach",
-            arguments: {
+        },
+        {
+          role: "assistant",
+          content: "success getWeather Tokyo",
+        },
+        {
+          role: "tool",
+          tool_call_id: "call_2",
+          name: "toolsTestAgent--textSpeach",
+          content: "speech",
+          extra: {
+            agent: "toolsTestAgent",
+            arg: {
               location: "hello tokyo!!",
             },
-          },
-        ],
-      },
-      {
-        role: "tool",
-        tool_call_id: "call_1",
-        name: "toolsTestAgent--getWeather",
-        content: "getWeather Tokyo",
-        extra: {
-          agent: "toolsTestAgent",
-          arg: {
-            location: "Tokyo",
-          },
-          data: {
-            weather: "fine",
-          },
-          func: "getWeather",
-        },
-      },
-      {
-        role: "assistant",
-        content: "success getWeather Tokyo",
-      },
-      {
-        role: "tool",
-        tool_call_id: "call_2",
-        name: "toolsTestAgent--textSpeach",
-        content: "speech",
-        extra: {
-          agent: "toolsTestAgent",
-          arg: {
-            location: "hello tokyo!!",
-          },
-          func: "textSpeach",
-          data: {
-            talk: "snow",
+            func: "textSpeach",
+            data: {
+              talk: "snow",
+            },
           },
         },
-      },
-      {
-        role: "assistant",
-        content: "success speech",
-      },
-    ],
+        {
+          role: "assistant",
+          content: "success speech",
+        },
+      ],
+    },
   };
   assert.deepStrictEqual(expect, res);
 });

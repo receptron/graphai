@@ -131,7 +131,7 @@ const toolWorkFlowStep = {
       isResult: true,
       anyInput: true,
       agent: "arrayFindFirstExistsAgent",
-      inputs: { array: [":justTextMessagesResult", ":llmToolAgentCallMap.toolsResponseResultMessages.messages"] },
+      inputs: { array: [":justTextMessagesResult", ":llmToolAgentCallMap.toolsResponseResultMessages"] },
     },
   },
 };
