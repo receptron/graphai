@@ -177,7 +177,7 @@ export class GraphAI {
     this.nodes = this.createNodes(this.graphData);
   }
 
-  public getAgentFunctionInfo(agentId?: string) {
+  public getAgentFunctionInfo(agentId?: string, nodeId?: string) {
     if (agentId && this.agentFunctionInfoDictionary[agentId]) {
       return this.agentFunctionInfoDictionary[agentId];
     }
@@ -192,6 +192,9 @@ export class GraphAI {
       };
     }
     // We are not supposed to hit this error because the validator will catch it.
+    if (nodeId) {
+      throw new Error(`No agent: ${agentId} in ${nodeId} node`);
+    }
     throw new Error("No agent: " + agentId);
   }
 
