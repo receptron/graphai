@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.consoleStreamAgentFilter = exports.consoleStreamDataAgentFilter = void 0;
 const stream_1 = require("./stream");
 exports.consoleStreamDataAgentFilter = (0, stream_1.streamAgentFilterGenerator)((context, data) => {
-    if (data.type === "response.in_progress") {
+    if (data.type === "response.in_progress" && data.response.output[0].type === "text") {
         process.stdout.write(String(data.response.output[0].text));
     }
     else if (data.type === "response.completed") {
