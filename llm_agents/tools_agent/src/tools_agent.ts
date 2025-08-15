@@ -5,6 +5,8 @@ const toolWorkFlowStep = {
   version: 0.5,
   nodes: {
     passthrough: { value: {} },
+    llmAgent: {},
+
     llmCallWithTools: {
       agent: ":llmAgent",
       isResult: true,
@@ -19,13 +21,14 @@ const toolWorkFlowStep = {
       },
     },
     textMessagesResult: {
+      // console: { before: true},
       agent: "pushAgent",
       params: {
         arrayKey: "messages",
       },
       inputs: {
         array: ":messages",
-        items: [":userInput.message", ":llmCallWithTools.message"],
+        items: [{ role: "user", content: ":userInput.text" }, ":llmCallWithTools.message"],
       },
     },
     // case1. return just messages
@@ -43,10 +46,11 @@ const toolWorkFlowStep = {
     llmToolAgentCallMap: {
       if: ":llmCallWithTools.tool_calls",
       agent: "nestedAgent",
+      // console: { before: true},
       inputs: {
         llmToolCalls: ":llmCallWithTools.tool_calls",
         passthrough: ":passthrough",
-        messages: ":textMessagesResult.messages",
+        toolsResponseMessages: ":textMessagesResult.messages",
         llmAgent: ":llmAgent",
       },
       graph: {
@@ -56,7 +60,7 @@ const toolWorkFlowStep = {
         },
         nodes: {
           toolsResponseMessages: {
-            value: ":messages",
+            // value: ":messages",
             update: ":toolsResponseResultMessages.messages",
           },
           llmToolCalls: {
@@ -78,12 +82,14 @@ const toolWorkFlowStep = {
             },
           },
           toolCallMessagesResult: {
+            // console: { before: true},
             agent: "pushAgent",
             params: {
               arrayKey: "messages",
             },
             inputs: {
-              array: ":messages",
+              array: ":toolsResponseMessages",
+              // array: ":messages",
               item: {
                 role: "tool",
                 tool_call_id: ":llmToolCall.item.id",
@@ -108,6 +114,7 @@ const toolWorkFlowStep = {
           },
           toolsResponseResultMessages: {
             isResult: true,
+            // console: { after: true},
             agent: "pushAgent",
             params: {
               arrayKey: "messages",

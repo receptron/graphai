@@ -33,18 +33,27 @@ const llmDummy: AgentFunction = async ({ namedInputs }) => {
 
   const tool = (() => {
     if (prompt === "test1") {
-      return {
-        id: "call_1",
-        name: "toolsTestAgent--getWeather",
-        arguments: { location: "Tokyo" },
-      };
+      return [
+        {
+          id: "call_1",
+          name: "toolsTestAgent--getWeather",
+          arguments: { location: "Tokyo" },
+        },
+      ];
     }
     if (prompt === "test2") {
-      return {
-        id: "call_2",
-        name: "toolsTestAgent--textSpeach",
-        arguments: { location: "hello tokyo!!" },
-      };
+      return [
+        {
+          id: "call_1",
+          name: "toolsTestAgent--getWeather",
+          arguments: { location: "Tokyo" },
+        },
+        {
+          id: "call_2",
+          name: "toolsTestAgent--textSpeach",
+          arguments: { location: "hello tokyo!!" },
+        },
+      ];
     }
     return null;
   })();
@@ -53,17 +62,19 @@ const llmDummy: AgentFunction = async ({ namedInputs }) => {
     return {
       message: {
         role: "assistant",
-        tool_calls: [tool],
+        tool_calls: tool,
       },
-      tool,
-      tool_calls: [tool],
+      tool: tool[0],
+      tool_calls: tool,
     };
   }
   if (messages.length > 0 && messages[messages.length - 1].role === "tool") {
+    const last = messages[messages.length - 1];
+    // content
     return {
       message: {
         role: "assistant",
-        content: "tool",
+        content: "success " + last.content,
       },
     };
   }
@@ -105,6 +116,10 @@ test("test tools no tools", async () => {
       messages: [
         {
           content: "hello",
+          role: "user",
+        },
+        {
+          content: "hello",
           role: "assistant",
         },
       ],
@@ -139,6 +154,10 @@ test("test tools 1", async () => {
   const expect = {
     tools: [
       {
+        content: "test1",
+        role: "user",
+      },
+      {
         role: "assistant",
         tool_calls: [
           {
@@ -168,7 +187,7 @@ test("test tools 1", async () => {
       },
       {
         role: "assistant",
-        content: "tool",
+        content: "success getWeather Tokyo",
       },
     ],
   };
@@ -201,8 +220,17 @@ test("test tools 2", async () => {
   const expect = {
     tools: [
       {
+        content: "test2",
+        role: "user",
+      },
+      {
         role: "assistant",
         tool_calls: [
+          {
+            id: "call_1",
+            name: "toolsTestAgent--getWeather",
+            arguments: { location: "Tokyo" },
+          },
           {
             id: "call_2",
             name: "toolsTestAgent--textSpeach",
@@ -211,6 +239,26 @@ test("test tools 2", async () => {
             },
           },
         ],
+      },
+      {
+        role: "tool",
+        tool_call_id: "call_1",
+        name: "toolsTestAgent--getWeather",
+        content: "getWeather Tokyo",
+        extra: {
+          agent: "toolsTestAgent",
+          arg: {
+            location: "Tokyo",
+          },
+          data: {
+            weather: "fine",
+          },
+          func: "getWeather",
+        },
+      },
+      {
+        role: "assistant",
+        content: "success getWeather Tokyo",
       },
       {
         role: "tool",
@@ -230,10 +278,9 @@ test("test tools 2", async () => {
       },
       {
         role: "assistant",
-        content: "tool",
+        content: "success speech",
       },
     ],
-    //},
   };
   assert.deepStrictEqual(expect, res);
 });
