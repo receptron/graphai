@@ -3,7 +3,7 @@ import type { GraphAILLMStreamData } from "@graphai/llm_utils";
 import { streamAgentFilterGenerator } from "./stream";
 
 export const consoleStreamDataAgentFilter = streamAgentFilterGenerator<GraphAILLMStreamData>((context, data) => {
-  if (data.type === "response.in_progress") {
+  if (data.type === "response.in_progress" && data.response.output[0].type === "text") {
     process.stdout.write(String(data.response.output[0].text));
   } else if (data.type === "response.completed") {
     process.stdout.write(String("\n"));
