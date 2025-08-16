@@ -70,11 +70,11 @@ const llmDummy: AgentFunction = async ({ namedInputs }) => {
   }
   if (messages.length > 0 && messages[messages.length - 1].role === "tool") {
     const last = messages[messages.length - 1];
-    // content
+    const toolIds = messages.filter((message: { role: string }) => message.role === "tool").map((message: { tool_call_id: string }) => message.tool_call_id);
     return {
       message: {
         role: "assistant",
-        content: "success " + last.content,
+        content: "success " + toolIds.join(", "),
       },
     };
   }
@@ -150,13 +150,21 @@ test("test tools 1", async () => {
 
   const graphai = new GraphAI(graph, { ...agents, toolsAgent, toolsTestAgent, llmAgent });
   const res = await graphai.run();
-  // console.log(JSON.stringify(res, null, 2));
+  console.log(JSON.stringify(res, null, 2));
   const expect = {
     tools: {
+      data: {
+        "toolsTestAgent--getWeather": {
+          content: "getWeather Tokyo",
+          data: {
+            weather: "fine",
+          },
+        },
+      },
       messages: [
         {
-          content: "test1",
           role: "user",
+          content: "test1",
         },
         {
           role: "assistant",
@@ -173,22 +181,18 @@ test("test tools 1", async () => {
         {
           role: "tool",
           tool_call_id: "call_1",
-          name: "toolsTestAgent--getWeather",
           content: "getWeather Tokyo",
           extra: {
             agent: "toolsTestAgent",
             arg: {
               location: "Tokyo",
             },
-            data: {
-              weather: "fine",
-            },
             func: "getWeather",
           },
         },
         {
           role: "assistant",
-          content: "success getWeather Tokyo",
+          content: "success call_1",
         },
       ],
     },
@@ -221,10 +225,24 @@ test("test tools 2", async () => {
   // console.log(JSON.stringify(res, null, 2));
   const expect = {
     tools: {
+      data: {
+        "toolsTestAgent--getWeather": {
+          content: "getWeather Tokyo",
+          data: {
+            weather: "fine",
+          },
+        },
+        "toolsTestAgent--textSpeach": {
+          content: "speech",
+          data: {
+            talk: "snow",
+          },
+        },
+      },
       messages: [
         {
-          content: "test2",
           role: "user",
+          content: "test2",
         },
         {
           role: "assistant",
@@ -232,7 +250,9 @@ test("test tools 2", async () => {
             {
               id: "call_1",
               name: "toolsTestAgent--getWeather",
-              arguments: { location: "Tokyo" },
+              arguments: {
+                location: "Tokyo",
+              },
             },
             {
               id: "call_2",
@@ -246,27 +266,18 @@ test("test tools 2", async () => {
         {
           role: "tool",
           tool_call_id: "call_1",
-          name: "toolsTestAgent--getWeather",
           content: "getWeather Tokyo",
           extra: {
             agent: "toolsTestAgent",
             arg: {
               location: "Tokyo",
             },
-            data: {
-              weather: "fine",
-            },
             func: "getWeather",
           },
         },
         {
-          role: "assistant",
-          content: "success getWeather Tokyo",
-        },
-        {
           role: "tool",
           tool_call_id: "call_2",
-          name: "toolsTestAgent--textSpeach",
           content: "speech",
           extra: {
             agent: "toolsTestAgent",
@@ -274,14 +285,11 @@ test("test tools 2", async () => {
               location: "hello tokyo!!",
             },
             func: "textSpeach",
-            data: {
-              talk: "snow",
-            },
           },
         },
         {
           role: "assistant",
-          content: "success speech",
+          content: "success call_1, call_2",
         },
       ],
     },

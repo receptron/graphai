@@ -6,22 +6,26 @@ const toolWorkFlowStep = {
   nodes: {
     passthrough: { value: {} },
     llmAgent: {},
-
+    llmModel: { value: "" },
+    stream: { value: true },
     llmCallWithTools: {
       agent: ":llmAgent",
       isResult: true,
       params: {
         forWeb: true,
-        dataStream: true,
       },
       inputs: {
         messages: ":messages",
         prompt: ":userInput.text",
         tools: ":tools",
+        params: {
+          dataStream: ":stream",
+        },
       },
     },
-    textMessagesResult: {
-      // console: { before: true},
+    // case1. return just messages
+    justTextMessagesResult: {
+      unless: ":llmCallWithTools.tool.id",
       agent: "pushAgent",
       params: {
         arrayKey: "messages",
@@ -31,107 +35,120 @@ const toolWorkFlowStep = {
         items: [{ role: "user", content: ":userInput.text" }, ":llmCallWithTools.message"],
       },
     },
-    // case1. return just messages
-    justTextMessagesResult: {
-      unless: ":llmCallWithTools.tool.id",
-      agent: "copyAgent",
+    // Call agents specified in the tools result
+    llmToolAgentCallMap: {
+      if: ":llmCallWithTools.tool.id",
+      agent: "mapAgent",
+      inputs: {
+        rows: ":llmCallWithTools.tool_calls",
+        passthrough: ":passthrough",
+      },
+      params: {
+        compositeResult: true,
+        rowKey: "llmToolCall",
+      },
+      graph: {
+        version: 0.5,
+        nodes: {
+          data: {
+            agent: ({ passthrough, agentName }: { passthrough: Record<string, unknown>; agentName: string }) => {
+              if (passthrough && passthrough[agentName]) {
+                return passthrough[agentName];
+              }
+              return {};
+            },
+            inputs: {
+              passthrough: ":passthrough",
+              agentName: ":llmToolCall.name.split(--).$0",
+            },
+          },
+          toolCallAgent: {
+            isResult: true,
+            agent: ":llmToolCall.name.split(--).$0",
+            inputs: {
+              arg: ":llmToolCall.arguments",
+              func: ":llmToolCall.name.split(--).$1",
+              tool_call: ":llmToolCall",
+              data: ":data",
+            },
+          },
+          toolsAgentResponseMessage: {
+            isResult: true,
+            agent: "copyAgent",
+            inputs: {
+              role: "tool",
+              tool_call_id: ":llmToolCall.id",
+              content: ":toolCallAgent.content",
+              extra: {
+                agent: ":llmToolCall.name.split(--).$0",
+                arg: ":llmToolCall.arguments",
+                func: ":llmToolCall.name.split(--).$1",
+              },
+            },
+          },
+        },
+      },
+    },
+    toolsMessage: {
+      agent: "pushAgent",
+      inputs: {
+        array: [{ role: "user", content: ":userInput.text" }, ":llmCallWithTools.message"],
+        items: ":llmToolAgentCallMap.toolsAgentResponseMessage",
+      },
+    },
+    // next llm flow
+    toolsResponseLLM: {
+      agent: ":llmAgent",
+      isResult: true,
+      params: {
+        forWeb: true,
+      },
+      inputs: {
+        messages: ":toolsMessage.array",
+        params: {
+          dataStream: ":stream",
+        },
+      },
+    },
+    toolsResponseMessages: {
+      isResult: true,
+      agent: "pushAgent",
+      inputs: {
+        array: ":toolsMessage.array",
+        item: ":toolsResponseLLM.message",
+      },
+    },
+    // finally merge data
+    mergedData: {
+      inputs: {
+        data: ":llmToolAgentCallMap.toolCallAgent",
+        llmToolCalls: ":llmCallWithTools.tool_calls",
+      },
+      agent: ({ llmToolCalls, data }: { llmToolCalls: { name: string }[]; data: unknown[] }) => {
+        const ret: Record<string, unknown> = {};
+        llmToolCalls.forEach((tool, index) => {
+          const { name } = tool;
+          ret[name] = data[index];
+        });
+        return ret;
+      },
+    },
+    toolsResult: {
+      agent: "pushAgent",
       params: {
         arrayKey: "messages",
       },
       inputs: {
-        messages: ":textMessagesResult.messages",
-      },
-    },
-    // Call agents specified in the tools result
-    llmToolAgentCallMap: {
-      if: ":llmCallWithTools.tool_calls",
-      agent: "nestedAgent",
-      // console: { before: true},
-      inputs: {
-        llmToolCalls: ":llmCallWithTools.tool_calls",
-        passthrough: ":passthrough",
-        toolsResponseMessages: ":textMessagesResult.messages",
-        llmAgent: ":llmAgent",
-      },
-      graph: {
-        version: 0.5,
-        loop: {
-          while: ":llmToolCalls",
-        },
-        nodes: {
-          toolsResponseMessages: {
-            // value: ":messages",
-            update: ":toolsResponseResultMessages.messages",
-          },
-          llmToolCalls: {
-            value: [],
-            update: ":llmToolCall.array",
-          },
-          llmToolCall: {
-            agent: "shiftAgent",
-            inputs: {
-              array: ":llmToolCalls",
-            },
-          },
-          toolCallAgent: {
-            agent: ":llmToolCall.item.name.split(--).$0",
-            inputs: {
-              arg: ":llmToolCall.item.arguments",
-              func: ":llmToolCall.item.name.split(--).$1",
-              tool_call: ":llmToolCall.item",
-            },
-          },
-          toolCallMessagesResult: {
-            // console: { before: true},
-            agent: "pushAgent",
-            params: {
-              arrayKey: "messages",
-            },
-            inputs: {
-              array: ":toolsResponseMessages",
-              // array: ":messages",
-              item: {
-                role: "tool",
-                tool_call_id: ":llmToolCall.item.id",
-                name: ":llmToolCall.item.name",
-                content: ":toolCallAgent.content",
-                extra: {
-                  agent: ":llmToolCall.item.name.split(--).$0",
-                  arg: ":llmToolCall.item.arguments",
-                  func: ":llmToolCall.item.name.split(--).$1",
-                  data: ":toolCallAgent.data",
-                },
-              },
-            },
-          },
-          toolsResponseLLM: {
-            agent: ":llmAgent",
-            params: {
-              forWeb: true,
-              dataStream: true,
-            },
-            inputs: { messages: ":toolCallMessagesResult.messages" },
-          },
-          toolsResponseResultMessages: {
-            isResult: true,
-            // console: { after: true},
-            agent: "pushAgent",
-            params: {
-              arrayKey: "messages",
-            },
-            inputs: {
-              array: ":toolCallMessagesResult.messages",
-              item: ":toolsResponseLLM.message",
-            },
-          },
-        },
+        array: ":messages",
+        items: ":toolsResponseMessages.array",
+        data: ":mergedData",
       },
     },
     result: {
       isResult: true,
       anyInput: true,
       agent: "arrayFindFirstExistsAgent",
-      inputs: { array: [":justTextMessagesResult", ":llmToolAgentCallMap.toolsResponseResultMessages"] },
+      inputs: { array: [":justTextMessagesResult", ":toolsResult"] },
     },
   },
 };
