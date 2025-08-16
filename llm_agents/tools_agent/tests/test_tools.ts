@@ -8,7 +8,6 @@ import { toolsTestAgent } from "./common";
 import test from "node:test";
 import assert from "node:assert";
 
-
 const llmDummy: AgentFunction = async ({ namedInputs }) => {
   const { prompt, messages } = namedInputs;
 
