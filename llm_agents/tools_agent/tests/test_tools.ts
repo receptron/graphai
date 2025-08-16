@@ -3,30 +3,11 @@ import toolsAgent from "../src/tools_agent";
 import { GraphAI, agentInfoWrapper, type AgentFunction } from "graphai";
 import * as agents from "@graphai/vanilla";
 
+import { toolsTestAgent } from "./common";
+
 import test from "node:test";
 import assert from "node:assert";
 
-const toolsTestDummyAgent: AgentFunction = async ({ namedInputs }) => {
-  const { arg, func } = namedInputs;
-  if (func === "getWeather") {
-    return {
-      content: "getWeather " + arg.location,
-      data: {
-        weather: "fine",
-      },
-    };
-  }
-  if (func === "textSpeach") {
-    return {
-      content: "speech",
-      data: {
-        talk: "snow",
-      },
-    };
-  }
-  return {};
-};
-const toolsTestAgent = agentInfoWrapper(toolsTestDummyAgent);
 
 const llmDummy: AgentFunction = async ({ namedInputs }) => {
   const { prompt, messages } = namedInputs;
@@ -150,7 +131,7 @@ test("test tools 1", async () => {
 
   const graphai = new GraphAI(graph, { ...agents, toolsAgent, toolsTestAgent, llmAgent });
   const res = await graphai.run();
-  console.log(JSON.stringify(res, null, 2));
+  // console.log(JSON.stringify(res, null, 2));
   const expect = {
     tools: {
       data: {
