@@ -158,7 +158,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
 
   const anthropic = new Anthropic({ apiKey, dangerouslyAllowBrowser: !!forWeb });
   const chatParams = {
-    model: model ?? "claude-3-7-sonnet-20250219",
+    model: model || "claude-3-7-sonnet-20250219",
     messages: messagesCopy.filter((m) => (m.role as any) !== "system"),
     tools: anthropic_tools,
     tool_choice,
