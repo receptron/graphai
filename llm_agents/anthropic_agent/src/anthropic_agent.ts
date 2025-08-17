@@ -47,6 +47,33 @@ const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
 };
 
 type Response = Anthropic.Message & { _request_id?: string | null | undefined };
+
+export const anthoropicTool2OpenAITool = (response: Response) => {
+  const contentText = response.content
+    .filter((c): c is Anthropic.TextBlock => c.type === "text")
+    .map((b) => b.text ?? "")
+    .join(" ");
+
+  if (response.content.length > 1 && response.content[1].type === "tool_use") {
+    return {
+      role: response.role,
+      content: contentText,
+      tool_calls: response.content
+        .map((content) => {
+          if (content.type === "tool_use") {
+            const { id, name, input } = content;
+            return {
+              id,
+              name,
+              arguments: input,
+            };
+          }
+        })
+          .filter((content) => content),
+    };
+  }
+  return { role: response.role, content: contentText};
+}
 // https://docs.anthropic.com/ja/api/messages
 const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[], llmMetaData: LLMMetaData, maybeResponseFormat: boolean) => {
   llmMetaDataEndTime(llmMetaData);
@@ -58,30 +85,7 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
   const tool_calls = functionResponses.map(convToolCall);
   const tool = tool_calls[0] ? tool_calls[0] : undefined;
 
-  // anthoropicTool2OpenAITool
-  const message = (() => {
-    if (response.content.length === 1) {
-      return { role: response.role, content: text };
-    }
-    if (response.content.length > 1 && response.content[1].type === "tool_use") {
-      return {
-        role: response.role,
-        content: text,
-        tool_calls: response.content
-          .map((content) => {
-            if (content.type === "tool_use") {
-              const { id, name, input } = content;
-              return {
-                id,
-                name,
-                arguments: input,
-              };
-            }
-          })
-          .filter((content) => content),
-      };
-    }
-  })();
+  const message = anthoropicTool2OpenAITool(response);
   const responseFormat = (() => {
     if (maybeResponseFormat && text) {
       const parsed = JSON.parse(text);
