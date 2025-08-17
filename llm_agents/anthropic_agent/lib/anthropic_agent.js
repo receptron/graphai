@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.anthropicAgent = exports.system_with_response_format = exports.anthoropicTool2OpenAITool = void 0;
+exports.anthropicAgent = exports.convOpenAIToolsToAnthropicToolMessage = exports.system_with_response_format = exports.anthoropicTool2OpenAITool = void 0;
 const sdk_1 = __importDefault(require("@anthropic-ai/sdk"));
 const llm_utils_1 = require("@graphai/llm_utils");
 const convToolCall = (tool_call) => {
@@ -142,6 +142,7 @@ const convOpenAIToolsToAnthropicToolMessage = (messages) => {
         return tmp;
     }, []);
 };
+exports.convOpenAIToolsToAnthropicToolMessage = convOpenAIToolsToAnthropicToolMessage;
 const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) => {
     const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
     const { apiKey, stream, dataStream, forWeb, model } = {
@@ -176,7 +177,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
     const anthropic = new sdk_1.default({ apiKey, dangerouslyAllowBrowser: !!forWeb });
     const chatParams = {
         model: model || "claude-3-7-sonnet-20250219",
-        messages: convOpenAIToolsToAnthropicToolMessage(messagesCopy.filter((m) => m.role !== "system")),
+        messages: (0, exports.convOpenAIToolsToAnthropicToolMessage)(messagesCopy.filter((m) => m.role !== "system")),
         tools: anthropic_tools,
         tool_choice,
         system: systemPrompt || messageSystemPrompt,

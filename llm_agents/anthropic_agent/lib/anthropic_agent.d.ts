@@ -37,6 +37,7 @@ export declare const anthoropicTool2OpenAITool: (response: Response) => {
     tool_calls?: undefined;
 };
 export declare const system_with_response_format: (system: GraphAILLInputType, response_format?: any) => GraphAILLInputType;
+export declare const convOpenAIToolsToAnthropicToolMessage: (messages: any[]) => any[];
 export declare const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig>;
 declare const anthropicAgentInfo: AgentFunctionInfo;
 export default anthropicAgentInfo;
