@@ -100,7 +100,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
         : undefined;
     const anthropic = new sdk_1.default({ apiKey, dangerouslyAllowBrowser: !!forWeb });
     const chatParams = {
-        model: model ?? "claude-3-7-sonnet-20250219",
+        model: model || "claude-3-7-sonnet-20250219",
         messages: messagesCopy.filter((m) => m.role !== "system"),
         tools: anthropic_tools,
         tool_choice,

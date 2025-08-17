@@ -42,7 +42,7 @@ const toolWorkFlowStep = {
             },
         },
         // Call agents specified in the tools result
-        llmToolAgentCallMap: {
+        llmToolAgentRunner: {
             if: ":llmCallWithTools.tool_calls",
             agent: "nestedAgent",
             // console: { before: true},
@@ -59,12 +59,15 @@ const toolWorkFlowStep = {
                 },
                 nodes: {
                     toolsResponseMessages: {
-                        // value: ":messages",
                         update: ":toolsResponseResultMessages.messages",
                     },
                     llmToolCalls: {
                         value: [],
                         update: ":llmToolCall.array",
+                    },
+                    toolCallAgentResultsBuffer: {
+                        value: [],
+                        update: ":toolCallAgentResults.array",
                     },
                     llmToolCall: {
                         agent: "shiftAgent",
@@ -80,7 +83,19 @@ const toolWorkFlowStep = {
                             tool_call: ":llmToolCall.item",
                         },
                     },
-                    toolCallMessagesResult: {
+                    toolCallAgentResults: {
+                        isResult: true,
+                        agent: "pushAgent",
+                        inputs: {
+                            array: ":toolCallAgentResultsBuffer",
+                            item: {
+                                data: ":toolCallAgent",
+                                agent: ":llmToolCall.item.name.split(--).$0",
+                                func: ":llmToolCall.item.name.split(--).$1",
+                            },
+                        },
+                    },
+                    toolCallResultMessages: {
                         // console: { before: true},
                         agent: "pushAgent",
                         params: {
@@ -109,7 +124,7 @@ const toolWorkFlowStep = {
                             forWeb: true,
                             dataStream: true,
                         },
-                        inputs: { messages: ":toolCallMessagesResult.messages" },
+                        inputs: { messages: ":toolCallResultMessages.messages" },
                     },
                     toolsResponseResultMessages: {
                         isResult: true,
@@ -119,18 +134,25 @@ const toolWorkFlowStep = {
                             arrayKey: "messages",
                         },
                         inputs: {
-                            array: ":toolCallMessagesResult.messages",
+                            array: ":toolCallResultMessages.messages",
                             item: ":toolsResponseLLM.message",
                         },
                     },
                 },
             },
         },
+        mergedLllmToolAgentRunner: {
+            agent: "copyAgent",
+            inputs: {
+                toolsResults: ":llmToolAgentRunner.toolCallAgentResults.array",
+                messages: ":llmToolAgentRunner.toolsResponseResultMessages.messages",
+            },
+        },
         result: {
             isResult: true,
             anyInput: true,
             agent: "arrayFindFirstExistsAgent",
-            inputs: { array: [":justTextMessagesResult", ":llmToolAgentCallMap.toolsResponseResultMessages"] },
+            inputs: { array: [":justTextMessagesResult", ":mergedLllmToolAgentRunner"] },
         },
     },
 };
