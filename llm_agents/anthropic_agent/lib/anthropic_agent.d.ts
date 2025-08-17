@@ -20,6 +20,22 @@ type AnthropicConfig = {
 };
 type AnthropicParams = AnthropicInputs & AnthropicConfig;
 type AnthropicResult = Partial<GraphAIText & GraphAITool & GraphAIToolCalls & GraphAIMessage<string | Anthropic.ContentBlockParam[]> & GraphAIMessages<string | Anthropic.ContentBlockParam[]>>;
+type Response = Anthropic.Message & {
+    _request_id?: string | null | undefined;
+};
+export declare const anthoropicTool2OpenAITool: (response: Response) => {
+    role: "assistant";
+    content: string;
+    tool_calls: {
+        id: string;
+        name: string;
+        arguments: unknown;
+    }[];
+} | {
+    role: "assistant";
+    content: string;
+    tool_calls?: undefined;
+};
 export declare const system_with_response_format: (system: GraphAILLInputType, response_format?: any) => GraphAILLInputType;
 export declare const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig>;
 declare const anthropicAgentInfo: AgentFunctionInfo;
