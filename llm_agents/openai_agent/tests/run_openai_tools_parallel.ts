@@ -15,12 +15,12 @@ export const tools = [
         type: "object",
         properties: {
           city: { type: "string", description: "City name." },
-          unit: { type: "string", enum: ["C", "F"], description: "Temperature unit." }
+          unit: { type: "string", enum: ["C", "F"], description: "Temperature unit." },
         },
         required: ["city"],
-        additionalProperties: false
-      }
-    }
+        additionalProperties: false,
+      },
+    },
   },
   {
     type: "function",
@@ -30,12 +30,12 @@ export const tools = [
       parameters: {
         type: "object",
         properties: {
-          pair: { type: "string", pattern: "^[A-Za-z]{6}$", description: "Six-letter pair, e.g., USDJPY." }
+          pair: { type: "string", pattern: "^[A-Za-z]{6}$", description: "Six-letter pair, e.g., USDJPY." },
         },
         required: ["pair"],
-        additionalProperties: false
-      }
-    }
+        additionalProperties: false,
+      },
+    },
   },
   {
     type: "function",
@@ -46,12 +46,12 @@ export const tools = [
         type: "object",
         properties: {
           ticker: { type: "string", description: "Ticker symbol, e.g., AAPL." },
-          market: { type: "string", description: "Optional market code." }
+          market: { type: "string", description: "Optional market code." },
         },
         required: ["ticker"],
-        additionalProperties: false
-      }
-    }
+        additionalProperties: false,
+      },
+    },
   },
   {
     type: "function",
@@ -62,12 +62,12 @@ export const tools = [
         type: "object",
         properties: {
           text: { type: "string", description: "Source text." },
-          target_lang: { type: "string", description: "Target language code, e.g., en, ja." }
+          target_lang: { type: "string", description: "Target language code, e.g., en, ja." },
         },
         required: ["text", "target_lang"],
-        additionalProperties: false
-      }
-    }
+        additionalProperties: false,
+      },
+    },
   },
   {
     type: "function",
@@ -77,14 +77,14 @@ export const tools = [
       parameters: {
         type: "object",
         properties: {
-          address: { type: "string", description: "Full postal address." }
+          address: { type: "string", description: "Full postal address." },
         },
         required: ["address"],
-        additionalProperties: false
-      }
-    }
-  }
-] as any; 
+        additionalProperties: false,
+      },
+    },
+  },
+] as any;
 
 const toolsTestDummyAgent = (func: string, arg: any) => {
   console.log(func, arg);
@@ -131,7 +131,6 @@ const toolsTestDummyAgent = (func: string, arg: any) => {
   return {};
 };
 
-
 test("test openai tools", async () => {
   const namedInputs = { prompt: ["東京・大阪・札幌の天気、USDJPYのレート、AAPLとMSFTの株価を教えて"] };
 
@@ -165,13 +164,13 @@ test("test openai tools", async () => {
     messages.push({
       role: "tool",
       tool_call_id: id,
-      content: JSON.stringify(res) 
+      content: JSON.stringify(res),
     });
   });
 
   const res2 = (await openAIAgent({
     ...defaultTestContext,
-    namedInputs: {messages},
+    namedInputs: { messages },
     filterParams: {
       streamTokenCallback: (data: any) => {
         console.log(JSON.stringify(data, null, 2));
@@ -183,7 +182,5 @@ test("test openai tools", async () => {
     console.log(res2);
   }
 
-  
-  
   assert.deepStrictEqual(true, true);
 });
