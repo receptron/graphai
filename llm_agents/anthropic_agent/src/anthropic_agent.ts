@@ -54,26 +54,25 @@ export const anthoropicTool2OpenAITool = (response: Response) => {
     .map((b) => b.text ?? "")
     .join(" ");
 
-  if (response.content.length > 1 && response.content[1].type === "tool_use") {
+  const tool_calls = response.content
+    .filter((c): c is Anthropic.Messages.ToolUseBlock => c.type === "tool_use")
+    .map((content) => {
+      const { id, name, input } = content;
+      return {
+        id,
+        name,
+        arguments: input,
+      };
+    });
+  if (tool_calls.length > 0) {
     return {
       role: response.role,
       content: contentText,
-      tool_calls: response.content
-        .map((content) => {
-          if (content.type === "tool_use") {
-            const { id, name, input } = content;
-            return {
-              id,
-              name,
-              arguments: input,
-            };
-          }
-        })
-          .filter((content) => content),
+      tool_calls,
     };
   }
-  return { role: response.role, content: contentText};
-}
+  return { role: response.role, content: contentText };
+};
 // https://docs.anthropic.com/ja/api/messages
 const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[], llmMetaData: LLMMetaData, maybeResponseFormat: boolean) => {
   llmMetaDataEndTime(llmMetaData);

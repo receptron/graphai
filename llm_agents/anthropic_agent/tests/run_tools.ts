@@ -151,7 +151,7 @@ test("test tools 1", async () => {
         agent: "toolsAgent",
         inputs: {
           messages: ":messages",
-          userInput: { text: ":text"},
+          userInput: { text: ":text" },
           tools,
           llmAgent: "anthropicAgent",
           llmModel: "claude-opus-4-1-20250805",
@@ -163,15 +163,15 @@ test("test tools 1", async () => {
 
   const graphai = new GraphAI(graph, { ...agents, toolsAgent, generalToolAgent, anthropicAgent });
   graphai.injectValue("text", "東京・大阪・札幌の天気、USDJPYのレート、AAPLとMSFTの株価を教えて");
-  
-  const res = await graphai.run() as any;
+
+  const res = (await graphai.run()) as any;
   console.log(JSON.stringify(res, null, 2));
 
   const graphai2 = new GraphAI(graph, { ...agents, toolsAgent, generalToolAgent, anthropicAgent });
   graphai2.injectValue("text", "ありがとう。インド、ムンバイの天気は？");
   graphai2.injectValue("messages", res.tools.messages);
-  const res2 = await graphai2.run() as any;
+  const res2 = (await graphai2.run()) as any;
   console.log(JSON.stringify(res2, null, 2));
-  
+
   // assert.deepStrictEqual(expect, res);
 });
