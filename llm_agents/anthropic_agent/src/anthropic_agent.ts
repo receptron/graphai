@@ -47,6 +47,32 @@ const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
 };
 
 type Response = Anthropic.Message & { _request_id?: string | null | undefined };
+
+export const anthoropicTool2OpenAITool = (response: Response) => {
+  const contentText = response.content
+    .filter((c): c is Anthropic.TextBlock => c.type === "text")
+    .map((b) => b.text ?? "")
+    .join(" ");
+
+  const tool_calls = response.content
+    .filter((c): c is Anthropic.Messages.ToolUseBlock => c.type === "tool_use")
+    .map((content) => {
+      const { id, name, input } = content;
+      return {
+        id,
+        name,
+        arguments: input,
+      };
+    });
+  if (tool_calls.length > 0) {
+    return {
+      role: response.role,
+      content: contentText,
+      tool_calls,
+    };
+  }
+  return { role: response.role, content: contentText };
+};
 // https://docs.anthropic.com/ja/api/messages
 const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[], llmMetaData: LLMMetaData, maybeResponseFormat: boolean) => {
   llmMetaDataEndTime(llmMetaData);
@@ -58,9 +84,7 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
   const tool_calls = functionResponses.map(convToolCall);
   const tool = tool_calls[0] ? tool_calls[0] : undefined;
 
-  const message = { role: response.role, content: text };
-  messages.push(message);
-
+  const message = anthoropicTool2OpenAITool(response);
   const responseFormat = (() => {
     if (maybeResponseFormat && text) {
       const parsed = JSON.parse(text);
@@ -112,6 +136,56 @@ export const system_with_response_format = (system: GraphAILLInputType, response
   return system;
 };
 
+const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
+  return messages.reduce((tmp: any[], message: any) => {
+    if (message.role === "assistant" && message.tool_calls) {
+      const content: { type: string; text?: string; id?: string; name?: string; input?: unknown }[] = [
+        {
+          type: "text",
+          text: message.content,
+        },
+      ];
+      message.tool_calls.forEach((tool: { id: string; name: string; arguments: unknown }) => {
+        const { id, name, arguments: args } = tool;
+
+        content.push({
+          type: "tool_use",
+          id,
+          name,
+          input: args,
+        });
+      });
+      tmp.push({
+        role: "assistant",
+        content,
+      });
+    } else if (message.role === "tool") {
+      const last = tmp[tmp.length - 1];
+      if (last.role === "user" && last.content?.[0]?.type === "tool_result") {
+        tmp[tmp.length - 1].content.push({
+          type: "tool_result",
+          tool_use_id: message.tool_call_id,
+          content: message.content,
+        });
+      } else {
+        tmp.push({
+          role: "user",
+          content: [
+            {
+              type: "tool_result",
+              tool_use_id: message.tool_call_id,
+              content: message.content,
+            },
+          ],
+        });
+      }
+    } else {
+      tmp.push(message);
+    }
+    return tmp;
+  }, []);
+};
+
 export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({
   params,
   namedInputs,
@@ -139,7 +213,6 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
       content: userPrompt,
     });
   }
-
   if (verbose) {
     console.log(messagesCopy);
   }
@@ -159,7 +232,7 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   const anthropic = new Anthropic({ apiKey, dangerouslyAllowBrowser: !!forWeb });
   const chatParams = {
     model: model || "claude-3-7-sonnet-20250219",
-    messages: messagesCopy.filter((m) => (m.role as any) !== "system"),
+    messages: convOpenAIToolsToAnthropicToolMessage(messagesCopy.filter((m) => (m.role as any) !== "system")),
     tools: anthropic_tools,
     tool_choice,
     system: systemPrompt || messageSystemPrompt,
