@@ -136,7 +136,7 @@ export const system_with_response_format = (system: GraphAILLInputType, response
   return system;
 };
 
-const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
+export const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
   return messages.reduce((tmp: any[], message: any) => {
     if (message.role === "assistant" && message.tool_calls) {
       const content: { type: string; text?: string; id?: string; name?: string; input?: unknown }[] = [
