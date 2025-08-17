@@ -19,6 +19,7 @@ const toolWorkFlowStep = {
                 prompt: ":userInput.text",
                 tools: ":tools",
                 params: {
+                    model: ":llmModel",
                     dataStream: ":stream",
                 },
             },
@@ -106,6 +107,7 @@ const toolWorkFlowStep = {
             inputs: {
                 messages: ":toolsMessage.array",
                 params: {
+                    model: ":llmModel",
                     dataStream: ":stream",
                 },
             },
