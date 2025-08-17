@@ -49,7 +49,6 @@ const llmDummy: AgentFunction = async ({ namedInputs }) => {
     };
   }
   if (messages.length > 0 && messages[messages.length - 1].role === "tool") {
-    const last = messages[messages.length - 1];
     const toolIds = messages.filter((message: { role: string }) => message.role === "tool").map((message: { tool_call_id: string }) => message.tool_call_id);
     return {
       message: {
