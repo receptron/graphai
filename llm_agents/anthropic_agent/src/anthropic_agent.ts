@@ -161,7 +161,7 @@ const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
       });
     } else if (message.role === "tool") {
       const last = tmp[tmp.length - 1];
-      if (last.role === "user" && last.content?.[0]?.type === "tool_result") {
+      if (last?.role === "user" && last?.content?.[0]?.type === "tool_result") {
         tmp[tmp.length - 1].content.push({
           type: "tool_result",
           tool_use_id: message.tool_call_id,
