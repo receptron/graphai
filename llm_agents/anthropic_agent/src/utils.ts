@@ -1,11 +1,9 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-import type { GraphAIToolPayload } from "@graphai/agent_utils";
-
 export type Response = Anthropic.Message & { _request_id?: string | null | undefined };
 type TOOLS_CONTENT = { type: string; text?: string; id?: string; name?: string; input?: unknown };
 
-export const anthoropicToolCall2OpenAIToolCall = (toolCall: Anthropic.Messages.ToolUseBlock): GraphAIToolPayload => {
+export const anthoropicToolCall2OpenAIToolCall = (toolCall: Anthropic.Messages.ToolUseBlock) => {
   const { id, name, input } = toolCall;
   return {
     id,

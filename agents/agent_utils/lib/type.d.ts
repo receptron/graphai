@@ -49,11 +49,8 @@ export type GraphAIMessages<Content = string> = {
 };
 export type GraphAIToolPayload = {
     id: string;
-    type: string;
-    function: {
-        name: string;
-        arguments?: unknown;
-    };
+    name: string;
+    arguments?: unknown;
 };
 export type GraphAITool = {
     tool: GraphAIToolPayload;

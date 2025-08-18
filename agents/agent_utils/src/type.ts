@@ -52,7 +52,7 @@ export type GraphAIMessageRole = "user" | "system" | "assistant" | "tool" | "dev
 export type GraphAIMessagePayload<Content = string> = { role: GraphAIMessageRole; content: Content | null };
 export type GraphAIMessage<Content = string> = { message: GraphAIMessagePayload<Content> | null };
 export type GraphAIMessages<Content = string> = { messages: Array<GraphAIMessagePayload<Content>> };
-export type GraphAIToolPayload = { id: string; type: string; function: { name: string; arguments?: unknown } };
+export type GraphAIToolPayload = { id: string; name: string; arguments?: unknown };
 export type GraphAITool = { tool: GraphAIToolPayload };
 export type GraphAIToolCalls = { tool_calls: Array<GraphAIToolPayload> };
 
