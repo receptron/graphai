@@ -182,7 +182,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
   };
 
   // Reasoning models do not support temperature parameter
-  if (!modelName.startsWith("o1") && !modelName.startsWith("o3")) {
+  if (modelName.startsWith("gpt-4")) {
     chatParams.temperature = temperature ?? 0.7;
   }
 
