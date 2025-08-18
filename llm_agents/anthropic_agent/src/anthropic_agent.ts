@@ -11,7 +11,7 @@ import {
   llmMetaDataEndTime,
   llmMetaDataFirstTokenTime,
 } from "@graphai/llm_utils";
-import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
+import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIToolPayload, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 type AnthropicInputs = {
   verbose?: boolean;
@@ -41,14 +41,9 @@ type AnthropicResult = Partial<
     GraphAIMessages<string | Anthropic.ContentBlockParam[]>
 >;
 
-const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
-  const { id, name, input } = tool_call;
-  return { id, name, arguments: input };
-};
-
 type Response = Anthropic.Message & { _request_id?: string | null | undefined };
 
-const anthoropicToolCall2OpenAIToolCall = (toolCall: Anthropic.Messages.ToolUseBlock) => {
+const anthoropicToolCall2OpenAIToolCall = (toolCall: Anthropic.Messages.ToolUseBlock): GraphAIToolPayload => {
   const { id, name, input } = toolCall;
   return {
     id,
@@ -91,7 +86,7 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
 
   const text = (response.content[0] as Anthropic.TextBlock).text;
   const functionResponses = response.content.filter((content) => content.type === "tool_use") ?? [];
-  const tool_calls = functionResponses.map(convToolCall);
+  const tool_calls = functionResponses.map(anthoropicToolCall2OpenAIToolCall);
   const tool = tool_calls[0] ? tool_calls[0] : undefined;
 
   const message = anthoropicTool2OpenAITool(response);
