@@ -162,7 +162,7 @@ export const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
       const content: { type: string; text?: string; id?: string; name?: string; input?: unknown }[] = [
         {
           type: "text",
-          text: message.content,
+          text: message.content || "run tools",
         },
       ];
       message.tool_calls.forEach((tool: { id: string; function: { name: string; arguments: string } }) => {
