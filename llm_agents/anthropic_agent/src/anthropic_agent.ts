@@ -11,7 +11,7 @@ import {
   llmMetaDataEndTime,
   llmMetaDataFirstTokenTime,
 } from "@graphai/llm_utils";
-import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIToolPayload, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
+import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
 import { type Response, anthoropicToolCall2OpenAIToolCall, anthoropicTool2OpenAITool, convOpenAIToolsToAnthropicToolMessage } from "./utils";
 

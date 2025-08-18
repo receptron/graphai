@@ -23,7 +23,6 @@ export const anthoropicToolCall2OpenAIToolCall = (toolCall: Anthropic.Messages.T
   };
 };
 
-
 export const openAIToolCall2AnthropicToolCall = (tool: { id: string; function: { name: string; arguments: string } }) => {
   const { id, function: func } = tool;
   const { name, arguments: args } = func ?? {};
@@ -101,4 +100,3 @@ export const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
     return tmp;
   }, []);
 };
-
