@@ -13,44 +13,56 @@ export const messages = [
     tool_calls: [
       {
         id: "toolu_0175tZ6uqBFKDCBy8zzUsSvq",
-        name: "generalToolAgent--get_weather",
-        arguments: {
-          city: "東京",
+        function: {
+          name: "generalToolAgent--get_weather",
+          arguments: JSON.stringify({
+            city: "東京",
+          }),
         },
       },
       {
         id: "toolu_01ARZ5jPUrvLcvLmRMhSbqDr",
-        name: "generalToolAgent--get_weather",
-        arguments: {
-          city: "大阪",
+        function: {
+          name: "generalToolAgent--get_weather",
+          arguments: JSON.stringify({
+            city: "大阪",
+          }),
         },
       },
       {
         id: "toolu_014c5kSFrHGMghGwJrTwLRM8",
-        name: "generalToolAgent--get_weather",
-        arguments: {
-          city: "札幌",
+        function: {
+          name: "generalToolAgent--get_weather",
+          arguments: JSON.stringify({
+            city: "札幌",
+          }),
         },
       },
       {
         id: "toolu_01MZ6NVQeMcz8pFz3FJbvmty",
-        name: "generalToolAgent--get_fx_rate",
-        arguments: {
-          pair: "USDJPY",
+        function: {
+          name: "generalToolAgent--get_fx_rate",
+          arguments: JSON.stringify({
+            pair: "USDJPY",
+          }),
         },
       },
       {
         id: "toolu_01YSrHvagEqz9nd6fw3Qv4cP",
-        name: "generalToolAgent--lookup_stock_price",
-        arguments: {
-          ticker: "AAPL",
+        function: {
+          name: "generalToolAgent--lookup_stock_price",
+          arguments: JSON.stringify({
+            ticker: "AAPL",
+          }),
         },
       },
       {
         id: "toolu_01MJj66daUKkPYb2fA2WToR9",
-        name: "generalToolAgent--lookup_stock_price",
-        arguments: {
-          ticker: "MSFT",
+        function: {
+          name: "generalToolAgent--lookup_stock_price",
+          arguments: JSON.stringify({
+            ticker: "MSFT",
+          }),
         },
       },
     ],

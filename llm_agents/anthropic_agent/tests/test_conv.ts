@@ -28,7 +28,7 @@ test("expands tool_calls when tool_use is included", () => {
   assert.deepStrictEqual(result, {
     role: "assistant",
     content: "Running tool...",
-    tool_calls: [{ id: "tool1", name: "get_weather", arguments: { city: "Tokyo" } }],
+    tool_calls: [{ id: "tool1", function: { name: "get_weather", arguments: '{"city":"Tokyo"}' }, type: "function" }],
   });
 });
 

@@ -60,8 +60,17 @@ export const anthoropicTool2OpenAITool = (response: Response) => {
       const { id, name, input } = content;
       return {
         id,
-        name,
-        arguments: input,
+        type: "function",
+        function: {
+          name,
+          arguments: (() => {
+            try {
+              return JSON.stringify(input ?? {});
+            } catch (__e) {
+              return "{}";
+            }
+          })(),
+        },
       };
     });
   if (tool_calls.length > 0) {
@@ -142,17 +151,24 @@ export const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
       const content: { type: string; text?: string; id?: string; name?: string; input?: unknown }[] = [
         {
           type: "text",
-          text: message.content,
+          text: message.content || "run tools",
         },
       ];
-      message.tool_calls.forEach((tool: { id: string; name: string; arguments: unknown }) => {
-        const { id, name, arguments: args } = tool;
+      message.tool_calls.forEach((tool: { id: string; function: { name: string; arguments: string } }) => {
+        const { id, function: func } = tool;
+        const { name, arguments: args } = func ?? {};
 
         content.push({
           type: "tool_use",
           id,
           name,
-          input: args,
+          input: (() => {
+            try {
+              return JSON.parse(args ?? "{}");
+            } catch (__e) {
+              return {};
+            }
+          })(),
         });
       });
       tmp.push({

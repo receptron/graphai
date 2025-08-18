@@ -12,7 +12,7 @@
     "format": "prettier --write '{src,tests}/**/*.ts'",
     "doc": "npm run examplesDoc && npx agentdoc",
     "examplesDoc": "npx ts-node  tests/examples.ts",
-    "test": "echo hello",
+    "test": "node --test  --require ts-node/register ./tests/test_*.ts",
     "test_run": "node --test --require ts-node/register ./tests/run_*.ts # just run locally",
     "b": "yarn run format && yarn run eslint && yarn run build"
   },
