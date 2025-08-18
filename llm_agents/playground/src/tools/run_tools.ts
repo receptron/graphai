@@ -16,7 +16,6 @@ import type { GraphAILLMStreamData } from "@graphai/llm_utils";
 
 import { streamAgentFilterGenerator } from "@graphai/stream_agent_filter";
 
-
 export const consoleStreamAgentFilter = streamAgentFilterGenerator<GraphAILLMStreamData>((context, data) => {
   if (data.type === "response.in_progress") {
     console.log(data.response);
@@ -54,16 +53,16 @@ export const main = async () => {
     name: "streamAgentFilter",
     agent: consoleStreamAgentFilter,
   };
-  const agentFilters = [streamAgentFilter]
-  
+  const agentFilters = [streamAgentFilter];
+
   const aagents = { ...agents, toolsAgent, generalToolAgent, openAIAgent, anthropicAgent };
-  
+
   const graphai = new GraphAI(graph, aagents, { agentFilters });
 
   graphai.injectValue("text", "東京・大阪・札幌の天気、USDJPYのレート、AAPLとMSFTの株価を教えて");
   graphai.injectValue("llmAgent", "anthropicAgent");
   graphai.injectValue("llmModel", "claude-opus-4-1-20250805");
-  
+
   const res = (await graphai.run()) as any;
   console.log(JSON.stringify(res, null, 2));
 
@@ -72,15 +71,13 @@ export const main = async () => {
   graphai2.injectValue("messages", res.tools.messages);
   graphai2.injectValue("llmAgent", "openAIAgent");
   graphai2.injectValue("llmModel", "gpt-4o");
-  
+
   // graphai2.injectValue("llmAgent", "anthropicAgent");
   // graphai2.injectValue("llmModel", "claude-opus-4-1-20250805");
 
   const res2 = (await graphai2.run()) as any;
   console.log(JSON.stringify(res2, null, 2));
-
 };
-
 
 export const main2 = async () => {
   const graph = {
@@ -113,16 +110,16 @@ export const main2 = async () => {
     name: "streamAgentFilter",
     agent: consoleStreamAgentFilter,
   };
-  const agentFilters = [streamAgentFilter]
-  
+  const agentFilters = [streamAgentFilter];
+
   const aagents = { ...agents, toolsAgent, generalToolAgent, openAIAgent, anthropicAgent };
-  
+
   const graphai = new GraphAI(graph, aagents, { agentFilters });
 
   graphai.injectValue("text", "東京・大阪・札幌の天気、USDJPYのレート、AAPLとMSFTの株価を教えて");
   graphai.injectValue("llmAgent", "openAIAgent");
   graphai.injectValue("llmModel", "gpt-4o");
-  
+
   const res = (await graphai.run()) as any;
   console.log(JSON.stringify(res, null, 2));
 
@@ -131,10 +128,9 @@ export const main2 = async () => {
   graphai2.injectValue("messages", res.tools.messages);
   graphai2.injectValue("llmAgent", "anthropicAgent");
   graphai2.injectValue("llmModel", "claude-opus-4-1-20250805");
-  
+
   const res2 = (await graphai2.run()) as any;
   console.log(JSON.stringify(res2, null, 2));
-
 };
 
 main2();

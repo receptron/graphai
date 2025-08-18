@@ -84,7 +84,7 @@ export const tools = [
 const toolsTestDummyAgent: AgentFunction = async ({ namedInputs }) => {
   const { arg = {}, func } = namedInputs ?? {};
   console.log(`call ${func}`);
-  
+
   if (func === "get_weather") {
     return {
       content: `Weather for ${arg.city ?? "Unknown"}: fine.`,
