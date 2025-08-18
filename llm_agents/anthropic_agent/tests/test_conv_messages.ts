@@ -1,4 +1,4 @@
-import { convOpenAIToolsToAnthropicToolMessage } from "../src/anthropic_agent";
+import { convOpenAIToolsToAnthropicToolMessage } from "../src/utils";
 import test from "node:test";
 import assert from "node:assert";
 

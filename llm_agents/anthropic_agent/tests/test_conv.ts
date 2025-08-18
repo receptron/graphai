@@ -1,4 +1,4 @@
-import { anthoropicTool2OpenAITool } from "../src/anthropic_agent";
+import { anthoropicTool2OpenAITool } from "../src/utils";
 import test from "node:test";
 import assert from "node:assert";
 
