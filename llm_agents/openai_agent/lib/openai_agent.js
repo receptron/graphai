@@ -123,7 +123,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         response_format,
     };
     // Reasoning models do not support temperature parameter
-    if (!modelName.startsWith("o1") && !modelName.startsWith("o3")) {
+    if (modelName.startsWith("gpt-4")) {
         chatParams.temperature = temperature ?? 0.7;
     }
     if (!stream && !dataStream) {
