@@ -28,8 +28,11 @@ export declare const anthoropicTool2OpenAITool: (response: Response) => {
     content: string;
     tool_calls: {
         id: string;
-        name: string;
-        arguments: unknown;
+        type: string;
+        function: {
+            name: string;
+            arguments: string;
+        };
     }[];
 } | {
     role: "assistant";
