@@ -22,33 +22,33 @@ export const consoleStreamAgentFilter = streamAgentFilterGenerator<GraphAILLMStr
   }
 });
 
-export const main = async () => {
-  const graph = {
-    version: 0.5,
-    nodes: {
-      messages: {
-        value: [],
-      },
-      text: {
-        value: "",
-      },
-      llmAgent: {},
-      llmModel: {},
-      tools: {
-        isResult: true,
-        agent: "toolsAgent",
-        inputs: {
-          messages: ":messages",
-          userInput: { text: ":text" },
-          tools,
-          llmAgent: ":llmAgent",
-          llmModel: ":llmModel",
-          stream: true,
-        },
+const graph = {
+  version: 0.5,
+  nodes: {
+    messages: {
+      value: [],
+    },
+    text: {
+      value: "",
+    },
+    llmAgent: {},
+    llmModel: {},
+    tools: {
+      isResult: true,
+      agent: "toolsAgent",
+      inputs: {
+        messages: ":messages",
+        userInput: { text: ":text" },
+        tools,
+        llmAgent: ":llmAgent",
+        llmModel: ":llmModel",
+        stream: true,
       },
     },
-  };
+  },
+};
 
+export const main = async () => {
   const streamAgentFilter = {
     name: "streamAgentFilter",
     agent: consoleStreamAgentFilter,
@@ -80,32 +80,6 @@ export const main = async () => {
 };
 
 export const main2 = async () => {
-  const graph = {
-    version: 0.5,
-    nodes: {
-      messages: {
-        value: [],
-      },
-      text: {
-        value: "",
-      },
-      llmAgent: {},
-      llmModel: {},
-      tools: {
-        isResult: true,
-        agent: "toolsAgent",
-        inputs: {
-          messages: ":messages",
-          userInput: { text: ":text" },
-          tools,
-          llmAgent: ":llmAgent",
-          llmModel: ":llmModel",
-          stream: true,
-        },
-      },
-    },
-  };
-
   const streamAgentFilter = {
     name: "streamAgentFilter",
     agent: consoleStreamAgentFilter,
