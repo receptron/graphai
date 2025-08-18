@@ -19,11 +19,12 @@ const graph = {
 };
 
 // GraphAI Callback logger example
+// This allows you to log detailed state before and after each node execution, which is usually very useful for debugging.
 const callback = (log: TransactionLog) => {
   logger(JSON.stringify(log));
 };
 
-export const callbackLog = async () => {
+export const callbackLogExample = async () => {
   const graphai = new GraphAI(graph, agents);
   graphai.registerCallback(callback);
   const res = (await graphai.run(true)) as any;
@@ -40,7 +41,7 @@ const loggerAgentFilter: AgentFilterFunction = async (context, next) => {
   return result;
 };
 
-export const agentFilterLog = async () => {
+export const agentFilterLogExample = async () => {
   const agentFilters = [
     {
       name: "loggerAgentFilter",
@@ -55,6 +56,10 @@ export const agentFilterLog = async () => {
 };
 
 // customLogger Example
+//
+// Change the output of the console wrapper function GraphAILogger to also go to a file.
+// If GraphAILogger is also used in agents, etc., this will be output as a log.
+
 export const customLoggerExample = async () => {
   const consoleAndFileLogger = (level: string, ...args: any[]) => {
     const consoleMethod = (console as any)[level] || console.log;
@@ -90,8 +95,8 @@ export const customLoggerExample = async () => {
 };
 
 const main = async () => {
-  await callbackLog();
-  await agentFilterLog();
+  await callbackLogExample();
+  await agentFilterLogExample();
   await customLoggerExample();
 };
 
