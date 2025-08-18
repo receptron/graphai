@@ -145,17 +145,6 @@ export const system_with_response_format = (system: GraphAILLInputType, response
   return system;
 };
 
-/*
-        const { id, name, input } = content;
-      return {
-        id,
-        type: "function",
-        function: {
-          name,
-          arguments: JSON.parse(input),
-        },
-      };
-*/
 export const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
   return messages.reduce((tmp: any[], message: any) => {
     if (message.role === "assistant" && message.tool_calls) {
