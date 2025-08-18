@@ -13,6 +13,8 @@ import {
 } from "@graphai/llm_utils";
 import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphAIMessages } from "@graphai/agent_utils";
 
+import { type Response, anthoropicTool2OpenAITool, convOpenAIToolsToAnthropicToolMessage } from "./utils";
+
 type AnthropicInputs = {
   verbose?: boolean;
   model?: string;
@@ -46,42 +48,6 @@ const convToolCall = (tool_call: Anthropic.ToolUseBlock) => {
   return { id, name, arguments: input };
 };
 
-type Response = Anthropic.Message & { _request_id?: string | null | undefined };
-
-export const anthoropicTool2OpenAITool = (response: Response) => {
-  const contentText = response.content
-    .filter((c): c is Anthropic.TextBlock => c.type === "text")
-    .map((b) => b.text ?? "")
-    .join(" ");
-
-  const tool_calls = response.content
-    .filter((c): c is Anthropic.Messages.ToolUseBlock => c.type === "tool_use")
-    .map((content) => {
-      const { id, name, input } = content;
-      return {
-        id,
-        type: "function",
-        function: {
-          name,
-          arguments: (() => {
-            try {
-              return JSON.stringify(input ?? {});
-            } catch (__e) {
-              return "{}";
-            }
-          })(),
-        },
-      };
-    });
-  if (tool_calls.length > 0) {
-    return {
-      role: response.role,
-      content: contentText,
-      tool_calls,
-    };
-  }
-  return { role: response.role, content: contentText };
-};
 // https://docs.anthropic.com/ja/api/messages
 const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.MessageParam[], llmMetaData: LLMMetaData, maybeResponseFormat: boolean) => {
   llmMetaDataEndTime(llmMetaData);
@@ -143,63 +109,6 @@ export const system_with_response_format = (system: GraphAILLInputType, response
     return ["Please return the following json object for the specified content.", JSON.stringify(response_format, null, 2)].join("\n");
   }
   return system;
-};
-
-export const convOpenAIToolsToAnthropicToolMessage = (messages: any[]) => {
-  return messages.reduce((tmp: any[], message: any) => {
-    if (message.role === "assistant" && message.tool_calls) {
-      const content: { type: string; text?: string; id?: string; name?: string; input?: unknown }[] = [
-        {
-          type: "text",
-          text: message.content || "run tools",
-        },
-      ];
-      message.tool_calls.forEach((tool: { id: string; function: { name: string; arguments: string } }) => {
-        const { id, function: func } = tool;
-        const { name, arguments: args } = func ?? {};
-
-        content.push({
-          type: "tool_use",
-          id,
-          name,
-          input: (() => {
-            try {
-              return JSON.parse(args ?? "{}");
-            } catch (__e) {
-              return {};
-            }
-          })(),
-        });
-      });
-      tmp.push({
-        role: "assistant",
-        content,
-      });
-    } else if (message.role === "tool") {
-      const last = tmp[tmp.length - 1];
-      if (last?.role === "user" && last?.content?.[0]?.type === "tool_result") {
-        tmp[tmp.length - 1].content.push({
-          type: "tool_result",
-          tool_use_id: message.tool_call_id,
-          content: message.content,
-        });
-      } else {
-        tmp.push({
-          role: "user",
-          content: [
-            {
-              type: "tool_result",
-              tool_use_id: message.tool_call_id,
-              content: message.content,
-            },
-          ],
-        });
-      }
-    } else {
-      tmp.push(message);
-    }
-    return tmp;
-  }, []);
 };
 
 export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, AnthropicInputs, AnthropicConfig> = async ({
