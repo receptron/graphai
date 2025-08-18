@@ -1,4 +1,4 @@
-import { GraphAI, agentInfoWrapper, type AgentFunction } from "graphai";
+import { agentInfoWrapper, type AgentFunction } from "graphai";
 
 export const tools = [
   {
