@@ -23,7 +23,7 @@ export const consoleStreamAgentFilter = streamAgentFilterGenerator<GraphAILLMStr
   }
 });
 
-const main = async () => {
+export const main = async () => {
   const graph = {
     version: 0.5,
     nodes: {
@@ -82,7 +82,7 @@ const main = async () => {
 };
 
 
-const main2 = async () => {
+export const main2 = async () => {
   const graph = {
     version: 0.5,
     nodes: {
