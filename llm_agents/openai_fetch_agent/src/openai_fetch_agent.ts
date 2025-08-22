@@ -7,6 +7,7 @@ type OpenAIInputs = {
   images?: string[];
   tools?: OpenAI.ChatCompletionTool[];
   tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
+  // Deprecated alias for compatibility with older graphs
   max_tokens?: number;
   max_completion_tokens?: number;
   verbose?: boolean;
