@@ -18,7 +18,9 @@ type OpenAIInputs = {
   images?: string[];
   tools?: OpenAI.ChatCompletionTool[];
   tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
+  // Deprecated alias for compatibility with older graphs
   max_tokens?: number;
+  max_completion_tokens?: number;
   verbose?: boolean;
   temperature?: number;
   messages?: Array<OpenAI.ChatCompletionMessageParam>;
@@ -124,7 +126,7 @@ const convertOpenAIChatCompletion = (
 };
 
 export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig> = async ({ filterParams, params, namedInputs, config }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, message, response_format } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, max_completion_tokens, prompt, messages, message, response_format } = {
     ...params,
     ...namedInputs,
   };
@@ -177,7 +179,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     messages: messagesCopy as unknown as OpenAI.ChatCompletionMessageParam[],
     tools,
     tool_choice,
-    max_tokens,
+    max_completion_tokens: max_completion_tokens ?? max_tokens,
     response_format,
   };
 
@@ -296,7 +298,7 @@ const openaiAgentInfo: AgentFunctionInfo = {
       tool_choice: {
         anyOf: [{ type: "array" }, { type: "object" }],
       },
-      max_tokens: { type: "number" },
+      max_completion_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },
@@ -408,7 +410,7 @@ const openaiAgentInfo: AgentFunctionInfo = {
       system: { type: "string" },
       tools: { type: "object" },
       tool_choice: { anyOf: [{ type: "array" }, { type: "object" }] },
-      max_tokens: { type: "number" },
+      max_completion_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },

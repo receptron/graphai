@@ -7,7 +7,9 @@ type OpenAIInputs = {
   images?: string[];
   tools?: OpenAI.ChatCompletionTool[];
   tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
+  // Deprecated alias for compatibility with older graphs
   max_tokens?: number;
+  max_completion_tokens?: number;
   verbose?: boolean;
   temperature?: number;
   messages?: Array<OpenAI.ChatCompletionMessageParam>;
@@ -61,7 +63,7 @@ export const openAIFetchAgent: AgentFunction<OpenAIParams, Record<string, any> |
   namedInputs,
   config,
 }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, max_completion_tokens, prompt, messages, response_format } = {
     ...params,
     ...namedInputs,
   };
@@ -114,7 +116,7 @@ export const openAIFetchAgent: AgentFunction<OpenAIParams, Record<string, any> |
     messages: messagesCopy as unknown as OpenAI.ChatCompletionMessageParam[],
     tools,
     tool_choice,
-    max_tokens,
+    max_completion_tokens: max_completion_tokens ?? max_tokens,
     temperature: temperature ?? 0.7,
     stream: !!stream,
     response_format,
@@ -249,7 +251,7 @@ const openAIFetchAgentInfo: AgentFunctionInfo = {
       tool_choice: {
         anyOf: [{ type: "array" }, { type: "object" }],
       },
-      max_tokens: { type: "number" },
+      max_completion_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },
@@ -361,7 +363,7 @@ const openAIFetchAgentInfo: AgentFunctionInfo = {
       system: { type: "string" },
       tools: { type: "object" },
       tool_choice: { anyOf: [{ type: "array" }, { type: "object" }] },
-      max_tokens: { type: "number" },
+      max_completion_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },
