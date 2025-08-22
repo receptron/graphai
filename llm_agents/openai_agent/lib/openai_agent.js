@@ -73,7 +73,7 @@ const convertOpenAIChatCompletion = (response, messages, llmMetaData, maybeRespo
     };
 };
 const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
-    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, prompt, messages, message, response_format } = {
+    const { verbose, system, images, temperature, tools, tool_choice, max_tokens, max_completion_tokens, prompt, messages, message, response_format } = {
         ...params,
         ...namedInputs,
     };
@@ -119,7 +119,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         messages: messagesCopy,
         tools,
         tool_choice,
-        max_tokens,
+        max_completion_tokens: max_completion_tokens ?? max_tokens,
         response_format,
     };
     // Reasoning models do not support temperature parameter
@@ -236,7 +236,7 @@ const openaiAgentInfo = {
             tool_choice: {
                 anyOf: [{ type: "array" }, { type: "object" }],
             },
-            max_tokens: { type: "number" },
+            max_completion_tokens: { type: "number" },
             verbose: { type: "boolean" },
             temperature: { type: "number" },
             baseURL: { type: "string" },
@@ -348,7 +348,7 @@ const openaiAgentInfo = {
             system: { type: "string" },
             tools: { type: "object" },
             tool_choice: { anyOf: [{ type: "array" }, { type: "object" }] },
-            max_tokens: { type: "number" },
+            max_completion_tokens: { type: "number" },
             verbose: { type: "boolean" },
             temperature: { type: "number" },
             baseURL: { type: "string" },

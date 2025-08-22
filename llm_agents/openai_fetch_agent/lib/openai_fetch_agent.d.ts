@@ -7,6 +7,7 @@ type OpenAIInputs = {
     tools?: OpenAI.ChatCompletionTool[];
     tool_choice?: OpenAI.ChatCompletionToolChoiceOption;
     max_tokens?: number;
+    max_completion_tokens?: number;
     verbose?: boolean;
     temperature?: number;
     messages?: Array<OpenAI.ChatCompletionMessageParam>;

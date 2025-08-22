@@ -8,6 +8,8 @@ nodes:
     agent: openAIAgent
     inputs:
       prompt: :inputData
+    params:
+      max_tokens: 2000
 
 ```
 
