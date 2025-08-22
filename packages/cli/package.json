@@ -1,6 +1,6 @@
 {
   "name": "@receptron/graphai_cli",
-  "version": "2.0.9",
+  "version": "2.0.11",
   "description": "GraphAI command line tools.",
   "main": "lib/graphai_cli.js",
   "bin": {
@@ -34,7 +34,7 @@
     "@types/yargs": "^17.0.33"
   },
   "dependencies": {
-    "@graphai/agents": "^2.0.12",
+    "@graphai/agents": "^2.0.14",
     "@graphai/agent_filters": "^2.0.0",
     "@graphai/stream_agent_filter": "^2.0.1",
     "@graphai/token_bound_string_agent": "^1.0.1",
