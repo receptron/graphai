@@ -37,7 +37,7 @@ OpenAI Agent
         }
       ]
     },
-    "max_tokens": {
+    "max_completion_tokens": {
       "type": "number"
     },
     "verbose": {
