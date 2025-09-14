@@ -7,7 +7,7 @@ import { GraphAI } from "graphai";
 import * as agents from "@graphai/vanilla";
 import { anthropicAgent } from "../../../anthropic_agent/src/index";
 import { openAIAgent } from "../../../openai_agent/src/index";
-import { toolsAgent, toolsSequentialAgent } from "../../../tools_agent/src/index";
+import { toolsAgent } from "../../../tools_agent/src/index";
 
 import type { GraphAILLMStreamData } from "@graphai/llm_utils";
 import { streamAgentFilterGenerator } from "@graphai/stream_agent_filter";
@@ -21,32 +21,6 @@ export const consoleStreamAgentFilter = streamAgentFilterGenerator<GraphAILLMStr
     console.log(JSON.stringify(data.response, null, 2));
   }
 });
-
-const graph = {
-  version: 0.5,
-  nodes: {
-    messages: {
-      value: [],
-    },
-    text: {
-      value: "",
-    },
-    llmAgent: {},
-    llmModel: {},
-    tools: {
-      isResult: true,
-      agent: "toolsAgent",
-      inputs: {
-        messages: ":messages",
-        userInput: { text: ":text" },
-        tools: [...tools, ...mulmoVisionAgent.tools],
-        llmAgent: ":llmAgent",
-        llmModel: ":llmModel",
-        stream: true,
-      },
-    },
-  },
-};
 
 // for mulmo cast app bug
 // just chat with tools
