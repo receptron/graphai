@@ -19,6 +19,6 @@
     "deploy": "yarn build && firebase deploy --only hosting"
   },
   "devDependencies": {
-    "vitepress": "^1.6.3"
+    "vitepress": "^1.6.4"
   }
 }
