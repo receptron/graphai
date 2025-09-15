@@ -35,11 +35,12 @@ const getNestedData = (result: ResultData, propId: string, propFunctions: PropFu
 };
 
 const innerGetDataFromSource = (result: ResultData, propIds: string[] | undefined, propFunctions: PropFunction[]): ResultData | undefined => {
+
   if (propIds && propIds.length > 0) {
     const propId = propIds[0];
     const ret = getNestedData(result, propId, propFunctions);
     if (ret === undefined) {
-      GraphAILogger.info(`prop: ${propIds.join(".")} is not hit`);
+      GraphAILogger.debug(`prop: ${propIds.join(".")} is not hit`);
     }
     if (propIds.length > 1) {
       return innerGetDataFromSource(ret, propIds.slice(1), propFunctions);
