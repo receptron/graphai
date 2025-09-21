@@ -164,4 +164,6 @@ export type AgentFunctionInfo = {
 export type AgentFunctionInfoDictionary = Record<string, AgentFunctionInfo>;
 export type PropFunction = (result: ResultData, propId: string) => ResultData;
 export type CallbackFunction = (log: TransactionLog, isUpdate: boolean) => void;
+export type LogLevel = "debug" | "info" | "log" | "warn" | "error";
+export type LoggerFunction = (level: LogLevel, ...args: any[]) => void;
 export {};

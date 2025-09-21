@@ -1,5 +1,4 @@
-type LogLevel = "debug" | "info" | "log" | "warn" | "error";
-type LoggerFunction = (level: LogLevel, ...args: any[]) => void;
+import { type LogLevel, type LoggerFunction } from "../type";
 declare function setLevelEnabled(level: LogLevel, enabled: boolean): void;
 declare function setLogger(logger: LoggerFunction): void;
 declare function debug(...args: any[]): void;
