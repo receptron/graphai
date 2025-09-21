@@ -16,10 +16,17 @@
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-"@anthropic-ai/sdk@^0.60.0":
-  version "0.60.0"
-  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.60.0.tgz#29ee003e520ba9ca69c5deb5f670f0005949da22"
-  integrity sha512-9zu/TXaUy8BZhXedDtt1wT3H4LOlpKDO1/ftiFpeR3N1PCr3KJFKkxxlQWWt1NNp08xSwUNJ3JNY8yhl8av6eQ==
+"@anthropic-ai/sdk@^0.63.0":
+  version "0.63.0"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.63.0.tgz#725ea136ebf2b0fc7ebfdcb655a1d69b60bd3927"
+  integrity sha512-g2KzDcVXxT2d/SMuVJHeJ6T2loj6jFMt+Nj+I6bfwXWNDMoOP0HhiWr+5RivRV7Yv++jBurDGr76XBCc66R79A==
+  dependencies:
+    json-schema-to-ts "^3.1.1"
+
+"@babel/runtime@^7.18.3":
+  version "7.28.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.4.tgz#a70226016fabe25c5783b2f22d3e1c9bc5ca3326"
+  integrity sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -1609,10 +1616,10 @@ graphql@^16.8.1:
   resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
-groq-sdk@^0.30.0:
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.30.0.tgz#02a4fbf2cc4617093a228d61b36fabb6efb02a52"
-  integrity sha512-9PowoybiGkq1GpvkC7ikvT+WIFu6zAkeXF8p4eqNEYgGnEcf70fBWuwWqU1KIPQgTMw5sfausvJWzzPbYdHfCQ==
+groq-sdk@^0.32.0:
+  version "0.32.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.32.0.tgz#a2f7f2e719f898784ae53928fe32d248e2eaf0ed"
+  integrity sha512-KQZOzSV8UmeIbv7YEvzpZinSR9CaI/8pIGzLrVBVher6RuamklljBom5HXnNTqpekk3/L/h9Txc3Jq3ti58jug==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -1841,6 +1848,14 @@ json-buffer@3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/json-buffer/-/json-buffer-3.0.1.tgz"
   integrity sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==
+
+json-schema-to-ts@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/json-schema-to-ts/-/json-schema-to-ts-3.1.1.tgz#81f3acaf5a34736492f6f5f51870ef9ece1ca853"
+  integrity sha512-+DWg8jCJG2TEnpy7kOm/7/AxaYoaRbjVB4LFZLySZlWn8exGs3A4OLJR966cVvU26N7X9TWxl+Jsw7dzAqKT6g==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    ts-algebra "^2.0.0"
 
 json-schema-traverse@^0.4.1:
   version "0.4.1"
@@ -2217,10 +2232,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^5.15.0:
-  version "5.15.0"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-5.15.0.tgz#de3ae6d0914f7a0fcc12d0faa21a2289f9d5cc5d"
-  integrity sha512-kcUdws8K/A8m02I+IqFBwO51gS+87GP89yWEufGbzEi8anBz4FB/bti2QxaJdGwwY4mwJGzx85XO7TuL/Tpu1w==
+openai@^5.22.0:
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-5.22.0.tgz#b31c5eade47a339330791eb7e04893b7cf1f81e0"
+  integrity sha512-uSsYZ+vw9JxUwnMTcT9bj5sGM5qY/4du2BIf1KSqDRZF9nhSlJYsBLPRwBZTOW+HNyjwGviR0SsoDPv5lpPrBw==
 
 optionator@^0.9.3:
   version "0.9.4"
@@ -2433,10 +2448,10 @@ replicate@^0.31.1:
   optionalDependencies:
     readable-stream ">=4.0.0"
 
-replicate@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/replicate/-/replicate-1.1.0.tgz#6e3fbb5fcc605a91ab503725043293e43b1de61a"
-  integrity sha512-6D49t/etFvRUz7hOseEmI6mxm3vypFPffpTR37Gai924s6JmeNmnPk+QooFINYsq4Gu5HYlg49ut6zxwhfKxqQ==
+replicate@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/replicate/-/replicate-1.2.0.tgz#d411b1c53658774e6af2d744ab3d6a000f68b8a8"
+  integrity sha512-11A1LEP0jib+H2ISWYvW12Tg43Fs7HHZPvJvA9Naqr7/REwCWlExP6MWJHZBKe5WVs9iiFV/VYhCEcFUEIFgeg==
   optionalDependencies:
     readable-stream ">=4.0.0"
 
@@ -2804,6 +2819,11 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
+
+ts-algebra@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ts-algebra/-/ts-algebra-2.0.0.tgz#4e3e0953878f26518fce7f6bb115064a65388b7a"
+  integrity sha512-FPAhNPFMrkwz76P7cdjdmiShwMynZYN6SgOujD1urY4oNm80Ou9oMdmbR45LotcKOXoy7wSmHkRFE6Mxbrhefw==
 
 ts-api-utils@^2.1.0:
   version "2.1.0"

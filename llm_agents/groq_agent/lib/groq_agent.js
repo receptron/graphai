@@ -12,7 +12,7 @@ const llm_utils_1 = require("@graphai/llm_utils");
 // - [1]: array of messages from previous conversation, optional
 //
 // params:
-// - model: LLM model (Llama3-8b-8192, Llama3-70b-8192, Mixtral-8x7b-32768), required.
+// - model: LLM model (llama-3.1-8b-instant, llama-3.3-70b-versatile, meta-llama/llama-guard-4-12b), required.
 // - query: Additional query string from the app to prepend the query from the user, optional.
 // - system: System prompt (ignored if inputs[1] is specified), optional
 // - tools: Function definitions, optional
