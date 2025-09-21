@@ -7,7 +7,7 @@ import assert from "node:assert";
 
 test("test groq", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const params = { model: "llama3-8b-8192" };
+  const params = { model: "llama-3.1-8b-instant" };
   const res = (await groqAgent({ ...defaultTestContext, namedInputs, params })) as any;
 
   if (res) {
@@ -43,7 +43,7 @@ test("test groq tools", async () => {
         },
       },
     ],
-    model: "llama3-8b-8192",
+    model: "llama-3.1-8b-instant",
   };
   const res = (await groqAgent({ ...defaultTestContext, namedInputs, params })) as any;
   if (res) {
@@ -54,7 +54,7 @@ test("test groq tools", async () => {
 
 test("test groq stream", async () => {
   const namedInputs = { prompt: ["hello, let me know the answer 1 + 1"] };
-  const params = { model: "llama3-8b-8192", dataStream: true };
+  const params = { model: "llama-3.1-8b-instant", dataStream: true };
   const res = (await groqAgent({
     ...defaultTestContext,
     namedInputs,
