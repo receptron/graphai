@@ -52,4 +52,6 @@ export const GraphAILogger = {
   log,
   warn,
   error,
+  LogLevel,
+  LoggerFunction,
 };
