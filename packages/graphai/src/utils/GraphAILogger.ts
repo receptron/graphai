@@ -1,5 +1,4 @@
-type LogLevel = "debug" | "info" | "log" | "warn" | "error";
-type LoggerFunction = (level: LogLevel, ...args: any[]) => void;
+import { type LogLevel, type LoggerFunction } from "../type";
 
 const enabledLevels: Record<LogLevel, boolean> = {
   debug: true,
