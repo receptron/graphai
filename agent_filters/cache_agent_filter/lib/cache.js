@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cacheAgentFilterGenerator = exports.sortObjectKeys = void 0;
 const graphai_1 = require("graphai");
-const sha2_1 = require("@noble/hashes/sha2");
+const js_sha256_1 = require("js-sha256");
 // for cache key, sort object key
 const sortObjectKeys = (data) => {
     if (Array.isArray(data)) {
@@ -22,7 +22,7 @@ exports.sortObjectKeys = sortObjectKeys;
 const getDefaultCacheKey = (context) => {
     const { namedInputs, params, debugInfo } = context;
     const { agentId } = debugInfo;
-    const cacheKeySeed = (0, sha2_1.sha256)(JSON.stringify((0, exports.sortObjectKeys)({ namedInputs, params, agentId })));
+    const cacheKeySeed = js_sha256_1.sha256.array(JSON.stringify((0, exports.sortObjectKeys)({ namedInputs, params, agentId })));
     const cacheKey = btoa(String.fromCharCode(...cacheKeySeed));
     return cacheKey;
 };

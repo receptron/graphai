@@ -1,5 +1,5 @@
 import { AgentFilterFunction, AgentFunctionContext, isObject } from "graphai";
-import { sha256 } from 'js-sha256';
+import { sha256 } from "js-sha256";
 
 type CacheAgentFilterSetCache = (key: string, data: any) => Promise<void>;
 type CacheAgentFilterGetCache = (key: string) => Promise<any>;
