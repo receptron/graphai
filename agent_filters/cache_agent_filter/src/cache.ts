@@ -1,5 +1,5 @@
 import { AgentFilterFunction, AgentFunctionContext, isObject } from "graphai";
-import { sha256 } from "@noble/hashes/sha2";
+import { sha256 } from 'js-sha256';
 
 type CacheAgentFilterSetCache = (key: string, data: any) => Promise<void>;
 type CacheAgentFilterGetCache = (key: string) => Promise<any>;
@@ -24,7 +24,7 @@ export const sortObjectKeys = (data: any[] | Record<string, any> | string | numb
 const getDefaultCacheKey = (context: AgentFunctionContext) => {
   const { namedInputs, params, debugInfo } = context;
   const { agentId } = debugInfo;
-  const cacheKeySeed = sha256(JSON.stringify(sortObjectKeys({ namedInputs, params, agentId })));
+  const cacheKeySeed = sha256.array(JSON.stringify(sortObjectKeys({ namedInputs, params, agentId })));
   const cacheKey = btoa(String.fromCharCode(...cacheKeySeed));
   return cacheKey;
 };

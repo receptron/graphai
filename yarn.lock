@@ -240,11 +240,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@noble/hashes@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-2.0.0.tgz#5c39388259a0868cadb17d688cd8cf07eae344a4"
-  integrity sha512-h8VUBlE8R42+XIDO229cgisD287im3kdY6nbNZJFjc6ZvKIXPYXe6Vc/t+kyjFdMFyt5JpapzTsEg8n63w5/lw==
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -1831,6 +1826,11 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
+
+js-sha256@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.11.1.tgz#712262e8fc9569d6f7f6eea72c0d8e5ccc7c976c"
+  integrity sha512-o6WSo/LUvY2uC4j7mO50a2ms7E/EAdbP0swigLV+nzHKTTaYnaLIWJ02VdXrsJX0vGedDESQnLsOekr94ryfjg==
 
 js-yaml@^4.1.0:
   version "4.1.0"
