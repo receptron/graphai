@@ -1,4 +1,4 @@
-import { GraphAI } from "../../src/index";
+import { GraphAI, assert as GraphaiAssert } from "../../src/index";
 
 import * as agents from "../test_agents";
 
@@ -128,4 +128,13 @@ test("test throw error: force loop", async () => {
   }
   assert.equal(counter, 2);
   assert.equal(graph.nodes.errorNode.state, "failed");
+});
+
+test("test throw error: cause", async () => {
+  await assert.rejects(
+    async () => {
+      GraphaiAssert(false, "test", false, { type: "hello" });
+    },
+    { name: "Error", message: "test", cause: { type: "hello" } },
+  );
 });
