@@ -12,6 +12,28 @@ const GraphAILogger_1 = require("./utils/GraphAILogger");
 exports.defaultConcurrency = 8;
 exports.graphDataLatestVersion = 0.5;
 class GraphAI {
+    version;
+    graphId;
+    graphData;
+    staticNodeInitData = {};
+    loop;
+    forceLoop;
+    logs = [];
+    mapIndex;
+    bypassAgentIds;
+    config = {};
+    agentFunctionInfoDictionary;
+    taskManager;
+    agentFilters;
+    retryLimit;
+    propFunctions;
+    graphLoader;
+    nodes;
+    onLogCallback = (__log, __isUpdate) => { };
+    callbacks = [];
+    verbose; // REVIEW: Do we need this?
+    onComplete;
+    repeatCount = 0;
     // This method is called when either the GraphAI obect was created,
     // or we are about to start n-th iteration (n>2).
     createNodes(graphData) {
@@ -90,12 +112,6 @@ class GraphAI {
         forceLoop: false,
         mapIndex: undefined,
     }) {
-        this.staticNodeInitData = {};
-        this.logs = [];
-        this.config = {};
-        this.onLogCallback = (__log, __isUpdate) => { };
-        this.callbacks = [];
-        this.repeatCount = 0;
         if (!graphData.version && !options.taskManager) {
             GraphAILogger_1.GraphAILogger.warn("------------ missing version number");
         }

@@ -7,9 +7,10 @@ const utils_1 = require("./utils/utils");
 // NOTE: A TaskManager instance will be shared between parent graph and its children
 // when nested agents are involved.
 class TaskManager {
+    concurrency;
+    taskQueue = [];
+    runningNodes = new Set();
     constructor(concurrency) {
-        this.taskQueue = [];
-        this.runningNodes = new Set();
         this.concurrency = concurrency;
     }
     // This internal method dequeus a task from the task queue

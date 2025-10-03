@@ -12,9 +12,11 @@ var NodeState;
     NodeState["Completed"] = "completed";
 })(NodeState || (exports.NodeState = NodeState = {}));
 class Conductor {
+    options;
+    startTime;
+    logs = [];
+    result = {};
     constructor(options) {
-        this.logs = [];
-        this.result = {};
         this.options = options;
         this.startTime = Date.now();
     }

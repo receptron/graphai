@@ -37,9 +37,12 @@ const parseNodeName = (inputNodeId, isSelfNode = false, nodes) => {
     return { value: inputNodeId }; // non-string literal
 };
 exports.parseNodeName = parseNodeName;
-function assert(condition, message, isWarn = false) {
+function assert(condition, message, isWarn = false, cause) {
     if (!condition) {
         if (!isWarn) {
+            if (cause) {
+                throw new Error(message, { cause });
+            }
             throw new Error(message);
         }
         GraphAILogger_1.GraphAILogger.warn("warn: " + message);

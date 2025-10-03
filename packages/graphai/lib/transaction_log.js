@@ -5,6 +5,24 @@ const type_1 = require("./type");
 const utils_1 = require("./utils/utils");
 const nodeUtils_1 = require("./utils/nodeUtils");
 class TransactionLog {
+    nodeId;
+    state;
+    startTime;
+    endTime;
+    retryCount;
+    agentId;
+    params;
+    inputs;
+    inputsData;
+    namedInputs;
+    injectFrom;
+    errorMessage;
+    result;
+    resultKeys;
+    mapIndex;
+    isLoop;
+    repeatCount;
+    log;
     constructor(nodeId, mapIndex) {
         this.nodeId = nodeId;
         this.state = type_1.NodeState.Waiting;

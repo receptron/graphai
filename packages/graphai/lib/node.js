@@ -9,10 +9,14 @@ const transaction_log_1 = require("./transaction_log");
 const result_1 = require("./utils/result");
 const GraphAILogger_1 = require("./utils/GraphAILogger");
 class Node {
+    nodeId;
+    waitlist = new Set(); // List of nodes which need data from this node.
+    state = type_1.NodeState.Waiting;
+    result = undefined;
+    graph;
+    log;
+    console; // console output option (before and/or after)
     constructor(nodeId, graph) {
-        this.waitlist = new Set(); // List of nodes which need data from this node.
-        this.state = type_1.NodeState.Waiting;
-        this.result = undefined;
         this.nodeId = nodeId;
         this.graph = graph;
         this.log = new transaction_log_1.TransactionLog(nodeId, this.graph.mapIndex);
@@ -51,13 +55,35 @@ class Node {
 }
 exports.Node = Node;
 class ComputedNode extends Node {
+    graphId;
+    isResult;
+    params; // Agent-specific parameters
+    filterParams;
+    nestedGraph;
+    retryLimit;
+    retryCount = 0;
+    repeatUntil;
+    agentId;
+    agentFunction;
+    timeout; // msec
+    priority;
+    error;
+    transactionId; // To reject callbacks from timed-out transactions
+    passThrough;
+    anyInput; // any input makes this node ready
+    dataSources = []; // no longer needed. This is for transaction log.
+    inputs;
+    output;
+    pendings; // List of nodes this node is waiting data from.
+    ifSource; // conditional execution
+    unlessSource; // conditional execution
+    defaultValue;
+    isSkip = false;
+    debugInfo;
+    isStaticNode = false;
+    isComputedNode = true;
     constructor(graphId, nodeId, data, graph) {
         super(nodeId, graph);
-        this.retryCount = 0;
-        this.dataSources = []; // no longer needed. This is for transaction log.
-        this.isSkip = false;
-        this.isStaticNode = false;
-        this.isComputedNode = true;
         this.graphId = graphId;
         this.params = data.params ?? {};
         this.console = data.console ?? {};
@@ -419,10 +445,13 @@ class ComputedNode extends Node {
 }
 exports.ComputedNode = ComputedNode;
 class StaticNode extends Node {
+    value;
+    update;
+    isResult;
+    isStaticNode = true;
+    isComputedNode = false;
     constructor(nodeId, data, graph) {
         super(nodeId, graph);
-        this.isStaticNode = true;
-        this.isComputedNode = false;
         this.value = data.value;
         this.update = data.update ? (0, utils_2.parseNodeName)(data.update) : undefined;
         this.isResult = data.isResult ?? false;
