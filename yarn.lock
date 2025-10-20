@@ -1612,10 +1612,10 @@ graphql@^16.8.1:
   resolved "https://registry.npmjs.org/graphql/-/graphql-16.9.0.tgz"
   integrity sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==
 
-groq-sdk@^0.32.0:
-  version "0.32.0"
-  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.32.0.tgz#a2f7f2e719f898784ae53928fe32d248e2eaf0ed"
-  integrity sha512-KQZOzSV8UmeIbv7YEvzpZinSR9CaI/8pIGzLrVBVher6RuamklljBom5HXnNTqpekk3/L/h9Txc3Jq3ti58jug==
+groq-sdk@^0.33.0:
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-0.33.0.tgz#4f3868c71eb1a57bb18c7d1436ed1b0deb82e083"
+  integrity sha512-wb7NrBq7LZDDhDPSpuAd9LpZ0MNjmWKGLfybYfjY3r63mSpfiP8+GQZQcSDJcX+jIMzSm+SwzxModDyVZ2T66Q==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -2449,10 +2449,10 @@ replicate@^0.31.1:
   optionalDependencies:
     readable-stream ">=4.0.0"
 
-replicate@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/replicate/-/replicate-1.2.0.tgz#d411b1c53658774e6af2d744ab3d6a000f68b8a8"
-  integrity sha512-11A1LEP0jib+H2ISWYvW12Tg43Fs7HHZPvJvA9Naqr7/REwCWlExP6MWJHZBKe5WVs9iiFV/VYhCEcFUEIFgeg==
+replicate@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/replicate/-/replicate-1.3.0.tgz#fcac8a6aafc28d5b04752007fc6903def5152aea"
+  integrity sha512-Mo25Fw7r1aPSMN+/KhJbLJlzdeLVaGtSRLq8aFH0O6q1fM9LDYipJDC0mobPJ40biBhGk8bUEBVsO1otjTbIdA==
   optionalDependencies:
     readable-stream ">=4.0.0"
 
