@@ -31,7 +31,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {},
   "dependencies": {
-    "type-fest": "^5.0.1"
+    "type-fest": "^5.1.0"
   },
   "types": "./lib/index.d.ts",
   "directories": {
