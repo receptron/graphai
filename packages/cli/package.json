@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
-    "@types/yargs": "^17.0.33"
+    "@types/yargs": "^17.0.34"
   },
   "dependencies": {
     "@graphai/agent_filters": "^2.0.0",
