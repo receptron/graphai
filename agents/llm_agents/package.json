@@ -1,6 +1,6 @@
 {
   "name": "@graphai/llm_agents",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "LLM agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
@@ -26,10 +26,10 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/agents/llm_agents/README.md",
   "dependencies": {
-    "@graphai/anthropic_agent": "^2.0.10",
+    "@graphai/anthropic_agent": "^2.0.12",
     "@graphai/gemini_agent": "^2.0.1",
     "@graphai/groq_agent": "^2.0.2",
-    "@graphai/openai_agent": "^2.0.7",
+    "@graphai/openai_agent": "^2.0.8",
     "@graphai/openai_fetch_agent": "^1.0.1",
     "@graphai/replicate_agent": "^2.0.1",
     "@graphai/tools_agent": "^1.0.4"
