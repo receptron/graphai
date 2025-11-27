@@ -50,9 +50,7 @@ export const graphDataOpenAIImageDescription = {
       params: {
         model: "gpt-4o-mini",
         system: "Describe the given image",
-        images: [
-          "https://raw.githubusercontent.com/ultralytics/yolov5/master/data/images/zidane.jpg",
-        ],
+        images: ["https://raw.githubusercontent.com/ultralytics/yolov5/master/data/images/zidane.jpg"],
       },
       isResult: true,
     },

@@ -22,9 +22,17 @@ const convertOpenAIChatCompletion = (response, messages, llmMetaData, maybeRespo
     const message = (0, utils_1.anthoropicTool2OpenAITool)(response);
     const responseFormat = (() => {
         if (maybeResponseFormat && text) {
-            const parsed = JSON.parse(text);
-            if (typeof parsed === "object" && parsed !== null) {
-                return parsed;
+            const trimmed = text.trim();
+            const match = trimmed.match(/```(?:\w+)?\s*([\s\S]*?)\s*```/);
+            const candidate = match ? match[1].trim() : trimmed;
+            try {
+                const parsed = JSON.parse(candidate);
+                if (typeof parsed === "object" && parsed !== null) {
+                    return parsed;
+                }
+            }
+            catch (__error) {
+                return null;
             }
         }
         return null;
@@ -100,7 +108,7 @@ const anthropicAgent = async ({ params, namedInputs, filterParams, config, }) =>
         : undefined;
     const anthropic = new sdk_1.default({ apiKey, dangerouslyAllowBrowser: !!forWeb });
     const chatParams = {
-        model: model || "claude-3-7-sonnet-20250219",
+        model: model || "claude-sonnet-4-5",
         messages: (0, utils_1.convOpenAIToolsToAnthropicToolMessage)(messagesCopy.filter((m) => m.role !== "system")),
         tools: anthropic_tools,
         tool_choice,

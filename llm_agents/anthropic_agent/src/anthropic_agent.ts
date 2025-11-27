@@ -70,7 +70,7 @@ const convertOpenAIChatCompletion = (response: Response, messages: Anthropic.Mes
         if (typeof parsed === "object" && parsed !== null) {
           return parsed;
         }
-      } catch(__error) {
+      } catch (__error) {
         return null;
       }
     }
