@@ -97,6 +97,7 @@ test("test anthropicAgent stream", async () => {
       "Please answer the user's question. Provide only the answer under answer: — no explanation, no calculations, and no extra characters. The answer must be an exact match as if it's an answer on an exam.",
       "If an explanation is needed, include it under explain:.",
       "For calculation problems, return only the numerical result like 12. Any extra characters will be considered incorrect.",
+      "The response format should be markdown, without using code blocks, and return only the JSON data.",
     ],
     response_format: {
       type: "json_schema",
