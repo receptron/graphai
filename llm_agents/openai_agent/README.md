@@ -124,7 +124,7 @@ const result = await graph.run();
         "model": "gpt-4o-mini",
         "system": "Describe the given image",
         "images": [
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Kumamoto_Castle_Keep_Tower_20221022-3.jpg/1920px-Kumamoto_Castle_Keep_Tower_20221022-3.jpg"
+          "https://raw.githubusercontent.com/ultralytics/yolov5/master/data/images/zidane.jpg"
         ]
       },
       "isResult": true
