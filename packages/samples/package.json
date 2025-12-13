@@ -28,7 +28,7 @@
   "homepage": "https://github.com/receptron/graphai#readme",
   "devDependencies": {
     "@inquirer/select": "^4.4.2",
-    "arxiv-api-ts": "^1.0.4",
+    "arxiv-api-ts": "^1.0.5",
     "sqlite3": "^5.1.7"
   },
   "types": "./lib/index.d.ts",
