@@ -24,6 +24,7 @@ Step 4. Run the test script
 Run the test
 
 ```sh
+yarn run build
 yarn run test
 ```
 
