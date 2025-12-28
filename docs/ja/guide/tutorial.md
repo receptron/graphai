@@ -414,7 +414,7 @@ nodes:
       query: describe the final sentence by the court for Sam Bank-Fried
   wikipedia:
     console:
-      before: ...fetching data from wikkpedia
+      before: ...fetching data from wikipedia
     agent: wikipediaAgent
     inputs:
       query: :source.name
