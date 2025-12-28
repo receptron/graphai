@@ -118,7 +118,7 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
   ];
 
   const modelParams: ModelParams = {
-    model: model || "gemini-1.5-flash",
+    model: model || "gemini-2.5-flash",
     safetySettings,
   };
   /*
