@@ -1,5 +1,8 @@
 # emacs
 *~
+/agents/vanilla_agents/lib
+/llm_agents/anthropic_agent/lib
+/llm_agents/tools_agent/lib
 /tests/logs
 /packages/graphai/tests/logs
 /packages/samples/src/logs
