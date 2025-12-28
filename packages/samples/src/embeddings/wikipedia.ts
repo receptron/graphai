@@ -18,7 +18,7 @@ export const graph_data = {
     wikipedia: {
       // Fetch an article from Wikipedia
       console: {
-        before: "...fetching data from wikkpedia",
+        before: "...fetching data from wikipedia",
       },
       agent: "wikipediaAgent",
       inputs: { query: ":source.name" },
