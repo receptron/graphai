@@ -28,6 +28,7 @@
   "dependencies": {
     "@types/xml2js": "^0.4.14",
     "deepmerge": "^4.3.1",
+    "exa-js": "^2.0.12",
     "wikipedia": "^2.1.2",
     "xml2js": "^0.6.2"
   },
