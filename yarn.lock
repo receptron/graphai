@@ -3255,10 +3255,10 @@ wide-align@^1.1.5:
   dependencies:
     string-width "^1.0.2 || 2 || 3 || 4"
 
-wikipedia@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.npmjs.org/wikipedia/-/wikipedia-2.1.2.tgz"
-  integrity sha512-RAYaMpXC9/E873RaSEtlEa8dXK4e0p5k98GKOd210MtkE5emm6fcnwD+N6ZA4cuffjDWagvhaQKtp/mGp2BOVQ==
+wikipedia@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/wikipedia/-/wikipedia-2.4.2.tgz#16070c68696a6c76c66d1bd78519e882470b4cd9"
+  integrity sha512-W6HM7yL7DSO5NEgyDPLEL8ybgFvsBi+xtWOFVDa9PXsQGvVXLYp6v7lbo3dEPW3qp/4q8z/xC2aI/TZ9I5ZuoA==
   dependencies:
     axios "^1.4.0"
     infobox-parser "^3.6.2"
