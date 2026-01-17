@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
 import { geminiAgent } from "../src/gemini_agent";
-import { SchemaType } from "@google/generative-ai";
+import { Type } from "@google/genai";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -61,8 +61,8 @@ test("test gemini stream", async () => {
     namedInputs,
     params,
     filterParams: {
-      streamTokenCallback: (token: string) => {
-        console.log(token);
+      streamTokenCallback: (data: any) => {
+        console.log(data?.response?.output?.[0].text);
       },
     },
   })) as any;
@@ -77,12 +77,12 @@ test("test gemini stream", async () => {
 test("test gemini response_format", async () => {
   const schema = {
     description: "List of recipes",
-    type: SchemaType.ARRAY,
+    type: Type.ARRAY,
     items: {
-      type: SchemaType.OBJECT,
+      type: Type.OBJECT,
       properties: {
         recipeName: {
-          type: SchemaType.STRING,
+          type: Type.STRING,
           description: "Name of the recipe",
           nullable: false,
         },

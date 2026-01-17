@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory, ModelParams, EnhancedGenerateContentResponse } from "@google/generative-ai";
+import { GenerateContentConfig, GenerateContentResponse, GoogleGenAI, HarmBlockThreshold, HarmCategory, SafetySetting } from "@google/genai";
 
 import {
   GraphAILLMInputBase,
@@ -35,11 +35,11 @@ type GeminiParams = GeminiInputs & GeminiConfig;
 
 type GeminiResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & { messages: GraphAILlmMessage[] }> | [];
 
-const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, messages: GraphAILlmMessage[], llmMetaData: LLMMetaData) => {
-  const text = response.text();
+const convertOpenAIChatCompletion = (response: GenerateContentResponse, messages: GraphAILlmMessage[], llmMetaData: LLMMetaData) => {
+  const text = response.text;
   const message: any = { role: "assistant", content: text };
   // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
-  const calls = response.functionCalls();
+  const calls = response.functionCalls;
   if (calls) {
     message.tool_calls = calls.map((call) => {
       return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
@@ -49,8 +49,8 @@ const convertOpenAIChatCompletion = (response: EnhancedGenerateContentResponse, 
     ? calls.map((call) => {
         return {
           id: "dummy",
-          name: call.name,
-          arguments: call.args,
+          name: call.name ?? "",
+          arguments: call.args ?? {},
         };
       })
     : [];
@@ -109,18 +109,15 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
 
   const key = apiKey ?? (typeof process !== "undefined" && typeof process.env !== "undefined" ? process.env["GOOGLE_GENAI_API_KEY"] : null);
   assert(!!key, "GOOGLE_GENAI_API_KEY is missing in the environment.");
-  const genAI = new GoogleGenerativeAI(key);
-  const safetySettings = [
+  const ai = new GoogleGenAI({ apiKey: key });
+  const safetySettings: SafetySetting[] = [
     {
       category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
       threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
     },
   ];
 
-  const modelParams: ModelParams = {
-    model: model || "gemini-2.5-flash",
-    safetySettings,
-  };
+  // TODO: Fix response_format
   /*
   if (response_format) {
     modelParams.generationConfig = {
@@ -130,20 +127,22 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
   }
   */
 
+  const generationConfig: GenerateContentConfig = {
+    maxOutputTokens: max_tokens,
+    safetySettings: safetySettings,
+    temperature: temperature,
+    // topP: 0.1,
+    // topK: 16,
+  };
   if (tools) {
     const functions = tools.map((tool: any) => {
       return tool.function;
     });
-    modelParams.tools = [{ functionDeclarations: functions }];
+    generationConfig.tools = [{ functionDeclarations: functions }];
   }
-  const genModel = genAI.getGenerativeModel(modelParams);
-  const generationConfig = {
-    maxOutputTokens: max_tokens,
-    temperature,
-    // topP: 0.1,
-    // topK: 16,
-  };
-  const chat = genModel.startChat({
+  const chat = ai.chats.create({
+    model: model || "gemini-2.5-flash",
+    config: generationConfig,
     history: messagesCopy.map((message) => {
       const role = message.role === "assistant" ? "model" : message.role;
       if (role === "system") {
@@ -152,7 +151,6 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       }
       return { role, parts: [{ text: message.content }] };
     }),
-    generationConfig,
   });
   messagesCopy.push(lastMessage);
 
@@ -163,10 +161,16 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
         response: {},
       });
     }
-    const result = await chat.sendMessageStream(lastMessage.content);
-    for await (const chunk of result.stream) {
+    const result = await chat.sendMessageStream({ message: lastMessage.content });
+
+    let finalResponse: GenerateContentResponse | undefined;
+
+    for await (const chunk of result) {
       llmMetaDataFirstTokenTime(llmMetaData);
-      const chunkText = chunk.text();
+      const chunkText = chunk.text;
+      // TODO: Fix to handle all the function calls
+      finalResponse = chunk;
+
       if (filterParams && filterParams.streamTokenCallback && chunkText) {
         if (dataStream) {
           filterParams.streamTokenCallback({
@@ -185,7 +189,10 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
         }
       }
     }
-    const response = await result.response;
+    if (!finalResponse) {
+      return [];
+    }
+
     if (dataStream && filterParams && filterParams.streamTokenCallback) {
       filterParams.streamTokenCallback({
         type: "response.completed",
@@ -193,11 +200,12 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       });
     }
     llmMetaDataEndTime(llmMetaData);
-    return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(finalResponse, messagesCopy, llmMetaData);
   }
 
-  const result = await chat.sendMessage(lastMessage.content);
-  const response = result.response;
+  const response: GenerateContentResponse = await chat.sendMessage({
+    message: lastMessage.content,
+  });
 
   llmMetaDataEndTime(llmMetaData);
   return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
@@ -237,7 +245,7 @@ const geminiAgentInfo: AgentFunctionInfo = {
   package: "@graphai/gemini_agent",
   license: "MIT",
   stream: true,
-  npms: ["@anthropic-ai/sdk"],
+  npms: ["@google/genai"],
   environmentVariables: ["GOOGLE_GENAI_API_KEY"],
 };
 
