@@ -35,15 +35,15 @@ test("test groq tools", async () => {
               eventType: {
                 type: "string",
                 enum: ["Returns", "Payment", "How to order", "Others", "Defective products"],
-                description: "The user name",
+                description: "The department type to dispatch to",
               },
             },
+            required: ["eventType"],
           },
-          required: ["eventType"],
         },
       },
     ],
-    model: "llama-3.1-8b-instant",
+    model: "llama-3.3-70b-versatile",
   };
   const res = (await groqAgent({ ...defaultTestContext, namedInputs, params })) as any;
   if (res) {
