@@ -46,7 +46,7 @@ const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
     };
 };
 const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
-    const { system, temperature, tools, max_tokens, prompt, messages /* response_format */ } = { ...params, ...namedInputs };
+    const { system, temperature, tools, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
     const { apiKey, stream, dataStream, model } = {
         ...params,
         ...(config || {}),
@@ -74,15 +74,6 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             threshold: genai_1.HarmBlockThreshold.BLOCK_ONLY_HIGH,
         },
     ];
-    // TODO: Fix response_format
-    /*
-    if (response_format) {
-      modelParams.generationConfig = {
-        responseMimeType: "application/json",
-        responseSchema: response_format,
-      };
-    }
-    */
     const generationConfig = {
         maxOutputTokens: max_tokens,
         safetySettings: safetySettings,
@@ -95,6 +86,20 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             return tool.function;
         });
         generationConfig.tools = [{ functionDeclarations: functions }];
+    }
+    // response_format should be OpenAPI 3.0 schema (https://spec.openapis.org/oas/v3.0.3#schema) or JSON Schema (https://json-schema.org/)
+    if (response_format) {
+        if (response_format.type === "schema") {
+            generationConfig.responseMimeType = "application/json";
+            generationConfig.responseSchema = response_format.schema;
+        }
+        else if (response_format.type === "json_schema") {
+            generationConfig.responseMimeType = "application/json";
+            generationConfig.responseJsonSchema = response_format.schema;
+        }
+        else {
+            console.log("response_format.type should be `schema` or `json_schema`");
+        }
     }
     const chat = ai.chats.create({
         model: model || "gemini-2.5-flash",

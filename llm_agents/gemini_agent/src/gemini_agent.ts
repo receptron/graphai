@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
-import { GenerateContentConfig, GenerateContentResponse, GoogleGenAI, HarmBlockThreshold, HarmCategory, SafetySetting } from "@google/genai";
+import { GenerateContentConfig, GenerateContentResponse, GoogleGenAI, HarmBlockThreshold, HarmCategory, SafetySetting, SchemaUnion } from "@google/genai";
 
 import {
   GraphAILLMInputBase,
@@ -15,13 +15,18 @@ import {
 
 import type { GraphAITool, GraphAIToolCalls, GraphAIMessage } from "@graphai/agent_utils";
 
+type GeminiResponseFormat = {
+  type: string;
+  schema: SchemaUnion;
+};
+
 type GeminiInputs = {
   model?: string;
   temperature?: number;
   max_tokens?: number;
   tools?: Array<Record<string, any>>;
   // tool_choice?: any;
-  response_format?: any;
+  response_format?: GeminiResponseFormat;
   messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
 
@@ -80,7 +85,7 @@ const convertOpenAIChatCompletion = (response: GenerateContentResponse, messages
 };
 
 export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
-  const { system, temperature, tools, max_tokens, prompt, messages /* response_format */ } = { ...params, ...namedInputs };
+  const { system, temperature, tools, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
 
   const { apiKey, stream, dataStream, model } = {
     ...params,
@@ -117,16 +122,6 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
     },
   ];
 
-  // TODO: Fix response_format
-  /*
-  if (response_format) {
-    modelParams.generationConfig = {
-      responseMimeType: "application/json",
-      responseSchema: response_format,
-    };
-  }
-  */
-
   const generationConfig: GenerateContentConfig = {
     maxOutputTokens: max_tokens,
     safetySettings: safetySettings,
@@ -140,6 +135,19 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
     });
     generationConfig.tools = [{ functionDeclarations: functions }];
   }
+  // response_format should be OpenAPI 3.0 schema (https://spec.openapis.org/oas/v3.0.3#schema) or JSON Schema (https://json-schema.org/)
+  if (response_format) {
+    if (response_format.type === "schema") {
+      generationConfig.responseMimeType = "application/json";
+      generationConfig.responseSchema = response_format.schema;
+    } else if (response_format.type === "json_schema") {
+      generationConfig.responseMimeType = "application/json";
+      generationConfig.responseJsonSchema = response_format.schema;
+    } else {
+      console.log("response_format.type should be `schema` or `json_schema`");
+    }
+  }
+
   const chat = ai.chats.create({
     model: model || "gemini-2.5-flash",
     config: generationConfig,
