@@ -21,7 +21,7 @@ test("test gemini response_format (OpenAPI schema)", async () => {
           },
           explain: {
             type: "string",
-            description: "Explaination to the answer",
+            description: "Explanation to the answer",
           },
         },
         required: ["answer", "explain"],
@@ -54,7 +54,7 @@ test("test gemini response_format (JSON schema)", async () => {
           },
           explain: {
             type: "string",
-            description: "Explaination to the answer",
+            description: "Explanation to the answer",
           },
         },
         required: ["answer", "explain"],
