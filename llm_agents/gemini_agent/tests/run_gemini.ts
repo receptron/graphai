@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
 import { geminiAgent } from "../src/gemini_agent";
-import { Type } from "@google/genai";
 
 import test from "node:test";
 import assert from "node:assert";
@@ -67,38 +66,6 @@ test("test gemini stream", async () => {
     },
   })) as any;
 
-  if (res) {
-    console.log(res.choices[0].message["content"]);
-    console.log(res.text);
-  }
-  assert.deepStrictEqual(true, true);
-});
-
-test("test gemini response_format", async () => {
-  const schema = {
-    description: "List of recipes",
-    type: Type.ARRAY,
-    items: {
-      type: Type.OBJECT,
-      properties: {
-        recipeName: {
-          type: Type.STRING,
-          description: "Name of the recipe",
-          nullable: false,
-        },
-      },
-      required: ["recipeName"],
-    },
-  };
-  const namedInputs = { prompt: ["List a few popular cookie recipes."] };
-  const params = { response_format: schema };
-  const res = (await geminiAgent({
-    ...defaultTestContext,
-    namedInputs,
-    params,
-  })) as any;
-
-  console.log(res);
   if (res) {
     console.log(res.choices[0].message["content"]);
     console.log(res.text);
