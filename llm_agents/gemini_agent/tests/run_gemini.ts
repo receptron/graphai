@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { defaultTestContext } from "graphai";
 import { geminiAgent } from "../src/gemini_agent";
-import { Type } from "@google/genai";
 
 import test from "node:test";
 import assert from "node:assert";
