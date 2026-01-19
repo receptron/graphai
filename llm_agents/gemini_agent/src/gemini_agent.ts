@@ -1,4 +1,4 @@
-import { AgentFunction, AgentFunctionInfo, assert } from "graphai";
+import { AgentFunction, AgentFunctionInfo, assert, GraphAILogger } from "graphai";
 import { GenerateContentConfig, GenerateContentResponse, GoogleGenAI, HarmBlockThreshold, HarmCategory, SafetySetting, SchemaUnion } from "@google/genai";
 
 import {
@@ -17,7 +17,10 @@ import type { GraphAITool, GraphAIToolCalls, GraphAIMessage } from "@graphai/age
 
 type GeminiResponseFormat = {
   type: string;
-  schema: SchemaUnion;
+  json_schema: {
+    schema: SchemaUnion;
+    strict?: boolean;
+  };
 };
 
 type GeminiInputs = {
@@ -139,12 +142,15 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
   if (response_format) {
     if (response_format.type === "schema") {
       generationConfig.responseMimeType = "application/json";
-      generationConfig.responseSchema = response_format.schema;
+      generationConfig.responseSchema = response_format.json_schema.schema;
     } else if (response_format.type === "json_schema") {
       generationConfig.responseMimeType = "application/json";
-      generationConfig.responseJsonSchema = response_format.schema;
+      generationConfig.responseJsonSchema = response_format.json_schema.schema;
     } else {
-      console.log("response_format.type should be `schema` or `json_schema`");
+      GraphAILogger.warn("response_format.type should be `schema` or `json_schema`");
+    }
+    if (response_format.json_schema.strict !== undefined) {
+      GraphAILogger.warn("Gemini does not support 'strict' option, ignoring...");
     }
   }
 

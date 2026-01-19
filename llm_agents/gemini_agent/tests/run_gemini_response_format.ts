@@ -12,20 +12,20 @@ test("test gemini response_format (OpenAPI schema)", async () => {
     system: "You are a math teacher. Provide the answer to the given equation along with an explanation.",
     response_format: {
       type: "schema" as const,
-      schema: {
-        type: "object",
-        properties: {
-          answer: {
-            type: "string",
-            description: "Answer to the question",
+      json_schema: {
+        schema: {
+          type: "object",
+          properties: {
+            answer: {
+              type: "string",
+            },
+            explain: {
+              type: "string",
+            },
           },
-          explain: {
-            type: "string",
-            description: "Explanation to the answer",
-          },
+          required: ["answer", "explain"],
+          additionalProperties: false,
         },
-        required: ["answer", "explain"],
-        additionalProperties: false,
       },
     },
   };
@@ -45,20 +45,20 @@ test("test gemini response_format (JSON schema)", async () => {
     system: "You are a math teacher. Provide the answer to the given equation along with an explanation.",
     response_format: {
       type: "json_schema" as const,
-      schema: {
-        type: "object",
-        properties: {
-          answer: {
-            type: "string",
-            description: "Answer to the question",
+      json_schema: {
+        schema: {
+          type: "object",
+          properties: {
+            answer: {
+              type: "string",
+            },
+            explain: {
+              type: "string",
+            },
           },
-          explain: {
-            type: "string",
-            description: "Explanation to the answer",
-          },
+          required: ["answer", "explain"],
+          additionalProperties: false,
         },
-        required: ["answer", "explain"],
-        additionalProperties: false,
       },
     },
   };

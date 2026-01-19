@@ -4,7 +4,10 @@ import { GraphAILLMInputBase, GraphAILlmMessage } from "@graphai/llm_utils";
 import type { GraphAITool, GraphAIToolCalls, GraphAIMessage } from "@graphai/agent_utils";
 type GeminiResponseFormat = {
     type: string;
-    schema: SchemaUnion;
+    json_schema: {
+        schema: SchemaUnion;
+        strict?: boolean;
+    };
 };
 type GeminiInputs = {
     model?: string;
