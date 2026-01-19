@@ -1,12 +1,20 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
+import { SchemaUnion } from "@google/genai";
 import { GraphAILLMInputBase, GraphAILlmMessage } from "@graphai/llm_utils";
 import type { GraphAITool, GraphAIToolCalls, GraphAIMessage } from "@graphai/agent_utils";
+type GeminiResponseFormat = {
+    type: string;
+    json_schema: {
+        schema: SchemaUnion;
+        strict?: boolean;
+    };
+};
 type GeminiInputs = {
     model?: string;
     temperature?: number;
     max_tokens?: number;
     tools?: Array<Record<string, any>>;
-    response_format?: any;
+    response_format?: GeminiResponseFormat;
     messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
 type GeminiConfig = {
