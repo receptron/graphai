@@ -88,7 +88,7 @@ test("test gemini multiple tools", async () => {
         },
       },
     },
-  ]
+  ];
   const params = {
     stream: true,
     tools: tools,

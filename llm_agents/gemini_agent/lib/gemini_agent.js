@@ -126,7 +126,7 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
         }
         const result = await chat.sendMessageStream({ message: lastMessage.content });
         let finalResponse;
-        let functionCalls = [];
+        const functionCalls = [];
         for await (const chunk of result) {
             (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
             if (chunk.functionCalls) {
