@@ -1,5 +1,5 @@
 import { AgentFunction, AgentFunctionInfo, assert, GraphAILogger } from "graphai";
-import { GenerateContentConfig, GenerateContentResponse, GoogleGenAI, HarmBlockThreshold, HarmCategory, SafetySetting, SchemaUnion } from "@google/genai";
+import { FunctionCall, GenerateContentConfig, GenerateContentResponse, GoogleGenAI, HarmBlockThreshold, HarmCategory, SafetySetting, SchemaUnion } from "@google/genai";
 
 import {
   GraphAILLMInputBase,
@@ -43,11 +43,11 @@ type GeminiParams = GeminiInputs & GeminiConfig;
 
 type GeminiResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & { messages: GraphAILlmMessage[] }> | [];
 
-const convertOpenAIChatCompletion = (response: GenerateContentResponse, messages: GraphAILlmMessage[], llmMetaData: LLMMetaData) => {
+const convertOpenAIChatCompletion = (response: GenerateContentResponse, functionCalls: FunctionCall[], messages: GraphAILlmMessage[], llmMetaData: LLMMetaData) => {
   const text = response.text;
   const message: any = { role: "assistant", content: text };
   // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
-  const calls = response.functionCalls;
+  const calls = functionCalls.length > 0 ? functionCalls : response.functionCalls;
   if (calls) {
     message.tool_calls = calls.map((call) => {
       return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
@@ -178,11 +178,14 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
     const result = await chat.sendMessageStream({ message: lastMessage.content });
 
     let finalResponse: GenerateContentResponse | undefined;
+    let functionCalls: FunctionCall[] = [];
 
     for await (const chunk of result) {
       llmMetaDataFirstTokenTime(llmMetaData);
+      if (chunk.functionCalls) {
+        functionCalls.push(...chunk.functionCalls);
+      }
       const chunkText = chunk.text;
-      // TODO: Fix to handle all the function calls
       finalResponse = chunk;
 
       if (filterParams && filterParams.streamTokenCallback && chunkText) {
@@ -214,7 +217,7 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       });
     }
     llmMetaDataEndTime(llmMetaData);
-    return convertOpenAIChatCompletion(finalResponse, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(finalResponse, functionCalls, messagesCopy, llmMetaData);
   }
 
   const response: GenerateContentResponse = await chat.sendMessage({
@@ -222,7 +225,7 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
   });
 
   llmMetaDataEndTime(llmMetaData);
-  return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
+  return convertOpenAIChatCompletion(response, [], messagesCopy, llmMetaData);
 };
 
 const geminiAgentInfo: AgentFunctionInfo = {

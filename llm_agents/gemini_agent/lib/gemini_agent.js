@@ -4,11 +4,11 @@ exports.geminiAgent = void 0;
 const graphai_1 = require("graphai");
 const genai_1 = require("@google/genai");
 const llm_utils_1 = require("@graphai/llm_utils");
-const convertOpenAIChatCompletion = (response, messages, llmMetaData) => {
+const convertOpenAIChatCompletion = (response, functionCalls, messages, llmMetaData) => {
     const text = response.text;
     const message = { role: "assistant", content: text };
     // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
-    const calls = response.functionCalls;
+    const calls = functionCalls.length > 0 ? functionCalls : response.functionCalls;
     if (calls) {
         message.tool_calls = calls.map((call) => {
             return { function: { name: call.name, arguments: JSON.stringify(call.args) } };
@@ -126,10 +126,13 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
         }
         const result = await chat.sendMessageStream({ message: lastMessage.content });
         let finalResponse;
+        let functionCalls = [];
         for await (const chunk of result) {
             (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
+            if (chunk.functionCalls) {
+                functionCalls.push(...chunk.functionCalls);
+            }
             const chunkText = chunk.text;
-            // TODO: Fix to handle all the function calls
             finalResponse = chunk;
             if (filterParams && filterParams.streamTokenCallback && chunkText) {
                 if (dataStream) {
@@ -160,13 +163,13 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             });
         }
         (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
-        return convertOpenAIChatCompletion(finalResponse, messagesCopy, llmMetaData);
+        return convertOpenAIChatCompletion(finalResponse, functionCalls, messagesCopy, llmMetaData);
     }
     const response = await chat.sendMessage({
         message: lastMessage.content,
     });
     (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
-    return convertOpenAIChatCompletion(response, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(response, [], messagesCopy, llmMetaData);
 };
 exports.geminiAgent = geminiAgent;
 const geminiAgentInfo = {
