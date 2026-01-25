@@ -48,6 +48,58 @@ test("test gemini tools", async () => {
 
   if (res) {
     console.log(res);
+    console.log(res.tool_calls);
+  }
+  assert.deepStrictEqual(true, true);
+});
+
+test("test gemini multiple tools", async () => {
+  const namedInputs = { prompt: ["let me know weather of Tokyo and rate of USDJPY"] };
+
+  const tools = [
+    {
+      type: "function",
+      function: {
+        name: "generalToolAgent--get_weather",
+        description: "Get current weather for a city.",
+        parameters: {
+          type: "object",
+          properties: {
+            city: { type: "string", description: "City name." },
+            unit: { type: "string", enum: ["C", "F"], description: "Temperature unit." },
+          },
+          required: ["city"],
+          additionalProperties: false,
+        },
+      },
+    },
+    {
+      type: "function",
+      function: {
+        name: "generalToolAgent--get_fx_rate",
+        description: "Get spot FX rate for a currency pair like USDJPY.",
+        parameters: {
+          type: "object",
+          properties: {
+            pair: { type: "string", pattern: "^[A-Za-z]{6}$", description: "Six-letter pair, e.g., USDJPY." },
+          },
+          required: ["pair"],
+          additionalProperties: false,
+        },
+      },
+    },
+  ];
+  const params = {
+    stream: true,
+    tools: tools,
+  };
+
+  const res = (await geminiAgent({ ...defaultTestContext, namedInputs, params })) as any;
+
+  if (res) {
+    console.log(res);
+    console.log(res.tool_calls);
+    console.log(`tool_calls.length: ${res.tool_calls.length} (expected: 2, may vary due to Gemini AUTO mode)`);
   }
   assert.deepStrictEqual(true, true);
 });
