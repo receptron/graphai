@@ -99,6 +99,7 @@ test("test gemini multiple tools", async () => {
   if (res) {
     console.log(res);
     console.log(res.tool_calls);
+    console.log(`tool_calls.length: ${res.tool_calls.length} (expected: 2, may vary due to Gemini AUTO mode)`);
   }
   assert.deepStrictEqual(true, true);
 });
