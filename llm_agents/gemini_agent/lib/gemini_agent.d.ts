@@ -14,6 +14,7 @@ type GeminiInputs = {
     temperature?: number;
     max_tokens?: number;
     tools?: Array<Record<string, any>>;
+    tool_choice?: string;
     response_format?: GeminiResponseFormat;
     messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;

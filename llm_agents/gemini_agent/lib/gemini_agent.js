@@ -46,7 +46,7 @@ const convertOpenAIChatCompletion = (response, functionCalls, messages, llmMetaD
     };
 };
 const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
-    const { system, temperature, tools, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
+    const { system, temperature, tools, max_tokens, prompt, messages, response_format, tool_choice } = { ...params, ...namedInputs };
     const { apiKey, stream, dataStream, model } = {
         ...params,
         ...(config || {}),
@@ -86,6 +86,41 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             return tool.function;
         });
         generationConfig.tools = [{ functionDeclarations: functions }];
+    }
+    // https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#function_calling_modes
+    if (tool_choice) {
+        let mode;
+        switch (tool_choice) {
+            case "auto":
+                mode = genai_1.FunctionCallingConfigMode.AUTO;
+                break;
+            case "any":
+                mode = genai_1.FunctionCallingConfigMode.ANY;
+                break;
+            case "none":
+                mode = genai_1.FunctionCallingConfigMode.NONE;
+                break;
+            case "validated":
+                mode = genai_1.FunctionCallingConfigMode.VALIDATED;
+                break;
+            default:
+                mode = genai_1.FunctionCallingConfigMode.MODE_UNSPECIFIED;
+                break;
+        }
+        if (mode == genai_1.FunctionCallingConfigMode.MODE_UNSPECIFIED) {
+            graphai_1.GraphAILogger.warn("tool_choice should be `auto (default)`, `any`, `none` or `validated (preview)`");
+        }
+        else {
+            const functionNames = tools?.map((tool) => {
+                return tool.function.name;
+            });
+            generationConfig.toolConfig = {
+                functionCallingConfig: {
+                    mode: mode,
+                    allowedFunctionNames: functionNames,
+                },
+            };
+        }
     }
     // response_format should be OpenAPI 3.0 schema (https://spec.openapis.org/oas/v3.0.3#schema) or JSON Schema (https://json-schema.org/)
     if (response_format) {
