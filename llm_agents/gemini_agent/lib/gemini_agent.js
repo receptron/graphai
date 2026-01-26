@@ -111,9 +111,11 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             graphai_1.GraphAILogger.warn("tool_choice should be `auto (default)`, `any`, `none` or `validated (preview)`");
         }
         else {
-            const functionNames = tools?.map((tool) => {
-                return tool.function.name;
-            });
+            const functionNames = mode === genai_1.FunctionCallingConfigMode.ANY || mode === genai_1.FunctionCallingConfigMode.VALIDATED
+                ? tools?.map((tool) => {
+                    return tool.function.name;
+                })
+                : [];
             generationConfig.toolConfig = {
                 functionCallingConfig: {
                     mode: mode,
