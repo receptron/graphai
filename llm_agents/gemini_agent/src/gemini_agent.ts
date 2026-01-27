@@ -1,6 +1,7 @@
 import { AgentFunction, AgentFunctionInfo, assert, GraphAILogger } from "graphai";
 import {
   FunctionCall,
+  FunctionCallingConfig,
   FunctionCallingConfigMode,
   GenerateContentConfig,
   GenerateContentResponse,
@@ -176,17 +177,16 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
     if (mode == FunctionCallingConfigMode.MODE_UNSPECIFIED) {
       GraphAILogger.warn("tool_choice should be `auto (default)`, `any`, `none` or `validated (preview)`");
     } else {
-      const functionNames =
-        mode === FunctionCallingConfigMode.ANY || mode === FunctionCallingConfigMode.VALIDATED
-          ? tools?.map((tool: any) => {
-              return tool.function.name;
-            })
-          : [];
+      const functionCallingConfig: FunctionCallingConfig = {
+        mode: mode,
+      };
+      if (mode === FunctionCallingConfigMode.ANY || mode === FunctionCallingConfigMode.VALIDATED) {
+        functionCallingConfig.allowedFunctionNames = tools?.map((tool: any) => {
+          return tool.function.name;
+        });
+      }
       generationConfig.toolConfig = {
-        functionCallingConfig: {
-          mode: mode,
-          allowedFunctionNames: functionNames,
-        },
+        functionCallingConfig: functionCallingConfig,
       };
     }
   }

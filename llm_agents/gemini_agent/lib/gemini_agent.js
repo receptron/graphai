@@ -111,16 +111,16 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             graphai_1.GraphAILogger.warn("tool_choice should be `auto (default)`, `any`, `none` or `validated (preview)`");
         }
         else {
-            const functionNames = mode === genai_1.FunctionCallingConfigMode.ANY || mode === genai_1.FunctionCallingConfigMode.VALIDATED
-                ? tools?.map((tool) => {
+            const functionCallingConfig = {
+                mode: mode,
+            };
+            if (mode === genai_1.FunctionCallingConfigMode.ANY || mode === genai_1.FunctionCallingConfigMode.VALIDATED) {
+                functionCallingConfig.allowedFunctionNames = tools?.map((tool) => {
                     return tool.function.name;
-                })
-                : [];
+                });
+            }
             generationConfig.toolConfig = {
-                functionCallingConfig: {
-                    mode: mode,
-                    allowedFunctionNames: functionNames,
-                },
+                functionCallingConfig: functionCallingConfig,
             };
         }
     }
