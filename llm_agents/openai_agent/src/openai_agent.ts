@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 import { type AgentFunction, type AgentFunctionInfo, sleep, isNull } from "graphai";
 import {
   GraphAILLMInputBase,
@@ -31,6 +31,7 @@ type OpenAIInputs = {
 type OpenAIConfig = {
   baseURL?: string;
   apiKey?: string;
+  apiVersion?: string; // Azure API version
   stream?: boolean;
   forWeb?: boolean;
   model?: string;
@@ -131,7 +132,7 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     ...namedInputs,
   };
 
-  const { apiKey, stream, dataStream, forWeb, model, baseURL } = {
+  const { apiKey, stream, dataStream, forWeb, model, baseURL, apiVersion } = {
     ...(config || {}),
     ...params,
   };
@@ -171,7 +172,23 @@ export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs
     console.log(messagesCopy);
   }
 
-  const openai = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
+  const openai = (() => {
+    if (baseURL) {
+      try {
+        const url = new URL(baseURL);
+        if (url.hostname.endsWith(".openai.azure.com")) {
+          return new AzureOpenAI({
+            apiKey,
+            endpoint: baseURL,
+            apiVersion: apiVersion ?? "2025-04-01-preview",
+          });
+        }
+      } catch {
+        // Invalid URL, fall through to standard OpenAI
+      }
+    }
+    return new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
+  })();
 
   const modelName = model || "gpt-4o";
   const chatParams: OpenAI.ChatCompletionCreateParams = {
@@ -302,6 +319,7 @@ const openaiAgentInfo: AgentFunctionInfo = {
       verbose: { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },
+      apiVersion: { type: "string", description: "Azure API version" },
       apiKey: {
         anyOf: [{ type: "string" }, { type: "object" }],
       },
@@ -414,6 +432,7 @@ const openaiAgentInfo: AgentFunctionInfo = {
       verbose: { type: "boolean" },
       temperature: { type: "number" },
       baseURL: { type: "string" },
+      apiVersion: { type: "string", description: "Azure API version" },
       apiKey: { anyOf: [{ type: "string" }, { type: "object" }] },
       stream: { type: "boolean" },
       prompt: { type: "string", description: "query string" },
