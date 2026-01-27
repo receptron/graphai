@@ -18,6 +18,7 @@ type OpenAIInputs = {
 type OpenAIConfig = {
     baseURL?: string;
     apiKey?: string;
+    apiVersion?: string;
     stream?: boolean;
     forWeb?: boolean;
     model?: string;

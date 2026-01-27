@@ -1,10 +1,40 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openAIMockAgent = exports.openAIAgent = void 0;
-const openai_1 = __importDefault(require("openai"));
+const openai_1 = __importStar(require("openai"));
 const graphai_1 = require("graphai");
 const llm_utils_1 = require("@graphai/llm_utils");
 const convToolCall = (tool_call) => {
@@ -77,7 +107,7 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
         ...params,
         ...namedInputs,
     };
-    const { apiKey, stream, dataStream, forWeb, model, baseURL } = {
+    const { apiKey, stream, dataStream, forWeb, model, baseURL, apiVersion } = {
         ...(config || {}),
         ...params,
     };
@@ -112,7 +142,24 @@ const openAIAgent = async ({ filterParams, params, namedInputs, config }) => {
     if (verbose) {
         console.log(messagesCopy);
     }
-    const openai = new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
+    const openai = (() => {
+        if (baseURL) {
+            try {
+                const url = new URL(baseURL);
+                if (url.hostname.endsWith(".openai.azure.com")) {
+                    return new openai_1.AzureOpenAI({
+                        apiKey,
+                        endpoint: baseURL,
+                        apiVersion: apiVersion ?? "2025-04-01-preview",
+                    });
+                }
+            }
+            catch {
+                // Invalid URL, fall through to standard OpenAI
+            }
+        }
+        return new openai_1.default({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
+    })();
     const modelName = model || "gpt-4o";
     const chatParams = {
         model: modelName,
@@ -240,6 +287,7 @@ const openaiAgentInfo = {
             verbose: { type: "boolean" },
             temperature: { type: "number" },
             baseURL: { type: "string" },
+            apiVersion: { type: "string", description: "Azure API version" },
             apiKey: {
                 anyOf: [{ type: "string" }, { type: "object" }],
             },
@@ -352,6 +400,7 @@ const openaiAgentInfo = {
             verbose: { type: "boolean" },
             temperature: { type: "number" },
             baseURL: { type: "string" },
+            apiVersion: { type: "string", description: "Azure API version" },
             apiKey: { anyOf: [{ type: "string" }, { type: "object" }] },
             stream: { type: "boolean" },
             prompt: { type: "string", description: "query string" },
