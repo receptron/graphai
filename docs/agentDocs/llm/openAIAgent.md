@@ -49,6 +49,10 @@ OpenAI Agent
     "baseURL": {
       "type": "string"
     },
+    "apiVersion": {
+      "type": "string",
+      "description": "Azure API version"
+    },
     "apiKey": {
       "anyOf": [
         {

@@ -33,11 +33,15 @@ const result = await graph.run();
 ### Input/Params example
  - openAIAgent
    - inputs
+     - apiVersion(string)
+       - Azure API version
      - prompt(string)
        - query string
      - messages(undefined)
        - chat messages
    - params
+     - apiVersion(string)
+       - Azure API version
      - prompt(string)
        - query string
      - messages(undefined)
