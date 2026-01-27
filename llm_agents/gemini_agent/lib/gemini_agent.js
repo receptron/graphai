@@ -219,6 +219,7 @@ const geminiAgentInfo = {
             model: { type: "string" },
             system: { type: "string" },
             tools: { type: "object" },
+            tool_choice: { type: "string" },
             max_tokens: { type: "number" },
             temperature: { type: "number" },
             prompt: {
