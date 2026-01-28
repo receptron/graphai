@@ -27,6 +27,9 @@ Gemini Agent
     "tools": {
       "type": "object"
     },
+    "tool_choice": {
+      "type": "string"
+    },
     "max_tokens": {
       "type": "number"
     },
