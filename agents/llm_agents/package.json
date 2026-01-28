@@ -29,7 +29,7 @@
     "@graphai/anthropic_agent": "^2.0.12",
     "@graphai/gemini_agent": "^2.0.4",
     "@graphai/groq_agent": "^2.0.2",
-    "@graphai/openai_agent": "^2.0.8",
+    "@graphai/openai_agent": "^2.0.9",
     "@graphai/openai_fetch_agent": "^1.0.1",
     "@graphai/replicate_agent": "^2.0.1",
     "@graphai/tools_agent": "^1.0.4"
