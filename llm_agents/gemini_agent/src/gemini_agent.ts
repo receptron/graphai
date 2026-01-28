@@ -1,6 +1,8 @@
 import { AgentFunction, AgentFunctionInfo, assert, GraphAILogger } from "graphai";
 import {
   FunctionCall,
+  FunctionCallingConfig,
+  FunctionCallingConfigMode,
   GenerateContentConfig,
   GenerateContentResponse,
   GoogleGenAI,
@@ -37,7 +39,7 @@ type GeminiInputs = {
   temperature?: number;
   max_tokens?: number;
   tools?: Array<Record<string, any>>;
-  // tool_choice?: any;
+  tool_choice?: string;
   response_format?: GeminiResponseFormat;
   messages?: Array<GraphAILlmMessage>;
 } & GraphAILLMInputBase;
@@ -102,7 +104,7 @@ const convertOpenAIChatCompletion = (
 };
 
 export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
-  const { system, temperature, tools, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
+  const { system, temperature, tools, max_tokens, prompt, messages, response_format, tool_choice } = { ...params, ...namedInputs };
 
   const { apiKey, stream, dataStream, model } = {
     ...params,
@@ -151,6 +153,42 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       return tool.function;
     });
     generationConfig.tools = [{ functionDeclarations: functions }];
+  }
+  // https://ai.google.dev/gemini-api/docs/function-calling?example=meeting#function_calling_modes
+  if (tool_choice) {
+    let mode: FunctionCallingConfigMode;
+    switch (tool_choice) {
+      case "auto":
+        mode = FunctionCallingConfigMode.AUTO;
+        break;
+      case "any":
+        mode = FunctionCallingConfigMode.ANY;
+        break;
+      case "none":
+        mode = FunctionCallingConfigMode.NONE;
+        break;
+      case "validated":
+        mode = FunctionCallingConfigMode.VALIDATED;
+        break;
+      default:
+        mode = FunctionCallingConfigMode.MODE_UNSPECIFIED;
+        break;
+    }
+    if (mode == FunctionCallingConfigMode.MODE_UNSPECIFIED) {
+      GraphAILogger.warn("tool_choice should be `auto (default)`, `any`, `none` or `validated (preview)`");
+    } else {
+      const functionCallingConfig: FunctionCallingConfig = {
+        mode: mode,
+      };
+      if (mode === FunctionCallingConfigMode.ANY || mode === FunctionCallingConfigMode.VALIDATED) {
+        functionCallingConfig.allowedFunctionNames = tools?.map((tool: any) => {
+          return tool.function.name;
+        });
+      }
+      generationConfig.toolConfig = {
+        functionCallingConfig: functionCallingConfig,
+      };
+    }
   }
   // response_format should be OpenAPI 3.0 schema (https://spec.openapis.org/oas/v3.0.3#schema) or JSON Schema (https://json-schema.org/)
   if (response_format) {
@@ -252,6 +290,7 @@ const geminiAgentInfo: AgentFunctionInfo = {
       model: { type: "string" },
       system: { type: "string" },
       tools: { type: "object" },
+      tool_choice: { type: "string" },
       max_tokens: { type: "number" },
       temperature: { type: "number" },
       prompt: {

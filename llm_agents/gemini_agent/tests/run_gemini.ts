@@ -22,6 +22,7 @@ test("test gemini tools", async () => {
   const params = {
     stream: true,
     system: "You are a telephone operator. Listen well to what the other person is saying and decide which one to connect with.",
+    tool_choice: "any" as const,
     tools: [
       {
         type: "function" as const,
@@ -91,6 +92,7 @@ test("test gemini multiple tools", async () => {
   ];
   const params = {
     stream: true,
+    tool_choice: "any" as const,
     tools: tools,
   };
 
@@ -99,7 +101,44 @@ test("test gemini multiple tools", async () => {
   if (res) {
     console.log(res);
     console.log(res.tool_calls);
-    console.log(`tool_calls.length: ${res.tool_calls.length} (expected: 2, may vary due to Gemini AUTO mode)`);
+    console.log(`tool_calls.length: ${res.tool_calls.length} (expected: 2, may vary)`);
+  }
+  assert.deepStrictEqual(true, true);
+});
+
+test("test gemini tools not called", async () => {
+  const namedInputs = { prompt: ["I would like to return the item, what should I do?"] };
+
+  const params = {
+    stream: true,
+    system: "You are a telephone operator. Listen well to what the other person is saying and decide which one to connect with.",
+    tool_choice: "none" as const,
+    tools: [
+      {
+        type: "function" as const,
+        function: {
+          name: "dispatchNextEvent",
+          description: "Determine which department to respond to next",
+          parameters: {
+            type: "object",
+            properties: {
+              eventType: {
+                type: "string",
+                enum: ["Returns", "Payment", "How to order", "Others", "Defective products"],
+                description: "The user name",
+              },
+            },
+          },
+        },
+      },
+    ],
+  };
+
+  const res = (await geminiAgent({ ...defaultTestContext, namedInputs, params })) as any;
+
+  if (res) {
+    console.log(res);
+    console.log(res.tool_calls);
   }
   assert.deepStrictEqual(true, true);
 });
