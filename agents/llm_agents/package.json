@@ -1,6 +1,6 @@
 {
   "name": "@graphai/llm_agents",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "LLM agents for GraphAI.",
   "main": "lib/index.js",
   "files": [
