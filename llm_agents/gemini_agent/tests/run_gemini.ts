@@ -163,3 +163,35 @@ test("test gemini stream", async () => {
   }
   assert.deepStrictEqual(true, true);
 });
+
+// Verify that streamed chunks are correctly concatenated
+test("test gemini stream concatenation", async () => {
+  const collectedChunks: string[] = [];
+  const namedInputs = { prompt: ["Explain the Fibonacci sequence in 3 sentences."] };
+  const params = { dataStream: true };
+
+  const res = (await geminiAgent({
+    ...defaultTestContext,
+    namedInputs,
+    params,
+    filterParams: {
+      streamTokenCallback: (data: any) => {
+        const text = data?.response?.output?.[0]?.text;
+        if (text) {
+          collectedChunks.push(text);
+        }
+      },
+    },
+  })) as any;
+
+  const concatenatedFromChunks = collectedChunks.join("");
+
+  console.log("Collected chunks:", collectedChunks);
+  console.log("Concatenated from chunks:", concatenatedFromChunks);
+  console.log("Result text:", res.text);
+
+  // Verify that the final result contains the concatenated stream content
+  assert.ok(res.text, "Result text should not be empty");
+  assert.ok(collectedChunks.length > 0, "Should have collected at least one chunk");
+  assert.strictEqual(res.text, concatenatedFromChunks, "Result text should match concatenated chunks");
+});
