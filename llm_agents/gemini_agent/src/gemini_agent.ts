@@ -56,12 +56,12 @@ type GeminiResult = Partial<GraphAITool & GraphAIToolCalls & GraphAIMessage & { 
 
 const convertOpenAIChatCompletion = (
   response: GenerateContentResponse,
-  concatinatedText: string,
+  concatenatedText: string,
   functionCalls: FunctionCall[],
   messages: GraphAILlmMessage[],
   llmMetaData: LLMMetaData,
 ) => {
-  const text = concatinatedText === "" ? response.text : concatinatedText;
+  const text = concatenatedText === "" ? response.text : concatenatedText;
   const message: any = { role: "assistant", content: text };
   // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
   const calls = functionCalls.length > 0 ? functionCalls : response.functionCalls;
@@ -232,7 +232,7 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
 
     let finalResponse: GenerateContentResponse | undefined;
     const functionCalls: FunctionCall[] = [];
-    let concatinatedText = "";
+    let concatenatedText = "";
 
     for await (const chunk of result) {
       llmMetaDataFirstTokenTime(llmMetaData);
@@ -241,7 +241,7 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       }
       const chunkText = chunk.text;
       finalResponse = chunk;
-      concatinatedText += chunkText ?? "";
+      concatenatedText += chunkText ?? "";
 
       if (filterParams && filterParams.streamTokenCallback && chunkText) {
         if (dataStream) {
@@ -272,7 +272,7 @@ export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs
       });
     }
     llmMetaDataEndTime(llmMetaData);
-    return convertOpenAIChatCompletion(finalResponse, concatinatedText, functionCalls, messagesCopy, llmMetaData);
+    return convertOpenAIChatCompletion(finalResponse, concatenatedText, functionCalls, messagesCopy, llmMetaData);
   }
 
   const response: GenerateContentResponse = await chat.sendMessage({

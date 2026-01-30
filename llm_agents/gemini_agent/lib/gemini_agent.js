@@ -4,8 +4,8 @@ exports.geminiAgent = void 0;
 const graphai_1 = require("graphai");
 const genai_1 = require("@google/genai");
 const llm_utils_1 = require("@graphai/llm_utils");
-const convertOpenAIChatCompletion = (response, concatinatedText, functionCalls, messages, llmMetaData) => {
-    const text = concatinatedText === "" ? response.text : concatinatedText;
+const convertOpenAIChatCompletion = (response, concatenatedText, functionCalls, messages, llmMetaData) => {
+    const text = concatenatedText === "" ? response.text : concatenatedText;
     const message = { role: "assistant", content: text };
     // [":llm.choices.$0.message.tool_calls.$0.function.arguments"],
     const calls = functionCalls.length > 0 ? functionCalls : response.functionCalls;
@@ -164,7 +164,7 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
         const result = await chat.sendMessageStream({ message: lastMessage.content });
         let finalResponse;
         const functionCalls = [];
-        let concatinatedText = "";
+        let concatenatedText = "";
         for await (const chunk of result) {
             (0, llm_utils_1.llmMetaDataFirstTokenTime)(llmMetaData);
             if (chunk.functionCalls) {
@@ -172,7 +172,7 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             }
             const chunkText = chunk.text;
             finalResponse = chunk;
-            concatinatedText += chunkText ?? "";
+            concatenatedText += chunkText ?? "";
             if (filterParams && filterParams.streamTokenCallback && chunkText) {
                 if (dataStream) {
                     filterParams.streamTokenCallback({
@@ -202,7 +202,7 @@ const geminiAgent = async ({ params, namedInputs, config, filterParams }) => {
             });
         }
         (0, llm_utils_1.llmMetaDataEndTime)(llmMetaData);
-        return convertOpenAIChatCompletion(finalResponse, concatinatedText, functionCalls, messagesCopy, llmMetaData);
+        return convertOpenAIChatCompletion(finalResponse, concatenatedText, functionCalls, messagesCopy, llmMetaData);
     }
     const response = await chat.sendMessage({
         message: lastMessage.content,
