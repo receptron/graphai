@@ -12,9 +12,10 @@ permissions:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, macos-latest]
         node-version: [24.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
