@@ -104,10 +104,10 @@
     "@shikijs/types" "^3.20.0"
     "@shikijs/vscode-textmate" "^10.0.2"
 
-"@google/genai@^1.38.0":
-  version "1.38.0"
-  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-1.38.0.tgz#e26b5c269ddd6477ba71c03e829e903910010d02"
-  integrity sha512-V/4CQVQGovvGHuS73lwJwHKR9x33kCij3zz/ReEQ4A7RJaV0U7m4k1mvYhFk55cGZdF5JLKu2S9BTaFuEs5xTA==
+"@google/genai@^1.40.0":
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-1.40.0.tgz#ea74af03b7cb70c915f62cf82559b71cfea2f7a8"
+  integrity sha512-fhIww8smT0QYRX78qWOiz/nIQhHMF5wXOrlXvj33HBrz3vKDBb+wibLcEmTA+L9dmPD4KmfNr7UF3LDQVTXNjA==
   dependencies:
     google-auth-library "^10.3.0"
     protobufjs "^7.5.4"
@@ -461,7 +461,7 @@
     "@types/node" "*"
     form-data "^4.0.0"
 
-"@types/node@*", "@types/node@>=13.7.0", "@types/node@^25.2.1":
+"@types/node@*", "@types/node@>=13.7.0":
   version "25.2.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-25.2.1.tgz#378021f9e765bb65ba36de16f3c3a8622c1fa03d"
   integrity sha512-CPrnr8voK8vC6eEtyRzvMpgp3VyVRhgclonE7qYi6P9sXwYb59ucfrnmFBTaP0yUi8Gk4yZg/LlTJULGxvTNsg==
@@ -474,6 +474,13 @@
   integrity sha512-LX84pRJ+evD2e2nrgYCHObGWkiQJ1mL+meAgbvnwk/US6vmMY7S2ygBTGV2Jw91s9vUsLSXeDEkUHZIJGLrhsg==
   dependencies:
     undici-types "~5.26.4"
+
+"@types/node@^25.2.2":
+  version "25.2.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-25.2.2.tgz#0ddfe326c326afcb3422d32bfe5eb2938e1cb5db"
+  integrity sha512-BkmoP5/FhRYek5izySdkOneRyXYN35I860MFAGupTdebyE66uZaR+bXLHq8k4DirE5DwQi3NuhvRU1jqTVwUrQ==
+  dependencies:
+    undici-types "~7.16.0"
 
 "@types/qs@*":
   version "6.9.15"
@@ -2336,10 +2343,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^6.17.0:
-  version "6.17.0"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-6.17.0.tgz#33bb4977a48025e2ceb831a7dc0c7798bfbc394f"
-  integrity sha512-NHRpPEUPzAvFOAFs9+9pC6+HCw/iWsYsKCMPXH5Kw7BpMxqd8g/A07/1o7Gx2TWtCnzevVRyKMRFqyiHyAlqcA==
+openai@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-6.18.0.tgz#bd6c0bdb1aebf93375d324de51756280f7e85c6f"
+  integrity sha512-odLRYyz9rlzz6g8gKn61RM2oP5UUm428sE2zOxZqS9MzVfD5/XW8UoEjpnRkzTuScXP7ZbP/m7fC+bl8jCOZZw==
 
 optionator@^0.9.3:
   version "0.9.4"
@@ -2995,10 +3002,10 @@ type-check@^0.4.0, type-check@~0.4.0:
   dependencies:
     prelude-ls "^1.2.1"
 
-type-fest@^5.4.3:
-  version "5.4.3"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-5.4.3.tgz#b4c7e028da129098911ee2162a0c30df8a1be904"
-  integrity sha512-AXSAQJu79WGc79/3e9/CR77I/KQgeY1AhNvcShIH4PTcGYyC4xv6H4R4AUOwkPS5799KlVDAu8zExeCrkGquiA==
+type-fest@^5.4.4:
+  version "5.4.4"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-5.4.4.tgz#577f165b5ecb44cfc686559cc54ca77f62aa374d"
+  integrity sha512-JnTrzGu+zPV3aXIUhnyWJj4z/wigMsdYajGLIYakqyOW1nPllzXEJee0QQbHj+CTIQtXGlAjuK0UY+2xTyjVAw==
   dependencies:
     tagged-tag "^1.0.0"
 
