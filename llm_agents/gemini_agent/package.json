@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/receptron/graphai/blob/main/llm_agents/gemini_agent/README.md",
   "dependencies": {
-    "@google/genai": "^1.38.0",
+    "@google/genai": "^1.40.0",
     "@graphai/llm_utils": "^2.0.3"
   },
   "devDependencies": {},
