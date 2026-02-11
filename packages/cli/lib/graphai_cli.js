@@ -37,7 +37,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config({ quiet: true });
 const graphai_1 = require("graphai");
 const packages = __importStar(require("@graphai/agents"));
 const token_bound_string_agent_1 = require("@graphai/token_bound_string_agent");
