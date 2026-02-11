@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config({ quiet: true });
 import { GraphAI } from "graphai";
 import * as packages from "@graphai/agents";
 import { tokenBoundStringsAgent } from "@graphai/token_bound_string_agent";
