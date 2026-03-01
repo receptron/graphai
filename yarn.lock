@@ -164,10 +164,10 @@
   resolved "https://registry.yarnpkg.com/@inquirer/ansi/-/ansi-2.0.3.tgz#3c4c5b587894278996c2750db83d89fb547b796b"
   integrity sha512-g44zhR3NIKVs0zUesa4iMzExmZpLUdTLRMCStqX3GE5NT6VkPcxQGJ+uC8tDgBUC/vB1rUhUd55cOf++4NZcmw==
 
-"@inquirer/core@^11.1.4":
-  version "11.1.4"
-  resolved "https://registry.yarnpkg.com/@inquirer/core/-/core-11.1.4.tgz#f9505ede59d7a19ac8857f4085f4b39f1f7d5c35"
-  integrity sha512-1HvwyASF0tE/7W8geTTn0ydiWb463pq4SBIpaWcVabTrw55+CiRmytV9eZoqt3ohchsPw4Vv60jfNiI6YljVUg==
+"@inquirer/core@^11.1.5":
+  version "11.1.5"
+  resolved "https://registry.yarnpkg.com/@inquirer/core/-/core-11.1.5.tgz#781a7c5d56c12961870e4f0521ff881a85c81b7e"
+  integrity sha512-QQPAX+lka8GyLcZ7u7Nb1h6q72iZ/oy0blilC3IB2nSt1Qqxp7akt94Jqhi/DzARuN3Eo9QwJRvtl4tmVe4T5A==
   dependencies:
     "@inquirer/ansi" "^2.0.3"
     "@inquirer/figures" "^2.0.3"
@@ -182,21 +182,21 @@
   resolved "https://registry.yarnpkg.com/@inquirer/figures/-/figures-2.0.3.tgz#9d0cd242fbdb4ed8f1f52836a977eb7071e6c512"
   integrity sha512-y09iGt3JKoOCBQ3w4YrSJdokcD8ciSlMIWsD+auPu+OZpfxLuyz+gICAQ6GCBOmJJt4KEQGHuZSVff2jiNOy7g==
 
-"@inquirer/input@^5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@inquirer/input/-/input-5.0.7.tgz#60b619f65307062aa5446b31aefde48c90e7e78e"
-  integrity sha512-b+eKk/eUvKLQ6c+rDu9u4I1+twdjOfrEaw9NURDpCrWYJTWL1/JQEudZi0AeqXDGcn0tMdhlfpEfjcqr33B/qw==
+"@inquirer/input@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@inquirer/input/-/input-5.0.8.tgz#f10db8f67e5b95a52fef12924bbe77a010d7f834"
+  integrity sha512-p0IJslw0AmedLEkOU+yrEX3Aj2RTpQq7ZOf8nc1DIhjzaxRWrrgeuE5Kyh39fVRgtcACaMXx/9WNo8+GjgBOfw==
   dependencies:
-    "@inquirer/core" "^11.1.4"
+    "@inquirer/core" "^11.1.5"
     "@inquirer/type" "^4.0.3"
 
-"@inquirer/select@^5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@inquirer/select/-/select-5.0.7.tgz#141c17352fd9226f16155cd45eefa7f8b3492e24"
-  integrity sha512-1JUJIR+Z2PsvwP6VWty7aE0aCPaT2cy2c4Vp3LPhL2Pi3+aXewAld/AyJ/CW9XWx1JbKxmdElfvls/G/7jG7ZQ==
+"@inquirer/select@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@inquirer/select/-/select-5.1.0.tgz#02be4e8a2c53cd72a7bf4685be6eac5497bd4c5c"
+  integrity sha512-OyYbKnchS1u+zRe14LpYrN8S0wH1vD0p2yKISvSsJdH2TpI87fh4eZdWnpdbrGauCRWDph3NwxRmM4Pcm/hx1Q==
   dependencies:
     "@inquirer/ansi" "^2.0.3"
-    "@inquirer/core" "^11.1.4"
+    "@inquirer/core" "^11.1.5"
     "@inquirer/figures" "^2.0.3"
     "@inquirer/type" "^4.0.3"
 
@@ -450,7 +450,7 @@
     "@types/node" "*"
     form-data "^4.0.0"
 
-"@types/node@*", "@types/node@>=13.7.0", "@types/node@^25.2.3":
+"@types/node@*", "@types/node@>=13.7.0":
   version "25.2.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-25.2.3.tgz#9c18245be768bdb4ce631566c7da303a5c99a7f8"
   integrity sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==
@@ -463,6 +463,13 @@
   integrity sha512-LX84pRJ+evD2e2nrgYCHObGWkiQJ1mL+meAgbvnwk/US6vmMY7S2ygBTGV2Jw91s9vUsLSXeDEkUHZIJGLrhsg==
   dependencies:
     undici-types "~5.26.4"
+
+"@types/node@^25.3.3":
+  version "25.3.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-25.3.3.tgz#605862544ee7ffd7a936bcbf0135a14012f1e549"
+  integrity sha512-DpzbrH7wIcBaJibpKo9nnSQL0MTRdnWttGyE5haGwK86xgMOkFLp7vEyfQPGLOJh5wNYiJ3V9PmUMDhV9u8kkQ==
+  dependencies:
+    undici-types "~7.18.0"
 
 "@types/qs@*":
   version "6.9.15"
@@ -2327,10 +2334,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^6.22.0:
-  version "6.22.0"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-6.22.0.tgz#822abd533ba3656741df87e31d1d643520e77463"
-  integrity sha512-7Yvy17F33Bi9RutWbsaYt5hJEEJ/krRPOrwan+f9aCPuMat1WVsb2VNSII5W1EksKT6fF69TG/xj4XzodK3JZw==
+openai@^6.25.0:
+  version "6.25.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-6.25.0.tgz#a874e43c0f514464ea83d62c7b746ff4d39a031a"
+  integrity sha512-mEh6VZ2ds2AGGokWARo18aPISI1OhlgdEIC1ewhkZr8pSIT31dec0ecr9Nhxx0JlybyOgoAT1sWeKtwPZzJyww==
 
 optionator@^0.9.3:
   version "0.9.4"
@@ -3060,6 +3067,11 @@ undici-types@~7.16.0:
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-7.16.0.tgz#ffccdff36aea4884cbfce9a750a0580224f58a46"
   integrity sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==
+
+undici-types@~7.18.0:
+  version "7.18.2"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-7.18.2.tgz#29357a89e7b7ca4aef3bf0fd3fd0cd73884229e9"
+  integrity sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==
 
 unique-filename@^1.1.1:
   version "1.1.1"
