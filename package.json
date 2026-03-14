@@ -38,6 +38,7 @@
     "yaml": "^2.8.2"
   },
   "resolutions": {
-    "minimatch": ">=9.0.7"
+    "minimatch": ">=9.0.7",
+    "flatted": ">=3.4.0"
   }
 }
