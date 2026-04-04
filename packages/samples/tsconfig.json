@@ -1,7 +1,6 @@
 {
   "extends": "../../config/tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     "rootDir": "./src/",
     "outDir": "./lib"
   },
