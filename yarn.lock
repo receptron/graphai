@@ -104,10 +104,10 @@
     "@shikijs/types" "^3.23.0"
     "@shikijs/vscode-textmate" "^10.0.2"
 
-"@google/genai@^1.43.0":
-  version "1.43.0"
-  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-1.43.0.tgz#96195dd10fd92e2339cce66ce91c6d2469948840"
-  integrity sha512-hklCsJNdMlDM1IwcCVcGQFBg2izY0+t5BIGbRsxi2UnKi6AGKL7pqJqmBDNRbw0bYCs4y3NA7TB+fkKfP/Nrdw==
+"@google/genai@^1.48.0":
+  version "1.48.0"
+  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-1.48.0.tgz#569c16fc92d450123ce0b99e35590f9d3f0a4c16"
+  integrity sha512-plonYK4ML2PrxsRD9SeqmFt76eREWkQdPCglOA6aYDzL1AAbE+7PUnT54SvpWGfws13L0AZEqGSpL7+1IPnTxQ==
   dependencies:
     google-auth-library "^10.3.0"
     p-retry "^4.6.2"
@@ -2343,10 +2343,10 @@ openai@^4.53.0:
     node-fetch "^2.6.7"
     web-streams-polyfill "^3.2.1"
 
-openai@^6.25.0:
-  version "6.25.0"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-6.25.0.tgz#a874e43c0f514464ea83d62c7b746ff4d39a031a"
-  integrity sha512-mEh6VZ2ds2AGGokWARo18aPISI1OhlgdEIC1ewhkZr8pSIT31dec0ecr9Nhxx0JlybyOgoAT1sWeKtwPZzJyww==
+openai@^6.33.0:
+  version "6.33.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-6.33.0.tgz#d09691a91df327d66d76f39f9b590aa55dd699dd"
+  integrity sha512-xAYN1W3YsDXJWA5F277135YfkEk6H7D3D6vWwRhJ3OEkzRgcyK8z/P5P9Gyi/wB4N8kK9kM5ZjprfvyHagKmpw==
 
 optionator@^0.9.3:
   version "0.9.4"
