@@ -15,7 +15,8 @@
     "test": "echo nothing",
     "test_run": "node --test  --require ts-node/register ./tests/run_*.ts # just run locally",
     "chat": "node -r ts-node/register ./tests/chat_dispatch.ts",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -34,5 +35,8 @@
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

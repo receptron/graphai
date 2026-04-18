@@ -13,7 +13,8 @@
     "doc": "npx agentdoc",
     "test": "echo nothing",
     "b": "yarn run format && yarn run eslint && yarn run build",
-    "sample": "npx ts-node"
+    "sample": "npx ts-node",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -37,5 +38,8 @@
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

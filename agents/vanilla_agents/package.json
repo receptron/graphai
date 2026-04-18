@@ -15,7 +15,8 @@
     "test": "node --test --require ts-node/register ./tests/**/test_*.ts",
     "http_test": "node --test --require ts-node/register ./tests/**/http_*.ts",
     "b": "yarn run format && yarn run eslint && yarn run build",
-    "sample": "npx ts-node"
+    "sample": "npx ts-node",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -33,5 +34,8 @@
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

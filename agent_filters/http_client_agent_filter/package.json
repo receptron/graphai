@@ -12,7 +12,8 @@
     "format": "prettier --write '{src,tests}/**/*.ts'",
     "test": "echo nothing",
     "doc": "echo nothing",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -24,10 +25,13 @@
     "url": "https://github.com/receptron/graphai/issues"
   },
   "homepage": "https://github.com/receptron/graphai#readme",
-  "dependencies": { },
+  "dependencies": {},
   "devDependencies": {},
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

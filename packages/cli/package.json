@@ -18,7 +18,8 @@
     "test_sh": "./scripts/test.sh",
     "test_node": "node --test --require ts-node/register ./test_yaml/test_*.ts",
     "cli": "node --require ts-node/register ./src/graphai_cli.ts",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -46,5 +47,8 @@
   "types": "./lib/graphai_cli.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

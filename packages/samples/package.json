@@ -14,7 +14,8 @@
     "b": "yarn run format && yarn run eslint && yarn run build",
     "doc": "yarn run sample src/toYamlSample.ts",
     "samples": "npx ts-node src/sample_runner.ts",
-    "sample": "npx ts-node"
+    "sample": "npx ts-node",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -35,5 +36,8 @@
   "directories": {
     "lib": "lib",
     "test": "tests"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

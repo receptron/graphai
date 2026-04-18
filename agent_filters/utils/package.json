@@ -12,7 +12,8 @@
     "format": "prettier --write '{src,tests}/**/*.ts'",
     "test": "node --test --require ts-node/register ./tests/test_*.ts",
     "doc": "echo nothing",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,8 @@
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
