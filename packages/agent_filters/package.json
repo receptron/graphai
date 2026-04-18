@@ -13,7 +13,8 @@
     "test": "echo nothing",
     "doc": "echo nothing",
     "http_server": "npx ts-node tests/express/server.ts",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -42,5 +43,8 @@
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

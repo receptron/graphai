@@ -17,7 +17,8 @@
     "format": "prettier --write '{src,test_yaml}/**/*.{yaml,ts,json}'",
     "doc": "echo nothing",
     "test": "node --test --require ts-node/register ./tests/test_*.ts",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -38,5 +39,8 @@
     "lib": "lib",
     "template": "template",
     "mono_templates": "./mono_templates"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

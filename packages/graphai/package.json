@@ -14,7 +14,8 @@
     "doc": "echo nothing",
     "format": "prettier --write '{src,tests}/**/*.ts' *.mjs",
     "test": "node --test --require ts-node/register ./tests/**/test_*.ts",
-    "b": "yarn run format && yarn run eslint && yarn run build"
+    "b": "yarn run format && yarn run eslint && yarn run build",
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -34,5 +35,8 @@
   "directories": {
     "lib": "lib",
     "test": "tests"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
