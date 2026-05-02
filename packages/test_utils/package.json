@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "yaml": "^2.8.3"
+    "yaml": "^2.8.4"
   },
   "devDependencies": {
     "@graphai/namedinput_validator_agent_filter": "^2.0.1",
