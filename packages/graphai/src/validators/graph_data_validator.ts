@@ -1,5 +1,6 @@
 import { GraphData, ConcurrencyConfig } from "../type";
 import { graphDataAttributeKeys, ValidationError } from "./common";
+import { isObject, isNull } from "../utils/utils";
 
 const validateConcurrencyValue = (value: unknown, fieldDescription: string) => {
   if (!Number.isInteger(value)) {
@@ -15,15 +16,15 @@ const validateConcurrencyConfig = (concurrency: number | ConcurrencyConfig) => {
     validateConcurrencyValue(concurrency, "Concurrency");
     return;
   }
-  if (typeof concurrency !== "object" || concurrency === null || Array.isArray(concurrency)) {
+  if (!isObject(concurrency) || Array.isArray(concurrency)) {
     throw new ValidationError("Concurrency must be an integer");
   }
   if (!("global" in concurrency)) {
     throw new ValidationError("Concurrency object must have a global field");
   }
   validateConcurrencyValue(concurrency.global, "Concurrency.global");
-  if (concurrency.labels !== undefined) {
-    if (typeof concurrency.labels !== "object" || concurrency.labels === null || Array.isArray(concurrency.labels)) {
+  if (!isNull(concurrency.labels)) {
+    if (!isObject(concurrency.labels) || Array.isArray(concurrency.labels)) {
       throw new ValidationError("Concurrency.labels must be an object");
     }
     for (const [labelKey, labelValue] of Object.entries(concurrency.labels)) {

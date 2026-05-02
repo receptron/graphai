@@ -119,7 +119,10 @@ export class ComputedNode extends Node {
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
     this.priority = data.priority ?? 0;
-    this.label = data.label;
+    // Defensive: graph data may originate from YAML/JSON without strict typing.
+    // Keep label only when it is actually a string so TaskManager's label-keyed
+    // bookkeeping cannot be silently bypassed by a non-string value.
+    this.label = typeof data.label === "string" ? data.label : undefined;
 
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {
@@ -348,7 +351,7 @@ export class ComputedNode extends Node {
       // NOTE: We use the existence of graph object in the agent-specific params to determine
       // if this is a nested agent or not.
       if (hasNestedGraph) {
-        this.graph.taskManager.prepareForNesting();
+        this.graph.taskManager.prepareForNesting(this.label);
         context.forNestedGraph = {
           graphData: this.nestedGraph
             ? "nodes" in this.nestedGraph
@@ -373,7 +376,7 @@ export class ComputedNode extends Node {
       this.afterConsoleLog(result);
 
       if (hasNestedGraph) {
-        this.graph.taskManager.restoreAfterNesting();
+        this.graph.taskManager.restoreAfterNesting(this.label);
       }
 
       if (!this.isCurrentTransaction(transactionId)) {

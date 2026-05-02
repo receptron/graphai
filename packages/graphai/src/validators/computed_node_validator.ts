@@ -7,5 +7,8 @@ export const computedNodeValidator = (nodeData: ComputedNodeData) => {
       throw new ValidationError("Computed node does not allow " + key);
     }
   });
+  if (nodeData.label !== undefined && typeof nodeData.label !== "string") {
+    throw new ValidationError("Computed node label must be a string");
+  }
   return true;
 };

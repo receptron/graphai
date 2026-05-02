@@ -1,6 +1,6 @@
 import { ComputedNode } from "./node";
 import { ConcurrencyConfig } from "./type";
-import { assert } from "./utils/utils";
+import { assert, isObject } from "./utils/utils";
 
 type TaskEntry = {
   node: ComputedNode;
@@ -12,7 +12,8 @@ const normalizeConcurrencyConfig = (config: number | ConcurrencyConfig): { globa
   if (typeof config === "number") {
     return { global: config, labels: new Map() };
   }
-  return { global: config.global, labels: new Map(Object.entries(config.labels ?? {})) };
+  const labelsObj = isObject<number>(config.labels) ? config.labels : {};
+  return { global: config.global, labels: new Map(Object.entries(labelsObj)) };
 };
 
 // TaskManage object controls the concurrency of ComputedNode execution.
@@ -118,12 +119,23 @@ export class TaskManager {
   // Node will call this method before it hands the task manager from the graph
   // to a nested agent. We need to make it sure that there is enough room to run
   // computed nodes inside the nested graph to avoid a deadlock.
-  public prepareForNesting() {
+  //
+  // When the parent node carries a label that has a configured per-label limit,
+  // bumping the global slot alone is not enough: a nested-graph child sharing
+  // that label would still be blocked by the parent's own slot, leading to a
+  // deadlock. Bump that label's limit too while we're nested.
+  public prepareForNesting(label?: string) {
     this.concurrency++;
+    if (label !== undefined && this.labelLimits.has(label)) {
+      this.labelLimits.set(label, (this.labelLimits.get(label) ?? 0) + 1);
+    }
   }
 
-  public restoreAfterNesting() {
+  public restoreAfterNesting(label?: string) {
     this.concurrency--;
+    if (label !== undefined && this.labelLimits.has(label)) {
+      this.labelLimits.set(label, (this.labelLimits.get(label) ?? 0) - 1);
+    }
   }
 
   public getStatus(verbose: boolean = false) {

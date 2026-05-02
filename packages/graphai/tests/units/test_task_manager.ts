@@ -341,3 +341,49 @@ test("TaskManager reset clears per-label running state", () => {
   tm.addTask(makeNode("o2", 0, "g1", "openai"), "g1", (n) => after.push(n.nodeId));
   assert.deepStrictEqual(after, ["o2"]);
 });
+
+test("TaskManager prepareForNesting bumps label limit when nested parent is labeled", () => {
+  // Scenario: parent task with label 'openai' (limit 1) is currently running
+  // and triggers a nested graph whose child also wants label 'openai'. Without
+  // the label-aware bump, the child would queue forever -> deadlock.
+  const tm = new TaskManager({ global: 1, labels: { openai: 1 } });
+  const { executed, callback } = collectExecutionOrder();
+
+  const parent = makeNode("parent", 0, "g1", "openai");
+  tm.addTask(parent, "g1", callback);
+  assert.deepStrictEqual(executed, ["parent"]);
+
+  // Parent is about to invoke nested graph: bump capacity for itself.
+  tm.prepareForNesting("openai");
+
+  // Now a nested child sharing the same label should be runnable.
+  const child = makeNode("child", 0, "g1", "openai");
+  tm.addTask(child, "g1", callback);
+  assert.deepStrictEqual(executed, ["parent", "child"]);
+
+  tm.onComplete(child);
+  tm.restoreAfterNesting("openai");
+
+  // Capacity should be back to original.
+  assert.equal(tm.getStatus().concurrency, 1);
+});
+
+test("TaskManager prepareForNesting without label keeps existing behavior", () => {
+  const tm = new TaskManager({ global: 1, labels: { openai: 1 } });
+  tm.prepareForNesting();
+  assert.equal(tm.getStatus().concurrency, 2);
+  tm.restoreAfterNesting();
+  assert.equal(tm.getStatus().concurrency, 1);
+});
+
+test("TaskManager prepareForNesting with unconfigured label only bumps global", () => {
+  const tm = new TaskManager({ global: 1, labels: { openai: 1 } });
+  tm.prepareForNesting("untracked");
+  assert.equal(tm.getStatus().concurrency, 2);
+  // openai limit untouched (still 1)
+  const { executed, callback } = collectExecutionOrder();
+  tm.addTask(makeNode("a", 0, "g1", "openai"), "g1", callback);
+  tm.addTask(makeNode("b", 0, "g1", "openai"), "g1", callback);
+  assert.deepStrictEqual(executed, ["a"]); // 'b' blocked by openai's still-1 limit
+  tm.restoreAfterNesting("untracked");
+});
