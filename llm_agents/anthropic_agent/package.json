@@ -30,7 +30,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.72.0",
     "@graphai/llm_utils": "^2.0.3",
-    "zod": "^4.3.6"
+    "zod": "^4.4.2"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
