@@ -89,6 +89,7 @@ export class ComputedNode extends Node {
   private agentFunction?: AgentFunction<any, any, any, any>;
   public readonly timeout?: number; // msec
   public readonly priority: number;
+  public readonly label?: string;
   public error?: Error;
   public transactionId: undefined | number; // To reject callbacks from timed-out transactions
   private readonly passThrough?: PassThrough;
@@ -118,6 +119,7 @@ export class ComputedNode extends Node {
     this.timeout = data.timeout;
     this.isResult = data.isResult ?? false;
     this.priority = data.priority ?? 0;
+    this.label = data.label;
 
     assert(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
     if (typeof data.agent === "string") {

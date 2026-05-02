@@ -1,5 +1,36 @@
-import { GraphData } from "../type";
+import { GraphData, ConcurrencyConfig } from "../type";
 import { graphDataAttributeKeys, ValidationError } from "./common";
+
+const validateConcurrencyValue = (value: unknown, fieldDescription: string) => {
+  if (!Number.isInteger(value)) {
+    throw new ValidationError(`${fieldDescription} must be an integer`);
+  }
+  if ((value as number) < 1) {
+    throw new ValidationError(`${fieldDescription} must be a positive integer`);
+  }
+};
+
+const validateConcurrencyConfig = (concurrency: number | ConcurrencyConfig) => {
+  if (typeof concurrency === "number") {
+    validateConcurrencyValue(concurrency, "Concurrency");
+    return;
+  }
+  if (typeof concurrency !== "object" || concurrency === null || Array.isArray(concurrency)) {
+    throw new ValidationError("Concurrency must be an integer");
+  }
+  if (!("global" in concurrency)) {
+    throw new ValidationError("Concurrency object must have a global field");
+  }
+  validateConcurrencyValue(concurrency.global, "Concurrency.global");
+  if (concurrency.labels !== undefined) {
+    if (typeof concurrency.labels !== "object" || concurrency.labels === null || Array.isArray(concurrency.labels)) {
+      throw new ValidationError("Concurrency.labels must be an object");
+    }
+    for (const [labelKey, labelValue] of Object.entries(concurrency.labels)) {
+      validateConcurrencyValue(labelValue, `Concurrency.labels.${labelKey}`);
+    }
+  }
+};
 
 export const graphNodesValidator = (data: GraphData) => {
   if (data.nodes === undefined) {
@@ -30,11 +61,6 @@ export const graphDataValidator = (data: GraphData) => {
     }
   }
   if (data.concurrency !== undefined) {
-    if (!Number.isInteger(data.concurrency)) {
-      throw new ValidationError("Concurrency must be an integer");
-    }
-    if (data.concurrency < 1) {
-      throw new ValidationError("Concurrency must be a positive integer");
-    }
+    validateConcurrencyConfig(data.concurrency);
   }
 };

@@ -1,4 +1,5 @@
 import { ComputedNode } from "./node";
+import { ConcurrencyConfig } from "./type";
 import { assert } from "./utils/utils";
 
 type TaskEntry = {
@@ -7,28 +8,65 @@ type TaskEntry = {
   callback: (node: ComputedNode) => void;
 };
 
+const normalizeConcurrencyConfig = (config: number | ConcurrencyConfig): { global: number; labels: Map<string, number> } => {
+  if (typeof config === "number") {
+    return { global: config, labels: new Map() };
+  }
+  return { global: config.global, labels: new Map(Object.entries(config.labels ?? {})) };
+};
+
 // TaskManage object controls the concurrency of ComputedNode execution.
 //
 // NOTE: A TaskManager instance will be shared between parent graph and its children
 // when nested agents are involved.
 export class TaskManager {
   private concurrency: number;
+  private labelLimits: Map<string, number>;
+  private runningByLabel: Map<string, number> = new Map();
   private taskQueue: Array<TaskEntry> = [];
   private runningNodes = new Set<ComputedNode>();
 
-  constructor(concurrency: number) {
-    this.concurrency = concurrency;
+  constructor(config: number | ConcurrencyConfig) {
+    const normalized = normalizeConcurrencyConfig(config);
+    this.concurrency = normalized.global;
+    this.labelLimits = normalized.labels;
   }
 
-  // This internal method dequeus a task from the task queue
-  // and call the associated callback method, if the number of
-  // running task is lower than the spcified limit.
+  // Returns true if the task can run right now under both the global limit
+  // and (if specified) its label-specific limit.
+  private canRun(task: TaskEntry): boolean {
+    if (this.runningNodes.size >= this.concurrency) {
+      return false;
+    }
+    const label = task.node.label;
+    if (label === undefined) {
+      return true;
+    }
+    const limit = this.labelLimits.get(label);
+    if (limit === undefined) {
+      return true;
+    }
+    const running = this.runningByLabel.get(label) ?? 0;
+    return running < limit;
+  }
+
+  // Walk the queue (already sorted by priority desc) and dispatch the first task
+  // whose label still has capacity. This is the "head-of-line skip" policy.
   private dequeueTaskIfPossible() {
-    if (this.runningNodes.size < this.concurrency) {
-      const task = this.taskQueue.shift();
-      if (task) {
+    if (this.runningNodes.size >= this.concurrency) {
+      return;
+    }
+    for (let i = 0; i < this.taskQueue.length; i++) {
+      const task = this.taskQueue[i];
+      if (this.canRun(task)) {
+        this.taskQueue.splice(i, 1);
         this.runningNodes.add(task.node);
+        const label = task.node.label;
+        if (label !== undefined) {
+          this.runningByLabel.set(label, (this.runningByLabel.get(label) ?? 0) + 1);
+        }
         task.callback(task.node);
+        return;
       }
     }
   }
@@ -36,7 +74,7 @@ export class TaskManager {
   // Node will call this method to put itself in the execution queue.
   // We call the associated callback function when it is dequeued.
   public addTask(node: ComputedNode, graphId: string, callback: (node: ComputedNode) => void) {
-    // Finder tasks in the queue, which has either the same or higher priority.
+    // Find tasks in the queue, which has either the same or higher priority.
     const count = this.taskQueue.filter((task) => {
       return task.node.priority >= node.priority;
     }).length;
@@ -57,7 +95,24 @@ export class TaskManager {
   public onComplete(node: ComputedNode) {
     assert(this.runningNodes.has(node), `TaskManager.onComplete node(${node.nodeId}) is not in list`);
     this.runningNodes.delete(node);
-    this.dequeueTaskIfPossible();
+    const label = node.label;
+    if (label !== undefined) {
+      const running = this.runningByLabel.get(label) ?? 0;
+      if (running <= 1) {
+        this.runningByLabel.delete(label);
+      } else {
+        this.runningByLabel.set(label, running - 1);
+      }
+    }
+    // A label slot may have just opened, so try to dispatch as many newly-eligible
+    // tasks as possible (the freed label could allow several queued tasks to run if
+    // the global limit is not yet reached).
+    let progressed = true;
+    while (progressed) {
+      const before = this.runningNodes.size;
+      this.dequeueTaskIfPossible();
+      progressed = this.runningNodes.size > before;
+    }
   }
 
   // Node will call this method before it hands the task manager from the graph
@@ -86,5 +141,6 @@ export class TaskManager {
   public reset() {
     this.taskQueue.length = 0;
     this.runningNodes.clear();
+    this.runningByLabel.clear();
   }
 }

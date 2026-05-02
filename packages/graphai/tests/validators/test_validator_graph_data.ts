@@ -73,6 +73,96 @@ test("test concurrency error string", async () => {
   await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
 });
 
+test("test concurrency valid number", async () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: 5,
+    nodes,
+  };
+  validateGraphData(graphdata, ["echoAgent"]);
+});
+
+test("test concurrency valid number one", async () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: 1,
+    nodes,
+  };
+  validateGraphData(graphdata, ["echoAgent"]);
+});
+
+test("test concurrency undefined is allowed", async () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    nodes,
+  };
+  validateGraphData(graphdata, ["echoAgent"]);
+});
+
+// ConcurrencyConfig (object form) tests
+test("test concurrency object form valid", async () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: 2, vertex: 3 } },
+    nodes,
+  };
+  validateGraphData(graphdata, ["echoAgent"]);
+});
+
+test("test concurrency object form without labels", async () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: { global: 5 },
+    nodes,
+  };
+  validateGraphData(graphdata, ["echoAgent"]);
+});
+
+test("test concurrency object form missing global", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { labels: { openai: 2 } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency object must have a global field");
+});
+
+test("test concurrency object form invalid global", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 0 },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.global must be a positive integer");
+});
+
+test("test concurrency object form invalid label value", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: 0 } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels.openai must be a positive integer");
+});
+
+test("test concurrency object form non-integer label value", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: 1.5 } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels.openai must be an integer");
+});
+
+test("test concurrency labels not an object", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: [] },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels must be an object");
+});
+
 // metadata test
 test("test metadata", async () => {
   const graphdata = {

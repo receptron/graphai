@@ -70,6 +70,7 @@ export type ComputedNodeData = {
   graphLoader?: GraphDataLoaderOption;
   isResult?: boolean;
   priority?: number; // The default is 0.
+  label?: string; // optional concurrency-control bucket key. unspecified -> not subject to per-label limits.
   passThrough?: PassThrough; // data that pass trough to result
   console?: ConsoleElement;
 };
@@ -81,10 +82,15 @@ export type LoopData = {
   while?: string | boolean;
 };
 
+export type ConcurrencyConfig = {
+  global: number;
+  labels?: Record<string, number>;
+};
+
 export type GraphData = {
   version?: number; // major version, 0.1, 0.2, ...
   nodes: Record<string, NodeData>;
-  concurrency?: number;
+  concurrency?: number | ConcurrencyConfig;
   loop?: LoopData;
   verbose?: boolean;
   retry?: number;
