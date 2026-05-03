@@ -358,7 +358,7 @@ export class ComputedNode extends Node {
         // NOTE: We use the existence of graph object in the agent-specific params to determine
         // if this is a nested agent or not.
         if (hasNestedGraph) {
-          this.graph.taskManager.prepareForNesting(this.label);
+          this.graph.taskManager.prepareForNesting(this.label, this.graphId);
           nestingPrepared = true;
           context.forNestedGraph = {
             graphData: this.nestedGraph
@@ -403,7 +403,7 @@ export class ComputedNode extends Node {
         this.afterExecute(result, localLog);
       } finally {
         if (nestingPrepared) {
-          this.graph.taskManager.restoreAfterNesting(this.label);
+          this.graph.taskManager.restoreAfterNesting(this.label, this.graphId);
         }
       }
     } catch (error) {

@@ -24,6 +24,11 @@ export class TaskManager {
   private concurrency: number;
   private labelLimits: Map<string, number>;
   private runningByLabel: Map<string, number> = new Map();
+  // Per-label bypass capacity granted to nested children. Keyed by parentGraphId
+  // so that only tasks whose graphId differs from the parent (i.e. those running
+  // inside the nested graph) can consume the extra slot. Unrelated siblings on
+  // the same graphId as the parent are not affected.
+  private nestingBypassByLabel: Map<string, Map<string, number>> = new Map();
   private taskQueue: Array<TaskEntry> = [];
   private runningNodes = new Set<ComputedNode>();
 
@@ -48,7 +53,24 @@ export class TaskManager {
       return true;
     }
     const running = this.runningByLabel.get(label) ?? 0;
-    return running < limit;
+    if (running < limit) {
+      return true;
+    }
+    // Bypass path: if a labeled parent has prepared for nesting and this task
+    // belongs to a different graph (i.e. the nested graph), grant +1 per such
+    // outstanding bump. Unrelated siblings on the parent's graphId do NOT get
+    // this allowance, so the per-label cap is preserved for them.
+    const bypass = this.nestingBypassByLabel.get(label);
+    if (!bypass) {
+      return false;
+    }
+    let extra = 0;
+    for (const [parentGraphId, count] of bypass) {
+      if (parentGraphId !== task.graphId) {
+        extra += count;
+      }
+    }
+    return running < limit + extra;
   }
 
   // Walk the queue (already sorted by priority desc) and dispatch the first task
@@ -120,21 +142,47 @@ export class TaskManager {
   // to a nested agent. We need to make it sure that there is enough room to run
   // computed nodes inside the nested graph to avoid a deadlock.
   //
-  // When the parent node carries a label that has a configured per-label limit,
-  // bumping the global slot alone is not enough: a nested-graph child sharing
-  // that label would still be blocked by the parent's own slot, leading to a
-  // deadlock. Bump that label's limit too while we're nested.
-  public prepareForNesting(label?: string) {
+  // When the parent carries a label that has a configured per-label limit,
+  // a nested child sharing that label would otherwise stay queued forever
+  // (parent waits for child, child blocked by parent's label slot). To avoid
+  // this without widening the cap for unrelated siblings, we record a per-
+  // parent-graphId bypass that canRun() applies only to tasks whose graphId
+  // differs from the parent's.
+  public prepareForNesting(label?: string, parentGraphId?: string) {
     this.concurrency++;
-    if (label !== undefined && this.labelLimits.has(label)) {
-      this.labelLimits.set(label, (this.labelLimits.get(label) ?? 0) + 1);
+    if (label !== undefined && parentGraphId !== undefined && this.labelLimits.has(label)) {
+      let perParent = this.nestingBypassByLabel.get(label);
+      if (!perParent) {
+        perParent = new Map();
+        this.nestingBypassByLabel.set(label, perParent);
+      }
+      perParent.set(parentGraphId, (perParent.get(parentGraphId) ?? 0) + 1);
+    }
+    // Both the global slot bump and the optional label bypass can free capacity
+    // for already-queued tasks; drain the queue while progress is being made.
+    let progressed = true;
+    while (progressed) {
+      const before = this.runningNodes.size;
+      this.dequeueTaskIfPossible();
+      progressed = this.runningNodes.size > before;
     }
   }
 
-  public restoreAfterNesting(label?: string) {
+  public restoreAfterNesting(label?: string, parentGraphId?: string) {
     this.concurrency--;
-    if (label !== undefined && this.labelLimits.has(label)) {
-      this.labelLimits.set(label, (this.labelLimits.get(label) ?? 0) - 1);
+    if (label !== undefined && parentGraphId !== undefined) {
+      const perParent = this.nestingBypassByLabel.get(label);
+      if (perParent) {
+        const next = (perParent.get(parentGraphId) ?? 0) - 1;
+        if (next <= 0) {
+          perParent.delete(parentGraphId);
+        } else {
+          perParent.set(parentGraphId, next);
+        }
+        if (perParent.size === 0) {
+          this.nestingBypassByLabel.delete(label);
+        }
+      }
     }
   }
 
@@ -154,5 +202,6 @@ export class TaskManager {
     this.taskQueue.length = 0;
     this.runningNodes.clear();
     this.runningByLabel.clear();
+    this.nestingBypassByLabel.clear();
   }
 }

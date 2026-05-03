@@ -342,38 +342,53 @@ test("TaskManager reset clears per-label running state", () => {
   assert.deepStrictEqual(after, ["o2"]);
 });
 
-test("TaskManager prepareForNesting bumps label limit when nested parent is labeled", () => {
-  // Scenario: parent task with label 'openai' (limit 1) is currently running
-  // and triggers a nested graph whose child also wants label 'openai'. Without
-  // the label-aware bump, the child would queue forever -> deadlock.
-  // Use global=2 so the label decrement (not the global one) is the binding
-  // constraint for the post-restore tasks below.
-  const tm = new TaskManager({ global: 2, labels: { openai: 1 } });
+test("TaskManager nesting allows child on different graphId, blocks sibling on same graphId", () => {
+  // Realistic nested-graph scenario:
+  //   - Parent runs in outer graph "g1" with label "openai" (limit 1).
+  //   - Parent invokes a nested graph whose graphId is "nested-1" (different).
+  //   - The nested graph schedules a child task with the same label "openai".
+  //   - Meanwhile a separate sibling on graphId "g1" (the outer graph)
+  //     also wants label "openai".
+  //
+  // We want: nested child runs (otherwise deadlock); sibling does NOT run
+  // (otherwise the per-label cap is silently widened for unrelated work).
+  const tm = new TaskManager({ global: 5, labels: { openai: 1 } });
   const { executed, callback } = collectExecutionOrder();
 
   const parent = makeNode("parent", 0, "g1", "openai");
   tm.addTask(parent, "g1", callback);
   assert.deepStrictEqual(executed, ["parent"]);
 
-  // Parent is about to invoke nested graph: bump capacity for itself.
-  tm.prepareForNesting("openai");
+  // Parent invokes nested graph.
+  tm.prepareForNesting("openai", "g1");
 
-  // Now a nested child sharing the same label should be runnable.
-  const child = makeNode("child", 0, "g1", "openai");
-  tm.addTask(child, "g1", callback);
+  // Nested child arrives on a DIFFERENT graphId -> bypass applies.
+  const child = makeNode("child", 0, "nested-1", "openai");
+  tm.addTask(child, "nested-1", callback);
   assert.deepStrictEqual(executed, ["parent", "child"]);
 
+  // Unrelated sibling arrives on the parent's graphId -> bypass does NOT apply.
+  // It must be queued, not started, even though the global limit (5) has room.
+  const sibling = makeNode("sibling", 0, "g1", "openai");
+  tm.addTask(sibling, "g1", callback);
+  assert.deepStrictEqual(executed, ["parent", "child"]);
+  assert.equal(tm.getStatus().queue, 1);
+
+  // Tear down: child completes, then parent restores its nesting bump.
   tm.onComplete(child);
-  tm.restoreAfterNesting("openai");
+  tm.restoreAfterNesting("openai", "g1");
+
+  // After restore the bypass is gone. Parent still holds the openai slot,
+  // so the queued sibling should NOT have started yet.
+  assert.deepStrictEqual(executed, ["parent", "child"]);
+
+  // Parent finally completes -> sibling gets its slot.
   tm.onComplete(parent);
+  assert.deepStrictEqual(executed, ["parent", "child", "sibling"]);
 
-  // Global capacity should be back to original.
-  assert.equal(tm.getStatus().concurrency, 2);
-
-  // Critically: confirm the label decrement was symmetric. With global=2 and
-  // openai limit back to 1, scheduling two openai tasks must produce only one
-  // running and one queued. A broken label decrement would leave the bump in
-  // place (limit=2) and let both run -- the global limit (2) would not catch it.
+  // And the bookkeeping is fully unwound: a fresh openai task should run, a
+  // second one should queue (limit back to 1).
+  tm.onComplete(sibling);
   const post: string[] = [];
   const postCallback = (n: ComputedNode) => post.push(n.nodeId);
   tm.addTask(makeNode("post1", 0, "g1", "openai"), "g1", postCallback);
@@ -392,12 +407,23 @@ test("TaskManager prepareForNesting without label keeps existing behavior", () =
 
 test("TaskManager prepareForNesting with unconfigured label only bumps global", () => {
   const tm = new TaskManager({ global: 1, labels: { openai: 1 } });
-  tm.prepareForNesting("untracked");
+  tm.prepareForNesting("untracked", "g1");
   assert.equal(tm.getStatus().concurrency, 2);
-  // openai limit untouched (still 1)
+  // openai limit untouched -> a second openai task on a *different* graphId
+  // is still blocked because the bypass map has no entry for "openai".
   const { executed, callback } = collectExecutionOrder();
   tm.addTask(makeNode("a", 0, "g1", "openai"), "g1", callback);
-  tm.addTask(makeNode("b", 0, "g1", "openai"), "g1", callback);
-  assert.deepStrictEqual(executed, ["a"]); // 'b' blocked by openai's still-1 limit
-  tm.restoreAfterNesting("untracked");
+  tm.addTask(makeNode("b", 0, "nested-1", "openai"), "nested-1", callback);
+  assert.deepStrictEqual(executed, ["a"]);
+  tm.restoreAfterNesting("untracked", "g1");
 });
+
+// NOTE: there is a deliberate residual hole in the bypass model when two
+// completely independent top-level graphs share a TaskManager. In that case
+// the sibling-graphId distinction cannot tell "an unrelated independent
+// graph's task" from "my actual nested child", because both have a graphId
+// different from the parent's. GraphAI's documented usage is hierarchical
+// (parent -> nested child), not "two independent top-level graphs sharing a
+// TaskManager", so this is not exercised here. Tracking that case precisely
+// would require threading parent->child graphId binding through the GraphAI
+// constructor, which is out of scope for this PR.
