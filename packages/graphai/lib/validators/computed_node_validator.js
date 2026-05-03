@@ -8,6 +8,9 @@ const computedNodeValidator = (nodeData) => {
             throw new common_1.ValidationError("Computed node does not allow " + key);
         }
     });
+    if (nodeData.label !== undefined && typeof nodeData.label !== "string") {
+        throw new common_1.ValidationError("Computed node label must be a string");
+    }
     return true;
 };
 exports.computedNodeValidator = computedNodeValidator;

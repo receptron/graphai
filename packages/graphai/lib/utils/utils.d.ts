@@ -4,6 +4,7 @@ export declare const sleep: (milliseconds: number) => Promise<unknown>;
 export declare const parseNodeName: (inputNodeId: any, isSelfNode?: boolean, nodes?: GraphNodes) => DataSource;
 export declare function assert(condition: boolean, message: string, isWarn?: boolean, cause?: unknown): asserts condition;
 export declare const isObject: <Values = unknown>(x: unknown) => x is Record<string, Values>;
+export declare const isPlainObject: <Values = unknown>(x: unknown) => x is Record<string, Values>;
 export declare const isNull: (data: unknown) => data is null | undefined;
 export declare const strIntentionalError = "Intentional Error for Debugging";
 export declare const defaultAgentInfo: {

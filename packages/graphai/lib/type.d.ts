@@ -65,6 +65,7 @@ export type ComputedNodeData = {
     graphLoader?: GraphDataLoaderOption;
     isResult?: boolean;
     priority?: number;
+    label?: string;
     passThrough?: PassThrough;
     console?: ConsoleElement;
 };
@@ -73,10 +74,14 @@ export type LoopData = {
     count?: number;
     while?: string | boolean;
 };
+export type ConcurrencyConfig = {
+    global: number;
+    labels?: Record<string, number>;
+};
 export type GraphData = {
     version?: number;
     nodes: Record<string, NodeData>;
-    concurrency?: number;
+    concurrency?: number | ConcurrencyConfig;
     loop?: LoopData;
     verbose?: boolean;
     retry?: number;

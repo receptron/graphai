@@ -15,6 +15,7 @@ exports.computedNodeAttributeKeys = [
     "graphLoader",
     "isResult",
     "priority",
+    "label",
     "if",
     "unless",
     "defaultValue",

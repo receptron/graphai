@@ -67,6 +67,7 @@ class ComputedNode extends Node {
     agentFunction;
     timeout; // msec
     priority;
+    label;
     error;
     transactionId; // To reject callbacks from timed-out transactions
     passThrough;
@@ -94,6 +95,10 @@ class ComputedNode extends Node {
         this.timeout = data.timeout;
         this.isResult = data.isResult ?? false;
         this.priority = data.priority ?? 0;
+        // Defensive: graph data may originate from YAML/JSON without strict typing.
+        // Keep label only when it is actually a string so TaskManager's label-keyed
+        // bookkeeping cannot be silently bypassed by a non-string value.
+        this.label = typeof data.label === "string" ? data.label : undefined;
         (0, utils_2.assert)(["function", "string"].includes(typeof data.agent), "agent must be either string or function");
         if (typeof data.agent === "string") {
             this.agentId = data.agent;
@@ -293,50 +298,61 @@ class ComputedNode extends Node {
             const agentFunction = this.agentFunction ?? this.graph.getAgentFunctionInfo(agentId, this.nodeId).agent;
             const localLog = [];
             const context = this.getContext(previousResults, localLog, agentId, config);
-            // NOTE: We use the existence of graph object in the agent-specific params to determine
-            // if this is a nested agent or not.
-            if (hasNestedGraph) {
-                this.graph.taskManager.prepareForNesting();
-                context.forNestedGraph = {
-                    graphData: this.nestedGraph
-                        ? "nodes" in this.nestedGraph
-                            ? this.nestedGraph
-                            : this.graph.resultOf(this.nestedGraph) // HACK: compiler work-around
-                        : { version: 0, nodes: {} },
-                    agents: this.graph.agentFunctionInfoDictionary,
-                    graphOptions: {
-                        agentFilters: this.graph.agentFilters,
-                        taskManager: this.graph.taskManager,
-                        bypassAgentIds: this.graph.bypassAgentIds,
-                        config,
-                        graphLoader: this.graph.graphLoader,
-                    },
-                    onLogCallback: this.graph.onLogCallback,
-                    callbacks: this.graph.callbacks,
-                };
-            }
-            this.beforeConsoleLog(context);
-            const result = await this.agentFilterHandler(context, agentFunction, agentId);
-            this.afterConsoleLog(result);
-            if (hasNestedGraph) {
-                this.graph.taskManager.restoreAfterNesting();
-            }
-            if (!this.isCurrentTransaction(transactionId)) {
-                // This condition happens when the agent function returns
-                // after the timeout (either retried or not).
-                GraphAILogger_1.GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
-                return;
-            }
-            if (this.repeatUntil?.exists) {
-                const dummyResult = { self: { result: this.getResult(result) } };
-                const repeatResult = (0, result_1.resultsOf)({ data: this.repeatUntil?.exists }, dummyResult, [], true);
-                if ((0, utils_1.isNull)(repeatResult?.data)) {
-                    this.retry(type_1.NodeState.Failed, Error("Repeat Until"));
+            // The `nestingPrepared` flag tracks whether prepareForNesting has actually
+            // run. If anything throws between prepareForNesting and the agent call --
+            // e.g. resultOf() during forNestedGraph construction -- we still need to
+            // restore. Conversely, if prepareForNesting itself throws, we must NOT
+            // restore (no bump to undo).
+            let nestingPrepared = false;
+            try {
+                // NOTE: We use the existence of graph object in the agent-specific params to determine
+                // if this is a nested agent or not.
+                if (hasNestedGraph) {
+                    this.graph.taskManager.prepareForNesting(this.label, this.graphId);
+                    nestingPrepared = true;
+                    context.forNestedGraph = {
+                        graphData: this.nestedGraph
+                            ? "nodes" in this.nestedGraph
+                                ? this.nestedGraph
+                                : this.graph.resultOf(this.nestedGraph) // HACK: compiler work-around
+                            : { version: 0, nodes: {} },
+                        agents: this.graph.agentFunctionInfoDictionary,
+                        graphOptions: {
+                            agentFilters: this.graph.agentFilters,
+                            taskManager: this.graph.taskManager,
+                            bypassAgentIds: this.graph.bypassAgentIds,
+                            config,
+                            graphLoader: this.graph.graphLoader,
+                        },
+                        onLogCallback: this.graph.onLogCallback,
+                        callbacks: this.graph.callbacks,
+                    };
+                }
+                this.beforeConsoleLog(context);
+                const result = await this.agentFilterHandler(context, agentFunction, agentId);
+                this.afterConsoleLog(result);
+                if (!this.isCurrentTransaction(transactionId)) {
+                    // This condition happens when the agent function returns
+                    // after the timeout (either retried or not).
+                    GraphAILogger_1.GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
                     return;
                 }
+                if (this.repeatUntil?.exists) {
+                    const dummyResult = { self: { result: this.getResult(result) } };
+                    const repeatResult = (0, result_1.resultsOf)({ data: this.repeatUntil?.exists }, dummyResult, [], true);
+                    if ((0, utils_1.isNull)(repeatResult?.data)) {
+                        this.retry(type_1.NodeState.Failed, Error("Repeat Until"));
+                        return;
+                    }
+                }
+                // after process
+                this.afterExecute(result, localLog);
             }
-            // after process
-            this.afterExecute(result, localLog);
+            finally {
+                if (nestingPrepared) {
+                    this.graph.taskManager.restoreAfterNesting(this.label, this.graphId);
+                }
+            }
         }
         catch (error) {
             this.errorProcess(error, transactionId, previousResults);

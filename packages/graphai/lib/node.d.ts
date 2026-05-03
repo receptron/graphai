@@ -27,6 +27,7 @@ export declare class ComputedNode extends Node {
     private agentFunction?;
     readonly timeout?: number;
     readonly priority: number;
+    readonly label?: string;
     error?: Error;
     transactionId: undefined | number;
     private readonly passThrough?;

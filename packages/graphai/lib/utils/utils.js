@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loopCounterKey = exports.isStaticNodeData = exports.isComputedNodeData = exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
+exports.loopCounterKey = exports.isStaticNodeData = exports.isComputedNodeData = exports.isNamedInputs = exports.defaultTestContext = exports.isLogicallyTrue = exports.debugResultKey = exports.agentInfoWrapper = exports.defaultAgentInfo = exports.strIntentionalError = exports.isNull = exports.isPlainObject = exports.isObject = exports.parseNodeName = exports.sleep = void 0;
 exports.assert = assert;
 const type_1 = require("../type");
 const GraphAILogger_1 = require("./GraphAILogger");
@@ -52,6 +52,17 @@ const isObject = (x) => {
     return x !== null && typeof x === "object";
 };
 exports.isObject = isObject;
+// Stricter than isObject: rejects arrays, Map, Date, class instances, etc., that
+// would otherwise pass `typeof === "object"` and confuse `Object.entries()`.
+// Realm-sensitive (compares against the current realm's Object.prototype),
+// which is fine for graph data sourced from JSON.parse or in-process construction.
+const isPlainObject = (x) => {
+    if (!(0, exports.isObject)(x) || Array.isArray(x))
+        return false;
+    const proto = Object.getPrototypeOf(x);
+    return proto === null || proto === Object.prototype;
+};
+exports.isPlainObject = isPlainObject;
 const isNull = (data) => {
     return data === null || data === undefined;
 };
