@@ -51,6 +51,16 @@ export const isObject = <Values = unknown>(x: unknown): x is Record<string, Valu
   return x !== null && typeof x === "object";
 };
 
+// Stricter than isObject: rejects arrays, Map, Date, class instances, etc., that
+// would otherwise pass `typeof === "object"` and confuse `Object.entries()`.
+// Realm-sensitive (compares against the current realm's Object.prototype),
+// which is fine for graph data sourced from JSON.parse or in-process construction.
+export const isPlainObject = <Values = unknown>(x: unknown): x is Record<string, Values> => {
+  if (!isObject(x) || Array.isArray(x)) return false;
+  const proto = Object.getPrototypeOf(x);
+  return proto === null || proto === Object.prototype;
+};
+
 export const isNull = (data: unknown) => {
   return data === null || data === undefined;
 };

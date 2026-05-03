@@ -1,5 +1,48 @@
-import { GraphData } from "../type";
+import { GraphData, ConcurrencyConfig } from "../type";
 import { graphDataAttributeKeys, ValidationError } from "./common";
+import { isPlainObject } from "../utils/utils";
+
+const concurrencyConfigKeys: ReadonlyArray<keyof ConcurrencyConfig> = ["global", "labels"];
+
+const validateConcurrencyValue = (value: unknown, fieldDescription: string) => {
+  if (typeof value !== "number" || !Number.isInteger(value)) {
+    throw new ValidationError(`${fieldDescription} must be an integer`);
+  }
+  if (value < 1) {
+    throw new ValidationError(`${fieldDescription} must be a positive integer`);
+  }
+};
+
+const validateConcurrencyConfig = (concurrency: number | ConcurrencyConfig) => {
+  if (typeof concurrency === "number") {
+    validateConcurrencyValue(concurrency, "Concurrency");
+    return;
+  }
+  if (!isPlainObject(concurrency)) {
+    throw new ValidationError("Concurrency must be an integer");
+  }
+  for (const key of Object.keys(concurrency)) {
+    if (!concurrencyConfigKeys.includes(key as keyof ConcurrencyConfig)) {
+      throw new ValidationError(`Concurrency object does not allow ${key}`);
+    }
+  }
+  if (!("global" in concurrency)) {
+    throw new ValidationError("Concurrency object must have a global field");
+  }
+  validateConcurrencyValue(concurrency.global, "Concurrency.global");
+  // The schema declares labels?: Record<string, number>. undefined is the only
+  // sentinel for "absent"; null, arrays, Maps, Dates and other non-plain-object
+  // shapes are malformed and would silently disable label enforcement (their
+  // Object.entries() yields no string keys).
+  if (concurrency.labels !== undefined) {
+    if (!isPlainObject(concurrency.labels)) {
+      throw new ValidationError("Concurrency.labels must be an object");
+    }
+    for (const [labelKey, labelValue] of Object.entries(concurrency.labels)) {
+      validateConcurrencyValue(labelValue, `Concurrency.labels.${labelKey}`);
+    }
+  }
+};
 
 export const graphNodesValidator = (data: GraphData) => {
   if (data.nodes === undefined) {
@@ -30,11 +73,6 @@ export const graphDataValidator = (data: GraphData) => {
     }
   }
   if (data.concurrency !== undefined) {
-    if (!Number.isInteger(data.concurrency)) {
-      throw new ValidationError("Concurrency must be an integer");
-    }
-    if (data.concurrency < 1) {
-      throw new ValidationError("Concurrency must be a positive integer");
-    }
+    validateConcurrencyConfig(data.concurrency);
   }
 };
