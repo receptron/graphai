@@ -151,9 +151,15 @@ export class GraphAI {
     this.graphId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`; // URL.createObjectURL(new Blob()).slice(-36);
     this.agentFunctionInfoDictionary = agentFunctionInfoDictionary;
     this.propFunctions = propFunctions;
+    this.bypassAgentIds = options.bypassAgentIds ?? [];
+
+    // Validate before constructing TaskManager so user-facing ValidationError
+    // is reported instead of TaskManager's internal guard message.
+    validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
+    validateAgent(agentFunctionInfoDictionary);
+
     this.taskManager = options.taskManager ?? new TaskManager(graphData.concurrency ?? defaultConcurrency);
     this.agentFilters = options.agentFilters ?? [];
-    this.bypassAgentIds = options.bypassAgentIds ?? [];
     this.config = options.config;
     this.graphLoader = options.graphLoader;
     this.forceLoop = options.forceLoop ?? false;
@@ -163,9 +169,6 @@ export class GraphAI {
     this.onComplete = (__isAbort: boolean) => {
       throw new Error("SOMETHING IS WRONG: onComplete is called without run()");
     };
-
-    validateGraphData(graphData, [...Object.keys(agentFunctionInfoDictionary), ...this.bypassAgentIds]);
-    validateAgent(agentFunctionInfoDictionary);
 
     this.graphData = {
       ...graphData,

@@ -1,6 +1,6 @@
 import { ComputedNode } from "./node";
 import { ConcurrencyConfig } from "./type";
-import { assert, isObject } from "./utils/utils";
+import { assert, isPlainObject } from "./utils/utils";
 
 type TaskEntry = {
   node: ComputedNode;
@@ -8,12 +8,35 @@ type TaskEntry = {
   callback: (node: ComputedNode) => void;
 };
 
+const assertPositiveInteger = (value: unknown, field: string): number => {
+  if (typeof value !== "number" || !Number.isInteger(value) || value < 1) {
+    throw new Error(`TaskManager: ${field} must be a positive integer (got ${String(value)})`);
+  }
+  return value;
+};
+
+// Mirrors the strictness of validateConcurrencyConfig() so that direct
+// `new TaskManager(...)` calls (e.g. tests, advanced consumers that bypass
+// validateGraphData) cannot silently disable label enforcement with a
+// malformed shape such as Map / Date / class instances / arrays.
 const normalizeConcurrencyConfig = (config: number | ConcurrencyConfig): { global: number; labels: Map<string, number> } => {
   if (typeof config === "number") {
-    return { global: config, labels: new Map() };
+    return { global: assertPositiveInteger(config, "concurrency"), labels: new Map() };
   }
-  const labelsObj = isObject<number>(config.labels) ? config.labels : {};
-  return { global: config.global, labels: new Map(Object.entries(labelsObj)) };
+  if (!isPlainObject(config)) {
+    throw new Error("TaskManager: concurrency must be a positive integer or a ConcurrencyConfig object");
+  }
+  const global = assertPositiveInteger(config.global, "concurrency.global");
+  const labels = new Map<string, number>();
+  if (config.labels !== undefined) {
+    if (!isPlainObject(config.labels)) {
+      throw new Error("TaskManager: concurrency.labels must be a plain object");
+    }
+    for (const [labelKey, labelValue] of Object.entries(config.labels)) {
+      labels.set(labelKey, assertPositiveInteger(labelValue, `concurrency.labels.${labelKey}`));
+    }
+  }
+  return { global, labels };
 };
 
 // TaskManage object controls the concurrency of ComputedNode execution.

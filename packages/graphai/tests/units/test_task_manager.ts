@@ -196,6 +196,42 @@ test("TaskManager accepts ConcurrencyConfig object form", () => {
   assert.equal(status.concurrency, 4);
 });
 
+// Direct-construction guards (consumers that bypass validateGraphData).
+test("TaskManager constructor rejects zero / negative concurrency", () => {
+  assert.throws(() => new TaskManager(0), /must be a positive integer/);
+  assert.throws(() => new TaskManager(-1), /must be a positive integer/);
+});
+
+test("TaskManager constructor rejects non-integer concurrency", () => {
+  assert.throws(() => new TaskManager(1.5), /must be a positive integer/);
+  assert.throws(() => new TaskManager("5" as unknown as number), /must be a positive integer/);
+});
+
+test("TaskManager constructor rejects malformed config object", () => {
+  assert.throws(() => new TaskManager(null as unknown as number), /must be a positive integer or a ConcurrencyConfig object/);
+  assert.throws(() => new TaskManager([] as unknown as number), /must be a positive integer or a ConcurrencyConfig object/);
+  assert.throws(() => new TaskManager(new Date() as unknown as number), /must be a positive integer or a ConcurrencyConfig object/);
+});
+
+test("TaskManager constructor rejects malformed labels (array silently became object indexes)", () => {
+  // The original concern: `labels: ["openai", 2]` would pass `typeof === "object"`,
+  // and Object.entries would yield bogus { "0": "openai", "1": 2 } pairs.
+  assert.throws(() => new TaskManager({ global: 5, labels: ["openai", 2] as unknown as Record<string, number> }), /labels must be a plain object/);
+});
+
+test("TaskManager constructor rejects malformed labels (Map / class instance)", () => {
+  assert.throws(() => new TaskManager({ global: 5, labels: new Map([["openai", 3]]) as unknown as Record<string, number> }), /labels must be a plain object/);
+  class Limits {
+    openai = 3;
+  }
+  assert.throws(() => new TaskManager({ global: 5, labels: new Limits() as unknown as Record<string, number> }), /labels must be a plain object/);
+});
+
+test("TaskManager constructor rejects malformed label value", () => {
+  assert.throws(() => new TaskManager({ global: 5, labels: { openai: "3" as unknown as number } }), /labels\.openai must be a positive integer/);
+  assert.throws(() => new TaskManager({ global: 5, labels: { openai: 0 } }), /labels\.openai must be a positive integer/);
+});
+
 test("TaskManager enforces per-label concurrency limit", () => {
   const tm = new TaskManager({ global: 10, labels: { openai: 2 } });
   const { executed, callback } = collectExecutionOrder();

@@ -52,7 +52,7 @@ type ComputedNodeData = {
 ### 内部状態
 
 ```typescript
-private globalLimit: number;
+private concurrency: number;                     // global limit (existing field, repurposed)
 private labelLimits: Map<string, number>;        // label -> max
 private runningByLabel: Map<string, number>;     // label -> current running count
 // runningNodes: Set<ComputedNode> は維持（global の running 数把握用）
@@ -60,7 +60,7 @@ private runningByLabel: Map<string, number>;     // label -> current running cou
 
 ### dequeueTaskIfPossible（HoL skip）
 
-1. global 枠 (`runningNodes.size < globalLimit`) を確認
+1. global 枠 (`runningNodes.size < concurrency`) を確認
 2. キューを先頭（最高 priority）から走査
 3. 各タスクの label について `labelLimits` を確認
    - label 未指定 or label が `labelLimits` にない → global 枠だけで判断
@@ -76,8 +76,8 @@ private runningByLabel: Map<string, number>;     // label -> current running cou
 
 ### prepareForNesting / restoreAfterNesting
 
-- 現状は `concurrency++` していた → `globalLimit++` に変更
-- label 側はいじらない（nested graph の deadlock 回避は global 枠だけで足りる）
+- `concurrency++` はそのまま（global 枠のみ）
+- label 側はいじらない（nested graph の deadlock 回避は per-parent-graphId bypass で対応）
 
 ## Validators
 

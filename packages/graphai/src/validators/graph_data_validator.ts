@@ -1,14 +1,6 @@
 import { GraphData, ConcurrencyConfig } from "../type";
 import { graphDataAttributeKeys, ValidationError } from "./common";
-import { isObject } from "../utils/utils";
-
-// Plain-object check: rejects arrays, Map, Date, class instances, etc., that
-// would otherwise pass `typeof === "object"` and confuse Object.entries().
-const isPlainObject = (x: unknown): x is Record<string, unknown> => {
-  if (!isObject(x) || Array.isArray(x)) return false;
-  const proto = Object.getPrototypeOf(x);
-  return proto === null || proto === Object.prototype;
-};
+import { isPlainObject } from "../utils/utils";
 
 const concurrencyConfigKeys: ReadonlyArray<keyof ConcurrencyConfig> = ["global", "labels"];
 
