@@ -348,30 +348,37 @@ export class ComputedNode extends Node {
       const localLog: TransactionLog[] = [];
       const context = this.getContext(previousResults, localLog, agentId, config);
 
-      // NOTE: We use the existence of graph object in the agent-specific params to determine
-      // if this is a nested agent or not.
-      if (hasNestedGraph) {
-        this.graph.taskManager.prepareForNesting(this.label);
-        context.forNestedGraph = {
-          graphData: this.nestedGraph
-            ? "nodes" in this.nestedGraph
-              ? this.nestedGraph
-              : (this.graph.resultOf(this.nestedGraph) as GraphData) // HACK: compiler work-around
-            : { version: 0, nodes: {} },
-          agents: this.graph.agentFunctionInfoDictionary,
-          graphOptions: {
-            agentFilters: this.graph.agentFilters,
-            taskManager: this.graph.taskManager,
-            bypassAgentIds: this.graph.bypassAgentIds,
-            config,
-            graphLoader: this.graph.graphLoader,
-          },
-          onLogCallback: this.graph.onLogCallback,
-          callbacks: this.graph.callbacks,
-        };
-      }
-
+      // The `nestingPrepared` flag tracks whether prepareForNesting has actually
+      // run. If anything throws between prepareForNesting and the agent call --
+      // e.g. resultOf() during forNestedGraph construction -- we still need to
+      // restore. Conversely, if prepareForNesting itself throws, we must NOT
+      // restore (no bump to undo).
+      let nestingPrepared = false;
       try {
+        // NOTE: We use the existence of graph object in the agent-specific params to determine
+        // if this is a nested agent or not.
+        if (hasNestedGraph) {
+          this.graph.taskManager.prepareForNesting(this.label);
+          nestingPrepared = true;
+          context.forNestedGraph = {
+            graphData: this.nestedGraph
+              ? "nodes" in this.nestedGraph
+                ? this.nestedGraph
+                : (this.graph.resultOf(this.nestedGraph) as GraphData) // HACK: compiler work-around
+              : { version: 0, nodes: {} },
+            agents: this.graph.agentFunctionInfoDictionary,
+            graphOptions: {
+              agentFilters: this.graph.agentFilters,
+              taskManager: this.graph.taskManager,
+              bypassAgentIds: this.graph.bypassAgentIds,
+              config,
+              graphLoader: this.graph.graphLoader,
+            },
+            onLogCallback: this.graph.onLogCallback,
+            callbacks: this.graph.callbacks,
+          };
+        }
+
         this.beforeConsoleLog(context);
         const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction, agentId);
         this.afterConsoleLog(result);
@@ -395,9 +402,7 @@ export class ComputedNode extends Node {
         // after process
         this.afterExecute(result, localLog);
       } finally {
-        // Always release the nesting bump, even when the nested execution throws,
-        // so the shared TaskManager's global/label slots cannot leak.
-        if (hasNestedGraph) {
+        if (nestingPrepared) {
           this.graph.taskManager.restoreAfterNesting(this.label);
         }
       }

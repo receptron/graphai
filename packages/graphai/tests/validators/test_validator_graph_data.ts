@@ -1,8 +1,10 @@
 import { anonymization, rejectTest } from "@receptron/test_utils";
 import { graphDataLatestVersion } from "../common";
 import { validateGraphData } from "../../src/validator";
+import type { ConcurrencyConfig } from "../../src/type";
 
 import test from "node:test";
+import assert from "node:assert";
 
 const nodes = {
   echo: {
@@ -291,6 +293,62 @@ test("test concurrency.labels.<key> empty key still validated", async () => {
     nodes,
   });
   await rejectTest(__dirname, graphdata, "Concurrency.labels. must be a positive integer");
+});
+
+// Reject extra keys on the concurrency object so typos do not silently
+// disable enforcement.
+test("test concurrency object form extra key rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, foo: 1 },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency object does not allow foo");
+});
+
+// Reject non-plain-object shapes that would otherwise pass typeof "object"
+// and yield no entries via Object.entries -- silently disabling enforcement.
+// These tests intentionally bypass anonymization (which JSON-roundtrips and
+// would convert Map/Date/class instances to plain objects/strings, hiding
+// what the validator actually sees in code that constructs graph data
+// programmatically).
+test("test concurrency Map rejected", () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: new Map([["global", 5]]) as unknown as ConcurrencyConfig,
+    nodes,
+  };
+  assert.throws(() => validateGraphData(graphdata, ["echoAgent"]), /Concurrency must be an integer/);
+});
+
+test("test concurrency Date rejected", () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: new Date() as unknown as ConcurrencyConfig,
+    nodes,
+  };
+  assert.throws(() => validateGraphData(graphdata, ["echoAgent"]), /Concurrency must be an integer/);
+});
+
+test("test concurrency.labels Map rejected", () => {
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: new Map([["openai", 3]]) as unknown as Record<string, number> },
+    nodes,
+  };
+  assert.throws(() => validateGraphData(graphdata, ["echoAgent"]), /Concurrency\.labels must be an object/);
+});
+
+test("test concurrency.labels class instance rejected", () => {
+  class Limits {
+    openai = 3;
+  }
+  const graphdata = {
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: new Limits() as unknown as Record<string, number> },
+    nodes,
+  };
+  assert.throws(() => validateGraphData(graphdata, ["echoAgent"]), /Concurrency\.labels must be an object/);
 });
 
 // metadata test

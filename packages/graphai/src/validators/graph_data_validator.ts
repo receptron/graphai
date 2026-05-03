@@ -2,11 +2,21 @@ import { GraphData, ConcurrencyConfig } from "../type";
 import { graphDataAttributeKeys, ValidationError } from "./common";
 import { isObject } from "../utils/utils";
 
+// Plain-object check: rejects arrays, Map, Date, class instances, etc., that
+// would otherwise pass `typeof === "object"` and confuse Object.entries().
+const isPlainObject = (x: unknown): x is Record<string, unknown> => {
+  if (!isObject(x) || Array.isArray(x)) return false;
+  const proto = Object.getPrototypeOf(x);
+  return proto === null || proto === Object.prototype;
+};
+
+const concurrencyConfigKeys: ReadonlyArray<keyof ConcurrencyConfig> = ["global", "labels"];
+
 const validateConcurrencyValue = (value: unknown, fieldDescription: string) => {
-  if (!Number.isInteger(value)) {
+  if (typeof value !== "number" || !Number.isInteger(value)) {
     throw new ValidationError(`${fieldDescription} must be an integer`);
   }
-  if ((value as number) < 1) {
+  if (value < 1) {
     throw new ValidationError(`${fieldDescription} must be a positive integer`);
   }
 };
@@ -16,17 +26,24 @@ const validateConcurrencyConfig = (concurrency: number | ConcurrencyConfig) => {
     validateConcurrencyValue(concurrency, "Concurrency");
     return;
   }
-  if (!isObject(concurrency) || Array.isArray(concurrency)) {
+  if (!isPlainObject(concurrency)) {
     throw new ValidationError("Concurrency must be an integer");
+  }
+  for (const key of Object.keys(concurrency)) {
+    if (!concurrencyConfigKeys.includes(key as keyof ConcurrencyConfig)) {
+      throw new ValidationError(`Concurrency object does not allow ${key}`);
+    }
   }
   if (!("global" in concurrency)) {
     throw new ValidationError("Concurrency object must have a global field");
   }
   validateConcurrencyValue(concurrency.global, "Concurrency.global");
   // The schema declares labels?: Record<string, number>. undefined is the only
-  // sentinel for "absent"; null and other non-plain-object shapes are malformed.
+  // sentinel for "absent"; null, arrays, Maps, Dates and other non-plain-object
+  // shapes are malformed and would silently disable label enforcement (their
+  // Object.entries() yields no string keys).
   if (concurrency.labels !== undefined) {
-    if (!isObject(concurrency.labels) || Array.isArray(concurrency.labels)) {
+    if (!isPlainObject(concurrency.labels)) {
       throw new ValidationError("Concurrency.labels must be an object");
     }
     for (const [labelKey, labelValue] of Object.entries(concurrency.labels)) {
