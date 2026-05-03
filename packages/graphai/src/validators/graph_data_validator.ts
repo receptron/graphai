@@ -1,6 +1,6 @@
 import { GraphData, ConcurrencyConfig } from "../type";
 import { graphDataAttributeKeys, ValidationError } from "./common";
-import { isObject, isNull } from "../utils/utils";
+import { isObject } from "../utils/utils";
 
 const validateConcurrencyValue = (value: unknown, fieldDescription: string) => {
   if (!Number.isInteger(value)) {
@@ -23,7 +23,9 @@ const validateConcurrencyConfig = (concurrency: number | ConcurrencyConfig) => {
     throw new ValidationError("Concurrency object must have a global field");
   }
   validateConcurrencyValue(concurrency.global, "Concurrency.global");
-  if (!isNull(concurrency.labels)) {
+  // The schema declares labels?: Record<string, number>. undefined is the only
+  // sentinel for "absent"; null and other non-plain-object shapes are malformed.
+  if (concurrency.labels !== undefined) {
     if (!isObject(concurrency.labels) || Array.isArray(concurrency.labels)) {
       throw new ValidationError("Concurrency.labels must be an object");
     }

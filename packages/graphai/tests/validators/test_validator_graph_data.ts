@@ -163,6 +163,136 @@ test("test concurrency labels not an object", async () => {
   await rejectTest(__dirname, graphdata, "Concurrency.labels must be an object");
 });
 
+test("test concurrency labels null is rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: null },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels must be an object");
+});
+
+// Top-level concurrency malformed shapes
+test("test concurrency null rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: null,
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
+});
+
+test("test concurrency boolean rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: true,
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
+});
+
+test("test concurrency array rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: [],
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency must be an integer");
+});
+
+// Concurrency.global malformed shapes
+test("test concurrency.global string rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: "5" },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.global must be an integer");
+});
+
+test("test concurrency.global null rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: null },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.global must be an integer");
+});
+
+test("test concurrency.global negative rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: -1 },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.global must be a positive integer");
+});
+
+test("test concurrency.global float rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 1.5 },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.global must be an integer");
+});
+
+// Concurrency.labels.<key> malformed values
+test("test concurrency.labels.<key> string rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: "3" } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels.openai must be an integer");
+});
+
+test("test concurrency.labels.<key> null rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: null } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels.openai must be an integer");
+});
+
+test("test concurrency.labels.<key> negative rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: -2 } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels.openai must be a positive integer");
+});
+
+test("test concurrency.labels.<key> boolean rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: true } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels.openai must be an integer");
+});
+
+test("test concurrency.labels.<key> object rejected", async () => {
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { openai: { value: 3 } } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels.openai must be an integer");
+});
+
+test("test concurrency.labels.<key> empty key still validated", async () => {
+  // An empty-string key is unusual but the validator should still walk it.
+  const graphdata = anonymization({
+    version: graphDataLatestVersion,
+    concurrency: { global: 5, labels: { "": 0 } },
+    nodes,
+  });
+  await rejectTest(__dirname, graphdata, "Concurrency.labels. must be a positive integer");
+});
+
 // metadata test
 test("test metadata", async () => {
   const graphdata = {

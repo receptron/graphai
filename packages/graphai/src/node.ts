@@ -371,32 +371,36 @@ export class ComputedNode extends Node {
         };
       }
 
-      this.beforeConsoleLog(context);
-      const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction, agentId);
-      this.afterConsoleLog(result);
+      try {
+        this.beforeConsoleLog(context);
+        const result = await this.agentFilterHandler(context as AgentFunctionContext, agentFunction, agentId);
+        this.afterConsoleLog(result);
 
-      if (hasNestedGraph) {
-        this.graph.taskManager.restoreAfterNesting(this.label);
-      }
-
-      if (!this.isCurrentTransaction(transactionId)) {
-        // This condition happens when the agent function returns
-        // after the timeout (either retried or not).
-        GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
-        return;
-      }
-
-      if (this.repeatUntil?.exists) {
-        const dummyResult = { self: { result: this.getResult(result) } as unknown as ComputedNode };
-        const repeatResult = resultsOf({ data: this.repeatUntil?.exists }, dummyResult, [], true);
-        if (isNull(repeatResult?.data)) {
-          this.retry(NodeState.Failed, Error("Repeat Until"));
+        if (!this.isCurrentTransaction(transactionId)) {
+          // This condition happens when the agent function returns
+          // after the timeout (either retried or not).
+          GraphAILogger.log(`-- transactionId mismatch with ${this.nodeId} (probably timeout)`);
           return;
         }
-      }
 
-      // after process
-      this.afterExecute(result, localLog);
+        if (this.repeatUntil?.exists) {
+          const dummyResult = { self: { result: this.getResult(result) } as unknown as ComputedNode };
+          const repeatResult = resultsOf({ data: this.repeatUntil?.exists }, dummyResult, [], true);
+          if (isNull(repeatResult?.data)) {
+            this.retry(NodeState.Failed, Error("Repeat Until"));
+            return;
+          }
+        }
+
+        // after process
+        this.afterExecute(result, localLog);
+      } finally {
+        // Always release the nesting bump, even when the nested execution throws,
+        // so the shared TaskManager's global/label slots cannot leak.
+        if (hasNestedGraph) {
+          this.graph.taskManager.restoreAfterNesting(this.label);
+        }
+      }
     } catch (error) {
       this.errorProcess(error, transactionId, previousResults);
     }

@@ -346,7 +346,9 @@ test("TaskManager prepareForNesting bumps label limit when nested parent is labe
   // Scenario: parent task with label 'openai' (limit 1) is currently running
   // and triggers a nested graph whose child also wants label 'openai'. Without
   // the label-aware bump, the child would queue forever -> deadlock.
-  const tm = new TaskManager({ global: 1, labels: { openai: 1 } });
+  // Use global=2 so the label decrement (not the global one) is the binding
+  // constraint for the post-restore tasks below.
+  const tm = new TaskManager({ global: 2, labels: { openai: 1 } });
   const { executed, callback } = collectExecutionOrder();
 
   const parent = makeNode("parent", 0, "g1", "openai");
@@ -363,9 +365,21 @@ test("TaskManager prepareForNesting bumps label limit when nested parent is labe
 
   tm.onComplete(child);
   tm.restoreAfterNesting("openai");
+  tm.onComplete(parent);
 
-  // Capacity should be back to original.
-  assert.equal(tm.getStatus().concurrency, 1);
+  // Global capacity should be back to original.
+  assert.equal(tm.getStatus().concurrency, 2);
+
+  // Critically: confirm the label decrement was symmetric. With global=2 and
+  // openai limit back to 1, scheduling two openai tasks must produce only one
+  // running and one queued. A broken label decrement would leave the bump in
+  // place (limit=2) and let both run -- the global limit (2) would not catch it.
+  const post: string[] = [];
+  const postCallback = (n: ComputedNode) => post.push(n.nodeId);
+  tm.addTask(makeNode("post1", 0, "g1", "openai"), "g1", postCallback);
+  tm.addTask(makeNode("post2", 0, "g1", "openai"), "g1", postCallback);
+  assert.deepStrictEqual(post, ["post1"]);
+  assert.equal(tm.getStatus().queue, 1);
 });
 
 test("TaskManager prepareForNesting without label keeps existing behavior", () => {
