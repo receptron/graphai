@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "@inquirer/input": "^5.0.12"
+    "@inquirer/input": "^5.0.13"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
