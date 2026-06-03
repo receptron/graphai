@@ -43,7 +43,12 @@ export default defineConfig({
     "./inputs.md",
     "./Tutorial.md",
     // non document
-    "**/README.md",
+    // NOTE: do not exclude README.md globally -- the typedoc-generated pages
+    // under apiDocMd/ and agentDocs/ link back to their respective README.md
+    // as the breadcrumb. Exclude only the dev-only READMEs so the auto-doc
+    // breadcrumbs resolve on the live site.
+    "./README.md",
+    "./examples/tutorial/README.md",
     "./Tutorial.template.md",
     "./document_generation.md",
   ],
