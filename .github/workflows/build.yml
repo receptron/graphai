@@ -32,18 +32,22 @@ jobs:
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
         git add packages/*/lib/* docs/agentDocs/* docs/apiDoc/* llm_agents/*/README.md agents/*/README.md packages/*/README.md
-    - name: Commit 
+    - name: Commit
       run: |
         if [ $(git diff --name-only --cached | wc -l) != 0 ]; then
           git commit -m "Update lib or docs" packages/*/lib/ docs/agentDocs/* docs/apiDoc/* llm_agents/*/README.md agents/*/README.md packages/*/README.md
+          # rebase on top of any commits that landed while this workflow was running,
+          # so the push won't be rejected with "fetch first".
+          git pull --rebase --autostash origin main
           git push origin main
         else
           echo "No change on lib"
         fi
-    - name: Commit 
+    - name: Commit
       run: |
         if [ $(git diff | wc -l) != 0 ]; then
           git commit -m "format" .
+          git pull --rebase --autostash origin main
           git push origin main
         else
           echo "No change format"
