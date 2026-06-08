@@ -163,6 +163,36 @@ test("TaskManager prepareForNesting / restoreAfterNesting bumps capacity", () =>
   assert.equal(tm.getStatus().concurrency, 1);
 });
 
+// Regression: prepareForNesting must NOT drain its newly-reserved slot into an
+// already-queued sibling. The concurrency++ reserves headroom for the nested
+// graph's own children (deadlock avoidance, asserted by mapAgent via
+// `concurrency > running`). A prior version drained the queue here, so a queued
+// sibling stole the reserved slot, running caught up to concurrency, and nested
+// mapAgents tripped "mapAgent: Concurrency is too low".
+test("TaskManager prepareForNesting preserves reserved headroom (does not dispatch queued siblings)", () => {
+  const tm = new TaskManager(1);
+  const { executed, callback } = collectExecutionOrder();
+
+  // "a" runs and fills the only slot; "sibling" is queued.
+  tm.addTask(makeNode("a"), "g1", callback);
+  tm.addTask(makeNode("sibling"), "g1", callback);
+  assert.deepStrictEqual(executed, ["a"]);
+  assert.equal(tm.getStatus().queue, 1);
+
+  // "a" is about to invoke a nested graph. The bumped slot must stay reserved as
+  // headroom -- it must NOT be drained into the queued sibling. This is the exact
+  // invariant the buggy drain loop violated (it bumped running to 2 == concurrency,
+  // leaving no headroom and tripping mapAgent's `concurrency > running` guard).
+  tm.prepareForNesting();
+  assert.equal(tm.getStatus().concurrency, 2);
+  assert.deepStrictEqual(executed, ["a"]); // sibling must NOT have been dispatched
+  assert.equal(tm.getStatus().running, 1); // headroom preserved: running(1) < concurrency(2)
+  assert.equal(tm.getStatus().queue, 1);
+
+  tm.restoreAfterNesting();
+  assert.equal(tm.getStatus().concurrency, 1);
+});
+
 test("TaskManager getStatus reports verbose node ids when requested", () => {
   const tm = new TaskManager(1);
   const { callback } = collectExecutionOrder();
