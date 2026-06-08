@@ -167,14 +167,15 @@ class TaskManager {
             }
             perParent.set(parentGraphId, (perParent.get(parentGraphId) ?? 0) + 1);
         }
-        // Both the global slot bump and the optional label bypass can free capacity
-        // for already-queued tasks; drain the queue while progress is being made.
-        let progressed = true;
-        while (progressed) {
-            const before = this.runningNodes.size;
-            this.dequeueTaskIfPossible();
-            progressed = this.runningNodes.size > before;
-        }
+        // IMPORTANT: do NOT drain the queue here. The concurrency++ above reserves a
+        // slot so the nested graph's own children have headroom to run (deadlock
+        // avoidance, which mapAgent asserts via `concurrency > running`). At this
+        // point the nested children are not queued yet -- the nested graph is built
+        // and run *after* prepareForNesting returns -- so draining now can only
+        // dispatch unrelated already-queued sibling tasks into the reserved slot,
+        // immediately consuming the headroom and tripping mapAgent's guard. The
+        // nested children, and any newly-eligible queued tasks, are dispatched when
+        // they call addTask() or when a slot frees up in onComplete().
     }
     restoreAfterNesting(label, parentGraphId) {
         this.concurrency--;
