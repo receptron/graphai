@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/receptron/graphai#readme",
   "dependencies": {
-    "js-sha256": "^0.11.1"
+    "js-sha256": "^0.12.0"
   },
   "devDependencies": {},
   "types": "./lib/index.d.ts",
