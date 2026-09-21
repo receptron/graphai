@@ -20,6 +20,7 @@ type OpenAIConfig = {
   baseURL?: string;
   apiKey?: string;
   stream?: boolean;
+  model?: string;
 };
 
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
@@ -63,14 +64,15 @@ export const openAIFetchAgent: AgentFunction<OpenAIParams, Record<string, any> |
   namedInputs,
   config,
 }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, max_completion_tokens, prompt, messages, response_format } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, max_completion_tokens, prompt, messages, response_format, model } = {
+    ...(config || {}),
     ...params,
     ...namedInputs,
   };
 
   const { apiKey, stream, baseURL } = {
-    ...params,
     ...(config || {}),
+    ...params,
   };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
@@ -90,7 +92,7 @@ export const openAIFetchAgent: AgentFunction<OpenAIParams, Record<string, any> |
   }
   if (images) {
     const image_url =
-      params.model === "gpt-4-vision-preview"
+      model === "gpt-4-vision-preview"
         ? images[0]
         : {
             url: images[0],
@@ -112,7 +114,7 @@ export const openAIFetchAgent: AgentFunction<OpenAIParams, Record<string, any> |
   }
 
   const chatParams = {
-    model: params.model || "gpt-4o",
+    model: model || "gpt-4o",
     messages: messagesCopy as unknown as OpenAI.ChatCompletionMessageParam[],
     tools,
     tool_choice,
@@ -254,11 +256,6 @@ const openAIFetchAgentInfo: AgentFunctionInfo = {
       max_completion_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
-      baseURL: { type: "string" },
-      apiKey: {
-        anyOf: [{ type: "string" }, { type: "object" }],
-      },
-      stream: { type: "boolean" },
       prompt: {
         type: "string",
         description: "query string",

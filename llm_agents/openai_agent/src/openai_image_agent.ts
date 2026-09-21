@@ -11,6 +11,7 @@ type OpenAIConfig = {
   baseURL?: string;
   apiKey?: string;
   forWeb?: boolean;
+  model?: string;
 };
 
 type OpenAIParams = OpenAIInputs & OpenAIConfig;
@@ -20,11 +21,15 @@ export const openAIImageAgent: AgentFunction<OpenAIParams, Record<string, any> |
   namedInputs,
   config,
 }) => {
-  const { system, prompt } = { ...params, ...namedInputs };
+  const { system, prompt, model } = {
+    ...(config || {}),
+    ...params,
+    ...namedInputs,
+  };
 
   const { apiKey, baseURL, forWeb } = {
-    ...params,
     ...(config || {}),
+    ...params,
   };
 
   const userPrompt = getMergeValue(namedInputs, params, "mergeablePrompts", prompt);
@@ -33,7 +38,7 @@ export const openAIImageAgent: AgentFunction<OpenAIParams, Record<string, any> |
   const openai = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: !!forWeb });
 
   const chatParams = {
-    model: params.model || "dall-e-3",
+    model: model || "dall-e-3",
     prompt: [systemPrompt, userPrompt].filter((a) => a).join("\n"),
     n: 1,
     response_format: "url" as const,

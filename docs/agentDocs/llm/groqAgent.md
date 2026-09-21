@@ -52,9 +52,6 @@ Groq Agent
     "temperature": {
       "type": "number"
     },
-    "stream": {
-      "type": "boolean"
-    },
     "prompt": {
       "type": "string",
       "description": "query string"

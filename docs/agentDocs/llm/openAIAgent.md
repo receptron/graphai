@@ -46,26 +46,6 @@ OpenAI Agent
     "temperature": {
       "type": "number"
     },
-    "baseURL": {
-      "type": "string"
-    },
-    "apiVersion": {
-      "type": "string",
-      "description": "Azure API version"
-    },
-    "apiKey": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "object"
-        }
-      ]
-    },
-    "stream": {
-      "type": "boolean"
-    },
     "prompt": {
       "type": "string",
       "description": "query string"

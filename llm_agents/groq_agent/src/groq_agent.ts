@@ -25,6 +25,7 @@ import type { GraphAIText, GraphAITool, GraphAIToolCalls, GraphAIMessage, GraphA
 
 type GroqInputs = {
   verbose?: boolean;
+  model?: string;
   tools?: ChatCompletionTool[];
   temperature?: number;
   max_tokens?: number;
@@ -34,12 +35,13 @@ type GroqInputs = {
 
 type GroqConfig = {
   apiKey?: string;
+  model?: string;
   stream?: boolean;
   dataStream?: boolean;
   forWeb?: boolean;
 };
 
-type GroqParams = GroqInputs & GroqConfig & { model: string };
+type GroqParams = GroqInputs & GroqConfig;
 
 type GroqResult = Partial<GraphAIText & GraphAITool & GraphAIToolCalls & GraphAIMessage & GraphAIMessages>;
 
@@ -101,14 +103,19 @@ const convertOpenAIChatCompletion = (response: ChatCompletion, messages: ChatCom
 };
 
 export const groqAgent: AgentFunction<GroqParams, GroqResult, GroqInputs, GroqConfig> = async ({ params, namedInputs, filterParams, config }) => {
-  const { verbose, system, tools, tool_choice, max_tokens, temperature, prompt, messages } = { ...params, ...namedInputs };
-
-  const { apiKey, stream, dataStream, forWeb, model } = {
-    ...params,
+  const { verbose, system, tools, tool_choice, max_tokens, temperature, prompt, messages, model } = {
     ...(config || {}),
+    ...params,
+    ...namedInputs,
+  };
+
+  const { apiKey, stream, dataStream, forWeb } = {
+    ...(config || {}),
+    ...params,
   };
   const key = apiKey ?? (process !== undefined ? process.env.GROQ_API_KEY : undefined);
   assert(key !== undefined, "The GROQ_API_KEY environment variable adn apiKey is missing.");
+  assert(model !== undefined, "The model is missing. Set it in config, params or inputs.");
   const groq = new Groq({ apiKey, dangerouslyAllowBrowser: !!forWeb });
 
   const llmMetaData = initLLMMetaData();
@@ -230,7 +237,6 @@ const groqAgentInfo: AgentFunctionInfo = {
       max_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
-      stream: { type: "boolean" },
       prompt: {
         type: "string",
         description: "query string",

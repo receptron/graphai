@@ -127,12 +127,13 @@ const convertOpenAIChatCompletion = (
 };
 
 export const openAIAgent: AgentFunction<OpenAIParams, OpenAIResult, OpenAIInputs, OpenAIConfig> = async ({ filterParams, params, namedInputs, config }) => {
-  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, max_completion_tokens, prompt, messages, message, response_format } = {
+  const { verbose, system, images, temperature, tools, tool_choice, max_tokens, max_completion_tokens, prompt, messages, message, response_format, model } = {
+    ...(config || {}),
     ...params,
     ...namedInputs,
   };
 
-  const { apiKey, stream, dataStream, forWeb, model, baseURL, apiVersion } = {
+  const { apiKey, stream, dataStream, forWeb, baseURL, apiVersion } = {
     ...(config || {}),
     ...params,
   };
@@ -318,12 +319,6 @@ const openaiAgentInfo: AgentFunctionInfo = {
       max_completion_tokens: { type: "number" },
       verbose: { type: "boolean" },
       temperature: { type: "number" },
-      baseURL: { type: "string" },
-      apiVersion: { type: "string", description: "Azure API version" },
-      apiKey: {
-        anyOf: [{ type: "string" }, { type: "object" }],
-      },
-      stream: { type: "boolean" },
       prompt: {
         type: "string",
         description: "query string",
