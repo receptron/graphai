@@ -1,6 +1,6 @@
 {
   "name": "@graphai/openai_fetch_agent",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "OpenAI fetch agents for GraphAI and browser.",
   "main": "lib/index.js",
   "files": [
