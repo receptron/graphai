@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@anthropic-ai/sdk@^0.112.3":
-  version "0.112.3"
-  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.112.3.tgz#ab7cff4df094cbc11b4a78af63bdd67f8c40983b"
-  integrity sha512-wjcozJlitVIuBEw9cj/xBuRznwkhcLmXmNzlFoeHbh4AvrDG3HGZrdvEOTTmobcbhjGkfOpKbmDTCQ4s9LQvCg==
+"@anthropic-ai/sdk@^0.127.0":
+  version "0.127.0"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.127.0.tgz#02d19a29eddb5ffad9a4ce56edb1fa32e1a49de4"
+  integrity sha512-OKiVbG9LHCxjn4fBJZJFy/Bz3hqE1RYpwaeSEDNheQnvz0XNKmGT/Lhkz2Sf1a27Ldt3vVv+BkU81I0U/8EpoQ==
   dependencies:
     json-schema-to-ts "^3.1.1"
     standardwebhooks "^1.0.0"
@@ -118,10 +118,10 @@
     "@shikijs/types" "^3.23.0"
     "@shikijs/vscode-textmate" "^10.0.2"
 
-"@google/genai@^2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-2.12.0.tgz#42d81d8f5c5189b467189bd5b823858a17587a70"
-  integrity sha512-LUr972DZosqPUhf9Mb3CIVu/B99woD3QW6ZJV1T9aNgxaoimAZARmo+IyyDsxIL+zouFiYSdA4hzfEWXc9oNIQ==
+"@google/genai@^2.23.0":
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-2.23.0.tgz#38773feea4586184f3f4373d61e8ceafea2a9336"
+  integrity sha512-NFMzktoZ7jJg9AA3vUbWZocnkQP6DSGzL21ORwdVcBWkHli3k7v6B9zy07M4bTiKDAyIWfUh2J/oLYxCu0hNpQ==
   dependencies:
     google-auth-library "^10.3.0"
     p-retry "^4.6.2"
@@ -1355,7 +1355,7 @@ flat-cache@^6.1.23:
     flatted "^3.4.2"
     hookified "^1.15.0"
 
-flatted@>=3.4.3, flatted@^3.4.2:
+flatted@^3.4.2:
   version "3.4.4"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.4.4.tgz#aeeca2a506303f0cee61c59e6c9f2a88d2f29fc6"
   integrity sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==
@@ -1525,10 +1525,15 @@ graphql@^16.11.0:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.13.2.tgz#4d2b73df5796b201f1bc2765f5d7067f689cb55f"
   integrity sha512-5bJ+nf/UCpAjHM8i06fl7eLyVC9iuNAjm9qzkiu2ZGhM0VscSvS6WDPfAwkdkBuoXGM9FJSbKl6wylMwP9Ktig==
 
-groq-sdk@^1.1.2, groq-sdk@^1.3.0:
+groq-sdk@^1.1.2:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-1.3.0.tgz#0ae713f5e224b4ad62efd95aaebb92b7fd9408b5"
   integrity sha512-mvgUIpAxlk/VxWIoliHx4R+Ha78Bd/g0t24OFjCXtdLbNiY1rW4h9AcznKBwFho7K/Nq732ZSjxMYkNb1xeCFg==
+
+groq-sdk@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/groq-sdk/-/groq-sdk-1.6.0.tgz#6938848229935425e29aa5a9b225b50f4fbc89a9"
+  integrity sha512-ggMgo6n84aZdNObgkSbSxWrdAq4wABsViIRb5e4N15bMUtDLZVhqlgZOI7X4TeqdBMdaVUOuUdZxAZIp06u0vw==
 
 has-symbols@^1.0.3, has-symbols@^1.1.0:
   version "1.1.0"
@@ -1676,10 +1681,10 @@ isexe@^4.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-4.0.0.tgz#48f6576af8e87a18feb796b7ed5e2e5903b43dca"
   integrity sha512-FFUtZMpoZ8RqHS3XeXEmHWLA4thH+ZxCv2lOiPIn1Xc7CxrqhWzNSDzD+/chS/zbYezmiwWLdQC09JdQKmthOw==
 
-js-sha256@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.12.0.tgz#fb8d19fb20af09e0ed32ff33e0d260bd93d1bb75"
-  integrity sha512-P2IyTRMIHCkLD9clcQST8wGP/wqOXjvDD7E3onloE/5LSQGscyrmk2Loa069YsdtLfQWN1EnMDiaomAs9AfP4w==
+js-sha256@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-1.0.0.tgz#24cdfe8c9184426d814da8e16ba0c769dc425416"
+  integrity sha512-Bqxf6ENUzYIMzuELCmRNrJOVbjKH1oMgbfYJBKVr/W1Xf9fazpahqCbb24v1pR7XV1isuqhM+w9KWpK7zCyUQw==
 
 json-bigint@^1.0.0:
   version "1.0.0"
@@ -1833,7 +1838,7 @@ mimic-response@^3.1.0:
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-3.1.0.tgz#2d1d59af9c1b129815accc2c46a022a5ce1fa3c9"
   integrity sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==
 
-minimatch@>=9.0.7, minimatch@^10.2.2, minimatch@^10.2.4, minimatch@^10.2.5:
+minimatch@^10.2.2, minimatch@^10.2.4, minimatch@^10.2.5:
   version "10.2.6"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-10.2.6.tgz#fd956bbe0b77241e9f15ac5dccb1c638060968ef"
   integrity sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==
@@ -1980,10 +1985,10 @@ openai@^4.53.0:
     formdata-node "^4.3.2"
     node-fetch "^2.6.7"
 
-openai@^6.48.0:
-  version "6.48.0"
-  resolved "https://registry.yarnpkg.com/openai/-/openai-6.48.0.tgz#4cabd2a68a123c1b2c2d6fac59fd19c327aab7ad"
-  integrity sha512-KhVp+FyV50QrXNextvL9hIU5l6ox5HYuKQjGVk7lIqprgJol90+dQXWONV6S1lRWsKA1bXjrow8RsUT14M1hNA==
+openai@^7.20.0:
+  version "7.20.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-7.20.0.tgz#2508815a7b0844dde94311a0de9771eecdc3738d"
+  integrity sha512-5x5ru4cKEvEqHqYZbdIbT57OE7KqmP9YYxZiUKuKng016grOHXqom1vmu34MTPPW30q+lcP9RhxAbaRse+Xlcw==
 
 optionator@^0.9.3:
   version "0.9.4"
@@ -2558,10 +2563,10 @@ type-is@^2.0.1, type-is@^2.1.0:
     media-typer "^1.1.0"
     mime-types "^3.0.0"
 
-typedoc-plugin-markdown@^4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.13.0.tgz#a3757c57207e4ecee85f00e971636d04b9d3359f"
-  integrity sha512-OHaOLoMTS0wL2ud73WXvxv486mrUEtgXxW4iKiTOGJVipT/VBWY76rlVRMQGes7aVonoIf5roWRe1UvHbufLlQ==
+typedoc-plugin-markdown@^4.13.1:
+  version "4.13.1"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.13.1.tgz#9c5351cfc34ed2c249ffbaf395f6ca8752a5d344"
+  integrity sha512-d3jchJ4CyIrV9w9uozTSkfMYG8IEM1RvvGOaybJ/3rRporzoX7p0lprffo95GOGUviQqP0phjHJE3bY8PQbilA==
 
 typedoc@^0.28.20:
   version "0.28.20"
