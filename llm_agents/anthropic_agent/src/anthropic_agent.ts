@@ -28,6 +28,7 @@ type AnthropicInputs = {
 
 type AnthropicConfig = {
   apiKey?: string;
+  model?: string;
   stream?: boolean;
   dataStream?: boolean;
   forWeb?: boolean;
@@ -124,11 +125,15 @@ export const anthropicAgent: AgentFunction<AnthropicParams, AnthropicResult, Ant
   filterParams,
   config,
 }) => {
-  const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format } = { ...params, ...namedInputs };
-
-  const { apiKey, stream, dataStream, forWeb, model } = {
-    ...params,
+  const { verbose, system, temperature, tools, tool_choice, max_tokens, prompt, messages, response_format, model } = {
     ...(config || {}),
+    ...params,
+    ...namedInputs,
+  };
+
+  const { apiKey, stream, dataStream, forWeb } = {
+    ...(config || {}),
+    ...params,
   };
 
   const llmMetaData = initLLMMetaData();

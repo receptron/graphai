@@ -46,6 +46,7 @@ type GeminiInputs = {
 
 type GeminiConfig = {
   apiKey?: string;
+  model?: string;
   stream?: boolean;
   dataStream?: boolean;
 };
@@ -105,11 +106,15 @@ const convertOpenAIChatCompletion = (
 };
 
 export const geminiAgent: AgentFunction<GeminiParams, GeminiResult, GeminiInputs, GeminiConfig> = async ({ params, namedInputs, config, filterParams }) => {
-  const { system, temperature, tools, max_tokens, prompt, messages, response_format, tool_choice } = { ...params, ...namedInputs };
-
-  const { apiKey, stream, dataStream, model } = {
-    ...params,
+  const { system, temperature, tools, max_tokens, prompt, messages, response_format, tool_choice, model } = {
     ...(config || {}),
+    ...params,
+    ...namedInputs,
+  };
+
+  const { apiKey, stream, dataStream } = {
+    ...(config || {}),
+    ...params,
   };
 
   const llmMetaData = initLLMMetaData();

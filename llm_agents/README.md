@@ -20,6 +20,41 @@ It accepts **system prompts**, **user prompts**, and **messages (conversation hi
 - **Streaming Responses**  
   Streaming works in **Node**, **Web**, and hybrid setups, and is handled **in combination with Agent Filters** (the agent does not stream by itself).
 
+## config / params / inputs
+
+Every LLM agent resolves its settings from three layers. They differ in **who controls the value and when**,
+and they get progressively more dynamic:
+
+| Layer | Controlled by | Typical use |
+|---|---|---|
+| `config` | the application hosting GraphAI | API keys, endpoints — settings that do not belong in the graph |
+| `params` | the graph author | the model and options chosen for that node |
+| `inputs` | the data flow at run time | values computed by other nodes |
+
+A more dynamic layer wins, so the precedence is **`inputs` > `params` > `config`**.
+
+`model` can come from any of the three, which is what lets a graph pick a model at run time:
+
+```yaml
+llm:
+  agent: openAIAgent
+  inputs:
+    model: :selectedModel
+    prompt: :userInput.text
+```
+
+Connection and transport settings — `apiKey`, `baseURL`, `apiVersion`, `stream`, `dataStream`, `forWeb` —
+are read from `config` and `params` only. They are deliberately not reachable from `inputs`, so a value
+flowing through the graph cannot redirect a request or replace a credential.
+
+```ts
+const graphai = new GraphAI(graphData, agents, {
+  config: {
+    openAIAgent: { apiKey: process.env.OPENAI_API_KEY },
+  },
+});
+```
+
 ## GraphData Examples
 
 ### Using OpenAI GPT-4o

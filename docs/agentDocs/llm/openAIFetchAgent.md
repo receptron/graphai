@@ -46,22 +46,6 @@ OpenAI Fetch Agent
     "temperature": {
       "type": "number"
     },
-    "baseURL": {
-      "type": "string"
-    },
-    "apiKey": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "object"
-        }
-      ]
-    },
-    "stream": {
-      "type": "boolean"
-    },
     "prompt": {
       "type": "string",
       "description": "query string"
