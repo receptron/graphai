@@ -113,3 +113,10 @@ test("test llm object", async () => {
     ":agentABC.x_groq.id",
   ]);
 });
+
+test("test binary data", async () => {
+  const agentId = "agentABC";
+  const result = { buffer: Buffer.alloc(16), bytes: new Uint8Array(8), raw: new ArrayBuffer(8) };
+  const res = debugResultKey(agentId, result);
+  assert.deepStrictEqual(res, [":agentABC", ":agentABC.buffer", ":agentABC.bytes", ":agentABC.raw"]);
+});
