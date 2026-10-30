@@ -117,6 +117,11 @@ const debugResultKeyInner = (result: any) => {
   if (typeof result === "string") {
     return {};
   }
+  // Binary data (Buffer, TypedArray, ArrayBuffer) has no meaningful sub-keys,
+  // and Object.keys() would return one key per byte.
+  if (ArrayBuffer.isView(result) || result instanceof ArrayBuffer) {
+    return {};
+  }
   if (Array.isArray(result)) {
     return Array.from(result.keys()).reduce((tmp: Record<string, any>, index: number) => {
       tmp["$" + String(index)] = debugResultKeyInner(result[index]);
