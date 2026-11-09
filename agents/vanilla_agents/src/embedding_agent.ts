@@ -1,29 +1,5 @@
 import { AgentFunction, AgentFunctionInfo } from "graphai";
-
-// Type for OpenAI's Embedding API
-type OpenAIEmbeddingResponse = {
-  object: string;
-  model: string;
-  usage: {
-    prompt_tokens: number;
-    total_tokens: number;
-  };
-  data: [
-    {
-      object: string;
-      index: number;
-      embedding: number[];
-    },
-  ];
-};
-
-type OllamaEmbeddingResponse = {
-  model: string;
-  embeddings: number[][];
-  total_duration: number;
-  load_duration: number;
-  prompt_eval_count: number;
-};
+import { embeddingsOf } from "./embedding_response";
 
 // https://ollama.com/blog/embedding-models
 type EmbeddingAIParams = {
@@ -75,21 +51,12 @@ export const stringEmbeddingsAgent: AgentFunction<EmbeddingAIParams, number[][],
       model: theModel,
     }),
   });
-  const jsonResponse: OpenAIEmbeddingResponse | OllamaEmbeddingResponse = await response.json();
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  if ("data" in jsonResponse) {
-    // maybe openAI
-    return jsonResponse.data.map((object) => {
-      return object.embedding;
-    });
-  }
-  if ("embeddings" in jsonResponse) {
-    // ollama
-    return jsonResponse.embeddings;
-  }
+
+  return embeddingsOf(await response.json());
 };
 
 const stringEmbeddingsAgentInfo: AgentFunctionInfo = {
