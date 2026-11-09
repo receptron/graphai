@@ -67,6 +67,11 @@ test("test embeddingsOf rejects a shape it cannot read", () => {
   });
 });
 
+test("test embeddingsOf refuses ollama's singular embedding, which answers a prompt this agent never sent", () => {
+  assert.throws(() => embeddingsOf({ embedding: [] }), /keys embedding/);
+  assert.throws(() => embeddingsOf({ embedding: [0.1, 0.2] }), /keys embedding/);
+});
+
 test("test embeddingsOf names what it received", () => {
   assert.throws(() => embeddingsOf({ object: "list", usage: {} }), /keys object, usage/);
   assert.throws(() => embeddingsOf(null), /response: null/);

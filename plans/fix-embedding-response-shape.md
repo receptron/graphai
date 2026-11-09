@@ -36,6 +36,14 @@ itself JSON.
 - An empty `data` or `embeddings` array stays a success returning no vectors, as it did
   before. Whether a provider that answered fewer vectors than it was asked for should fail is
   a separate question — `embeddingsOf` is not told how many inputs were sent.
+- Ollama's deprecated singular endpoint, `/api/embeddings`, is **not** accepted. It answers 200
+  with a singular `{ embedding }` — a running Ollama returns one even for a model it cannot embed
+  with at all, which is where the silent success above comes from in practice. It also reads
+  `prompt`, where this agent sends `input`, so its answer is to a request that was never made.
+  Accepting the key would turn a wrong-endpoint mistake into plausible-looking data; throwing
+  names the key, which is the clue the caller needs. `/api/embed` and the OpenAI-compatible
+  `/v1/embeddings` both answer 501 with a JSON body on that same server, so the status check
+  carries them.
 - `mock` is still the agent itself, so `samples` stays empty: filling it would make the agent
   test suite reach the network. That decision belongs to its own change.
 - The two `agentdoc` sites in #1378 and the `noImplicitReturns` flag itself are not here.
