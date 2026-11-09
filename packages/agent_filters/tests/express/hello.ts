@@ -1,7 +1,6 @@
 import express from "express";
 
-export const hello = async (req: express.Request, res: express.Response) => {
-  // const { params, query } = req;
+export const hello = async (__req: express.Request, res: express.Response) => {
   res.json({
     message: "hello",
   });

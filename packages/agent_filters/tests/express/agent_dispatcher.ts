@@ -42,7 +42,7 @@ export const agentDispatcher: RequestHandler = async (req: express.Request, res:
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("X-Accel-Buffering", "no");
 
-  const callback = (context: AgentFunctionContext, token: string) => {
+  const callback = (__context: AgentFunctionContext, token: string) => {
     if (token) {
       res.write(token);
     }
