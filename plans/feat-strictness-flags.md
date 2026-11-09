@@ -13,18 +13,24 @@ touched.
 | `noUncheckedSideEffectImports` | an `import "./typo"` that resolves to nothing |
 | `allowUnreachableCode: false` | code after a `return`, usually a merge artifact |
 | `allowUnusedLabels: false` | a label nothing jumps to |
-| `skipLibCheck: false` | type errors inside a dependency's `.d.ts`, which `true` hides |
 
 ## How the cost was measured
 
 `strict: true` switches on none of these, and type errors have no suppression mechanism, so each one
 has to be priced before it is switched on rather than after.
 
-Each flag was set **in the config file** and measured with `tsc --noEmit --pretty false`. On the
-command line it would not have been measured at all: the file already sets `skipLibCheck` further
-down, and in JSON the later key wins, so an inserted one is silently discarded — a measurement that
+Each flag was set **in the config file** and measured with `tsc --noEmit --pretty false`. Measuring
+on the command line would not have measured anything: where the file already sets an option further
+down, the later key wins in JSON and an inserted one is silently discarded — a measurement that
 reads zero because nothing changed looks exactly like a measurement that reads zero because the code
 is clean.
+
+`skipLibCheck: false` was measured as free here and is **not** in this change. It is free only in a
+working copy that holds generated files the repository does not: two committed declaration indexes
+import a module whose own declaration was never committed, and nothing notices because
+`skipLibCheck: true` means no `.d.ts` is ever read. A clean clone fails the build. Enabling it is
+worth doing after that is fixed, and the cost of this one has to be measured in a fresh clone rather
+than in a working copy.
 
 The surface measured is the one that is actually enforced, which is wider than `src`:
 
