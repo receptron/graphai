@@ -26,8 +26,12 @@ const isOllamaEmbeddingResponse = (body: unknown): body is OllamaEmbeddingRespon
 
 const shapeOf = (body: unknown): string => {
   if (body === null) return "null";
-  if (isObject(body)) return `keys ${Object.keys(body).join(", ")}`;
-  return typeof body;
+  if (!isObject(body)) return typeof body;
+  if (Array.isArray(body)) return `an array of length ${body.length}`;
+  const keys = Object.keys(body);
+  if (keys.length > 0) return `keys ${keys.join(", ")}`;
+  const tag = Object.prototype.toString.call(body);
+  return tag === "[object Object]" ? "an object with no keys" : tag;
 };
 
 export const embeddingsOf = (body: unknown): number[][] => {

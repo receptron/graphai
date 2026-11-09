@@ -72,10 +72,26 @@ test("test embeddingsOf refuses ollama's singular embedding, which answers a pro
   assert.throws(() => embeddingsOf({ embedding: [0.1, 0.2] }), /keys embedding/);
 });
 
-test("test embeddingsOf names what it received", () => {
-  assert.throws(() => embeddingsOf({ object: "list", usage: {} }), /keys object, usage/);
-  assert.throws(() => embeddingsOf(null), /response: null/);
-  assert.throws(() => embeddingsOf("<html></html>"), /response: string/);
+const messageFor = (body: unknown): string => {
+  try {
+    embeddingsOf(body);
+  } catch (error) {
+    return error instanceof Error ? error.message : String(error);
+  }
+  return "(did not throw)";
+};
+
+test("test embeddingsOf names what it received, and never the same way twice", () => {
+  const prefix = "stringEmbeddingsAgent: unexpected embeddings response: ";
+  assert.equal(messageFor({ object: "list", usage: {} }), prefix + "keys object, usage");
+  assert.equal(messageFor({}), prefix + "an object with no keys");
+  assert.equal(messageFor([]), prefix + "an array of length 0");
+  assert.equal(messageFor([0.1, 0.2]), prefix + "an array of length 2");
+  assert.equal(messageFor(new Date()), prefix + "[object Date]");
+  assert.equal(messageFor(null), prefix + "null");
+  assert.equal(messageFor(undefined), prefix + "undefined");
+  assert.equal(messageFor("<html></html>"), prefix + "string");
+  assert.equal(messageFor(42), prefix + "number");
 });
 
 test("test stringEmbeddingsAgent returns the vectors", async () => {
