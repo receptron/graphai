@@ -36,7 +36,7 @@ export const tokenBoundStringsAgent: AgentFunction<
   };
   const { endIndex, tokenCount } = addNext(0, 0);
   const content = contents
-    .filter((value, index) => {
+    .filter((__value, index) => {
       return index < endIndex;
     })
     .join("\n");

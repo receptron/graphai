@@ -45,7 +45,7 @@ export const graph_data = {
 };
 
 class DummyTaskManager extends TaskManager {
-  public onComplete(__node: ComputedNode) {}
+  public override onComplete(__node: ComputedNode) {}
 }
 
 const taskManager = new DummyTaskManager(10);

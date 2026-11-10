@@ -1,7 +1,7 @@
 import express from "express";
 import { GraphAI, AgentFunction, agentInfoWrapper } from "graphai";
 
-export const graphAISample = async (req: express.Request, res: express.Response) => {
+export const graphAISample = async (__req: express.Request, res: express.Response) => {
   const graph_data = {
     nodes: {
       node1: {
