@@ -11,6 +11,16 @@ test("test getAgents", async () => {
   assert.equal(expect, actual);
 });
 
+test("test getAgents returns an empty string for no agents", async () => {
+  assert.equal(getAgents([]), "");
+});
+
+test("test getAgents switches to one agent per line above five", async () => {
+  const five = ["A", "B", "C", "D", "E"];
+  assert.equal(getAgents(five), "A, B, C, D, E");
+  assert.equal(getAgents([...five, "F"]), "\n  A,\n  B,\n  C,\n  D,\n  E,\n  F\n");
+});
+
 test("test getPackageJson", async () => {
   const actual = getPackageJson(path.resolve(__dirname, "../../../llm_agents/openai_agent"));
   const expect = 'OpenAI agents for GraphAI.';

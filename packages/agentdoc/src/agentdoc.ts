@@ -22,6 +22,7 @@ export const getAgents = (agentKeys: string[]) => {
     }
     return agentKeys.join(", ");
   }
+  return "";
 };
 
 export const extractDescriptions = (schema: any) => {
@@ -162,6 +163,7 @@ export const main = async (npmRootPath: string) => {
     if (key === "examples") {
       return getExamples(agentKeys, agents);
     }
+    return "";
   };
   const temp = readTemplate(packageJson.name === "@graphai/agents" ? "readme-agent.md" : "readme.md");
   const md = ["packageName", "description", "agents", "relatedAgents", "environmentVariables", "sample", "agentsDescription", "examples"].reduce((tmp, key) => {
