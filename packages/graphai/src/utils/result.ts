@@ -2,7 +2,7 @@ import { DataSource, ResultData, PropFunction } from "../type";
 
 import { GraphNodes } from "../node";
 
-import { parseNodeName, isNamedInputs, isObject, isNull } from "./utils";
+import { parseNodeName, isNamedInputs, isObject, isPlainObject, isNull } from "./utils";
 import { getDataFromSource } from "./data_source";
 import { utilsFunctions } from "./prop_function";
 
@@ -64,13 +64,33 @@ export const resultOf = (source: DataSource, nodes: GraphNodes, propFunctions: P
   return getDataFromSource(result, source, propFunctions);
 };
 
+// A plain result may come from another JavaScript realm, such as an iframe.
+const isPlainResultObject = (value: ResultData): value is Record<string, ResultData> => {
+  if (isPlainObject<ResultData>(value)) {
+    return true;
+  }
+  if (!isObject(value)) {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  if (prototype === null || Object.getPrototypeOf(prototype) !== null) {
+    return false;
+  }
+  const constructor: unknown = Object.getOwnPropertyDescriptor(prototype, "constructor")?.value;
+  return (
+    typeof constructor === "function" &&
+    constructor.prototype === prototype &&
+    Function.prototype.toString.call(constructor) === Function.prototype.toString.call(Object)
+  );
+};
+
 // clean up object for anyInput
 export const cleanResultInner = (results: ResultData): ResultData | null => {
   if (Array.isArray(results)) {
     return results.map((result: ResultData) => cleanResultInner(result)).filter((result) => !isNull(result));
   }
 
-  if (isObject<ResultData>(results)) {
+  if (isPlainResultObject(results)) {
     return Object.keys(results).reduce((tmp: Record<string, ResultData>, key: string) => {
       const value = cleanResultInner(results[key]);
       if (!isNull(value)) {
