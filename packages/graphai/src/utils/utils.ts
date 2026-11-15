@@ -7,10 +7,29 @@ export const sleep = async (milliseconds: number) => {
   return await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
+const splitNodePath = (path: string) => {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let index = 0; index < path.length; index++) {
+    const char = path[index];
+    if (char === "(") {
+      depth++;
+    } else if (char === ")" && depth > 0) {
+      depth--;
+    } else if (char === "." && depth === 0) {
+      parts.push(path.slice(start, index));
+      start = index + 1;
+    }
+  }
+  parts.push(path.slice(start));
+  return parts;
+};
+
 export const parseNodeName = (inputNodeId: any, isSelfNode: boolean = false, nodes?: GraphNodes): DataSource => {
   if (isSelfNode) {
     if (typeof inputNodeId === "string" && inputNodeId[0] === ".") {
-      const parts = inputNodeId.split(".");
+      const parts = splitNodePath(inputNodeId);
       return { nodeId: "self", propIds: parts.slice(1) };
     }
     return { value: inputNodeId };
@@ -19,7 +38,7 @@ export const parseNodeName = (inputNodeId: any, isSelfNode: boolean = false, nod
     const regex = /^:(.*)$/;
     const match = inputNodeId.match(regex);
     if (match) {
-      const parts = match[1].split(/(?<!\()\.(?!\))/);
+      const parts = splitNodePath(match[1]);
       if (parts.length == 1) {
         return { nodeId: parts[0] };
       }
