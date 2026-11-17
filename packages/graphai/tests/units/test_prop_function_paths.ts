@@ -24,6 +24,23 @@ for (const { path, props, expected } of cases) {
   }
 }
 
+const numericCases = [
+  { path: ":src.price.equal(1.5)", expected: true },
+  { path: ":src.price.equal(1.25)", expected: false },
+  { path: ":src.count.equal(2)", expected: true },
+  { path: ":src.missing.default(0.5)", expected: 0.5 },
+  { path: ":src.missing.default(-1.5)", expected: -1.5 },
+  { path: ":src.missing.default(3)", expected: 3 },
+  { path: ":src.missing.default(1.2.3)", expected: "1.2.3" },
+  { path: ":src.missing.default(gpt-4.1)", expected: "gpt-4.1" },
+];
+
+for (const { path, expected } of numericCases) {
+  test(`numeric property functions accept decimal arguments in ${path}`, () => {
+    assert.deepStrictEqual(getDataFromSource({ price: 1.5, count: 2 }, parseNodeName(path), propFunctions), expected);
+  });
+}
+
 test("path parsing keeps nested parentheses together before the next property", () => {
   assert.deepStrictEqual(parseNodeName(":src.value.custom(a(b.c).d).next"), {
     nodeId: "src",
