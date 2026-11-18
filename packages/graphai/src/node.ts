@@ -88,6 +88,7 @@ export class ComputedNode extends Node {
   private readonly agentId?: string;
   private agentFunction?: AgentFunction<any, any, any, any>;
   public readonly timeout?: number; // msec
+  private timeoutTimer?: ReturnType<typeof setTimeout>;
   public readonly priority: number;
   public readonly label?: string;
   public error?: Error;
@@ -191,6 +192,10 @@ export class ComputedNode extends Node {
   }
 
   private updateState(state: NodeState) {
+    if (this.state === NodeState.Executing && state !== NodeState.Executing && this.timeoutTimer !== undefined) {
+      clearTimeout(this.timeoutTimer);
+      this.timeoutTimer = undefined;
+    }
     this.state = state;
     if (this.debugInfo) {
       this.debugInfo.state = state;
@@ -336,9 +341,13 @@ export class ComputedNode extends Node {
 
     const transactionId = Date.now();
     this.prepareExecute(transactionId, previousResults, agentId);
+    // An execution-log callback can synchronously abort the graph.
+    if (this.state !== NodeState.Executing) {
+      return;
+    }
 
     if (this.timeout && this.timeout > 0) {
-      setTimeout(() => {
+      this.timeoutTimer = setTimeout(() => {
         this.executeTimeout(transactionId);
       }, this.timeout);
     }
