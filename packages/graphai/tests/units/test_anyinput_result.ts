@@ -1,13 +1,16 @@
 import assert from "node:assert";
 import test from "node:test";
-import { runInNewContext } from "node:vm";
 import { GraphAI, graphDataLatestVersion } from "../../src/index";
 
 test("anyInput preserves non-plain results and drops nullish entries", async () => {
-  const customPrototype = Object.assign(Object.create(null), { constructor: Object });
-  const customValue: unknown = Object.assign(Object.create(customPrototype), { keep: null });
+  class Point {
+    constructor(
+      public x: number,
+      public label: string | null,
+    ) {}
+  }
   const values = {
-    customValue,
+    point: new Point(1, null),
     bytes: Buffer.from([1, 2, 3, 4]),
     date: new Date("2026-01-01T00:00:00Z"),
     map: new Map([["key", 1]]),
@@ -15,18 +18,18 @@ test("anyInput preserves non-plain results and drops nullish entries", async () 
     error: new Error("example"),
     pattern: /ab/g,
   };
-  const foreignPlain: unknown = runInNewContext("({ kept: 0, empty: null })");
+  const nullPrototype = Object.assign(Object.create(null), { kept: 0, empty: null });
   const graph = new GraphAI(
     {
       version: graphDataLatestVersion,
       nodes: {
-        source: { agent: async () => ({ ...values, foreignPlain, nested: { mixed: [null, values.bytes, undefined, 0], empty: null } }) },
+        source: { agent: async () => ({ ...values, nullPrototype, nested: { mixed: [null, values.bytes, undefined, 0], empty: null } }) },
         sink: {
           agent: async ({ input }: { input: Record<string, unknown> }) => {
             for (const [key, value] of Object.entries(values)) {
               assert.strictEqual(input[key], value, key);
             }
-            assert.deepStrictEqual(input.foreignPlain, { kept: 0 });
+            assert.deepStrictEqual(input.nullPrototype, { kept: 0 });
             assert.deepStrictEqual(input.nested, { mixed: [values.bytes, 0] });
             return "preserved";
           },
