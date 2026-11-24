@@ -46,10 +46,7 @@ export type GraphAILLMStreamDataCompleted = {
 };
 
 export type GraphAILLMStreamData =
-  | GraphAILLMStreamDataCreate
-  | GraphAILLMStreamDataProgress
-  | GraphAILLMStreamDataCompleted
-  | GraphAILLMStreamDataToolsProgress;
+  GraphAILLMStreamDataCreate | GraphAILLMStreamDataProgress | GraphAILLMStreamDataCompleted | GraphAILLMStreamDataToolsProgress;
 
 export type LLMMetaResponse = {
   timing: {
