@@ -9,6 +9,10 @@ import { AgentFunctionContext, AgentFunctionInfoDictionary, NodeState } from "gr
 export const agentDispatcher: RequestHandler = async (req: express.Request, res: express.Response) => {
   const { params } = req;
   const { agentId } = params; // from url
+  if (typeof agentId !== "string") {
+    res.status(400).send({ message: "Invalid agent id" });
+    return;
+  }
   const { nodeId, retry, params: agentParams, inputs, namedInputs } = req.body; // post body
   const agentInfo = (agents as any)[agentId];
   const stream = agentParams?.stream || false;

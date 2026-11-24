@@ -40,7 +40,13 @@ test("nested mapAgent within mapAgent does not trip the concurrency guard", asyn
     version: graphDataLatestVersion,
     concurrency: 1,
     nodes: {
-      data: { value: [[1, 2], [3, 4], [5, 6]] },
+      data: {
+        value: [
+          [1, 2],
+          [3, 4],
+          [5, 6],
+        ],
+      },
       outerMap: {
         agent: "mapAgent",
         inputs: { rows: ":data" },
